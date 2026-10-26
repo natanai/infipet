@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "note": "Small numeric regression cohort; fixtures are arbitrary ink, not predefined end states or screenshots.",
+  "seedPolicy": "two independent user-supplied strings per drawing; no target lookups",
+  "ages": [
+    0,
+    30,
+    120
+  ],
+  "shapes": [
+    {
+      "id": "empty",
+      "rows": []
+    },
+    {
+      "id": "single-cell",
+      "rows": [
+        "#"
+      ]
+    },
+    {
+      "id": "symmetric-blob",
+      "rows": [
+        "..###..",
+        ".#####.",
+        "#######",
+        ".#####.",
+        "..###.."
+      ]
+    },
+    {
+      "id": "forked-branch",
+      "rows": [
+        "#...#",
+        ".#.#.",
+        "..#..",
+        "..#..",
+        "..#.."
+      ]
+    },
+    {
+      "id": "separate-marks",
+      "rows": [
+        "##......",
+        "##......",
+        "........",
+        "......#.",
+        ".....###"
+      ]
+    },
+    {
+      "id": "open-ring",
+      "rows": [
+        ".#####.",
+        "##...##",
+        "#.....#",
+        "##...##",
+        ".#####."
+      ]
+    }
+  ],
+  "seeds": [
+    "A001",
+    "Z99-variation"
+  ]
+}
