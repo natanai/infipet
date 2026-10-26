@@ -33,6 +33,8 @@ export type ProposedDevelopmentPrior = Readonly<{
     provenance: PriorProvenance;
   }>[];
   includesFiction: boolean;
+  /** Agent 1: source-clade evidence informs, but does not gate lifetime anatomy. */
+  semantics: "reference-clade-evidence-not-lifetime-gate";
   version: string;
 }>;
 
@@ -66,6 +68,7 @@ export type AncestralTraitConstraints = Readonly<{
   lineageNodeId: string;
   fixedAncestry: readonly string[];
   priorVersion: string;
+  semantics: "reference-clade-evidence-not-lifetime-gate";
   includesFiction: boolean;
   traits: Readonly<Record<PriorTraitDimension, EvidenceState>>;
   operators: Readonly<Record<PriorOperator, OperatorEvidence>>;
@@ -86,6 +89,7 @@ export function adaptDevelopmentPrior(
   prior: ProposedDevelopmentPrior,
 ): AncestralTraitConstraints {
   if (!prior || !prior.taxonId || !prior.version ||
+      prior.semantics !== "reference-clade-evidence-not-lifetime-gate" ||
       prior.fixedAncestry[0] !== prior.taxonId)
     throw new TypeError("Invalid DevelopmentPrior ancestry provenance");
   for (const dimension of Object.keys(prior.constraints))
@@ -137,6 +141,7 @@ export function adaptDevelopmentPrior(
     lineageNodeId: prior.taxonId,
     fixedAncestry: [...prior.fixedAncestry],
     priorVersion: prior.version,
+    semantics: prior.semantics,
     includesFiction: prior.includesFiction,
     traits,
     operators,

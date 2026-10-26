@@ -17,6 +17,7 @@ function fixturePrior(): ProposedDevelopmentPrior {
     taxonId: "fiction:example",
     fixedAncestry: ["fiction:example", "ncbi:3193", "ncbi:33090", "ncbi:2759"],
     version: "infipet-developmental-priors-v1",
+    semantics: "reference-clade-evidence-not-lifetime-gate",
     includesFiction: true,
     constraints: {
       growthPattern: {
@@ -66,6 +67,7 @@ test("[GEN-001/A2] projected phylogeny categories preserve unknown, evidence pro
   const genome = compileGenome("LINEAGE-WITNESS");
   const before = JSON.stringify(genome);
   const prior = adaptDevelopmentPrior(fixturePrior());
+  assert.equal(prior.semantics, "reference-clade-evidence-not-lifetime-gate");
   assert.equal(prior.traits.organization.status, "unknown");
   assert.equal(prior.traits.growthPattern.status, "supported");
   assert.equal(prior.operators["surface-expansion"].status, "unknown");
