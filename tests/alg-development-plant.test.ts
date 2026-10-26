@@ -232,8 +232,11 @@ test("[DEV-003/A1] exact legibility counterexamples: occupancy, branch clearance
 
 test("[DEV-003/A1] forbidden cavity and unrelated-island approaches have recorded causes", () => {
   const cavity = controlled(["#####", "#...#", "#...#", "#...#", "#####"],
-    "hole-directed", cells => cells.find(c => c.x === 0 && c.y === 1)!,
-    { x: 1, y: 0 });
+    "hole-directed", cells => {
+      const x = Math.min(...cells.map(c => c.x));
+      const y = Math.min(...cells.map(c => c.y)) + 1;
+      return cells.find(c => c.x === x && c.y === y)!;
+    }, { x: 1, y: 0 });
   const hole = iterativeGrowthAt(cavity, zero(1), 1);
   assert.equal(hole.graph.cells.length, cavity.source.cells.length);
   assert.ok(hole.suppressions.some(s => s.reason === "protected-void"));
