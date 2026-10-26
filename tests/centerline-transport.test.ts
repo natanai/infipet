@@ -462,9 +462,20 @@ test("protected face pigments remain visible in composite frames during body fol
           part && part.pixels.length,
           `${seed}/${age}/${id} remains material`,
         );
+        // Facial pigment may intentionally adapt to contrast with a growing
+        // carrier. Require actual feature pixels to survive compositing at
+        // their rendered positions, rather than requiring their birth color.
+        const composite = new Map(
+          frame.pixels.map((pixel) => [
+            `${pixel.x},${pixel.y}`,
+            pixel.color.toUpperCase(),
+          ]),
+        );
         assert.ok(
-          frame.pixels.some(
-            (p) => p.color === parts.find((s) => s.id === id)!.pixels[0].color,
+          part.pixels.some(
+            (pixel) =>
+              composite.get(`${pixel.x},${pixel.y}`) ===
+              pixel.color.toUpperCase(),
           ),
           `${seed}/${age}/${id} is visible in the composite`,
         );

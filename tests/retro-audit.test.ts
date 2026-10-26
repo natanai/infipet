@@ -335,10 +335,22 @@ test("care/training policy earns actual counters without reading hidden minigame
   assert.ok(
     recipe.commands.some((event) => event.command.type === "start-game"),
   );
-  assert.ok(recipe.commands.some((event) => event.command.type === "cancel"));
-  assert.equal(
-    recipe.commands.some((event) => event.command.type === "choose"),
-    false,
+  // The current policy completes training with the same blind "high"
+  // choice each round. It never reads the hidden targets to pick answers.
+  const choices = recipe.commands.filter(
+    (event) => event.command.type === "choose",
+  );
+  assert.ok(choices.length >= 5, "the policy plays ordinary training rounds");
+  assert.ok(
+    choices.every(
+      (event) =>
+        event.command.type === "choose" && event.command.choice === "high",
+    ),
+    "no target-aware choices enter the witness",
+  );
+  assert.ok(
+    recipe.commands.some((event) => event.command.type === "dismiss"),
+    "completed training is dismissed through a player command",
   );
   const captured = replayWitness(recipe, [point("later", 3, "infant")])[0];
   assert.ok(captured.game.stats.training > 0);
