@@ -615,12 +615,12 @@
       "id": "DEV-004",
       "phase": 3,
       "area": "Development",
-      "title": "Generate lifetime appendage growth and metamorphosis of the same animal-like pet",
+      "title": "Source-continuous lifetime anatomical remodeling and structural legibility",
       "dependsOn": [
         "DEV-002",
         "PHY-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -635,14 +635,33 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/animal-development-contract.test.ts",
-        "command": "pnpm exec tsx --test tests/animal-development-contract.test.ts",
+        "testPath": "tests/alg-development-metamorphosis.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-metamorphosis.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/development/lifetime-remodeling.ts",
+        "tests/alg-development-metamorphosis.test.ts"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "inputs": [
+          "Existing MaterialDevelopmentProgram source-preserving material graph and compiled genetic signals",
+          "Permanent InheritedGenome seed and genotype fingerprint",
+          "Explicit chronological remodeling operators (optional deterministic source-derived default)"
+        ],
+        "exports": [
+          "compileLifetimeRemodeling",
+          "lifetimeRemodelingAt",
+          "mechanicalCapabilities",
+          "auditRemodelLegibility"
+        ],
+        "outputs": [
+          "LifetimeRemodelingFrame graph, source-traceable timed transitions, deferred conflicts, and mechanically grounded capabilities"
+        ],
+        "runtimeIntegration": "Not integrated into frameAt or motion. Integration owner consumes the typed adapter after tests and review.",
+        "biologicalMeaning": "One individual preserves persistent material identity and genome during ontogenetic remodeling; no species templates or offspring."
+      }
     },
     {
       "id": "DEV-005",
