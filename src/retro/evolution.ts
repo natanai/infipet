@@ -1,4 +1,4 @@
-import { drawingPixels } from "../drawing";
+import { flattenAnatomy } from "../simulation/model";
 import type { LiveDevelopmentContext } from "../lineage/types";
 import type { PetPart, Pixel, SourceMode } from "../simulation/model";
 import { RETRO_PRESETS } from "./index";
@@ -16,7 +16,7 @@ const presetsBySeed = new Map(RETRO_PRESETS.map(p => [p.seed, p]));
 const WIDTH = 32, CELLS = WIDTH * WIDTH;
 
 function signature(parts: readonly PetPart[]): string {
-  return drawingPixels([...parts])
+  return flattenAnatomy([...parts])
     .map(p => p.x + "," + p.y + "," + p.color.toUpperCase())
     .sort().join(";");
 }
@@ -57,7 +57,7 @@ function raster(id:string):Raster {
   const preset=presetsById.get(id);
   if(!preset)throw new Error("Unknown retro sprite: "+id);
   const ink=new Uint8Array(CELLS);
-  for(const p of drawingPixels(preset.parts)) ink[p.y*WIDTH+p.x]=1;
+  for(const p of flattenAnatomy(preset.parts)) ink[p.y*WIDTH+p.x]=1;
   const toInk=distance(ink,1),toEmpty=distance(ink,0);
   const signedDistance=new Float32Array(CELLS),pixels:Pixel[]=[];
   for(let i=0;i<CELLS;i++){
