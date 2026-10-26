@@ -66,7 +66,7 @@ export type GrowthSiteChange = Readonly<{
   kind: "introduced" | "invalidated";
   reason:
     | "birth" | "external-site" | "branch-born"
-    | "tip-removed" | "site-removed" | "tissue-removed"
+    | "tip-removed" | "root-removed" | "site-removed" | "tissue-removed"
     | "site-tissue-changed" | "source-invalid";
 }>;
 
@@ -219,6 +219,18 @@ export function stepIterativeChronology(
   validateExposure(exposure, n);
   const byId = validateGraph(graph, birth);
   const roots = sourceRoots(graph);
+  const parentTissues = new Map(graph.tissues.map(t => [t.id, t.parentId]));
+  function tissueDepth(id: string): number {
+    let depth = 0, current = id;
+    const visited = new Set<string>();
+    while (parentTissues.get(current)) {
+      if (visited.has(current)) throw new TypeError("Cyclic material ancestry");
+      visited.add(current);
+      current = parentTissues.get(current)!;
+      depth++;
+    }
+    return Math.min(ITERATIVE_LIMITS.depth, depth);
+  }
   const cells = [...graph.cells], tissues = [...graph.tissues],
     sites = [...graph.sites], links = [...graph.links],
     events = [...graph.events];
@@ -245,6 +257,7 @@ export function stepIterativeChronology(
       !tissuesById.has(s.tissueId) ? "tissue-removed" :
       !recorded ? "site-removed" :
       recorded.tissueId !== s.tissueId ? "site-tissue-changed" :
+      !byId.has(recorded.rootCellId) ? "root-removed" :
       !tip || tip.tissueId !== s.tissueId ? "tip-removed" : null;
     if (reason) {
       s.status = "invalidated";
@@ -263,13 +276,12 @@ export function stepIterativeChronology(
       known.add(record.id); // invalid IDs never repeatedly claim introduction
       continue;
     }
-    const depth = Math.min(ITERATIVE_LIMITS.depth,
-      [...roots.keys()].filter(id => id === record.tissueId).length - 1);
+    const depth = tissueDepth(record.tissueId);
     lives.push({
       id: record.id, tissueId: record.tissueId,
       tipCellId: record.rootCellId, parentSiteId: null,
       activationHour: n + 1, direction: unit(record.direction),
-      depth: Math.max(0, depth), extensions: 0, forks: 0,
+      depth, extensions: 0, forks: 0,
       lateralCells: 0,
       orbit: seedChaos(birth.fingerprint + "|" + record.id),
       status: "dormant",
