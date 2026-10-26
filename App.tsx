@@ -292,8 +292,10 @@ export default function App() {
       needTimeline: recipe.care,
       groomingTimeline: recipe.grooming,
       liveContext: recipe.context,
+      // Actual timestamped care and sampled physiology drive material growth.
+      careGame: life.game,
     });
-  }, [life?.parts, life?.seed, life?.mode, liveRecipe]);
+  }, [life?.parts, life?.seed, life?.mode, life?.game, liveRecipe]);
   const liveAge = life
     ? Math.max(
         0,

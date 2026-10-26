@@ -42,7 +42,12 @@ import {
   type Region,
   type ResolvedDevelopment,
 } from "./development";
-import { compileGenome } from "./genome";
+import { compileGenome, genomeCacheKey } from "./genome";
+import {
+  compileRuntimeBiology, compileRuntimeMaterialProgram, compileRuntimeCareMaterial,
+  type RuntimeBiology,
+} from "../integration";
+import { materialDevelopmentAt, type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
 import {
   compileSurfaceExpression,
   surfaceExpressionAt,
@@ -78,6 +83,8 @@ const blueprints = new Map<
     genes: ReturnType<typeof compileDevelopment>;
     inherited: ReturnType<typeof compileGenome>;
     atlas: ReturnType<typeof describeSource>;
+    biology: RuntimeBiology;
+    material: MaterialDevelopmentProgram;
     hatchAt: number;
     embryoRecipe?: Record<string, unknown>;
   }
@@ -659,9 +666,7 @@ export function createSimulation(
       ),
     ),
     cacheKey =
-      mode +
-      "|" +
-      seed +
+      genomeCacheKey(inherited) +
       "|" +
       inherited.proceduralGrammarVersion +
       "|" +
@@ -683,10 +688,17 @@ export function createSimulation(
       mode === "egg" ? "grown" : "authored",
     );
     const atlas = describeSource(tissues);
+    const shell = compileSources(source, hash(fingerprint), "shell");
+    // In egg mode the developmental atlas describes an embryo. Observation
+    // must instead inspect the player's actual authored drawing.
+    const authoredAtlas = embryo ? describeSource(shell) : atlas;
+    const biology = compileRuntimeBiology(authoredAtlas, inherited);
     blueprint = {
       tissues,
-      shell: compileSources(source, hash(fingerprint), "shell"),
+      shell,
       genes: compileDevelopment(atlas, inherited),
+      biology,
+      material: compileRuntimeMaterialProgram(atlas, inherited, biology),
       inherited,
       atlas,
       hatchAt:
@@ -699,6 +711,10 @@ export function createSimulation(
     setLRU(blueprints, cacheKey, blueprint, 8);
   } else setLRU(blueprints, cacheKey, blueprint, 8);
   const { tissues, genes } = blueprint,
+    careMaterial = options.careGame
+      ? compileRuntimeCareMaterial(blueprint.atlas, inherited,
+          blueprint.biology, options.careGame)
+      : undefined,
     surfaceGenes = compileSurfaceExpression(inherited),
     hatchAt = liveContext
       ? Math.max(0, liveContext.hatchAtHours) / 24
@@ -707,17 +723,38 @@ export function createSimulation(
     lineage = liveContext
       ? compileLineage(blueprint.atlas, inherited, liveContext.stagePoints)
       : undefined,
-    programFingerprint = lineage
-      ? String(
-          hash(
-            `${fingerprint}|${lineage.fingerprint}|${JSON.stringify(liveContext?.stageEndHours)}|${hatchAt}`,
-          ),
-        )
-      : fingerprint,
+    programFingerprint = String(hash(JSON.stringify([
+      fingerprint,
+      blueprint.material.fingerprint,
+      // Material snapshots depend on the recorded, immutable life up to now.
+      options.careGame ? [
+        options.careGame.clock.nowMs,
+        options.careGame.commandHistory,
+        options.careGame.careSamples,
+      ] : null,
+      lineage?.fingerprint ?? null,
+      liveContext?.stageEndHours ?? null,
+      hatchAt,
+    ]))),
     needs = createNeedsSimulation(seed, options.needTimeline),
     groomingSimulation = createGroomingSimulation(options.groomingTimeline),
     structural = new Map<number, ResolvedDevelopment>(),
-    frames = new Map<string, PetFrame>();
+    frames = new Map<string, PetFrame>(),
+    materialSnapshots = new Map<number, MaterialGraph>();
+  const materialAt = (chronologicalHour: number): MaterialGraph => {
+    // A material time is always derived from the *same* permanent birth graph.
+    // Caching changes cost, never chronological output or inherited identity.
+    // The actual game records physiological history at chronological-hour
+    // boundaries, so freeze geometric material snapshots to that same clock.
+    const hour = Math.floor(Math.max(0, chronologicalHour));
+    const hit = materialSnapshots.get(hour);
+    if (hit) return hit;
+    const graph = careMaterial
+      ? careMaterial.materialAt(Math.min(hour, careMaterial.history.maxHour))
+      : materialDevelopmentAt(blueprint!.material, hour);
+    setLRU(materialSnapshots, hour, graph, 8);
+    return graph;
+  };
   const careAt = (morphologyAge: number) =>
     needs.stateAt(liveClock.toChronological(morphologyAge));
   const morphologyAt = (morphologyAge: number) =>
@@ -792,6 +829,15 @@ export function createSimulation(
     somaticGrowthVersion: inherited.somaticGrowthVersion,
     somaticGrowthGenes: genes.somaticGrowth,
     sourceAtlas: blueprint.atlas,
+    // Read-only merged scientific/genetic evidence; no replacement renderer.
+    biologicalPotential: {
+      ...blueprint.biology,
+      physicalOperatorsConnected: true,
+      chronologicalExposureConnected: Boolean(careMaterial),
+    },
+    materialProgramFingerprint: blueprint.material.fingerprint,
+    authoredInkSignature: signature,
+    genomeIdentity: blueprint.biology.genomeIdentity,
     genomeFingerprint: blueprint.inherited.fingerprint,
     sourceFingerprint: String(hash(signature)),
     programFingerprint,
@@ -919,6 +965,19 @@ export function createSimulation(
       ).state,
     );
     result.genomeFingerprint = blueprint!.inherited.fingerprint;
+    result.diagnostics = {
+      ...result.diagnostics,
+      biologicalComposition: {
+        version: blueprint!.biology.version,
+        genomeIdentity: blueprint!.biology.genomeIdentity,
+        sourceGeometryHash: blueprint!.biology.sourceGeometryHash,
+        candidateReferenceCount: blueprint!.biology.references.length,
+        scientificPetAssignment: null,
+        physicalOperatorsConnected: true,
+        materialProgramFingerprint: blueprint!.material.fingerprint,
+        chronologicalExposureConnected: Boolean(careMaterial),
+      },
+    };
     result.sourceFingerprint = String(hash(signature));
     result.programFingerprint = programFingerprint;
     if (liveContext) {
@@ -1261,6 +1320,72 @@ export function createSimulation(
         if (part.attachment) part.attachment = move(part.attachment);
         part.bounds = bounds(part.pixels);
       }
+      // Transport NEW source-derived physical cells through each original
+      // region's deformation and locomotion pose. Existing source pixels stay
+      // owned and painted by the existing renderer; no second creature layer.
+      const growthGraph = materialAt(careAge * 24);
+      const generated = growthGraph.cells.filter(cell => cell.provenance === "generated");
+      const newMaterialByTissue = new Map<string, MaterialCell[]>();
+      for (const cell of generated) {
+        const group = newMaterialByTissue.get(cell.tissueId) ?? [];
+        group.push(cell);
+        newMaterialByTissue.set(cell.tissueId, group);
+      }
+      for (const tissue of growthGraph.tissues) {
+        const cells = newMaterialByTissue.get(tissue.id);
+        if (!cells?.length) continue;
+        const carrier = state.regions.find(region =>
+          region.source?.id === tissue.sourcePartId &&
+          (!region.sourceClip || cells.some(cell =>
+            cell[region.sourceClip!.axis] >= region.sourceClip!.min &&
+            cell[region.sourceClip!.axis] < region.sourceClip!.max)));
+        if (!carrier) continue;
+        const transport = transformFor(carrier);
+        const pixels = rasterCellQuads(cells
+          .filter(cell => !carrier.sourceClip ||
+            (cell[carrier.sourceClip.axis] >= carrier.sourceClip.min &&
+              cell[carrier.sourceClip.axis] < carrier.sourceClip.max))
+          .map(cell => ({
+            cell,
+            quad: cellCorners(cell).map(point => mapSourcePoint(carrier, point)),
+            center: mapSourcePoint(carrier, cell),
+          })), transport ? point => poseAuthoredMaterial(carrier, point, transport) : undefined);
+        if (!pixels.length) continue;
+        const painted = uniquePixels(pixels.map(pixel => ({
+          ...pixel,
+          // Draw new material above its carrier without mistaking it for
+          // authored face paint. Existing facial windows are carved below.
+          z: (carrier.layer ?? 100) + 0.25,
+        })));
+        const materialBounds = bounds(painted);
+        const original = parts.find(part => part.id === carrier.id);
+        parts.push({
+          id: "material-growth/" + tissue.id,
+          kind: "decoration", name: "Growing material",
+          parentId: carrier.id, sourcePartIds: [tissue.sourcePartId],
+          role: "material-growth", readiness: 0.25,
+          provenance: "grown", relationship: "joint",
+          layer: (carrier.layer ?? 100) + 0.25,
+          pixels: painted,
+          anchor: original ? { ...original.anchor } : { ...carrier.anchor },
+          tip: original ? { ...original.tip } : { ...carrier.tip },
+          attachment: original ? { ...original.anchor } : { ...carrier.anchor },
+          attached: true, scale: 1, growth: { x: 1, y: 1 },
+          rotation: original?.rotation ?? carrier.angle,
+          planted: original?.planted ?? false,
+          bounds: materialBounds,
+        });
+      }
+      diagnostics = {
+        ...(diagnostics as Record<string, unknown>),
+        physicalMaterial: {
+          version: growthGraph.version,
+          sourceFingerprint: growthGraph.sourceFingerprint,
+          generatedCells: generated.length,
+          graphEvents: growthGraph.events.length,
+          visibleGrowthParts: parts.filter(part => part.role === "material-growth").length,
+        },
+      };
       // Carry authored negative space with bright features drawn inside hollow outlines.
       // Carving their local material window preserves pigments and visible floating gaps.
       const sharedFaceSources = new Set(
@@ -1396,7 +1521,7 @@ export function createSimulation(
         };
       });
       for (const mark of parts.filter(
-        (p) => p.kind === "decoration" && p.pixels.length,
+        (p) => p.kind === "decoration" && p.role !== "material-growth" && p.pixels.length,
       )) {
         const b = mark.bounds;
         windows.push({
@@ -1416,7 +1541,10 @@ export function createSimulation(
         coating.bounds = bounds(coating.pixels);
       }
       // One pose-independent view transform for the entire creature and every attachment.
-      const all = state.regions.flatMap((r) => [
+      const all = [
+        ...parts.filter(part => part.role === "material-growth")
+          .flatMap(part => part.pixels.map(pixel => ({ x: pixel.x, y: pixel.y }))),
+        ...state.regions.flatMap((r) => [
         { x: r.center.x - r.rx - 3, y: r.center.y - r.ry - 3 },
         { x: r.center.x + r.rx + 3, y: r.center.y + r.ry + 3 },
         r.anchor,
@@ -1434,7 +1562,8 @@ export function createSimulation(
               ]
             : [];
         })(),
-      ]);
+      ]),
+      ];
       const b = bounds(all),
         scale = Math.min(
           1,
