@@ -55,6 +55,11 @@ export type RemodelingTransaction = Readonly<{
   attempt: RemodelingAttempt;
   transition: RemodelTransition | null;
   deferral: RemodelDeferral | null;
+  /** Site roots or resolved world positions changed by this transaction. */
+  siteChanges: readonly Readonly<{
+    siteId: string; fromCellId: string; toCellId: string;
+    from: Point; to: Point;
+  }>[];
   capabilities: readonly MechanicalCapability[];
   regions: readonly MechanicalRegion[];
 }>;
@@ -466,7 +471,14 @@ export function applyRemodelingProposal(
   }
   // Postcondition verification is on tentative graph. Failure rolls
   // everything back; no partial changes, no failed event in graph.
-  if(!reason && (reason=checkGraph(next)))next=graph;
+  if(!reason) {
+    const candidate:MaterialGraph={...next,events:[...next.events,{
+      id,kind:op.kind,atHour,createdCellIds:created.map(c=>c.id),
+      removedCellIds:removed.map(c=>c.id),
+      sourceCellIds:uniqueSources([...created,...removed]),
+    }]};
+    if((reason=checkGraph(candidate))) next=graph;
+  }
   const attempt:RemodelingAttempt={
     id,atHour:Number.isFinite(atHour)?atHour:0,
     status:reason?"rejected":"accepted",reason,
@@ -496,9 +508,23 @@ export function applyRemodelingProposal(
       sourceCellIds:transition.sourceCellIds,
     }]};
   }
+  const beforeSites=new Map(graph.sites.map(site=>[site.id,site]));
+  const beforeCells=new Map(graph.cells.map(cell=>[cell.id,cell]));
+  const afterCells=new Map(next.cells.map(cell=>[cell.id,cell]));
+  const siteChanges=next.sites.flatMap(site=>{
+    const old=beforeSites.get(site.id);
+    const from=old && beforeCells.get(old.rootCellId);
+    const to=afterCells.get(site.rootCellId);
+    if(!old||!from||!to||
+      (from.x===to.x && from.y===to.y && old.rootCellId===site.rootCellId))
+      return [];
+    return [{siteId:site.id,fromCellId:old.rootCellId,
+      toCellId:site.rootCellId,
+      from:{x:from.x,y:from.y},to:{x:to.x,y:to.y}}];
+  });
   const m=mechanical(next,updated);
   return {
-    graph:next,chronology:updated,attempt,transition,deferral,
+    graph:next,chronology:updated,attempt,transition,deferral,siteChanges,
     capabilities:m.capabilities,regions:m.regions,
   };
 }
