@@ -218,6 +218,41 @@ test("[DEV-004/A2] persistent authored identity under translation; chronology an
   assert.deepEqual(auditRemodelLegibility(linked), []);
 });
 
+
+test("[DEV-004/A2] structural regions exist only where authored tissue supports a real hinge", () => {
+  let witness: ReturnType<typeof lifetimeRemodelingAt> | undefined;
+  for (let i = 0; i < 20; i++) {
+    const p = programFor(drawing(["#####"]), "HINGE-SEED-" + i, tissueId => [
+      operation("bend", "articulate", tissueId),
+    ]);
+    const frame = lifetimeRemodelingAt(p, 100);
+    if (frame.capabilities.some(c => c.kind === "joint")) {
+      witness = frame; break;
+    }
+  }
+  assert.ok(witness, "some permanent genotypes should allow articulation");
+  const joint = witness.capabilities.find(c => c.kind === "joint")!;
+  const spans = witness.regions.filter(r => r.hingeCellId !== null);
+  assert.equal(spans.length, 2,
+    "removing one source-derived cut vertex gives exactly two spans in a line");
+  const spanIds = spans.flatMap(r => r.cellIds);
+  assert.equal(spanIds.length, new Set(spanIds).size,
+    "material ownership of regions cannot overlap");
+  assert.ok(spans.every(r => r.hingeCellId &&
+    joint.cellIds.includes(r.hingeCellId) &&
+    r.sourceCellIds.every(id =>
+      witness!.graph.sourceCells.some(source => source.id === id))));
+  assert.deepEqual(auditRemodelLegibility(witness), []);
+
+  const bulk = programFor(drawing(["###", "###", "###"]),
+    "NO-INVENTED-JOINT", tissueId => [operation("bend", "articulate", tissueId)]);
+  const filled = lifetimeRemodelingAt(bulk, 100);
+  assert.equal(filled.capabilities.some(c => c.kind === "joint"), false,
+    "a solid block contains no graph articulation, regardless of labels");
+  assert.equal(filled.regions.length, 1);
+  assert.deepEqual(auditRemodelLegibility(filled), []);
+});
+
 test("[DEV-004/A2] impossible geometry is deferred; voids, endpoints and the time domain cannot be bypassed", () => {
   const hole = programFor(fixtures.cavity, "CAVITY-GUARD", tissueId => [
     operation("shift-hole", "translate", tissueId, {
