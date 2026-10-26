@@ -557,7 +557,7 @@ export function stepMaterialOperatorChronology(
         const settled=interval.toHour>=end;
         decisions.push({id,operatorId:op.id,unit:unitNumber,
           atHour:interval.toHour,status:settled?"suppressed":"deferred",
-          reason:settled?"expired":attempt.reason});
+          reason:attempt.reason});
         terminal=settled;
         break;
       }
