@@ -1016,6 +1016,81 @@
       }
     },
     {
+      "id": "INT-001",
+      "phase": 4,
+      "area": "Runtime integration",
+      "title": "Unified chronological development and live anatomical integration",
+      "dependsOn": [
+        "DEV-003",
+        "DEV-004",
+        "CARE-002",
+        "MOT-001"
+      ],
+      "status": "blocked",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Existing original material operators, iterative growth, and remodeling apply stateful, ordered transitions to one evolving source-valid MaterialGraph, with exact conflicts and deterministic replay.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Actual frameAt renders chronology-correct branched, relocated, reabsorbed and remodeled authored and generated material with traceable pixel geometry, cavities and correct attachments.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Real recorded care causes physical counterfactuals at fixed genome; developed linked anatomical material controls physical locomotion and exact reconstruction.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-integration-unified-development.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-integration-unified-development.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/integration/chronological-material.ts",
+        "src/simulation/growth.ts"
+      ],
+      "algorithmId": "integration",
+      "interfaceContract": {
+        "exports": [
+          "evaluateChronologicalMaterial",
+          "compareChronologicalEvents",
+          "validateChronologicalGraph"
+        ],
+        "mode": "blocked-incremental-handoff",
+        "blockerIssue": 16,
+        "chronology": "Hours since hatching. Care recorded at t applies to subsequent intervals. Original material and iterative completions at t, then remodeling transitions at t, then care boundaries at t; IDs lexical within equal kind/time.",
+        "invariants": [
+          "A transition reads and replaces the SAME MaterialGraph and returns its changed module state; independent full-body snapshots are not composable",
+          "SourceCells/sourceFingerprint/protectedVoids immutable; active generated cells cite sourceIds and operatorId",
+          "Active material links must resolve to live tissue endpoints; rejected conflicts are atomic",
+          "No future care/events read before time; no clamping beyond DEV-003's 512-hour contract"
+        ],
+        "limits": {
+          "maxHour": 8192,
+          "iterativeHourlyDomain": 512,
+          "maxEvents": 65536,
+          "maxAddedCells": 3072,
+          "world": 64
+        },
+        "blockers": [
+          "CARE-002/DEV-002 cumulative material operators lack a validated per-interval mutation/replay contract",
+          "DEV-003 iterativeGrowthAt accepts birth program, not current graph and persistent site-orbit state",
+          "DEV-004 lifetimeRemodelingAt accepts birth graph, not the current graph and one atomic fractional transition",
+          "DEV-003 supplies no explicit post-512-hour policy; live pet can exceed 512 hours"
+        ],
+        "remainingWork": [
+          "Connect verified incremental DEV/CARE interfaces after handoff",
+          "Use unified state for all active authored/generated cell mapping and removal, physical attachments and motion",
+          "Prove actual frameAt/save/care counterfactuals, numeric limits, pnpm test and pnpm build:web"
+        ]
+      }
+    },
+    {
       "id": "GAME-001",
       "phase": 4,
       "area": "Player",
@@ -1305,12 +1380,14 @@
         "src/lineage/index.ts",
         "src/integration/",
         "tests/alg-integration-",
-        "src/simulation/locomotion.ts"
+        "src/simulation/locomotion.ts",
+        "src/integration/chronological-material.ts"
       ],
       "taskIds": [
         "GAME-001",
         "PERF-001",
-        "MOT-001"
+        "MOT-001",
+        "INT-001"
       ],
       "readyWhen": [
         "OBS-001"
@@ -1331,7 +1408,8 @@
     "tests/alg-environment-reaction.test.ts",
     "tests/alg-environment-material.test.ts",
     "tests/alg-integration-runtime.test.ts",
-    "tests/alg-development-chaos.test.ts"
+    "tests/alg-development-chaos.test.ts",
+    "tests/alg-integration-unified-development.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
