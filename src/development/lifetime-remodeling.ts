@@ -163,6 +163,36 @@ function canDeposit(
   // No new cross-tissue contact without an explicit link.
   return cells.every(c => c.tissueId === tissueId || !around(point, c));
 }
+/**
+ * Four-connected background cavities of the CURRENT material. These are
+ * protected in addition to authored voids, so a later unrelated deposition
+ * cannot erase an opening that developed earlier.
+ */
+function enclosedHoles(cells: readonly MaterialCell[]): ReadonlySet<string> {
+  const occupied = new Set(cells.map(xy));
+  const exterior = new Set<string>();
+  const queue: Point[] = [];
+  const push = (p: Point) => {
+    const k = xy(p);
+    if (!within(p) || occupied.has(k) || exterior.has(k)) return;
+    exterior.add(k);
+    queue.push(p);
+  };
+  for (let i = 0; i < REMODEL_LIMITS.world; i++) {
+    push({ x: i, y: 0 }); push({ x: i, y: REMODEL_LIMITS.world - 1 });
+    push({ x: 0, y: i }); push({ x: REMODEL_LIMITS.world - 1, y: i });
+  }
+  for (let i = 0; i < queue.length; i++)
+    for (const d of DIRS)
+      push({ x: queue[i].x + d.x, y: queue[i].y + d.y });
+  const holes = new Set<string>();
+  for (let y = 0; y < REMODEL_LIMITS.world; y++)
+    for (let x = 0; x < REMODEL_LIMITS.world; x++) {
+      const k = x + "," + y;
+      if (!occupied.has(k) && !exterior.has(k)) holes.add(k);
+    }
+  return holes;
+}
 function sourceIds(cells: readonly MaterialCell[]): string[] {
   return [...new Set(cells.flatMap(c => c.sourceIds))].sort(compareText);
 }
@@ -250,7 +280,7 @@ export function lifetimeRemodelingAt(
   const events = [...birth.events];
   const transitions: RemodelTransition[] = [];
   const deferred: RemodelDeferral[] = [];
-  const articulations = new Set<string>();
+  const articulations = new Map<string, string>();
   const voids = new Set(birth.protectedVoids);
   const sourceSet = new Set(birth.sourceCells.map(c => c.id));
   const proposals: { op: RemodelOperation; k: number; atHour: number }[] = [];
@@ -280,6 +310,8 @@ export function lifetimeRemodelingAt(
     let beforeRigidity: number | undefined;
     let afterRigidity: number | undefined;
     let reason: string | null = null;
+    const cavities = ["extend", "reinforce", "translate"].includes(op.kind)
+      ? new Set([...voids, ...enclosedHoles(cells)]) : voids;
     if (!tissue || !group.length || !anchor) reason = "missing-source-tissue";
     else if (op.kind === "extend") {
       const tip = group.slice().sort((a, b) => {
@@ -291,7 +323,7 @@ export function lifetimeRemodelingAt(
         (op.chaos ? chaoticTurn(op.chaos, k - 1) : 0);
       const step = lattice({ x: Math.cos(angle), y: Math.sin(angle) });
       const p = { x: tip.x + step.x, y: tip.y + step.y };
-      if (canDeposit(p, tid, cells, voids, birth.sourceCells.length)) {
+      if (canDeposit(p, tid, cells, cavities, birth.sourceCells.length)) {
         const child = deposited(op.id + "/unit/" + k + "/cell", tid, p, tip);
         created.push(child);
         cells.push(child);
@@ -299,7 +331,7 @@ export function lifetimeRemodelingAt(
     } else if (op.kind === "reinforce") {
       const candidates = group.flatMap(parent => DIRS.map(step => ({
         parent, p: { x: parent.x + step.x, y: parent.y + step.y },
-      }))).filter(o => canDeposit(o.p, tid, cells, voids, birth.sourceCells.length));
+      }))).filter(o => canDeposit(o.p, tid, cells, cavities, birth.sourceCells.length));
       candidates.sort((a, b) =>
         dist2(a.p, anchor) - dist2(b.p, anchor) ||
         a.p.y - b.p.y || a.p.x - b.p.x || compareCell(a.parent, b.parent));
@@ -343,7 +375,7 @@ export function lifetimeRemodelingAt(
       const other = cells.filter(c => c.tissueId !== tid);
       const own = new Set(moved.map(m => xy(m.to)));
       if (own.size !== moved.length || moved.some(m =>
-        !within(m.to) || voids.has(xy(m.to)) ||
+        !within(m.to) || cavities.has(xy(m.to)) ||
         other.some(c => c.x === m.to.x && c.y === m.to.y)))
         reason = "translation-collision-or-void";
       else {
@@ -400,11 +432,13 @@ export function lifetimeRemodelingAt(
           { ...t, parentId: targetId, relationship: "joint" } : t);
       }
     } else if (op.kind === "articulate") {
-      // A real multi-cell bottleneck or a physical joint, not an inferred limb.
-      const hasSupport = group.length >= 3 && activeConnected(group);
-      if (!hasSupport) reason = "insufficient-articulation-material";
+      // An articulation requires a source-supported cut vertex. An arbitrary
+      // blob is not a hinge. Endpoints of already recorded attachments remain.
+      const bottleneck = group.slice().sort(compareCell).find(c =>
+        group.length >= 3 && !activeConnected(group.filter(p => p.id !== c.id)));
+      if (!bottleneck) reason = "no-structural-hinge";
       else if (articulations.has(tid)) reason = "already-articulated";
-      else articulations.add(tid);
+      else articulations.set(tid, bottleneck.id);
     }
     if (reason) {
       deferred.push({ id, atHour: time, reason });
@@ -438,7 +472,7 @@ export function lifetimeRemodelingAt(
 
 /** Mechanical metadata is measurable geometry only. No motion controller. */
 export function mechanicalCapabilities(
-  graph: MaterialGraph, articulations: ReadonlySet<string> = new Set(),
+  graph: MaterialGraph, articulations: ReadonlyMap<string, string> = new Map(),
 ): readonly MechanicalCapability[] {
   const result: MechanicalCapability[] = [];
   for (const tissue of graph.tissues) {
@@ -446,10 +480,14 @@ export function mechanicalCapabilities(
     if (!group.length) continue;
     const stiffness = cap(tissue.rigidity);
     if (group.length >= 3 && activeConnected(group)) {
-      if (articulations.has(tissue.id))
+      const hingeId = articulations.get(tissue.id);
+      if (hingeId && group.some(c => c.id === hingeId)) {
+        const hinge = group.find(c => c.id === hingeId)!;
         result.push({ id: tissue.id + "/joint", kind: "joint",
-          tissueId: tissue.id, cellIds: group.map(c => c.id).sort(compareText),
+          tissueId: tissue.id, cellIds: group.filter(c =>
+            c.id === hingeId || around(c, hinge)).map(c => c.id).sort(compareText),
           stiffness, mobility: 1 - stiffness });
+      }
       if (stiffness > 0)
         result.push({ id: tissue.id + "/support", kind: "support",
           tissueId: tissue.id, cellIds: group.map(c => c.id).sort(compareText),
