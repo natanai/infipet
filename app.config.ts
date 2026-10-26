@@ -14,6 +14,7 @@ const config: ExpoConfig = {
   android: {
     package: "com.infipet.app",
   },
+  experiments: { baseUrl: process.env.INFIPET_BASE_URL || "" },
   web: {
     bundler: "metro",
     output: "single",
