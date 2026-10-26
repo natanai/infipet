@@ -372,7 +372,7 @@ function physicalUnit(
     for(let i=1;i<d;i++){
       if(x!==b.x)x+=Math.sign(b.x-x);else y+=Math.sign(b.y-y);
       const at={x,y},parent=newCells[newCells.length-1]??a;
-      const problem=deposit(tissue.id,at,[parent,b]);
+      const problem=deposit(tissue.id,at,[parent,b],op.targetTissueId);
       if(problem)return fail(problem);
     }
     links.push({
