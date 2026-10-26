@@ -1,4 +1,5 @@
 import type { NeedKeyframe, WellbeingState } from "../needs";
+import type { GameState } from "../gameplay";
 import type { GroomStroke } from "./grooming";
 import type { LiveDevelopmentContext, LineageState } from "../lineage/types";
 /** Shared authored pixels and deterministic development API. */
@@ -207,6 +208,8 @@ export type FrameOptions = {
   target?: Point;
 };
 export type SimulationOptions = {
+  /** Recorded canonical game history, supplying material-operator care effects. */
+  careGame?: GameState;
   needTimeline?: readonly NeedKeyframe[];
   groomingTimeline?: readonly GroomStroke[];
   liveContext?: LiveDevelopmentContext;

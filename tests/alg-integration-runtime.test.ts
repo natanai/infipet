@@ -9,7 +9,11 @@ import { compileRuntimeBiology, compileRuntimeMaterialProgram } from "../src/int
 import { materialDevelopmentAt, materialSourceAncestry } from "../src/development";
 import { flattenAnatomy } from "../src/simulation/model";
 import { classifySource, compileLineage, lineageAt, lineageTraitsAt } from "../src/lineage";
-import { createGame, deriveCareTimeline, deriveDevelopmentContext } from "../src/gameplay";
+import {
+  createGame, advanceGame, commandGame, HOUR,
+  deriveCareTimeline, deriveDevelopmentContext,
+  type GameState,
+} from "../src/gameplay";
 import { encodePet, decodePet, LINEAGE_RECIPE_VERSION, PROTOTYPE_REVISION, type PetDocument } from "../src/pet-format";
 import { NEEDS_CATALOG_VERSION, NEEDS_RULES_VERSION } from "../src/needs";
 import type { PetPart } from "../src/simulation/model";
@@ -232,4 +236,77 @@ test("[integration-physical] material growth replays deterministically across po
     "locomotion changes visible pose, not ancestry");
   assert.notDeepEqual(stationary.pixels, walking.pixels, "retains interactive pose");
   assert.ok(walking.capabilities.canMove);
+});
+
+
+test("[integration-care] canonical recorded feeding changes physical material in actual playable frames, causally and reproducibly", () => {
+  const seed = "CARE-GEOMETRY-527";
+  const start = 12 * HOUR;
+  const source = draw([
+    ".........", "...###...", "..#####..", ".#######.",
+    "..#####..", "...###...",
+  ]);
+  function tend(s: GameState, hour: number, interval: number): GameState {
+    s = advanceGame(s, start + hour * HOUR);
+    assert.equal(s.dead, false, "Care test pet died during recorded history");
+    if (s.attention.discipline)
+      s = commandGame(s, { type: "discipline" }, start + hour * HOUR,
+        "discipline-" + hour);
+    if (hour % 8 === 0)
+      s = commandGame(s, { type: "clean" }, start + hour * HOUR,
+        "clean-" + hour);
+    if (hour % interval === 0 && !s.sleeping && s.meters.hunger < 4)
+      s = commandGame(s, { type: "feed", food: "meal" }, start + hour * HOUR,
+        "feed-" + hour);
+    if (s.health.sickness)
+      s = commandGame(s, { type: "medicine" }, start + hour * HOUR,
+        "medicine-" + hour);
+    return s;
+  }
+  const build = (interval: number, end = 100) => {
+    let s = createGame(seed, "infant", start);
+    for (let hour = 1; hour <= end; hour++) s = tend(s, hour, interval);
+    return s;
+  };
+  const fedGame = build(1), deprivedGame = build(8);
+  const useGame = (game: GameState) => createSimulation(source, seed, "infant", {
+    careGame: game,
+    needTimeline: deriveCareTimeline(game),
+    liveContext: deriveDevelopmentContext(game),
+  });
+  const fed = useGame(fedGame);
+  const deprived = useGame(deprivedGame);
+  const age = 100 / 24;
+  const frameA = fed.frameAt(age, { action: "idle", time: 0 });
+  const frameB = deprived.frameAt(age, { action: "idle", time: 0 });
+  const materialCoords = (frame: typeof frameA) =>
+    frame.parts.filter(p => p.role === "material-growth")
+      .flatMap(p => p.pixels.map(c => c.x + "," + c.y)).sort();
+  assert.ok(materialCoords(frameA).length > 0,
+    "Authentic generated material must survive final raster and camera");
+  assert.notDeepEqual(materialCoords(frameA), materialCoords(frameB),
+    "Feeding counterfactuals must reach final visible, source-derived material");
+  const coords = (frame: typeof frameA) =>
+    [...new Set(frame.pixels.map(p => p.x + "," + p.y))].sort();
+  assert.notDeepEqual(coords(frameA), coords(frameB),
+    "Care must affect final on-screen silhouette, not just material diagnostics");
+  assert.deepEqual(fed.genome, deprived.genome);
+  assert.equal(fed.program.materialProgramFingerprint,
+    deprived.program.materialProgramFingerprint);
+  for (const frame of [frameA, frameB]) {
+    assert.equal((frame.evolution?.diagnostics?.biologicalComposition as
+      { chronologicalExposureConnected: boolean }).chronologicalExposureConnected, true);
+    assert.ok(frame.parts.filter(p => p.role === "material-growth")
+      .every(p => p.provenance === "grown" && p.sourcePartIds?.length));
+  }
+  // Recorded future events cannot influence pre-event rendered material.
+  const fedEarlierGame = build(1, 30);
+  const early = useGame(fedEarlierGame);
+  assert.deepEqual(materialCoords(early.frameAt(30/24)),
+    materialCoords(fed.frameAt(30/24)));
+  const fresh = useGame(JSON.parse(JSON.stringify(fedGame)) as GameState);
+  assert.deepEqual(coords(fresh.frameAt(age)), coords(frameA));
+  assert.deepEqual(materialCoords(fresh.frameAt(age)), materialCoords(frameA));
+  const app = readFileSync(new URL("../App.tsx", import.meta.url), "utf8");
+  assert.match(app, /careGame:\s*life\.game/);
 });

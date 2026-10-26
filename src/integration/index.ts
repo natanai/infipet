@@ -1,10 +1,13 @@
 import { compileMaterialDevelopment, type MaterialDevelopmentProgram } from "../development";
+import { createCareMaterialDevelopment, type CareMaterialDevelopment } from "../environment";
+import type { GameState } from "../gameplay";
 import { inferSourceAffinities, type AffinityInference, type BiologicalAffinity } from "../lineage/source-classifier";
 import {
   createPhylogenyView,
   exploreDevelopmentalPossibilities,
   type DevelopmentalPossibilityMap,
   type SourceProvenance,
+  type DevelopmentPrior,
 } from "../phylogeny";
 import {
   adaptDevelopmentPrior,
@@ -109,14 +112,28 @@ export function compileRuntimeBiology(
  * The physical engine reads only generic DevelopmentPrior operator evidence
  * and the permanent seed genotype. No reference species becomes a destination.
  */
+function anatomicalPrior(biology: RuntimeBiology): DevelopmentPrior | undefined {
+  const inspiration = biology.references[0];
+  return inspiration?.anatomicalPossibilities.possibilities.find(
+    possibility => possibility.referenceId === inspiration.referenceId,
+  )?.referencePriors;
+}
+
+/** Use exactly the same soft reference prior for uncared and recorded-care material. */
 export function compileRuntimeMaterialProgram(
   atlas: SourceAtlas,
   inherited: InheritedGenome,
   biology: RuntimeBiology,
 ): MaterialDevelopmentProgram {
-  const inspiration = biology.references[0];
-  const prior = inspiration?.anatomicalPossibilities.possibilities.find(
-    possibility => possibility.referenceId === inspiration.referenceId,
-  )?.referencePriors;
-  return compileMaterialDevelopment(atlas, inherited, prior);
+  return compileMaterialDevelopment(atlas, inherited, anatomicalPrior(biology));
+}
+
+/** A chronological saved pet's actual care now controls visible material growth. */
+export function compileRuntimeCareMaterial(
+  atlas: SourceAtlas,
+  inherited: InheritedGenome,
+  biology: RuntimeBiology,
+  game: GameState,
+): CareMaterialDevelopment {
+  return createCareMaterialDevelopment(atlas, inherited, game, anatomicalPrior(biology));
 }

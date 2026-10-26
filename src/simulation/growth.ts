@@ -43,7 +43,10 @@ import {
   type ResolvedDevelopment,
 } from "./development";
 import { compileGenome, genomeCacheKey } from "./genome";
-import { compileRuntimeBiology, compileRuntimeMaterialProgram, type RuntimeBiology } from "../integration";
+import {
+  compileRuntimeBiology, compileRuntimeMaterialProgram, compileRuntimeCareMaterial,
+  type RuntimeBiology,
+} from "../integration";
 import { materialDevelopmentAt, type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
 import {
   compileSurfaceExpression,
@@ -708,6 +711,10 @@ export function createSimulation(
     setLRU(blueprints, cacheKey, blueprint, 8);
   } else setLRU(blueprints, cacheKey, blueprint, 8);
   const { tissues, genes } = blueprint,
+    careMaterial = options.careGame
+      ? compileRuntimeCareMaterial(blueprint.atlas, inherited,
+          blueprint.biology, options.careGame)
+      : undefined,
     surfaceGenes = compileSurfaceExpression(inherited),
     hatchAt = liveContext
       ? Math.max(0, liveContext.hatchAtHours) / 24
@@ -719,6 +726,12 @@ export function createSimulation(
     programFingerprint = String(hash(JSON.stringify([
       fingerprint,
       blueprint.material.fingerprint,
+      // Material snapshots depend on the recorded, immutable life up to now.
+      options.careGame ? [
+        options.careGame.clock.nowMs,
+        options.careGame.commandHistory,
+        options.careGame.careSamples,
+      ] : null,
       lineage?.fingerprint ?? null,
       liveContext?.stageEndHours ?? null,
       hatchAt,
@@ -736,7 +749,9 @@ export function createSimulation(
     const hour = Math.floor(Math.max(0, chronologicalHour));
     const hit = materialSnapshots.get(hour);
     if (hit) return hit;
-    const graph = materialDevelopmentAt(blueprint!.material, hour);
+    const graph = careMaterial
+      ? careMaterial.materialAt(Math.min(hour, careMaterial.history.maxHour))
+      : materialDevelopmentAt(blueprint!.material, hour);
     setLRU(materialSnapshots, hour, graph, 8);
     return graph;
   };
@@ -818,6 +833,7 @@ export function createSimulation(
     biologicalPotential: {
       ...blueprint.biology,
       physicalOperatorsConnected: true,
+      chronologicalExposureConnected: Boolean(careMaterial),
     },
     materialProgramFingerprint: blueprint.material.fingerprint,
     authoredInkSignature: signature,
@@ -959,7 +975,7 @@ export function createSimulation(
         scientificPetAssignment: null,
         physicalOperatorsConnected: true,
         materialProgramFingerprint: blueprint!.material.fingerprint,
-        chronologicalExposureConnected: false,
+        chronologicalExposureConnected: Boolean(careMaterial),
       },
     };
     result.sourceFingerprint = String(hash(signature));
