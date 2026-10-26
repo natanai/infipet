@@ -123,6 +123,9 @@ export type FunctionalPose = {
   locomotionSupported: boolean;
   diagnostics: {
     worldAdvance: number;
+    cameraWorldX: number;
+    cameraLagX: number;
+    locomotionSupported: boolean;
     heldCycle: number;
     maximumBoneError: number;
     maximumContactError: number;
