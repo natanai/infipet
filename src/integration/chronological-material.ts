@@ -26,7 +26,7 @@ import { MATERIAL_LIMITS, type MaterialGraph, type MaterialCell } from "../devel
 
 export const CHRONOLOGICAL_LIMITS = Object.freeze({
   maxHour: 8192,
-  maxEvents: 65536,
+  maxEvents: 16384,
   maxAdditionalCells: MATERIAL_LIMITS.addedCells,
   world: MATERIAL_LIMITS.world,
 });
@@ -114,6 +114,8 @@ export function validateChronologicalGraph(
       CHRONOLOGICAL_LIMITS.maxAdditionalCells)
     errors.push("material-cell-budget");
   const sources = new Set(birth.sourceCells.map(c => c.id));
+  const birthCells = new Map(birth.cells.map(c => [c.id, c]));
+  const occupied = new Map<string, MaterialCell[]>();
   const live = new Map<string, MaterialCell>();
   const tissueIds = new Set<string>();
   for (const tissue of graph.tissues) {
@@ -124,6 +126,15 @@ export function validateChronologicalGraph(
   for (const cell of graph.cells) {
     if (live.has(cell.id)) errors.push("duplicate-cell:" + cell.id);
     live.set(cell.id, cell);
+    const position = cellKey(cell);
+    const neighbors = occupied.get(position) ?? [];
+    for (const other of neighbors) {
+      const oldA = birthCells.get(cell.id), oldB = birthCells.get(other.id);
+      if (!(oldA && oldB && cellKey(oldA) === cellKey(oldB)))
+        errors.push("unrecorded-material-overlap:" + cell.id + ":" + other.id);
+    }
+    neighbors.push(cell);
+    occupied.set(position, neighbors);
     if (forbiddenResurrection.has(cell.id))
       errors.push("resurrected-cell:" + cell.id);
     if (!Number.isSafeInteger(cell.x) || !Number.isSafeInteger(cell.y) ||
@@ -162,6 +173,11 @@ export function validateChronologicalGraph(
   for (const site of graph.sites) {
     if (!tissueIds.has(site.tissueId))
       errors.push("orphaned-growth-site:" + site.id);
+    // A source site may remain in the historical audit trail, but the active
+    // graph MUST invalidate its live claim if its tip has been reabsorbed.
+    const tip = live.get(site.rootCellId);
+    if (!tip || tip.tissueId !== site.tissueId)
+      errors.push("stale-active-growth-site:" + site.id);
   }
   return errors;
 }
@@ -221,9 +237,11 @@ export function evaluateChronologicalMaterial<Context>(
   for (const proposal of history) {
     const previously = graph;
     const previousJson = JSON.stringify(previously);
+    const contextJson = JSON.stringify(context);
     const next = proposal.apply(previously, context);
-    if (JSON.stringify(previously) !== previousJson)
-      throw new TypeError("Material proposal mutated its input graph: " + proposal.id);
+    if (JSON.stringify(previously) !== previousJson ||
+        JSON.stringify(context) !== contextJson)
+      throw new TypeError("Material proposal mutated its input state: " + proposal.id);
     const change = delta(previously, next.graph);
     if (!next.accepted) {
       if (next.graph !== previously || next.context !== context)
