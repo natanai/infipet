@@ -1,3 +1,5 @@
+// DEV-002 follow-up: CI executes incremental chronology alongside the canonical acceptance test.
+import "./alg-development-operator-chronology.test";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createPhylogenyView } from "../src/phylogeny";

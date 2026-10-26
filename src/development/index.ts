@@ -25,6 +25,18 @@ export {
 } from "./chaos";
 export type { ChaosState, MaterialChaos } from "./chaos";
 
+/** DEV-002 chronological operator ledger; runtime/Environment handoff. */
+export {
+  initializeMaterialOperatorChronology,
+  stepMaterialOperatorChronology,
+  materialOperatorChaosRate, materialMaximumCumulativeExpression,
+} from "./operator-chronology";
+export type {
+  MaterialCumulativeExpression, MaterialExpressionInterval,
+  MaterialExpressionRecord, MaterialOperatorChronologyState,
+  MaterialOperatorDecision, MaterialOperatorReason, MaterialOperatorTransaction,
+} from "./operator-chronology";
+
 /** Merged DEV-003 / DEV-004 public exports, awaiting an incremental transition port. */
 export {
   ITERATIVE_LIMITS,

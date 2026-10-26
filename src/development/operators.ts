@@ -67,7 +67,7 @@ const amounts: Record<MaterialOperatorKind, keyof DevelopmentGeneticSignals["ope
 };
 
 /** Scientific reference hints are *weights*, never species or lifetime gates. */
-function potential(kind: MaterialOperatorKind, signal: DevelopmentGeneticSignals): number {
+export function materialOperatorPotential(kind: MaterialOperatorKind, signal: DevelopmentGeneticSignals): number {
   const operator = signal.operators[amounts[kind]];
   const hint = operator.evidence.status === "supported" ? 1.25 : 0.75;
   const c = signal.channels;
@@ -80,7 +80,7 @@ function potential(kind: MaterialOperatorKind, signal: DevelopmentGeneticSignals
   return clamp((0.3 + 0.5 * operator.potential + 0.2 * supplement) * hint, 0.1, 1.5);
 }
 
-function newMaterial(
+export function createOperatorMaterialCell(
   operation: MaterialOperator, tissueId: string, x: number, y: number,
   parents: readonly MaterialCell[],
 ): MaterialCell {
@@ -172,7 +172,7 @@ export function applyMaterialOperators(
       x += steered.x; y += steered.y;
       const nx = Math.round(x), ny = Math.round(y);
       if (nx === tip.x && ny === tip.y) continue;
-      const produced = newMaterial(op, tissueId, nx, ny, [tip]);
+      const produced = createOperatorMaterialCell(op, tissueId, nx, ny, [tip]);
       if (!add(produced, allowedParentId)) break;
       tip = produced;
     }
@@ -186,7 +186,7 @@ export function applyMaterialOperators(
     const grownFraction = op.chaos
       ? chaoticProgress(op.chaos, op.atHour, op.durationHours, atHour)
       : completion;
-    const effect = op.strength * grownFraction * potential(op.kind, signals);
+    const effect = op.strength * grownFraction * materialOperatorPotential(op.kind, signals);
     if (effect <= 0) continue;
     const before = new Set(cells.map(c => c.id));
     const removed: string[] = [];
@@ -241,7 +241,7 @@ export function applyMaterialOperators(
         const nearest = [...current].sort((a, b) =>
           sq(a, candidate) - sq(b, candidate) || compareText(a.id, b.id))[0];
         if (!nearest) continue;
-        add(newMaterial(op, tissue.id, candidate.x, candidate.y, [nearest]));
+        add(createOperatorMaterialCell(op, tissue.id, candidate.x, candidate.y, [nearest]));
       }
       if (op.kind === "reinforce")
         tissues[tissues.indexOf(tissue)] = { ...tissue, rigidity: Math.max(tissue.rigidity, effect) };
@@ -272,7 +272,7 @@ export function applyMaterialOperators(
             cells.length - birth.sourceCells.length + corridor.length <= MATERIAL_LIMITS.addedCells) {
           let from = a;
           for (const p of corridor) {
-            const bridge = newMaterial(op, tissue.id, p.x, p.y, [from, b]);
+            const bridge = createOperatorMaterialCell(op, tissue.id, p.x, p.y, [from, b]);
             cells.push(bridge); occupied.set(key(p.x, p.y), [bridge]); from = bridge;
           }
           links.push({ id: op.id + "/fusion", kind: "fusion",
