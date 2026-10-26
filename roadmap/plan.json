@@ -143,7 +143,7 @@
         "OBS-001",
         "PHY-001"
       ],
-      "status": "blocked",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -176,7 +176,7 @@
       "dependsOn": [
         "OBS-002"
       ],
-      "status": "blocked",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -208,7 +208,7 @@
       "dependsOn": [
         "OBS-001"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -223,14 +223,26 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/cross-kingdom-tree.test.ts",
-        "command": "pnpm exec tsx --test tests/cross-kingdom-tree.test.ts",
+        "testPath": "tests/alg-ancestry-tree.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-ancestry-tree.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
         "src/phylogeny"
       ],
-      "algorithmId": "ancestry"
+      "algorithmId": "ancestry",
+      "interfaceContract": {
+        "purpose": "Represent a small multi-kingdom scientific reference tree, retaining historical OpenTree animal identifiers and evidence; all edges are reference ancestry, possibly contracted over omitted taxa.",
+        "inputs": [
+          "ott animal nodes from catalog-data.json",
+          "11 hand-selected dated NCBI Taxonomy Browser references"
+        ],
+        "outputs": [
+          "PhylogenyView: getNode, parentOf, childrenOf, ancestry, commonAncestor, isDescendant, lineageMembership, getProvenance, validate",
+          "scientific provenance with OTT/NCBI identifiers and access-date or release labeling"
+        ],
+        "unknownBehavior": "Unrepresented taxa return undefined/empty, and no unsourced intermediary node is inserted"
+      }
     },
     {
       "id": "PHY-002",
@@ -240,7 +252,7 @@
       "dependsOn": [
         "PHY-001"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -249,21 +261,36 @@
         },
         {
           "id": "A2",
-          "requirement": "An individual pet can traverse changing developmental affinities along the possibility map without breeding, producing offspring, or asserting that its scientific ancestry literally changed",
+          "requirement": "A typed single-pet waypoint descriptor can move among anatomical inspirations from different reference clades, with stable scientific birth-reference ancestry; rendering the physical transformations remains an integration-dependent task",
           "oracle": "focused-node-test"
         }
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/ancestral-trait-inheritance.test.ts",
-        "command": "pnpm exec tsx --test tests/ancestral-trait-inheritance.test.ts",
+        "testPath": "tests/alg-ancestry-traits.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-ancestry-traits.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
         "src/phylogeny",
-        "src/lineage"
+        "src/lineage/phylogeny-priors.ts"
       ],
-      "algorithmId": "ancestry"
+      "algorithmId": "ancestry",
+      "interfaceContract": {
+        "purpose": "Evidence-backed anatomical traits belong to reference taxa; single-pet growth can draw on changing biological inspirations and the birth reference is not a lifetime prohibitive gate.",
+        "inputs": [
+          "birthReferenceId: a candidate reference, not a verified diagnosis",
+          "candidateReferenceIds?: readonly string[] (defaults to all represented)",
+          "waypoints: readonly {atHour, anatomicalReferenceId, influence}[] supplied externally"
+        ],
+        "outputs": [
+          "DevelopmentPrior: sourced reference-clade constraints, operator hints, semantics=reference-clade-evidence-not-lifetime-gate",
+          "DevelopmentalPossibilityMap: anatomical inspirations across branches, source-relative graph distance, provenance, fixedBirthReferenceLineage",
+          "LifetimeDevelopmentalTrajectory: chronologically validated inspiration waypoints, generic operator hints, execution=development-engine-not-implemented",
+          "candidateBirthPriors, candidateDevelopmentalMaps, describeCandidateTrajectory from src/lineage/phylogeny-priors.ts"
+        ],
+        "missingIntegration": "No classifier selection, seed/care waypoint planning, phenotype realization, or physical continuity validation in this module. Development and integration owners must implement these downstream."
+      }
     },
     {
       "id": "PHY-003",
@@ -273,7 +300,7 @@
       "dependsOn": [
         "PHY-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -288,14 +315,25 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/speculative-branches.test.ts",
-        "command": "pnpm exec tsx --test tests/speculative-branches.test.ts",
+        "testPath": "tests/alg-ancestry-fiction.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-ancestry-fiction.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
         "src/phylogeny"
       ],
-      "algorithmId": "ancestry"
+      "algorithmId": "ancestry",
+      "interfaceContract": {
+        "purpose": "Fictional overlays are explicit non-scientific provenance and offer generic anatomical inspirations; no named fantasy sprites or target species.",
+        "inputs": [
+          "SpeculativeBranchInput[] with fiction: prefixed ID, represented parentId, name, rationale, operatorHints"
+        ],
+        "outputs": [
+          "createPhylogenyView(speculativeBranches) with distinct fictional provenance",
+          "fictional possibility entries via exploreDevelopmentalPossibilities and typed lifetime waypoints"
+        ],
+        "missingIntegration": "No rendering engine is implemented. Fictional operator hints are only suggestions to the shared future Development agent."
+      }
     },
     {
       "id": "GEN-001",
@@ -886,14 +924,19 @@
     {
       "id": "ancestry",
       "name": "Provenance-backed phylogeny",
-      "purpose": "Supply scientific branching relationships as a source of anatomical constraints and candidate developmental routes for a single pet, with fantasy extensions distinctly fictional; never model offspring or biological reproduction.",
+      "purpose": "Keep scientific reference ancestry distinct from single-pet anatomical inspirations and hypothetical lifetime trajectories; no reproduction, no species change claims, no growth renderer.",
       "inputs": [
-        "externally sourced taxon records",
-        "source feature evidence"
+        "historical OpenTree animal closure",
+        "dated NCBI selected lineage references",
+        "published biological feature literature",
+        "optional explicitly fictional overlays",
+        "caller-supplied candidate IDs and chronological waypoint descriptors"
       ],
       "outputs": [
-        "versioned ancestry graph",
-        "lineage trait constraints"
+        "PhylogenyView and inspectable scientific/fictional provenance",
+        "DevelopmentPrior taxon-specific evidence, not lifetime hard limits",
+        "DevelopmentalPossibilityMap and LifetimeDevelopmentalTrajectory contracts for a single continuously identifiable pet",
+        "candidateBirthPriors, candidateDevelopmentalMaps and describeCandidateTrajectory"
       ],
       "ownedPaths": [
         "src/phylogeny/",
