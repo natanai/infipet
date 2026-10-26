@@ -546,7 +546,7 @@
         "DEV-002",
         "PHY-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -561,25 +561,66 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/plant-development.test.ts",
-        "command": "pnpm exec tsx --test tests/plant-development.test.ts",
+        "testPath": "tests/alg-development-plant.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-plant.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/development/iterative-growth.ts",
+        "tests/alg-development-plant.test.ts"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "exports": [
+          "createIterativeGrowth",
+          "iterativeGrowthAt",
+          "allocateGrowthCredits",
+          "assessIterativePlacement"
+        ],
+        "inputs": [
+          "real compiled MaterialDevelopmentProgram",
+          "explicit chronological resource and light samples; null for unknown light",
+          "arbitrary authored SourceAtlas material"
+        ],
+        "outputs": [
+          "deterministic source-derived MaterialGraph",
+          "generative child growth sites, parent links, suppression reasons",
+          "per-hour integer resource allocation and expenditure ledger"
+        ],
+        "equations": [
+          "B_n=floor(4*resources(n)); weight=(0.5+genotypeRate)*(0.8+0.4*chaosX)*(1+0.75*directionalLight)/(1+0.25*siteDepth)",
+          "quota_i=B_n*w_i/sum(w); floor quota, then award residual credits by fractional remainder and lexical ID tie-break",
+          "stepChaos(x,y)=((2x+y) mod 65521,(x+y) mod 65521) per completed hourly growth interval"
+        ],
+        "invariants": [
+          "sum(allocations)+unassigned=B_n; sum(spent)+unspent=B_n and one created cell per spent credit",
+          "all generated cells trace to an authored cell by explicit physical parent chains",
+          "child tissues are attached explicitly to their parent and can spawn their own sites",
+          "no insertion into occupied material, protected cavities, or forbidden neighboring tissue",
+          "no future environmental sample affects past anatomical state"
+        ],
+        "limits": {
+          "maxHours": 512,
+          "worldCellsPerAxis": 64,
+          "creditsPerHour": 4,
+          "maximumSites": 4096,
+          "maximumDepth": 5,
+          "maximumForksPerSite": 3,
+          "maximumGeneratedCells": 3072
+        },
+        "missingLiveIntegration": "Recorded game care history has no measured light samples; this module needs runtime light input and rendering integration by the integration operator."
+      }
     },
     {
       "id": "DEV-004",
       "phase": 3,
       "area": "Development",
-      "title": "Generate lifetime appendage growth and metamorphosis of the same animal-like pet",
+      "title": "Source-continuous lifetime anatomical remodeling and structural legibility",
       "dependsOn": [
         "DEV-002",
         "PHY-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -594,14 +635,33 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/animal-development-contract.test.ts",
-        "command": "pnpm exec tsx --test tests/animal-development-contract.test.ts",
+        "testPath": "tests/alg-development-metamorphosis.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-metamorphosis.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/development/lifetime-remodeling.ts",
+        "tests/alg-development-metamorphosis.test.ts"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "inputs": [
+          "Existing MaterialDevelopmentProgram source-preserving material graph and compiled genetic signals",
+          "Permanent InheritedGenome seed and genotype fingerprint",
+          "Explicit chronological remodeling operators (optional deterministic source-derived default)"
+        ],
+        "exports": [
+          "compileLifetimeRemodeling",
+          "lifetimeRemodelingAt",
+          "mechanicalCapabilities",
+          "auditRemodelLegibility"
+        ],
+        "outputs": [
+          "LifetimeRemodelingFrame graph, source-traceable timed transitions, deferred conflicts, and mechanically grounded capabilities"
+        ],
+        "runtimeIntegration": "Not integrated into frameAt or motion. Integration owner consumes the typed adapter after tests and review.",
+        "biologicalMeaning": "One individual preserves persistent material identity and genome during ontogenetic remodeling; no species templates or offspring."
+      }
     },
     {
       "id": "DEV-005",
