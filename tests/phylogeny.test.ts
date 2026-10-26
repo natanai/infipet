@@ -26,7 +26,11 @@ test("pinned compact animal catalog is source-derived, connected and bounded", (
   assert.equal(manifest.coverage.nodesWithInheritedProfile, manifest.coverage.nodes);
 });
 
-test("offline lookup resolves unbundled raw taxa to their actual nearest supported ancestor", async () => {
+test("offline lookup resolves unbundled raw taxa to their actual nearest supported ancestor", {
+  skip: !fs.existsSync("data/phylogeny/nodes.jsonl")
+    ? "Excluded 560 MB raw dataset is required for this offline integration test"
+    : false,
+}, async () => {
   assert.equal(getNode("ott35864"), undefined);
   const crocodile = await lookupRawNode(35864);
   assert.equal(crocodile?.name, "Crocodylus niloticus");

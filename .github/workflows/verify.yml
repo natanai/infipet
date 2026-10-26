@@ -1,7 +1,7 @@
 name: Verify Infipet
 on:
   push:
-    branches: [main, "cleanup/**"]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -28,8 +28,13 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: Regression tests
+        id: regression
+        continue-on-error: true
         run: pnpm test
       - name: Web JS export
         run: pnpm build:web
       - name: iOS JS export (not a signed build)
         run: pnpm build:ios
+      - name: Require passing regressions
+        if: always()
+        run: test "${{ steps.regression.outcome }}" = "success"

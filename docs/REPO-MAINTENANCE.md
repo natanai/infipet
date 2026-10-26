@@ -21,7 +21,7 @@ This map is based on code inspection and tracked paths, not on executing the app
 
 Archive branch: [`archive/pre-cleanup-2026-10-25`](https://github.com/natanai/infipet/tree/archive/pre-cleanup-2026-10-25). Cleanup branch: [`cleanup/active-engine-2026-10-25`](https://github.com/natanai/infipet/tree/cleanup/active-engine-2026-10-25).
 
-The original tree had 51,949 tracked files (~1,362 MB by blob size), including 51,082 files in `docs/audits/` (~1,255 MB). The cleaned tree has **1,069 tracked files (~118 MB)**, including 202 retained audit files (~11 MB). All 71 application source files, 50 test files and 90 tool files survive unchanged in the first pruning commit. All life-v8, life-v9 and life-v10 audit files are kept, as are all historical Markdown reports.
+The original tree had 51,949 tracked files (~1,362 MB by blob size), including 51,082 files in `docs/audits/` (~1,255 MB). The cleaned tree has **1,077 tracked files (~119 MB)**, including 207 retained audit files (~11 MB), including five frozen household-source fixtures. All 71 application source files, 50 test files and 90 tool files survive unchanged in the first pruning commit. All life-v8, life-v9 and life-v10 audit files are kept, as are all historical Markdown reports.
 
 The initial history and archive branch still reference the removed output. This cleanup reduces current working-tree contents, **not the size of Git history or historical clones**. Do **not** force-push, delete the archive branch, prune Git objects, or rewrite history without a separate recovery and synchronization plan. Old report links may point to artifacts only on the archive branch.
 

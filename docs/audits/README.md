@@ -3,6 +3,7 @@
 Current application revision: **life-v10**. [Project goal](../GOAL.md) and [maintenance notes](../REPO-MAINTENANCE.md).
 
 The active repository keeps:
+- five small frozen household source/provenance fixtures required for audit tests;
 - historical narrative reports (`.md`) from v6/v7 and household experiments;
 - complete recent evidence for life-v8, life-v9 and life-v10;
 - source code, tests, reference source data and reproducibility tooling elsewhere in the repository.
