@@ -1,4 +1,4 @@
-import test from "node:test";
+// DEV-002 follow-up: CI executes incremental chronology alongside the canonical acceptance test.\nimport "./alg-development-operator-chronology.test";\nimport test from "node:test";
 import assert from "node:assert/strict";
 import { createPhylogenyView } from "../src/phylogeny";
 import { createMaterialGraph, materialSourceAncestry } from "../src/development/material-graph";
