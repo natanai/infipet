@@ -1,4 +1,4 @@
-import { clamp, hash, type Pixel, type Point } from "../simulation/model";
+import { clamp, compareText, hash, type Point } from "../simulation/model";
 import { grownMaterialCells } from "../simulation/material-growth";
 import type { Tissue } from "../simulation/material";
 import type { SourceAtlas } from "../simulation/source-atlas";
@@ -150,7 +150,7 @@ export function applyMaterialOperators(
     [...active(tissueId)].sort((a, b) =>
       ((b.x - root.x) * direction.x + (b.y - root.y) * direction.y) -
       ((a.x - root.x) * direction.x + (a.y - root.y) * direction.y) ||
-      a.id.localeCompare(b.id))[0];
+      compareText(a.id, b.id))[0];
   const line = (op: MaterialOperator, tissueId: string, root: MaterialCell,
     direction: Point, steps: number, allowedParentId?: string) => {
     let tip = root;
@@ -223,7 +223,7 @@ export function applyMaterialOperators(
       for (const candidate of grownMaterialCells(faux, radius, 2, original)) {
         if (!canPlace(candidate.x, candidate.y, tissue.id)) continue;
         const nearest = [...current].sort((a, b) =>
-          sq(a, candidate) - sq(b, candidate) || a.id.localeCompare(b.id))[0];
+          sq(a, candidate) - sq(b, candidate) || compareText(a.id, b.id))[0];
         if (!nearest) continue;
         add(newMaterial(op, tissue.id, candidate.x, candidate.y, [nearest]));
       }
@@ -260,7 +260,7 @@ export function applyMaterialOperators(
       const amount = Math.min(extent, Math.max(0, active(tissue.id).length - 1));
       const eligible = [...active(tissue.id)].sort((a, b) =>
         Number(b.provenance === "generated") - Number(a.provenance === "generated") ||
-        sq(b, anchor) - sq(a, anchor) || a.id.localeCompare(b.id));
+        sq(b, anchor) - sq(a, anchor) || compareText(a.id, b.id));
       let count = 0;
       for (const candidate of eligible) {
         if (count >= amount) break;
@@ -314,7 +314,7 @@ export function compileMaterialDevelopment(
   const ordered = [...source.tissues]
     .filter(t => t.sourceCellIds.length >= 2)
     .sort((a, b) => b.sourceCellIds.length - a.sourceCellIds.length ||
-      a.id.localeCompare(b.id)).slice(0, 8);
+      compareText(a.id, b.id)).slice(0, 8);
   for (const [index, tissue] of ordered.entries()) {
     const siteId = tissue.growthSiteIds[0];
     const slot = index * 0.25;
