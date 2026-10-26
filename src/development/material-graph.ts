@@ -1,4 +1,4 @@
-import { hash, type Pixel, type Point, type Relationship } from "../simulation/model";
+import { compareText, type Pixel, type Point, type Relationship } from "../simulation/model";
 import type { SourceAtlas } from "../simulation/source-atlas";
 
 /** World-space source cells are retained independently of any later remodeling. */
@@ -137,7 +137,7 @@ export function createMaterialGraph(atlas: SourceAtlas): MaterialGraph {
   const sourceCells: MaterialCell[] = [], tissues: MaterialTissue[] = [];
   const sites: MaterialSite[] = [], links: MaterialLink[] = [];
   const sourceOwners = new Map<string, string[]>();
-  const patches = [...atlas.patches].sort((a, b) => a.id.localeCompare(b.id, "en"));
+  const patches = [...atlas.patches].sort((a, b) => a.idREPLACE_ME);
   for (const patch of patches) {
     const all = patch.source.cells;
     const groups = islands(all);
@@ -167,7 +167,7 @@ export function createMaterialGraph(atlas: SourceAtlas): MaterialGraph {
           distance(cell, port.point) < 1)!, normal: port.normal }));
       if (!endpoints.length) {
         const tip = [...componentCells].sort((a, b) =>
-          distance(b, centroid) - distance(a, centroid) || a.id.localeCompare(b.id))[0];
+          distance(b, centroid) - distance(a, centroid) || compareText(a.id, b.id))[0];
         endpoints.push({ id: "tip", cell: tip, normal: unit({
           x: tip.x - centroid.x, y: tip.y - centroid.y,
         }) });
@@ -203,7 +203,7 @@ export function createMaterialGraph(atlas: SourceAtlas): MaterialGraph {
     let child: MaterialCell | undefined, d = Infinity;
     for (const a of own) for (const b of possible) {
       const score = distance(a, b.cell);
-      if (score < d || (score === d && b.cell.id < (best?.cell.id ?? ""))) {
+      if (score < d || (score === d && compareText(b.cell.id, best?.cell.id ?? "") < 0)) {
         d = score; best = b; child = a;
       }
     }
