@@ -964,6 +964,58 @@
       "algorithmId": "evaluation"
     },
     {
+      "id": "MOT-001",
+      "phase": 4,
+      "area": "Physical locomotion",
+      "title": "Functional locomotion from developing source material",
+      "dependsOn": [
+        "DEV-002",
+        "GEN-001"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Actual source-linked supports conserve flexure segment lengths, bound joint/contact error, maintain stance in world coordinates, and create measurable bounded travel; unsupported movement remains stationary.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Original and generated cells share causal attachment transforms, growth can activate new functional supports without rewriting permanent birth ancestry or genome, and out-of-order replay is deterministic for unfamiliar ink.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-integration-locomotion.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-integration-locomotion.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation/locomotion.ts",
+        "src/simulation/growth.ts",
+        "src/integration/functional-material.ts"
+      ],
+      "algorithmId": "integration",
+      "interfaceContract": {
+        "inputs": [
+          "Time-indexed MaterialGraph active cells/tissues/links with authored source ancestry",
+          "Existing regional anatomical material mappings and permanent genotype-dependent developmental outcomes",
+          "Deterministic action, pace, amplitude and animation time"
+        ],
+        "outputs": [
+          "Mechanically eligible source-linked load-bearing supports with causal evidence",
+          "Biped/quadruped/crawler kinematics with explicit world and following-camera position",
+          "Generated material cells attached to a supported flexure's two-link deformation"
+        ],
+        "limits": [
+          "Only active, connected, sufficiently long, downward flexible linked tissues are eligible; unsupported drift/flutter/swim/roll do not count as locomotor displacement",
+          "Absolute motion clock is clamped to 4096 seconds; rendering uses 1/1024-unit quantization and a <=3-unit camera lag",
+          "DEV-003/004 are consumed only via authoritative MaterialGraph, not unmerged APIs"
+        ]
+      }
+    },
+    {
       "id": "GAME-001",
       "phase": 4,
       "area": "Player",
@@ -1252,11 +1304,13 @@
         "src/simulation/growth.ts",
         "src/lineage/index.ts",
         "src/integration/",
-        "tests/alg-integration-"
+        "tests/alg-integration-",
+        "src/simulation/locomotion.ts"
       ],
       "taskIds": [
         "GAME-001",
-        "PERF-001"
+        "PERF-001",
+        "MOT-001"
       ],
       "readyWhen": [
         "OBS-001"

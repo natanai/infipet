@@ -9,9 +9,12 @@ import {
 
 /** One deliberate LCD pose per phase; explicit time is the only clock. */
 export const POSE_PHASES = 8;
+/** Seconds are limited to avoid unsafe integer ticks or unbounded numerical drift. */
+export const MAX_MOTION_TIME = 4096;
+export const MOTION_PRECISION = 1 / 1024;
 /** Shared by the solver and frame cache so boundary rounding cannot disagree. */
 export function heldPoseTick(time: number, pace = 1): number {
-  const clock = Number.isFinite(time) ? Math.max(0, time) : 0;
+  const clock = Number.isFinite(time) ? Math.min(MAX_MOTION_TIME, Math.max(0, time)) : 0;
   const rate = Number.isFinite(pace) ? clamp(pace, 0.15, 3) : 1;
   return Math.floor(clock * rate * POSE_PHASES + 1e-9);
 }
@@ -26,6 +29,17 @@ export type ControllerFamily =
   | "flutter"
   | "roll"
   | "float";
+/** A material-level causal witness, never a body-plan or sprite classification. */
+export type MechanicalEvidence = Readonly<{
+  tissueId: string;
+  linkIds: readonly string[];
+  sourceCellIds: readonly string[];
+  cellCount: number;
+  axialExtent: number;
+  flexibility: number;
+  supported: boolean;
+  reason: string;
+}>;
 export type RigNode = {
   id: string;
   kind: PartKind;
@@ -41,6 +55,7 @@ export type RigNode = {
   /** Optional ordered material centerline, used instead of screen x for waves. */
   spine?: readonly Point[];
   bendSign?: number;
+  mechanics?: MechanicalEvidence;
 };
 type Limb = {
   id: string;
@@ -101,8 +116,16 @@ export type FunctionalPose = {
   groundY: number;
   phase: number;
   contacts: Contact[];
+  /** World state is distinct from the camera-following LCD coordinates. */
+  worldPosition: Point;
+  cameraWorldX: number;
+  cameraLagX: number;
+  locomotionSupported: boolean;
   diagnostics: {
     worldAdvance: number;
+    cameraWorldX: number;
+    cameraLagX: number;
+    locomotionSupported: boolean;
     heldCycle: number;
     maximumBoneError: number;
     maximumContactError: number;
@@ -235,15 +258,11 @@ export function buildFunctionalGraph(
       : 1;
   if (axis.x !== 0) axis = { x: facing, y: 0 };
   const legNodes = nodes.filter(
-    (node) => node.kind === "leg" && node.readiness > 0.03,
+    (node) => node.kind === "leg" && node.readiness > 0.03 &&
+      node.mechanics?.supported !== false,
   );
-  // A foot without a painted leg still gets an invisible two-link support chain.
-  const standaloneFeet = nodes.filter(
-    (node) =>
-      node.kind === "foot" &&
-      node.readiness > 0.03 &&
-      !legNodes.some((leg) => leg.id === node.parentId),
-  );
+  // Standalone feet have no proven load-bearing chain; never invent one.
+  const standaloneFeet: RigNode[] = [];
   const allSupportNodes = [...legNodes, ...standaloneFeet].sort(
     (a, b) =>
       (a.center.x - b.center.x) * facing ||
@@ -363,7 +382,7 @@ export function buildFunctionalGraph(
       readiness,
     };
   });
-  const usableLegs = limbs.filter((limb) => limb.readiness >= 0.6).length;
+  const usableLegs = limbs.filter((limb) => limb.readiness >= 0.9).length;
   let family = preferredFamily(preferred);
   const flightWings = nodes.filter(
     (node) =>
@@ -478,7 +497,8 @@ export function poseFunctionalGraph(
     amplitude?: number;
   },
 ): FunctionalPose {
-  const time = Number.isFinite(options.time) ? Math.max(0, options.time) : 0;
+  const time = Number.isFinite(options.time)
+    ? Math.min(MAX_MOTION_TIME, Math.max(0, options.time)) : 0;
   const pace = Number.isFinite(options.pace)
     ? clamp(options.pace!, 0.15, 3)
     : 1;
@@ -492,6 +512,14 @@ export function poseFunctionalGraph(
   const angle = cyclePhase * TAU;
   const moving = options.action === "move" || options.action === "play";
   const family = graph.controllerFamily;
+  const groundedFamily = ["quadruped", "biped", "crawler"].includes(family);
+  const locomotor = moving && groundedFamily &&
+    graph.limbs.filter(limb => limb.readiness >= 0.9).length >= 2;
+  // Cumulative ground travel is evaluated directly from birth, never integrated
+  // from the previously rendered frame. Camera lag is a bounded screen offset.
+  const worldAdvance = locomotor ? q(heldCycle * stride) : 0;
+  const cameraLagX = locomotor ? q(3 * Math.tanh(worldAdvance / 9)) : 0;
+  const cameraWorldX = q(worldAdvance - cameraLagX);
   let rootOffset = { x: 0, y: 0 },
     rootRotation = 0;
   if (moving) {
@@ -511,7 +539,8 @@ export function poseFunctionalGraph(
       rootOffset = point(0, -0.18 - Math.cos(angle * 2) * 0.12);
   } else if (options.action === "greet")
     rootOffset = point(0, -Math.abs(Math.sin(angle)) * 0.5);
-  rootOffset = point(rootOffset.x * amplitude, rootOffset.y * amplitude);
+  rootOffset = point(rootOffset.x * amplitude + cameraLagX,
+    rootOffset.y * amplitude);
   const transforms: Record<string, PoseTransform> = {};
   for (const node of graph.nodes) {
     const rotated = (p: Point) =>
@@ -573,10 +602,6 @@ export function poseFunctionalGraph(
   }
   const contacts: Contact[] = [],
     boneLengths: FunctionalPose["diagnostics"]["boneLengths"] = [];
-  const locomotor =
-    moving && ["quadruped", "biped", "crawler"].includes(family);
-  const groundedFamily = ["quadruped", "biped", "crawler"].includes(family);
-  const worldAdvance = locomotor ? q(heldCycle * stride) : 0;
   const stanceFraction = family === "biped" ? 0.625 : 0.75;
   let maximumBoneError = 0,
     maximumContactError = 0,
@@ -612,6 +637,7 @@ export function poseFunctionalGraph(
           amplitude;
       }
     }
+    target.x += cameraLagX;
     const hip = plus(limb.anchor, rootOffset);
     const solved = solveTwoLink(
       hip,
@@ -673,8 +699,8 @@ export function poseFunctionalGraph(
       planted,
       supportWeight: planted ? smooth((limb.readiness - 0.35) / 0.55) : 0,
       localPoint: solved.tip,
-      worldPoint: point(solved.tip.x + worldAdvance, solved.tip.y),
-      desiredWorldPoint: point(target.x + worldAdvance, target.y),
+      worldPoint: point(solved.tip.x + cameraWorldX, solved.tip.y),
+      desiredWorldPoint: point(target.x + cameraWorldX, target.y),
       step,
     });
   }
@@ -718,8 +744,15 @@ export function poseFunctionalGraph(
     groundY: graph.groundY,
     phase,
     contacts,
+    worldPosition: point(graph.center.x + worldAdvance, graph.center.y),
+    cameraWorldX,
+    cameraLagX,
+    locomotionSupported: locomotor,
     diagnostics: {
       worldAdvance,
+      cameraWorldX,
+      cameraLagX,
+      locomotionSupported: locomotor,
       heldCycle,
       maximumBoneError,
       maximumContactError,
