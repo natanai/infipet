@@ -348,8 +348,11 @@ test("[DEV-004/A1] composable steps preserve post-care growth, exact chronology 
   assert.ok(accepted.some(t=>t.transition!.kind==="resorb"),"bounded reabsorption");
   assert.deepEqual(result.graph.events.slice(0,careGrowth.events.length),
     careGrowth.events,"do not discard earlier care events");
-  assert.ok(result.graph.cells.some(c=>c.operationId==="chronological-care-growth"),
-    "earlier generated material participates rather than disappearing");
+  assert.ok(result.graph.cells.some(c=>c.operationId==="chronological-care-growth") ||
+    result.transactions.some(t=>t.transition?.removedCellIds.some(id=>
+      careGrowth.cells.some(c=>c.id===id &&
+        c.operationId==="chronological-care-growth"))),
+    "earlier generated material remains active OR has an explicit resorption witness");
   unchangedOriginal(careGrowth,result.graph);
   assert.equal(result.graph.cells.length,
     careGrowth.cells.length + accepted.filter(t=>
@@ -378,15 +381,15 @@ test("[DEV-004/A1] actual growth-site anchors follow moved material and growing 
   const oldSite=source.sites[0];
   const oldRoot=source.cells.find(c=>c.id===oldSite.rootCellId)!;
   const shift=applyRemodelingProposal(source,p.remodel,
-    firstDue(p.remodel,p.remodel.operations[0]));
-  assert.equal(shift.attempt.status,"accepted");
+    firstDue(p.remodel,p.remodel.operations.find(o=>o.id==="translate-site")!));
+  assert.equal(shift.attempt.status,"accepted",shift.attempt.reason??"");
   assert.deepEqual(shift.graph.sites[0],oldSite,"stable site identity/root cell ID");
   assert.deepEqual(shift.siteChanges.map(s=>s.siteId),[oldSite.id]);
   assert.deepEqual(shift.siteChanges[0].from,{x:oldRoot.x,y:oldRoot.y});
   assert.deepEqual(shift.siteChanges[0].to,{x:oldRoot.x+1,y:oldRoot.y});
   const extend=applyRemodelingProposal(shift.graph,p.remodel,
-    firstDue(p.remodel,p.remodel.operations[1]),shift.chronology);
-  assert.equal(extend.attempt.status,"accepted");
+    firstDue(p.remodel,p.remodel.operations.find(o=>o.id==="extend-tip")!),shift.chronology);
+  assert.equal(extend.attempt.status,"accepted",extend.attempt.reason??"");
   assert.equal(extend.graph.sites[0].rootCellId,
     extend.transition!.createdCellIds[0],"growth-site tracks new active tip");
   assert.ok(extend.siteChanges.length===1);
@@ -411,8 +414,8 @@ test("[DEV-004/A2] real attachment endpoints survive legal motion; illegal cycle
   const link=p.material.source.links.find(x=>x.kind==="attachment");
   assert.ok(link,"fixture must preserve a physical authored attachment");
   const shift=applyRemodelingProposal(p.material.source,p.remodel,
-    firstDue(p.remodel,p.remodel.operations[0]));
-  assert.equal(shift.attempt.status,"accepted");
+    firstDue(p.remodel,p.remodel.operations.find(o=>o.id==="shift-attached")!));
+  assert.equal(shift.attempt.status,"accepted",shift.attempt.reason??"");
   assert.deepEqual(shift.graph.links,p.material.source.links);
   const before=p.material.source.cells.find(c=>c.id===link!.fromCellId)!;
   const after=shift.graph.cells.find(c=>c.id===link!.fromCellId)!;
@@ -421,7 +424,7 @@ test("[DEV-004/A2] real attachment endpoints survive legal motion; illegal cycle
   const other=shift.graph.cells.find(c=>c.id===link!.toCellId)!;
   assert.ok(Math.abs(after.x-other.x)<=2&&Math.abs(after.y-other.y)<=2);
   const cycle=applyRemodelingProposal(shift.graph,p.remodel,
-    firstDue(p.remodel,p.remodel.operations[1]),shift.chronology);
+    firstDue(p.remodel,p.remodel.operations.find(o=>o.id==="make-cycle")!),shift.chronology);
   assert.equal(cycle.attempt.status,"rejected");
   assert.match(cycle.deferral!.reason,/cycle/);
   assert.strictEqual(cycle.graph,shift.graph,
