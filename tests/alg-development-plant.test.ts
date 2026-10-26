@@ -689,7 +689,7 @@ test("[INT-001] future-dated external operations are refused, not back-propagate
   assert.throws(() => replayIterativeChronology(birth, [
     chronoExposure(1)], 2), /hour-zero/);
   assert.throws(() => replayIterativeChronology(birth, [
-    chronoExposure(0, Number.NaN)], 2), /resources/);
+    chronoExposure(0, Number.NaN)], 2), /resource input/);
 });
 
 test("[INT-001] invalid external site is tombstoned exactly once and cannot resurrect", () => {
@@ -735,4 +735,35 @@ test("[INT-001] removal of an external site registry entry permanently closes it
     chronoExposure(2, 1));
   assert.equal(stillClosed.ledger.spent, 0);
   assert.equal(stillClosed.state.sites[0].status, "invalidated");
+});
+
+test("[INT-001] native per-unit remodeling event provenance is recognized as a genuine operation", () => {
+  const rows = [...Array(15).fill("................"), "........#......."];
+  const birth = noForks(controlled(rows, "per-unit-provenance"));
+  const root = birth.source.cells[0];
+  const origin = { x: root.x + 1, y: root.y };
+  const id = "wall-remodel/unit/1/cell";
+  const remodeled: MaterialGraph = {
+    ...birth.source,
+    cells: [...birth.source.cells, {
+      ...root, id, ...origin, provenance: "generated",
+      sourceIds: [...root.sourceIds], parentCellIds: [root.id],
+      operationId: "wall-remodel",
+    }],
+    events: [{
+      id: "wall-remodel/unit/1", kind: "reinforce", atHour: 0,
+      sourceCellIds: [...root.sourceIds], createdCellIds: [id],
+      removedCellIds: [],
+    }],
+  };
+  const first = stepIterativeChronology(birth, remodeled,
+    createIterativeChronologyState(birth), chronoExposure(0, 0));
+  assert.deepEqual(first.graph.cells.slice(0, remodeled.cells.length),
+    remodeled.cells, "actual remodel material must not be erased");
+  assert.deepEqual(first.graph.events, remodeled.events);
+  assert.equal(first.ledger.spent, 0);
+  const invented = { ...remodeled, events: [] };
+  assert.throws(() => stepIterativeChronology(birth, invented,
+    createIterativeChronologyState(birth), chronoExposure(0, 0)),
+  /creation event/);
 });
