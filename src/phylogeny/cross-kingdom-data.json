@@ -1,13 +1,13 @@
 {
   "source": "NCBI Taxonomy Browser",
-  "accessedOn": "2026-10-25",
-  "sourceVersion": "live taxonomy viewed 2026-10-25; NCBI release number not provided",
-  "scope": "small manually verified lineage closure (not a complete taxonomy)",
+  "accessedOn": "2026-10-26",
+  "sourceVersion": "NCBI Taxonomy Browser live lineage; checked 2026-10-26 (no immutable NCBI taxdump release or snapshot hash)",
+  "scope": "11 selected explicitly sourced lineage anchors; omitted intermediary taxa are not invented. Eukaryota is the highest represented node, not the origin of life.",
   "animalCrosswalk": {
     "ottId": 691846,
     "ncbiId": 33208,
     "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=33208",
-    "statement": "OpenTree Metazoa (ott691846) is anchored below NCBI Opisthokonta (33154) by a taxon-name and NCBI ID crosswalk; the historical animal subtree is unchanged."
+    "statement": "OpenTree Metazoa ott691846 retains its animal provenance and is cross-referenced to NCBI Metazoa 33208, whose NCBI lineage includes Opisthokonta 33154; original animal internal parent links and IDs are unchanged."
   },
   "nodes": [
     {
@@ -109,5 +109,11 @@
       "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3193",
       "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3193"
     }
-  ]
+  ],
+  "versionPinning": {
+    "kind": "access-date-only",
+    "pinnedRelease": false,
+    "rationale": "The live NCBI browser changes outside a fixed release; a dated monthly taxdump was not downloaded or verified.",
+    "reference": "https://www.ncbi.nlm.nih.gov/books/NBK54428/"
+  }
 }
