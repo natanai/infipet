@@ -256,6 +256,10 @@ export type DevelopmentState = {
   sourceFingerprint?: string;
   programFingerprint?: string;
   diagnostics?: Record<string, unknown>;
+  retroReference?: {
+    seed: string; path: readonly string[]; currentId: string; currentName: string;
+    nextId?: string; nextName?: string; nextAtDays?: number; progress: number;
+  };
   [key: string]: unknown;
 };
 export const clamp = (n: number, a: number, b: number) =>
