@@ -63,7 +63,7 @@ test("[CARE-001/A1] later feeding cannot modify earlier source-derived material 
   assert.deepEqual(at30.operatorsAt(30), at100.operatorsAt(30));
   const at100Ops = at100.operatorsAt(100);
   const earlyElapsed = at100.operatorsAt(35);
-  const elongate = (ops: typeof at100Ops) => ops.filter(op => op.kind === "elongate");
+  const elongate = (ops: typeof at100Ops) => ops.filter(op => op.kind === "elongate" && op.atHour + op.durationHours <= 35);
   assert.deepEqual(elongate(earlyElapsed), elongate(at100Ops),
     "Care after an elongation window must not rewrite that already-expressed operator");
   assert.throws(() => at30.materialAt(30.1), RangeError);
