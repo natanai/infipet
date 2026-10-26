@@ -287,6 +287,55 @@ test("[DEV-003/A1] growth-bearing branches recursively produce attached growth s
   assert.deepEqual(graph.at(30), replay, "render/query order has no effect");
 });
 
+test("[DEV-003/A2] competing real growth sites exchange priority when light reverses", () => {
+  const row = Array.from({ length: 32 }, (_, x) =>
+    x === 8 || x === 24 ? "#" : ".").join("");
+  const { atlas, genome } = materialInputs(drawing([
+    ...Array(14).fill("................................"), row,
+  ]), "two-site-competition");
+  const compiled = compileMaterialDevelopment(atlas, genome);
+  const [left, right] = [...compiled.source.sourceCells].sort((a, b) => a.x - b.x);
+  assert.equal(compiled.source.tissues.length, 2,
+    "the separate authored islands remain independently valid material");
+  const leftId = "competition/left", rightId = "competition/right";
+  const birth: MaterialDevelopmentProgram = {
+    ...compiled, source: {
+      ...compiled.source,
+      sites: [
+        { id: leftId, tissueId: left.tissueId,
+          rootCellId: left.id, direction: { x: 1, y: 0 } },
+        { id: rightId, tissueId: right.tissueId,
+          rootCellId: right.id, direction: { x: -1, y: 0 } },
+      ],
+      tissues: compiled.source.tissues.map(t => ({
+        ...t, growthSiteIds: t.id === left.tissueId ? [leftId] : [rightId],
+      })),
+    },
+  };
+  const toRight = { x: 1, y: 0, intensity: 1 };
+  const toLeft = { x: -1, y: 0, intensity: 1 };
+  const history: IterativeExposure[] = [
+    { atHour: 0, resources: 0.25, light: toRight },
+    { atHour: 1, resources: 0.25, light: toLeft },
+  ];
+  const reversed = createIterativeGrowth(birth, history);
+  const steady = createIterativeGrowth(birth,
+    [{ atHour: 0, resources: 0.25, light: toRight }]);
+  const frame = reversed.at(2);
+  validMaterial(frame, birth);
+  assert.equal(frame.ledger.length, 2);
+  assert.deepEqual(frame.ledger.map(x => x.available), [1, 1]);
+  assert.deepEqual(frame.ledger.map(x => x.spent), [1, 1]);
+  assert.deepEqual(frame.ledger.map(x =>
+    x.bySite.find(y => y.allocated === 1)?.siteId), [leftId, rightId],
+    "independent 1.75x illumination exceeds worst-case 1.5x chaos weight ratio");
+  assert.deepEqual(reversed.at(1), steady.at(1), "later light cannot change the first hour");
+  assert.notDeepEqual(geometry(frame.graph), geometry(steady.at(2).graph));
+  assert.equal(frame.graph.links.length, 0, "no implicit joining between islands");
+  assert.ok(frame.graph.cells.filter(c => c.provenance === "generated").every(c =>
+    c.sourceIds.length === 1), "new material never combines distinct birth islands");
+});
+
 test("[DEV-003/A2] sparse, disconnected, dense, fantasy and empty authored ink stay valid", () => {
   const shapes = [fixtures.blob, fixtures.branching, fixtures.disconnected,
     fixtures.cavity, fixtures.fantasy, fixtures.empty,
