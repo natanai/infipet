@@ -920,7 +920,10 @@ test("[INT-001] lifespan 511,512,513,720,2048,8192 remains chronological and fin
   assert.deepEqual(lateCell.parentCellIds, [original.id]);
   assert.equal(checkpoint.get(8191)!.graph.cells.length, 2);
   assert.equal(checkpoint.get(8192)!.graph.cells.length, 3,
-    "hour 8191 exposure is expressed at the final supported boundary");
+    "hour 8191 exposure ledger: " +
+      JSON.stringify(checkpoint.get(8192)!.state.ledger.at(-1)) +
+      "; suppression: " + JSON.stringify(checkpoint.get(8192)!.state.suppressions.slice(-4)) +
+      "; cells: " + JSON.stringify(checkpoint.get(8192)!.graph.cells.map(c => [c.id, c.x, c.y])));
   const last = checkpoint.get(8192)!;
   assert.deepEqual(last.state.ledger.filter(l => l.spent).map(l => l.hour),
     [719, 8191]);
