@@ -68,3 +68,16 @@ test("[SYS-002/A3] every algorithm task has exactly one write owner and a publis
     assert.ok(!scopes[i].startsWith(scopes[j]) && !scopes[j].startsWith(scopes[i]), "overlapping write scopes");
   }
 });
+
+test("[SYS-002/A4] completed tasks automatically register their focused tests without a second checklist", () => {
+  const p = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+  assert.equal(p.scripts.test, "node scripts/roadmap.mjs --verify-done");
+  const expected = [...new Set([
+    ...plan.tasks.filter((t:{status:string})=>t.status==="done").map((t:{verification:{testPath:string}})=>t.verification.testPath),
+    ...plan.baselineTests
+  ])].sort();
+  const result = spawnSync(process.execPath, ["scripts/roadmap.mjs","--verify-done","--dry-run"], {encoding:"utf8"});
+  assert.equal(result.status, 0, result.stderr);
+  assert.deepEqual(result.stdout.trim().split("\n"),expected);
+  assert.equal(expected.length,4, "prototyping baseline should remain small");
+});

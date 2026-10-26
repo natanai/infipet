@@ -67,6 +67,10 @@ export function validateRoadmap(plan, options = {}) {
   }
   for (const id of byId.keys()) visit(id);
   if (!has(plan.mandate) || !Array.isArray(plan.invariants) || plan.invariants.length < 4) fail("root", "mandate and invariants required");
+  if (!Array.isArray(plan.baselineTests) ||
+      !plan.baselineTests.every(p => safePath(p) && /^tests\/[a-z0-9-]+\.test\.ts$/.test(p) && fs.existsSync(file(p))) ||
+      new Set(plan.baselineTests).size !== plan.baselineTests.length)
+    fail("baselineTests", "baseline must contain unique, existing focused test paths");
   const algorithms = plan.algorithms;
   if (!Array.isArray(algorithms) || algorithms.length < 6)
     fail("algorithms", "independent algorithm ownership is required");
@@ -107,6 +111,22 @@ function main() {
   if (errors.length) { console.error(errors.join("\n")); process.exitCode = 1; return; }
   const argv = process.argv.slice(2);
   const requested = argv.find(a => a.startsWith("--task="))?.slice(7);
+  if (argv.includes("--verify-done")) {
+    const tests = [...new Set([
+      ...plan.tasks.filter(t => t.status === "done").map(t => t.verification.testPath),
+      ...plan.baselineTests,
+    ])].sort();
+    if (argv.includes("--dry-run")) {
+      console.log(tests.join("\n"));
+      return;
+    }
+    const result = spawnSync("pnpm", ["exec","tsx","--test",...tests], {
+      cwd:root,stdio:"inherit",shell:process.platform==="win32",
+    });
+    if (result.error) { console.error(result.error.message); process.exitCode = 1; }
+    else process.exitCode = result.status ?? 1;
+    return;
+  }
   if (argv.includes("--list")) {
     for (const task of plan.tasks) console.log([task.id, task.status, task.phase, task.title].join("\t"));
     return;
@@ -123,7 +143,7 @@ function main() {
     }
     return;
   }
-  if (argv.length && !argv.includes("--check")) { console.error("Use --check, --list, or --task=ID [--run]"); process.exitCode = 1; return; }
+  if (argv.length && !argv.includes("--check")) { console.error("Use --check, --list, --verify-done [--dry-run], or --task=ID [--run]"); process.exitCode = 1; return; }
   const done = plan.tasks.filter(t => t.status === "done").length;
   console.log("Roadmap valid: " + done + "/" + plan.tasks.length + " tasks evidenced as done; " + (plan.tasks.length - done) + " not done.");
 }

@@ -80,6 +80,11 @@
           "id": "A3",
           "requirement": "Every task has one algorithm owner and non-overlapping assigned write scope.",
           "oracle": "focused-node-test"
+        },
+        {
+          "id": "A4",
+          "requirement": "CI test discovery derives automatically from completed tasks and small explicit baseline tests.",
+          "oracle": "focused-node-test"
         }
       ],
       "verification": {
@@ -1051,5 +1056,8 @@
     "integrationGate": "Integration agent alone edits App.tsx, src/lineage/index.ts or src/simulation/growth.ts while separate algorithm work is in progress.",
     "testConvention": "Every new algorithm-local test must be named tests/alg-<algorithmId>-<feature>.test.ts, be referenced in roadmap/plan.json and measure that feature only.",
     "reporting": "Prefer booleans, numeric hashes, invariants and narrow metric summaries; never commit screenshot batches, historical build logs or generated test matrices."
-  }
+  },
+  "baselineTests": [
+    "tests/retro-reference-score.test.ts"
+  ]
 }
