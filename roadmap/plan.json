@@ -438,7 +438,7 @@
         "OBS-001",
         "PHY-002"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -453,14 +453,35 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/developmental-material-graph.test.ts",
-        "command": "pnpm exec tsx --test tests/developmental-material-graph.test.ts",
+        "testPath": "tests/alg-development-material-graph.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-material-graph.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/development"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "inputs": [
+          "SourceAtlas authoritative authored material",
+          "InheritedGenome permanent seed genotype",
+          "optional authoritative DevelopmentPrior reference evidence"
+        ],
+        "exports": [
+          "createMaterialGraph",
+          "materialSourceAncestry",
+          "reconstructMaterialGraph",
+          "compileMaterialDevelopment",
+          "materialDevelopmentAt",
+          "applyMaterialOperators"
+        ],
+        "outputs": [
+          "MaterialGraph: sourceCells, cells, tissues, sites, links, protectedVoids, events",
+          "MaterialDevelopmentProgram with explicit channels, prior evidence and deterministic operation schedule"
+        ],
+        "runtimeIntegration": "Runtime may consume materialDevelopmentAt(program, hour); does not yet replace existing PetFrame renderer",
+        "invariant": "No species target or sprite library; each generated cell cites authored source IDs and operation ID"
+      }
     },
     {
       "id": "DEV-002",
@@ -471,7 +492,7 @@
         "DEV-001",
         "GEN-001"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -486,14 +507,35 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/composable-operators.test.ts",
-        "command": "pnpm exec tsx --test tests/composable-operators.test.ts",
+        "testPath": "tests/alg-development-composable-operators.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-composable-operators.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/development"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "inputs": [
+          "SourceAtlas authoritative authored material",
+          "InheritedGenome permanent seed genotype",
+          "optional authoritative DevelopmentPrior reference evidence"
+        ],
+        "exports": [
+          "createMaterialGraph",
+          "materialSourceAncestry",
+          "reconstructMaterialGraph",
+          "compileMaterialDevelopment",
+          "materialDevelopmentAt",
+          "applyMaterialOperators"
+        ],
+        "outputs": [
+          "MaterialGraph: sourceCells, cells, tissues, sites, links, protectedVoids, events",
+          "MaterialDevelopmentProgram with explicit channels, prior evidence and deterministic operation schedule"
+        ],
+        "runtimeIntegration": "Runtime may consume materialDevelopmentAt(program, hour); does not yet replace existing PetFrame renderer",
+        "invariant": "No species target or sprite library; each generated cell cites authored source IDs and operation ID"
+      }
     },
     {
       "id": "DEV-003",
