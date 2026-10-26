@@ -153,8 +153,11 @@ test("resorbed source site is suppressed without corrupting the authoritative gr
     cells:graph.cells.filter(c=>c.id!==removed.id),
     events:[{id:"resorb/external",kind:"resorb",atHour:0.5,
       createdCellIds:[],removedCellIds:[removed.id],sourceCellIds:removed.sourceIds}]};
+  const expression=amount(program,op,1);
+  const due=4*expression+0.01;
+  assert.ok(due<4);
   const a=stepMaterialOperatorChronology(external,program,state,
-    interval(program,0,1,[amount(program,op,1)]));
+    interval(program,0,due,[expression]));
   assert.strictEqual(a.graph,external);
   assert.equal(a.decisions[0].status,"deferred");
   assert.equal(a.decisions[0].reason,"site-root-removed");
