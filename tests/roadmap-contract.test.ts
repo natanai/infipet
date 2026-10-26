@@ -8,6 +8,12 @@ const plan = JSON.parse(readFileSync(new URL("../roadmap/plan.json", import.meta
 
 test("[SYS-001/A1] canonical roadmap rejects duplicate IDs, missing dependencies and cycles", () => {
   assert.deepEqual(validateRoadmap(plan), []);
+  // Single-creature game semantics must remain explicit in the canonical plan.
+  assert.equal(plan.singleCreatureLifecycle.unitOfSimulation, "one continuously identifiable organism across its entire lifetime");
+  assert.match(plan.singleCreatureLifecycle.progression, /same pet/);
+  assert.match(plan.singleCreatureLifecycle.phylogeny, /developmental trajectories/);
+  assert.ok(plan.singleCreatureLifecycle.explicitlyOutOfScope.includes("breeding"));
+  assert.ok(plan.singleCreatureLifecycle.explicitlyOutOfScope.includes("parent-offspring inheritance"));
   const duplicate = structuredClone(plan);
   duplicate.tasks.push(structuredClone(duplicate.tasks[0]));
   assert.ok(validateRoadmap(duplicate, { checkFiles:false }).some(x => x.includes("duplicate task ID")));
@@ -30,11 +36,18 @@ test("[SYS-001/A2] a completed task cannot lack evidence and task-level runner v
   assert.match(command.stdout, /Roadmap valid:/);
 });
 
-test("[SYS-002/A1] only the four narrow prototype acceptance tests are retained", () => {
-  assert.deepEqual(readdirSync(new URL(".", import.meta.url)).filter(p=>p.endsWith(".test.ts")).sort(),[
+test("[SYS-002/A1] four small baseline tests survive without restoring the retired prototype suite", () => {
+  const names = readdirSync(new URL(".", import.meta.url)).filter(p=>p.endsWith(".test.ts"));
+  const baseline = [
     "development-cohort.test.ts","ink-signature.test.ts",
-    "retro-reference-score.test.ts","roadmap-contract.test.ts"
-  ]);
+    "retro-reference-score.test.ts","roadmap-contract.test.ts",
+  ];
+  for (const file of baseline) assert.ok(names.includes(file), "missing baseline " + file);
+  // New algorithm tests are expected as features are completed. Do not freeze
+  // the whole suite's file count at its initial prototype-reset value.
+  const retired = ["simulation.test.ts","storage.test.ts","care-growth-v7.test.ts",
+    "morphogenesis.test.ts","gameplay-engine.test.ts","retro-seed-development.test.ts"];
+  for (const file of retired) assert.ok(!names.includes(file), "retired suite restored: " + file);
 });
 
 test("[SYS-002/A2] CI only validates roadmap, types and focused tests, not redundant web/iOS exports", () => {
@@ -79,5 +92,5 @@ test("[SYS-002/A4] completed tasks automatically register their focused tests wi
   const result = spawnSync(process.execPath, ["scripts/roadmap.mjs","--verify-done","--dry-run"], {encoding:"utf8"});
   assert.equal(result.status, 0, result.stderr);
   assert.deepEqual(result.stdout.trim().split("\n"),expected);
-  assert.equal(expected.length,4, "prototyping baseline should remain small");
+  assert.ok(expected.length >= 4, "completed tasks must never erase the initial focused baseline");
 });

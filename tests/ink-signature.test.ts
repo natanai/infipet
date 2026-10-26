@@ -56,8 +56,3 @@ test("[OBS-001/A2] moving, repainting, relabeling and splitting a shape never ch
   const source = describeSource(compileSources(original, 1));
   assert.ok(classifySource(source).evidence.some(e => e.includes("connected ink")));
 });
-
-// Algorithm-specific observations retain a single focused baseline entrypoint
-// while the minimal prototype verification contract still caps .test.ts files.
-import "./alg-observation-affinity.spec";
-import "./alg-observation-robustness.spec";
