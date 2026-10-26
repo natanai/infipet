@@ -1,6 +1,7 @@
 import { hash, clamp, type SourceMode } from "./model";
 import {
   compileDevelopmentalGenotype,
+  compileExperimentalGenotype,
   type DevelopmentalGenotype,
   type GeneticCoordinates,
 } from "../genetics";
@@ -62,13 +63,40 @@ export const geneRandom = (key: string, channel: string) =>
 export function compileGenome(
   seed: string,
   mode: SourceMode = "infant",
-  coordinates?: GeneticCoordinates,
 ): InheritedGenome {
   const actual = String(seed ?? "").trim() || "little-world";
-  const fingerprint = hash(`${actual}|${mode}|life-v7`)
-    .toString(16)
-    .padStart(8, "0");
-  // Preserve every ordinary life-v7 allele when exploring a Lab neighborhood.
+  const fingerprint = seedFingerprint(actual, mode);
+  return assembleGenome(actual, mode, compileDevelopmentalGenotype(fingerprint));
+}
+
+/** Lab-only identity, distinct from the seed-only born-pet genome. */
+export function compileLabGenome(
+  seed: string,
+  mode: SourceMode,
+  coordinates: GeneticCoordinates,
+): InheritedGenome {
+  const actual = String(seed ?? "").trim() || "little-world";
+  const base = seedFingerprint(actual, mode);
+  return assembleGenome(actual, mode,
+    compileExperimentalGenotype(base, actual, mode, coordinates));
+}
+
+/**
+ * Unique persistent identity includes full seed and mode, avoiding the
+ * limited entropy of the legacy eight-hex-digit random sampling fingerprint.
+ */
+export function genomeCacheKey(genome: InheritedGenome): string {
+  return JSON.stringify([genome.version, genome.seed, genome.mode, genome.fingerprint]);
+}
+
+function seedFingerprint(seed: string, mode: SourceMode): string {
+  return hash(`${seed}|${mode}|life-v7`).toString(16).padStart(8, "0");
+}
+
+function assembleGenome(
+  actual: string, mode: SourceMode, genotype: DevelopmentalGenotype,
+): InheritedGenome {
+  const fingerprint = genotype.fingerprint;
   const legacySamplingKey = seedFingerprint(actual, mode);
   const r = (key: string) => geneRandom(legacySamplingKey, key);
   const lifeKind = (["direct", "sheltered", "metamorphic"] as const)[
@@ -84,7 +112,7 @@ export function compileGenome(
     seed: actual,
     mode,
     fingerprint,
-    genotype: compileDevelopmentalGenotype(fingerprint, coordinates),
+    genotype,
     pace: 0.7 + r("pace") * 0.6,
     sensitivity: 0.7 + r("sensitivity") * 0.6,
     protectionPreference: (
