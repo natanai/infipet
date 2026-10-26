@@ -308,7 +308,7 @@ export function iterativeGrowthAt(
     return cursor;
   }
   for (const t of original.tissues) tissueRoots.set(t.id, rootTissue(t.id));
-  const live: LiveSite[] = original.sites.map(s => ({
+  const live: LiveSite[] = original.sites.map((s): LiveSite => ({
     id: s.id, tissueId: s.tissueId, tipCellId: s.rootCellId,
     parentSiteId: null, activationHour: 0, depth: 0, extensions: 0,
     forks: 0, direction: norm(s.direction),
