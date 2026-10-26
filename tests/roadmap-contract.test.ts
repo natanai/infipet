@@ -8,6 +8,12 @@ const plan = JSON.parse(readFileSync(new URL("../roadmap/plan.json", import.meta
 
 test("[SYS-001/A1] canonical roadmap rejects duplicate IDs, missing dependencies and cycles", () => {
   assert.deepEqual(validateRoadmap(plan), []);
+  // Single-creature game semantics must remain explicit in the canonical plan.
+  assert.equal(plan.singleCreatureLifecycle.unitOfSimulation, "one continuously identifiable organism across its entire lifetime");
+  assert.match(plan.singleCreatureLifecycle.progression, /same pet/);
+  assert.match(plan.singleCreatureLifecycle.phylogeny, /developmental trajectories/);
+  assert.ok(plan.singleCreatureLifecycle.explicitlyOutOfScope.includes("breeding"));
+  assert.ok(plan.singleCreatureLifecycle.explicitlyOutOfScope.includes("parent-offspring inheritance"));
   const duplicate = structuredClone(plan);
   duplicate.tasks.push(structuredClone(duplicate.tasks[0]));
   assert.ok(validateRoadmap(duplicate, { checkFiles:false }).some(x => x.includes("duplicate task ID")));
