@@ -1,0 +1,113 @@
+{
+  "source": "NCBI Taxonomy Browser",
+  "accessedOn": "2026-10-25",
+  "sourceVersion": "live taxonomy viewed 2026-10-25; NCBI release number not provided",
+  "scope": "small manually verified lineage closure (not a complete taxonomy)",
+  "animalCrosswalk": {
+    "ottId": 691846,
+    "ncbiId": 33208,
+    "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=33208",
+    "statement": "OpenTree Metazoa (ott691846) is anchored below NCBI Opisthokonta (33154) by a taxon-name and NCBI ID crosswalk; the historical animal subtree is unchanged."
+  },
+  "nodes": [
+    {
+      "id": "ncbi:2759",
+      "parentId": null,
+      "name": "Eukaryota",
+      "rank": "domain",
+      "ncbiId": 2759,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2759",
+      "parentEdgeSourceUrl": null
+    },
+    {
+      "id": "ncbi:33154",
+      "parentId": "ncbi:2759",
+      "name": "Opisthokonta",
+      "rank": "no rank",
+      "ncbiId": 33154,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=33154",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=33154"
+    },
+    {
+      "id": "ncbi:33090",
+      "parentId": "ncbi:2759",
+      "name": "Viridiplantae",
+      "rank": "kingdom",
+      "ncbiId": 33090,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=33090",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=33090"
+    },
+    {
+      "id": "ncbi:4751",
+      "parentId": "ncbi:33154",
+      "name": "Fungi",
+      "rank": "kingdom",
+      "ncbiId": 4751,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=4751",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=4751"
+    },
+    {
+      "id": "ncbi:451864",
+      "parentId": "ncbi:4751",
+      "name": "Dikarya",
+      "rank": "subkingdom",
+      "ncbiId": 451864,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=451864",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=451864"
+    },
+    {
+      "id": "ncbi:4890",
+      "parentId": "ncbi:451864",
+      "name": "Ascomycota",
+      "rank": "phylum",
+      "ncbiId": 4890,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=4890",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=4890"
+    },
+    {
+      "id": "ncbi:5204",
+      "parentId": "ncbi:451864",
+      "name": "Basidiomycota",
+      "rank": "phylum",
+      "ncbiId": 5204,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=5204",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=5204"
+    },
+    {
+      "id": "ncbi:3041",
+      "parentId": "ncbi:33090",
+      "name": "Chlorophyta",
+      "rank": "phylum",
+      "ncbiId": 3041,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3041",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3041"
+    },
+    {
+      "id": "ncbi:35493",
+      "parentId": "ncbi:33090",
+      "name": "Streptophyta",
+      "rank": "phylum",
+      "ncbiId": 35493,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=35493",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=35493"
+    },
+    {
+      "id": "ncbi:131221",
+      "parentId": "ncbi:35493",
+      "name": "Streptophytina",
+      "rank": "subphylum",
+      "ncbiId": 131221,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=131221",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=131221"
+    },
+    {
+      "id": "ncbi:3193",
+      "parentId": "ncbi:131221",
+      "name": "Embryophyta",
+      "rank": "no rank",
+      "ncbiId": 3193,
+      "sourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3193",
+      "parentEdgeSourceUrl": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3193"
+    }
+  ]
+}
