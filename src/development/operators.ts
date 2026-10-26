@@ -121,18 +121,18 @@ export function applyMaterialOperators(
   };
   rebuild();
   const active = (id: string) => cells.filter(c => c.tissueId === id);
-  const canPlace = (x: number, y: number, tissueId: string) => {
+  const canPlace = (x: number, y: number, tissueId: string, allowedParentId?: string) => {
     if (!within(x, y) || protectedVoids.has(key(x, y)) ||
         cells.length - birth.sourceCells.length >= MATERIAL_LIMITS.addedCells) return false;
     // Adjacent unconnected islands cannot merge except through an explicit fuse.
     for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
-      if ((occupied.get(key(x + dx, y + dy)) ?? []).some(c => c.tissueId !== tissueId))
+      if ((occupied.get(key(x + dx, y + dy)) ?? []).some(c => c.tissueId !== tissueId && c.tissueId !== allowedParentId))
         return false;
     }
     return !occupied.has(key(x, y));
   };
-  const add = (cell: MaterialCell) => {
-    if (!canPlace(cell.x, cell.y, cell.tissueId)) return false;
+  const add = (cell: MaterialCell, allowedParentId?: string) => {
+    if (!canPlace(cell.x, cell.y, cell.tissueId, allowedParentId)) return false;
     cells.push(cell);
     occupied.set(key(cell.x, cell.y), [cell]);
     return true;
@@ -150,7 +150,7 @@ export function applyMaterialOperators(
       ((a.x - root.x) * direction.x + (a.y - root.y) * direction.y) ||
       a.id.localeCompare(b.id))[0];
   const line = (op: MaterialOperator, tissueId: string, root: MaterialCell,
-    direction: Point, steps: number) => {
+    direction: Point, steps: number, allowedParentId?: string) => {
     let tip = root;
     let x = tip.x, y = tip.y;
     const axis = unit(direction);
@@ -159,7 +159,7 @@ export function applyMaterialOperators(
       const nx = Math.round(x), ny = Math.round(y);
       if (nx === tip.x && ny === tip.y) continue;
       const produced = newMaterial(op, tissueId, nx, ny, [tip]);
-      if (!add(produced)) break;
+      if (!add(produced, allowedParentId)) break;
       tip = produced;
     }
     return tip;
@@ -192,7 +192,7 @@ export function applyMaterialOperators(
           : (signals.channels.symmetry.chirality - 0.5) * 0.8;
         const childAxis = rotated(axis, divergence);
         const beforeBranch = cells.length;
-        const tip = line(op, childId, root, childAxis, extent);
+        const tip = line(op, childId, root, childAxis, extent, tissue.id);
         if (cells.length === beforeBranch) continue;
         const rootSiteId = childId + "/site/0";
         tissues.push({
