@@ -8,13 +8,11 @@ import {
   validateChronologicalGraph,
   type ChronologicalProposal,
 } from "../src/integration/chronological-material";
-import { iterativeGrowthAt } from "../src/development/iterative-growth";
+import { iterativeGrowthAt, lifetimeRemodelingAt, type LifetimeRemodelingProgram } from "../src/development";
 import { inferFunctionalMaterial } from "../src/integration/functional-material";
 import { buildFunctionalGraph, poseFunctionalGraph } from "../src/simulation/locomotion";
 import type { Region } from "../src/simulation/development";
-import { lifetimeRemodelingAt } from "../src/development/lifetime-remodeling";
 import type { MaterialGraph, MaterialCell, MaterialDevelopmentProgram } from "../src/development";
-import type { LifetimeRemodelingProgram } from "../src/development/lifetime-remodeling";
 
 type State = Readonly<{ resourceCredits: number; genome: string }>;
 const source = (id: string, x: number, y: number): MaterialCell => ({
