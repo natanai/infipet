@@ -48,6 +48,7 @@ import {
   type RuntimeBiology,
 } from "../integration";
 import { materialDevelopmentAt, type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
+import { inferFunctionalMaterial, type MaterialMovementBinding } from "../integration/functional-material";
 import {
   compileSurfaceExpression,
   surfaceExpressionAt,
@@ -514,6 +515,27 @@ function poseAuthoredMaterial(
     x: a.x + bx * u - (by / bone) * side,
     y: a.y + by * u + (bx / bone) * side,
   };
+}
+/** Distributed two-segment flexure of an explicitly linked, grown tissue. */
+function poseLinkedMaterial(
+  p: Point, binding: MaterialMovementBinding, transform: PoseTransform,
+): Point {
+  if (!transform.joint) return transformLocomotionPoint(p, transform);
+  const dx = binding.tip.x - binding.anchor.x,
+    dy = binding.tip.y - binding.anchor.y;
+  const length = Math.hypot(dx, dy);
+  if (length < 0.001) return transformLocomotionPoint(p, transform);
+  const along = ((p.x - binding.anchor.x) * dx +
+    (p.y - binding.anchor.y) * dy) / (length * length);
+  const side = ((p.x - binding.anchor.x) * -dy +
+    (p.y - binding.anchor.y) * dx) / length;
+  const start = along < 0.5 ? transform.anchor : transform.joint;
+  const end = along < 0.5 ? transform.joint : transform.tip;
+  const t = along < 0.5 ? along * 2 : (along - 0.5) * 2;
+  const vx = end.x - start.x, vy = end.y - start.y;
+  const size = Math.max(0.001, Math.hypot(vx, vy));
+  return { x: start.x + vx * t - (vy / size) * side,
+    y: start.y + vy * t + (vx / size) * side };
 }
 function capability(
   parts: PartFrame[],
@@ -1044,6 +1066,7 @@ export function createSimulation(
     let parts: PartFrame[],
       movementMode: PetFrame["movementMode"] = "drift",
       family = "float",
+      physicalMovementCapable = false,
       groundY = 53,
       diagnostics: unknown;
     const birth =
@@ -1115,7 +1138,9 @@ export function createSimulation(
         parentId: r.parentId,
         spine: r.spine,
       }));
-      const rig = buildFunctionalGraph(nodes, state.preferred),
+      const growthGraph = materialAt(careAge * 24);
+      const materialRig = inferFunctionalMaterial(growthGraph, state.regions, nodes);
+      const rig = buildFunctionalGraph(materialRig.nodes, state.preferred),
         pose = poseFunctionalGraph(rig, {
           time,
           action,
@@ -1124,11 +1149,17 @@ export function createSimulation(
         });
       movementMode = pose.movementMode;
       family = pose.controllerFamily;
+      physicalMovementCapable =
+        ["quadruped", "biped", "crawler"].includes(family) &&
+        rig.limbs.filter(limb => limb.readiness >= 0.9).length >= 2;
       groundY = pose.groundY;
       diagnostics = {
         ...pose.diagnostics,
         contacts: pose.contacts,
         phase: pose.phase,
+        materialLocomotionEvidence: materialRig.evidence,
+        worldPosition: pose.worldPosition,
+        worldCameraX: pose.cameraWorldX,
       };
       if (posedAge !== dev) {
         posedPixels.clear();
@@ -1323,8 +1354,9 @@ export function createSimulation(
       // Transport NEW source-derived physical cells through each original
       // region's deformation and locomotion pose. Existing source pixels stay
       // owned and painted by the existing renderer; no second creature layer.
-      const growthGraph = materialAt(careAge * 24);
       const generated = growthGraph.cells.filter(cell => cell.provenance === "generated");
+      const locomotorBindings = new Map(materialRig.bindings.map(binding =>
+        [binding.tissueId, binding]));
       const newMaterialByTissue = new Map<string, MaterialCell[]>();
       for (const cell of generated) {
         const group = newMaterialByTissue.get(cell.tissueId) ?? [];
@@ -1341,6 +1373,9 @@ export function createSimulation(
             cell[region.sourceClip!.axis] < region.sourceClip!.max)));
         if (!carrier) continue;
         const transport = transformFor(carrier);
+        const functionalBinding = locomotorBindings.get(tissue.id);
+        const linkedTransform = functionalBinding
+          ? pose.transforms[functionalBinding.rigId] : undefined;
         const pixels = rasterCellQuads(cells
           .filter(cell => !carrier.sourceClip ||
             (cell[carrier.sourceClip.axis] >= carrier.sourceClip.min &&
@@ -1349,7 +1384,11 @@ export function createSimulation(
             cell,
             quad: cellCorners(cell).map(point => mapSourcePoint(carrier, point)),
             center: mapSourcePoint(carrier, cell),
-          })), transport ? point => poseAuthoredMaterial(carrier, point, transport) : undefined);
+          })), linkedTransform && functionalBinding
+            ? point => poseLinkedMaterial(point, functionalBinding, linkedTransform)
+            : transport
+              ? point => poseAuthoredMaterial(carrier, point, transport)
+              : undefined);
         if (!pixels.length) continue;
         const painted = uniquePixels(pixels.map(pixel => ({
           ...pixel,
@@ -1656,6 +1695,10 @@ export function createSimulation(
         groundY,
         diagnostics,
       };
+    // Nominal movement modes do not establish physical travel or aerodynamic lift.
+    capabilities.canMove = physicalMovementCapable;
+    capabilities.canWalk = physicalMovementCapable;
+    capabilities.canFly = false;
     if (egg)
       Object.assign(capabilities, {
         canMove: false,
