@@ -1,4 +1,10 @@
 import { clamp, compareText, hash, type Point } from "../simulation/model";
+import { genomeCacheKey } from "../simulation/genome";
+import {
+  CHAOS_VERSION,
+  seedChaos, chaoticProgress, chaoticTurn, validateMaterialChaos,
+  type MaterialChaos,
+} from "./chaos";
 import { grownMaterialCells } from "../simulation/material-growth";
 import type { Tissue } from "../simulation/material";
 import type { SourceAtlas } from "../simulation/source-atlas";
@@ -29,6 +35,8 @@ export type MaterialOperator = Readonly<{
   durationHours: number;
   /** Unitless inherited-expression multiplier, clamped to [0,1]. */
   strength: number;
+  /** Optional independently verifiable chaotic rhythm and source-tip steering. */
+  chaos?: MaterialChaos;
 }>;
 export type MaterialDevelopmentProgram = Readonly<{
   version: 1;
@@ -106,6 +114,7 @@ export function applyMaterialOperators(
         op.durationHours <= 0 || !Number.isFinite(op.strength) ||
         op.strength < 0 || op.strength > 1)
       throw new RangeError("Invalid or repeated material operator");
+    if (op.chaos) validateMaterialChaos(op.chaos);
     ids.add(op.id);
   }
   const cells = [...birth.cells], tissues = [...birth.tissues], sites = [...birth.sites];
@@ -157,7 +166,11 @@ export function applyMaterialOperators(
     let x = tip.x, y = tip.y;
     const axis = unit(direction);
     for (let i = 0; i < steps; i++) {
-      x += axis.x; y += axis.y;
+      const turn = op.chaos
+        ? chaoticTurn(op.chaos, Math.floor(op.atHour) + i)
+        : 0;
+      const steered = rotated(axis, turn);
+      x += steered.x; y += steered.y;
       const nx = Math.round(x), ny = Math.round(y);
       if (nx === tip.x && ny === tip.y) continue;
       const produced = newMaterial(op, tissueId, nx, ny, [tip]);
@@ -171,7 +184,10 @@ export function applyMaterialOperators(
     const tissue = tissues.find(t => t.id === op.tissueId);
     if (!tissue || !active(tissue.id).length) continue;
     const completion = clamp((atHour - op.atHour) / op.durationHours, 0, 1);
-    const effect = op.strength * completion * potential(op.kind, signals);
+    const grownFraction = op.chaos
+      ? chaoticProgress(op.chaos, op.atHour, op.durationHours, atHour)
+      : completion;
+    const effect = op.strength * grownFraction * potential(op.kind, signals);
     if (effect <= 0) continue;
     const before = new Set(cells.map(c => c.id));
     const removed: string[] = [];
@@ -332,24 +348,43 @@ export function compileMaterialDevelopment(
   for (const [index, tissue] of ordered.entries()) {
     const siteId = tissue.growthSiteIds[0];
     const slot = index * 0.25;
-    operations.push({ id: "life/" + index + "/elongate", tissueId: tissue.id,
+    const chaosFor = (id: string): MaterialChaos => ({
+      version: CHAOS_VERSION,
+      initial: seedChaos([
+        genomeCacheKey(genome), source.sourceFingerprint, tissue.id,
+        siteId ?? "", id,
+      ].join("|")),
+      rateAmplitude: 0.12 + 0.28 * signals.channels.growth.rate,
+      turnAmplitude: 0.15 + 0.45 * signals.channels.branching.divergence,
+    });
+    const elongateId = "life/" + index + "/elongate";
+    operations.push({ id: elongateId, tissueId: tissue.id,
       kind: "elongate", siteId, atHour: 10 + slot, durationHours: 25,
-      strength: clamp(signals.channels.growth.elongation, 0, 1) });
-    operations.push({ id: "life/" + index + "/expand", tissueId: tissue.id,
+      strength: clamp(signals.channels.growth.elongation, 0, 1),
+      chaos: chaosFor(elongateId) });
+    const expandId = "life/" + index + "/expand";
+    operations.push({ id: expandId, tissueId: tissue.id,
       kind: "expand", atHour: 35 + slot, durationHours: 35,
-      strength: clamp(signals.channels.growth.expansion, 0, 1) });
+      strength: clamp(signals.channels.growth.expansion, 0, 1),
+      chaos: chaosFor(expandId) });
     if (source.tissues.length <= 12 && tissue.sourceCellIds.length >= 3) {
       const ready = Math.max(signals.channels.branching.initiation,
         signals.channels.appendages.initiation);
-      if (ready > 0.35) operations.push({
-        id: "life/" + index + "/branch", tissueId: tissue.id, siteId,
-        kind: ready === signals.channels.branching.initiation ? "branch" : "bud",
-        atHour: 70 + slot, durationHours: 45, strength: ready,
-      });
+      if (ready > 0.35) {
+        const branchId = "life/" + index + "/branch";
+        operations.push({
+          id: branchId, tissueId: tissue.id, siteId,
+          kind: ready === signals.channels.branching.initiation ? "branch" : "bud",
+          atHour: 70 + slot, durationHours: 45, strength: ready,
+          chaos: chaosFor(branchId),
+        });
+      }
     }
-    operations.push({ id: "life/" + index + "/reinforce", tissueId: tissue.id,
+    const reinforceId = "life/" + index + "/reinforce";
+    operations.push({ id: reinforceId, tissueId: tissue.id,
       kind: "reinforce", atHour: 110 + slot, durationHours: 80,
-      strength: signals.channels.support.rigidity });
+      strength: signals.channels.support.rigidity,
+      chaos: chaosFor(reinforceId) });
   }
   const fingerprint = hash(JSON.stringify([source.sourceFingerprint,
     genome.genotype.fingerprint, prior?.version ?? null, prior?.taxonId ?? null,
