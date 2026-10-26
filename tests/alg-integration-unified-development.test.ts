@@ -1,3 +1,19 @@
+import {
+  createUnifiedMaterialTimeline, chaosWeightedCareHours,
+  cumulativeChaosCareExpression, recordedIterativeResources,
+} from "../src/integration/unified-runtime";
+import {
+  compileMaterialDevelopment, materialOperatorPotential,
+  materialOperatorChaosRate, materialSourceAncestry,
+  type MaterialDevelopmentProgram as ActualMaterialProgram,
+  type MaterialOperator,
+} from "../src/development";
+import {
+  createCareOperatorChronology, type EnvironmentalHistory,
+  type EnvironmentPressure,
+} from "../src/environment";
+import { materialInputs, drawing } from "./alg-development-fixtures";
+import { createSimulation } from "../src/simulation";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -276,4 +292,143 @@ test("[INT-001/A3] source-derived DEV-003 child tissue IDs can become functional
     inferFunctionalMaterial(rigid, [region], [node]).nodes);
   assert.equal(poseFunctionalGraph(rigidRig, {
     action: "move", time: 5 }).diagnostics.worldAdvance, 0);
+});
+
+function realProgram(rows: string[], seed: string, kind: MaterialOperator["kind"]="elongate",
+  durationHours=4) {
+  const {atlas,genome}=materialInputs(drawing(rows),seed);
+  const original=compileMaterialDevelopment(atlas,genome);
+  const site=original.source.sites[0];
+  const operator:MaterialOperator={
+    id:"test/"+kind,tissueId:site?.tissueId??"",
+    siteId:site?.id,kind,
+    atHour:0,durationHours,strength:1,
+    direction:{x:1,y:0},
+  };
+  const program:ActualMaterialProgram={
+    ...original,operators:site?[operator]:[],
+    fingerprint:original.fingerprint+"/int-real-"+kind,
+  };
+  return {program,genome,operator};
+}
+const coords=(cells:readonly {x:number;y:number}[]) =>
+  cells.map(c=>[c.x,c.y].join(",")).sort();
+
+test("[INT-001/A1] real material and iterative engines share persistent source-connected cells and exact replay",()=>{
+  const {program,genome}=realProgram(["####","####"],"INT-REAL-4", "elongate",2);
+  const timeline=createUnifiedMaterialTimeline({program,genome});
+  const t0=timeline.at(0),t1=timeline.at(1),t2=timeline.at(2),t3=timeline.at(3);
+  assert.deepEqual(t0.graph.cells,program.source.cells);
+  assert.equal(t2.material.records.length,1);
+  assert.ok(t2.iterative.ledger.length===2);
+  assert.ok(t3.graph.cells.length>=t1.graph.cells.length);
+  assert.equal(new Set(t3.graph.events.map(e=>e.id)).size,t3.graph.events.length);
+  assert.ok(t3.graph.cells.every(c=>materialSourceAncestry(t3.graph,c.id).length>0));
+  for(const l of t3.iterative.ledger) {
+    assert.equal(l.spent+l.unspent,l.available);
+    assert.equal(l.bySite.reduce((s,v)=>s+v.spent,0),l.spent);
+  }
+  assert.deepEqual(timeline.at(3),timeline.replay(3));
+  assert.deepEqual(timeline.at(1),t1);
+  assert.deepEqual(timeline.at(0),t0);
+  assert.deepEqual(timeline.at(2),t2);
+  assert.deepEqual(JSON.parse(JSON.stringify(t3.graph)),t3.graph);
+  assert.ok(timeline.checkpointCount()<=16);
+});
+
+test("[INT-001/A1] material quantum appears at earned threshold, not query cutoff",()=>{
+  const {program,genome,operator}=realProgram(["###"],"INT-THRESHOLD-9","elongate",2);
+  const potential=materialOperatorPotential(operator.kind,program.signals);
+  const expected=operator.durationHours/(7*operator.strength*potential);
+  assert.ok(expected>0&&expected<2);
+  const timeline=createUnifiedMaterialTimeline({program,genome});
+  const before=timeline.at(expected-1e-5);
+  const after=timeline.at(expected+1e-5);
+  const beforeOp=before.graph.events.filter(e=>e.id.startsWith("operator/"));
+  const afterOp=after.graph.events.filter(e=>e.id.startsWith("operator/"));
+  assert.equal(beforeOp.length,0,
+    "disallow committing first operator quantum before independently predicted threshold");
+  assert.equal(afterOp.length,1,
+    "commit physical threshold with no missed/duplicated first unit");
+  const date=afterOp[0].atHour;
+  assert.ok(Math.abs(date-expected)<2e-6,
+    "accepted event must be timestamped at its earned threshold, not at requested frame age");
+  assert.deepEqual(timeline.at(expected+1e-5),after);
+  assert.deepEqual(timeline.replay(expected+1e-5),after);
+});
+
+test("[INT-001/A3] chaos-weighted exact care exposure uses unstrengthened expressed hours, including fractional changes",()=>{
+  const {program,genome,operator}=realProgram(["###"],"INT-CHAOS-44","elongate",4);
+  const { seedChaos, CHAOS_VERSION } = require("../src/development/chaos") as
+    typeof import("../src/development/chaos");
+  const op:MaterialOperator={...operator,strength:0.65,
+    chaos:{version:CHAOS_VERSION,initial:seedChaos("INT-CHAOS-44"),
+      rateAmplitude:0.65,turnAmplitude:0}};
+  const p:ActualMaterialProgram={...program,operators:[op],fingerprint:program.fingerprint+"/chaos"};
+  const sensitivity=genome.genotype.channels.sensitivity.nutrition;
+  const q1=1-0.6*sensitivity;
+  const emptyNeeds=[0.75,0.75,0.75,0.75,0.75,0.75];
+  const makePressure=(hour:number):EnvironmentPressure=>{
+    const nutrition=hour<0.5?1:0.4;
+    return {
+      atHour:hour,exposure:{nutrition,activity:0.5,threat:0},
+      physiology:{nutrition,restRecovery:1,physicalFitness:0.5,
+        resourceSecurity:0.75,persistentStress:0},
+      cumulative:{nutritionDeficitDays:0,nutritionOpportunityDays:0,
+        nutritionMean:nutrition,restDeficitDays:0,safetyDeficitDays:0,
+        trainingSessions:0,battles:0},
+      provenance:{nutrition:"sampled-hunger",latestCareSampleHour:0,
+        observedCommands:hour>=0.5?1:0},
+    };
+  };
+  const history:EnvironmentalHistory={
+    version:1,maxHour:4,
+    samples:[{hour:0,nutrition:1,needs:emptyNeeds}],
+    commands:[{id:"fractional",atHour:0.5,accepted:true,
+      command:{type:"start-game",game:"training"}}],
+    atHour:makePressure,eventsThrough:()=>[],
+  };
+  const care=createCareOperatorChronology(p,history,genome.genotype);
+  const r0=materialOperatorChaosRate(op,0);
+  const r1=materialOperatorChaosRate(op,1);
+  const predicted=0.5*r0+0.5*q1*r0+q1*r1;
+  const actual=chaosWeightedCareHours(op,0,2,care);
+  assert.ok(Math.abs(actual-predicted)<1e-10,
+    "independent two-hour piecewise integral is required");
+  assert.ok(Math.abs(actual-(chaosWeightedCareHours(op,0,0.5,care)+
+    chaosWeightedCareHours(op,0.5,1,care)+
+    chaosWeightedCareHours(op,1,2,care)))<1e-10);
+  const credit=care.interval(0,2)[0];
+  assert.ok(Math.abs(credit.strengthHours-0.65*credit.expressedHours)<1e-10);
+  assert.ok(Math.abs(cumulativeChaosCareExpression(op,2,care)-actual/4)<1e-10);
+  assert.ok(Math.abs(actual-credit.progressDelta)>1e-3,
+    "must not pass progressDelta as material's cumulative expression");
+  assert.deepEqual(createUnifiedMaterialTimeline({program:p,genome,care,history}).at(0).graph,p.source);
+  const complete=createUnifiedMaterialTimeline({program:p,genome,care,history});
+  assert.deepEqual(complete.at(1),complete.replay(1));
+  assert.deepEqual(complete.at(0.5),complete.replay(0.5));
+  assert.deepEqual(complete.at(2),complete.replay(2));
+  assert.throws(()=>complete.at(4.5),/Cannot extrapolate/);
+  const changed:EnvironmentalHistory={...history,atHour:hour=>({
+    ...makePressure(hour),
+    exposure:{nutrition:1,activity:0.5,threat:0},
+  })};
+  const other=createCareOperatorChronology(p,changed,genome.genotype);
+  assert.ok(chaosWeightedCareHours(op,0,2,other)>actual);
+  assert.deepEqual(createUnifiedMaterialTimeline({program:p,genome,care,history}).at(0).graph,
+    createUnifiedMaterialTimeline({program:p,genome,care:other,history:changed}).at(0).graph);
+});
+
+test("[INT-001/A2] live frame consumes unified physical chronology without changing original ink at birth",()=>{
+  const parts=drawing(["....###....","...#####...","....###....",".....#.....",".....#....."]);
+  const simulation=createSimulation(parts,"INT-LIVE-143");
+  const atBirth=simulation.frameAt(0);
+  const grown=simulation.frameAt(0.2,{time:1,action:"idle"});
+  assert.ok(grown.parts.every(p=>p.pixels.every(x=>Number.isInteger(x.x)&&Number.isInteger(x.y))));
+  const diag=(grown.interaction.diagnostics as Record<string,any>).physicalMaterial;
+  assert.equal(typeof diag?.sourceFingerprint,"string");
+  assert.ok(diag.graphEvents>=0);
+  const after=simulation.frameAt(0.2,{time:1,action:"idle"});
+  assert.deepEqual(after,grown,"repeated visible frames are replay deterministic");
+  assert.deepEqual(simulation.frameAt(0),atBirth);
 });
