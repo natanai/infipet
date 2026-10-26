@@ -141,7 +141,7 @@
         "OBS-001",
         "PHY-001"
       ],
-      "status": "todo",
+      "status": "blocked",
       "acceptance": [
         {
           "id": "A1",
@@ -156,12 +156,13 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/placement-uncertainty.test.ts",
-        "command": "pnpm exec tsx --test tests/placement-uncertainty.test.ts",
+        "testPath": "tests/alg-observation-affinity.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-observation-affinity.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/lineage/index.ts"
+        "src/lineage/ink-signature.ts",
+        "src/lineage/source-classifier.ts"
       ],
       "algorithmId": "observation"
     },
@@ -173,7 +174,7 @@
       "dependsOn": [
         "OBS-002"
       ],
-      "status": "todo",
+      "status": "blocked",
       "acceptance": [
         {
           "id": "A1",
@@ -188,12 +189,12 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/shape-robustness.test.ts",
-        "command": "pnpm exec tsx --test tests/shape-robustness.test.ts",
+        "testPath": "tests/alg-observation-robustness.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-observation-robustness.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/lineage/ink-signature.ts"
+        "src/inference/robustness.ts"
       ],
       "algorithmId": "observation"
     },
