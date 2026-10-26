@@ -203,7 +203,7 @@
       "id": "PHY-001",
       "phase": 2,
       "area": "Phylogeny",
-      "title": "Introduce a verified multi-kingdom tree rooted beyond Metazoa",
+      "title": "Establish the cross-kingdom phylogenetic possibility map for one pet's growth",
       "dependsOn": [
         "OBS-001"
       ],
@@ -231,7 +231,7 @@
       ],
       "algorithmId": "ancestry",
       "interfaceContract": {
-        "purpose": "Ontogenetic developmental prior for one fixed birth ancestry; no phylogenetic movement, reproduction or population evolution.",
+        "purpose": "Scientific ancestry is sourced reference data. Single-pet developmental affinities may change across the possibility map without changing any scientific reference parent edge, breeding, or offspring.",
         "exports": [
           "ancestry nodes: id, parentId, children, rank",
           "external IDs: OTT/NCBI provenance per node",
@@ -241,8 +241,9 @@
           "candidate lineage/taxon ID(s)"
         ],
         "outputs": [
-          "machine-readable provenance",
-          "fixed ancestry and developmental capabilities"
+          "versioned scientific taxonomy and provenance",
+          "taxon-specific biological trait evidence",
+          "non-exclusionary anatomical possibilities and lifetime waypoint contract"
         ],
         "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
       }
@@ -251,7 +252,7 @@
       "id": "PHY-002",
       "phase": 2,
       "area": "Phylogeny",
-      "title": "Compile inherited biological trait constraints from ancestry",
+      "title": "Compile ancestral anatomical constraints for single-creature developmental paths",
       "dependsOn": [
         "PHY-001"
       ],
@@ -259,12 +260,12 @@
       "acceptance": [
         {
           "id": "A1",
-          "requirement": "Child traits inherit and may refine documented ancestral constraints",
+          "requirement": "Scientific reference taxa inherit and may refine ancestral biological constraints; these are taxonomy relationships, not reproduction between virtual pets",
           "oracle": "focused-node-test"
         },
         {
           "id": "A2",
-          "requirement": "No individual lifetime transition changes established ancestry",
+          "requirement": "An individual pet can traverse changing developmental affinities along the possibility map without breeding, producing offspring, or asserting that its scientific ancestry literally changed",
           "oracle": "focused-node-test"
         }
       ],
@@ -280,7 +281,7 @@
       ],
       "algorithmId": "ancestry",
       "interfaceContract": {
-        "purpose": "Ontogenetic developmental prior for one fixed birth ancestry; no phylogenetic movement, reproduction or population evolution.",
+        "purpose": "Scientific ancestry is sourced reference data. Single-pet developmental affinities may change across the possibility map without changing any scientific reference parent edge, breeding, or offspring.",
         "exports": [
           "resolveBiologicalConstraints(id): DevelopmentPrior",
           "candidateBirthPriors(ids, fictionalBranches?) to supply drawing inference and seed genetics"
@@ -289,8 +290,9 @@
           "candidate lineage/taxon ID(s)"
         ],
         "outputs": [
-          "machine-readable provenance",
-          "fixed ancestry and developmental capabilities"
+          "versioned scientific taxonomy and provenance",
+          "taxon-specific biological trait evidence",
+          "non-exclusionary anatomical possibilities and lifetime waypoint contract"
         ],
         "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
       }
@@ -299,7 +301,7 @@
       "id": "PHY-003",
       "phase": 2,
       "area": "Phylogeny",
-      "title": "Add fantasy extensions without presenting them as scientific taxa",
+      "title": "Support speculative single-pet developmental destinations, separated from scientific taxa",
       "dependsOn": [
         "PHY-002"
       ],
@@ -327,7 +329,7 @@
       ],
       "algorithmId": "ancestry",
       "interfaceContract": {
-        "purpose": "Ontogenetic developmental prior for one fixed birth ancestry; no phylogenetic movement, reproduction or population evolution.",
+        "purpose": "Scientific ancestry is sourced reference data. Single-pet developmental affinities may change across the possibility map without changing any scientific reference parent edge, breeding, or offspring.",
         "exports": [
           "createPhylogenyView(fictionalBranches): PhylogenyView",
           "fiction: namespace, explicit fictional provenance, same operator vocabulary"
@@ -337,8 +339,9 @@
           "explicit speculative branch definitions"
         ],
         "outputs": [
-          "machine-readable provenance",
-          "fixed ancestry and developmental capabilities"
+          "versioned scientific taxonomy and provenance",
+          "taxon-specific biological trait evidence",
+          "non-exclusionary anatomical possibilities and lifetime waypoint contract"
         ],
         "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
       }
@@ -932,7 +935,7 @@
     {
       "id": "ancestry",
       "name": "Provenance-backed phylogeny",
-      "purpose": "Constrain single-pet ontogenetic changes from fixed birth ancestry; no reproduction or population-level evolution.",
+      "purpose": "Supply a verifiable phylogenetic reference and non-exclusive anatomical inspirations for one pet's lifetime; no reproductive evolution or changes to actual reference relationships.",
       "inputs": [
         "externally verified NCBI taxonomy lineage records and historical OTT animal catalog",
         "documented broad developmental trait evidence",
