@@ -414,7 +414,7 @@ import {
   stepIterativeChronology, type IterativeChronologyState,
 } from "../src/development/iterative-chronology";
 import { applyMaterialOperators } from "../src/development/operators";
-import { stepChaos } from "../src/development/chaos";
+import { chaosAt, seedChaos } from "../src/development/chaos";
 
 const chronoExposure = (atHour: number, resources = 0.25,
   light: IterativeExposure["light"] = null): IterativeExposure =>
@@ -479,8 +479,8 @@ test("[INT-001] exact independent hourly oracle and pure time-state continuity",
       [tip.x, tip.y - k - 1]));
     assert.equal(state.nextHour, n + 1);
     assert.deepEqual(state.sites[0].orbit,
-      stepChaos(n === 0 ? firstAgain.state.sites[0].orbit :
-        state.sites[0].orbit) === null ? {} : state.sites[0].orbit);
+      chaosAt(seedChaos(birth.fingerprint + "|" + state.sites[0].id), n + 1),
+      "exact integer-torus recurrence is independent of rendering and steps");
   }
   const replay = replayIterativeChronology(birth,
     [chronoExposure(0)], 4);
