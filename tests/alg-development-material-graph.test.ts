@@ -30,11 +30,9 @@ test("[DEV-001/A1] every cell has original authored source ancestry, including g
   }
   const cavity = createMaterialGraph(materialInputs(fixtures.cavity).atlas);
   assert.ok(cavity.protectedVoids.includes("18,18"));
-  const late = materialDevelopmentAt(compileMaterialDevelopment(
-    ...Object.values(materialInputs(fixtures.cavity)) as [
-      ReturnType<typeof materialInputs>["atlas"],
-      ReturnType<typeof materialInputs>["genome"],
-    ]), 240);
+  const cavityInput = materialInputs(fixtures.cavity);
+  const late = materialDevelopmentAt(
+    compileMaterialDevelopment(cavityInput.atlas, cavityInput.genome), 240);
   assert.ok(late.cells.every(c => !c.provenance.startsWith("generated") ||
     !cavity.protectedVoids.includes(c.x + "," + c.y)));
   assert.equal(createMaterialGraph(materialInputs(fixtures.empty).atlas).cells.length, 0);
