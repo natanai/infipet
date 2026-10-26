@@ -77,7 +77,7 @@ test("incremental unit IDs are unique and cumulative credit only creates newly e
   assert.deepEqual(d.graph.cells.filter(x=>x.provenance==="generated").length,3);
   integrity(d.graph,graph);
   assert.throws(()=>stepMaterialOperatorChronology(d.graph,program,d.state,
-    interval(program,4,5,[1])),/retroactive|Noncausal/);
+    interval(program,5,6,[1])),/retroactive|Noncausal/);
 });
 
 test("live relocated tip anchors future growth; earlier events and their coordinates remain unchanged",()=>{
