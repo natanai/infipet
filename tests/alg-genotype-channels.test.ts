@@ -1,76 +1,102 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { compileGenome, geneRandom, materialGene } from "../src/simulation/genome";
 import {
-  DEVELOPMENTAL_CHANNELS,
-  expressGenotype,
-  expressEnvironmentalResponse,
-  type AncestralTraitConstraints,
+  compileGenome, compileLabGenome, genomeCacheKey,
+  geneRandom, materialGene,
+} from "../src/simulation/genome";
+import {
+  DEVELOPMENTAL_CHANNELS, DEVELOPMENT_CONSUMERS,
+  adaptDevelopmentPrior, expressGenotype,
+  expressEnvironmentalResponse, compileDevelopmentGeneticSignals,
+  type ProposedDevelopmentPrior,
 } from "../src/genetics";
 
-function sampleBounds(): AncestralTraitConstraints {
-  // Synthetic contract fixture, not an evidence-backed biological clade.
+/** Mirrors PR #7's proposed categorical DevelopmentPrior. Not scientific fixture data. */
+function fixturePrior(): ProposedDevelopmentPrior {
   return {
-    schemaVersion: 1,
-    lineageNodeId: "fixture:restricted-body-plan",
-    provenance: "fictional",
-    bounds: {
-      growth: { elongation: { min: 0.15, max: 0.2 } },
-      support: { rigidity: { min: 0.8, max: 0.9 } },
-      pigmentation: { contrast: { min: 0.25, max: 0.3 } },
+    taxonId: "fiction:example",
+    fixedAncestry: ["fiction:example", "ncbi:3193", "ncbi:33090", "ncbi:2759"],
+    version: "infipet-developmental-priors-v1",
+    includesFiction: true,
+    constraints: {
+      growthPattern: {
+        allowed: ["meristem-directed"],
+        introducedBy: "ncbi:3193",
+        refinedBy: [],
+        evidenceUrls: ["https://example.org/fixture-only"],
+      },
     },
+    operatorHints: [
+      { operator: "tip-extension", provenance: "scientific",
+        introducedBy: "ncbi:3193", evidenceUrl: "https://example.org/fixture-only" },
+      { operator: "branch-axis", provenance: "fictional",
+        introducedBy: "fiction:example", evidenceUrl: "" },
+    ],
   };
 }
 
-test("[GEN-001/A1] inherited genome is deterministic, alphanumeric-seed compatible and birth-only", () => {
+test("[GEN-001/A1] ordinary alphanumeric seeds replay and Lab coordinates cannot alias identity or cache", () => {
   const a = compileGenome("Q9A-003X", "egg");
   assert.deepEqual(a, compileGenome("Q9A-003X", "egg"));
   assert.equal(a.version, 7);
   assert.equal(a.genotype.schemaVersion, 1);
-  assert.equal(a.fingerprint, compileGenome("Q9A-003X", "egg", { growth: 0.1 }).fingerprint);
-  assert.equal(a.pace, compileGenome("Q9A-003X", "egg", { growth: 0.1 }).pace);
-  assert.notDeepEqual(a.genotype.channels, compileGenome("Q9A-003Y", "egg").genotype.channels);
+  assert.match(a.fingerprint, /^[a-f0-9]{8}$/);
+  assert.equal(a.genotype.fingerprint, a.fingerprint);
   assert.equal(a.seed, "Q9A-003X");
   assert.equal(compileGenome("   ").seed, "little-world");
   assert.equal(geneRandom(a.fingerprint, "pace"), geneRandom(a.fingerprint, "pace"));
   assert.equal(materialGene(a, "pigment", 0.2, 0.2), materialGene(a, "pigment", 0.2, 0.2));
-  // Compiler does not accept artwork, names, historical reference identities or care.
-  assert.deepEqual(
-    Object.keys(a.genotype.channels).sort(), Object.keys(DEVELOPMENTAL_CHANNELS).sort(),
-  );
+  assert.notDeepEqual(a.genotype.channels, compileGenome("Q9A-003Y", "egg").genotype.channels);
+  assert.deepEqual(Object.keys(a.genotype.channels).sort(), Object.keys(DEVELOPMENTAL_CHANNELS).sort());
+
+  const x = compileLabGenome("Q9A-003X", "egg", { growth: 0.1 });
+  const y = compileLabGenome("Q9A-003X", "egg", { growth: 0.2 });
+  assert.notEqual(x.fingerprint, y.fingerprint);
+  assert.notEqual(x.genotype.fingerprint, y.genotype.fingerprint);
+  assert.notEqual(genomeCacheKey(x), genomeCacheKey(y));
+  assert.notEqual(genomeCacheKey(a), genomeCacheKey(x));
+  assert.notDeepEqual(x.genotype.channels.growth, y.genotype.channels.growth);
+  assert.deepEqual(x, compileLabGenome("Q9A-003X", "egg", { growth: 0.1 }));
+  assert.equal(a.pace, x.pace, "unrelated legacy genes keep their deterministic seed values");
+  assert.throws(() => compileLabGenome("Q", "infant", { growth: -0.1 }), /Invalid genetic coordinate/);
+  assert.throws(() => compileLabGenome("Q", "infant", { growth: Number.NaN }), /Invalid genetic coordinate/);
 });
 
-test("[GEN-001/A2] synthetic lineage ranges constrain growth, support and pigment without genetic mutation", () => {
+test("[GEN-001/A2] projected phylogeny categories preserve unknown, evidence provenance and genome", () => {
   const genome = compileGenome("LINEAGE-WITNESS");
   const before = JSON.stringify(genome);
-  const constraints = sampleBounds();
-  const expression = expressGenotype(genome.genotype, constraints);
-  for (const [group, trait, min, max] of [
-    ["growth", "elongation", 0.15, 0.2],
-    ["support", "rigidity", 0.8, 0.9],
-    ["pigmentation", "contrast", 0.25, 0.3],
-  ] as const) {
-    const value = (expression.channels[group] as Record<string, number>)[trait];
-    assert.ok(value >= min && value <= max, group + "." + trait + " not bounded: " + value);
-  }
-  assert.ok(expression.adjustments.length >= 2);
-  assert.equal(expression.lineage?.nodeId, "fixture:restricted-body-plan");
-  assert.equal(JSON.stringify(genome), before);
-  assert.deepEqual(expressGenotype(genome.genotype).channels, genome.genotype.channels);
-  assert.throws(() => expressGenotype(genome.genotype, {
-    ...constraints, bounds: { growth: { elongation: { min: 0.8, max: 0.3 } } },
-  }), /Invalid ancestral/);
-  assert.throws(() => expressGenotype(genome.genotype, {
-    schemaVersion: 1, lineageNodeId: "unresolved", provenance: "unresolved",
-    bounds: constraints.bounds,
-  }), /Unresolved ancestry/);
+  const prior = adaptDevelopmentPrior(fixturePrior());
+  assert.equal(prior.traits.organization.status, "unknown");
+  assert.equal(prior.traits.growthPattern.status, "supported");
+  assert.equal(prior.operators["surface-expansion"].status, "unknown");
+  assert.equal(prior.operators["branch-axis"].status, "supported");
+  if (prior.operators["branch-axis"].status === "supported")
+    assert.equal(prior.operators["branch-axis"].sources[0].provenance, "fictional");
+  if (prior.operators["tip-extension"].status === "supported")
+    assert.equal(prior.operators["tip-extension"].sources[0].provenance, "scientific");
+  const expression = expressGenotype(genome.genotype, prior);
+  assert.deepEqual(expression.channels, genome.genotype.channels,
+    "categorical biological priors do not justify numeric clamping");
+  const signals = compileDevelopmentGeneticSignals(expression);
+  assert.equal(signals.operators["branch-axis"].potential, expression.channels.branching.initiation);
+  assert.equal(signals.operators["surface-expansion"].evidence.status, "unknown");
+  assert.deepEqual(
+    Object.keys(DEVELOPMENT_CONSUMERS).sort(), Object.keys(DEVELOPMENTAL_CHANNELS).sort());
+  for (const group of Object.keys(DEVELOPMENTAL_CHANNELS) as (keyof typeof DEVELOPMENTAL_CHANNELS)[])
+    assert.deepEqual(
+      Object.keys(DEVELOPMENT_CONSUMERS[group]).sort(),
+      Object.keys(DEVELOPMENTAL_CHANNELS[group]).sort(),
+    );
   const first = expressEnvironmentalResponse(
-    expression, { nutrition: 1, activity: 1, threat: 0 }, 20,
-  );
+    expression, { nutrition: 1, activity: 1, threat: 0 }, 20);
   const second = expressEnvironmentalResponse(
-    expression, { nutrition: 0, activity: 0, threat: 1 }, 20,
-  );
+    expression, { nutrition: 0, activity: 0, threat: 1 }, 20);
   assert.ok(first.effectiveGrowthRate >= second.effectiveGrowthRate);
   assert.ok(first.effectiveSupport >= second.effectiveSupport);
   assert.equal(JSON.stringify(genome), before);
+  assert.throws(() => adaptDevelopmentPrior({
+    ...fixturePrior(),
+    operatorHints: [{ operator: "tip-extension", introducedBy: "ncbi:3193",
+      provenance: "scientific", evidenceUrl: "" }],
+  }), /Unverified prior operator/);
 });

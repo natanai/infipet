@@ -1064,7 +1064,9 @@
     "reporting": "Prefer booleans, numeric hashes, invariants and narrow metric summaries; never commit screenshot batches, historical build logs or generated test matrices."
   },
   "baselineTests": [
-    "tests/retro-reference-score.test.ts"
+    "tests/retro-reference-score.test.ts",
+    "tests/alg-genotype-channels.test.ts",
+    "tests/alg-genotype-neighborhood.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",

@@ -2,84 +2,158 @@ import {
   DEVELOPMENTAL_CHANNELS,
   type DevelopmentalChannels,
   type DevelopmentalGenotype,
-  type GeneticGroup,
 } from "./channels";
 
-/** Proposed PHY-002 handoff; only provenance-backed ancestry can supply verified bounds. */
-export type BiologicalTraitRange = Readonly<{ min: number; max: number }>;
-export type BiologicalTraitBounds = {
-  readonly [G in GeneticGroup]?: Partial<
-    Record<keyof (typeof DEVELOPMENTAL_CHANNELS)[G], BiologicalTraitRange>
-  >;
-};
+/**
+ * Structural projection of Agent 1's proposed src/phylogeny/traits.ts
+ * DevelopmentPrior (algorithm/phylogeny, PR #7). Not authoritative or
+ * integration-verified until PHY-002 reaches main and is tested directly.
+ *
+ * No scientific numerical expression limits exist in that public contract.
+ * Its allowed categorical states are priors, not impossible/possible verdicts.
+ */
+export type PriorTraitDimension = "organization" | "wallMaterial" | "growthPattern";
+export type PriorOperator =
+  | "tip-extension" | "branch-axis" | "surface-expansion"
+  | "tissue-remodeling" | "appendage-extension" | "wall-deposition";
+export type PriorProvenance = "scientific" | "fictional";
+export type ProposedDevelopmentPrior = Readonly<{
+  taxonId: string;
+  fixedAncestry: readonly string[];
+  constraints: Readonly<Partial<Record<PriorTraitDimension, Readonly<{
+    allowed: readonly string[];
+    introducedBy: string;
+    refinedBy: readonly string[];
+    evidenceUrls: readonly string[];
+  }>>>>;
+  operatorHints: readonly Readonly<{
+    operator: PriorOperator;
+    introducedBy: string;
+    evidenceUrl: string;
+    provenance: PriorProvenance;
+  }>[];
+  includesFiction: boolean;
+  version: string;
+}>;
+
+export type EvidenceState =
+  | Readonly<{ status: "unknown" }>
+  | Readonly<{
+    status: "supported";
+    allowed: readonly string[];
+    introducedBy: string;
+    refinedBy: readonly string[];
+    evidenceUrls: readonly string[];
+  }>;
+export type OperatorEvidence =
+  | Readonly<{ status: "unknown" }>
+  | Readonly<{
+    status: "supported";
+    sources: readonly Readonly<{
+      introducedBy: string;
+      evidenceUrl: string;
+      provenance: PriorProvenance;
+    }>[];
+  }>;
+export const PRIOR_OPERATORS: readonly PriorOperator[] = [
+  "tip-extension", "branch-axis", "surface-expansion",
+  "tissue-remodeling", "appendage-extension", "wall-deposition",
+] as const;
+const PRIOR_DIMENSIONS = ["organization", "wallMaterial", "growthPattern"] as const;
+
 export type AncestralTraitConstraints = Readonly<{
   schemaVersion: 1;
   lineageNodeId: string;
-  provenance: "scientific" | "fictional" | "unresolved";
-  bounds: BiologicalTraitBounds;
-}>;
-export type ConstraintAdjustment = Readonly<{
-  channel: string;
-  inherited: number;
-  expressed: number;
+  fixedAncestry: readonly string[];
+  priorVersion: string;
+  includesFiction: boolean;
+  traits: Readonly<Record<PriorTraitDimension, EvidenceState>>;
+  operators: Readonly<Record<PriorOperator, OperatorEvidence>>;
 }>;
 export type GeneticExpression = Readonly<{
+  /** Genetic magnitudes are unchanged. Categorical priors cannot justify numeric clamps. */
   channels: DevelopmentalChannels;
-  lineage: Readonly<{
-    nodeId: string;
-    provenance: AncestralTraitConstraints["provenance"];
-  }> | null;
-  adjustments: readonly ConstraintAdjustment[];
+  lineage: AncestralTraitConstraints | null;
 }>;
 
-/** Reject malformed constraints rather than inventing or silently relaxing ancestry. */
-function check(constraints: AncestralTraitConstraints): void {
-  if (constraints.schemaVersion !== 1 || !constraints.lineageNodeId.trim())
-    throw new TypeError("Ancestral constraints require a version and lineage node ID");
-  if (!["scientific", "fictional", "unresolved"].includes(constraints.provenance))
-    throw new TypeError("Unknown ancestry provenance");
-  if (constraints.provenance === "unresolved" && Object.keys(constraints.bounds).length)
-    throw new TypeError("Unresolved ancestry cannot impose biological bounds");
-  for (const [group, traits] of Object.entries(constraints.bounds)) {
-    if (!(group in DEVELOPMENTAL_CHANNELS) || !traits || typeof traits !== "object")
-      throw new TypeError("Unknown constrained genetic group: " + group);
-    const schema = DEVELOPMENTAL_CHANNELS[group as GeneticGroup];
-    for (const [name, range] of Object.entries(traits)) {
-      if (!(name in schema) || !range ||
-          !Number.isFinite(range.min) || !Number.isFinite(range.max) ||
-          range.min < 0 || range.max > 1 || range.min > range.max)
-        throw new RangeError("Invalid ancestral trait bounds: " + group + "." + name);
+/**
+ * Convert the *existing proposed* PHY-002 category/operator prior into
+ * inspectable signals. Unknown == unrepresented by evidence, never forbidden.
+ * This adapter does not fabricate min/max thresholds, functional anatomy or
+ * organism destinations.
+ */
+export function adaptDevelopmentPrior(
+  prior: ProposedDevelopmentPrior,
+): AncestralTraitConstraints {
+  if (!prior || !prior.taxonId || !prior.version ||
+      prior.fixedAncestry[0] !== prior.taxonId)
+    throw new TypeError("Invalid DevelopmentPrior ancestry provenance");
+  for (const dimension of Object.keys(prior.constraints))
+    if (!PRIOR_DIMENSIONS.includes(dimension as PriorTraitDimension))
+      throw new TypeError("Unknown DevelopmentPrior trait dimension: " + dimension);
+  const traits = {} as Record<PriorTraitDimension, EvidenceState>;
+  for (const dimension of PRIOR_DIMENSIONS) {
+    const evidence = prior.constraints[dimension];
+    if (!evidence) {
+      traits[dimension] = { status: "unknown" };
+      continue;
     }
+    if (!evidence.introducedBy || !prior.fixedAncestry.includes(evidence.introducedBy) ||
+        !evidence.allowed.length || !evidence.evidenceUrls.length ||
+        evidence.evidenceUrls.some(url => !/^https:\/\//.test(url)) ||
+        evidence.refinedBy.some(id => !prior.fixedAncestry.includes(id)))
+      throw new TypeError("Unverified prior trait evidence: " + dimension);
+    traits[dimension] = {
+      status: "supported",
+      allowed: [...evidence.allowed],
+      introducedBy: evidence.introducedBy,
+      refinedBy: [...evidence.refinedBy],
+      evidenceUrls: [...evidence.evidenceUrls],
+    };
   }
+  const operators = {} as Record<PriorOperator, OperatorEvidence>;
+  for (const name of PRIOR_OPERATORS) {
+    const source = prior.operatorHints.filter(hint => hint.operator === name);
+    if (source.some(hint =>
+      !prior.fixedAncestry.includes(hint.introducedBy) ||
+      (hint.provenance === "scientific" && !/^https:\/\//.test(hint.evidenceUrl)) ||
+      !["scientific", "fictional"].includes(hint.provenance)))
+      throw new TypeError("Unverified prior operator evidence: " + name);
+    operators[name] = source.length
+      ? { status: "supported", sources: source.map(hint => ({
+          introducedBy: hint.introducedBy,
+          evidenceUrl: hint.evidenceUrl,
+          provenance: hint.provenance,
+        })) }
+      : { status: "unknown" };
+  }
+  if (prior.operatorHints.some(hint => !PRIOR_OPERATORS.includes(hint.operator)))
+    throw new TypeError("Unknown developmental operator");
+  if (!prior.includesFiction &&
+      prior.operatorHints.some(hint => hint.provenance === "fictional"))
+    throw new TypeError("Fictional operators require fictional provenance");
+  return {
+    schemaVersion: 1,
+    lineageNodeId: prior.taxonId,
+    fixedAncestry: [...prior.fixedAncestry],
+    priorVersion: prior.version,
+    includesFiction: prior.includesFiction,
+    traits,
+    operators,
+  };
 }
 
-/** Ancestry constrains *expression*, never the underlying inherited alleles. */
+/** Only the lineage annotation changes. Care and phylogeny cannot edit genotype. */
 export function expressGenotype(
   inherited: DevelopmentalGenotype,
   constraints?: AncestralTraitConstraints,
 ): GeneticExpression {
-  if (constraints) check(constraints);
-  const groups = {} as Record<GeneticGroup, Record<string, number>>;
-  const adjustments: ConstraintAdjustment[] = [];
-  for (const group of Object.keys(DEVELOPMENTAL_CHANNELS) as GeneticGroup[]) {
-    groups[group] = {};
-    const bounds = constraints?.bounds[group] as
-      Record<string, BiologicalTraitRange> | undefined;
-    const genes = inherited.channels[group] as Record<string, number>;
-    for (const trait of Object.keys(DEVELOPMENTAL_CHANNELS[group])) {
-      const raw = genes[trait];
-      const range = bounds?.[trait];
-      const expressed = range ? Math.max(range.min, Math.min(range.max, raw)) : raw;
-      groups[group][trait] = expressed;
-      if (expressed !== raw)
-        adjustments.push({ channel: group + "." + trait, inherited: raw, expressed });
-    }
+  const channels = {} as Record<string, Record<string, number>>;
+  for (const group of Object.keys(DEVELOPMENTAL_CHANNELS)) {
+    channels[group] = {};
+    for (const trait of Object.keys(DEVELOPMENTAL_CHANNELS[group as keyof DevelopmentalChannels]))
+      channels[group][trait] =
+        (inherited.channels[group as keyof DevelopmentalChannels] as Record<string, number>)[trait];
   }
-  return {
-    channels: groups as DevelopmentalChannels,
-    lineage: constraints
-      ? { nodeId: constraints.lineageNodeId, provenance: constraints.provenance }
-      : null,
-    adjustments,
-  };
+  return { channels: channels as DevelopmentalChannels, lineage: constraints ?? null };
 }

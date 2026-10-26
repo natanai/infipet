@@ -1,5 +1,7 @@
 # Infipet
 
+**Single-pet lifecycle:** Each creation yields one continuously identifiable creature. Its original drawing, once-assigned hidden seed and permanent developmental potential interact with care and chronological time to produce dramatic transformations of that *same* pet. The tree of life is a biological possibility map for these evolution-like stages, not a breeding system or a claim of literal species change. Infipet has no reproduction, offspring, parent-child inheritance or multi-generational gameplay.
+
 Draw **anything** on the 32 × 32 pixel canvas, begin its life, and care for your own evolving virtual pet. This is an experimental Tamagotchi-style game: feeding, cleaning, sleeping, illness, games, training, battles, aging, and persistent saves are implemented. Convincing natural growth from arbitrary drawings is still being developed.
 
 **Play:** https://natanai.github.io/infipet/ (published by GitHub Actions)

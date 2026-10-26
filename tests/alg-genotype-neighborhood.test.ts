@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { compileGenome } from "../src/simulation/genome";
+import { compileGenome, compileLabGenome, genomeCacheKey } from "../src/simulation/genome";
 import { DEVELOPMENTAL_CHANNELS } from "../src/genetics";
 
 const unpack = (genes: Record<string, Record<string, number>>) =>
@@ -8,10 +8,12 @@ const unpack = (genes: Record<string, Record<string, number>>) =>
     Object.entries(values).map(([trait, value]) => ({ group, trait, value })));
 
 test("[GEN-002/A1] nearby genetic coordinates move related traits smoothly and leave other groups invariant", () => {
-  const initial = compileGenome("SHARED-LOCUS", "infant", { growth: 0.41 });
-  const neighbor = compileGenome("SHARED-LOCUS", "infant", { growth: 0.42 });
-  const another = compileGenome("SHARED-LOCUS", "infant", { growth: 0.43 });
-  assert.equal(initial.fingerprint, neighbor.fingerprint);
+  const initial = compileLabGenome("SHARED-LOCUS", "infant", { growth: 0.41 });
+  const neighbor = compileLabGenome("SHARED-LOCUS", "infant", { growth: 0.42 });
+  const another = compileLabGenome("SHARED-LOCUS", "infant", { growth: 0.43 });
+  assert.notEqual(initial.fingerprint, neighbor.fingerprint);
+  assert.notEqual(genomeCacheKey(initial), genomeCacheKey(neighbor));
+  assert.notEqual(genomeCacheKey(neighbor), genomeCacheKey(another));
   const a = unpack(initial.genotype.channels);
   const b = unpack(neighbor.genotype.channels);
   const c = unpack(another.genotype.channels);
@@ -27,8 +29,8 @@ test("[GEN-002/A1] nearby genetic coordinates move related traits smoothly and l
       assert.equal(next, 0);
     }
   }
-  assert.throws(() => compileGenome("X", "infant", { growth: -0.01 }), /Invalid genetic coordinate/);
-  assert.throws(() => compileGenome("X", "infant", { growth: Number.NaN }), /Invalid genetic coordinate/);
+  assert.throws(() => compileLabGenome("X", "infant", { growth: -0.01 }), /Invalid genetic coordinate/);
+  assert.throws(() => compileLabGenome("X", "infant", { growth: Number.NaN }), /Invalid genetic coordinate/);
 });
 
 test("[GEN-002/A2] independent seeds span quantitative inherited diversity without sprite lookup", () => {

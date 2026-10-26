@@ -1,4 +1,4 @@
-import { clamp, hash } from "../simulation/model";
+import { clamp, hash, type SourceMode } from "../simulation/model";
 
 /** Quantitative developmental capabilities, not preselected adult forms. */
 export const DEVELOPMENTAL_CHANNELS = {
@@ -54,44 +54,67 @@ export type DevelopmentalChannels = {
 export type GeneticCoordinates = Partial<Record<GeneticGroup, number>>;
 export type DevelopmentalGenotype = Readonly<{
   schemaVersion: typeof GENOTYPE_SCHEMA_VERSION;
+  /** Identifies the complete seed-derived or explicitly Lab-derived genotype. */
   fingerprint: string;
   coordinates: Readonly<Record<GeneticGroup, number>>;
   channels: DevelopmentalChannels;
 }>;
-
-const uniform = (key: string) => hash(key) / 4294967296;
 const groupNames = Object.keys(DEVELOPMENTAL_CHANNELS) as GeneticGroup[];
-const sample = (fingerprint: string, channel: string) =>
-  uniform(fingerprint + "|genotype-1|" + channel);
+const sample = (key: string, channel: string) =>
+  hash(key + "|genotype-1|" + channel) / 4294967296;
+
+/** The sole compiler for ordinary born pets. No externally supplied coordinates. */
+export function compileDevelopmentalGenotype(
+  seedFingerprint: string,
+): DevelopmentalGenotype {
+  return assemble(seedFingerprint, seedFingerprint);
+}
 
 /**
- * Nearby coordinates produce nearby potentials for a fixed fingerprint.
- * Independent seed-specific allele draws preserve diversity between seeds.
- * Editing one group coordinate cannot perturb a different group.
+ * Explicit, non-runtime Lab neighborhood variant. Genetic identity contains a
+ * lossless ordered encoding of all effective coordinates plus normalized seed
+ * and mode. Seed-derived alleles keep a *stable* sampling key while moving
+ * within the neighborhood, avoiding a random avalanche between neighbors.
  */
-export function compileDevelopmentalGenotype(
-  fingerprint: string,
-  coordinates: GeneticCoordinates = {},
+export function compileExperimentalGenotype(
+  seedFingerprint: string,
+  normalizedSeed: string,
+  mode: SourceMode,
+  requested: GeneticCoordinates,
 ): DevelopmentalGenotype {
-  const loci = {} as Record<GeneticGroup, number>;
+  if (!requested || typeof requested !== "object" || Array.isArray(requested))
+    throw new TypeError("Lab coordinates must be a genetic group map");
+  for (const group of Object.keys(requested))
+    if (!groupNames.includes(group as GeneticGroup))
+      throw new TypeError("Unknown genetic coordinate: " + group);
+  const coordinates = {} as Record<GeneticGroup, number>;
+  for (const group of groupNames) {
+    const value = requested[group] ?? sample(seedFingerprint, "locus/" + group);
+    if (!Number.isFinite(value) || value < 0 || value > 1)
+      throw new RangeError("Invalid genetic coordinate " + group + ": expected [0,1]");
+    coordinates[group] = value;
+  }
+  const identity = seedFingerprint + "|lab-v1|" +
+    JSON.stringify([normalizedSeed, mode, ...groupNames.map(g => coordinates[g])]);
+  return assemble(identity, seedFingerprint, coordinates);
+}
+
+function assemble(
+  fingerprint: string,
+  inheritedAlleleKey: string,
+  selected?: Readonly<Record<GeneticGroup, number>>,
+): DevelopmentalGenotype {
+  const coordinates = {} as Record<GeneticGroup, number>;
   const channels = {} as Record<GeneticGroup, Record<string, number>>;
   for (const group of groupNames) {
-    const supplied = coordinates[group];
-    if (supplied !== undefined &&
-        (!Number.isFinite(supplied) || supplied < 0 || supplied > 1))
-      throw new RangeError("Invalid genetic coordinate " + group + ": expected [0,1]");
-    const locus = supplied ?? sample(fingerprint, "locus/" + group);
-    loci[group] = locus;
+    const locus = selected?.[group] ?? sample(inheritedAlleleKey, "locus/" + group);
+    coordinates[group] = locus;
     channels[group] = {};
     for (const trait of Object.keys(DEVELOPMENTAL_CHANNELS[group])) {
-      const allele = sample(fingerprint, "allele/" + group + "/" + trait);
+      const allele = sample(inheritedAlleleKey, "allele/" + group + "/" + trait);
       channels[group][trait] = clamp(0.67 * locus + 0.33 * allele, 0, 1);
     }
   }
-  return {
-    schemaVersion: GENOTYPE_SCHEMA_VERSION,
-    fingerprint,
-    coordinates: loci,
-    channels: channels as DevelopmentalChannels,
-  };
+  return { schemaVersion: GENOTYPE_SCHEMA_VERSION, fingerprint,
+    coordinates, channels: channels as DevelopmentalChannels };
 }

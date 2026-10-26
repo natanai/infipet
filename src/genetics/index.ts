@@ -2,6 +2,7 @@ export {
   DEVELOPMENTAL_CHANNELS,
   GENOTYPE_SCHEMA_VERSION,
   compileDevelopmentalGenotype,
+  compileExperimentalGenotype,
 } from "./channels";
 export type {
   DevelopmentalChannels,
@@ -9,12 +10,29 @@ export type {
   GeneticCoordinates,
   GeneticGroup,
 } from "./channels";
-export { expressGenotype } from "./constraints";
+export {
+  adaptDevelopmentPrior,
+  expressGenotype,
+  PRIOR_OPERATORS,
+} from "./constraints";
 export type {
+  ProposedDevelopmentPrior,
   AncestralTraitConstraints,
-  BiologicalTraitBounds,
-  BiologicalTraitRange,
   GeneticExpression,
+  EvidenceState,
+  OperatorEvidence,
+  PriorOperator,
+  PriorProvenance,
+  PriorTraitDimension,
 } from "./constraints";
 export { expressEnvironmentalResponse } from "./environment";
 export type { DevelopmentalExposure, ExpressedDevelopment } from "./environment";
+export {
+  DEVELOPMENT_CONSUMERS,
+  compileDevelopmentGeneticSignals,
+} from "./development-contract";
+export type {
+  DevelopmentGeneticSignals,
+  DevelopmentConsumer,
+  DevelopmentOperatorSignal,
+} from "./development-contract";

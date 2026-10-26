@@ -68,7 +68,9 @@ export function compileGenome(
   const fingerprint = hash(`${actual}|${mode}|life-v7`)
     .toString(16)
     .padStart(8, "0");
-  const r = (key: string) => geneRandom(fingerprint, key);
+  // Preserve every ordinary life-v7 allele when exploring a Lab neighborhood.
+  const legacySamplingKey = seedFingerprint(actual, mode);
+  const r = (key: string) => geneRandom(legacySamplingKey, key);
   const lifeKind = (["direct", "sheltered", "metamorphic"] as const)[
     Math.floor(r("life-program") * 3)
   ];
