@@ -24,3 +24,14 @@ export {
   chaoticProgress, chaoticTurn, validateMaterialChaos,
 } from "./chaos";
 export type { ChaosState, MaterialChaos } from "./chaos";
+
+/** DEV-002 chronological operator ledger; runtime/Environment handoff. */
+export {
+  initializeMaterialOperatorChronology,
+  stepMaterialOperatorChronology,
+} from "./operator-chronology";
+export type {
+  MaterialCumulativeExpression, MaterialExpressionInterval,
+  MaterialExpressionRecord, MaterialOperatorChronologyState,
+  MaterialOperatorDecision, MaterialOperatorReason, MaterialOperatorTransaction,
+} from "./operator-chronology";
