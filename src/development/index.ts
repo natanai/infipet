@@ -24,3 +24,38 @@ export {
   chaoticProgress, chaoticTurn, validateMaterialChaos,
 } from "./chaos";
 export type { ChaosState, MaterialChaos } from "./chaos";
+
+/** Merged DEV-003 / DEV-004 public exports, awaiting an incremental transition port. */
+export {
+  ITERATIVE_LIMITS,
+  createIterativeGrowth,
+  iterativeGrowthAt,
+  allocateGrowthCredits,
+  assessIterativePlacement,
+} from "./iterative-growth";
+export type {
+  LightExposure,
+  IterativeExposure,
+  IterativeGrowthFrame,
+  IterativeGrowthProgram,
+  IterativeGrowthSite,
+  IterativeGrowthLedger,
+  GrowthSuppression,
+} from "./iterative-growth";
+export {
+  REMODEL_LIMITS,
+  compileLifetimeRemodeling,
+  lifetimeRemodelingAt,
+  mechanicalCapabilities,
+  mechanicalRegions,
+  auditRemodelLegibility,
+} from "./lifetime-remodeling";
+export type {
+  LifetimeRemodelingProgram,
+  LifetimeRemodelingFrame,
+  RemodelOperation,
+  RemodelTransition,
+  RemodelDeferral,
+  MechanicalCapability,
+  MechanicalRegion,
+} from "./lifetime-remodeling";
