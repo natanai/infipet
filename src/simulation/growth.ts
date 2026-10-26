@@ -42,7 +42,8 @@ import {
   type Region,
   type ResolvedDevelopment,
 } from "./development";
-import { compileGenome } from "./genome";
+import { compileGenome, genomeCacheKey } from "./genome";
+import { compileRuntimeBiology, type RuntimeBiology } from "../integration";
 import {
   compileSurfaceExpression,
   surfaceExpressionAt,
@@ -78,6 +79,7 @@ const blueprints = new Map<
     genes: ReturnType<typeof compileDevelopment>;
     inherited: ReturnType<typeof compileGenome>;
     atlas: ReturnType<typeof describeSource>;
+    biology: RuntimeBiology;
     hatchAt: number;
     embryoRecipe?: Record<string, unknown>;
   }
@@ -659,9 +661,7 @@ export function createSimulation(
       ),
     ),
     cacheKey =
-      mode +
-      "|" +
-      seed +
+      genomeCacheKey(inherited) +
       "|" +
       inherited.proceduralGrammarVersion +
       "|" +
@@ -683,10 +683,15 @@ export function createSimulation(
       mode === "egg" ? "grown" : "authored",
     );
     const atlas = describeSource(tissues);
+    const shell = compileSources(source, hash(fingerprint), "shell");
+    // In egg mode the developmental atlas describes an embryo. Observation
+    // must instead inspect the player's actual authored drawing.
+    const authoredAtlas = embryo ? describeSource(shell) : atlas;
     blueprint = {
       tissues,
-      shell: compileSources(source, hash(fingerprint), "shell"),
+      shell,
       genes: compileDevelopment(atlas, inherited),
+      biology: compileRuntimeBiology(authoredAtlas, inherited),
       inherited,
       atlas,
       hatchAt:
@@ -792,6 +797,10 @@ export function createSimulation(
     somaticGrowthVersion: inherited.somaticGrowthVersion,
     somaticGrowthGenes: genes.somaticGrowth,
     sourceAtlas: blueprint.atlas,
+    // Read-only merged scientific/genetic evidence; no replacement renderer.
+    biologicalPotential: blueprint.biology,
+    authoredInkSignature: signature,
+    genomeIdentity: blueprint.biology.genomeIdentity,
     genomeFingerprint: blueprint.inherited.fingerprint,
     sourceFingerprint: String(hash(signature)),
     programFingerprint,
@@ -919,6 +928,18 @@ export function createSimulation(
       ).state,
     );
     result.genomeFingerprint = blueprint!.inherited.fingerprint;
+    result.diagnostics = {
+      ...result.diagnostics,
+      biologicalComposition: {
+        version: blueprint!.biology.version,
+        genomeIdentity: blueprint!.biology.genomeIdentity,
+        sourceGeometryHash: blueprint!.biology.sourceGeometryHash,
+        candidateReferenceCount: blueprint!.biology.references.length,
+        scientificPetAssignment: null,
+        physicalOperatorsConnected: false,
+        chronologicalExposureConnected: false,
+      },
+    };
     result.sourceFingerprint = String(hash(signature));
     result.programFingerprint = programFingerprint;
     if (liveContext) {
