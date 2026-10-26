@@ -9,6 +9,9 @@ import {
   type ChronologicalProposal,
 } from "../src/integration/chronological-material";
 import { iterativeGrowthAt } from "../src/development/iterative-growth";
+import { inferFunctionalMaterial } from "../src/integration/functional-material";
+import { buildFunctionalGraph, poseFunctionalGraph } from "../src/simulation/locomotion";
+import type { Region } from "../src/simulation/development";
 import { lifetimeRemodelingAt } from "../src/development/lifetime-remodeling";
 import type { MaterialGraph, MaterialCell, MaterialDevelopmentProgram } from "../src/development";
 import type { LifetimeRemodelingProgram } from "../src/development/lifetime-remodeling";
@@ -219,4 +222,60 @@ test("[INT-001/A1/A2/A3] merged from-birth APIs cannot compose a relocated growt
   assert.equal(grown.graph.cells.some(c => c.x === 11 && c.y === 11), false,
     "no development API can step iterative growth on the relocated graph with persistent age/orbit");
   assert.ok(CHRONOLOGICAL_UPSTREAM_BLOCKERS.length >= 3);
+});
+
+test("[INT-001/A3] source-derived DEV-003 child tissue IDs can become functional only while attached and flexible", () => {
+  const base = fixture();
+  const branches: MaterialCell[] = [];
+  const tissues = [...base.tissues];
+  const links = [...base.links];
+  for (const x of [8, 10]) {
+    const id = "site/" + x + "/iterative/0";
+    for (let y = 11; y <= 16; y++) {
+      branches.push({
+        id: id + "/cell/" + y, tissueId: id, x, y,
+        color: "#99bbdd", provenance: "generated",
+        sourceIds: [x === 8 ? "ink/0" : "ink/2"],
+        parentCellIds: [y === 11 ?
+          (x === 8 ? "ink/0" : "ink/2") : id + "/cell/" + (y - 1)],
+        operationId: "iterative/" + y,
+      });
+    }
+    tissues.push({ id, sourcePartId: "ink", parentId: "tissue",
+      relationship: "joint", sourceCellIds: [x === 8 ? "ink/0" : "ink/2"],
+      growthSiteIds: [], rigidity: 0.2 });
+    links.push({ id: id + "/attachment", kind: "attachment",
+      fromTissueId: id, toTissueId: "tissue",
+      fromCellId: id + "/cell/11",
+      toCellId: x === 8 ? "ink/0" : "ink/2" });
+  }
+  const graph = { ...base, cells: [...base.cells, ...branches], tissues, links };
+  assert.deepEqual(validateChronologicalGraph(base, graph), []);
+  const region = { id: "live-body", kind: "body", role: "trunk",
+    sourceIds: ["ink"], source: { id: "ink" },
+    center: { x: 9, y: 10 }, anchor: { x: 9, y: 10 },
+    tip: { x: 9, y: 10 }, parentId: null,
+  } as unknown as Region;
+  const node = { id: region.id, kind: "body" as const, role: "trunk",
+    sourceIds: ["ink"], center: region.center,
+    anchor: region.anchor, tip: region.tip, readiness: 1 };
+  const functional = inferFunctionalMaterial(graph, [region], [node]);
+  assert.equal(functional.bindings.length, 2,
+    "no substring /growth/ is necessary when an explicit child material linkage exists");
+  const rig = buildFunctionalGraph(functional.nodes);
+  const active = poseFunctionalGraph(rig, { action: "move", time: 5 });
+  assert.ok(active.diagnostics.worldAdvance > 0);
+  assert.ok(active.locomotionSupported);
+  const detached = { ...graph, links: links.filter(l =>
+    !l.id.includes("site/8/iterative")) };
+  const detachedRig = buildFunctionalGraph(
+    inferFunctionalMaterial(detached, [region], [node]).nodes);
+  assert.equal(poseFunctionalGraph(detachedRig, {
+    action: "move", time: 5 }).diagnostics.worldAdvance, 0);
+  const rigid = { ...graph, tissues: tissues.map(t =>
+    t.id.includes("site/8/") ? { ...t, rigidity: 0.99 } : t) };
+  const rigidRig = buildFunctionalGraph(
+    inferFunctionalMaterial(rigid, [region], [node]).nodes);
+  assert.equal(poseFunctionalGraph(rigidRig, {
+    action: "move", time: 5 }).diagnostics.worldAdvance, 0);
 });
