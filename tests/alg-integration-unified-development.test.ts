@@ -14,6 +14,7 @@ import {
 } from "../src/environment";
 import { materialInputs, drawing } from "./alg-development-fixtures";
 import { createSimulation } from "../src/simulation";
+import { seedChaos, CHAOS_VERSION } from "../src/development/chaos";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -359,8 +360,6 @@ test("[INT-001/A1] material quantum appears at earned threshold, not query cutof
 
 test("[INT-001/A3] chaos-weighted exact care exposure uses unstrengthened expressed hours, including fractional changes",()=>{
   const {program,genome,operator}=realProgram(["###"],"INT-CHAOS-44","elongate",4);
-  const { seedChaos, CHAOS_VERSION } = require("../src/development/chaos") as
-    typeof import("../src/development/chaos");
   const op:MaterialOperator={...operator,strength:0.65,
     chaos:{version:CHAOS_VERSION,initial:seedChaos("INT-CHAOS-44"),
       rateAmplitude:0.65,turnAmplitude:0}};
