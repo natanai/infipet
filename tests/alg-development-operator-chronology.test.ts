@@ -2,12 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { materialInputs, drawing, fixtures } from "./alg-development-fixtures";
 import { compileMaterialDevelopment, materialDevelopmentAt,
-  materialOperatorPotential, type MaterialDevelopmentProgram,
+  applyMaterialOperators, materialOperatorPotential, type MaterialDevelopmentProgram,
   type MaterialOperator } from "../src/development/operators";
 import { createMaterialGraph, materialSourceAncestry,
   reconstructMaterialGraph, type MaterialGraph } from "../src/development/material-graph";
 import {
   initializeMaterialOperatorChronology, stepMaterialOperatorChronology,
+  materialOperatorChaosRate, materialMaximumCumulativeExpression,
   type MaterialOperatorChronologyState, type MaterialExpressionInterval,
 } from "../src/development/operator-chronology";
 
@@ -232,4 +233,88 @@ test("unordered frame requests are equivalent to deterministic forward replay",(
     assert.deepEqual(second.get(hour),first.get(hour));
   assert.deepEqual(materialDevelopmentAt(program,0).sourceCells,graph.sourceCells);
   assert.deepEqual(replay(),first);
+});
+
+test("original cumulative dilation and newly committed material are intentionally distinct",()=>{
+  const original=rig(["###","###","###"],"expand");
+  const {program,op,graph,state}=original;
+  const legacy=applyMaterialOperators(graph,[op],4,program.signals);
+  const incremental=stepMaterialOperatorChronology(graph,program,state,
+    interval(program,0,4,[1]));
+  const legacyGrowth=legacy.cells.length-graph.cells.length;
+  const newGrowth=incremental.graph.cells.length-graph.cells.length;
+  assert.ok(legacyGrowth>0);
+  assert.ok(newGrowth>0);
+  assert.notDeepEqual(legacy.cells.map(c=>c.id),incremental.graph.cells.map(c=>c.id),
+    "incremental quantum ownership is not a second cumulative age replay");
+  // Old APIs are deliberately preserved as pure from-birth queries.
+  assert.deepEqual(applyMaterialOperators(graph,[op],4,program.signals),legacy);
+  const repeated=applyMaterialOperators(legacy,[op],4,program.signals);
+  assert.equal(repeated.events.filter(e=>e.id===op.id).length,2,
+    "legacy replay cannot be mistaken for an incremental transaction");
+  integrity(incremental.graph,graph);
+});
+
+test("exact permanent chaotic rate bounds integrated care at fractional and integer cuts",()=>{
+  const {atlas,genome}=materialInputs(fixtures.blob,"chronology-chaos-seed");
+  const compiled=compileMaterialDevelopment(atlas,genome);
+  const op=compiled.operators.find(x=>x.chaos)!;
+  assert.ok(op);
+  const s=op.atHour, cut=Math.floor(s)+1, end=cut+0.75;
+  const expected=Math.min(1,
+    ((cut-s)*materialOperatorChaosRate(op,s)+
+     0.75*materialOperatorChaosRate(op,cut))/op.durationHours);
+  assert.ok(Math.abs(materialMaximumCumulativeExpression(op,end)-expected)<1e-12);
+  assert.ok(materialOperatorChaosRate(op,s)>=0.6);
+  assert.ok(materialOperatorChaosRate(op,s)<=1.4);
+  assert.equal(materialMaximumCumulativeExpression(op,s),0);
+  assert.throws(()=>materialOperatorChaosRate(op,-1),/outside/);
+});
+
+test("saved operator-expression ledger must match the actual graph events",()=>{
+  const {program,op,graph,state}=rig(["##","##"]);
+  const e=amount(program,op,1);
+  const a=stepMaterialOperatorChronology(graph,program,state,
+    interval(program,0,1,[e]));
+  const falselyAdvanced=stepMaterialOperatorChronology;
+  assert.throws(()=>falselyAdvanced(graph,program,a.state,
+    interval(program,1,2,[e])),/ledger is ahead/);
+  const falselyRolledBack:MaterialOperatorChronologyState={
+    ...a.state,records:a.state.records.map(r=>({...r,committedUnits:0})),
+  };
+  assert.throws(()=>stepMaterialOperatorChronology(a.graph,program,falselyRolledBack,
+    interval(program,1,2,[e])),/unacknowledged/);
+  const recovered=stepMaterialOperatorChronology(
+    reconstructMaterialGraph(JSON.parse(JSON.stringify(a.graph))),
+    program,JSON.parse(JSON.stringify(a.state)),
+    interval(program,1,2,[e]));
+  assert.equal(recovered.events.length,0);
+  integrity(recovered.graph,graph);
+});
+
+test("fractional care onset only affects future operator quotas; same-time operators sort lexically",()=>{
+  const setup=rig(["##","##"]);
+  const {program,op,graph,state}=setup;
+  const a=stepMaterialOperatorChronology(graph,program,state,
+    interval(program,0,1.5,[0]));
+  const b=stepMaterialOperatorChronology(a.graph,program,a.state,
+    interval(program,1.5,2,[0]));
+  assert.strictEqual(a.graph,graph);
+  assert.strictEqual(b.graph,graph);
+  const c=stepMaterialOperatorChronology(b.graph,program,b.state,
+    interval(program,2,4,[0.5]));
+  assert.ok(c.events.length>0);
+  assert.deepEqual(b.graph,graph);
+  assert.ok(c.graph.events.every(e=>e.atHour>=2));
+  const second:MaterialOperator={...op,id:"zulu"};
+  const first:MaterialOperator={...op,id:"alpha"};
+  const two:MaterialDevelopmentProgram={...program,
+    operators:[second,first],fingerprint:program.fingerprint+"/two"};
+  const tie=stepMaterialOperatorChronology(graph,two,
+    initializeMaterialOperatorChronology(two),interval(two,0,4,[1,1]));
+  assert.ok(tie.decisions.length>0);
+  assert.equal(tie.decisions[0].operatorId,"alpha");
+  assert.ok(tie.decisions.findIndex(d=>d.operatorId==="zulu")>
+    tie.decisions.findIndex(d=>d.operatorId==="alpha"));
+  integrity(tie.graph,graph);
 });
