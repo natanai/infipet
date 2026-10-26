@@ -17,3 +17,10 @@ export {
 export type {
   MaterialOperator, MaterialOperatorKind, MaterialDevelopmentProgram,
 } from "./operators";
+
+export {
+  CHAOS_VERSION, CHAOS_MODULUS, CHAOS_MAX_TICK,
+  seedChaos, stepChaos, reverseChaos, chaosAt,
+  chaoticProgress, chaoticTurn, validateMaterialChaos,
+} from "./chaos";
+export type { ChaosState, MaterialChaos } from "./chaos";
