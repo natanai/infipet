@@ -780,7 +780,7 @@ import {
   type RemodelOperation,
 } from "../src/development/lifetime-remodeling";
 import { ITERATIVE_CHRONOLOGY_MAX_HOURS } from "../src/development/iterative-chronology";
-import { CHAOS_MAX_TICK, chaosAt } from "../src/development/chaos";
+import { CHAOS_MAX_TICK } from "../src/development/chaos";
 
 function exactBoundaryInputs() {
   // The actual SourceAtlas compilation applies +16 to local source pixels:
