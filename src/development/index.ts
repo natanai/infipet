@@ -71,3 +71,27 @@ export type {
   MechanicalCapability,
   MechanicalRegion,
 } from "./lifetime-remodeling";
+
+/** Composable, lifetime-bounded incremental operators (NOT cumulative snapshots). */
+export { materialOperatorPotential } from "./operators";
+export {
+  ITERATIVE_CHRONOLOGY_MAX_HOURS,
+  createIterativeChronologyState,
+  stepIterativeChronology,
+  replayIterativeChronology,
+} from "./iterative-chronology";
+export type {
+  PersistentGrowthSite, GrowthSiteChange,
+  IterativeChronologyState, IterativeChronologyStep,
+} from "./iterative-chronology";
+export {
+  remodelingProposalsBetween,
+  applyRemodelingProposal,
+  applyRemodelingInterval,
+  EMPTY_REMODELING_CHRONOLOGY,
+  remodelingMechanicalState,
+} from "./remodel-transactions";
+export type {
+  RemodelingProposal, RemodelingAttempt, RemodelingHinge,
+  RemodelingChronology, RemodelingTransaction, RemodelingInterval,
+} from "./remodel-transactions";
