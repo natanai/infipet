@@ -32,7 +32,10 @@
 import { compareText, type Point } from "../simulation/model";
 import { grownMaterialCells } from "../simulation/material-growth";
 import type { Tissue } from "../simulation/material";
-import { chaoticTurn, CHAOS_MAX_TICK, validateMaterialChaos } from "./chaos";
+import {
+  chaoticTurn, chaoticProgress, chaosAt,
+  CHAOS_MAX_TICK, CHAOS_MODULUS, validateMaterialChaos,
+} from "./chaos";
 import type { MaterialCell, MaterialEvent, MaterialGraph, MaterialSite, MaterialTissue, MaterialLink } from "./material-graph";
 import {
   createOperatorMaterialCell, materialOperatorPotential, MATERIAL_LIMITS,
@@ -157,6 +160,35 @@ function validateGraph(g:MaterialGraph,program:MaterialDevelopmentProgram,cutoff
   for(const e of g.events)
     if(!Number.isFinite(e.atHour) || e.atHour<0 || e.atHour>cutoff+EPS)
       throw new RangeError("Graph contains a genuinely future-dated event");
+}
+
+/**
+ * Agent 5 may sample the permanent chaos recurrence on integer-hour segments.
+ * Within [n,n+1), c_i(u) is arbitrary bounded care; chaoticRate is constant:
+ * R_i(n) = 1 + a_i(2*x_n/(p-1)-1), x_n=chaosAt(initial,n).x.
+ * This function does not advance/reset the permanent orbit.
+ */
+export function materialOperatorChaosRate(
+  op:MaterialOperator, atHour:number,
+):number {
+  if(!Number.isFinite(atHour)||atHour<0||atHour>=CHAOS_MAX_TICK)
+    throw new RangeError("Chaotic expression rate outside the lifetime domain");
+  if(!op.chaos)return 1;
+  validateMaterialChaos(op.chaos);
+  const state=chaosAt(op.chaos.initial,Math.floor(atHour));
+  return 1+op.chaos.rateAmplitude*(2*state.x/(CHAOS_MODULUS-1)-1);
+}
+
+/** Upper bound from actual permanently seeded rhythm with maximal care=1. */
+export function materialMaximumCumulativeExpression(
+  op:MaterialOperator,atHour:number,
+):number {
+  if(!Number.isFinite(atHour)||atHour<0||atHour>CHAOS_MAX_TICK)
+    throw new RangeError("Material expression query outside lifetime domain");
+  if(op.chaos)
+    return chaoticProgress(op.chaos,op.atHour,op.durationHours,atHour);
+  return Math.min(1,Math.max(0,
+    (Math.min(atHour,op.atHour+op.durationHours)-op.atHour)/op.durationHours));
 }
 
 export function initializeMaterialOperatorChronology(
@@ -475,11 +507,30 @@ export function stepMaterialOperatorChronology(
     const previous=records.get(op.id);
     if(!previous)throw new TypeError("Missing persistent operator state");
     const next=values.get(op.id)!;
-    const upper=Math.min(1,1.4*Math.max(0,
-      Math.min(interval.toHour,op.atHour+op.durationHours)-op.atHour)/op.durationHours);
+    const upper=materialMaximumCumulativeExpression(op,interval.toHour);
     if(next>upper+EPS || next+EPS<previous.cumulative ||
       (previous.settled && Math.abs(next-previous.cumulative)>EPS))
       throw new RangeError("Noncausal expression, retroactive edit or missing integral");
+  }
+  // Atomic save/replay witness: a persisted ledger and its graph must agree.
+  // A recovered graph cannot silently skip or duplicate already committed units.
+  const historical=new Set(graph.events.map(e=>e.id));
+  for(const op of program.operators) {
+    const rec=records.get(op.id)!;
+    if(!Number.isInteger(rec.committedUnits) ||
+       rec.committedUnits<0 || rec.committedUnits>9 ||
+       rec.tipCellIds.some(id=>typeof id!=="string") ||
+       !Number.isFinite(rec.cumulative) || rec.cumulative<0 ||
+       rec.cumulative>1 || rec.operatorId!==op.id)
+      throw new TypeError("Invalid persisted operator-expression ledger");
+    for(let unitNumber=1;unitNumber<=rec.committedUnits;unitNumber++)
+      if(!historical.has(eventId(op,unitNumber)))
+        throw new TypeError("Persisted expression ledger is ahead of the material graph");
+    for(const event of graph.events)
+      if(event.id.startsWith("operator/"+encodeURIComponent(op.id)+"/unit/") &&
+        (!Number.isInteger(Number(event.id.slice(eventId(op,0).lastIndexOf("/")+1))) ||
+         Number(event.id.slice(eventId(op,0).lastIndexOf("/")+1))>rec.committedUnits))
+        throw new TypeError("Material graph contains unacknowledged operator units");
   }
   const ordered=[...program.operators].sort((a,b)=>a.atHour-b.atHour ||
     compareText(a.id,b.id));
