@@ -636,3 +636,22 @@ export function auditRemodelLegibility(frame: LifetimeRemodelingFrame): readonly
   }
   return faults.sort(compareText);
 }
+
+
+/**
+ * Chronological composition adapter: Agent 9 owns global ordering and the
+ * shared public index. Direct consumers may import these transactions from
+ * this existing Development-owned module or from remodel-transactions.
+ * The legacy birth-replay evaluator above remains unchanged and verified.
+ */
+export {
+  remodelingProposalsBetween,
+  applyRemodelingProposal,
+  applyRemodelingInterval,
+  remodelingMechanicalState,
+  EMPTY_REMODELING_CHRONOLOGY,
+} from "./remodel-transactions";
+export type {
+  RemodelingProposal, RemodelingAttempt, RemodelingChronology,
+  RemodelingHinge, RemodelingTransaction, RemodelingInterval,
+} from "./remodel-transactions";
