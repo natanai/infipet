@@ -67,6 +67,37 @@ export function validateRoadmap(plan, options = {}) {
   }
   for (const id of byId.keys()) visit(id);
   if (!has(plan.mandate) || !Array.isArray(plan.invariants) || plan.invariants.length < 4) fail("root", "mandate and invariants required");
+  const algorithms = plan.algorithms;
+  if (!Array.isArray(algorithms) || algorithms.length < 6)
+    fail("algorithms", "independent algorithm ownership is required");
+  else {
+    const covered = new Map();
+    const ownerPaths = [];
+    const algorithmIds = new Set();
+    for (const algorithm of algorithms) {
+      if (!has(algorithm.id) || algorithmIds.has(algorithm.id)) fail("algorithms", "duplicate or blank owner ID");
+      algorithmIds.add(algorithm.id);
+      if (!has(algorithm.name) || !has(algorithm.purpose) ||
+          !Array.isArray(algorithm.inputs) || !Array.isArray(algorithm.outputs) ||
+          !Array.isArray(algorithm.taskIds) || !Array.isArray(algorithm.ownedPaths) ||
+          !Array.isArray(algorithm.readyWhen)) fail(algorithm.id, "owner interface incomplete");
+      for (const id of algorithm.taskIds ?? []) {
+        covered.set(id, (covered.get(id) ?? 0) + 1);
+        if (byId.get(id)?.algorithmId !== algorithm.id) fail(id, "mismatched algorithm owner");
+      }
+      for (const path of algorithm.ownedPaths ?? []) {
+        if (!safePath(path)) fail(algorithm.id, "unsafe owner path");
+        else ownerPaths.push({algorithm:algorithm.id,path});
+      }
+      for (const dep of algorithm.readyWhen ?? []) if (!byId.has(dep)) fail(algorithm.id, "unknown readiness gate " + dep);
+    }
+    for (const task of plan.tasks) if (covered.get(task.id) !== 1) fail(task.id, "task must have exactly one owner");
+    for (let i = 0; i < ownerPaths.length; i++)
+      for (let j = i + 1; j < ownerPaths.length; j++)
+        if (ownerPaths[i].path.startsWith(ownerPaths[j].path) ||
+            ownerPaths[j].path.startsWith(ownerPaths[i].path))
+          fail("algorithms", "overlapping ownership of " + ownerPaths[i].path + " and " + ownerPaths[j].path);
+  }
   return errors;
 }
 

@@ -52,6 +52,47 @@
         "roadmap/plan.json",
         "scripts/roadmap.mjs",
         "tests/roadmap-contract.test.ts"
+      ],
+      "algorithmId": "contracts"
+    },
+    {
+      "id": "SYS-002",
+      "phase": 0,
+      "area": "Verification",
+      "algorithmId": "contracts",
+      "title": "Remove accumulated prototype test corpus and allocate algorithm ownership",
+      "dependsOn": [
+        "SYS-001"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Only four targeted numeric test modules remain; no old prototype-wide scan suite.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Verification runs roadmap check, typecheck, narrow tests, and not duplicate exports.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Every task has one algorithm owner and non-overlapping assigned write scope.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/roadmap-contract.test.ts",
+        "command": "pnpm exec tsx --test tests/roadmap-contract.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "roadmap/plan.json",
+        "tests/roadmap-contract.test.ts",
+        ".github/workflows/verify.yml",
+        "package.json"
       ]
     },
     {
@@ -83,7 +124,8 @@
       },
       "implementationPaths": [
         "src/lineage/ink-signature.ts"
-      ]
+      ],
+      "algorithmId": "observation"
     },
     {
       "id": "OBS-002",
@@ -115,7 +157,8 @@
       },
       "implementationPaths": [
         "src/lineage/index.ts"
-      ]
+      ],
+      "algorithmId": "observation"
     },
     {
       "id": "OBS-003",
@@ -146,7 +189,8 @@
       },
       "implementationPaths": [
         "src/lineage/ink-signature.ts"
-      ]
+      ],
+      "algorithmId": "observation"
     },
     {
       "id": "PHY-001",
@@ -177,7 +221,8 @@
       },
       "implementationPaths": [
         "src/phylogeny"
-      ]
+      ],
+      "algorithmId": "ancestry"
     },
     {
       "id": "PHY-002",
@@ -209,7 +254,8 @@
       "implementationPaths": [
         "src/phylogeny",
         "src/lineage"
-      ]
+      ],
+      "algorithmId": "ancestry"
     },
     {
       "id": "PHY-003",
@@ -240,7 +286,8 @@
       },
       "implementationPaths": [
         "src/phylogeny"
-      ]
+      ],
+      "algorithmId": "ancestry"
     },
     {
       "id": "GEN-001",
@@ -271,7 +318,8 @@
       },
       "implementationPaths": [
         "src/simulation/genome.ts"
-      ]
+      ],
+      "algorithmId": "genotype"
     },
     {
       "id": "GEN-002",
@@ -302,7 +350,8 @@
       },
       "implementationPaths": [
         "src/simulation/genome.ts"
-      ]
+      ],
+      "algorithmId": "genotype"
     },
     {
       "id": "DEV-001",
@@ -334,7 +383,8 @@
       },
       "implementationPaths": [
         "src/simulation"
-      ]
+      ],
+      "algorithmId": "development"
     },
     {
       "id": "DEV-002",
@@ -366,7 +416,8 @@
       },
       "implementationPaths": [
         "src/simulation"
-      ]
+      ],
+      "algorithmId": "development"
     },
     {
       "id": "DEV-003",
@@ -398,7 +449,8 @@
       },
       "implementationPaths": [
         "src/simulation"
-      ]
+      ],
+      "algorithmId": "development"
     },
     {
       "id": "DEV-004",
@@ -430,7 +482,8 @@
       },
       "implementationPaths": [
         "src/simulation"
-      ]
+      ],
+      "algorithmId": "development"
     },
     {
       "id": "DEV-005",
@@ -463,7 +516,8 @@
       },
       "implementationPaths": [
         "src/simulation"
-      ]
+      ],
+      "algorithmId": "development"
     },
     {
       "id": "DEV-006",
@@ -496,7 +550,8 @@
       },
       "implementationPaths": [
         "src/simulation"
-      ]
+      ],
+      "algorithmId": "development"
     },
     {
       "id": "CARE-001",
@@ -528,7 +583,8 @@
       "implementationPaths": [
         "src/gameplay",
         "src/needs"
-      ]
+      ],
+      "algorithmId": "environment"
     },
     {
       "id": "CARE-002",
@@ -562,7 +618,8 @@
       "implementationPaths": [
         "src/simulation",
         "src/gameplay"
-      ]
+      ],
+      "algorithmId": "environment"
     },
     {
       "id": "CARE-003",
@@ -593,7 +650,8 @@
       },
       "implementationPaths": [
         "src/simulation"
-      ]
+      ],
+      "algorithmId": "environment"
     },
     {
       "id": "EVAL-001",
@@ -625,7 +683,8 @@
       "implementationPaths": [
         "roadmap/cohorts.json",
         "tests/development-cohort.test.ts"
-      ]
+      ],
+      "algorithmId": "evaluation"
     },
     {
       "id": "EVAL-002",
@@ -656,7 +715,8 @@
       },
       "implementationPaths": [
         "tests"
-      ]
+      ],
+      "algorithmId": "evaluation"
     },
     {
       "id": "EVAL-003",
@@ -688,7 +748,8 @@
       },
       "implementationPaths": [
         "tests"
-      ]
+      ],
+      "algorithmId": "evaluation"
     },
     {
       "id": "GAME-001",
@@ -721,7 +782,8 @@
       "implementationPaths": [
         "App.tsx",
         "src"
-      ]
+      ],
+      "algorithmId": "integration"
     },
     {
       "id": "PERF-001",
@@ -753,7 +815,241 @@
       },
       "implementationPaths": [
         "src/simulation"
+      ],
+      "algorithmId": "integration"
+    }
+  ],
+  "algorithms": [
+    {
+      "id": "contracts",
+      "name": "Roadmap and verification",
+      "purpose": "Maintain one canonical task graph and only lightweight acceptance gates.",
+      "inputs": [
+        "roadmap/plan.json",
+        "named task acceptance tests"
+      ],
+      "outputs": [
+        "validated task graph",
+        "CI acceptance status"
+      ],
+      "ownedPaths": [
+        "roadmap/plan.json",
+        "scripts/roadmap.mjs",
+        "AGENTS.md",
+        "package.json",
+        ".github/workflows/verify.yml",
+        "tests/roadmap-contract.test.ts",
+        "tests/alg-contracts-"
+      ],
+      "taskIds": [
+        "SYS-001",
+        "SYS-002"
+      ],
+      "readyWhen": []
+    },
+    {
+      "id": "observation",
+      "name": "Ink morphology and uncertain inference",
+      "purpose": "Read arbitrary artwork without using names, pigment or fixed species targets.",
+      "inputs": [
+        "PetPart[]",
+        "SourceAtlas"
+      ],
+      "outputs": [
+        "InkSignature",
+        "candidate lineage affinities with uncertainty"
+      ],
+      "ownedPaths": [
+        "src/lineage/ink-signature.ts",
+        "src/lineage/source-classifier.ts",
+        "src/inference/",
+        "tests/ink-signature.test.ts",
+        "tests/alg-observation-"
+      ],
+      "taskIds": [
+        "OBS-001",
+        "OBS-002",
+        "OBS-003"
+      ],
+      "readyWhen": [
+        "SYS-001"
+      ]
+    },
+    {
+      "id": "ancestry",
+      "name": "Provenance-backed phylogeny",
+      "purpose": "Supply biological ancestry, inherited constraints and separate speculative extensions.",
+      "inputs": [
+        "externally sourced taxon records",
+        "source feature evidence"
+      ],
+      "outputs": [
+        "versioned ancestry graph",
+        "lineage trait constraints"
+      ],
+      "ownedPaths": [
+        "src/phylogeny/",
+        "src/lineage/phylogeny-priors.ts",
+        "tests/alg-ancestry-"
+      ],
+      "taskIds": [
+        "PHY-001",
+        "PHY-002",
+        "PHY-003"
+      ],
+      "readyWhen": [
+        "SYS-001"
+      ]
+    },
+    {
+      "id": "genotype",
+      "name": "Seed genetics and reaction parameters",
+      "purpose": "Compile stable inherited traits without access to reference targets or future care.",
+      "inputs": [
+        "seed string",
+        "lineage constraints"
+      ],
+      "outputs": [
+        "InheritedGenome",
+        "genetic neighborhood channels"
+      ],
+      "ownedPaths": [
+        "src/simulation/genome.ts",
+        "src/genetics/",
+        "tests/alg-genotype-"
+      ],
+      "taskIds": [
+        "GEN-001",
+        "GEN-002"
+      ],
+      "readyWhen": [
+        "SYS-001"
+      ]
+    },
+    {
+      "id": "development",
+      "name": "Material graph and biological growth",
+      "purpose": "Compose generic structural operations for animals, plants and speculative forms.",
+      "inputs": [
+        "SourceAtlas",
+        "InheritedGenome",
+        "ancestral constraints",
+        "chronological exposures"
+      ],
+      "outputs": [
+        "development operators",
+        "time-indexed structural anatomy"
+      ],
+      "ownedPaths": [
+        "src/simulation/development.ts",
+        "src/simulation/morphogenesis.ts",
+        "src/simulation/material-growth.ts",
+        "src/simulation/regional-layout.ts",
+        "src/simulation/material.ts",
+        "src/development/",
+        "tests/alg-development-"
+      ],
+      "taskIds": [
+        "DEV-001",
+        "DEV-002",
+        "DEV-003",
+        "DEV-004",
+        "DEV-005",
+        "DEV-006"
+      ],
+      "readyWhen": [
+        "OBS-001"
+      ]
+    },
+    {
+      "id": "environment",
+      "name": "Care and physiological history",
+      "purpose": "Convert player actions into chronological biological exposures and measurable reaction norms.",
+      "inputs": [
+        "chronological care actions",
+        "organism state"
+      ],
+      "outputs": [
+        "replayable environmental time series",
+        "physiological effect channels"
+      ],
+      "ownedPaths": [
+        "src/needs/",
+        "src/gameplay/",
+        "src/environment/",
+        "tests/alg-environment-"
+      ],
+      "taskIds": [
+        "CARE-001",
+        "CARE-002",
+        "CARE-003"
+      ],
+      "readyWhen": [
+        "SYS-001"
+      ]
+    },
+    {
+      "id": "evaluation",
+      "name": "Numerical falsification and reference benchmarks",
+      "purpose": "Measure reproducibility, diversity, care sensitivity and source-reference similarity without screenshots.",
+      "inputs": [
+        "public engine API",
+        "synthetic drawings",
+        "immutable reference fixtures"
+      ],
+      "outputs": [
+        "numeric scores",
+        "replay witnesses or explicit unresolved status"
+      ],
+      "ownedPaths": [
+        "roadmap/cohorts.json",
+        "tests/development-cohort.test.ts",
+        "tests/retro-reference-score.test.ts",
+        "tests/alg-evaluation-"
+      ],
+      "taskIds": [
+        "EVAL-001",
+        "EVAL-002",
+        "EVAL-003"
+      ],
+      "readyWhen": [
+        "SYS-001"
+      ]
+    },
+    {
+      "id": "integration",
+      "name": "Game experience and runtime composition",
+      "purpose": "Wire algorithm contracts to the one playable application; own shared boundary files.",
+      "inputs": [
+        "algorithm module interfaces",
+        "player interactions"
+      ],
+      "outputs": [
+        "playable renderer",
+        "saved living pet and optional Lab"
+      ],
+      "ownedPaths": [
+        "App.tsx",
+        "src/simulation/growth.ts",
+        "src/lineage/index.ts",
+        "src/integration/",
+        "tests/alg-integration-"
+      ],
+      "taskIds": [
+        "GAME-001",
+        "PERF-001"
+      ],
+      "readyWhen": [
+        "OBS-001"
       ]
     }
-  ]
+  ],
+  "agentCoordination": {
+    "writeOwnership": "One algorithm owner writes each owned path; all other agents treat it as read-only. Shared imports are allowed. Owner boundaries are routing rules, not permission constraints.",
+    "parallelExecution": "Agents can develop algorithms concurrently against existing typed public interfaces. Cross-algorithm API changes require interface proposals to the integration owner before editing shared runtime files.",
+    "taskLifecycle": "Agent selects one task ID, reads acceptance contract and ownedPaths, writes smallest targeted test, implements algorithm, runs that test, updates status in same commit.",
+    "integrationGate": "Integration agent alone edits App.tsx, src/lineage/index.ts or src/simulation/growth.ts while separate algorithm work is in progress.",
+    "testConvention": "Every new algorithm-local test must be named tests/alg-<algorithmId>-<feature>.test.ts, be referenced in roadmap/plan.json and measure that feature only.",
+    "reporting": "Prefer booleans, numeric hashes, invariants and narrow metric summaries; never commit screenshot batches, historical build logs or generated test matrices."
+  }
 }

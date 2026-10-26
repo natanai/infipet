@@ -22,3 +22,9 @@
 - After a change, add or update the named, focused test with all acceptance markers `[TASK-ID/A1]`, `[TASK-ID/A2]`, etc. Run **only that test** with `node scripts/roadmap.mjs --task=TASK-ID --run` while iterating. No screenshots or visual snapshots as automatic acceptance evidence.
 - Set status to `done` only after all its acceptance claims are asserted, the focused test passes and prerequisites are complete. The roadmap validator rejects unevidenced completion and cyclic/missing dependencies. CI executes validation and all focused tests.
 - Update the JSON task in the **same commit** as implementation and its tests; keep task IDs stable, and use `in_progress` or `blocked` when unfinished. Avoid accumulating large report assets.
+
+## Algorithm ownership and prototype-phase verification reset
+
+- The `algorithms` array in `roadmap/plan.json` defines agent-owned write scopes, interface contracts, task IDs and readiness gates. Assign one algorithm owner per agent. Do not edit another owner's files without arranging a handoff; `App.tsx`, `src/simulation/growth.ts`, and `src/lineage/index.ts` are integration-owned shared surfaces.
+- Keep CI deliberately small: roadmap integrity, TypeScript typecheck, **four focused numeric test files**. The publication workflow builds the web site once. The previous broad prototype suite was deliberately retired on 2026-10-25 and remains available in git history; do not restore en masse.
+- New development gets exactly one narrow contract test per task or coherent algorithm behavior. Name it `tests/alg-<algorithm-id>-<feature>.test.ts`, register it in the JSON plan, and only add it to the lightweight `pnpm test` baseline when the behavior becomes a stable invariant. Do not invent general scans or generate screenshots.

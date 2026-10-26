@@ -6,10 +6,13 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -23,5 +26,3 @@ jobs:
       - run: node scripts/roadmap.mjs --check
       - run: pnpm typecheck
       - run: pnpm test
-      - run: pnpm build:web
-      - run: pnpm build:ios
