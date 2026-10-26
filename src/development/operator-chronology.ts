@@ -148,10 +148,26 @@ function validateGraph(g:MaterialGraph,program:MaterialDevelopmentProgram,cutoff
     throw new TypeError("Duplicate authoritative material identity");
   if(g.cells.length-g.sourceCells.length>MATERIAL_LIMITS.addedCells)
     throw new RangeError("Shared material budget exceeded");
-  for(const c of g.cells)
+  const origins=new Map<string,MaterialEvent>();
+  for(const event of g.events)
+    for(const id of event.createdCellIds) {
+      if(origins.has(id))
+        throw new TypeError("Material cell has duplicate creation witnesses");
+      origins.set(id,event);
+    }
+  for(const c of g.cells) {
     if(!bounds(c) || !tissues.has(c.tissueId) ||
        !c.sourceIds.length || c.sourceIds.some(id=>!sources.has(id)))
       throw new TypeError("Invalid active material");
+    if(c.provenance==="generated") {
+      const origin=origins.get(c.id);
+      if(!c.operationId || !origin ||
+         (origin.id!==c.operationId &&
+          !origin.id.startsWith(c.operationId+"/unit/")))
+        throw new TypeError("Unaccounted generated material ancestry");
+    } else if(!sources.has(c.id))
+      throw new TypeError("Unknown original authored pixel");
+  }
   for(const l of g.links)
     if(!tissues.has(l.fromTissueId) || !tissues.has(l.toTissueId) ||
       (l.fromCellId!==null && active.get(l.fromCellId)?.tissueId!==l.fromTissueId) ||
