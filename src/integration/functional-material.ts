@@ -62,6 +62,9 @@ export function inferFunctionalMaterial(
 ): FunctionalMaterialResult {
   const live = new Map(graph.cells.map(cell => [cell.id, cell]));
   const source = new Set(graph.sourceCells.map(cell => cell.id));
+  // DEV-003 child IDs are site-derived (/iterative/), not necessarily /growth/.
+  // Physical origin is an immutable birth fact, not a naming convention.
+  const originalTissues = new Set(graph.sourceCells.map(cell => cell.tissueId));
   const byTissue = new Map<string, MaterialCell[]>();
   for (const cell of graph.cells) {
     const group = byTissue.get(cell.tissueId) ?? [];
@@ -134,7 +137,7 @@ export function inferFunctionalMaterial(
     const region = regions.find(r => r.source?.id === tissue.sourcePartId);
     const existing = nodes.filter(node => node.kind === "leg" &&
       node.sourceIds.includes(tissue.sourcePartId));
-    if (existing.length && !tissue.id.includes("/growth/")) {
+    if (existing.length && originalTissues.has(tissue.id)) {
       for (const node of existing) {
         node.mechanics = record;
         // Existing limb geometry still comes from its authoritative region.
@@ -142,7 +145,7 @@ export function inferFunctionalMaterial(
       continue;
     }
     if (!eligible || !region || !root || !tip ||
-        !tissue.id.includes("/growth/")) continue;
+        originalTissues.has(tissue.id)) continue;
     const anchor = mapSourcePoint(region, root);
     const end = mapSourcePoint(region, tip);
     if (dist(anchor, end) < 2) continue;
