@@ -206,7 +206,9 @@ test("[MOT-001/A2] arbitrary limbless player ink remains playable but has no fic
     worldAdvance?: number; materialLocomotionEvidence?: unknown[];
   };
   assert.equal(diagnostic.worldAdvance, 0);
-  assert.equal(after.capabilities.canMove, false);
+  assert.equal(diagnostic.worldAdvance, 0);
+  assert.equal((diagnostic as {locomotionSupported?: boolean}).locomotionSupported, false);
+  assert.equal(after.capabilities.canWalk, false);
   assert.ok(Array.isArray(diagnostic.materialLocomotionEvidence));
   assert.deepEqual(sim.frameAt(2, { time: 2, action: "move" }), early);
   assert.ok(after.pixels.every(p => p.x >= 0 && p.x < 64 && p.y >= 0 && p.y < 64));
