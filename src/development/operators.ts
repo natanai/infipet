@@ -274,6 +274,9 @@ export function applyMaterialOperators(
       let count = 0;
       for (const candidate of eligible) {
         if (count >= amount) break;
+        // Never remove a cell serving as an active joint/fusion endpoint.
+        if (links.some(link => link.fromCellId === candidate.id ||
+            link.toCellId === candidate.id)) continue;
         const remaining = active(tissue.id).filter(c => c.id !== candidate.id);
         if (!remaining.length) continue;
         // Preserve tissue connectedness; a boundary reabsorption cannot sever it.
