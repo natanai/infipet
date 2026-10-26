@@ -579,7 +579,7 @@
         "DEV-002",
         "PHY-002"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
