@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   createPhylogenyView, getNode, getProvenance,
+  exploreDevelopmentalPossibilities, describeLifetimeDevelopmentalTrajectory,
   type SpeculativeBranchInput,
 } from "../src/phylogeny";
 
@@ -56,4 +57,25 @@ test("[PHY-003/A2] fictional operators use the same typed developmental prior co
   assert.equal(view.commonAncestor(inputs[1].id, "ncbi:4751")?.id, "ncbi:33154");
   assert.equal(view.isDescendant(inputs[1].id, "ott691846"), true);
   assert.equal(view.getNode("ott691846")?.origin, "scientific");
+
+  const map = exploreDevelopmentalPossibilities(view, "ncbi:3193", [
+    "fiction:synthetic-surface", "ncbi:4751", "fiction:synthetic-variant",
+  ])!;
+  assert.deepEqual(map.possibilities.map(p => p.referenceId), [
+    "fiction:synthetic-surface", "ncbi:4751", "fiction:synthetic-variant",
+  ]);
+  assert.equal(map.possibilities[0].provenance.kind, "fictional");
+  assert.equal(map.possibilities[1].provenance.kind, "scientific");
+  assert.ok(map.possibilities.every(p =>
+    p.availability === "reference-only-not-a-lifetime-permission-gate"));
+  const life = describeLifetimeDevelopmentalTrajectory(view, "ncbi:3193", [
+    { atHour: 10, anatomicalReferenceId: inputs[0].id, influence: "care" },
+    { atHour: 50, anatomicalReferenceId: inputs[1].id, influence: "combined" },
+  ]);
+  assert.deepEqual(life.fixedBirthReferenceLineage, view.ancestry("ncbi:3193").map(n => n.id));
+  assert.equal(life.waypoints[0].inspiration.provenance.kind, "fictional");
+  assert.ok(life.waypoints[0].availableOperatorHints.some(op =>
+    op.provenance === "fictional" && op.operator === "wall-deposition"));
+  assert.equal(life.waypoints[1].previousAnatomicalReferenceId, inputs[0].id);
+  assert.equal(life.execution, "development-engine-not-implemented");
 });
