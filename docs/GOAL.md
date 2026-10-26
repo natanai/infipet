@@ -1,6 +1,28 @@
-# Official goal: prove faithful procedural retro lifecycles in a fully playable Infipet
+# Infipet: product objective and retro fidelity benchmark
 
-## Objective
+## Primary product objective
+
+Infipet is a Tamagotchi-style pocket pet whose defining feature is that **a player can draw anything and see that particular drawing grow naturally over time**. The game must work for unfamiliar 32 × 32 drawings, not just familiar creatures, carefully prepared sprites, or drawings with anatomy labels.
+
+A successful ordinary playthrough should preserve recognizable source identity while introducing meaningful, coherent changes in anatomy, material, markings and movement. Growth must do more than scale or stretch the original picture, and it must not replace it with an unrelated finished template. Inherited seed variation and real care histories must make causal differences without permitting future events or hidden reference targets to control earlier frames.
+
+The core promise also requires a usable game: untimed creation, explicit birth, food, sleep, cleaning, illness, training, games, aging, persistence, offline progression, and a comprehensible end-of-life transition. Functional correctness, replay determinism and visual credibility are **separate** acceptance dimensions.
+
+### Evidence required for the primary objective
+
+- Use a deliberately diverse, pinned set of **non-reference player drawings**, including hollow outlines, sparse marks, asymmetry, dense shapes, disconnected pieces, feature-only faces and unexpected abstract creatures. Keep every input recipe and seed reproducible.
+- Compare birth, intermediate, adult and later frames at fixed ages, plus intermediate animations. Require identifiable source continuity, legible retained features, anatomical coherence and noticeable development—not just unchanged ink or enlarged silhouettes.
+- Compare multiple ordinary seeds and care histories for the same drawings. Verify both inherited variety and lawful care effects; don't report arbitrary seed diversity as a substitute for visible quality.
+- Verify that the same source, seed, version and chronological commands reproduce frames through reload, import/export and seeking, without consuming mutable randomness.
+- Use independent human visual review alongside automated metrics. Record failures and limitations. Passing a test suite or matching a handful of reference creatures is not sufficient evidence of good open-ended growth.
+
+These are product-level requirements. They do **not** relax the separate numerical thresholds for a retro-reference match below.
+
+## Separate benchmark: faithful procedural retro lifecycles
+
+The following rigorous benchmark evaluates whether the same generic renderer and playable care system can reproduce complete historical creature routes. It is a demanding counterexample suite, **not** a license to use character-specific endpoint art or to prioritize sprite imitation over a freely drawn pet.
+
+### Retro benchmark objective
 
 Extend and verify Infipet’s shared procedural systems until **every creature and valid evolution route in the original international 1997 Digital Monster V1 and vintage English Tamagotchi P1/P2 can be reproduced through a complete, deterministic life using only a legitimate starting drawing, one ordinary seed, and real player care.**
 
