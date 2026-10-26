@@ -16,3 +16,15 @@ export {
   createCareMaterialDevelopment,
 } from "./material-development";
 export type { CareMaterialDevelopment } from "./material-development";
+
+export {
+  CARE_EXPOSURE_VERSION,
+  CARE_EXPOSURE_LIMITS,
+  createCareOperatorChronology,
+} from "./operator-chronology";
+export type {
+  OperatorExpressionCredit,
+  CareExpressionCursor,
+  CareExposureAdvance,
+  CareOperatorChronology,
+} from "./operator-chronology";
