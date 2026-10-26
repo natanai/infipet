@@ -1,8 +1,10 @@
 /**
  * Finite developmental priors, not a species predictor or a list of evolution
  * destinations. Empty dimensions mean unknown, NOT biologically impossible.
- * The allowed sets describe common developmental architectures, not universal
- * diagnostic characters of every member or life stage of a clade.
+ * The allowed sets describe common developmental architectures within a
+ * SOURCE clade. They are NOT a permission check for one pet's later anatomy.
+ * A lifetime may use inspirations from other clades; the Development agent
+ * must preserve anatomy/ink continuity and render such changes coherently.
  */
 export type TraitSchema = {
   organization: "unicellular" | "colonial" | "multicellular";
@@ -43,7 +45,8 @@ export type DevelopmentPrior = Readonly<{
   constraints: Readonly<Partial<Record<TraitDimension, ResolvedTrait>>>;
   operatorHints: readonly OperatorPrior[];
   includesFiction: boolean;
-  /** Ancestry and taxonId never change during an individual's lifetime. */
+  /** A taxon-specific scientific reference, not a fixed lifetime morphology. */
+  semantics: "reference-clade-evidence-not-lifetime-gate";
   version: string;
 }>;
 
@@ -152,6 +155,7 @@ export function compileAncestralTraits(
     taxonId: selfId, fixedAncestry: [...selfToRoot],
     constraints, operatorHints: operators,
     includesFiction: selfToRoot.some(id => fictionalOperators.has(id)),
+    semantics: "reference-clade-evidence-not-lifetime-gate",
     version: "infipet-developmental-priors-v1",
   };
 }
