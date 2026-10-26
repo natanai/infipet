@@ -180,7 +180,7 @@ test("[INT-001/A2] invalid attachments, void growth, unrecorded matter and age o
       fromCellId: "missing", toCellId: "ink/0" }],
   }).filter(s => s.includes("stale-link")), ["stale-link-source:orphan"]);
   assert.throws(() => evaluateChronologicalMaterial(born, originalState,
-    [], CHRONOLOGICAL_LIMITS.maxHour + 1), /outside supported/);
+    [], CHRONOLOGICAL_LIMITS.maxHour + 1), /out of supported/);
   assert.throws(() => evaluateChronologicalMaterial(born, originalState,
     [{ ...grow(513), id: "beyond-iterative" }], 513),
     /exceeds DEV-003/);
