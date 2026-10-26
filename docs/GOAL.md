@@ -1,6 +1,28 @@
-# Official goal: prove faithful procedural retro lifecycles in a fully playable Infipet
+# Infipet: product objective and retro fidelity benchmark
 
-## Objective
+## Primary product objective
+
+Infipet is a Tamagotchi-style pocket pet whose defining feature is that **a player can draw anything and see that particular drawing grow naturally over time**. The game must work for unfamiliar 32 × 32 drawings, not just familiar creatures, carefully prepared sprites, or drawings with anatomy labels.
+
+A successful ordinary playthrough should preserve recognizable source identity while introducing meaningful, coherent changes in anatomy, material, markings and movement. Growth must do more than scale or stretch the original picture, and it must not replace it with an unrelated finished template. Inherited seed variation and real care histories must make causal differences without permitting future events or hidden reference targets to control earlier frames.
+
+The core promise also requires a usable game: untimed creation, explicit birth, food, sleep, cleaning, illness, training, games, aging, persistence, offline progression, and a comprehensible end-of-life transition. Functional correctness, replay determinism and visual credibility are **separate** acceptance dimensions.
+
+### Evidence required for the primary objective
+
+- Use a deliberately diverse, pinned set of **non-reference player drawings**, including hollow outlines, sparse marks, asymmetry, dense shapes, disconnected pieces, feature-only faces and unexpected abstract creatures. Keep every input recipe and seed reproducible.
+- Compare birth, intermediate, adult and later frames at fixed ages, plus intermediate animations. Require identifiable source continuity, legible retained features, anatomical coherence and noticeable development—not just unchanged ink or enlarged silhouettes.
+- Compare multiple ordinary seeds and care histories for the same drawings. Verify both inherited variety and lawful care effects; don't report arbitrary seed diversity as a substitute for visible quality.
+- Verify that the same source, seed, version and chronological commands reproduce frames through reload, import/export and seeking, without consuming mutable randomness.
+- Use independent human visual review alongside automated metrics. Record failures and limitations. Passing a test suite or matching a handful of reference creatures is not sufficient evidence of good open-ended growth.
+
+These are product-level requirements. They do **not** relax the separate numerical thresholds for a retro-reference match below.
+
+## Separate benchmark: faithful procedural retro lifecycles
+
+The following rigorous benchmark evaluates whether the same generic renderer and playable care system can reproduce complete historical creature routes. It is a demanding counterexample suite, **not** a license to use character-specific endpoint art or to prioritize sprite imitation over a freely drawn pet.
+
+### Retro benchmark objective
 
 Extend and verify Infipet’s shared procedural systems until **every creature and valid evolution route in the original international 1997 Digital Monster V1 and vintage English Tamagotchi P1/P2 can be reproduced through a complete, deterministic life using only a legitimate starting drawing, one ordinary seed, and real player care.**
 
@@ -8,7 +30,7 @@ The result must work in the normal playable application, including its care, gam
 
 **A preset library, successful game counters, passing software tests, or a benchmark framework does not complete this goal. Completion requires actual, independently verifiable reproduction witnesses.**
 
-## 1. Required reference coverage
+### 1. Required reference coverage
 
 - Cover all **36 currently identified forms**: 14 Digital Monster V1, 11 P1 and 11 P2.
 - Treat the **25 currently cataloged stage paths as a minimum**, not proof that every original route has been captured. Resolve original care-history variants, secret-form requirements and valid alternative endings.
@@ -20,7 +42,7 @@ The result must work in the normal playable application, including its care, gam
 
 Later franchise generations and unrelated editions are outside this goal unless explicitly added.
 
-## 2. Procedural integrity: permitted improvements and prohibited shortcuts
+### 2. Procedural integrity: permitted improvements and prohibited shortcuts
 
 **General improvements to the shared engine are authorized**, including anatomy, material redistribution, pigment expression, facial development, movement and developmental timing.
 
@@ -40,7 +62,7 @@ The following constraints are mandatory:
 
 Keep the phylogenetic system integrated as a constrained game affinity model. Preserve real ancestry relationships, uncertainty and broad fallbacks. Do not invent biological relationships or character-specific taxonomic exceptions to force a match.
 
-## 3. Definition of a successful reproduction
+### 3. Definition of a successful reproduction
 
 A passing witness contains **one starting drawing, one seed and one chronological history of actual player commands** that reproduces the entire reference path.
 
@@ -58,7 +80,7 @@ Every passing path must receive visual review separate from its automated score.
 
 **Every stage must pass under the same recipe.** A collection of unrelated successful adults, exact copied birth drawings, or a favorable average cannot substitute for whole-path reproduction. Do not lower acceptance thresholds to manufacture success.
 
-## 4. Playability, interfaces and reproducibility
+### 4. Playability, interfaces and reproducibility
 
 - Every reproduced form must function throughout all lawful, age-appropriate care actions, minigames, training, battles, illness/recovery, sleep and mortality scenarios in the normal application.
 - Keep one shared editable drawing canvas, untimed creation and an explicit **Begin life** action. Reference reproduction must not require a separate simulation mode with special powers.
@@ -71,7 +93,7 @@ Every passing path must receive visual review separate from its automated score.
 - Preserve the separation between chronological care time and anatomical maturation, including the existing six-hour and seven-day care responses.
 - Follow prototype policy: introduce a new revision when required, reset only `infipet.*`, and add no migrations or backups unless requested.
 
-## 5. Evidence required before declaring completion
+### 5. Evidence required before declaring completion
 
 Deliver:
 
