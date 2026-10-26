@@ -1271,7 +1271,8 @@
     "tests/alg-environment-reaction.test.ts",
     "tests/alg-environment-material.test.ts",
     "tests/alg-integration-runtime.test.ts",
-    "tests/alg-development-chaos.test.ts"
+    "tests/alg-development-chaos.test.ts",
+    "tests/alg-integration-locomotion.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
