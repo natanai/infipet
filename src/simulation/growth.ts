@@ -47,7 +47,9 @@ import {
   compileRuntimeBiology, compileRuntimeMaterialProgram, compileRuntimeCareMaterial,
   type RuntimeBiology,
 } from "../integration";
-import { materialDevelopmentAt, type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
+import { type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
+import { createCareOperatorChronology } from "../environment";
+import { createUnifiedMaterialTimeline } from "../integration/unified-runtime";
 import { inferFunctionalMaterial, type MaterialMovementBinding } from "../integration/functional-material";
 import {
   compileSurfaceExpression,
@@ -737,6 +739,14 @@ export function createSimulation(
       ? compileRuntimeCareMaterial(blueprint.atlas, inherited,
           blueprint.biology, options.careGame)
       : undefined,
+    unified = createUnifiedMaterialTimeline({
+      program: blueprint.material, genome: inherited,
+      ...(careMaterial ? {
+        care: createCareOperatorChronology(blueprint.material,
+          careMaterial.history, inherited.genotype),
+        history: careMaterial.history,
+      } : {}),
+    }),
     surfaceGenes = compileSurfaceExpression(inherited),
     hatchAt = liveContext
       ? Math.max(0, liveContext.hatchAtHours) / 24
@@ -764,16 +774,13 @@ export function createSimulation(
     frames = new Map<string, PetFrame>(),
     materialSnapshots = new Map<number, MaterialGraph>();
   const materialAt = (chronologicalHour: number): MaterialGraph => {
-    // A material time is always derived from the *same* permanent birth graph.
-    // Caching changes cost, never chronological output or inherited identity.
-    // The actual game records physiological history at chronological-hour
-    // boundaries, so freeze geometric material snapshots to that same clock.
-    const hour = Math.floor(Math.max(0, chronologicalHour));
+    // Actual shared CARE + DEV-002/003/004 anatomy. Recorded care is finite:
+    // beyond the observed horizon hold the graph, never invent future feeding.
+    const hour = Math.min(unified.maxHour,
+      Math.max(0, chronologicalHour));
     const hit = materialSnapshots.get(hour);
     if (hit) return hit;
-    const graph = careMaterial
-      ? careMaterial.materialAt(Math.min(hour, careMaterial.history.maxHour))
-      : materialDevelopmentAt(blueprint!.material, hour);
+    const graph = unified.at(hour).graph;
     setLRU(materialSnapshots, hour, graph, 8);
     return graph;
   };
