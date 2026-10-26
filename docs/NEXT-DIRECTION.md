@@ -1,5 +1,8 @@
 # Growth direction and current source-driven revision
 
+> **Historical life-v7 planning note:** This document records an earlier engine direction and its then-current shortcomings. Life-v10 is active; use the [current goal](GOAL.md), [README](../README.md), and [verification](VERIFICATION-life-v10.md) for present status.
+
+
 The user stopped the household audit implementation on **2026-10-23** because visual variety was insufficient. The [household-v1 archive](audits/household-v1/REPORT.md) remains provisional: statistical cleanup was intentionally stopped, and its draft percentages are not a completed baseline.
 
 [Life v6](audits/life-v6/REPORT.md) introduced dramatic silhouettes, but its measured variety still converged on recurring body families: **87/96 (90.6%)** neutral-care adults had some near-twin among their fifteen same-source neighbors at day 75. Primary review retained **40/1,152** weak stage comparisons. Those are historical v6 measurements, not v7 results. The subsequent source-continuity concern is separate: a dramatic replacement with familiar facial features does not necessarily read as development of the original drawing.
