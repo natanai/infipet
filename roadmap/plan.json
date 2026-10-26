@@ -1179,7 +1179,8 @@
   "baselineTests": [
     "tests/retro-reference-score.test.ts",
     "tests/alg-environment-history.test.ts",
-    "tests/alg-environment-reaction.test.ts"
+    "tests/alg-environment-reaction.test.ts",
+    "tests/alg-environment-material.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
