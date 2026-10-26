@@ -1,0 +1,758 @@
+{
+  "schemaVersion": 1,
+  "id": "infipet-artificial-life",
+  "updatedOn": "2026-10-25",
+  "mandate": "Arbitrary authored ink develops through a shared phylogeny-constrained, seed-inherited and care-dependent simulation; surface remains a retro virtual pet.",
+  "sourceOfTruth": true,
+  "lifecycle": {
+    "statuses": [
+      "todo",
+      "in_progress",
+      "blocked",
+      "done"
+    ],
+    "completeMeans": "Every acceptance marker is asserted in the focused test file and passes in CI. A task is not done from screenshots, prose or partial implementation."
+  },
+  "invariants": [
+    "No reference sprites, species IDs or historical stages in the runtime phenotype generator.",
+    "Retain exact authored birth ink and traceable source-material ancestry.",
+    "A phylogeny constrains development; an individual does not change phylogenetic ancestry as it matures.",
+    "Scientific taxonomy and fictional extensions have distinct, inspectable provenance.",
+    "A replay witness is source drawing, seed, engine version, chronological care history, and times.",
+    "Avoid generated screenshots, recordings or diagnostic bulk files in main; use small deterministic numeric tests.",
+    "Every agent reads this plan before touching the engine, updates task status and acceptance tests together."
+  ],
+  "tasks": [
+    {
+      "id": "SYS-001",
+      "phase": 0,
+      "area": "Verification",
+      "title": "Canonical machine-readable roadmap and focused test runner",
+      "dependsOn": [],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Invalid task graphs and unevidenced completion are rejected",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Each completed acceptance criterion is linked to an executable test",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/roadmap-contract.test.ts",
+        "command": "pnpm exec tsx --test tests/roadmap-contract.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "roadmap/plan.json",
+        "scripts/roadmap.mjs",
+        "tests/roadmap-contract.test.ts"
+      ]
+    },
+    {
+      "id": "OBS-001",
+      "phase": 1,
+      "area": "Inference",
+      "title": "Extract label-independent connectedness, symmetry and bounds from arbitrary ink",
+      "dependsOn": [
+        "SYS-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "A single blob, disconnected marks, and empty ink have stable exact signatures",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Pigment, layer ordering and part labels cannot change an otherwise identical silhouette",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/ink-signature.test.ts",
+        "command": "pnpm exec tsx --test tests/ink-signature.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/lineage/ink-signature.ts"
+      ]
+    },
+    {
+      "id": "OBS-002",
+      "phase": 1,
+      "area": "Inference",
+      "title": "Represent multiple biological affinities with explicit uncertainty",
+      "dependsOn": [
+        "OBS-001",
+        "PHY-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Ambiguous and blank drawings are not confidently classified as animals",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Output maintains inspectable evidence and probabilistic alternatives",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/placement-uncertainty.test.ts",
+        "command": "pnpm exec tsx --test tests/placement-uncertainty.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/lineage/index.ts"
+      ]
+    },
+    {
+      "id": "OBS-003",
+      "phase": 1,
+      "area": "Inference",
+      "title": "Test shape inference under translation and small drawing perturbations",
+      "dependsOn": [
+        "OBS-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Translation and repainting preserve equivalent biological evidence",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "One-pixel perturbations do not force arbitrary confident taxonomy jumps",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/shape-robustness.test.ts",
+        "command": "pnpm exec tsx --test tests/shape-robustness.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/lineage/ink-signature.ts"
+      ]
+    },
+    {
+      "id": "PHY-001",
+      "phase": 2,
+      "area": "Phylogeny",
+      "title": "Introduce a verified multi-kingdom tree rooted beyond Metazoa",
+      "dependsOn": [
+        "OBS-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Plant, fungal and animal ancestors have traceable external taxon IDs and source versions",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "All parent edges are acyclic and scientifically sourced; unknown roots remain unknown",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/cross-kingdom-tree.test.ts",
+        "command": "pnpm exec tsx --test tests/cross-kingdom-tree.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/phylogeny"
+      ]
+    },
+    {
+      "id": "PHY-002",
+      "phase": 2,
+      "area": "Phylogeny",
+      "title": "Compile inherited biological trait constraints from ancestry",
+      "dependsOn": [
+        "PHY-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Child traits inherit and may refine documented ancestral constraints",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "No individual lifetime transition changes established ancestry",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/ancestral-trait-inheritance.test.ts",
+        "command": "pnpm exec tsx --test tests/ancestral-trait-inheritance.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/phylogeny",
+        "src/lineage"
+      ]
+    },
+    {
+      "id": "PHY-003",
+      "phase": 2,
+      "area": "Phylogeny",
+      "title": "Add fantasy extensions without presenting them as scientific taxa",
+      "dependsOn": [
+        "PHY-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Every speculative node is machine-identifiable as fictional",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Speculative phenotypes remain compatible with the shared developmental API",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/speculative-branches.test.ts",
+        "command": "pnpm exec tsx --test tests/speculative-branches.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/phylogeny"
+      ]
+    },
+    {
+      "id": "GEN-001",
+      "phase": 2,
+      "area": "Genetics",
+      "title": "Introduce lineage-conditioned modular genotype channels",
+      "dependsOn": [
+        "PHY-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Genome remains seed-only and replay deterministic",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Growth, support and pattern channels obey appropriate lineage constraints",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/genotype-channels.test.ts",
+        "command": "pnpm exec tsx --test tests/genotype-channels.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation/genome.ts"
+      ]
+    },
+    {
+      "id": "GEN-002",
+      "phase": 2,
+      "area": "Genetics",
+      "title": "Define controlled genetic neighborhoods and independent random variation",
+      "dependsOn": [
+        "GEN-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Related genotype coordinates yield correlated inherited traits",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Different seeds retain substantial morphological diversity without creature lookups",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/genetic-neighborhood.test.ts",
+        "command": "pnpm exec tsx --test tests/genetic-neighborhood.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation/genome.ts"
+      ]
+    },
+    {
+      "id": "DEV-001",
+      "phase": 3,
+      "area": "Development",
+      "title": "Track durable material ancestry, structural attachment and growth sites",
+      "dependsOn": [
+        "OBS-001",
+        "PHY-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Generated anatomy has inspectable source-material ancestry",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Tissue attachments persist coherently across frames and save/replay",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/developmental-material-graph.test.ts",
+        "command": "pnpm exec tsx --test tests/developmental-material-graph.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation"
+      ]
+    },
+    {
+      "id": "DEV-002",
+      "phase": 3,
+      "area": "Development",
+      "title": "Add composable growth, branching, fusion and reabsorption operators",
+      "dependsOn": [
+        "DEV-001",
+        "GEN-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Operators produce measurable structural changes without sprite targets",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Operator composition is deterministic and does not invent source provenance",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/composable-operators.test.ts",
+        "command": "pnpm exec tsx --test tests/composable-operators.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation"
+      ]
+    },
+    {
+      "id": "DEV-003",
+      "phase": 3,
+      "area": "Development",
+      "title": "Generate plausible iterative plant architecture and responses",
+      "dependsOn": [
+        "DEV-002",
+        "PHY-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Roots, stems, growth tips, branches and leaves arise from one general grammar",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Light and resource histories change growth without predefined plant sprites",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/plant-development.test.ts",
+        "command": "pnpm exec tsx --test tests/plant-development.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation"
+      ]
+    },
+    {
+      "id": "DEV-004",
+      "phase": 3,
+      "area": "Development",
+      "title": "Generate varied animal appendage and metamorphosis programs",
+      "dependsOn": [
+        "DEV-002",
+        "PHY-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Different seeded body plans retain anatomical continuity",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Major remodeling occurs through explicit developmental operations",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/animal-development-contract.test.ts",
+        "command": "pnpm exec tsx --test tests/animal-development-contract.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation"
+      ]
+    },
+    {
+      "id": "DEV-005",
+      "phase": 3,
+      "area": "Development",
+      "title": "Compose speculative developmental rules through shared operators",
+      "dependsOn": [
+        "DEV-003",
+        "DEV-004",
+        "PHY-003"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Fantasy phenotype combines documented operator capabilities",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Arbitrary fantasy ink does not require a named target sprite",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/fantasy-development.test.ts",
+        "command": "pnpm exec tsx --test tests/fantasy-development.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation"
+      ]
+    },
+    {
+      "id": "DEV-006",
+      "phase": 3,
+      "area": "Development",
+      "title": "Validate organism continuity, original ink identity and shape variety",
+      "dependsOn": [
+        "DEV-003",
+        "DEV-004",
+        "DEV-005"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Birth render matches authored pixels exactly",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Cohorts retain source identity while showing structural rather than pigment-only diversity",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/development-quality.test.ts",
+        "command": "pnpm exec tsx --test tests/development-quality.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation"
+      ]
+    },
+    {
+      "id": "CARE-001",
+      "phase": 3,
+      "area": "Environment",
+      "title": "Provide replayable chronological physiological exposure histories",
+      "dependsOn": [
+        "DEV-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Care event order affects future state but not earlier frames",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Saved and reconstructed histories produce equivalent developmental inputs",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/environment-history.test.ts",
+        "command": "pnpm exec tsx --test tests/environment-history.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/gameplay",
+        "src/needs"
+      ]
+    },
+    {
+      "id": "CARE-002",
+      "phase": 3,
+      "area": "Environment",
+      "title": "Connect nutrition, stress, training and exposure to genotype-dependent development",
+      "dependsOn": [
+        "CARE-001",
+        "GEN-001",
+        "DEV-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Same seed with different meaningful exposures can yield different anatomy",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Same exposure on different genotypes need not produce equal outcomes",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/reaction-norm.test.ts",
+        "command": "pnpm exec tsx --test tests/reaction-norm.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation",
+        "src/gameplay"
+      ]
+    },
+    {
+      "id": "CARE-003",
+      "phase": 4,
+      "area": "Environment",
+      "title": "Quantify care counterfactuals over whole developmental lifetimes",
+      "dependsOn": [
+        "CARE-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Tests compare paired lives changing only one care variable",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Effects are observed in body structures rather than cosmetic state alone",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/care-counterfactuals.test.ts",
+        "command": "pnpm exec tsx --test tests/care-counterfactuals.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation"
+      ]
+    },
+    {
+      "id": "EVAL-001",
+      "phase": 1,
+      "area": "Evaluation",
+      "title": "Maintain machine-readable multi-seed deterministic regression cohorts",
+      "dependsOn": [
+        "OBS-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Arbitrary small, symmetric, branching, fragmented and empty drawings are covered",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Same inputs and different render order yield the same hash for each milestone",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/development-cohort.test.ts",
+        "command": "pnpm exec tsx --test tests/development-cohort.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "tests"
+      ]
+    },
+    {
+      "id": "EVAL-002",
+      "phase": 4,
+      "area": "Evaluation",
+      "title": "Score independent retro-reference silhouettes and structural trajectories",
+      "dependsOn": [
+        "DEV-006"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Targets never enter the generator or genome compiler",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Every stage produces numeric similarity and honest pass/fail thresholds",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/retro-trajectory-score.test.ts",
+        "command": "pnpm exec tsx --test tests/retro-trajectory-score.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "tests"
+      ]
+    },
+    {
+      "id": "EVAL-003",
+      "phase": 4,
+      "area": "Evaluation",
+      "title": "Find and replay actual seed plus care witnesses for reference paths",
+      "dependsOn": [
+        "EVAL-002",
+        "CARE-003"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Search returns a complete replayable birth-seed-care-timing witness",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Absent an adequate witness the reference reports unresolved, never parity",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/retro-witness-search.test.ts",
+        "command": "pnpm exec tsx --test tests/retro-witness-search.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "tests"
+      ]
+    },
+    {
+      "id": "GAME-001",
+      "phase": 4,
+      "area": "Player",
+      "title": "Keep classification, genome and diagnostics hidden from ordinary play",
+      "dependsOn": [
+        "OBS-002",
+        "CARE-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Starting any drawing does not require anatomy or kingdom selection",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Retro-device life loop persists across normal saves without a diagnostics screen",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/player-surface.test.ts",
+        "command": "pnpm exec tsx --test tests/player-surface.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "App.tsx",
+        "src"
+      ]
+    },
+    {
+      "id": "PERF-001",
+      "phase": 4,
+      "area": "Reliability",
+      "title": "Bound evaluation memory and growth cost at scale",
+      "dependsOn": [
+        "DEV-006",
+        "EVAL-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Cohort diagnostics avoid screenshots and large generated artifacts",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Worst-case 32x32 drawings stay within documented time and memory budgets",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/development-budget.test.ts",
+        "command": "pnpm exec tsx --test tests/development-budget.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/simulation"
+      ]
+    }
+  ]
+}
