@@ -231,21 +231,16 @@
       ],
       "algorithmId": "ancestry",
       "interfaceContract": {
-        "purpose": "Scientific ancestry is sourced reference data. Single-pet developmental affinities may change across the possibility map without changing any scientific reference parent edge, breeding, or offspring.",
-        "exports": [
-          "ancestry nodes: id, parentId, children, rank",
-          "external IDs: OTT/NCBI provenance per node",
-          "parentOf / childrenOf / ancestry / commonAncestor / isDescendant"
-        ],
+        "purpose": "Represent a small multi-kingdom scientific reference tree, retaining historical OpenTree animal identifiers and evidence; all edges are reference ancestry, possibly contracted over omitted taxa.",
         "inputs": [
-          "candidate lineage/taxon ID(s)"
+          "ott animal nodes from catalog-data.json",
+          "11 hand-selected dated NCBI Taxonomy Browser references"
         ],
         "outputs": [
-          "versioned scientific taxonomy and provenance",
-          "taxon-specific biological trait evidence",
-          "non-exclusionary anatomical possibilities and lifetime waypoint contract"
+          "PhylogenyView: getNode, parentOf, childrenOf, ancestry, commonAncestor, isDescendant, lineageMembership, getProvenance, validate",
+          "scientific provenance with OTT/NCBI identifiers and access-date or release labeling"
         ],
-        "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
+        "unknownBehavior": "Unrepresented taxa return undefined/empty, and no unsourced intermediary node is inserted"
       }
     },
     {
@@ -265,7 +260,7 @@
         },
         {
           "id": "A2",
-          "requirement": "An individual pet can traverse changing developmental affinities along the possibility map without breeding, producing offspring, or asserting that its scientific ancestry literally changed",
+          "requirement": "A typed single-pet waypoint descriptor can move among anatomical inspirations from different reference clades, with stable scientific birth-reference ancestry; rendering the physical transformations remains an integration-dependent task",
           "oracle": "focused-node-test"
         }
       ],
@@ -281,20 +276,19 @@
       ],
       "algorithmId": "ancestry",
       "interfaceContract": {
-        "purpose": "Scientific ancestry is sourced reference data. Single-pet developmental affinities may change across the possibility map without changing any scientific reference parent edge, breeding, or offspring.",
-        "exports": [
-          "resolveBiologicalConstraints(id): DevelopmentPrior",
-          "candidateBirthPriors(ids, fictionalBranches?) to supply drawing inference and seed genetics"
-        ],
+        "purpose": "Evidence-backed anatomical traits belong to reference taxa; single-pet growth can draw on changing biological inspirations and the birth reference is not a lifetime prohibitive gate.",
         "inputs": [
-          "candidate lineage/taxon ID(s)"
+          "birthReferenceId: a candidate reference, not a verified diagnosis",
+          "candidateReferenceIds?: readonly string[] (defaults to all represented)",
+          "waypoints: readonly {atHour, anatomicalReferenceId, influence}[] supplied externally"
         ],
         "outputs": [
-          "versioned scientific taxonomy and provenance",
-          "taxon-specific biological trait evidence",
-          "non-exclusionary anatomical possibilities and lifetime waypoint contract"
+          "DevelopmentPrior: sourced reference-clade constraints, operator hints, semantics=reference-clade-evidence-not-lifetime-gate",
+          "DevelopmentalPossibilityMap: anatomical inspirations across branches, source-relative graph distance, provenance, fixedBirthReferenceLineage",
+          "LifetimeDevelopmentalTrajectory: chronologically validated inspiration waypoints, generic operator hints, execution=development-engine-not-implemented",
+          "candidateBirthPriors, candidateDevelopmentalMaps, describeCandidateTrajectory from src/lineage/phylogeny-priors.ts"
         ],
-        "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
+        "missingIntegration": "No classifier selection, seed/care waypoint planning, phenotype realization, or physical continuity validation in this module. Development and integration owners must implement these downstream."
       }
     },
     {
@@ -329,21 +323,15 @@
       ],
       "algorithmId": "ancestry",
       "interfaceContract": {
-        "purpose": "Scientific ancestry is sourced reference data. Single-pet developmental affinities may change across the possibility map without changing any scientific reference parent edge, breeding, or offspring.",
-        "exports": [
-          "createPhylogenyView(fictionalBranches): PhylogenyView",
-          "fiction: namespace, explicit fictional provenance, same operator vocabulary"
-        ],
+        "purpose": "Fictional overlays are explicit non-scientific provenance and offer generic anatomical inspirations; no named fantasy sprites or target species.",
         "inputs": [
-          "candidate lineage/taxon ID(s)",
-          "explicit speculative branch definitions"
+          "SpeculativeBranchInput[] with fiction: prefixed ID, represented parentId, name, rationale, operatorHints"
         ],
         "outputs": [
-          "versioned scientific taxonomy and provenance",
-          "taxon-specific biological trait evidence",
-          "non-exclusionary anatomical possibilities and lifetime waypoint contract"
+          "createPhylogenyView(speculativeBranches) with distinct fictional provenance",
+          "fictional possibility entries via exploreDevelopmentalPossibilities and typed lifetime waypoints"
         ],
-        "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
+        "missingIntegration": "No rendering engine is implemented. Fictional operator hints are only suggestions to the shared future Development agent."
       }
     },
     {
@@ -935,16 +923,19 @@
     {
       "id": "ancestry",
       "name": "Provenance-backed phylogeny",
-      "purpose": "Supply a verifiable phylogenetic reference and non-exclusive anatomical inspirations for one pet's lifetime; no reproductive evolution or changes to actual reference relationships.",
+      "purpose": "Keep scientific reference ancestry distinct from single-pet anatomical inspirations and hypothetical lifetime trajectories; no reproduction, no species change claims, no growth renderer.",
       "inputs": [
-        "externally verified NCBI taxonomy lineage records and historical OTT animal catalog",
-        "documented broad developmental trait evidence",
-        "optional explicitly fictional overlays (not scientific taxa)"
+        "historical OpenTree animal closure",
+        "dated NCBI selected lineage references",
+        "published biological feature literature",
+        "optional explicitly fictional overlays",
+        "caller-supplied candidate IDs and chronological waypoint descriptors"
       ],
       "outputs": [
-        "PhylogenyView: ancestry, commonAncestor, lineageMembership, parent/children, scientific or fictional provenance",
-        "DevelopmentPrior: fixed birth ancestry, inherited and refined trait priors, generic operators",
-        "BirthLineagePrior[]: typed inference/genetics adapter, no forced classification"
+        "PhylogenyView and inspectable scientific/fictional provenance",
+        "DevelopmentPrior taxon-specific evidence, not lifetime hard limits",
+        "DevelopmentalPossibilityMap and LifetimeDevelopmentalTrajectory contracts for a single continuously identifiable pet",
+        "candidateBirthPriors, candidateDevelopmentalMaps and describeCandidateTrajectory"
       ],
       "ownedPaths": [
         "src/phylogeny/",
