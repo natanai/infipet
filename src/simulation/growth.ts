@@ -517,7 +517,7 @@ function poseAuthoredMaterial(
   };
 }
 /** Distributed two-segment flexure of an explicitly linked, grown tissue. */
-function poseLinkedMaterial(
+export function poseLinkedMaterial(
   p: Point, binding: MaterialMovementBinding, transform: PoseTransform,
 ): Point {
   if (!transform.joint) return transformLocomotionPoint(p, transform);
