@@ -10,6 +10,7 @@ import {
   materialSourceAncestry, type MaterialOperator,
 } from "../src/development";
 import { drawing, fixtures, materialInputs } from "./alg-development-fixtures";
+import { compileLabGenome } from "../src/simulation/genome";
 
 const P = BigInt(CHAOS_MODULUS);
 
@@ -168,6 +169,17 @@ test("[CHAOS/A4] diverse ordinary seeds generate reproducible physical paths wit
       assert.deepEqual(JSON.parse(JSON.stringify(mature)), mature);
     }
   }
+
+  const base = materialInputs(fixtures.branching, "CHAOS-LAB-SENSITIVITY");
+  const low = compileLabGenome("CHAOS-LAB-SENSITIVITY", "infant", { sensitivity: 0 });
+  const high = compileLabGenome("CHAOS-LAB-SENSITIVITY", "infant", { sensitivity: 1 });
+  const lowProgram = compileMaterialDevelopment(base.atlas, low);
+  const highProgram = compileMaterialDevelopment(base.atlas, high);
+  assert.deepEqual(lowProgram.operators, highProgram.operators,
+    "changing only the care-sensitivity gene cannot silently reseed growth sites");
+  assert.ok(lowProgram.operators.every(op =>
+    op.chaos?.initial.x !== 0 || op.chaos?.initial.y !== 0));
+
   const initials = new Set<string>();
   const paths = new Set<string>();
   for (let n = 0; n < 12; n++) {

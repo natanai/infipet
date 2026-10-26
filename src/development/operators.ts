@@ -1,5 +1,4 @@
 import { clamp, compareText, hash, type Point } from "../simulation/model";
-import { genomeCacheKey } from "../simulation/genome";
 import {
   CHAOS_VERSION,
   seedChaos, chaoticProgress, chaoticTurn, validateMaterialChaos,
@@ -351,7 +350,10 @@ export function compileMaterialDevelopment(
     const chaosFor = (id: string): MaterialChaos => ({
       version: CHAOS_VERSION,
       initial: seedChaos([
-        genomeCacheKey(genome), source.sourceFingerprint, tissue.id,
+        // The original seed determines the chaotic orbit. Lab-only changes
+        // to environmental sensitivity MUST NOT silently replace that orbit;
+        // independent inherited trait channels still set rate/turn amplitudes.
+        genome.seed, genome.mode, source.sourceFingerprint, tissue.id,
         siteId ?? "", id,
       ].join("|")),
       rateAmplitude: 0.12 + 0.28 * signals.channels.growth.rate,

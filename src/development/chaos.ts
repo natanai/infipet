@@ -42,7 +42,7 @@ function validState(state: ChaosState): void {
 
 export function seedChaos(identity: string): ChaosState {
   if (!identity) throw new TypeError("Chaos birth identity cannot be empty");
-  // The full birth genome identity, the original ink geometry and operator ID
+  // The permanent birth seed/mode, original ink geometry and operator ID
   // are supplied by the material compiler; never frame order or care from
   // after the evaluation hour.
   return {
