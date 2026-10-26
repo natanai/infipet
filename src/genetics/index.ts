@@ -16,7 +16,6 @@ export {
   PRIOR_OPERATORS,
 } from "./constraints";
 export type {
-  ProposedDevelopmentPrior,
   AncestralTraitConstraints,
   GeneticExpression,
   EvidenceState,

@@ -3,40 +3,20 @@ import {
   type DevelopmentalChannels,
   type DevelopmentalGenotype,
 } from "./channels";
+import type {
+  DevelopmentPrior,
+  DevelopmentOperator,
+  TraitDimension,
+  OperatorPrior,
+} from "../phylogeny";
 
 /**
- * Structural projection of Agent 1's proposed src/phylogeny/traits.ts
- * DevelopmentPrior (algorithm/phylogeny, PR #7). Not authoritative or
- * integration-verified until PHY-002 reaches main and is tested directly.
- *
- * No scientific numerical expression limits exist in that public contract.
- * Its allowed categorical states are priors, not impossible/possible verdicts.
+ * Types are aliases of the merged authoritative phylogeny contract.
+ * The taxon is a biological reference, NOT a hard gate on one pet's development.
  */
-export type PriorTraitDimension = "organization" | "wallMaterial" | "growthPattern";
-export type PriorOperator =
-  | "tip-extension" | "branch-axis" | "surface-expansion"
-  | "tissue-remodeling" | "appendage-extension" | "wall-deposition";
-export type PriorProvenance = "scientific" | "fictional";
-export type ProposedDevelopmentPrior = Readonly<{
-  taxonId: string;
-  fixedAncestry: readonly string[];
-  constraints: Readonly<Partial<Record<PriorTraitDimension, Readonly<{
-    allowed: readonly string[];
-    introducedBy: string;
-    refinedBy: readonly string[];
-    evidenceUrls: readonly string[];
-  }>>>>;
-  operatorHints: readonly Readonly<{
-    operator: PriorOperator;
-    introducedBy: string;
-    evidenceUrl: string;
-    provenance: PriorProvenance;
-  }>[];
-  includesFiction: boolean;
-  /** Agent 1: source-clade evidence informs, but does not gate lifetime anatomy. */
-  semantics: "reference-clade-evidence-not-lifetime-gate";
-  version: string;
-}>;
+export type PriorTraitDimension = TraitDimension;
+export type PriorOperator = DevelopmentOperator;
+export type PriorProvenance = OperatorPrior["provenance"];
 
 export type EvidenceState =
   | Readonly<{ status: "unknown" }>
@@ -80,13 +60,13 @@ export type GeneticExpression = Readonly<{
 }>;
 
 /**
- * Convert the *existing proposed* PHY-002 category/operator prior into
+ * Convert the authoritative merged PHY-002 category/operator prior into
  * inspectable signals. Unknown == unrepresented by evidence, never forbidden.
  * This adapter does not fabricate min/max thresholds, functional anatomy or
  * organism destinations.
  */
 export function adaptDevelopmentPrior(
-  prior: ProposedDevelopmentPrior,
+  prior: DevelopmentPrior,
 ): AncestralTraitConstraints {
   if (!prior || !prior.taxonId || !prior.version ||
       prior.semantics !== "reference-clade-evidence-not-lifetime-gate" ||

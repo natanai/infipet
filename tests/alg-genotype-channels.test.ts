@@ -1,6 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  createPhylogenyView, resolveBiologicalConstraints,
+  developmentalPossibilities,
+  type DevelopmentPrior,
+} from "../src/phylogeny";
+import {
   compileGenome, compileLabGenome, genomeCacheKey,
   geneRandom, materialGene,
 } from "../src/simulation/genome";
@@ -8,11 +13,10 @@ import {
   DEVELOPMENTAL_CHANNELS, DEVELOPMENT_CONSUMERS,
   adaptDevelopmentPrior, expressGenotype,
   expressEnvironmentalResponse, compileDevelopmentGeneticSignals,
-  type ProposedDevelopmentPrior,
 } from "../src/genetics";
 
-/** Mirrors PR #7's proposed categorical DevelopmentPrior. Not scientific fixture data. */
-function fixturePrior(): ProposedDevelopmentPrior {
+/** Synthetic malformed-evidence fixture retained only for negative validation. */
+function fixturePrior(): DevelopmentPrior {
   return {
     taxonId: "fiction:example",
     fixedAncestry: ["fiction:example", "ncbi:3193", "ncbi:33090", "ncbi:2759"],
@@ -101,4 +105,73 @@ test("[GEN-001/A2] projected phylogeny categories preserve unknown, evidence pro
     operatorHints: [{ operator: "tip-extension", introducedBy: "ncbi:3193",
       provenance: "scientific", evidenceUrl: "" }],
   }), /Unverified prior operator/);
+});
+
+
+test("[GEN-001/A2] merged PHY-002 animal, plant, fungal and fictional priors integrate without altering a pet", () => {
+  const genome = compileGenome("REAL-PHYLOGENY-WITNESS");
+  const before = JSON.stringify(genome);
+  const references = [
+    ["ott691846", "animal"],
+    ["ncbi:3193", "land plant"],
+    ["ncbi:4751", "fungus"],
+  ] as const;
+  for (const [id, label] of references) {
+    const source = resolveBiologicalConstraints(id);
+    assert.ok(source, "Missing real ancestry data for " + label);
+    assert.equal(source.taxonId, id);
+    assert.equal(source.includesFiction, false);
+    assert.equal(source.semantics, "reference-clade-evidence-not-lifetime-gate");
+    const adapted = adaptDevelopmentPrior(source);
+    assert.equal(adapted.lineageNodeId, id);
+    assert.equal(adapted.includesFiction, false);
+    assert.equal(adapted.priorVersion, source.version);
+    const genes = expressGenotype(genome.genotype, adapted);
+    assert.deepEqual(genes.channels, genome.genotype.channels);
+    assert.equal(genes.lineage?.semantics, "reference-clade-evidence-not-lifetime-gate");
+    assert.ok(Object.values(adapted.traits).every(item =>
+      item.status === "unknown" || item.status === "supported"));
+    assert.ok(Object.values(adapted.operators).every(item =>
+      item.status === "unknown" || item.status === "supported"));
+    for (const hint of source.operatorHints) {
+      const evidence = adapted.operators[hint.operator];
+      assert.equal(evidence.status, "supported", label + ": " + hint.operator);
+      if (evidence.status === "supported")
+        assert.ok(evidence.sources.some(item =>
+          item.introducedBy === hint.introducedBy &&
+          item.provenance === hint.provenance &&
+          item.evidenceUrl === hint.evidenceUrl));
+    }
+  }
+  const tree = createPhylogenyView([{
+    id: "fiction:genic-branch",
+    parentId: "ncbi:3193",
+    name: "Fictional growth inspiration",
+    rationale: "Test fictional provenance in a single-pet developmental path",
+    operatorHints: ["appendage-extension"],
+  }]);
+  const imaginary = tree.resolveBiologicalConstraints("fiction:genic-branch");
+  assert.ok(imaginary);
+  assert.equal(imaginary.includesFiction, true);
+  const fiction = adaptDevelopmentPrior(imaginary);
+  assert.equal(fiction.includesFiction, true);
+  const fictionalHint = fiction.operators["appendage-extension"];
+  assert.equal(fictionalHint.status, "supported");
+  if (fictionalHint.status === "supported")
+    assert.ok(fictionalHint.sources.some(item =>
+      item.provenance === "fictional" &&
+      item.introducedBy === "fiction:genic-branch"));
+  assert.deepEqual(expressGenotype(genome.genotype, fiction).channels, genome.genotype.channels);
+  // The same pet can explore cross-clade anatomical inspirations.
+  const possibilities = developmentalPossibilities("ncbi:3193", [
+    "ncbi:3193", "ott691846", "ncbi:4751",
+  ]);
+  assert.ok(possibilities);
+  assert.deepEqual(possibilities.possibilities.map(item => item.referenceId),
+    ["ncbi:3193", "ott691846", "ncbi:4751"]);
+  assert.ok(possibilities.possibilities.every(item =>
+    item.availability === "reference-only-not-a-lifetime-permission-gate"));
+  assert.equal(possibilities.fixedBirthReferenceLineage[0], "ncbi:3193");
+  assert.equal(JSON.stringify(genome), before,
+    "Biological inspiration never rewrites the pet's inherited genome");
 });
