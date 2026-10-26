@@ -1,5 +1,15 @@
 # Infipet active game instructions
 
+## Single-creature evolution semantics — mandatory for every agent
+
+- **Infipet simulates ONE continuously identifiable pet from its drawn birth to all later stages.** No breeding, reproduction, mate selection, offspring, parent genomes, heredity between pets, evolutionary generations, species populations or genetic recombination. Do not implement any of these.
+- The real tree of life is a **reference map of branching anatomical possibilities**. A pet can progress through forms inspired or constrained by different branches during *its own lifetime*. This is the game's evolution-like metamorphosis, **not** a scientific assertion that one organism literally changes taxonomic ancestry, nor a simulation of intergenerational natural selection.
+- A pet's **hidden seed and latent genome are assigned ONCE at creation**. They represent that particular creature's potential, not information received from virtual parents or transmitted to virtual children. Do not mutate or replace this genome in response to care.
+- The drawing is the individual's source anatomy. Every stage continues the **same organism and material identity**; care, training, environment and time modify expressed anatomy, physiology and developmental route rather than producing a replacement pet.
+- Taxonomic words such as *ancestor, descendant, inherited* apply to the **static scientific reference graph** or a creature's **fixed individual potential**, never to an implemented reproduction system.
+- Read the normative machine-readable `singleCreatureLifecycle` in `roadmap/plan.json` before planning algorithmic behavior. Do not mark biological trait inheritance tasks as requesting reproduction; they concern information inherited **between reference taxonomy nodes only**.
+
+
 - Primary goal: the player can draw **anything**, care for it, and see their particular drawing grow naturally. Arbitrary new shapes, retained source identity, coherent change, diverse outcomes and real care effects matter more than imitation of familiar retro sprites.
 - All playable features belong to the current Expo application (`App.tsx`, `src/`). Do not add parallel prototype engines, character-specific morph templates, or hidden reference-target lookups.
 - The only authoring surface is the shared 32 × 32 drawing canvas. No forced anatomy labels. Creation must be untimed and birth explicit.
