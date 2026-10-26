@@ -13,13 +13,13 @@ import {
 } from "../src/development/operator-chronology";
 
 function rig(rows:readonly string[],kind:MaterialOperator["kind"]="elongate",
-  direction={x:1,y:0},seed="chrono-11", other?:string) {
+  direction={x:1,y:0},seed="chrono-11", other?:string, durationHours=4) {
   const {atlas,genome}=materialInputs(drawing(rows),seed);
   const base=compileMaterialDevelopment(atlas,genome);
   const tissue=base.source.tissues[0];
   const op:MaterialOperator={
     id:"fixed/"+kind,tissueId:tissue.id,kind,siteId:tissue.growthSiteIds[0],
-    atHour:0,durationHours:4,strength:1,direction,
+    atHour:0,durationHours,strength:1,direction,
     ...(other?{targetTissueId:other}:{}),
   };
   const program:MaterialDevelopmentProgram={...base,operators:[op],
@@ -57,20 +57,20 @@ test("incremental unit IDs are unique and cumulative credit only creates newly e
   const first=amount(program,op,1), third=amount(program,op,3);
   assert.ok(third>first&&third<=1);
   const a=stepMaterialOperatorChronology(graph,program,state,
-    interval(program,0,1,[first]));
+    interval(program,0,2,[first]));
   assert.equal(a.events.length,1);
   const b=stepMaterialOperatorChronology(a.graph,program,a.state,
-    interval(program,1,2,[first]));
+    interval(program,2,2.5,[first]));
   assert.equal(b.events.length,0);
   assert.strictEqual(b.graph,a.graph);
   const c=stepMaterialOperatorChronology(b.graph,program,b.state,
-    interval(program,2,3,[third]));
+    interval(program,2.5,3.5,[third]));
   assert.equal(c.events.length,2);
   assert.deepEqual(c.events.map(e=>e.id),[
     "operator/fixed%2Felongate/unit/2","operator/fixed%2Felongate/unit/3",
   ]);
   const d=stepMaterialOperatorChronology(c.graph,program,c.state,
-    interval(program,3,4,[third]));
+    interval(program,3.5,4,[third]));
   assert.equal(d.events.length,0);
   assert.equal(d.state.records[0].committedUnits,3);
   assert.equal(d.state.records[0].settled,true);
@@ -81,14 +81,14 @@ test("incremental unit IDs are unique and cumulative credit only creates newly e
 });
 
 test("live relocated tip anchors future growth; earlier events and their coordinates remain unchanged",()=>{
-  const setup=rig(["##","##"]);
+  const setup=rig(["##","##"],"elongate",{x:1,y:0},"chrono-11",undefined,2);
   const {program,op,graph,state}=setup;
   const oldTip=[...graph.cells].sort((a,b)=>b.x-a.x||a.y-b.y)[0];
   const translated:MaterialGraph={...graph,cells:graph.cells.map(c=>({...c,y:c.y+1})),
     events:[{id:"remodel/half",kind:"translate",atHour:0.5,
       createdCellIds:[],removedCellIds:[],sourceCellIds:[]}]};
   const a=stepMaterialOperatorChronology(translated,program,state,
-    interval(program,0,1,[amount(program,op,1)]));
+    interval(program,0,2,[amount(program,op,1)]));
   assert.equal(a.events.length,1);
   assert.equal(a.events[0].atHour,1);
   const created=a.graph.cells.find(c=>c.id===a.events[0].createdCellIds[0])!;
@@ -135,7 +135,7 @@ test("branching followed by live remodeling preserves ancestry and original atta
     events:[...a.graph.events,{id:"remodel/external",kind:"translate",
       atHour:2.5,createdCellIds:[],removedCellIds:[],sourceCellIds:[]}]};
   const b=stepMaterialOperatorChronology(altered,p,a.state,
-    interval(p,2,3,[amount(p,first.op,2)]));
+    interval(p,2,4,[amount(p,first.op,2)]));
   assert.equal(b.events.length,1,JSON.stringify(b.decisions));
   const created=b.graph.cells.filter(c=>b.events[0].createdCellIds.includes(c.id));
   assert.equal(created.length,2);
@@ -160,7 +160,7 @@ test("resorbed source site is suppressed without corrupting the authoritative gr
   assert.equal(a.decisions[0].reason,"site-root-removed");
   assert.equal(a.state.records[0].committedUnits,0);
   const b=stepMaterialOperatorChronology(a.graph,program,a.state,
-    interval(program,1,4,[amount(program,op,1)]));
+    interval(program,2,4,[amount(program,op,1)]));
   assert.strictEqual(b.graph,external);
   assert.equal(b.decisions[0].status,"suppressed");
   assert.equal(b.state.records[0].settled,true);
@@ -275,10 +275,10 @@ test("saved operator-expression ledger must match the actual graph events",()=>{
   const {program,op,graph,state}=rig(["##","##"]);
   const e=amount(program,op,1);
   const a=stepMaterialOperatorChronology(graph,program,state,
-    interval(program,0,1,[e]));
+    interval(program,0,2,[e]));
   const falselyAdvanced=stepMaterialOperatorChronology;
   assert.throws(()=>falselyAdvanced(graph,program,a.state,
-    interval(program,1,2,[e])),/ledger is ahead/);
+    interval(program,2,3,[e])),/ledger is ahead/);
   const falselyRolledBack:MaterialOperatorChronologyState={
     ...a.state,records:a.state.records.map(r=>({...r,committedUnits:0})),
   };
