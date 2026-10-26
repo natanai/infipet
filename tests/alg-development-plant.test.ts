@@ -791,12 +791,17 @@ function exactBoundaryInputs() {
   const compiled = compileMaterialDevelopment(atlas, genome);
   const original = compiled.source.sourceCells[0];
   assert.deepEqual({ x: original.x, y: original.y }, { x: 10, y: 10 });
+  const selected = compiled.source.sites[0];
+  assert.ok(selected, "real SourceAtlas must derive a growth-site attachment");
   const source: MaterialGraph = {
     ...compiled.source,
-    // Set a source-retained rightward growth-site axis in this mathematical
-    // fixture, so chaotic turns (<0.12 radians) discretize to exact (+1,0).
-    sites: compiled.source.sites.map(site =>
-      ({ ...site, direction: { x: 1, y: 0 } })),
+    // Hold exactly one genuine source-derived site in this small exact oracle:
+    // multiple independently competing ports would make its allocation
+    // depend on the real Hamilton weights, as covered by earlier tests.
+    sites: [{ ...selected, direction: { x: 1, y: 0 } }],
+    tissues: compiled.source.tissues.map(t => ({
+      ...t, growthSiteIds: t.growthSiteIds.filter(id => id === selected.id),
+    })),
   };
   const birth: MaterialDevelopmentProgram = { ...compiled, source };
   return { birth, genome, original, growthSite: source.sites[0] };
@@ -920,10 +925,7 @@ test("[INT-001] lifespan 511,512,513,720,2048,8192 remains chronological and fin
   assert.deepEqual(lateCell.parentCellIds, [original.id]);
   assert.equal(checkpoint.get(8191)!.graph.cells.length, 2);
   assert.equal(checkpoint.get(8192)!.graph.cells.length, 3,
-    "hour 8191 exposure ledger: " +
-      JSON.stringify(checkpoint.get(8192)!.state.ledger.at(-1)) +
-      "; suppression: " + JSON.stringify(checkpoint.get(8192)!.state.suppressions.slice(-4)) +
-      "; cells: " + JSON.stringify(checkpoint.get(8192)!.graph.cells.map(c => [c.id, c.x, c.y])));
+    "the same growth-bearing source site remains eligible at hour 8191");
   const last = checkpoint.get(8192)!;
   assert.deepEqual(last.state.ledger.filter(l => l.spent).map(l => l.hour),
     [719, 8191]);
