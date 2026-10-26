@@ -67,8 +67,9 @@ test("[OBS-003/A2] single-cell addition, deletion and stray marks cannot force c
   assert.ok(report.stability > 0.82);
   for (const variation of [removed, added, distantMark]) {
     // Ink edits never silently switch to a fabricated or unrelated taxon.
-    assert.deepEqual(variation.candidates.map(c => [c.affinity, c.taxon?.nodeId ?? null]),
-      baseline.candidates.map(c => [c.affinity, c.taxon?.nodeId ?? null]));
+    const referenceIds = (sample: typeof baseline) => Object.fromEntries(
+      sample.candidates.map(c => [c.affinity, c.taxon?.nodeId ?? null]));
+    assert.deepEqual(referenceIds(variation), referenceIds(baseline));
     assert.equal(variation.probabilityKind, "heuristic-not-calibrated");
   }
   for (const c of report.cases) {
