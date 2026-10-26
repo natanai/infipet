@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "infipet-artificial-life",
-  "updatedOn": "2026-10-25",
+  "updatedOn": "2026-10-26",
   "mandate": "One pet per creation: arbitrary authored ink, a permanent hidden seed, and chronological care drive that SAME organism through potentially dramatic developmental forms guided by a scientifically sourced phylogenetic possibility map. No breeding, reproduction, offspring, multi-generation mechanics or heritable change between creatures.",
   "sourceOfTruth": true,
   "lifecycle": {
@@ -143,7 +143,7 @@
         "OBS-001",
         "PHY-001"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -166,7 +166,22 @@
         "src/lineage/ink-signature.ts",
         "src/lineage/source-classifier.ts"
       ],
-      "algorithmId": "observation"
+      "algorithmId": "observation",
+      "interfaceContract": {
+        "exports": [
+          "inferInkMorphology",
+          "rankBiologicalAffinities",
+          "inferSourceAffinities",
+          "verifyTaxonPossibility"
+        ],
+        "inputs": [
+          "SourceAtlas union-of-ink morphology",
+          "optional candidate node IDs"
+        ],
+        "output": "AffinityInference with candidate evidence, normalized heuristic weights, uncertainty, and provenance-verified taxonomic references",
+        "verification": "Scientific references looked up exclusively through the merged src/phylogeny API",
+        "biologicalMeaning": "Static scientific reference possibilities for one evolving pet; no committed species label, taxonomic ancestry change, or reproduction"
+      }
     },
     {
       "id": "OBS-003",
@@ -176,7 +191,7 @@
       "dependsOn": [
         "OBS-002"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -198,7 +213,18 @@
       "implementationPaths": [
         "src/inference/robustness.ts"
       ],
-      "algorithmId": "observation"
+      "algorithmId": "observation",
+      "interfaceContract": {
+        "exports": [
+          "measureInferenceStability"
+        ],
+        "inputs": [
+          "baseline AffinityInference",
+          "altered drawing inferences"
+        ],
+        "output": "Per-case evidence drift, total variation in heuristic weights, confidence-jump detection",
+        "biologicalMeaning": "One-pixel edits cannot independently change scientific taxon references; small score/rank variations remain possible"
+      }
     },
     {
       "id": "PHY-001",
@@ -1104,9 +1130,7 @@
     "reporting": "Prefer booleans, numeric hashes, invariants and narrow metric summaries; never commit screenshot batches, historical build logs or generated test matrices."
   },
   "baselineTests": [
-    "tests/retro-reference-score.test.ts",
-    "tests/alg-observation-affinity.test.ts",
-    "tests/alg-observation-robustness.test.ts"
+    "tests/retro-reference-score.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",

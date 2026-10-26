@@ -120,6 +120,8 @@ test("[OBS-002/A2] real scientific references verify through merged PHY-001 grap
   assert.equal(linked.candidates.length, 4);
   assert.deepEqual(linked.candidates.map(c => [c.affinity, c.probability]),
     baseline.candidates.map(c => [c.affinity, c.probability]));
+  assert.equal(linked.uncertainty, baseline.uncertainty);
+  assert.equal(linked.confidence, baseline.confidence);
   assert.equal(linked.candidates.find(c => c.affinity === "animal")?.taxon?.nodeId, "ott691846");
   assert.equal(linked.candidates.find(c => c.affinity === "plant")?.taxon?.nodeId, "ncbi:33090");
   assert.equal(linked.candidates.find(c => c.affinity === "fungus")?.taxon?.nodeId, "ncbi:4751");

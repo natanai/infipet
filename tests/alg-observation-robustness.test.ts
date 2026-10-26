@@ -31,6 +31,8 @@ test("[OBS-003/A1] translated, repainted and reorganized layer ink has identical
   })));
   assert.deepEqual(shifted.morphology, baseline.morphology);
   assert.deepEqual(painted.morphology, baseline.morphology);
+  assert.deepEqual(shifted.candidates, baseline.candidates);
+  assert.deepEqual(painted.candidates, baseline.candidates);
   const report = measureInferenceStability(baseline, [
     { label: "translated", inference: shifted },
     { label: "repainted", inference: painted },
