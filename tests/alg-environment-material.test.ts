@@ -22,20 +22,30 @@ const atlas = describeSource(compileSources(drawing([
   "...###...",
 ]), 0));
 
-/** Both pets are alive: the comparison changes only feeding frequency. */
+/** Identical caretaker policy except feeding frequency; do not interrupt sleep. */
+function tend(s: GameState, hour: number, feedingEvery: number): GameState {
+  s = advanceGame(s, START + hour * HOUR);
+  if (s.dead) return s;
+  if (s.attention.discipline)
+    s = commandGame(s, { type: "discipline" }, START + hour * HOUR,
+      "discipline-" + hour);
+  if (hour % 8 === 0)
+    s = commandGame(s, { type: "clean" }, START + hour * HOUR, "clean-" + hour);
+  if (hour % feedingEvery === 0 && !s.sleeping && s.meters.hunger < 4)
+    s = commandGame(s, { type: "feed", food: "meal" },
+      START + hour * HOUR, "feed-" + hour);
+  if (s.health.sickness)
+    s = commandGame(s, { type: "medicine" }, START + hour * HOUR,
+      "medicine-" + hour);
+  return s;
+}
 function live(until: number, feedingEvery: number, seed = SEED): GameState {
   let s = createGame(seed, "infant", START);
   for (let hour = 1; hour <= until; hour++) {
-    s = advanceGame(s, START + hour * HOUR);
-    if (hour % 8 === 0) {
-      s = commandGame(s, { type: "clean" }, START + hour * HOUR, "clean-" + hour);
-    }
-    if (hour % feedingEvery === 0) {
-      s = commandGame(s, { type: "feed", food: "meal" },
-        START + hour * HOUR, "feed-" + hour);
-    }
+    s = tend(s, hour, feedingEvery);
+    assert.equal(s.dead, false,
+      "Pet died at hour " + hour + " from " + (s.death?.cause ?? "unknown"));
   }
-  assert.equal(s.dead, false, "Both compared lives must remain alive");
   return s;
 }
 
@@ -49,13 +59,10 @@ test("[CARE-001/A1] later feeding cannot modify earlier source-derived material 
   const earlier = live(30, 1);
   let later = earlier;
   for (let h = 31; h <= 100; h++) {
-    later = advanceGame(later, START + h * HOUR);
-    if (h % 8 === 0) later = commandGame(later,
-      { type: "clean" }, START + h * HOUR, "later-clean-" + h);
-    if (h % 8 === 0) later = commandGame(later,
-      { type: "feed", food: "meal" }, START + h * HOUR, "later-feed-" + h);
+    later = tend(later, h, 8);
+    assert.equal(later.dead, false,
+      "Continued pet died at hour " + h + " from " + (later.death?.cause ?? "unknown"));
   }
-  assert.equal(later.dead, false);
   const at30 = createCareMaterialDevelopment(atlas, genome, earlier);
   const at100 = createCareMaterialDevelopment(atlas, genome, later);
   assert.deepEqual(geometry(at30.materialAt(30)), geometry(at100.materialAt(30)));
