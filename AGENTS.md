@@ -18,6 +18,17 @@
 - Run typecheck, focused regressions and web export before publishing. Automated passes are not proof of visually convincing growth; review unfamiliar player drawings over complete lifetimes.
 - This is an experimental prototype; do not introduce migration/backups or support for previous save versions without a request. Archived full history: `archive/pre-minimal-2026-10-25`.
 
+## Mathematical verification and deterministic chaotic dynamics — mandatory
+
+Infipet should obtain vast morphological diversity from a **small, inspectable collection of general mathematical laws**, not from creature-specific templates, repeated screenshot comparison, or manual approval of individual outcomes.
+
+- **Mathematical verification principle:** Every biological and developmental algorithm must specify inputs, outputs, equations/recurrences, invariants, numerical domain and limits, time-step semantics, and determinism assumptions. Each physical feature must be causally traceable to authored source material, immutable genetic potential, an explicit operator, and recorded conditions at or before the frame time.
+- Prefer **deterministic nonlinear and chaotic dynamical systems** where they produce meaningful, bounded variation in development: branching orientations, growth rhythms, spatial patterning, oscillations, asymmetric remodeling, and sensitivity to prior care. Use shared generic operators and source-derived growth sites. Chaos controls expression **inside** anatomical/provenance constraints; it never independently invents new source cells, breaks attachments, changes the genome, chooses a species, or allows future care to rewrite the past.
+- A chaotic system must declare its state vector, birth-seed initialization, recurrence/integrator, forcing by care, exact tick schedule, calculation order, numeric representation/rounding, state bounds, and overflow/non-finite handling. Real-number chaos and finite-precision implementations are **not identical**; digital orbits may cycle, collapse, or differ across numerical implementations. Do not promise limitless unique outcomes or cross-platform bitwise replay without proving the specific arithmetic contract.
+- Evaluate any queried age deterministically from immutable birth state and the chronological input prefix, independent of call order, cache state, rendering order, or earlier age queries. Quantize only at specified boundaries. A change to a later event must leave all earlier frames mathematically unchanged.
+- Verification must use **independently derived mathematical expectations**, small tractable reference implementations, invariants asserted across generated valid inputs, metamorphic transformations, and reproducible counterexamples. Seeded property-based tests help discover failures but are not a substitute for proving conserved source ancestry, valid attachments, bounded material/cost, and causal replay.
+- Tests of structural behavior must compare source-traceable geometry and material topology, not merely colors, confidence scores, metadata, snapshot hashes, or visual appearance. Use manual play only for subjective feel and model refinement; never make manual screenshots the acceptance oracle.
+
 ## Seeded retro benchmark invariant
 
 - Historical retro drawings are immutable **test references**, never runtime goals. Their bundled alphanumeric seeds are reproducible **unvalidated candidates**, not magic shortcuts to a named form.
