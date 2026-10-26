@@ -15,5 +15,9 @@ android/
 
 # Large local data files
 /data/phylogeny/nodes.jsonl
-/docs/audits/life-v7/v7-regional-proof-002/view-index.json
-/docs/audits/life-v7/v7-regional-proof-003/view-index.json
+
+# New generated audit payloads stay local. Existing tracked fixtures/reports
+# remain tracked; add an intentionally selected new fixture with `git add -f`.
+/docs/audits/**
+!/docs/audits/**/
+!/docs/audits/**/*.md

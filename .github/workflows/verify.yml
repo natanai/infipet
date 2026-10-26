@@ -1,0 +1,35 @@
+name: Verify Infipet
+on:
+  push:
+    branches: [main, "cleanup/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Check tracked file budget
+        run: node tools/repo-hygiene.mjs --check
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Regression tests
+        run: pnpm test
+      - name: Web JS export
+        run: pnpm build:web
+      - name: iOS JS export (not a signed build)
+        run: pnpm build:ios

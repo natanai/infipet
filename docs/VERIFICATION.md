@@ -1,4 +1,6 @@
-# life-v9 verification
+# life-v9 verification (historical)
+
+> This report verifies **life-v9 only**. The repository now runs **life-v10**; no equivalent full current-version verification is documented here. Do not cite these results as a pass for life-v10. See [repository maintenance](REPO-MAINTENANCE.md) for the new validation workflow.
 
 Verified October 25, 2026. App 0.9.0, portable schema 8, procedural engine 7, grammar morphogenesis-v1, gameplay rules 2 and needs rules 2. Recipes pin animal lineage and needs catalog versions; the prototype revision clears only the app's infipet.* namespace.
 
