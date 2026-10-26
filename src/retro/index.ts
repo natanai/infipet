@@ -23,9 +23,6 @@ export type RetroDrawing = {
   rows: string[];
   sourceUrl: string;
   referenceStatus?: string;
-  seed: string;
-  path: string[];
-  startIndex: number;
 };
 export type RetroPreset = RetroDrawing & {
   id: string;
@@ -53,7 +50,6 @@ for (const preset of RETRO_PRESETS) {
   }
   Object.freeze(preset.parts);
   Object.freeze(preset.rows);
-  Object.freeze(preset.path);
   Object.freeze(preset);
 }
 Object.freeze(RETRO_PRESETS);

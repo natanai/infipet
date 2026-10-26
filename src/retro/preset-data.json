@@ -1,5 +1,5 @@
 {
-  "version": "retro-ink-v3",
+  "version": "retro-ink-v2",
   "referenceCatalogVersion": "retro-reference-v2",
   "referenceCatalogHash": "c7c0d8be4617cedd090fd93d86699964dce4cb5381a6e903ffcf5d5c5355d8d7",
   "drawings": [
@@ -30,16 +30,7 @@
         "....########...."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/bota.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 0,
-      "seed": "RETRO-DM1-BOTAMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.greymon",
-        "dm1.metal-greymon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.koromon",
@@ -68,16 +59,7 @@
         "................"
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/koro.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 1,
-      "seed": "RETRO-DM1-KOROMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.greymon",
-        "dm1.metal-greymon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.agumon",
@@ -106,16 +88,7 @@
         "..######.#######"
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/agu.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 2,
-      "seed": "RETRO-DM1-AGUMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.greymon",
-        "dm1.metal-greymon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.betamon",
@@ -144,16 +117,7 @@
         "####..####.####."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/beta.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 2,
-      "seed": "RETRO-DM1-BETAMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.betamon",
-        "dm1.airdramon",
-        "dm1.metal-greymon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.greymon",
@@ -182,16 +146,7 @@
         "#######...######"
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/grey.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 3,
-      "seed": "RETRO-DM1-GREYMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.greymon",
-        "dm1.metal-greymon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.devimon",
@@ -220,16 +175,7 @@
         "..####....####.."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/devi.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 3,
-      "seed": "RETRO-DM1-DEVIMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.devimon",
-        "dm1.metal-greymon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.airdramon",
@@ -258,16 +204,7 @@
         ".......#######.."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/airdra.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 3,
-      "seed": "RETRO-DM1-AIRDRAMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.betamon",
-        "dm1.airdramon",
-        "dm1.metal-greymon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.numemon",
@@ -296,16 +233,7 @@
         "....########...."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/nume.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 3,
-      "seed": "RETRO-DM1-NUMEMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.numemon",
-        "dm1.monzaemon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.tyranomon",
@@ -334,16 +262,7 @@
         ".######..######."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/tyrano.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 3,
-      "seed": "RETRO-DM1-TYRANOMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.tyranomon",
-        "dm1.mamemon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.meramon",
@@ -372,16 +291,7 @@
         ".#####....#####."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/mera.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 3,
-      "seed": "RETRO-DM1-MERAMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.meramon",
-        "dm1.mamemon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.seadramon",
@@ -410,16 +320,7 @@
         "......########.."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/seadra.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 3,
-      "seed": "RETRO-DM1-SEADRAMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.betamon",
-        "dm1.seadramon",
-        "dm1.mamemon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.metal-greymon",
@@ -448,16 +349,7 @@
         "#######...######"
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/metalgrey_vi.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 4,
-      "seed": "RETRO-DM1-METAL-GREYMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.greymon",
-        "dm1.metal-greymon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.monzaemon",
@@ -486,16 +378,7 @@
         ".#############.."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/monzae.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 4,
-      "seed": "RETRO-DM1-MONZAEMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.numemon",
-        "dm1.monzaemon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "dm1.mamemon",
@@ -524,16 +407,7 @@
         "....##....##...."
       ],
       "sourceUrl": "https://humulos.com/digimon/images/dot/dm/mame.gif",
-      "referenceStatus": "community-extracted-reference",
-      "startIndex": 4,
-      "seed": "RETRO-DM1-MAMEMON",
-      "path": [
-        "dm1.botamon",
-        "dm1.koromon",
-        "dm1.agumon",
-        "dm1.tyranomon",
-        "dm1.mamemon"
-      ]
+      "referenceStatus": "community-extracted-reference"
     },
     {
       "referenceId": "p1.babytchi",
@@ -554,15 +428,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 0,
-      "seed": "RETRO-P1-BABYTCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.tamatchi",
-        "p1.mametchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.marutchi",
@@ -591,15 +457,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 1,
-      "seed": "RETRO-P1-MARUTCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.tamatchi",
-        "p1.mametchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.tamatchi",
@@ -628,15 +486,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 2,
-      "seed": "RETRO-P1-TAMATCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.tamatchi",
-        "p1.mametchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.kuchitamatchi",
@@ -665,15 +515,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 2,
-      "seed": "RETRO-P1-KUCHITAMATCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.kuchitamatchi",
-        "p1.kuchipatchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.mametchi",
@@ -702,15 +544,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 3,
-      "seed": "RETRO-P1-MAMETCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.tamatchi",
-        "p1.mametchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.ginjirotchi",
@@ -739,15 +573,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 3,
-      "seed": "RETRO-P1-GINJIROTCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.tamatchi",
-        "p1.ginjirotchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.maskutchi",
@@ -776,16 +602,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 3,
-      "seed": "RETRO-P1-MASKUTCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.tamatchi",
-        "p1.maskutchi",
-        "p1.bill"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.kuchipatchi",
@@ -814,15 +631,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 3,
-      "seed": "RETRO-P1-KUCHIPATCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.kuchitamatchi",
-        "p1.kuchipatchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.nyorotchi",
@@ -851,15 +660,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 3,
-      "seed": "RETRO-P1-NYOROTCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.kuchitamatchi",
-        "p1.nyorotchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.tarakotchi",
@@ -888,15 +689,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 3,
-      "seed": "RETRO-P1-TARAKOTCHI",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.kuchitamatchi",
-        "p1.tarakotchi"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p1.bill",
@@ -925,16 +718,7 @@
         "................"
       ],
       "sourceUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
-      "referenceStatus": "observed",
-      "startIndex": 4,
-      "seed": "RETRO-P1-BILL",
-      "path": [
-        "p1.babytchi",
-        "p1.marutchi",
-        "p1.tamatchi",
-        "p1.maskutchi",
-        "p1.bill"
-      ]
+      "referenceStatus": "observed"
     },
     {
       "referenceId": "p2.shirobabytchi",
@@ -955,15 +739,7 @@
         ".######."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144011.png?updated=1755482179",
-      "referenceStatus": "provisional",
-      "startIndex": 0,
-      "seed": "RETRO-P2-SHIROBABYTCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.tongaritchi",
-        "p2.mimitchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.tonmarutchi",
@@ -987,15 +763,7 @@
         "..######.."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144013.png?updated=1755482180",
-      "referenceStatus": "provisional",
-      "startIndex": 1,
-      "seed": "RETRO-P2-TONMARUTCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.tongaritchi",
-        "p2.mimitchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.tongaritchi",
@@ -1021,15 +789,7 @@
         "......###."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144015.png?updated=1755482180",
-      "referenceStatus": "provisional",
-      "startIndex": 2,
-      "seed": "RETRO-P2-TONGARITCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.tongaritchi",
-        "p2.mimitchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.hashitamatchi",
@@ -1051,15 +811,7 @@
         ".#########..."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144049.png?updated=1755482183",
-      "referenceStatus": "provisional",
-      "startIndex": 2,
-      "seed": "RETRO-P2-HASHITAMATCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.hashitamatchi",
-        "p2.hashizoutchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.mimitchi",
@@ -1086,15 +838,7 @@
         "..###.....#.."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144017.png?updated=1755482180",
-      "referenceStatus": "provisional",
-      "startIndex": 3,
-      "seed": "RETRO-P2-MIMITCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.tongaritchi",
-        "p2.mimitchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.pochitchi",
@@ -1120,15 +864,7 @@
         "...###.....#..."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144052.png?updated=1755482183",
-      "referenceStatus": "provisional",
-      "startIndex": 3,
-      "seed": "RETRO-P2-POCHITCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.tongaritchi",
-        "p2.pochitchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.zuccitchi",
@@ -1157,16 +893,7 @@
         ".....###......"
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144054.png?updated=1755482183",
-      "referenceStatus": "provisional",
-      "startIndex": 3,
-      "seed": "RETRO-P2-ZUCCITCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.tongaritchi",
-        "p2.zuccitchi",
-        "p2.zatchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.hashizoutchi",
@@ -1192,15 +919,7 @@
         ".###....###..."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144056.png?updated=1755482183",
-      "referenceStatus": "provisional",
-      "startIndex": 3,
-      "seed": "RETRO-P2-HASHIZOUTCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.hashitamatchi",
-        "p2.hashizoutchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.takotchi",
@@ -1229,15 +948,7 @@
         "......###..."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144058.png?updated=1755482183",
-      "referenceStatus": "provisional",
-      "startIndex": 3,
-      "seed": "RETRO-P2-TAKOTCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.hashitamatchi",
-        "p2.takotchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.kusatchi",
@@ -1265,15 +976,7 @@
         ".....####...."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144059.png?updated=1755482183",
-      "referenceStatus": "provisional",
-      "startIndex": 3,
-      "seed": "RETRO-P2-KUSATCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.hashitamatchi",
-        "p2.kusatchi"
-      ]
+      "referenceStatus": "provisional"
     },
     {
       "referenceId": "p2.zatchi",
@@ -1302,16 +1005,7 @@
         "...##......###.."
       ],
       "sourceUrl": "https://www.spriters-resource.com/media/assets/141/144065.png?updated=1755482183",
-      "referenceStatus": "provisional",
-      "startIndex": 4,
-      "seed": "RETRO-P2-ZATCHI",
-      "path": [
-        "p2.shirobabytchi",
-        "p2.tonmarutchi",
-        "p2.tongaritchi",
-        "p2.zuccitchi",
-        "p2.zatchi"
-      ]
+      "referenceStatus": "provisional"
     }
   ],
   "roster": [

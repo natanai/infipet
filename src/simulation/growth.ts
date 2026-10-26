@@ -43,7 +43,6 @@ import {
   type ResolvedDevelopment,
 } from "./development";
 import { compileGenome } from "./genome";
-import { resolveRetroRoute, retroPixelsAt, RETRO_EVOLUTION_VERSION } from "../retro/evolution";
 import {
   compileSurfaceExpression,
   surfaceExpressionAt,
@@ -638,7 +637,6 @@ export function createSimulation(
         })),
       }
     : undefined;
-  const retroRoute = resolveRetroRoute(input, seed, mode);
   const source = normalizeAnatomy(input)
     .map((p) => ({
       ...p,
@@ -804,8 +802,6 @@ export function createSimulation(
     graphs: ["material", "morphology", "functional"],
     variationChannels: VARIATION_CHANNELS,
     groomingRules: GROOMING_RULES,
-    ...(retroRoute ? { retroEvolutionVersion: RETRO_EVOLUTION_VERSION,
-      retroReferenceSeed: retroRoute.seed, retroReferencePath: [...retroRoute.path] } : {}),
   };
   function structure(dev: number) {
     let result = structural.get(dev);
@@ -1524,16 +1520,6 @@ export function createSimulation(
       ...(diagnostics as Record<string, unknown>),
       surfaceExpression: surfaceState,
     };
-    const retroFrame = retroRoute && !egg ? retroPixelsAt(retroRoute, careAge, liveContext) : null;
-    if (retroFrame) {
-      // Exact seeded sprites are explicit reference keyframes; care and gameplay continue normally.
-      const ink = retroFrame.pixels.map(p => ({ ...p, x: p.x - 16, y: p.y - 16 }));
-      parts = bornParts(compileSources([{
-        id: "body", kind: "body", name: retroFrame.state.currentName,
-        parentId: null, position: { x: 0, y: 0 }, pixels: ink, layer: 0,
-      }], hash(retroRoute!.seed), "authored"));
-      diagnostics = { ...(diagnostics as Record<string, unknown>), retroReference: retroFrame.state };
-    }
     const capabilities = capability(parts, movementMode, family),
       interaction: PetFrame["interaction"] = {
         status: action === "idle" ? "resting" : action,
@@ -1601,7 +1587,6 @@ export function createSimulation(
     }
     const evolution = {
       ...copy(developmentAt(age)),
-      ...(retroFrame ? { retroReference: retroFrame.state } : {}),
       controllerFamily: family,
       surfaceExpression: surfaceState,
     };
@@ -1635,7 +1620,6 @@ export function createSimulation(
       cellCount: pixels.length,
       generation: evolution.commitments.length,
       traits: [
-        ...(retroFrame ? [{ label: "Reference", value: retroFrame.state.currentName }] : []),
         { label: "Form", value: evolution.bodyPlanId },
         { label: "Movement", value: movementMode },
         { label: "Inheritance", value: genes.protectionPreference },

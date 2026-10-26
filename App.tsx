@@ -647,7 +647,7 @@ export default function App() {
     setTool("paint");
     setHistory([]);
     setRedo([]);
-    const nextSeed = seedOverride ?? retro?.seed ?? newSeed();
+    const nextSeed = seedOverride ?? newSeed();
     setSeed(nextSeed);
     setSeedInput(nextSeed);
     setName(preset?.name ?? "Little one");
@@ -1026,8 +1026,8 @@ export default function App() {
                           ? "An egg, drawn by you"
                           : "An infant, drawn by you"
                       : playing && life
-                        ? `${frame.evolution?.retroReference?.currentName ?? title(life.game.stage)} · day ${liveAge.toFixed(1)}${life.game.sleeping ? " · asleep" : ""}`
-                        : `Lab · ${frame.evolution?.retroReference?.currentName ?? title(frame.stage)} · day ${age.toFixed(1)}`}
+                        ? `${title(life.game.stage)} · day ${liveAge.toFixed(1)}${life.game.sleeping ? " · asleep" : ""}`
+                        : `Lab · ${title(frame.stage)} · day ${age.toFixed(1)}`}
                   </Text>
                 </Pressable>
                 {view === "live" && (
