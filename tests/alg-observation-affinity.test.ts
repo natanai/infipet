@@ -5,7 +5,8 @@ import { describeSource } from "../src/simulation/source-atlas";
 import { inferInkMorphology } from "../src/lineage/ink-signature";
 import {
   inferSourceAffinities,
-  type VerifiedTaxonAnchor,
+  verifyTaxonPossibility,
+  type ScientificPhylogenyPort,
 } from "../src/lineage/source-classifier";
 import type { PetPart } from "../src/simulation/model";
 
@@ -73,13 +74,76 @@ test("[OBS-002/A2] geometric descriptors and inspectable alternatives are indepe
       assert.ok(e.measured >= 0 && e.measured <= 1);
     }
   }
-  const sourceAnchor: VerifiedTaxonAnchor = {
-    affinity: "plant", nodeId: "tree-supplied", source: "taxon-provider",
-    sourceVersion: "verified-release", externalTaxonId: "external-provider-id",
-    provenance: "verified-scientific",
+  // Fixture implements Agent 1's contract, but is NOT itself scientific
+  // verification. Test actual public graph integration after PHY-001 merges.
+  const nodes = new Map([
+    ["ncbi:33090", { id: "ncbi:33090", parentId: "ncbi:2759", origin: "scientific" as const }],
+    ["ncbi:3193", { id: "ncbi:3193", parentId: "ncbi:33090", origin: "scientific" as const }],
+    ["ott691846", { id: "ott691846", parentId: "ncbi:33154", origin: "scientific" as const }],
+    ["ncbi:4751", { id: "ncbi:4751", parentId: "ncbi:33154", origin: "scientific" as const }],
+    ["fiction:twig", { id: "fiction:twig", parentId: "ncbi:33090", origin: "fictional" as const }],
+  ]);
+  const fixture: ScientificPhylogenyPort = {
+    getNode: id => nodes.get(id),
+    getProvenance: id => {
+      const node = nodes.get(id);
+      if (!node) return undefined;
+      if (node.origin === "fictional") return {
+        kind: "fictional", source: "infipet-speculative-v1",
+        sourceVersion: "fixture", sourceNodeId: id,
+        parentEdgeSourceUrl: null, externalTaxonIds: [],
+      };
+      const ref = id.startsWith("ott")
+        ? { database: "ott" as const, id: Number(id.slice(3)) }
+        : { database: "ncbi" as const, id: Number(id.slice(5)) };
+      return {
+        kind: "scientific", source: "NCBI Taxonomy", sourceVersion: "fixture-only",
+        sourceNodeId: id,
+        parentEdgeSourceUrl: "https://example.invalid/fixture-only",
+        externalTaxonIds: [ref],
+      };
+    },
+    lineageMembership: (id, root) => id === root ||
+      (id === "ncbi:3193" && root === "ncbi:33090"),
   };
-  const withAnchor = inferSourceAffinities(base, [sourceAnchor]);
-  assert.deepEqual(withAnchor.candidates.find((c) => c.affinity === "plant")!.taxon, sourceAnchor);
-  assert.equal(withAnchor.candidates.find((c) => c.affinity === "animal")!.taxon, null);
-  assert.equal(withAnchor.candidates.find((c) => c.affinity === "unresolved")!.taxon, null);
+  const withAnchor = inferSourceAffinities(base, {
+    phylogeny: fixture, candidateNodeIds: {
+      plant: ["ncbi:3193"],
+      animal: ["ncbi:3193"], // Wrong clade; refuse the placement.
+      fungus: ["fiction:twig"], // Fiction may inspire but never certify.
+    },
+  });
+  assert.equal(withAnchor.candidates.find(c => c.affinity === "plant")!.taxon?.nodeId, "ncbi:3193");
+  assert.equal(withAnchor.candidates.find(c => c.affinity === "animal")!.taxon, null);
+  assert.equal(withAnchor.candidates.find(c => c.affinity === "fungus")!.taxon, null);
+  assert.equal(withAnchor.candidates.find(c => c.affinity === "unresolved")!.taxon, null);
+  // Merely providing a string, the correct clade, or an invented verifier
+  // cannot compensate for an absent or mismatched actual graph node.
+  assert.equal(verifyTaxonPossibility("plant", "ncbi:999999", fixture), null);
+  assert.equal(verifyTaxonPossibility("plant", "fiction:twig", fixture), null);
+  assert.equal(verifyTaxonPossibility("animal", "ncbi:3193", fixture), null);
+  const missing = inferSourceAffinities(base, {
+    phylogeny: fixture, candidateNodeIds: { plant: ["ncbi:999999"] },
+  });
+  assert.equal(missing.candidates.find(c => c.affinity === "plant")!.taxon, null);
+  const altered: ScientificPhylogenyPort = {
+    ...fixture,
+    getProvenance: id => {
+      const p = fixture.getProvenance(id);
+      return id === "ncbi:3193" && p
+        ? { ...p, sourceNodeId: "ncbi:999999" }
+        : p;
+    },
+  };
+  assert.equal(verifyTaxonPossibility("plant", "ncbi:3193", altered), null);
+  const badId: ScientificPhylogenyPort = {
+    ...fixture,
+    getProvenance: id => {
+      const p = fixture.getProvenance(id);
+      return id === "ncbi:3193" && p
+        ? { ...p, externalTaxonIds: [{ database: "ncbi", id: 999999 }] }
+        : p;
+    },
+  };
+  assert.equal(verifyTaxonPossibility("plant", "ncbi:3193", badId), null);
 });
