@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "infipet-artificial-life",
   "updatedOn": "2026-10-25",
-  "mandate": "Arbitrary authored ink develops through a shared phylogeny-constrained, seed-inherited and care-dependent simulation; surface remains a retro virtual pet.",
+  "mandate": "One pet per creation: arbitrary authored ink, a permanent hidden seed, and chronological care drive that SAME organism through potentially dramatic developmental forms guided by a scientifically sourced phylogenetic possibility map. No breeding, reproduction, offspring, multi-generation mechanics or heritable change between creatures.",
   "sourceOfTruth": true,
   "lifecycle": {
     "statuses": [
@@ -14,9 +14,11 @@
     "completeMeans": "Every acceptance marker is asserted in the focused test file and passes in CI. A task is not done from screenshots, prose or partial implementation."
   },
   "invariants": [
+    "One creature exists per creation. Its initial drawing, persistent identity, and hidden seed remain the same throughout its lifetime; no breeding, offspring or multi-generational progression.",
+    "The game uses a real phylogenetic reference as a branching map of possible developmental forms for the SAME creature over time. The observed affinity/path may progress, but is not literal taxonomic evolution or scientific ancestry-changing.",
+    "All apparent evolutionary changes are within one pet's lifetime. Genetic potential is assigned once and remains fixed; care affects how the potential is expressed.",
     "No reference sprites, species IDs or historical stages in the runtime phenotype generator.",
     "Retain exact authored birth ink and traceable source-material ancestry.",
-    "A phylogeny constrains development; an individual does not change phylogenetic ancestry as it matures.",
     "Scientific taxonomy and fictional extensions have distinct, inspectable provenance.",
     "A replay witness is source drawing, seed, engine version, chronological care history, and times.",
     "Avoid generated screenshots, recordings or diagnostic bulk files in main; use small deterministic numeric tests.",
@@ -201,7 +203,7 @@
       "id": "PHY-001",
       "phase": 2,
       "area": "Phylogeny",
-      "title": "Introduce a verified multi-kingdom tree rooted beyond Metazoa",
+      "title": "Establish the cross-kingdom phylogenetic possibility map for one pet's growth",
       "dependsOn": [
         "OBS-001"
       ],
@@ -233,7 +235,7 @@
       "id": "PHY-002",
       "phase": 2,
       "area": "Phylogeny",
-      "title": "Compile inherited biological trait constraints from ancestry",
+      "title": "Compile ancestral anatomical constraints for single-creature developmental paths",
       "dependsOn": [
         "PHY-001"
       ],
@@ -241,12 +243,12 @@
       "acceptance": [
         {
           "id": "A1",
-          "requirement": "Child traits inherit and may refine documented ancestral constraints",
+          "requirement": "Scientific reference taxa inherit and may refine ancestral biological constraints; these are taxonomy relationships, not reproduction between virtual pets",
           "oracle": "focused-node-test"
         },
         {
           "id": "A2",
-          "requirement": "No individual lifetime transition changes established ancestry",
+          "requirement": "An individual pet can traverse changing developmental affinities along the possibility map without breeding, producing offspring, or asserting that its scientific ancestry literally changed",
           "oracle": "focused-node-test"
         }
       ],
@@ -266,7 +268,7 @@
       "id": "PHY-003",
       "phase": 2,
       "area": "Phylogeny",
-      "title": "Add fantasy extensions without presenting them as scientific taxa",
+      "title": "Support speculative single-pet developmental destinations, separated from scientific taxa",
       "dependsOn": [
         "PHY-002"
       ],
@@ -298,15 +300,15 @@
       "id": "GEN-001",
       "phase": 2,
       "area": "Genetics",
-      "title": "Introduce lineage-conditioned modular genotype channels",
+      "title": "Compile permanent seed-derived developmental potential for each individual pet",
       "dependsOn": [
         "PHY-002"
       ],
-      "status": "todo",
+      "status": "blocked",
       "acceptance": [
         {
           "id": "A1",
-          "requirement": "Genome remains seed-only and replay deterministic",
+          "requirement": "Each pet's genome is fixed at creation by its seed and compiled deterministically; no parent genomes, breeding, mating or inherited mutation across pets",
           "oracle": "focused-node-test"
         },
         {
@@ -317,12 +319,14 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/genotype-channels.test.ts",
-        "command": "pnpm exec tsx --test tests/genotype-channels.test.ts",
+        "testPath": "tests/alg-genotype-channels.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-genotype-channels.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation/genome.ts"
+        "src/simulation/genome.ts",
+        "src/genetics/",
+        "tests/alg-genotype-channels.test.ts"
       ],
       "algorithmId": "genotype"
     },
@@ -330,15 +334,15 @@
       "id": "GEN-002",
       "phase": 2,
       "area": "Genetics",
-      "title": "Define controlled genetic neighborhoods and independent random variation",
+      "title": "Explore related seed-derived developmental possibilities without offspring mechanics",
       "dependsOn": [
         "GEN-001"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
-          "requirement": "Related genotype coordinates yield correlated inherited traits",
+          "requirement": "Related hypothetical single-pet seed coordinates yield correlated developmental potential; no parent-child genetic system",
           "oracle": "focused-node-test"
         },
         {
@@ -349,12 +353,14 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/genetic-neighborhood.test.ts",
-        "command": "pnpm exec tsx --test tests/genetic-neighborhood.test.ts",
+        "testPath": "tests/alg-genotype-neighborhood.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-genotype-neighborhood.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation/genome.ts"
+        "src/simulation/genome.ts",
+        "src/genetics/",
+        "tests/alg-genotype-neighborhood.test.ts"
       ],
       "algorithmId": "genotype"
     },
@@ -362,7 +368,7 @@
       "id": "DEV-001",
       "phase": 3,
       "area": "Development",
-      "title": "Track durable material ancestry, structural attachment and growth sites",
+      "title": "Track persistent identity, original drawn material and growth sites of one pet",
       "dependsOn": [
         "OBS-001",
         "PHY-002"
@@ -461,7 +467,7 @@
       "id": "DEV-004",
       "phase": 3,
       "area": "Development",
-      "title": "Generate varied animal appendage and metamorphosis programs",
+      "title": "Generate lifetime appendage growth and metamorphosis of the same animal-like pet",
       "dependsOn": [
         "DEV-002",
         "PHY-002"
@@ -595,7 +601,7 @@
       "id": "CARE-002",
       "phase": 3,
       "area": "Environment",
-      "title": "Connect nutrition, stress, training and exposure to genotype-dependent development",
+      "title": "Express one pet's fixed genetic potential through its care and environment history",
       "dependsOn": [
         "CARE-001",
         "GEN-001",
@@ -727,7 +733,7 @@
       "id": "EVAL-003",
       "phase": 4,
       "area": "Evaluation",
-      "title": "Find and replay actual seed plus care witnesses for reference paths",
+      "title": "Find and replay one pet's seed-and-care witness for a complete retro evolution path",
       "dependsOn": [
         "EVAL-002",
         "CARE-003"
@@ -855,7 +861,7 @@
     {
       "id": "observation",
       "name": "Ink morphology and uncertain inference",
-      "purpose": "Read arbitrary artwork without using names, pigment or fixed species targets.",
+      "purpose": "Read arbitrary artwork to infer uncertain shape evidence and possible developmental affinities of the single pet, not to assign permanent species identity from ink alone.",
       "inputs": [
         "PetPart[]",
         "SourceAtlas"
@@ -883,7 +889,7 @@
     {
       "id": "ancestry",
       "name": "Provenance-backed phylogeny",
-      "purpose": "Supply biological ancestry, inherited constraints and separate speculative extensions.",
+      "purpose": "Supply scientific branching relationships as a source of anatomical constraints and candidate developmental routes for a single pet, with fantasy extensions distinctly fictional; never model offspring or biological reproduction.",
       "inputs": [
         "externally sourced taxon records",
         "source feature evidence"
@@ -909,7 +915,7 @@
     {
       "id": "genotype",
       "name": "Seed genetics and reaction parameters",
-      "purpose": "Compile stable inherited traits without access to reference targets or future care.",
+      "purpose": "Compile one stable genome at birth from an alphanumeric seed, providing latent developmental potential for that pet's lifetime; never implement parent-child inheritance.",
       "inputs": [
         "seed string",
         "lineage constraints"
@@ -934,7 +940,7 @@
     {
       "id": "development",
       "name": "Material graph and biological growth",
-      "purpose": "Compose generic structural operations for animals, plants and speculative forms.",
+      "purpose": "Transform one continuously identifiable organism's authored material and anatomy across its lifetime using composable growth operators.",
       "inputs": [
         "SourceAtlas",
         "InheritedGenome",
@@ -969,7 +975,7 @@
     {
       "id": "environment",
       "name": "Care and physiological history",
-      "purpose": "Convert player actions into chronological biological exposures and measurable reaction norms.",
+      "purpose": "Convert care actions into time-indexed pressures that affect the same creature's developmental trajectory without rewriting its genome.",
       "inputs": [
         "chronological care actions",
         "organism state"
@@ -996,7 +1002,7 @@
     {
       "id": "evaluation",
       "name": "Numerical falsification and reference benchmarks",
-      "purpose": "Measure reproducibility, diversity, care sensitivity and source-reference similarity without screenshots.",
+      "purpose": "Measure a single pet's seeded lifetime path for replay, care sensitivity and resemblance with no offspring or cross-generation simulations.",
       "inputs": [
         "public engine API",
         "synthetic drawings",
@@ -1024,7 +1030,7 @@
     {
       "id": "integration",
       "name": "Game experience and runtime composition",
-      "purpose": "Wire algorithm contracts to the one playable application; own shared boundary files.",
+      "purpose": "Keep exactly one current living pet per creation and connect progression, care and time without adding reproduction mechanics.",
       "inputs": [
         "algorithm module interfaces",
         "player interactions"
@@ -1059,5 +1065,27 @@
   },
   "baselineTests": [
     "tests/retro-reference-score.test.ts"
-  ]
+  ],
+  "singleCreatureLifecycle": {
+    "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
+    "creation": "one authored drawing plus one once-assigned alphanumeric random seed",
+    "genotype": "per-pet fixed developmental potential; no mating, meiosis, gametes, parent genomes, genetic recombination, offspring or inheritance across pets",
+    "progression": "the same pet may undergo major anatomical evolution-like transformations as it ages, with chronological care and conditions influencing expression and divergence",
+    "phylogeny": "the scientific tree supplies hierarchical anatomical constraints and branching possibilities for single-pet developmental trajectories; stage affinities along its branches may change, but this is a game developmental metaphor, not a claim that an individual changes its actual scientific ancestry",
+    "terminology": {
+      "phylogeneticAncestor": "a reference node in a biological taxonomy, not a parent pet",
+      "phylogeneticDescendant": "a reference taxon descended in the real tree of life, never offspring produced by this pet",
+      "inheritedGenome": "stable latent individual traits assigned at creation, not traits passed to children",
+      "evolutionaryPath": "one creature's sequential changes over time, not multiple generations or population evolution"
+    },
+    "explicitlyOutOfScope": [
+      "breeding",
+      "egg-laying offspring",
+      "parent-offspring inheritance",
+      "multi-generation progression",
+      "population genetics",
+      "genetic recombination between pets",
+      "species succession by reproduction"
+    ]
+  }
 }

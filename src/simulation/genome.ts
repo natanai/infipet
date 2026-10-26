@@ -1,4 +1,9 @@
 import { hash, clamp, type SourceMode } from "./model";
+import {
+  compileDevelopmentalGenotype,
+  type DevelopmentalGenotype,
+  type GeneticCoordinates,
+} from "../genetics";
 
 /** General developmental grammar; independent of reference catalogs and character identities. */
 export const PROCEDURAL_GRAMMAR_VERSION = "morphogenesis-v1" as const;
@@ -15,6 +20,8 @@ export type InheritedGenome = {
   seed: string;
   mode: SourceMode;
   fingerprint: string;
+  /** Quantitative inherited developmental capability channels. */
+  genotype: DevelopmentalGenotype;
   pace: number;
   sensitivity: number;
   protectionPreference: "curl" | "enclose" | "reinforce" | "withdraw";
@@ -55,6 +62,7 @@ export const geneRandom = (key: string, channel: string) =>
 export function compileGenome(
   seed: string,
   mode: SourceMode = "infant",
+  coordinates?: GeneticCoordinates,
 ): InheritedGenome {
   const actual = String(seed ?? "").trim() || "little-world";
   const fingerprint = hash(`${actual}|${mode}|life-v7`)
@@ -74,6 +82,7 @@ export function compileGenome(
     seed: actual,
     mode,
     fingerprint,
+    genotype: compileDevelopmentalGenotype(fingerprint, coordinates),
     pace: 0.7 + r("pace") * 0.6,
     sensitivity: 0.7 + r("sensitivity") * 0.6,
     protectionPreference: (
