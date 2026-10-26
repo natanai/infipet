@@ -38,7 +38,7 @@ test("[DEV-002/A1] source-derived operators change anatomy, not just pigment", (
   assert.ok(long.events.some(e => e.kind === "remodel"));
   assert.deepEqual(long.sourceCells, birth.sourceCells);
 
-  const splitInk = materialInputs(drawing(["#.....#"]));
+  const splitInk = materialInputs(drawing(["#...#"]));
   const separated = compileMaterialDevelopment(splitInk.atlas, splitInk.genome);
   assert.equal(separated.source.tissues.length, 2);
   assert.equal(separated.source.links.length, 0);
