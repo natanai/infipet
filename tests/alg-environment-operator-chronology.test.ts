@@ -191,12 +191,13 @@ test("fractional command affects only following interval, and unsampled nutritio
     BIRTH + 1.5 * HOUR, "feed-one-half");
   fed = advanceGame(fed, BIRTH + 2 * HOUR);
   const fedHistory = createEnvironmentalHistory(fed);
+  const untreated = createEnvironmentalHistory(advanceGame(game, BIRTH + 2 * HOUR));
   assert.equal(fedHistory.atHour(1.75).physiology.nutrition,
-    history.atHour(1).physiology.nutrition,
-    "unsampled fractional feeding cannot fabricate a meter reading");
+    untreated.atHour(1.75).physiology.nutrition,
+    "an unsampled fractional feed cannot fabricate a meter reading");
   assert.ok(fedHistory.atHour(2).physiology.nutrition >
-    fedHistory.atHour(1.75).physiology.nutrition,
-    "the next actual hourly sample controls nutrition");
+    untreated.atHour(2).physiology.nutrition,
+    "actual hourly nutrition samples distinguish fed and unfed histories");
 });
 
 /** Ordinary game caretaker with the same policy before and after reconstruction. */
