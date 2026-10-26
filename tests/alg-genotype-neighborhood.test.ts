@@ -54,3 +54,31 @@ test("[GEN-002/A2] independent seeds span quantitative inherited diversity witho
   assert.ok(samples.every(g =>
     unpack(g.channels).every(({ value }) => value >= 0 && value <= 1)));
 });
+
+test("[GEN-002/A2] different ordinary seeds retain distinct rendered lifetimes for the same authored ink", async () => {
+  const { createSimulation } = await import("../src/simulation");
+  const { hash } = await import("../src/simulation/model");
+  const rows = ["...###...", ".#######.", "#########", "#########", ".#######.", "...###..."];
+  const source = [{
+    id: "original-ink", kind: "body" as const, name: "unnamed creature",
+    parentId: null, position: { x: 8, y: 8 },
+    pixels: rows.flatMap((row, y) => [...row].flatMap((pixel, x) =>
+      pixel === "#" ? [{ x, y, color: "#FFFFFF" }] : [])),
+  }];
+  const lateShapes = new Set<string>();
+  for (let i = 0; i < 12; i++) {
+    const seed = "GENE-MORPH-" + String(i).padStart(2, "0");
+    const born = createSimulation(source, seed, "infant");
+    const replay = createSimulation(source, seed, "infant");
+    const shapeAt = (simulation: typeof born, age: number) =>
+      simulation.frameAt(age, { action: "idle", time: 0 }).pixels
+        .map(p => p.x + "," + p.y).sort().join(";");
+    const late = shapeAt(born, 120);
+    assert.equal(late, shapeAt(replay, 120), seed + " lost deterministic geometry replay");
+    assert.ok(late.length > 0, "render should retain drawable material");
+    lateShapes.add(hash(late).toString(16) + ":" + late.length);
+  }
+  assert.ok(lateShapes.size >= 6,
+    "Twelve ordinary seeds should yield diverse mature morphologies for identical source ink; got " +
+    lateShapes.size);
+});
