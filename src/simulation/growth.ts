@@ -1358,6 +1358,45 @@ export function createSimulation(
         if (part.attachment) part.attachment = move(part.attachment);
         part.bounds = bounds(part.pixels);
       }
+      // When DEV-004 resorbs or relocates original ink, the old rest-pose
+      // raster is no longer anatomical truth. Reconstruct only the affected
+      // source-bearing regions from their ACTIVE authored cells. Regions with
+      // unchanged ink retain the existing procedural morphology and face.
+      const liveAuthored = new Map(growthGraph.cells
+        .filter(cell => cell.provenance === "authored")
+        .map(cell => [cell.id, cell]));
+      const sourceTissues = new Map(growthGraph.tissues.map(t => [t.id,t]));
+      let remodeledAuthoredCells = 0;
+      for (const region of state.regions) {
+        if (!region.source) continue;
+        const originalInk = growthGraph.sourceCells.filter(cell =>
+          sourceTissues.get(cell.tissueId)?.sourcePartId === region.source!.id &&
+          (!region.sourceClip ||
+            (cell[region.sourceClip.axis] >= region.sourceClip.min &&
+             cell[region.sourceClip.axis] < region.sourceClip.max)));
+        if (!originalInk.length) continue;
+        const changed = originalInk.filter(cell => {
+          const active = liveAuthored.get(cell.id);
+          return !active || active.x !== cell.x || active.y !== cell.y;
+        });
+        if (!changed.length) continue;
+        remodeledAuthoredCells += changed.length;
+        const transform = transformFor(region);
+        const cells = rasterCellQuads(originalInk.flatMap(original => {
+          const active = liveAuthored.get(original.id);
+          return active ? [{
+            cell: active,
+            quad: cellCorners(active).map(point => mapSourcePoint(region,point)),
+            center: mapSourcePoint(region,active),
+          }] : [];
+        }), transform
+          ? point => poseAuthoredMaterial(region,point,transform)
+          : undefined);
+        const part = parts.find(p => p.id === region.id);
+        if (!part) continue;
+        part.pixels = uniquePixels(cells);
+        part.bounds = bounds(part.pixels);
+      }
       // Transport NEW source-derived physical cells through each original
       // region's deformation and locomotion pose. Existing source pixels stay
       // owned and painted by the existing renderer; no second creature layer.
@@ -1472,6 +1511,7 @@ export function createSimulation(
           graphEvents: growthGraph.events.length,
           visibleGrowthParts: parts.filter(part => part.role === "material-growth").length,
           unmappedGeneratedTissues,
+          remodeledAuthoredCells,
         },
       };
       // Carry authored negative space with bright features drawn inside hollow outlines.
