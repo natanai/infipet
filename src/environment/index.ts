@@ -10,3 +10,9 @@ export type {
 } from "./history";
 export { compileCareDevelopmentSignals } from "./reaction-norm";
 export type { CareDevelopmentSignals, CareOperatorSignal } from "./reaction-norm";
+
+export {
+  careMaterialOperatorsAt,
+  createCareMaterialDevelopment,
+} from "./material-development";
+export type { CareMaterialDevelopment } from "./material-development";
