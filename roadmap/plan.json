@@ -369,7 +369,7 @@
       "dependsOn": [
         "PHY-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -384,12 +384,14 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/genotype-channels.test.ts",
-        "command": "pnpm exec tsx --test tests/genotype-channels.test.ts",
+        "testPath": "tests/alg-genotype-channels.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-genotype-channels.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation/genome.ts"
+        "src/simulation/genome.ts",
+        "src/genetics/",
+        "tests/alg-genotype-channels.test.ts"
       ],
       "algorithmId": "genotype"
     },
@@ -401,7 +403,7 @@
       "dependsOn": [
         "GEN-001"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -416,12 +418,14 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/genetic-neighborhood.test.ts",
-        "command": "pnpm exec tsx --test tests/genetic-neighborhood.test.ts",
+        "testPath": "tests/alg-genotype-neighborhood.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-genotype-neighborhood.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation/genome.ts"
+        "src/simulation/genome.ts",
+        "src/genetics/",
+        "tests/alg-genotype-neighborhood.test.ts"
       ],
       "algorithmId": "genotype"
     },
@@ -987,8 +991,10 @@
         "lineage constraints"
       ],
       "outputs": [
-        "InheritedGenome",
-        "genetic neighborhood channels"
+        "Seed- and mode-deterministic InheritedGenome",
+        "Lab-only, uniquely identified genetic neighborhoods",
+        "Direct authoritative DevelopmentPrior-to-GeneticExpression adapter (unknown remains unknown)",
+        "DevelopmentGeneticSignals capability contract (not yet integrated into the renderer)"
       ],
       "ownedPaths": [
         "src/simulation/genome.ts",

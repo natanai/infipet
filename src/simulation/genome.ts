@@ -1,4 +1,10 @@
 import { hash, clamp, type SourceMode } from "./model";
+import {
+  compileDevelopmentalGenotype,
+  compileExperimentalGenotype,
+  type DevelopmentalGenotype,
+  type GeneticCoordinates,
+} from "../genetics";
 
 /** General developmental grammar; independent of reference catalogs and character identities. */
 export const PROCEDURAL_GRAMMAR_VERSION = "morphogenesis-v1" as const;
@@ -15,6 +21,8 @@ export type InheritedGenome = {
   seed: string;
   mode: SourceMode;
   fingerprint: string;
+  /** Quantitative inherited developmental capability channels. */
+  genotype: DevelopmentalGenotype;
   pace: number;
   sensitivity: number;
   protectionPreference: "curl" | "enclose" | "reinforce" | "withdraw";
@@ -57,10 +65,40 @@ export function compileGenome(
   mode: SourceMode = "infant",
 ): InheritedGenome {
   const actual = String(seed ?? "").trim() || "little-world";
-  const fingerprint = hash(`${actual}|${mode}|life-v7`)
-    .toString(16)
-    .padStart(8, "0");
-  const r = (key: string) => geneRandom(fingerprint, key);
+  const fingerprint = seedFingerprint(actual, mode);
+  return assembleGenome(actual, mode, compileDevelopmentalGenotype(fingerprint));
+}
+
+/** Lab-only identity, distinct from the seed-only born-pet genome. */
+export function compileLabGenome(
+  seed: string,
+  mode: SourceMode,
+  coordinates: GeneticCoordinates,
+): InheritedGenome {
+  const actual = String(seed ?? "").trim() || "little-world";
+  const base = seedFingerprint(actual, mode);
+  return assembleGenome(actual, mode,
+    compileExperimentalGenotype(base, actual, mode, coordinates));
+}
+
+/**
+ * Unique persistent identity includes full seed and mode, avoiding the
+ * limited entropy of the legacy eight-hex-digit random sampling fingerprint.
+ */
+export function genomeCacheKey(genome: InheritedGenome): string {
+  return JSON.stringify([genome.version, genome.seed, genome.mode, genome.fingerprint]);
+}
+
+function seedFingerprint(seed: string, mode: SourceMode): string {
+  return hash(`${seed}|${mode}|life-v7`).toString(16).padStart(8, "0");
+}
+
+function assembleGenome(
+  actual: string, mode: SourceMode, genotype: DevelopmentalGenotype,
+): InheritedGenome {
+  const fingerprint = genotype.fingerprint;
+  const legacySamplingKey = seedFingerprint(actual, mode);
+  const r = (key: string) => geneRandom(legacySamplingKey, key);
   const lifeKind = (["direct", "sheltered", "metamorphic"] as const)[
     Math.floor(r("life-program") * 3)
   ];
@@ -74,6 +112,7 @@ export function compileGenome(
     seed: actual,
     mode,
     fingerprint,
+    genotype,
     pace: 0.7 + r("pace") * 0.6,
     sensitivity: 0.7 + r("sensitivity") * 0.6,
     protectionPreference: (
