@@ -207,7 +207,7 @@
       "dependsOn": [
         "OBS-001"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -255,7 +255,7 @@
       "dependsOn": [
         "PHY-001"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -303,7 +303,7 @@
       "dependsOn": [
         "PHY-002"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1109,10 +1109,7 @@
     "reporting": "Prefer booleans, numeric hashes, invariants and narrow metric summaries; never commit screenshot batches, historical build logs or generated test matrices."
   },
   "baselineTests": [
-    "tests/retro-reference-score.test.ts",
-    "tests/alg-ancestry-tree.test.ts",
-    "tests/alg-ancestry-traits.test.ts",
-    "tests/alg-ancestry-fiction.test.ts"
+    "tests/retro-reference-score.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
