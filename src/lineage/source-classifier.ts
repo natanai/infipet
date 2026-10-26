@@ -22,17 +22,100 @@ export type AffinityEvidence = Readonly<{
 }>;
 
 /**
- * Agent 1's verified taxonomy can later supply these anchors.
- * Agent 2 never guesses taxon names, external IDs or parent relationships.
+ * A minimal structural read-only port implemented by Agent 1's PhylogenyView.
+ * Crucially, callers pass a GRAPH, never self-certified scientific strings.
+ * The graph is Infipet's verified taxonomic reference, not a pet genotype.
  */
+export type ScientificPhylogenyPort = Readonly<{
+  getNode: (id: string) => Readonly<{
+    id: string;
+    parentId: string | null;
+    origin?: "scientific" | "fictional";
+  }> | undefined;
+  getProvenance: (id: string) => Readonly<{
+    kind: "scientific" | "fictional";
+    source: string;
+    sourceVersion: string;
+    sourceNodeId?: string;
+    parentEdgeSourceUrl?: string | null;
+    externalTaxonIds: readonly Readonly<{ database: "ott" | "ncbi"; id: number }>[];
+  }> | undefined;
+  lineageMembership: (id: string, ancestorId: string) => boolean;
+}>;
+
+/** A possibility linked to an actually represented, sourced tree node. */
 export type VerifiedTaxonAnchor = Readonly<{
   affinity: Exclude<BiologicalAffinity, "unresolved">;
   nodeId: string;
   source: string;
   sourceVersion: string;
-  externalTaxonId: string;
-  provenance: "verified-scientific";
+  sourceNodeId: string;
+  externalTaxonIds: readonly Readonly<{ database: "ott" | "ncbi"; id: number }>[];
 }>;
+
+/** Callers may nominate IDs but cannot nominate or certify provenance. */
+export type AffinityTaxonomyOptions = Readonly<{
+  phylogeny: ScientificPhylogenyPort;
+  /** Omitted affinities use only the represented high-level clade anchor. */
+  candidateNodeIds?: Readonly<Partial<Record<
+    Exclude<BiologicalAffinity, "unresolved">, readonly string[]
+  >>>;
+}>;
+
+/** Versioned, represented ancestry-clade roots in Agent 1's verified graph. */
+const cladeRoots = {
+  animal: "ott691846",
+  plant: "ncbi:33090",
+  fungus: "ncbi:4751",
+} as const;
+
+/**
+ * Do not let callers counterfeit taxonomy: derive every field from Agent 1's
+ * graph and its provenance. Synthetic/internal MRCA nodes lacking an external
+ * taxon ID cannot be presented as independently verified taxonomic placements.
+ *
+ * A returned anchor is only a reference to a *possible developmental prior*;
+ * it never certifies that the ink is an organism of this ancestry.
+ */
+export function verifyTaxonPossibility(
+  affinity: Exclude<BiologicalAffinity, "unresolved">,
+  id: string,
+  phylogeny: ScientificPhylogenyPort,
+): VerifiedTaxonAnchor | null {
+  const rootId = cladeRoots[affinity];
+  const node = phylogeny.getNode(id);
+  const root = phylogeny.getNode(rootId);
+  if (!node || !root || node.id !== id || root.id !== rootId ||
+      node.origin !== "scientific" || root.origin !== "scientific") return null;
+  const provenance = phylogeny.getProvenance(id);
+  const rootProvenance = phylogeny.getProvenance(rootId);
+  const authentic = (p: typeof provenance, nodeId: string, parentId: string | null) =>
+    Boolean(p && p.kind === "scientific" &&
+      (p.source === "Open Tree of Life" || p.source === "NCBI Taxonomy") &&
+      p.sourceNodeId === nodeId &&
+      p.sourceVersion.trim().length > 0 &&
+      (parentId === null || Boolean(p.parentEdgeSourceUrl?.trim())) &&
+      p.externalTaxonIds.some(ref =>
+        Number.isSafeInteger(ref.id) && ref.id > 0 &&
+        (ref.database === "ott" || ref.database === "ncbi") &&
+        (nodeId.startsWith("ncbi:") ? ref.database === "ncbi" &&
+          String(ref.id) === nodeId.slice(5) :
+          nodeId.startsWith("ott") ? ref.database === "ott" &&
+          String(ref.id) === nodeId.slice(3) : true)
+      ));
+  if (!authentic(provenance, id, node.parentId) ||
+      !authentic(rootProvenance, rootId, root.parentId) ||
+      !phylogeny.lineageMembership(id, rootId)) return null;
+  const scientific = provenance!;
+  return {
+    affinity, nodeId: node.id, source: scientific.source,
+    sourceVersion: scientific.sourceVersion,
+    sourceNodeId: scientific.sourceNodeId!,
+    externalTaxonIds: scientific.externalTaxonIds.map(t => ({
+      database: t.database, id: t.id,
+    })),
+  };
+}
 
 export type RankedAffinity = Readonly<{
   affinity: BiologicalAffinity;
@@ -110,7 +193,7 @@ function observed(m: InkMorphology): Record<ObservedFeature, number> {
  */
 export function rankBiologicalAffinities(
   morphology: InkMorphology,
-  anchors: readonly VerifiedTaxonAnchor[] = [],
+  taxonomy?: AffinityTaxonomyOptions,
 ): AffinityInference {
   const values = observed(morphology);
   const scored = affinities.map((affinity) => {
@@ -120,13 +203,10 @@ export function rankBiologicalAffinities(
     }));
     const score = baseline[affinity] +
       evidence.reduce((total, item) => total + item.contribution, 0);
-    const taxon = affinity === "unresolved" ? null : (
-      anchors.find((candidate) =>
-        candidate.affinity === affinity &&
-        candidate.provenance === "verified-scientific" &&
-        Boolean(candidate.nodeId.trim() && candidate.source.trim() &&
-          candidate.sourceVersion.trim() && candidate.externalTaxonId.trim())
-      ) ?? null
+    const taxon = affinity === "unresolved" || !taxonomy ? null : (
+      (taxonomy.candidateNodeIds?.[affinity] ?? [cladeRoots[affinity]])
+        .map(id => verifyTaxonPossibility(affinity, id, taxonomy.phylogeny))
+        .find(candidate => candidate !== null) ?? null
     );
     return { affinity, evidence, score, taxon };
   });
@@ -152,9 +232,23 @@ export function rankBiologicalAffinities(
   };
 }
 
+/**
+ * Integration usage after Agent 1 is merged:
+ *
+ * import * as phylogeny from "../phylogeny";
+ * const observed = inferSourceAffinities(atlas, {
+ *   phylogeny,
+ *   candidateNodeIds: { plant: ["ncbi:3193"] },
+ * });
+ * // observed.candidates are hypotheses, NOT a committed taxonomic identity.
+ * // Absence of graph verification leaves candidate.taxon null.
+ *
+ * Seed, care, time and the single pet's future developmental trajectory belong
+ * to Integration; neither this method nor its input mutates its birth ancestry.
+ */
 export function inferSourceAffinities(
   atlas: SourceAtlas,
-  anchors: readonly VerifiedTaxonAnchor[] = [],
+  taxonomy?: AffinityTaxonomyOptions,
 ): AffinityInference {
-  return rankBiologicalAffinities(inferInkMorphology(atlas), anchors);
+  return rankBiologicalAffinities(inferInkMorphology(atlas), taxonomy);
 }
