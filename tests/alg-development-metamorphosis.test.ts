@@ -374,7 +374,7 @@ test("[DEV-004/A1] actual growth-site anchors follow moved material and growing 
   const p=makeComposable(drawing(["###"]), (t,s)=>[
     opAt("translate-site","translate",t[0].id,10,{direction:{x:1,y:0}}),
     opAt("extend-tip","extend",t[0].id,30,{
-      direction:{x:1,y:0},sourceSiteId:s[0].id,
+      direction:s[0].direction,sourceSiteId:s[0].id,
     }),
   ]);
   const source=p.material.source;
@@ -384,7 +384,9 @@ test("[DEV-004/A1] actual growth-site anchors follow moved material and growing 
     firstDue(p.remodel,p.remodel.operations.find(o=>o.id==="translate-site")!));
   assert.equal(shift.attempt.status,"accepted",shift.attempt.reason??"");
   assert.deepEqual(shift.graph.sites[0],oldSite,"stable site identity/root cell ID");
-  assert.deepEqual(shift.siteChanges.map(s=>s.siteId),[oldSite.id]);
+  assert.deepEqual(shift.siteChanges.map(s=>s.siteId),
+    source.sites.map(s=>s.id),
+    "moving a tissue moves every physical growth-site anchor");
   assert.deepEqual(shift.siteChanges[0].from,{x:oldRoot.x,y:oldRoot.y});
   assert.deepEqual(shift.siteChanges[0].to,{x:oldRoot.x+1,y:oldRoot.y});
   const extend=applyRemodelingProposal(shift.graph,p.remodel,
