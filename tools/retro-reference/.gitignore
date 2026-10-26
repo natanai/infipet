@@ -1,4 +1,0 @@
-.toolchain/
-native/.build/
-native/__pycache__/
-__pycache__/
