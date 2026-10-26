@@ -379,7 +379,7 @@ function physicalUnit(
     if(op.kind==="reinforce") {
       // Quantized material rigidity is a persistent, measurable trait; no
       // source cells are overwritten. The event is still a physical event.
-      const quantized=Math.min(1.5,k/7);
+      const quantized=Math.min(1,k/7);
       tissues=tissues.map(t=>t.id===tissue.id?
         {...t,rigidity:Math.max(t.rigidity,quantized)}:t);
       rigidityOnly=true;

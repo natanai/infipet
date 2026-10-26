@@ -321,3 +321,35 @@ test("fractional care onset only affects future operator quotas; same-time opera
     tie.decisions.findIndex(d=>d.operatorId==="alpha"));
   integrity(tie.graph,graph);
 });
+
+test("maximum inherited reinforcement remains physically bounded to rigidity [0,1]",()=>{
+  const base=rig(["##","##"],"reinforce");
+  // Explicitly set the strongest legal inherited wall-deposition potential
+  // and a supported phylogenetic evidence weight, rather than depending on
+  // a lucky genome seed. This yields floor(7*1.25)=8 earned quanta.
+  const signals={
+    ...base.program.signals,
+    channels:{
+      ...base.program.signals.channels,
+      support:{...base.program.signals.channels.support,rigidity:1},
+    },
+    operators:{
+      ...base.program.signals.operators,
+      "wall-deposition":{
+        ...base.program.signals.operators["wall-deposition"],
+        potential:1,
+        evidence:{status:"supported"},
+      },
+    },
+  } as unknown as MaterialDevelopmentProgram["signals"];
+  const program={...base.program,signals};
+  assert.ok(materialOperatorPotential("reinforce",signals)>8/7);
+  const start=initializeMaterialOperatorChronology(program);
+  const after=stepMaterialOperatorChronology(base.graph,program,start,
+    interval(program,0,4,[1]));
+  assert.equal(after.events.length,8,"all eight legitimate quanta must be recorded");
+  assert.ok(after.graph.tissues.every(t=>t.rigidity>=0&&t.rigidity<=1),
+    "stiffness must remain a valid probability/rigidity parameter");
+  assert.equal(after.graph.tissues.find(t=>t.id===base.op.tissueId)?.rigidity,1);
+  integrity(after.graph,base.graph);
+});
