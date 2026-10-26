@@ -168,6 +168,23 @@ test("[DEV-003/A1] exact authored-tip positions at a one-credit and four-credit 
   validMaterial(four, birth);
 });
 
+test("[DEV-003/A1] the same source-derived growth grammar supports opposite axial polarity", () => {
+  const rows = [...Array(16).fill("................"), "........#......."];
+  const up = noForks(controlled(rows, "opposite-axes",
+    cells => cells[0], { x: 0, y: -1 }));
+  const down = noForks(controlled(rows, "opposite-axes",
+    cells => cells[0], { x: 0, y: 1 }));
+  const source = up.source.sourceCells[0];
+  const cellUp = iterativeGrowthAt(up, zero(0.25), 1).graph.cells
+    .find(c => c.provenance === "generated");
+  const cellDown = iterativeGrowthAt(down, zero(0.25), 1).graph.cells
+    .find(c => c.provenance === "generated");
+  assert.deepEqual([cellUp?.x, cellUp?.y], [source.x, source.y - 1]);
+  assert.deepEqual([cellDown?.x, cellDown?.y], [source.x, source.y + 1]);
+  assert.deepEqual(cellUp?.sourceIds, cellDown?.sourceIds,
+    "axial polarity does not change the authored material identity");
+});
+
 test("[DEV-003/A2] directional light and recorded resources alter actual geometry causally", () => {
   const rows = [...Array(15).fill("................"), "........#......."];
   const birth = noForks(controlled(rows, "controlled-light"));
@@ -263,6 +280,10 @@ test("[DEV-003/A1] growth-bearing branches recursively produce attached growth s
   validMaterial(after, birth);
   const generations = after.sites.filter(s => s.depth >= 2);
   assert.ok(generations.length > 0, "a generated branch becomes a grandparent");
+  assert.ok(after.graph.events.some(e => e.kind === "expand"),
+    "generated axes can specialize by growing laterally under the same material budget");
+  assert.ok(after.sites.some(s => s.lateralCells > 0),
+    "lateral material accumulation is recorded in a growth-bearing site");
   for (const site of generations) {
     const parent = after.sites.find(p => p.id === site.parentSiteId);
     assert.ok(parent && parent.depth === site.depth - 1);
