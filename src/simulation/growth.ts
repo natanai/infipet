@@ -1505,7 +1505,7 @@ export function createSimulation(
         };
       });
       for (const mark of parts.filter(
-        (p) => p.kind === "decoration" && p.pixels.length,
+        (p) => p.kind === "decoration" && p.role !== "material-growth" && p.pixels.length,
       )) {
         const b = mark.bounds;
         windows.push({
