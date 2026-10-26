@@ -374,8 +374,15 @@ function physicalUnit(
       // The old exterior signed-distance material expansion primitive is
       // called on the CURRENT contour. Take one new lattice cell per quantum.
       const field=grownMaterialCells(faux,1.5,2)
-        .filter(p=>!material.some(c=>xy(c)===xy(p)))
-        .sort((a,b)=>a.y-b.y||a.x-b.x);
+        // A distance band can contain cells TWO lattice steps away. An
+        // incremental quantum must choose a LIVE adjacent boundary cell,
+        // otherwise it would insert a disconnected anatomical island.
+        .filter(p=>!material.some(c=>xy(c)===xy(p)) &&
+          material.some(c=>touching(c,p)))
+        .sort((a,b)=>
+          Math.min(...material.map(c=>sq(c,a)))-
+          Math.min(...material.map(c=>sq(c,b))) ||
+          a.y-b.y||a.x-b.x);
       let reason:MaterialOperatorReason="no-boundary",chosen=false;
       for(const candidate of field) {
         const parent=[...material].sort((a,b)=>sq(a,candidate)-sq(b,candidate) ||
