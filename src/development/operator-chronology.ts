@@ -189,7 +189,7 @@ function activeLinks(graph:MaterialGraph,id:string) {
       if(!visited.has(n)){visited.add(n);queue.push(n);}
   return visited;
 }
-function canDeposit(g:MaterialGraph,p:Point,tissueId:string,provisional:readonly MaterialCell[]):
+function canDeposit(g:MaterialGraph,p:Point,tissueId:string,provisional:readonly MaterialCell[], parentId?:string):
   MaterialOperatorReason|null {
   if(!bounds(p)) return "outside-world";
   if(g.protectedVoids.includes(xy(p))) return "protected-void";
@@ -198,6 +198,10 @@ function canDeposit(g:MaterialGraph,p:Point,tissueId:string,provisional:readonly
   const all=[...g.cells,...provisional];
   if(all.some(c=>xy(c)===xy(p))) return "occupied";
   const connected=activeLinks(g,tissueId);
+  if(parentId) {
+    for(const id of activeLinks(g,parentId)) connected.add(id);
+    for(const cell of provisional) if(cell.tissueId.startsWith(parentId.replace(/\\/growth\\/.*/, "")+"/growth/")) connected.add(cell.tissueId);
+  }
   for(const c of all)if(touching(c,p) && !connected.has(c.tissueId) &&
     c.tissueId!==tissueId) return "occupied";
   return null;
@@ -267,8 +271,8 @@ function physicalUnit(
   let tips:string[]=[];
   let rigidityOnly=false;
   const synth={...op,id:identifier};
-  function deposit(owner:string,at:Point,parents:readonly MaterialCell[]) {
-    const problem=canDeposit(graph,at,owner,newCells);
+  function deposit(owner:string,at:Point,parents:readonly MaterialCell[],parentId?:string) {
+    const problem=canDeposit(graph,at,owner,newCells,parentId);
     if(problem)return problem;
     const next=createOperatorMaterialCell(synth,owner,at.x,at.y,parents);
     newCells.push(next);return null;
@@ -299,7 +303,7 @@ function physicalUnit(
         : current;
       if(!source)return fail("tip-removed");
       const target={x:source.x+delta.x,y:source.y+delta.y};
-      const problem=deposit(childId,target,[source]);
+      const problem=deposit(childId,target,[source],tissue.id);
       if(problem)return fail(problem);
       const newCell=newCells[newCells.length-1];
       tips.push(newCell.id);
