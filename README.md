@@ -10,7 +10,7 @@ This is a **playable combined prototype**, not a verified complete hardware repl
 
 ## Run
 
-Dependencies are installed. On Windows, run `./Start-Infipet.ps1`, then open [localhost:8081](http://localhost:8081). If the server listens only on IPv6, use [IPv6 loopback](http://[::1]:8081). `pnpm web` starts the browser preview; `pnpm start` serves Expo Go. For iPhone, use `./Start-Infipet.ps1 -Mode iphone` and a compatible Expo Go installation. See [iOS setup](docs/IOS.md).
+On a fresh clone, install Node.js (the CI uses Node 22) and pnpm 10, then run `pnpm install --frozen-lockfile` in the project directory. On Windows PowerShell, run `./Start-Infipet.ps1`, then open [localhost:8081](http://localhost:8081). If the server listens only on IPv6, use [IPv6 loopback](http://[::1]:8081). `pnpm web` starts the browser preview; `pnpm start` serves Expo Go. For iPhone, use `./Start-Infipet.ps1 -Mode iphone` and a compatible Expo Go installation. See [iOS setup](docs/IOS.md).
 
 ## Play
 
