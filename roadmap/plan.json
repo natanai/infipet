@@ -637,7 +637,7 @@
       "dependsOn": [
         "DEV-001"
       ],
-      "status": "todo",
+      "status": "blocked",
       "acceptance": [
         {
           "id": "A1",
@@ -652,13 +652,13 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/environment-history.test.ts",
-        "command": "pnpm exec tsx --test tests/environment-history.test.ts",
+        "testPath": "tests/alg-environment-history.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-history.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/gameplay",
-        "src/needs"
+        "src/environment/history.ts",
+        "src/gameplay/index.ts"
       ],
       "algorithmId": "environment"
     },
@@ -672,7 +672,7 @@
         "GEN-001",
         "DEV-002"
       ],
-      "status": "todo",
+      "status": "blocked",
       "acceptance": [
         {
           "id": "A1",
@@ -687,13 +687,12 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/reaction-norm.test.ts",
-        "command": "pnpm exec tsx --test tests/reaction-norm.test.ts",
+        "testPath": "tests/alg-environment-reaction.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-reaction.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation",
-        "src/gameplay"
+        "src/environment/reaction-norm.ts"
       ],
       "algorithmId": "environment"
     },
