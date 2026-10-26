@@ -672,3 +672,67 @@ test("[INT-001] long physical resource accounting, arbitrary material and immuta
     assert.deepEqual(graph.sourceCells, birth.source.sourceCells);
   }
 });
+
+test("[INT-001] future-dated external operations are refused, not back-propagated", () => {
+  const rows = [...Array(16).fill("................"), "........#......."];
+  const birth = noForks(controlled(rows, "future-event-guard"));
+  const future: MaterialGraph = { ...birth.source,
+    events: [{ id: "tomorrow", kind: "reinforce", atHour: 5,
+      createdCellIds: [], removedCellIds: [], sourceCellIds: [] }] };
+  const initial = createIterativeChronologyState(birth);
+  assert.throws(() => stepIterativeChronology(birth, future, initial,
+    chronoExposure(0)), /future/);
+  assert.deepEqual(stepIterativeChronology(birth, birth.source, initial,
+    chronoExposure(0)).graph.sourceCells, birth.source.sourceCells);
+  assert.throws(() => replayIterativeChronology(birth, [
+    chronoExposure(1), chronoExposure(0)], 2), /strictly increasing/);
+  assert.throws(() => replayIterativeChronology(birth, [
+    chronoExposure(1)], 2), /hour-zero/);
+  assert.throws(() => replayIterativeChronology(birth, [
+    chronoExposure(0, Number.NaN)], 2), /resources/);
+});
+
+test("[INT-001] invalid external site is tombstoned exactly once and cannot resurrect", () => {
+  const rows = [...Array(16).fill("................"), "........#......."];
+  const birth = noForks(controlled(rows, "invalid-site-tombstone"));
+  const ghostSite = {
+    id: "ghost/port", tissueId: birth.source.tissues[0].id,
+    rootCellId: "missing-source-cell",
+    direction: { x: 1, y: 0 },
+  };
+  const graph: MaterialGraph = {
+    ...birth.source, sites: [...birth.source.sites, ghostSite],
+  };
+  const initial = createIterativeChronologyState(birth);
+  const first = stepIterativeChronology(birth, graph, initial,
+    chronoExposure(0, 0));
+  assert.ok(first.changes.some(c =>
+    c.siteId === ghostSite.id && c.reason === "source-invalid"));
+  assert.equal(first.state.sites.find(s => s.id === ghostSite.id)?.status,
+    "invalidated");
+  const second = stepIterativeChronology(birth, first.graph, first.state,
+    chronoExposure(1, 1));
+  assert.equal(second.changes.filter(c => c.siteId === ghostSite.id).length, 0);
+  assert.ok(second.ledger.bySite.every(a => a.siteId !== ghostSite.id));
+  assert.equal(second.state.sites.find(s => s.id === ghostSite.id)?.status,
+    "invalidated");
+});
+
+test("[INT-001] removal of an external site registry entry permanently closes its history", () => {
+  const rows = [...Array(16).fill("................"), "........#......."];
+  const birth = noForks(controlled(rows, "site-registry-loss"));
+  const initial = createIterativeChronologyState(birth);
+  const one = stepIterativeChronology(birth, birth.source, initial,
+    chronoExposure(0, 0.25));
+  const missing: MaterialGraph = { ...one.graph, sites: [] };
+  const removed = stepIterativeChronology(birth, missing, one.state,
+    chronoExposure(1, 1));
+  assert.equal(removed.state.sites[0].status, "invalidated");
+  assert.ok(removed.changes.some(c => c.reason === "site-removed"));
+  assert.equal(removed.ledger.spent, 0);
+  const returned: MaterialGraph = { ...removed.graph, sites: one.graph.sites };
+  const stillClosed = stepIterativeChronology(birth, returned, removed.state,
+    chronoExposure(2, 1));
+  assert.equal(stillClosed.ledger.spent, 0);
+  assert.equal(stillClosed.state.sites[0].status, "invalidated");
+});
