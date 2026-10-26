@@ -1059,6 +1059,8 @@
     "reporting": "Prefer booleans, numeric hashes, invariants and narrow metric summaries; never commit screenshot batches, historical build logs or generated test matrices."
   },
   "baselineTests": [
-    "tests/retro-reference-score.test.ts"
+    "tests/retro-reference-score.test.ts",
+    "tests/alg-observation-affinity.test.ts",
+    "tests/alg-observation-robustness.test.ts"
   ]
 }
