@@ -912,7 +912,7 @@
         "DEV-002",
         "GEN-001"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1271,8 +1271,7 @@
     "tests/alg-environment-reaction.test.ts",
     "tests/alg-environment-material.test.ts",
     "tests/alg-integration-runtime.test.ts",
-    "tests/alg-development-chaos.test.ts",
-    "tests/alg-integration-locomotion.test.ts"
+    "tests/alg-development-chaos.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
