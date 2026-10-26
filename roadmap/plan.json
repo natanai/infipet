@@ -1380,8 +1380,7 @@
         "src/lineage/index.ts",
         "src/integration/",
         "tests/alg-integration-",
-        "src/simulation/locomotion.ts",
-        "src/integration/chronological-material.ts"
+        "src/simulation/locomotion.ts"
       ],
       "taskIds": [
         "GAME-001",
