@@ -1,5 +1,8 @@
 # Deterministic development and care, version 5
 
+> **Historical design specification:** This document describes an earlier procedural simulation revision, not the complete active life-v10 engine. For current game behavior see the [life-v10 README](../README.md), [goal](GOAL.md), and [automated verification](VERIFICATION-life-v10.md). Do not assume historical timings and constraints are still implemented.
+
+
 Infipet uses one 32 × 32 drawing canvas and a 64 × 64 simulation world. A brush label gives painted pixels anatomical meaning. Hidden masks, material carriers, and joints are inferred without a player-visible rig. The inherited seed provides potential; an explicit care history changes its expression. No wall clock advances either system.
 
 ## Public contract
