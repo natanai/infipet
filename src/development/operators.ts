@@ -175,6 +175,7 @@ export function applyMaterialOperators(
     if (effect <= 0) continue;
     const before = new Set(cells.map(c => c.id));
     const removed: string[] = [];
+    const removedAncestry: string[] = [];
     const site = siteFor(op);
     const anchor = birth.sourceCells.find(c => c.id === site?.rootCellId) ??
       active(tissue.id)[0];
@@ -230,7 +231,7 @@ export function applyMaterialOperators(
       if (op.kind === "reinforce")
         tissues[tissues.indexOf(tissue)] = { ...tissue, rigidity: Math.max(tissue.rigidity, effect) };
     }
-    if (op.kind === "fuse" && op.targetTissueId && extent) {
+    if (op.kind === "fuse" && op.targetTissueId && op.targetTissueId !== tissue.id && extent) {
       const destination = active(op.targetTissueId);
       let pair: { a: MaterialCell; b: MaterialCell; score: number } | undefined;
       for (const a of active(tissue.id)) for (const b of destination) {
@@ -241,19 +242,28 @@ export function applyMaterialOperators(
       }
       if (pair && pair.score <= Math.min(12, extent + 2)) {
         const { a, b } = pair;
-        let from = a, x = a.x, y = a.y;
+        let x = a.x, y = a.y;
+        const corridor: Point[] = [];
         for (let i = 1; i < pair.score; i++) {
           if (x !== b.x) x += Math.sign(b.x - x);
           else y += Math.sign(b.y - y);
-          if (occupied.has(key(x, y)) || protectedVoids.has(key(x, y))) continue;
-          // Explicit fusion is the sole operator that crosses an island watershed.
-          if (!within(x, y) || cells.length - birth.sourceCells.length >= MATERIAL_LIMITS.addedCells) break;
-          const bridge = newMaterial(op, tissue.id, x, y, [from, b]);
-          cells.push(bridge); occupied.set(key(x, y), [bridge]); from = bridge;
+          corridor.push({ x, y });
         }
-        links.push({ id: op.id + "/fusion", kind: "fusion",
-          fromTissueId: tissue.id, toTissueId: op.targetTissueId,
-          fromCellId: a.id, toCellId: b.id });
+        // A fusion either builds a continuous physical bridge or does nothing.
+        // It cannot skip over protected cavities or quietly join a third island.
+        if (corridor.every(p => within(p.x, p.y) &&
+            !occupied.has(key(p.x, p.y)) &&
+            !protectedVoids.has(key(p.x, p.y))) &&
+            cells.length - birth.sourceCells.length + corridor.length <= MATERIAL_LIMITS.addedCells) {
+          let from = a;
+          for (const p of corridor) {
+            const bridge = newMaterial(op, tissue.id, p.x, p.y, [from, b]);
+            cells.push(bridge); occupied.set(key(p.x, p.y), [bridge]); from = bridge;
+          }
+          links.push({ id: op.id + "/fusion", kind: "fusion",
+            fromTissueId: tissue.id, toTissueId: op.targetTissueId,
+            fromCellId: a.id, toCellId: b.id });
+        }
       }
     }
     if ((op.kind === "resorb" || op.kind === "remodel") && extent) {
@@ -279,6 +289,7 @@ export function applyMaterialOperators(
           }
         }
         if (seen.size !== new Set(remaining.map(c => key(c.x, c.y))).size) continue;
+        removedAncestry.push(...candidate.sourceIds);
         remove(candidate); removed.push(candidate.id); count++;
       }
       if (op.kind === "remodel" && count) {
@@ -290,7 +301,7 @@ export function applyMaterialOperators(
     if (created.length || removed.length || op.kind === "reinforce") {
       const sources = [...new Set([
         ...created.flatMap(id => cells.find(c => c.id === id)?.sourceIds ?? []),
-        ...removed.flatMap(id => birth.sourceCells.find(c => c.id === id)?.sourceIds ?? []),
+        ...removedAncestry,
       ])].sort();
       events.push({ id: op.id, kind: op.kind, atHour: op.atHour + op.durationHours * completion,
         createdCellIds: created, removedCellIds: removed, sourceCellIds: sources });
