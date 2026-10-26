@@ -78,6 +78,15 @@ export type MechanicalCapability = Readonly<{
   /** Remaining flex potential, not a commanded movement. */
   mobility: number;
 }>;
+/** Disjoint mechanically traceable spans separated only at actual cut vertices. */
+export type MechanicalRegion = Readonly<{
+  id: string;
+  tissueId: string;
+  cellIds: readonly string[];
+  sourceCellIds: readonly string[];
+  hingeCellId: string | null;
+  rigidity: number;
+}>;
 export type LifetimeRemodelingProgram = Readonly<{
   version: 1;
   birth: MaterialGraph;
@@ -91,6 +100,7 @@ export type LifetimeRemodelingFrame = Readonly<{
   transitions: readonly RemodelTransition[];
   deferred: readonly RemodelDeferral[];
   capabilities: readonly MechanicalCapability[];
+  regions: readonly MechanicalRegion[];
 }>;
 
 const xy = (p: Point) => p.x + "," + p.y;
@@ -467,6 +477,7 @@ export function lifetimeRemodelingAt(
   return {
     graph, transitions, deferred,
     capabilities: mechanicalCapabilities(graph, articulations),
+    regions: mechanicalRegions(graph, articulations),
   };
 }
 
@@ -481,7 +492,8 @@ export function mechanicalCapabilities(
     const stiffness = cap(tissue.rigidity);
     if (group.length >= 3 && activeConnected(group)) {
       const hingeId = articulations.get(tissue.id);
-      if (hingeId && group.some(c => c.id === hingeId)) {
+      if (hingeId && group.some(c => c.id === hingeId) &&
+          !activeConnected(group.filter(c => c.id !== hingeId))) {
         const hinge = group.find(c => c.id === hingeId)!;
         result.push({ id: tissue.id + "/joint", kind: "joint",
           tissueId: tissue.id, cellIds: group.filter(c =>
@@ -507,17 +519,65 @@ export function mechanicalCapabilities(
     if (!link.fromCellId || !link.toCellId ||
         !graph.cells.some(c => c.id === link.fromCellId) ||
         !graph.cells.some(c => c.id === link.toCellId)) continue;
-    const stiffness = cap(graph.tissues.find(t =>
-      t.id === link.fromTissueId)?.rigidity ?? 0);
+    const a = graph.cells.find(c => c.id === link.fromCellId)!;
+    const b = graph.cells.find(c => c.id === link.toCellId)!;
+    if (dist2(a, b) > 2) continue;
+    const tissue = graph.tissues.find(t => t.id === link.fromTissueId);
+    const stiffness = cap(tissue?.rigidity ?? 0);
     result.push({
       id: link.id + "/mechanical",
-      kind: link.kind === "attachment" ? "joint" : "attachment",
+      kind: link.kind === "attachment" && tissue?.relationship === "joint"
+        ? "joint" : "attachment",
       tissueId: link.fromTissueId,
       cellIds: [link.fromCellId, link.toCellId],
       stiffness, mobility: 1 - stiffness,
     });
   }
   return result.sort((a, b) => compareText(a.id, b.id));
+}
+
+/**
+ * Split a real tissue ONLY at a mechanically demonstrated cut vertex.
+ * Region membership is a partition of active tissue minus the hinge material,
+ * which is uniquely owned by the joint. No limb/head/tail labels or symmetry.
+ */
+export function mechanicalRegions(
+  graph: MaterialGraph, articulations: ReadonlyMap<string, string> = new Map(),
+): readonly MechanicalRegion[] {
+  const regions: MechanicalRegion[] = [];
+  for (const t of graph.tissues) {
+    const group = graph.cells.filter(c => c.tissueId === t.id);
+    if (!group.length) continue;
+    const hingeId = articulations.get(t.id) ?? null;
+    const isHinge = hingeId !== null &&
+      group.some(c => c.id === hingeId) &&
+      !activeConnected(group.filter(c => c.id !== hingeId));
+    const remaining = group.filter(c => !isHinge || c.id !== hingeId);
+    const unseen = new Map(remaining.map(c => [c.id, c]));
+    const components: MaterialCell[][] = [];
+    while (unseen.size) {
+      const first = [...unseen.values()].sort(compareCell)[0];
+      const queue = [first];
+      unseen.delete(first.id);
+      for (let i = 0; i < queue.length; i++) {
+        for (const c of [...unseen.values()])
+          if (around(c, queue[i])) {
+            queue.push(c); unseen.delete(c.id);
+          }
+      }
+      components.push(queue.sort(compareCell));
+    }
+    components.sort((a, b) => compareCell(a[0], b[0]));
+    for (const [index, component] of components.entries())
+      regions.push({
+        id: t.id + "/region/" + index, tissueId: t.id,
+        cellIds: component.map(c => c.id),
+        sourceCellIds: sourceIds(component),
+        hingeCellId: isHinge ? hingeId : null,
+        rigidity: cap(t.rigidity),
+      });
+  }
+  return regions.sort((a, b) => compareText(a.id, b.id));
 }
 
 /**
@@ -547,6 +607,9 @@ export function auditRemodelLegibility(frame: LifetimeRemodelingFrame): readonly
           !cell.parentCellIds.length ||
           cell.parentCellIds.some(id => !recorded.has(id))))
       faults.push("unrecorded-generation:" + cell.id);
+    if (cell.provenance === "generated" &&
+        created.get(cell.id)?.split("/unit/")[0] !== cell.operationId)
+      faults.push("misattributed-generation:" + cell.id);
   }
   for (const t of g.tissues) {
     const group = g.cells.filter(c => c.tissueId === t.id);
