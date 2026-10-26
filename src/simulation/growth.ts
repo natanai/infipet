@@ -1358,6 +1358,8 @@ export function createSimulation(
       const locomotorBindings = new Map(materialRig.bindings.map(binding =>
         [binding.tissueId, binding]));
       const newMaterialByTissue = new Map<string, MaterialCell[]>();
+      const activeMaterialById = new Map(growthGraph.cells.map(cell => [cell.id, cell]));
+      const unmappedGeneratedTissues: string[] = [];
       for (const cell of generated) {
         const group = newMaterialByTissue.get(cell.tissueId) ?? [];
         group.push(cell);
@@ -1370,8 +1372,15 @@ export function createSimulation(
           region.source?.id === tissue.sourcePartId &&
           (!region.sourceClip || cells.some(cell =>
             cell[region.sourceClip!.axis] >= region.sourceClip!.min &&
-            cell[region.sourceClip!.axis] < region.sourceClip!.max)));
-        if (!carrier) continue;
+            cell[region.sourceClip!.axis] < region.sourceClip!.max))) ??
+          // Some developed regions no longer carry a direct original patch;
+          // retain ancestry-based carrier lookup before reporting a failure.
+          state.regions.find(region =>
+            region.sourceIds.includes(tissue.sourcePartId));
+        if (!carrier) {
+          unmappedGeneratedTissues.push(tissue.id);
+          continue;
+        }
         const transport = transformFor(carrier);
         const functionalBinding = locomotorBindings.get(tissue.id);
         const linkedTransform = functionalBinding
@@ -1389,7 +1398,10 @@ export function createSimulation(
             : transport
               ? point => poseAuthoredMaterial(carrier, point, transport)
               : undefined);
-        if (!pixels.length) continue;
+        if (!pixels.length) {
+          unmappedGeneratedTissues.push(tissue.id);
+          continue;
+        }
         const painted = uniquePixels(pixels.map(pixel => ({
           ...pixel,
           // Draw new material above its carrier without mistaking it for
@@ -1398,17 +1410,46 @@ export function createSimulation(
         })));
         const materialBounds = bounds(painted);
         const original = parts.find(part => part.id === carrier.id);
+        const physicalParentId = tissue.parentId
+          ? "material-growth/" + tissue.parentId : null;
+        // Retain actual material-parent hierarchy rather than attaching every
+        // daughter branch directly to the source carrier.
+        const displayedParentId = physicalParentId &&
+          parts.some(part => part.id === physicalParentId)
+          ? physicalParentId : carrier.id;
+        const activeAttachment = growthGraph.links.find(link =>
+          link.kind === "attachment" && link.fromTissueId === tissue.id &&
+          link.fromCellId && activeMaterialById.has(link.fromCellId) &&
+          link.toCellId && activeMaterialById.has(link.toCellId));
+        const linkedRoot = activeAttachment?.fromCellId
+          ? activeMaterialById.get(activeAttachment.fromCellId) : undefined;
+        const furthest = linkedRoot
+          ? [...cells].sort((a, b) =>
+              (b.x - linkedRoot.x) ** 2 + (b.y - linkedRoot.y) ** 2 -
+              ((a.x - linkedRoot.x) ** 2 + (a.y - linkedRoot.y) ** 2) ||
+              compareText(a.id, b.id))[0]
+          : undefined;
+        const transportMaterialPoint = (p: Point) =>
+          linkedTransform && functionalBinding
+            ? poseLinkedMaterial(p, functionalBinding, linkedTransform)
+            : transport ? poseAuthoredMaterial(carrier, p, transport) : p;
+        const jointAnchor = linkedRoot
+          ? transportMaterialPoint(mapSourcePoint(carrier, linkedRoot))
+          : original?.anchor ?? carrier.anchor;
+        const materialTip = furthest
+          ? transportMaterialPoint(mapSourcePoint(carrier, furthest))
+          : original?.tip ?? carrier.tip;
         parts.push({
           id: "material-growth/" + tissue.id,
           kind: "decoration", name: "Growing material",
-          parentId: carrier.id, sourcePartIds: [tissue.sourcePartId],
+          parentId: displayedParentId, sourcePartIds: [tissue.sourcePartId],
           role: "material-growth", readiness: 0.25,
-          provenance: "grown", relationship: "joint",
+          provenance: "grown", relationship: tissue.relationship,
           layer: (carrier.layer ?? 100) + 0.25,
           pixels: painted,
-          anchor: original ? { ...original.anchor } : { ...carrier.anchor },
-          tip: original ? { ...original.tip } : { ...carrier.tip },
-          attachment: original ? { ...original.anchor } : { ...carrier.anchor },
+          anchor: { ...jointAnchor },
+          tip: { ...materialTip },
+          attachment: { ...jointAnchor },
           attached: true, scale: 1, growth: { x: 1, y: 1 },
           rotation: original?.rotation ?? carrier.angle,
           planted: original?.planted ?? false,
@@ -1423,6 +1464,7 @@ export function createSimulation(
           generatedCells: generated.length,
           graphEvents: growthGraph.events.length,
           visibleGrowthParts: parts.filter(part => part.role === "material-growth").length,
+          unmappedGeneratedTissues,
         },
       };
       // Carry authored negative space with bright features drawn inside hollow outlines.
