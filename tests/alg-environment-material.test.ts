@@ -107,7 +107,8 @@ test("[CARE-002/A1] same drawing and ordinary seed: different recorded feeding p
   assert.deepEqual(sourceIdentity(well), sourceIdentity(stressed));
   assert.deepEqual(sourceIdentity(well), sourceIdentity(fed.program.source));
   assert.ok(well.cells.length > well.sourceCells.length);
-  assert.ok(stressed.cells.length > stressed.sourceCells.length);
+  assert.ok(well.cells.length > stressed.cells.length,
+    "Nutritional deprivation can suppress actual source-directed cell growth");
   assert.ok(well.cells.every(c => materialSourceAncestry(well, c.id).length > 0));
   assert.ok(stressed.cells.every(c => materialSourceAncestry(stressed, c.id).length > 0));
   assert.ok(fed.history.atHour(100).cumulative.nutritionDeficitDays <
