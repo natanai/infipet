@@ -1,0 +1,650 @@
+[
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Face separates above differentiated lobed body. Clear pod-like new form.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Lobed pod reorganizes into a long tapering limbless body with raised head. Body organization and propulsion differ from teen.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Long limbless form develops a high-bodied support-bearing quadruped/crawler. The target differs in mass/support organization; earlier wire/satellite defects are absent in these samples.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Infant differentiates into tall biped with small top head and feet.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Biped becomes wide round floating body and absorbs feet.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 2,
+    "transformationRichness": 3,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Round body opens into ring with protected facial island retained at upper rim.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Infant becomes a compact quadruped with separate head and support anatomy.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Quadruped retires support limbs into a diagonal/diamond body with changed head/body organization.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Compact mass extends into a tapering rear body with raised anterior head; face is larger and clearer than prior candidates.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Weakest/borderline clear evolution: teen now has angular/plated mass with explicit narrow notches and flattened underside, rather than a plain enlarged ellipse; facial mass is differentiated at right.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Plated horizontal form becomes upright narrow curved body with top head. Prior detached vertical fragment is gone.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Upright body reorganizes into low tapering rear body and raised anterior head. Elder remains similar to third lineage and is a diversity concern despite a clear within-lineage transition.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s01__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Biped infant becomes an elongated quadruped, then a tapering limbless form, then a tall narrow upright form. Facial/antenna motifs remain recognizable.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s01__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Biped infant becomes an elongated quadruped, then a tapering limbless form, then a tall narrow upright form. Facial/antenna motifs remain recognizable.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s01__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 2,
+    "transformationRichness": 3,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Biped infant becomes an elongated quadruped, then a tapering limbless form, then a tall narrow upright form. Facial/antenna motifs remain recognizable.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s02__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Biped becomes a low serpentine form, then a round floating pod, then a large quadruped. Each milestone changes support or body organization.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s02__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Biped becomes a low serpentine form, then a round floating pod, then a large quadruped. Each milestone changes support or body organization.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s02__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Biped becomes a low serpentine form, then a round floating pod, then a large quadruped. Each milestone changes support or body organization.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s03__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Infant becomes a rounded pod, then a small quadruped, then a long limbless form. Tail motion is readable but dark detail can crowd the face.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s03__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Infant becomes a rounded pod, then a small quadruped, then a long limbless form. Tail motion is readable but dark detail can crowd the face.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s03__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Infant becomes a rounded pod, then a small quadruped, then a long limbless form. Tail motion is readable but dark detail can crowd the face.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s04__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Transferred from v6-three-002: both endpoint pixel hashes match exactly.] Infant becomes a low angular body, then an upright narrow form, then a hollow ring with preserved facial/antenna identity.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s04__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Infant becomes a low angular body, then an upright narrow form, then a hollow ring with preserved facial/antenna identity.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "sprout__s04__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 2,
+    "transformationRichness": 3,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Infant becomes a low angular body, then an upright narrow form, then a hollow ring with preserved facial/antenna identity.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s01__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Authored quadruped reorganizes into a tall biped with changed spine/support arrangement.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s01__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Upright biped becomes a wider support-bearing quadruped/crawler with changed mass layout.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s01__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Support-bearing form absorbs limbs into a round floating body.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s02__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Quadruped reorganizes upright with two supports.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s02__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 2,
+    "transformationRichness": 3,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Upright form opens into a hollow ring with facial feature retained at upper rim.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s02__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 2,
+    "transformationRichness": 3,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Ring reorganizes into upright stacked masses. Intermediate82.5–97.5 shapes are unusually small/thin and have weak facial readability, but remain connected.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s03__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Weakest/borderline: hollow outlined quadruped becomes round filled armored/puff body with flattened underside, notches and much shorter/reduced supports. Still reads somewhat quadrupedal.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s03__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Round armored/puff form becomes upright stacked masses with redistributed head/body proportions.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s03__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Stacked form becomes broad angular floating mass, avoiding prior similar upright elder.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s04__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Quadruped reorganizes into upright segmented masses with new support arrangement.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s04__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Stacked upright form becomes large support-bearing quadruped/crawler.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  },
+  {
+    "caseId": "canine-cub__s04__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Canonical capture: transferred from v6-three-003 by exact rendered-pixel equivalence.] [Reassessed changed current images with their previously reviewed matching neighbours; classification unchanged.] Support anatomy is absorbed into a broad angular floating mass.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-three-003",
+      "equivalenceFile": "pixel-equivalence-v6-three-003.json"
+    }
+  }
+]

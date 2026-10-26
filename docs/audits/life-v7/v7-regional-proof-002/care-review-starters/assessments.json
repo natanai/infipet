@@ -1,0 +1,414 @@
+[
+  {
+    "need": "safety",
+    "onset": 0,
+    "condition": 0,
+    "scores": [1, 2, 1, 2],
+    "notes": [
+      "S1/S3 mostly subtle contour/fullness; S2/S4 clearer guarded torso and posture."
+    ]
+  },
+  {
+    "need": "safety",
+    "onset": 7,
+    "condition": 0,
+    "scores": [2, 2, 1, 2],
+    "notes": [
+      "S1 lower torso enclosure is clearer; S2/S4 broaden/retract; S3 stays subtle."
+    ]
+  },
+  {
+    "need": "safety",
+    "onset": 90,
+    "condition": 0,
+    "scores": [2, 2, 2, 2],
+    "notes": [
+      "All four develop visibly broader/retracted organization relative to matched evolving control."
+    ]
+  },
+  {
+    "need": "safety",
+    "onset": 150,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Elder response is present as small fullness/contour differences, weak as an obvious care signal at14days."
+    ]
+  },
+  {
+    "need": "safety",
+    "onset": 0,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% relative to75%; consistent with this shortage-led structural profile."
+    ]
+  },
+  {
+    "need": "safety",
+    "onset": 7,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% relative to75%; consistent with this shortage-led structural profile."
+    ]
+  },
+  {
+    "need": "safety",
+    "onset": 90,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% relative to75%; consistent with this shortage-led structural profile."
+    ]
+  },
+  {
+    "need": "safety",
+    "onset": 150,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% relative to75%; consistent with this shortage-led structural profile."
+    ]
+  },
+  {
+    "need": "security",
+    "onset": 0,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Early bracing is a small contour/stance difference, not a clear new silhouette by14days."
+    ]
+  },
+  {
+    "need": "security",
+    "onset": 7,
+    "condition": 0,
+    "scores": [2, 1, 2, 1],
+    "notes": [
+      "S1/S3 have readable lower-body broadening; S2/S4 are minor variants."
+    ]
+  },
+  {
+    "need": "security",
+    "onset": 90,
+    "condition": 0,
+    "scores": [2, 2, 2, 1],
+    "notes": [
+      "S1/S2/S3 show substantial torso reinforcement; S4 remains a restrained contour response."
+    ]
+  },
+  {
+    "need": "security",
+    "onset": 150,
+    "condition": 0,
+    "scores": [2, 1, 1, 1],
+    "notes": [
+      "S1 has a readable fuller/guarded body; other elder changes are small."
+    ]
+  },
+  {
+    "need": "security",
+    "onset": 0,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% relative to75%; shortage-led structural profile."
+    ]
+  },
+  {
+    "need": "security",
+    "onset": 7,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% relative to75%; shortage-led structural profile."
+    ]
+  },
+  {
+    "need": "security",
+    "onset": 90,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% relative to75%; shortage-led structural profile."
+    ]
+  },
+  {
+    "need": "security",
+    "onset": 150,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% relative to75%; shortage-led structural profile."
+    ]
+  },
+  {
+    "need": "trust",
+    "onset": 0,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Early withdrawal is restrained: tiny anterior/neck and stance changes; no clearly distinct body response at14days."
+    ]
+  },
+  {
+    "need": "trust",
+    "onset": 7,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Anterior exposure shifts subtly; ordinary growth dominates the visual sequence."
+    ]
+  },
+  {
+    "need": "trust",
+    "onset": 90,
+    "condition": 0,
+    "scores": [2, 2, 2, 1],
+    "notes": [
+      "S1/S2/S3 have readable compact/retracted anterior organization; S4 is subtle."
+    ]
+  },
+  {
+    "need": "trust",
+    "onset": 150,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Elder withdrawal is a minor silhouette adjustment rather than a strong signal."
+    ]
+  },
+  {
+    "need": "trust",
+    "onset": 0,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No reliably visible extra exposure at100% versus75% by14days in this sheet."
+    ]
+  },
+  {
+    "need": "trust",
+    "onset": 7,
+    "condition": 1,
+    "scores": [1, 0, 0, 0],
+    "notes": [
+      "S1 has a tiny exposure/contour shift; others not reliably distinguishable visually."
+    ]
+  },
+  {
+    "need": "trust",
+    "onset": 90,
+    "condition": 1,
+    "scores": [0, 0, 1, 1],
+    "notes": [
+      "Only small exposure/contour differences in S3/S4; no clear standalone response."
+    ]
+  },
+  {
+    "need": "trust",
+    "onset": 150,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": ["No reliably visible extra elder morphology at100% versus75%."]
+  },
+  {
+    "need": "rest",
+    "onset": 0,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Small reduction in fullness; little independent signal against infant growth."
+    ]
+  },
+  {
+    "need": "rest",
+    "onset": 7,
+    "condition": 0,
+    "scores": [2, 1, 2, 1],
+    "notes": [
+      "S1/S3 show a clearer reduced lower-body volume; S2/S4 remain minor."
+    ]
+  },
+  {
+    "need": "rest",
+    "onset": 90,
+    "condition": 0,
+    "scores": [2, 2, 2, 1],
+    "notes": ["Reduced resource/fullness is readable in S1–S3; S4 weaker."]
+  },
+  {
+    "need": "rest",
+    "onset": 150,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Shortage has only modest late-life fullness changes after14days."
+    ]
+  },
+  {
+    "need": "rest",
+    "onset": 0,
+    "condition": 1,
+    "scores": [1, 1, 1, 1],
+    "notes": ["Positive fullness differences are visible but small early."]
+  },
+  {
+    "need": "rest",
+    "onset": 7,
+    "condition": 1,
+    "scores": [2, 2, 2, 2],
+    "notes": [
+      "All four display fuller/coherently larger regional tissue relative to matching75% control."
+    ]
+  },
+  {
+    "need": "rest",
+    "onset": 90,
+    "condition": 1,
+    "scores": [2, 2, 2, 2],
+    "notes": ["Clear increased body fullness across all four seeds."]
+  },
+  {
+    "need": "rest",
+    "onset": 150,
+    "condition": 1,
+    "scores": [2, 2, 2, 1],
+    "notes": ["S1–S3 positive fullness remains readable; S4 subtler."]
+  },
+  {
+    "need": "relaxation",
+    "onset": 0,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Early tension changes are slight posture/contour differences, not strong standalone feedback."
+    ]
+  },
+  {
+    "need": "relaxation",
+    "onset": 7,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": ["Visible but restrained axis/stance differences by14days."]
+  },
+  {
+    "need": "relaxation",
+    "onset": 90,
+    "condition": 0,
+    "scores": [2, 2, 2, 1],
+    "notes": [
+      "S1–S3 show a readable change in body/stance tension; S4 is subtle."
+    ]
+  },
+  {
+    "need": "relaxation",
+    "onset": 150,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Late effects mainly change contact/contour by a few pixels; limited emotional legibility."
+    ]
+  },
+  {
+    "need": "relaxation",
+    "onset": 0,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% versus75%, consistent with a shortage-led tension channel."
+    ]
+  },
+  {
+    "need": "relaxation",
+    "onset": 7,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% versus75%, consistent with a shortage-led tension channel."
+    ]
+  },
+  {
+    "need": "relaxation",
+    "onset": 90,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% versus75%, consistent with a shortage-led tension channel."
+    ]
+  },
+  {
+    "need": "relaxation",
+    "onset": 150,
+    "condition": 1,
+    "scores": [0, 0, 0, 0],
+    "notes": [
+      "No visible extra morphology at100% versus75%, consistent with a shortage-led tension channel."
+    ]
+  },
+  {
+    "need": "physical-fitness",
+    "onset": 0,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": [
+      "Early reduced tissue fullness is visible only as small contour changes."
+    ]
+  },
+  {
+    "need": "physical-fitness",
+    "onset": 7,
+    "condition": 0,
+    "scores": [2, 1, 1, 1],
+    "notes": ["S1 has clearer diminished lower-body fullness; others minor."]
+  },
+  {
+    "need": "physical-fitness",
+    "onset": 90,
+    "condition": 0,
+    "scores": [2, 2, 2, 1],
+    "notes": [
+      "S1–S3 show readable loss of tissue fullness; S4 remains a restrained change."
+    ]
+  },
+  {
+    "need": "physical-fitness",
+    "onset": 150,
+    "condition": 0,
+    "scores": [1, 1, 1, 1],
+    "notes": ["Late-life shortage response is still modest at14days."]
+  },
+  {
+    "need": "physical-fitness",
+    "onset": 0,
+    "condition": 1,
+    "scores": [1, 2, 1, 2],
+    "notes": ["S2/S4 gain readable fullness; S1/S3 are small early variants."]
+  },
+  {
+    "need": "physical-fitness",
+    "onset": 7,
+    "condition": 1,
+    "scores": [2, 2, 2, 2],
+    "notes": [
+      "All four have visibly stronger/full regional tissue relative to75% controls."
+    ]
+  },
+  {
+    "need": "physical-fitness",
+    "onset": 90,
+    "condition": 1,
+    "scores": [2, 2, 2, 2],
+    "notes": [
+      "Positive reinforcement/fullness is clear across all four genotypes."
+    ]
+  },
+  {
+    "need": "physical-fitness",
+    "onset": 150,
+    "condition": 1,
+    "scores": [2, 2, 2, 1],
+    "notes": ["Positive elder fullness is readable for S1–S3; S4 subtler."]
+  }
+]

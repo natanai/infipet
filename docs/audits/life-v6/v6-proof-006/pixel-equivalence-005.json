@@ -1,0 +1,11 @@
+{
+  "fromRun": "v6-proof-005",
+  "toRun": "v6-proof-006",
+  "condition": "Same scheduled view ID and exact rendered coordinates/colors hash; includes16 endpoints,60 interiors and128 poses",
+  "matched": 204,
+  "compared": 204,
+  "percent": 100,
+  "mismatches": [],
+  "priorMissing": [],
+  "completeEquivalence": true
+}

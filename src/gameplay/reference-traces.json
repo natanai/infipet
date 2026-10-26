@@ -1,0 +1,74 @@
+{
+  "version": 2,
+  "provenance": "Gameplay-3 implementation regression traces with semantic event RNG, not recordings from original hardware. Command IDs cannot choose answers. Rule evidence and unresolved differences are in docs/reference-parity.md.",
+  "seed": "reference-trace-1",
+  "startedAtMs": 32400000,
+  "traces": [
+    {
+      "id": "v1-training-counts-on-entry",
+      "mode": "infant",
+      "steps": [
+        {
+          "command": { "type": "start-game", "game": "training" },
+          "id": "trace-start",
+          "expect": { "training": 1, "activity": "training" }
+        },
+        {
+          "command": { "type": "cancel" },
+          "id": "trace-cancel",
+          "expect": { "training": 1, "activity": null }
+        }
+      ]
+    },
+    {
+      "id": "p1-direction-five-rounds",
+      "mode": "infant",
+      "steps": [
+        {
+          "command": { "type": "start-game", "game": "direction" },
+          "id": "trace-start",
+          "expect": { "activity": "direction" }
+        },
+        { "command": { "type": "choose", "choice": "left" }, "id": "trace-1" },
+        { "command": { "type": "choose", "choice": "left" }, "id": "trace-2" },
+        { "command": { "type": "choose", "choice": "right" }, "id": "trace-3" },
+        { "command": { "type": "choose", "choice": "right" }, "id": "trace-4" },
+        {
+          "command": { "type": "choose", "choice": "left" },
+          "id": "trace-5",
+          "expect": { "activity": "result", "score": 2, "gamesWon": 0 }
+        }
+      ]
+    },
+    {
+      "id": "p2-chained-number-five-rounds",
+      "mode": "infant",
+      "numbers": [5, 9, 6, 8, 5, 7],
+      "steps": [
+        {
+          "command": { "type": "start-game", "game": "numbers" },
+          "id": "trace-start",
+          "expect": { "activity": "numbers" }
+        },
+        {
+          "command": { "type": "choose", "choice": "higher" },
+          "id": "trace-1"
+        },
+        { "command": { "type": "choose", "choice": "lower" }, "id": "trace-2" },
+        {
+          "command": { "type": "choose", "choice": "higher" },
+          "id": "trace-3"
+        },
+        {
+          "command": { "type": "choose", "choice": "higher" },
+          "id": "trace-4"
+        },
+        {
+          "command": { "type": "choose", "choice": "lower" },
+          "id": "trace-5",
+          "expect": { "activity": "result", "score": 3, "gamesWon": 1 }
+        }
+      ]
+    }
+  ]
+}

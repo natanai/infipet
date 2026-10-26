@@ -1,0 +1,612 @@
+{
+  "version": "life-v6-profile1",
+  "createdAt": "2026-10-24T03:22:42.303Z",
+  "runtime": {
+    "node": "v24.22.1",
+    "platform": "win32"
+  },
+  "engineHashes": {
+    "src/simulation/model.ts": "5d6d82d9ebc5162f97da3d23ad4fc10c2aacd961dc71b07f1c2d455affb1f486",
+    "src/simulation/growth.ts": "bc14623c3344e7f143a385e27e81a8227a3e09a588732f2f760a08186d43d275",
+    "src/simulation/development.ts": "74da951c847c1d5191b4ca7db695bc4767554eeac420754ad253ddcc1e61e246",
+    "src/simulation/material.ts": "8ba97ce27c2a93fa6ed3a71ff324d6e5efc7190cdd42938f9a6d2aff8beb15cc",
+    "src/simulation/locomotion.ts": "ee8026a93e226b2367be2aa72cf539a1f56d9f90e14dd04cc9d0eca2b90830dd",
+    "src/needs/simulation.ts": "6aa4a5781ec8c054b779a6ff3fe7a2e5f8ab8bd02a8d894c1c68fda302923220",
+    "src/needs/timeline.ts": "8c4bfa276705ca0ff12827625e9ce60e9f990d50f631394dc66bbebcc42b0e95",
+    "src/presets.ts": "5079a2662b73ad7fc374b2c14cf524a25bb69616b3beb36a49a8d1ba56fc3c9b"
+  },
+  "engineHash": "1c6cf98e0dc71f6926659ec33c38e23bc8bbaddaf072590693a9ad383a9c57de",
+  "fixtures": [
+    {
+      "fixture": "bean",
+      "sourceParts": 6,
+      "sourceCells": 137,
+      "structural": {
+        "samples": 32,
+        "p50Ms": 6.298900000000003,
+        "p95Ms": 11.173600000000022,
+        "maxMs": 13.31800000000004,
+        "within8Ms": {
+          "numerator": 24,
+          "denominator": 32,
+          "percent": 75,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "pose": {
+        "samples": 128,
+        "p50Ms": 1.0115999999999303,
+        "p95Ms": 2.45859999999999,
+        "maxMs": 3.7053999999999405,
+        "within8Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      }
+    },
+    {
+      "fixture": "sprout",
+      "sourceParts": 13,
+      "sourceCells": 162,
+      "structural": {
+        "samples": 32,
+        "p50Ms": 4.273000000000025,
+        "p95Ms": 7.668000000000006,
+        "maxMs": 8.459100000000035,
+        "within8Ms": {
+          "numerator": 31,
+          "denominator": 32,
+          "percent": 96.875,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "pose": {
+        "samples": 128,
+        "p50Ms": 1.4729999999999563,
+        "p95Ms": 2.3903999999999996,
+        "maxMs": 4.142500000000041,
+        "within8Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      }
+    },
+    {
+      "fixture": "canine-cub",
+      "sourceParts": 18,
+      "sourceCells": 255,
+      "structural": {
+        "samples": 32,
+        "p50Ms": 3.6657000000000153,
+        "p95Ms": 8.31820000000016,
+        "maxMs": 8.440900000000056,
+        "within8Ms": {
+          "numerator": 30,
+          "denominator": 32,
+          "percent": 93.75,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "pose": {
+        "samples": 128,
+        "p50Ms": 1.5455999999999221,
+        "p95Ms": 2.3889999999998963,
+        "maxMs": 3.1796999999999116,
+        "within8Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      }
+    },
+    {
+      "fixture": "ribbon",
+      "sourceParts": 10,
+      "sourceCells": 191,
+      "structural": {
+        "samples": 32,
+        "p50Ms": 3.8070000000000164,
+        "p95Ms": 5.078099999999949,
+        "maxMs": 5.444700000000012,
+        "within8Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "pose": {
+        "samples": 128,
+        "p50Ms": 0.9966000000001713,
+        "p95Ms": 1.3244999999999436,
+        "maxMs": 4.217200000000048,
+        "within8Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      }
+    },
+    {
+      "fixture": "beetle",
+      "sourceParts": 21,
+      "sourceCells": 218,
+      "structural": {
+        "samples": 32,
+        "p50Ms": 3.4166000000000167,
+        "p95Ms": 7.486899999999878,
+        "maxMs": 15.962200000000166,
+        "within8Ms": {
+          "numerator": 31,
+          "denominator": 32,
+          "percent": 96.875,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "pose": {
+        "samples": 128,
+        "p50Ms": 1.3887999999999465,
+        "p95Ms": 2.6264000000001033,
+        "maxMs": 4.398099999999886,
+        "within8Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      }
+    },
+    {
+      "fixture": "wisp",
+      "sourceParts": 7,
+      "sourceCells": 58,
+      "structural": {
+        "samples": 32,
+        "p50Ms": 3.293499999999767,
+        "p95Ms": 5.785600000000159,
+        "maxMs": 5.89429999999993,
+        "within8Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "pose": {
+        "samples": 128,
+        "p50Ms": 2.2333000000003267,
+        "p95Ms": 3.936200000000099,
+        "maxMs": 5.548999999999978,
+        "within8Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      }
+    },
+    {
+      "fixture": "single-pixel",
+      "sourceParts": 1,
+      "sourceCells": 1,
+      "structural": {
+        "samples": 32,
+        "p50Ms": 2.3551000000002205,
+        "p95Ms": 2.8453999999996995,
+        "maxMs": 4.153900000000249,
+        "within8Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "pose": {
+        "samples": 128,
+        "p50Ms": 0.6705999999999221,
+        "p95Ms": 0.8739000000000487,
+        "maxMs": 1.834100000000035,
+        "within8Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      }
+    },
+    {
+      "fixture": "dense-15360-source-cells",
+      "sourceParts": 15,
+      "sourceCells": 15360,
+      "structural": {
+        "samples": 32,
+        "p50Ms": 12.066400000000158,
+        "p95Ms": 20.27500000000009,
+        "maxMs": 23.014799999999923,
+        "within8Ms": {
+          "numerator": 5,
+          "denominator": 32,
+          "percent": 15.625,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 29,
+          "denominator": 32,
+          "percent": 90.625,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 32,
+          "denominator": 32,
+          "percent": 100,
+          "condition": "Node frame generation at32 unique ages; idle t0; includes needs replay; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "pose": {
+        "samples": 128,
+        "p50Ms": 3.0843999999997322,
+        "p95Ms": 5.56230000000005,
+        "maxMs": 7.235099999999875,
+        "within8Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 8
+        },
+        "within16Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 16
+        },
+        "within50Ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "Node pose generation at day75 with reused structure;128 distinct explicit phase/blink times; excludes UI/native",
+          "budgetMs": 50
+        }
+      },
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      }
+    }
+  ],
+  "observedBlueprintCache": {
+    "samples": [
+      {
+        "size": 8,
+        "compilations": 9
+      },
+      {
+        "size": 8,
+        "compilations": 10
+      },
+      {
+        "size": 8,
+        "compilations": 11
+      },
+      {
+        "size": 8,
+        "compilations": 12
+      },
+      {
+        "size": 8,
+        "compilations": 13
+      },
+      {
+        "size": 8,
+        "compilations": 14
+      },
+      {
+        "size": 8,
+        "compilations": 15
+      },
+      {
+        "size": 8,
+        "compilations": 16
+      },
+      {
+        "size": 8,
+        "compilations": 17
+      },
+      {
+        "size": 8,
+        "compilations": 18
+      },
+      {
+        "size": 8,
+        "compilations": 19
+      },
+      {
+        "size": 8,
+        "compilations": 20
+      },
+      {
+        "size": 8,
+        "compilations": 21
+      }
+    ],
+    "maximumSize": 8,
+    "bound": 8,
+    "withinBound": {
+      "numerator": 13,
+      "denominator": 13,
+      "percent": 100,
+      "condition": "After13 distinct additional genotypes in this profiling process"
+    },
+    "mostRecentBlueprintReused": true
+  },
+  "limitations": [
+    "Node process measurements are not iPhone frame-rate measurements.",
+    "Private per-simulation caches have no public occupancy counters; their declared limits are reported separately, not presented as measured occupancy.",
+    "Source/mask WeakMap residency depends on garbage collection; no heap-residency claim is made.",
+    "This fixed-seed performance probe is separate from genetic-diversity evaluation."
+  ]
+}

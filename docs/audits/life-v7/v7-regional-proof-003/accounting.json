@@ -1,0 +1,57 @@
+{
+  "expected": {
+    "presets": 1,
+    "seeds": 4,
+    "histories": 1,
+    "primaryCases": 4,
+    "sourceCases": 12,
+    "careCases": 208,
+    "cases": 224,
+    "endpoints": 16,
+    "interiors": 60,
+    "poses": 128,
+    "coreDiagnosticViews": 16,
+    "regionalMaskArtifacts": 16,
+    "sourceViews": 48,
+    "careViews": 1040,
+    "views": 1292
+  },
+  "actual": {
+    "cases": 224,
+    "failures": 0,
+    "views": 1292,
+    "primaryViews": 204,
+    "endpoints": 16,
+    "interiors": 60,
+    "poses": 128,
+    "sourceViews": 48,
+    "careViews": 1040,
+    "coreDiagnosticViews": 16,
+    "regionalMaskArtifacts": 16
+  },
+  "allPlannedCasesAccounted": true,
+  "allViewsCaptured": true,
+  "coreDiagnostics": {
+    "captured": 16,
+    "expected": 16,
+    "countedAsPrimaryViews": false
+  },
+  "regionalMasks": {
+    "captured": 16,
+    "expected": 16,
+    "derivedFromSameEndpointEvaluations": true,
+    "countedAsPrimaryViews": false
+  },
+  "failures": [],
+  "acceptance": {
+    "agentGatePassed": true,
+    "priorHumanGateFailed": true,
+    "humanGateFailed": false,
+    "humanBenchmarkPending": true,
+    "overallGatePassed": false,
+    "status": "PROVISIONAL CANDIDATE — HUMAN BENCHMARK REVIEW PENDING",
+    "feedbackSummary": "v7 still mostly looks like stretching; the user wants meaningful stage metamorphosis, with optional cocoon lineages.",
+    "humanFrameScoresCreated": 0
+  },
+  "visualGate": "passed recorded independent axes"
+}

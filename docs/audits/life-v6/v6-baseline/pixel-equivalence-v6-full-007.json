@@ -1,0 +1,9 @@
+{
+  "fromRun": "v6-full-007",
+  "toRun": "v6-baseline",
+  "condition": "Exact rendered coordinate/color hashes for every scheduled view ID; visual review transfer only, not hidden-state equivalence",
+  "matched": 1536,
+  "compared": 1536,
+  "changed": [],
+  "completeEquivalence": true
+}

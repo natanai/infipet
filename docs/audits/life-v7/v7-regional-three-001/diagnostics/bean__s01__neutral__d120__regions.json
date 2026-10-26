@@ -1,0 +1,25 @@
+{
+  "id": "bean__s01__neutral__d120__regions",
+  "sourceViewId": "bean__s01__neutral__d120",
+  "age": 120,
+  "hash": "cfb2670a347708fdaca2a9dd8bcd90f13e695cf761a12bbd5723f3be7d8d3d0b",
+  "regionalOccupancy": {
+    "coreUnion": 183,
+    "head": 0,
+    "trunk": 183,
+    "enclosure": 0,
+    "headTrunkOverlap": 0,
+    "headFraction": 0,
+    "trunkFraction": 1,
+    "enclosureFraction": 0,
+    "headToTrunk": 0,
+    "unit": "projected occupied pixels, not physical mass"
+  },
+  "legend": {
+    "trunk": "#FFFFFF",
+    "head": "#99DDFF",
+    "enclosure": "#C5A5FF",
+    "headTrunkOverlap": "#FFE08A"
+  },
+  "method": "Actual occupied part masks; projected area, not physical mass; fractions overlap and are not additive"
+}

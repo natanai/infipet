@@ -1,0 +1,57 @@
+{
+  "reviewer": "/root/audit_v6",
+  "reviewerKind": "agent",
+  "runId": "v6-proof-004",
+  "conclusion": "All12 adjacent endpoint transitions remain clear evolved forms. Overall visual gate still fails due new segmented masses appearing detached during one transition; no expansion.",
+  "inspected": {
+    "endpointViews": 16,
+    "intermediateViews": 60,
+    "poseViews": 128,
+    "totalScheduledViews": 204
+  },
+  "evidence": [
+    "atlases/endpoint-001.png",
+    "atlases/interior-001.png",
+    "atlases/pose-001.png",
+    "atlases/pose-002.png"
+  ],
+  "clearEvolution": {
+    "numerator": 12,
+    "denominator": 12,
+    "percent": 100,
+    "condition": "Agent distinctiveness>=2; all adjacent milestones"
+  },
+  "continuityAtLeast2": {
+    "numerator": 11,
+    "denominator": 12,
+    "percent": 91.66666666666667,
+    "condition": "Agent continuity>=2; all adjacent milestones"
+  },
+  "actualMotionPhaseCoverage": {
+    "numerator": 16,
+    "denominator": 16,
+    "percent": 100,
+    "condition": "Captured controller diagnostics include actual phases0 through7 at each endpoint; all128 pictured poses inspected"
+  },
+  "defects": [
+    {
+      "id": "EV6-012",
+      "caseId": "bean__s01__neutral",
+      "ages": [
+        97.5,
+        105
+      ],
+      "issue": "Generated segmented masses emerge as disconnected upper dot and lower oval before joining stack. Need current-host root or connector continuity."
+    }
+  ],
+  "improvements": [
+    "Retiring support legs stay nearer current host.",
+    "Final stacked form has three substantive masses rather than a long wire.",
+    "All16 endpoint motion cycles capture all8 actual controller phases."
+  ],
+  "limitations": [
+    "Scores retained where actual004 sheets visibly match003; all scheduled004 sheets were independently inspected.",
+    "S04 birth-to-teen remains the weakest/borderline distinctiveness result.",
+    "Physical device motion and human review remain separate."
+  ]
+}

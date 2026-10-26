@@ -1,0 +1,103 @@
+{
+  "reviewer": "/root/anatomy_engine",
+  "reviewerKind": "agent",
+  "sourceAuthorFamiliarity": true,
+  "notBlind": true,
+  "type": "disposable-early-rest-fitness-v2-preview",
+  "humanReview": false,
+  "fullCareGatePassed": false,
+  "mainAuditCoverageClaimed": false,
+  "onset": 0,
+  "viewAge": 14,
+  "runtimeSourceHash": "3f1f1d45a49f88bf86dd366e1a235ac691b39962e76609dbc0f66deb8e267ad0",
+  "sourceDrawingHash": "3059ca12e8d3ee5e96ed1b4f49d86f288052547bbe7024d95fcb126d53607f8b",
+  "sourceStableDuringCapture": true,
+  "adaptationRulesVersion": 2,
+  "scoreScale": {
+    "0": "none",
+    "1": "subtle at native64",
+    "2": "clear matched visual response",
+    "3": "strong unmistakable response"
+  },
+  "profiles": [
+    {
+      "needId": "rest",
+      "zeroPercentScores": [
+        2,
+        2,
+        1,
+        2
+      ],
+      "zeroPercentClearCount": 3,
+      "hundredPercentScores": [
+        2,
+        2,
+        1,
+        2
+      ],
+      "hundredPercentClearCount": 3,
+      "denominator": 4,
+      "notes": "Seeds1/2/4 now have clear lower-trunk/support fullness and resting-posture differences at native64. Seed3 remains subtle, although thinning is easier to see enlarged. Positive gains are unchanged coefficients; inherited sensitivity now applies."
+    },
+    {
+      "needId": "physical-fitness",
+      "zeroPercentScores": [
+        2,
+        2,
+        1,
+        2
+      ],
+      "zeroPercentClearCount": 3,
+      "hundredPercentScores": [
+        2,
+        2,
+        1,
+        2
+      ],
+      "hundredPercentClearCount": 3,
+      "denominator": 4,
+      "notes": "Seeds1/2/4 show clear load-bearing fullness/recruitment differences. Seed3 remains a weaker native64 cue. Existing material changes; no source limbs were added for this response."
+    }
+  ],
+  "method": "Actually inspected both native64 and integer4x PNG sheets for both profiles. Manual judgments concern visible form/posture, not motion pace or changed-pixel counts.",
+  "evidence": {
+    "uniqueConditions": 20,
+    "displayedCellsPerSize": 24,
+    "nativeImagesSaved": 20,
+    "nativeSheetsActuallyViewed": 2,
+    "enlargedSheetsActuallyViewed": 2,
+    "files": [
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-rest-fitness-v2-preview/rest.png",
+        "sha256": "59d2748bc1c7a64469799356f7b74dd2032381f39e9d08ec2e48eafa0b39c08b",
+        "kind": "integer4x-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-rest-fitness-v2-preview/rest-native64.png",
+        "sha256": "91ca6ead570ccbaf231d514720e6169141aff8b27bfcdd6f95eb7fc84485cf60",
+        "kind": "native64-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-rest-fitness-v2-preview/physical-fitness.png",
+        "sha256": "2bd454622484575d252011233b14aacb666acb0fc56d3172c1265b23240d391a",
+        "kind": "integer4x-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-rest-fitness-v2-preview/physical-fitness-native64.png",
+        "sha256": "ee0411f1de1d1ba67f4aa7a0a4115812067e50a9fe06ca354a4df17b03720b01",
+        "kind": "native64-contact-sheet"
+      }
+    ]
+  },
+  "automaticChecks": {
+    "allSameGenome": true,
+    "allBirthPixelsExact": true
+  },
+  "limitations": [
+    "Only the existing four raw proof seeds and onset0/view14 Rest/Fitness conditions; no seed filtering.",
+    "Source/engine familiarity can bias interpretation.",
+    "This is a preflight subset, not a full six-profile or1292-image care acceptance.",
+    "Previous early/late previews predate the inherited-sensitivity correction; final care evidence must use current code.",
+    "No motion-continuity or pleasant-anatomy claim."
+  ]
+}

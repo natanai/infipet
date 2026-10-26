@@ -1,0 +1,131 @@
+{
+  "comparisonCoverage": {
+    "numerator": 12,
+    "denominator": 12,
+    "percent": 100,
+    "condition": "adjacent-stage comparisons with recorded visual review",
+    "age": "0→30,30→75,75→120"
+  },
+  "secondReviewCoverage": {
+    "numerator": 12,
+    "denominator": 12,
+    "percent": 100,
+    "condition": "adjacent-stage comparisons with >=2 reviewer identities",
+    "age": "0→30,30→75,75→120"
+  },
+  "distinctivenessDisagreement": {
+    "numerator": 7,
+    "denominator": 12,
+    "percent": 58.333333333333336,
+    "condition": "independently reviewed comparisons with differing distinctiveness scores",
+    "age": "0→30,30→75,75→120"
+  },
+  "disagreements": [
+    {
+      "caseId": "bean__s01__neutral",
+      "fromAge": 30,
+      "toAge": 75,
+      "scores": [
+        {
+          "reviewer": "/root/audit_v6",
+          "distinctiveness": 2
+        },
+        {
+          "reviewer": "/root/locomotion_v6",
+          "distinctiveness": 3
+        }
+      ]
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "fromAge": 0,
+      "toAge": 30,
+      "scores": [
+        {
+          "reviewer": "/root/audit_v6",
+          "distinctiveness": 2
+        },
+        {
+          "reviewer": "/root/locomotion_v6",
+          "distinctiveness": 3
+        }
+      ]
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "fromAge": 30,
+      "toAge": 75,
+      "scores": [
+        {
+          "reviewer": "/root/audit_v6",
+          "distinctiveness": 2
+        },
+        {
+          "reviewer": "/root/locomotion_v6",
+          "distinctiveness": 3
+        }
+      ]
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "fromAge": 0,
+      "toAge": 30,
+      "scores": [
+        {
+          "reviewer": "/root/audit_v6",
+          "distinctiveness": 2
+        },
+        {
+          "reviewer": "/root/locomotion_v6",
+          "distinctiveness": 3
+        }
+      ]
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "fromAge": 75,
+      "toAge": 120,
+      "scores": [
+        {
+          "reviewer": "/root/audit_v6",
+          "distinctiveness": 2
+        },
+        {
+          "reviewer": "/root/locomotion_v6",
+          "distinctiveness": 3
+        }
+      ]
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "fromAge": 30,
+      "toAge": 75,
+      "scores": [
+        {
+          "reviewer": "/root/audit_v6",
+          "distinctiveness": 2
+        },
+        {
+          "reviewer": "/root/locomotion_v6",
+          "distinctiveness": 3
+        }
+      ]
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "fromAge": 75,
+      "toAge": 120,
+      "scores": [
+        {
+          "reviewer": "/root/audit_v6",
+          "distinctiveness": 2
+        },
+        {
+          "reviewer": "/root/locomotion_v6",
+          "distinctiveness": 3
+        }
+      ]
+    }
+  ],
+  "humanReviewRecords": 0
+}

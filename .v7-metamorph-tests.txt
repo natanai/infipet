@@ -1,0 +1,17 @@
+✔ only sheltered source-compatible lineages develop an enclosure in the declared phase (7.9261ms)
+✔ growth starts with vanishing area at an occupied root and stays attached while wrapping hollow artwork (1.487ms)
+✔ the complete envelope contains irregular current material rather than just birth bounds (2.2151ms)
+✔ material clipping limits the envelope and current intrinsic axes distinguish body plans (1.0277ms)
+✔ opening panels separate and resorb; identity, local pigments and provenance remain stable (1.1074ms)
+✔ seeking and re-evaluation are deterministic and never mutate source or current material (1.3276ms)
+✔ sheltered life programs enclose, emerge and remain alive after the elder milestone (1.4542ms)
+✔ coordinated body targets are continuous across the milestone labels (9.3044ms)
+✔ core transport depends on authored anatomy while pigment cannot reroll its geometry (12.6855ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 325.8572

@@ -1,0 +1,48 @@
+✔ v6 exact infant birth preserves every source pixel, gap, pigment and overlap across seeds (126.8426ms)
+✔ v6 empty artwork remains empty at all milestones and actions (32.0573ms)
+✔ v6 milestones and seeded incubation use the same developmental clock (57.3405ms)
+✔ genetic programs are identical across care histories and are not changed by seeking (34.3854ms)
+✔ inherited alternatives leave authored support configurations and adjacent stage classes (428.9129ms)
+✔ future care events cannot affect any earlier state, including fractional hours (57.0162ms)
+✔ arbitrary seek order reconstructs exact anatomy and frames (74.5757ms)
+✔ blink subclock cannot make frame caching depend on query order (21.8291ms)
+✔ hollow and floating facial identities survive every evolved form and action (153.1916ms)
+✔ feature-only artwork uses a shared reference without losing its features (9.5037ms)
+✔ authored visible facial pixels retain contrasting material neighborhoods (101.0107ms)
+✔ white eyes inside hollow white heads retain their authored negative-space contrast (51.669ms)
+✔ single pixels and full canvases always generate finite in-bounds frames (35.7707ms)
+✔ local operation activation begins from compatible geometry (126.9703ms)
+✔ Safety alone causes visible adaptation and late recovery continues after elder maturity (63.5604ms)
+✔ actual generated regions, active operations and functional bones obey published bounds (90.9622ms)
+✔ authored Cub ears and tail remain joined to current host pixels through milestone and intermediate poses (2729.9852ms)
+✔ intentional floating appendages retain floating ownership rather than becoming physical source roots (11.4453ms)
+✔ bright facial ink without a drawn host keeps its original negative-space contrast (8.8684ms)
+✖ distant floating facial ink is fitted with its host before clipping the final grid (6.8088ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 19
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4592.9984
+
+✖ failing tests:
+
+test at tests\evolution-v6.test.ts:2:17361
+✖ distant floating facial ink is fitted with its host before clipping the final grid (6.8088ms)
+  AssertionError [ERR_ASSERTION]: day30: far floating eye was clipped before camera fitting
+      at TestContext.<anonymous> (C:\Games\infipet\tests\evolution-v6.test.ts:595:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

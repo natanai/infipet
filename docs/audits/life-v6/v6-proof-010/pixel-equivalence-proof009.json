@@ -1,0 +1,8 @@
+{
+  "fromRun": "v6-proof-009",
+  "toRun": "v6-proof-010",
+  "matched": 204,
+  "compared": 204,
+  "mismatches": [],
+  "completeEquivalence": true
+}

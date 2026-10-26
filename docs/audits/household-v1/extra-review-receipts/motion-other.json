@@ -1,0 +1,147 @@
+{
+  "reviewer": "/root/anatomy_engine",
+  "kind": "agent",
+  "type": "motion",
+  "reviewedAt": "2026-10-24T01:54:10.901Z",
+  "runDirectory": "C:/Games/infipet/docs/audits/household-v1",
+  "files": [
+    "motion/budgie--s000--neutral.png",
+    "motion/budgie--s000--safety-0.png",
+    "motion/budgie--s032--neutral.png",
+    "motion/budgie--s032--safety-0.png",
+    "motion/budgie--s064--neutral.png",
+    "motion/budgie--s064--safety-0.png",
+    "motion/budgie--s096--neutral.png",
+    "motion/budgie--s096--safety-0.png",
+    "motion/corn-snake--s000--neutral.png",
+    "motion/corn-snake--s000--safety-0.png",
+    "motion/corn-snake--s032--neutral.png",
+    "motion/corn-snake--s032--safety-0.png",
+    "motion/corn-snake--s064--neutral.png",
+    "motion/corn-snake--s064--safety-0.png",
+    "motion/corn-snake--s096--neutral.png",
+    "motion/corn-snake--s096--safety-0.png",
+    "motion/goldfish--s000--neutral.png",
+    "motion/goldfish--s000--safety-0.png",
+    "motion/goldfish--s032--neutral.png",
+    "motion/goldfish--s032--safety-0.png",
+    "motion/goldfish--s064--neutral.png",
+    "motion/goldfish--s064--safety-0.png",
+    "motion/goldfish--s096--neutral.png",
+    "motion/goldfish--s096--safety-0.png",
+    "motion/leopard-gecko--s000--neutral.png",
+    "motion/leopard-gecko--s000--safety-0.png",
+    "motion/leopard-gecko--s032--neutral.png",
+    "motion/leopard-gecko--s032--safety-0.png",
+    "motion/leopard-gecko--s064--neutral.png",
+    "motion/leopard-gecko--s064--safety-0.png",
+    "motion/leopard-gecko--s096--neutral.png",
+    "motion/leopard-gecko--s096--safety-0.png",
+    "motion/turtle--s000--neutral.png",
+    "motion/turtle--s000--safety-0.png",
+    "motion/turtle--s032--neutral.png",
+    "motion/turtle--s032--safety-0.png",
+    "motion/turtle--s064--neutral.png",
+    "motion/turtle--s064--safety-0.png",
+    "motion/turtle--s096--neutral.png",
+    "motion/turtle--s096--safety-0.png"
+  ],
+  "clipsReviewed": 40,
+  "framesReviewed": 1280,
+  "notesByPreset": {
+    "budgie": [
+      "The yellow head/eye, green body/wing and blue tail stay visually associated through the sampled actions. Move shows restrained wing-outline changes and body bobbing.",
+      "A gray side-wing strip can extend vertically beside the body. Broad flutter or sustained flight is difficult to read from these samples.",
+      "Greet is mainly small head/body nodding; Play settles. Tiny feet/beak details remain sparse."
+    ],
+    "goldfish": [
+      "Move shows body-contour waves and tail-angle changes that read differently from the legged presets' tread/bob.",
+      "The eye, pale side patch, triangular fin and tail remain recognizable and associated. Some Play/Greet samples emphasize a vertical dark mouth edge.",
+      "This is in-place undulation; the sheets do not establish swimming through an environment."
+    ],
+    "turtle": [
+      "The head/eyes and dark shell pattern remain coupled through the sampled actions.",
+      "Move mainly bobs, rolls or tilts the round/elongated shell/body with small foot changes. A natural grounded crawl is not clearly readable.",
+      "The shell reads as soft and participating in the body pose; independently rigid carapace mechanics are not established by these images."
+    ],
+    "leopard-gecko": [
+      "Head and spot patterns mostly stay associated, and the long thin tail remains recognizable.",
+      "Move can turn thin sprawling Idle/Play limbs into thick hanging columns or merged masses, obscuring torso/limb separation and readable crawling articulation. This appears even at the first pictured Move phase in several safety histories.",
+      "Greet mostly rocks the figure. Fine toes and tail strokes are difficult to resolve; those small features alone do not prove organ loss."
+    ],
+    "corn-snake": [
+      "Several seeds show gentle in-place contour/curvature waves while preserving the main open body loop and head/body connection.",
+      "Seed 096 shows much stronger whole-coil tilt/roll during Move. The motion style differs across seeds, although the pronounced rolling is less readable as a traveling slither.",
+      "Bands and face remain associated with the body. Thin tail strokes and jagged raster edges are not sufficient evidence of a new tissue break."
+    ]
+  },
+  "observationsByFile": {
+    "motion/budgie--s000--neutral.png": "Yellow head/eye, green wing/body and blue tail stay together. Move shows body bob and modest changes in green/gray wing outline, with a gray appendage dropping alongside the body in some phases; no broad flight arc is demonstrated. Idle/late Play nearly fixed; target and full blink cycle not shown.",
+    "motion/budgie--s000--safety-0.png": "Leaning bird remains coherent while Move varies wing breadth/side appendage and body height. Greet rocks the head/body; tail shifts subtly. Motion reads as restrained flutter/bob rather than clear sustained flight. No visible contact object.",
+    "motion/budgie--s032--neutral.png": "Head/eye stay readable, with modest wing-edge changes in Move and tail/foot shifts. Greet mainly nods the figure; Play settles after a small pose change. Distinct broad flapping is not visible, and no target/blink interval is captured.",
+    "motion/budgie--s032--safety-0.png": "Tilted head/body/tail remain related; Move changes side-wing contour and body lean slightly. Greet is a gentle whole-figure rock. Feet and beak are tiny; no unmistakable new tissue separation seen. Contact cannot be assessed without a target marker.",
+    "motion/budgie--s064--neutral.png": "Round green body and yellow head stay coherent. Move visibly changes side-wing shapes, but the right gray appendage becomes a long rectangular strip alongside the body in middle phases, making flapping articulation unclear. Greet is mainly a small head/body nod; no drawn contact target.",
+    "motion/budgie--s064--safety-0.png": "Leaning head and round body remain coupled; modest wing-edge changes and the gray side appendage move with body bob. Tail shifts subtly. Broad flight/flap or blink cycles are not established in these frames.",
+    "motion/budgie--s096--neutral.png": "Tall narrow bird keeps eye/head on body while Move changes a gray vertical side strip and green edge. Greet rocks rather than giving a broad wing display; Play settles. Tiny feet/beak remain readable only as sparse marks; no target shown.",
+    "motion/budgie--s096--safety-0.png": "Head, green wing/body and blue tail remain related through modest flutter-like outline changes and body bob. Greet mainly nods the bird, Play holds after a small change. No obvious new severed mass or complete blink/contact sequence observed.",
+    "motion/corn-snake--s000--neutral.png": "Move visibly changes curvature/width of the coiled body and tail, retaining the main open loop and head location. This reads as in-place slither/undulation rather than a legged tread. Bands/face remain related; Greet rocks the coil and Play settles without a target object.",
+    "motion/corn-snake--s000--safety-0.png": "Tilted coiled snake keeps its loop and head/body connection while Move propagates a visible contour wave. Fine tail/scale edges are jagged but no unambiguous new severed mass is seen. No demonstrated travel, target contact or complete blink cycle.",
+    "motion/corn-snake--s032--neutral.png": "Body loop narrows/widens and lower bend shifts in Move; head stays attached at the end and pattern follows tissue. Greet mostly rocks the whole coil. Play changes head/mouth slightly then holds; no visible target.",
+    "motion/corn-snake--s032--safety-0.png": "Low leaning coil preserves its open interior while body bends in Move. Pattern/head stay associated; fine lower tail strokes can look leg-like but are present in the initial pictured form. Contact cannot be established from target-free sheets.",
+    "motion/corn-snake--s064--neutral.png": "The narrow coiled body keeps its small open loop while Move produces modest contour waves and neck/head bending. Greet rocks the coil and changes the mouth/tongue area; Play changes the head slightly then settles. No unmistakable new tissue separation is visible.",
+    "motion/corn-snake--s064--safety-0.png": "The wider leaning coil retains its open interior and head/body relationship through small Move contour waves. Fine lower tail strokes remain jagged as in the initial pictured form; they do not establish a new break. There is no pictured target with which to confirm contact.",
+    "motion/corn-snake--s096--neutral.png": "Move strongly tilts the entire coil from low/horizontal to diagonal/upright oval orientations, with the head lowering relative to the loop before returning. Head, pattern and main open loop remain associated. This reads partly as whole-coil rolling rather than a localized traveling slither.",
+    "motion/corn-snake--s096--safety-0.png": "Move similarly produces pronounced whole-coil tilt/roll, at some phases placing the head low beside the diagonal oval loop. Greet and Play are comparatively modest head/body rocking. The main loop and pattern remain coherent; these in-place images demonstrate neither forward travel nor contact.",
+    "motion/goldfish--s000--neutral.png": "Move visibly undulates/deforms the fish body and changes tail/fin angles, giving a more swim-like motion than the legged presets. Eye remains on the face and pale side patch stays on body. Greet/Play alter snout/body pose; target absent and Idle nearly fixed.",
+    "motion/goldfish--s000--safety-0.png": "Pointed fish form keeps eye and body pattern coherent while Move changes body curvature and triangular tail orientation. Motion is in place, not travel through water. Greet rocks/changes snout slightly; no full blink/contact sequence shown.",
+    "motion/goldfish--s032--neutral.png": "Rounded body shows clear wave-like contour change in Move, with tail angle variation and eye tracking the head. Play/Greet open the snout as a vertical dark edge. Tail/fin outlines remain recognizable; no target object is drawn.",
+    "motion/goldfish--s032--safety-0.png": "Leaning pointed fish remains coherent through body-wave Move and small greeting/snouting changes. Tail triangle changes angle rather than demonstrating travel. No unmistakable severed appendage seen; contact cannot be visually confirmed.",
+    "motion/goldfish--s064--neutral.png": "Body and tail show clear wave-like contour changes in Move; dorsal/ventral fin edges are jagged but remain associated with the body. Eye stays on the snout. Play settles and Greet adds small body/snouting changes. No target or full blink interval shown.",
+    "motion/goldfish--s064--safety-0.png": "Pointed form undulates in place with tail-angle changes while eye and pale side marking track coherently. Fins remain recognizable as attached silhouette protrusions. Target-free Play cannot verify contact; Idle is nearly fixed.",
+    "motion/goldfish--s096--neutral.png": "Small rounded fish shows visible body-wave and tail rotation in Move, distinct from a legged tread. Eye/body patch remain readable. Greet/Play mostly alter mouth/body pose; there is no rendered contact object.",
+    "motion/goldfish--s096--safety-0.png": "Elongated fish silhouette keeps head/eye and tail related during undulation. Mouth becomes a small vertical snout edge in Play/Greet, but no unambiguous feature loss is seen. No travel through an environment, target or complete blink cycle demonstrated.",
+    "motion/leopard-gecko--s000--neutral.png": "Head/spot pattern and long tail remain related, but Move substantially thickens/merges the sprawling lower limbs into chunky hanging shapes and a broad central mass. Greet is a whole-figure rock and Play settles. No visible target or full blink cycle.",
+    "motion/leopard-gecko--s000--safety-0.png": "Move produces very broad hanging limb columns compared with the thin sprawling Idle/Play limbs; articulation becomes hard to read and torso/limb boundaries merge. Head/spots stay associated, with tail still visible. No target/contact marker.",
+    "motion/leopard-gecko--s032--neutral.png": "Small head and spot pattern stay on the figure; tail remains a long thin side line. Move compacts/merges limb shapes more than giving a clear crawl, while Greet mainly rocks the whole animal. Tiny digits remain hard to follow individually.",
+    "motion/leopard-gecko--s032--safety-0.png": "Move turns the left/lower sprawling appendages into thick slab/column shapes that partly merge with torso; the difference from Idle is conspicuous. Head/spots and thin tail remain related. Play/Greet are smaller pose changes with no visible target.",
+    "motion/leopard-gecko--s064--neutral.png": "Move makes limbs visibly thicker/merged than thin sprawling Idle limbs, though less extreme than safety form. Head/spots and tail remain associated. Greet rocks the same figure; digits are tiny and contact target is absent.",
+    "motion/leopard-gecko--s064--safety-0.png": "Conspicuous broad hanging limb columns appear in Move, including its first pictured phase, contrasting with thin outstretched Idle/Play limbs. Head/spot pattern remains coherent; tail is a thin side line. Readable crawling articulation is poor.",
+    "motion/leopard-gecko--s096--neutral.png": "Head/spots stay coupled while Move compacts the sprawling appendages into thicker down-pointing shapes. Greet/Play make smaller posture changes. Fine digits/tail are sparse, and target/contact or full blink cycle is not shown.",
+    "motion/leopard-gecko--s096--safety-0.png": "Move strongly broadens/hangs limb shapes into two bulky columns while Idle/Play retain thin spread limbs. Head/spots and long tail remain related. Motion reads as soft limb distortion rather than a natural crawl; no target displayed.",
+    "motion/turtle--s000--neutral.png": "Head/eyes and shell markings remain coupled. Move rocks/tilts the round shell/body and changes tiny limb positions; the figure reads as a soft bob/roll rather than rigid-carapace crawling. Play/Greet add modest pose changes. No target or blink cycle shown.",
+    "motion/turtle--s000--safety-0.png": "Tilted shell/head form remains coherent during rocking Move and small limb shifts. The shell contour and markings move with the same deforming body, not an independently rigid shell. Tiny feet can merge at edges. No visible contact target.",
+    "motion/turtle--s032--neutral.png": "Small upright turtle keeps eye and shell pattern readable. Move mostly bobs the torso with tiny foot changes; Greet slightly leans head/body, Play settles. These frames do not establish rigid shell physics or natural crawling.",
+    "motion/turtle--s032--safety-0.png": "Head/face and shell pattern stay associated through bob/roll-like Move. Side appendages extend/retract slightly in Play/Greet, but there is no displayed target to judge touch. Shell/body appears soft rather than a distinct rigid carapace; no obvious new severed organ.",
+    "motion/turtle--s064--neutral.png": "Move strongly rocks the elongated shell/body and small limb tips while head and shell pattern remain coupled. It reads as a roll/bob, not natural grounded crawling. Play settles after an appendage/head pose change; no visible target or complete blink cycle.",
+    "motion/turtle--s064--safety-0.png": "Tilted shell/head shape remains related during repeated body rocking. Small limbs shift, while shell markings move with the soft-looking body rather than demonstrating separate rigid armor. No unmistakable tissue severing seen.",
+    "motion/turtle--s096--neutral.png": "Narrow turtle keeps head/eyes and shell pattern attached visually. Move mainly bobs with small foot changes, Greet rocks upper body, and Play briefly extends a side appendage before settling. No target/contact indicator is rendered.",
+    "motion/turtle--s096--safety-0.png": "Head, shell and tiny appendages remain coherent through body bob/rock. Shell contour participates in the same soft-looking motion; these pictures do not establish rigid carapace mechanics or a distinct crawling gait. Contact/blink cycles remain untested visually."
+  },
+  "defects": [
+    {
+      "file": "motion/budgie--s064--neutral.png",
+      "detail": "MOVE middle phases show a long gray rectangular side strip extending down alongside the body; separate wing articulation is difficult to read as a flap. Head/body remain coherent, so this is an appendage-readability limitation rather than a proven joint break."
+    },
+    {
+      "file": "motion/leopard-gecko--s000--safety-0.png",
+      "detail": "MOVE changes the thin sprawling limbs of Idle/Play into broad hanging columns/merged masses, obscuring torso/limb boundaries and readable articulation. Head/spot pattern remains associated; this is visible pose distortion, not a claim of numerical joint failure."
+    },
+    {
+      "file": "motion/leopard-gecko--s032--safety-0.png",
+      "detail": "The MOVE row develops a thick slab-like left/lower appendage and merged central limb mass compared with thin sprawling Idle limbs; the pose reads as soft stretching rather than clear crawling articulation."
+    },
+    {
+      "file": "motion/leopard-gecko--s064--safety-0.png",
+      "detail": "Even the first pictured MOVE phase has broad down-hanging limb columns, unlike the thin sprawling Idle limbs. Subsequent phases preserve that bulky merged appearance, limiting limb/body separation and crawling readability."
+    }
+  ],
+  "limitations": [
+    "This receipt records an agent's direct inspection of the listed 40 PNG sheets. No human review is claimed.",
+    "Each sheet contains four action rows and eight pictured phases, at developmental day 75. These 1,280 pictured frames are separate from primary lifecycle coverage and the automated supplemental motion checks.",
+    "The eight static samples cover 0 to 1.75 seconds in 0.25-second steps. They do not establish continuous smoothness, every transition, or complete animation cycles.",
+    "Idle and settled Play are often near-static at this sheet scale. The short sample window does not establish whether a full blink cycle works or fails.",
+    "The configured target is not drawn on the sheets. Catch/contact status and contact geometry cannot be visually confirmed from these target-free images.",
+    "Jagged edges, fine appendages and overlapping paint can be ambiguous. A visible readability problem is not proof of a numerical joint failure or source-organ loss.",
+    "Movement is pictured in place without terrain, world travel or physics context."
+  ]
+}

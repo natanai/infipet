@@ -1,0 +1,513 @@
+✔ progress permits engine changes while requiring identical frozen sources, care, and metric definitions (1.7461ms)
+✔ weighted seed bootstrap does not manufacture collisions from repeated draws (4.8371ms)
+✔ whole-seed intervals are deterministic and keep zero denominators unmeasured (2.7842ms)
+✔ packed shape metrics ignore translation, color, pixel order, and overall uniform scale (44.4196ms)
+✔ global quarter, half and arbitrary rotations stay under the5%nuisance threshold (14.7926ms)
+✔ near-isotropic crosses and round bodies have robust rotational fallbacks (23.029ms)
+✔ lobed near-isotropic shapes remain stable when raster rotation crosses the PCA reliability cutoff (422.9183ms)
+✔ derived comparison caches do not ignore edits to a caller-owned descriptor (5.7498ms)
+✔ aspect changes, added anatomy and mirror chirality are not normalized away (6.2139ms)
+✔ small boundary pixel perturbations are tolerance-limited and empty shapes are finite (1.4088ms)
+✔ foreground uses8connectivity and holes use complementary4connectivity (0.5118ms)
+✔ semantic changes use20%symmetric ratios and ignore missing dimensions (0.9654ms)
+✔ visibility reconstructs top paint and distinguishes same-color ambiguity from evidence (4.3111ms)
+✔ exact image hashes include color while ignoring ordering, age, wellbeing and source depth (5.3495ms)
+✔ balanced variance decomposes seed, history, interaction and total raw sums of squares (2.3664ms)
+✔ real engine frames serialize and compare without mutating the frozen baseline engine (527.6221ms)
+✔ primary and independent second coverage require their actual page receipts (49.1435ms)
+✔ visual scores count rows once and exclude lifecycle-only scores from overviews (0.5612ms)
+✔ agreement uses matched row contexts and independent reviewers (2.159ms)
+✔ duplicate receipts do not multiply row scores and latest applicable score wins (0.3908ms)
+✔ household protocol fixes raw seeds, histories, ages, and separate cohort counts (3.1086ms)
+✔ visual schedule counts unique frames rather than double-counting neutral adult overlap (4.0043ms)
+✔ source audit expectations are independently declared and supported by authored labels (1.2296ms)
+✔ a future intervention cannot change earlier geometry, wellbeing, or inherited genetics (1137.7331ms)
+✔ offline AllNeeds catalog is complete and pinned to its canonical compiler inputs (2.5493ms)
+✔ all 540 feeling/need union edges retain both directions without orphan IDs (12.7737ms)
+✔ namespaces stay distinct and only the approved six have appearance profiles (0.8402ms)
+✔ five unmapped needs use transparent prototype hypotheses without altering canonical edges (1.102ms)
+✔ the selected type labels a stroke without moving previous art or losing hidden anatomy (5.9093ms)
+✔ eraser removes just the visible pixel once per stroke and reveals the organ underneath (0.9773ms)
+✔ eraser and canvas agree on equal-depth imported pixels and explicit part layers (0.7282ms)
+✔ separate hands retain stable identities when another hand is painted (6.2383ms)
+✔ logical anatomy inference supports touching and floating limb drawings (23.9848ms)
+✔ splits and merges assign deterministic IDs while preserving the surviving region (1.0483ms)
+✔ inference preserves starter identities, source positions and an acyclic semantic graph (14.4472ms)
+✔ out-of-canvas samples stay bounded and pointer gaps form continuous pixel strokes (0.6428ms)
+✔ fragmented sparse art is grouped without losing typed pixels or underpaint (14.5672ms)
+✔ a mirrored tap paints two isolated dots without connecting the space between them (0.7528ms)
+✔ mirrored erasing affects only the two reflected dots and preserves pixels between them (0.8111ms)
+✔ leaving and reentering the canvas does not interpolate across the out-of-bounds sentinel (0.5173ms)
+✔ mirroring reflects each completed path independently and deduplicates overlapping branches (0.4163ms)
+✔ a shared drawing round trip preserves hidden masks, depths, identities and inferred parents (3.1214ms)
+✔ all fifteen full-canvas masks survive repeated painting and round trip (503.557ms)
+✔ v6 exact infant birth preserves every source pixel, gap, pigment and overlap across seeds (442.2558ms)
+✔ v6 empty artwork remains empty at all milestones and actions (1443.1181ms)
+✖ v6 milestones and seeded incubation use the same developmental clock (295.2933ms)
+✔ genetic programs are identical across care histories and are not changed by seeking (579.3893ms)
+✔ source compilation cannot reseed inherited genetics (97.5823ms)
+✔ future care events cannot affect any earlier state, including fractional hours (730.6736ms)
+✖ arbitrary seek order reconstructs exact anatomy and frames (1553.5559ms)
+✔ blink subclock cannot make frame caching depend on query order (120.6587ms)
+✖ hollow and floating facial identities survive every evolved form and action (523.2057ms)
+✖ feature-only artwork uses a shared reference without losing its features (272.0556ms)
+✔ authored visible facial pixels retain contrasting material neighborhoods (2152.8994ms)
+✖ white eyes inside hollow white heads retain their authored negative-space contrast (321.4372ms)
+✔ single pixels and full canvases always generate finite in-bounds frames (1269.5324ms)
+✔ local operation activation begins from compatible geometry (3260.7897ms)
+✔ Safety alone causes visible adaptation and late recovery continues after elder maturity (2840.5393ms)
+✔ actual generated regions, active operations and functional bones obey published bounds (916.206ms)
+✖ authored Cub ears and tail remain joined to current host pixels through milestone and intermediate poses (21767.0865ms)
+✔ intentional floating appendages retain floating ownership rather than becoming physical source roots (266.7083ms)
+✔ bright facial ink without a drawn host keeps its original negative-space contrast (236.2283ms)
+✖ distant floating facial ink is fitted with its host before clipping the final grid (241.0783ms)
+✔ birth honors authored semantic paint ties even when source IDs sort oppositely (1.5334ms)
+✔ regional palette ties and Unicode limb identities do not consult ambient locale (160.2975ms)
+✔ quadruped contacts have four stable role-based footfall phases (8.2497ms)
+✔ stance points stay locked in virtual world space and bones retain length (2.7473ms)
+✔ role phases and poses do not depend on input order or translation (2.5167ms)
+✔ IK clamps unreachable feet instead of stretching bones (0.3017ms)
+✔ explicit-time held poses repeat after seeking in a different order (1.0733ms)
+✔ fin labels and immature wings cannot grant flight (0.667ms)
+✔ serpentine movement bends material along an intrinsic spine (0.6094ms)
+✔ floating owned features never acquire ground contacts (0.4069ms)
+✔ many disconnected legs share at most32 controllers without losing fragment transforms (4.5262ms)
+✔ nascent limbs unfold at their developing tips before bearing ground weight (1.3738ms)
+✔ each modeled need retains an independent driver rather than a maximum-collapsed signal (20.1924ms)
+✔ day-zero raw conditions are available without inventing pre-birth adaptation (1.347ms)
+✔ well-tended fulfillment supplies positive independent opportunity (2.4117ms)
+✔ pre-event hourly boundaries are exact after arbitrary seeks, including tick zero (11.3227ms)
+✔ recovery retains independent history and softens continuous adaptation over weeks (2.7598ms)
+✔ the other 61 needs remain structurally unmodeled without disappearing from wellbeing (21.9387ms)
+✔ regional profiles declare separate fictional mechanisms and immutable functional costs (1.3383ms)
+✔ hourly values are exact steps, including integer-hour/24 floating arithmetic (32.1087ms)
+✔ timeline editing preserves future events, validates input, and restores undo/redo exactly (3.0646ms)
+✔ fast fulfillment, cumulative exposure, and persistent memory use separate time scales (2.0103ms)
+✔ only six modeled needs affect appearance channels and each retains an independent response (46.3778ms)
+✔ every canonical need can emit an appropriate unmet clue beside positive feelings (55.3502ms)
+✔ care seek order, bounded daily cache eviction, and future edits preserve exact past replay (16.7165ms)
+✔ captured input and returned states cannot mutate later simulation results (1.0521ms)
+✔ seed style is deterministic and no locale-dependent comparison participates in replay (2.7217ms)
+✔ every brush type has a small complete help sheet, including hair (2.5306ms)
+✔ six original LCD infants have bounded, independent shared-canvas sources (6.7942ms)
+✔ all starters remain editable on the one source canvas and preserve exact birth artwork (165.2569ms)
+✔ starter hints describe functional anatomy without treating ornaments as wings or eggs (0.6941ms)
+✔ wisp authored features are visible in the hollow interior and detached hands retain ownership (0.912ms)
+✔ the entire seed, including character order and Unicode, determines the replay (25.0784ms)
+✔ radix passes preserve bucket order and record real accesses (0.468ms)
+✔ each playback frame reconstructs the writes and finishes with every seeded bar (1.8262ms)
+✔ silhouette comparison ignores recoloring and duplicate painted cells (1.3744ms)
+✔ seed changes preserve developmental age or incubation fraction (0.4093ms)
+✔ bounded reroll searches real grown silhouettes under unchanged need conditions (1790.2033ms)
+✔ empty artwork reports the bounded comparison limit honestly (8959.9081ms)
+✔ infant day zero exactly preserves every starter and per-pixel painted overlap (114.3636ms)
+✖ the four developmental milestones are exact and egg incubation precedes the same full lifetime (30.2372ms)
+✔ seeded recipes reproduce across reordered input, source names, seek order, and all actions (2146.9548ms)
+✔ locale settings cannot affect Unicode identities, painting order, or replay (214.5824ms)
+✔ drawing, seed, and source mode jointly determine the developmental program (310.6484ms)
+✔ material markers prove adult growth is non-affine rather than uniform stretching (93.228ms)
+✔ authored body topology starts exact and later transformations retain material lineage (538.7677ms)
+✔ operator traces cover the three transitions with bounded causal windows (384.7104ms)
+✖ fractional developmental ages and explicit animation seconds vary independently (165.8041ms)
+✔ features inside an outlined head bind to that head even when metadata points to body (336.2798ms)
+✔ surface eyes follow the deformed host and retain readable authored clusters (351.0191ms)
+✔ floating hands without arms retain a logical carrier and remain usable (89.7001ms)
+✔ joint contacts stay shared while limbs, attached hair, and floating groups animate (308.5642ms)
+✔ tiny eyes visibly blink as protected clusters without inventing facial identities (337.5495ms)
+✔ authored hair remains attached and retains material instead of automatic resorption (499.9785ms)
+✖ limbless inherited routes remain functional without forcing locomotor appendages (38.1056ms)
+✔ play contacts are occupied pixels, including hollow hands and mouth or tail effectors (3.5668ms)
+✔ capabilities require mature functional geometry rather than wing labels alone (708.5965ms)
+✔ eggs preserve the exact shell, reveal a generated infant during incubation, and finish hatching on time (338.4739ms)
+✔ same egg and seed hatch identically, different seeds generate different compositions (11454.6059ms)
+✔ all meaningful stages and poses remain bounded, unique integer pixels (4753.2928ms)
+✔ hundreds of scattered painted fragments remain represented without a 32-region rejection (182.7361ms)
+✔ editing a starter away from limbs preserves their separate source identities (7.2921ms)
+✔ normalization and paint-depth helpers preserve canonical optional metadata (0.2574ms)
+✔ source, program diagnostics, and returned frames cannot mutate cached replay (1382.2776ms)
+✔ empty sources do not invent creatures and invalid ages or animation times stay finite (415.5996ms)
+✔ elder evolution preserves player pigments while changing anatomy (697.2727ms)
+✔ elder is a reproducible developed form without a forced frailty or death mechanic (1203.2458ms)
+✔ a single authored body pixel has a seeded generative future without altering birth (186.1692ms)
+✖ disconnected pixels retain exact birth gaps and a source lineage through declared fusion (195.0868ms)
+✔ all six raw appearance profiles condition inherited growth without rerolling genetics (628.5143ms)
+✔ equal current fulfillment retains different, softenable care histories (156.5408ms)
+✔ future care cannot alter earlier frames, and arbitrary history seeks reproduce (952.0353ms)
+✔ care event hours apply at exact requested ages, including fractional egg incubation (78.0101ms)
+✔ care history changes reuse the inherited blueprint and expose immutable wellbeing (48.9396ms)
+✔ base maturation plateaus at120 while late care remodels slowly through240 (1789.8517ms)
+✔ inherited functional anatomy is bounded, reproducible, and independent of care history (12045.2644ms)
+✔ v7 distinguishes source, inherited genome and developmental program fingerprints (465.6881ms)
+✔ v7 inherited genes are independent of source identities, palette, ordering and need history (33.9494ms)
+✔ v7 renaming material identities cannot change structural pixels (1348.8665ms)
+✔ v7 exact pre-event fractional anatomy excludes later need keyframes (144.9506ms)
+✔ v7 diagnostics are immutable snapshots and source editing never mutates earlier programs (89.9819ms)
+✔ current infant and egg codes preserve source anatomy, hidden paint, metadata, and mode (6.1521ms)
+✔ old and unknown prototype codes are rejected instead of migrated (2.1119ms)
+✔ developmental age stays within the infant and egg preview horizons (0.5823ms)
+✔ all fifteen types, detached parts, and empty drawings remain legal (0.5371ms)
+✔ rejects duplicate IDs, invalid kinds, missing parents, and cycles (0.4831ms)
+✔ source coordinates and colors are strict while layer overlap survives (0.769ms)
+✔ paint depth, fallback layers, metadata, and unknown fields remain validated (3.4859ms)
+✔ full fifteen-type masks and 1024 sparse regions fit the source budget (106.0993ms)
+✔ malformed and oversized codes are rejected before import (22.9274ms)
+✔ care history roundtrips with pinned rules and catalog, including future edits (13.4201ms)
+▶ revision resets, same-revision reloads, and storage failures obey the disposable snapshot contract
+  ✔ a revision mismatch clears only owned keys and starts empty (0.812ms)
+  ✔ same-revision saves reload exactly and ignore obsolete draft records (0.5059ms)
+  ✔ read errors and corrupt current snapshots never trigger reset or overwrite (0.5445ms)
+  ✔ failed saves preserve the current snapshot and the queue recovers (0.4888ms)
+  ✔ failed reset inventory/removal does not mark the new revision complete (0.4777ms)
+  ✔ concurrent reset and save finish with the fresh pet, never a late reset (0.3432ms)
+  ✔ invalid saves are rejected before revision disposal (0.1902ms)
+✔ revision resets, same-revision reloads, and storage failures obey the disposable snapshot contract (33.2819ms)
+✔ an earlier partial 100% panel cannot baseline a complete 50% panel (17.8649ms)
+✔ same-size partial sets retain distinct keys and never get pp comparisons (0.6594ms)
+✔ duplicate or unexpected comparisons cannot masquerade as a complete count (0.6242ms)
+✔ changed metric definitions start a separate baseline despite identical review IDs (0.3098ms)
+✔ review order does not change the reviewed-set key or comparison (0.2945ms)
+✔ the first captured complete run is baseline even when names sort differently (0.2963ms)
+ℹ tests 168
+ℹ suites 0
+ℹ pass 157
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44623.0716
+
+✖ failing tests:
+
+test at tests\evolution-v6.test.ts:2:3405
+✖ v6 milestones and seeded incubation use the same developmental clock (295.2933ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      0,
+  +   29.999999999999996,
+  -   30,
+      75,
+      120
+    ]
+  
+      at TestContext.<anonymous> (C:\Games\infipet\tests\evolution-v6.test.ts:108:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 0, 29.999999999999996, 75, 120 ],
+    expected: [ 0, 30, 75, 120 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\evolution-v6.test.ts:2:6210
+✖ arbitrary seek order reconstructs exact anatomy and frames (1553.5559ms)
+  TypeError [Error]: Cannot assign to read only property 'bodyPlanId' of object '#<Object>'
+      at TestContext.<anonymous> (C:\Games\infipet\tests\evolution-v6.test.ts:193:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests\evolution-v6.test.ts:2:7828
+✖ hollow and floating facial identities survive every evolved form and action (523.2057ms)
+  AssertionError [ERR_ASSERTION]: v6-proof-000/120/eye-right invisible
+      at TestContext.<anonymous> (C:\Games\infipet\tests\evolution-v6.test.ts:238:18)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\evolution-v6.test.ts:2:8695
+✖ feature-only artwork uses a shared reference without losing its features (272.0556ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(f.parts.find((p) => p.id === "hand")?.pixels.length)
+  
+      at TestContext.<anonymous> (C:\Games\infipet\tests\evolution-v6.test.ts:263:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\evolution-v6.test.ts:2:10242
+✖ white eyes inside hollow white heads retain their authored negative-space contrast (321.4372ms)
+  AssertionError [ERR_ASSERTION]: v6-proof-000/day120/eye-right white feature washed out by filled host
+      at TestContext.<anonymous> (C:\Games\infipet\tests\evolution-v6.test.ts:328:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\evolution-v6.test.ts:2:13963
+✖ authored Cub ears and tail remain joined to current host pixels through milestone and intermediate poses (21767.0865ms)
+  AssertionError [ERR_ASSERTION]: Rendered source roots separated from host pixels: [{"seed":"life-v6-genome-02","age":110,"phase":0,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":110,"phase":1,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":110,"phase":2,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":110,"phase":3,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":110,"phase":4,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":110,"phase":5,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":110,"phase":6,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":110,"phase":7,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":120,"phase":0,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":120,"phase":0,"id":"tail","host":null,"gap":null},{"seed":"life-v6-genome-02","age":120,"phase":1,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":120,"phase":1,"id":"tail","host":null,"gap":null},{"seed":"life-v6-genome-02","age":120,"phase":2,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":120,"phase":2,"id":"tail","host":null,"gap":null},{"seed":"life-v6-genome-02","age":120,"phase":3,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":120,"phase":3,"id":"tail","host":null,"gap":null},{"seed":"life-v6-genome-02","age":120,"phase":4,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":120,"phase":4,"id":"tail","host":null,"gap":null},{"seed":"life-v6-genome-02","age":120,"phase":5,"id":"ear-right","host":"head","gap":null},{"seed":"life-v6-genome-02","age":120,"phase":5,"id":"tail","host":null,"gap":null}]
+  
+  240 !== 0
+  
+      at TestContext.<anonymous> (C:\Games\infipet\tests\evolution-v6.test.ts:498:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 240,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\evolution-v6.test.ts:2:16554
+✖ distant floating facial ink is fitted with its host before clipping the final grid (241.0783ms)
+  AssertionError [ERR_ASSERTION]: day120: far floating eye was clipped before camera fitting
+      at TestContext.<anonymous> (C:\Games\infipet\tests\evolution-v6.test.ts:558:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\simulation.test.ts:2:3242
+✖ the four developmental milestones are exact and egg incubation precedes the same full lifetime (30.2372ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  7 !== 6
+  
+      at TestContext.<anonymous> (C:\Games\infipet\tests\simulation.test.ts:149:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 7,
+    expected: 6,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests\simulation.test.ts:2:10253
+✖ fractional developmental ages and explicit animation seconds vary independently (165.8041ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" not to be strictly deep-equal to:
+  
+  [
+    {
+      color: '#AAAAAA',
+      x: 12,
+      y: 12
+    },
+    {
+      color: '#AAAAAA',
+      x: 12,
+      y: 13
+    },
+    {
+      color: '#AAAAAA',
+      x: 12,
+      y: 14
+    },
+    {
+      color: '#AAAAAA',
+      x: 13,
+      y: 14
+    },
+    {
+      color: '#AAAAAA',
+      x: 14,
+      y: 14
+    },
+    {
+      color: '#AAAAAA',
+      x: 11,
+      y: 15
+    },
+    {
+      color: '#AAAAAA',
+      x: 12,
+      y: 15
+    },
+    {
+      color: '#AAAAAA',
+      x: 13,
+      y: 15
+    },
+    {
+      color: '#AAAAAA',
+      x: 14,
+      y: 15
+    },
+  ...
+  
+      at TestContext.<anonymous> (C:\Games\infipet\tests\simulation.test.ts:347:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [
+      { x: 12, y: 12, color: '#AAAAAA' }, { x: 12, y: 13, color: '#AAAAAA' }, { x: 12, y: 14, color: '#AAAAAA' },
+      { x: 13, y: 14, color: '#AAAAAA' }, { x: 14, y: 14, color: '#AAAAAA' }, { x: 11, y: 15, color: '#AAAAAA' },
+      { x: 12, y: 15, color: '#AAAAAA' }, { x: 13, y: 15, color: '#AAAAAA' }, { x: 14, y: 15, color: '#AAAAAA' },
+      { x: 15, y: 15, color: '#AAAAAA' }, { x: 16, y: 15, color: '#AAAAAA' }, { x: 11, y: 16, color: '#AAAAAA' },
+      { x: 12, y: 16, color: '#AAAAAA' }, { x: 13, y: 16, color: '#AAAAAA' }, { x: 14, y: 16, color: '#AAAAAA' },
+      { x: 15, y: 16, color: '#AAAAAA' }, { x: 16, y: 16, color: '#AAAAAA' }, { x: 17, y: 16, color: '#AAAAAA' },
+      { x: 11, y: 17, color: '#AAAAAA' }, { x: 12, y: 17, color: '#AAAAAA' }, { x: 13, y: 17, color: '#AAAAAA' },
+      { x: 14, y: 17, color: '#AAAAAA' }, { x: 15, y: 17, color: '#AAAAAA' }, { x: 16, y: 17, color: '#AAAAAA' },
+      { x: 17, y: 17, color: '#AAAAAA' }, { x: 18, y: 17, color: '#AAAAAA' }, { x: 12, y: 18, color: '#AAAAAA' },
+      { x: 13, y: 18, color: '#AAAAAA' }, { x: 14, y: 18, color: '#AAAAAA' }, { x: 15, y: 18, color: '#AAAAAA' },
+      { x: 16, y: 18, color: '#AAAAAA' }, { x: 17, y: 18, color: '#AAAAAA' }, { x: 18, y: 18, color: '#AAAAAA' },
+      { x: 19, y: 18, color: '#AAAAAA' }, { x: 20, y: 18, color: '#AAAAAA' }, { x: 21, y: 18, color: '#AAAAAA' },
+      { x: 15, y: 19, color: '#AAAAAA' }, { x: 16, y: 19, color: '#AAAAAA' }, { x: 17, y: 19, color: '#AAAAAA' },
+      { x: 18, y: 19, color: '#AAAAAA' }, { x: 19, y: 19, color: '#AAAAAA' }, { x: 20, y: 19, color: '#AAAAAA' },
+      { x: 21, y: 19, color: '#AAAAAA' }, { x: 22, y: 19, color: '#AAAAAA' }, { x: 46, y: 19, color: '#AAAAAA' },
+      { x: 47, y: 19, color: '#AAAAAA' }, { x: 17, y: 20, color: '#AAAAAA' }, { x: 18, y: 20, color: '#AAAAAA' },
+      { x: 19, y: 20, color: '#AAAAAA' }, { x: 20, y: 20, color: '#AAAAAA' }, { x: 21, y: 20, color: '#AAAAAA' },
+      { x: 22, y: 20, color: '#AAAAAA' }, { x: 46, y: 20, color: '#AAAAAA' }, { x: 47, y: 20, color: '#AAAAAA' },
+      { x: 48, y: 20, color: '#AAAAAA' }, { x: 49, y: 20, color: '#AAAAAA' }, { x: 50, y: 20, color: '#AAAAAA' },
+      { x: 18, y: 21, color: '#AAAAAA' }, { x: 19, y: 21, color: '#AAAAAA' }, { x: 20, y: 21, color: '#AAAAAA' },
+      { x: 21, y: 21, color: '#AAAAAA' }, { x: 22, y: 21, color: '#AAAAAA' }, { x: 44, y: 21, color: '#AAAAAA' },
+      { x: 45, y: 21, color: '#AAAAAA' }, { x: 46, y: 21, color: '#AAAAAA' }, { x: 47, y: 21, color: '#AAAAAA' },
+      { x: 48, y: 21, color: '#AAAAAA' }, { x: 49, y: 21, color: '#AAAAAA' }, { x: 50, y: 21, color: '#AAAAAA' },
+      { x: 51, y: 21, color: '#AAAAAA' }, { x: 52, y: 21, color: '#AAAAAA' }, { x: 14, y: 22, color: '#DDDDDD' },
+      { x: 19, y: 22, color: '#AAAAAA' }, { x: 20, y: 22, color: '#AAAAAA' }, { x: 21, y: 22, color: '#AAAAAA' },
+      { x: 22, y: 22, color: '#AAAAAA' }, { x: 43, y: 22, color: '#AAAAAA' }, { x: 44, y: 22, color: '#AAAAAA' },
+      { x: 45, y: 22, color: '#AAAAAA' }, { x: 46, y: 22, color: '#AAAAAA' }, { x: 47, y: 22, color: '#AAAAAA' },
+      { x: 48, y: 22, color: '#AAAAAA' }, { x: 49, y: 22, color: '#AAAAAA' }, { x: 50, y: 22, color: '#AAAAAA' },
+      { x: 51, y: 22, color: '#AAAAAA' }, { x: 52, y: 22, color: '#AAAAAA' }, { x: 14, y: 23, color: '#DDDDDD' },
+      { x: 15, y: 23, color: '#DDDDDD' }, { x: 20, y: 23, color: '#AAAAAA' }, { x: 21, y: 23, color: '#AAAAAA' },
+      { x: 22, y: 23, color: '#AAAAAA' }, { x: 43, y: 23, color: '#AAAAAA' }, { x: 44, y: 23, color: '#AAAAAA' },
+      { x: 45, y: 23, color: '#AAAAAA' }, { x: 46, y: 23, color: '#AAAAAA' }, { x: 47, y: 23, color: '#AAAAAA' },
+      { x: 48, y: 23, color: '#AAAAAA' }, { x: 49, y: 23, color: '#AAAAAA' }, { x: 50, y: 23, color: '#AAAAAA' },
+      { x: 14, y: 24, color: '#DDDDDD' },
+      ... 532 more items
+    ],
+    expected: [
+      { x: 12, y: 12, color: '#AAAAAA' }, { x: 12, y: 13, color: '#AAAAAA' }, { x: 12, y: 14, color: '#AAAAAA' },
+      { x: 13, y: 14, color: '#AAAAAA' }, { x: 14, y: 14, color: '#AAAAAA' }, { x: 11, y: 15, color: '#AAAAAA' },
+      { x: 12, y: 15, color: '#AAAAAA' }, { x: 13, y: 15, color: '#AAAAAA' }, { x: 14, y: 15, color: '#AAAAAA' },
+      { x: 15, y: 15, color: '#AAAAAA' }, { x: 16, y: 15, color: '#AAAAAA' }, { x: 11, y: 16, color: '#AAAAAA' },
+      { x: 12, y: 16, color: '#AAAAAA' }, { x: 13, y: 16, color: '#AAAAAA' }, { x: 14, y: 16, color: '#AAAAAA' },
+      { x: 15, y: 16, color: '#AAAAAA' }, { x: 16, y: 16, color: '#AAAAAA' }, { x: 17, y: 16, color: '#AAAAAA' },
+      { x: 11, y: 17, color: '#AAAAAA' }, { x: 12, y: 17, color: '#AAAAAA' }, { x: 13, y: 17, color: '#AAAAAA' },
+      { x: 14, y: 17, color: '#AAAAAA' }, { x: 15, y: 17, color: '#AAAAAA' }, { x: 16, y: 17, color: '#AAAAAA' },
+      { x: 17, y: 17, color: '#AAAAAA' }, { x: 18, y: 17, color: '#AAAAAA' }, { x: 12, y: 18, color: '#AAAAAA' },
+      { x: 13, y: 18, color: '#AAAAAA' }, { x: 14, y: 18, color: '#AAAAAA' }, { x: 15, y: 18, color: '#AAAAAA' },
+      { x: 16, y: 18, color: '#AAAAAA' }, { x: 17, y: 18, color: '#AAAAAA' }, { x: 18, y: 18, color: '#AAAAAA' },
+      { x: 19, y: 18, color: '#AAAAAA' }, { x: 20, y: 18, color: '#AAAAAA' }, { x: 21, y: 18, color: '#AAAAAA' },
+      { x: 15, y: 19, color: '#AAAAAA' }, { x: 16, y: 19, color: '#AAAAAA' }, { x: 17, y: 19, color: '#AAAAAA' },
+      { x: 18, y: 19, color: '#AAAAAA' }, { x: 19, y: 19, color: '#AAAAAA' }, { x: 20, y: 19, color: '#AAAAAA' },
+      { x: 21, y: 19, color: '#AAAAAA' }, { x: 22, y: 19, color: '#AAAAAA' }, { x: 46, y: 19, color: '#AAAAAA' },
+      { x: 47, y: 19, color: '#AAAAAA' }, { x: 17, y: 20, color: '#AAAAAA' }, { x: 18, y: 20, color: '#AAAAAA' },
+      { x: 19, y: 20, color: '#AAAAAA' }, { x: 20, y: 20, color: '#AAAAAA' }, { x: 21, y: 20, color: '#AAAAAA' },
+      { x: 22, y: 20, color: '#AAAAAA' }, { x: 46, y: 20, color: '#AAAAAA' }, { x: 47, y: 20, color: '#AAAAAA' },
+      { x: 48, y: 20, color: '#AAAAAA' }, { x: 49, y: 20, color: '#AAAAAA' }, { x: 50, y: 20, color: '#AAAAAA' },
+      { x: 18, y: 21, color: '#AAAAAA' }, { x: 19, y: 21, color: '#AAAAAA' }, { x: 20, y: 21, color: '#AAAAAA' },
+      { x: 21, y: 21, color: '#AAAAAA' }, { x: 22, y: 21, color: '#AAAAAA' }, { x: 44, y: 21, color: '#AAAAAA' },
+      { x: 45, y: 21, color: '#AAAAAA' }, { x: 46, y: 21, color: '#AAAAAA' }, { x: 47, y: 21, color: '#AAAAAA' },
+      { x: 48, y: 21, color: '#AAAAAA' }, { x: 49, y: 21, color: '#AAAAAA' }, { x: 50, y: 21, color: '#AAAAAA' },
+      { x: 51, y: 21, color: '#AAAAAA' }, { x: 52, y: 21, color: '#AAAAAA' }, { x: 14, y: 22, color: '#DDDDDD' },
+      { x: 19, y: 22, color: '#AAAAAA' }, { x: 20, y: 22, color: '#AAAAAA' }, { x: 21, y: 22, color: '#AAAAAA' },
+      { x: 22, y: 22, color: '#AAAAAA' }, { x: 43, y: 22, color: '#AAAAAA' }, { x: 44, y: 22, color: '#AAAAAA' },
+      { x: 45, y: 22, color: '#AAAAAA' }, { x: 46, y: 22, color: '#AAAAAA' }, { x: 47, y: 22, color: '#AAAAAA' },
+      { x: 48, y: 22, color: '#AAAAAA' }, { x: 49, y: 22, color: '#AAAAAA' }, { x: 50, y: 22, color: '#AAAAAA' },
+      { x: 51, y: 22, color: '#AAAAAA' }, { x: 52, y: 22, color: '#AAAAAA' }, { x: 14, y: 23, color: '#DDDDDD' },
+      { x: 15, y: 23, color: '#DDDDDD' }, { x: 20, y: 23, color: '#AAAAAA' }, { x: 21, y: 23, color: '#AAAAAA' },
+      { x: 22, y: 23, color: '#AAAAAA' }, { x: 43, y: 23, color: '#AAAAAA' }, { x: 44, y: 23, color: '#AAAAAA' },
+      { x: 45, y: 23, color: '#AAAAAA' }, { x: 46, y: 23, color: '#AAAAAA' }, { x: 47, y: 23, color: '#AAAAAA' },
+      { x: 48, y: 23, color: '#AAAAAA' }, { x: 49, y: 23, color: '#AAAAAA' }, { x: 50, y: 23, color: '#AAAAAA' },
+      { x: 14, y: 24, color: '#DDDDDD' },
+      ... 532 more items
+    ],
+    operator: 'notDeepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests\simulation.test.ts:2:16719
+✖ limbless inherited routes remain functional without forcing locomotor appendages (38.1056ms)
+  AssertionError [ERR_ASSERTION]: the fixed raw cohort includes lineages that remain limbless
+      at TestContext.<anonymous> (C:\Games\infipet\tests\simulation.test.ts:572:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests\simulation.test.ts:2:29753
+✖ disconnected pixels retain exact birth gaps and a source lineage through declared fusion (195.0868ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(body && body.pixels.length > 0)
+  
+      at TestContext.<anonymous> (C:\Games\infipet\tests\simulation.test.ts:952:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

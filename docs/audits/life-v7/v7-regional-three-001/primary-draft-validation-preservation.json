@@ -1,0 +1,19 @@
+{
+  "recordedAt": "2026-10-24T10:34:18.015Z",
+  "method": "Read-only comparison of unmerged draft versus validated primary receipt. No review content was modified.",
+  "draft": {
+    "path": "primary-root-review.json",
+    "sha256": "faaf83659ba31e560cd803dc7b2c8528109fa62adbfd6e7de65d0ad6e24ddf6a",
+    "records": 84,
+    "merged": false
+  },
+  "validated": {
+    "path": "primary-root-review-validated.json",
+    "sha256": "544a598d28ea0a4ea8c1f35ee2905b598576cfbff1f877295ed61dd3f09d0b62",
+    "records": 84,
+    "merged": true
+  },
+  "ratingChangeIds": [],
+  "allRatingsRetained": true,
+  "sourceDraftPreserved": true
+}

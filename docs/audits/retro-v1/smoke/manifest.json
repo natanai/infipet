@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "runId": "smoke",
+  "versions": {
+    "prototype": "life-v9",
+    "gameplay": 1,
+    "rules": "infipet-classic-v1",
+    "lineage": "opentree16.1/ott3.7.3|infipet-animal-profiles-v1|animal-affinity-v1|morphogenesis-v1"
+  },
+  "engineSourceHash": "ffd013a428b2181fc1ac47afcd9004becef37f88ebc0280dd637185ccc120402",
+  "catalogFile": "data/retro-reference/catalog.json",
+  "catalogHash": "0aee0c42edb203bba133416656cb38444b5c49bac1059ba1efba905a1e3a7c95",
+  "casesHash": "660baf5cabf56d988b8fb03d07dfe858925077385d565e31b6dd356b8ae612f4",
+  "summaryHash": "33897ea462055fa4de1c06a9eaad6882fd9aa5b90f62bc41486136b73cddedb0",
+  "metricVersion": "retro-mono-v1",
+  "thresholds": {
+    "silhouetteIoU": 0.9,
+    "filledSilhouetteIoU": 0.94,
+    "aspectSimilarity": 0.94,
+    "densitySimilarity": 0.9
+  },
+  "seedCohort": "shared-neutral-sha256-v1",
+  "seedStart": 0,
+  "seedCount": 1,
+  "policyIds": [
+    "tended"
+  ],
+  "referenceArtUsedOnlyForScoring": true,
+  "visualAcceptance": false,
+  "limits": [
+    "One monochrome neutral reference pose per available character; animation is unverified.",
+    "A bounded search result does not establish reachability across the entire seed space.",
+    "The combined game clock differs from original Tamagotchi timing.",
+    "Unverified care predicates remain unscored and missing targets cannot pass."
+  ]
+}

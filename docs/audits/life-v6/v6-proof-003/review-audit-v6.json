@@ -1,0 +1,70 @@
+{
+  "reviewer": "/root/audit_v6",
+  "reviewerKind": "agent",
+  "runId": "v6-proof-003",
+  "conclusion": "All12 adjacent transitions reach clear-form distinctiveness, but retiring support geometry remains visibly detached during one transition. Do not call the whole slice clean or expand without addressing that defect.",
+  "inspected": {
+    "endpointViews": 16,
+    "intermediateViews": 60,
+    "poseViews": 128,
+    "totalScheduledViews": 204
+  },
+  "evidence": [
+    "atlases/endpoint-001.png",
+    "atlases/interior-001.png",
+    "atlases/pose-001.png",
+    "atlases/pose-002.png"
+  ],
+  "clearEvolution": {
+    "numerator": 12,
+    "denominator": 12,
+    "percent": 100,
+    "condition": "Agent distinctiveness>=2 across all adjacent milestones",
+    "ages": "0→30,30→75,75→120"
+  },
+  "continuityAtLeast2": {
+    "numerator": 11,
+    "denominator": 12,
+    "percent": 91.66666666666667,
+    "condition": "Agent temporal continuity>=2 across all adjacent milestones"
+  },
+  "motionReview": {
+    "scheduledPoseViews": 128,
+    "reviewedPoseViews": 128,
+    "condition": "All8 scheduled held poses at every endpoint were inspected; controller phase diagnostics not captured in this run."
+  },
+  "defects": [
+    {
+      "id": "EV6-010",
+      "caseId": "bean__s01__neutral",
+      "ages": [
+        97.5,
+        105
+      ],
+      "issue": "Retiring support legs are orphaned left/below reorganized body during adult-to-elder transition."
+    },
+    {
+      "id": "EV6-011",
+      "caseIds": [
+        "bean__s03__neutral",
+        "bean__s04__neutral"
+      ],
+      "ages": [
+        120
+      ],
+      "issue": "Elder forms converge on similar tapering body/raised-head arrangement."
+    }
+  ],
+  "improvements": [
+    "Distinct stacked elder resolves prior repeated adult body.",
+    "Facial island is larger and readable, including ring form.",
+    "Detached white cage-fold fragment is absent.",
+    "Earlier roots and snake movement are more coherent."
+  ],
+  "limitations": [
+    "Contact sheets reviewed; physical device motion not assessed.",
+    "No human review.",
+    "S04 first transition is borderline and merits a second independent opinion.",
+    "Perceived evolution scores are not direct percentages of anatomical or pixel change."
+  ]
+}

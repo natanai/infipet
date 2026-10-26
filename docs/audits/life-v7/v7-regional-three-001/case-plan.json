@@ -1,0 +1,182 @@
+[
+  {
+    "id": "canine-cub__s01__neutral",
+    "group": "primary",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "canine-cub__s02__neutral",
+    "group": "primary",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "canine-cub__s03__neutral",
+    "group": "primary",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-03",
+    "seedIndex": 2,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "canine-cub__s04__neutral",
+    "group": "primary",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-04",
+    "seedIndex": 3,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "bean__s01__neutral",
+    "group": "primary",
+    "sourceId": "bean",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "bean__s02__neutral",
+    "group": "primary",
+    "sourceId": "bean",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "bean__s03__neutral",
+    "group": "primary",
+    "sourceId": "bean",
+    "seed": "life-v7-genome-03",
+    "seedIndex": 2,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "bean__s04__neutral",
+    "group": "primary",
+    "sourceId": "bean",
+    "seed": "life-v7-genome-04",
+    "seedIndex": 3,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "wisp__s01__neutral",
+    "group": "primary",
+    "sourceId": "wisp",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "wisp__s02__neutral",
+    "group": "primary",
+    "sourceId": "wisp",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "wisp__s03__neutral",
+    "group": "primary",
+    "sourceId": "wisp",
+    "seed": "life-v7-genome-03",
+    "seedIndex": 2,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "wisp__s04__neutral",
+    "group": "primary",
+    "sourceId": "wisp",
+    "seed": "life-v7-genome-04",
+    "seedIndex": 3,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  }
+]

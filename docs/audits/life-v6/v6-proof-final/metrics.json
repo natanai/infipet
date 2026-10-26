@@ -1,0 +1,1293 @@
+{
+  "protocolVersion": "evolution-v6-audit1",
+  "metricVersion": "morphology-v6-audit1",
+  "engineHash": "219ac9d30796904bc6429e2219aa3712e76db7c62270cab964d6ce38db5f1a2e",
+  "accounting": {
+    "expected": {
+      "presets": 1,
+      "seeds": 4,
+      "histories": 1,
+      "cases": 4,
+      "endpoints": 16,
+      "interiors": 60,
+      "poses": 128,
+      "views": 204
+    },
+    "cases": 4,
+    "failures": 0,
+    "endpoints": 16,
+    "interiors": 60,
+    "poses": 128,
+    "views": 204
+  },
+  "reliability": {
+    "completion": {
+      "numerator": 4,
+      "denominator": 4,
+      "percent": 100,
+      "condition": "planned cases, failures retained",
+      "age": "all"
+    },
+    "validFrames": {
+      "numerator": 204,
+      "denominator": 204,
+      "percent": 100,
+      "condition": "all evaluated views",
+      "age": "all"
+    },
+    "birthFidelity": {
+      "numerator": 4,
+      "denominator": 4,
+      "percent": 100,
+      "condition": "raw seed/history cases; exact pixel coordinates and colors",
+      "age": 0
+    },
+    "seekAgreement": {
+      "numerator": 4,
+      "denominator": 4,
+      "percent": 100,
+      "condition": "17.375 before/after reverse seeks",
+      "age": 17.375
+    },
+    "within16ms": {
+      "numerator": 203,
+      "denominator": 204,
+      "percent": 99.50980392156863,
+      "condition": "Node frame generation; excludes UI/native overhead",
+      "age": "all"
+    },
+    "within50ms": {
+      "numerator": 204,
+      "denominator": 204,
+      "percent": 100,
+      "condition": "Node frame generation; excludes UI/native overhead",
+      "age": "all"
+    },
+    "p50Ms": 2.074299999999994,
+    "p95Ms": 5.6206000000000245
+  },
+  "genetics": [
+    {
+      "presetId": "bean",
+      "age": 30,
+      "thresholds": [
+        {
+          "threshold": 0.05,
+          "separated": {
+            "numerator": 6,
+            "denominator": 6,
+            "percent": 100,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.05",
+            "age": 30
+          }
+        },
+        {
+          "threshold": 0.1,
+          "separated": {
+            "numerator": 5,
+            "denominator": 6,
+            "percent": 83.33333333333333,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.1",
+            "age": 30
+          }
+        },
+        {
+          "threshold": 0.2,
+          "separated": {
+            "numerator": 2,
+            "denominator": 6,
+            "percent": 33.333333333333336,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.2",
+            "age": 30
+          }
+        }
+      ],
+      "semanticSeparated": {
+        "numerator": 6,
+        "denominator": 6,
+        "percent": 100,
+        "condition": "bean; neutral; >=2 proportion differences>=20%",
+        "age": 30
+      },
+      "nearTwins": {
+        "numerator": 2,
+        "denominator": 4,
+        "percent": 50,
+        "condition": "bean; neutral; seed has another seed at shape<10%",
+        "age": 30
+      },
+      "collisions": {
+        "numerator": 0,
+        "denominator": 6,
+        "percent": 0,
+        "condition": "bean; neutral; exact rendered frame collision",
+        "age": 30
+      },
+      "pairs": [
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-02",
+          "distance": 0.28303937383226135,
+          "semantic": {
+            "changed": 6,
+            "distance": 0.5685632835696697
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-03",
+          "distance": 0.11953760905293656,
+          "semantic": {
+            "changed": 5,
+            "distance": 0.43491631316071877
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-04",
+          "distance": 0.1945313459457945,
+          "semantic": {
+            "changed": 5,
+            "distance": 0.48528493438203557
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-02",
+          "b": "life-v6-genome-03",
+          "distance": 0.20067861838822232,
+          "semantic": {
+            "changed": 4,
+            "distance": 0.30595340333857524
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-02",
+          "b": "life-v6-genome-04",
+          "distance": 0.06463831726627338,
+          "semantic": {
+            "changed": 6,
+            "distance": 0.5610139347170349
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-03",
+          "b": "life-v6-genome-04",
+          "distance": 0.11987504550891975,
+          "semantic": {
+            "changed": 7,
+            "distance": 0.5826319923597247
+          },
+          "collision": false
+        }
+      ]
+    },
+    {
+      "presetId": "bean",
+      "age": 75,
+      "thresholds": [
+        {
+          "threshold": 0.05,
+          "separated": {
+            "numerator": 6,
+            "denominator": 6,
+            "percent": 100,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.05",
+            "age": 75
+          }
+        },
+        {
+          "threshold": 0.1,
+          "separated": {
+            "numerator": 6,
+            "denominator": 6,
+            "percent": 100,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.1",
+            "age": 75
+          }
+        },
+        {
+          "threshold": 0.2,
+          "separated": {
+            "numerator": 3,
+            "denominator": 6,
+            "percent": 50,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.2",
+            "age": 75
+          }
+        }
+      ],
+      "semanticSeparated": {
+        "numerator": 6,
+        "denominator": 6,
+        "percent": 100,
+        "condition": "bean; neutral; >=2 proportion differences>=20%",
+        "age": 75
+      },
+      "nearTwins": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0,
+        "condition": "bean; neutral; seed has another seed at shape<10%",
+        "age": 75
+      },
+      "collisions": {
+        "numerator": 0,
+        "denominator": 6,
+        "percent": 0,
+        "condition": "bean; neutral; exact rendered frame collision",
+        "age": 75
+      },
+      "pairs": [
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-02",
+          "distance": 0.36566514231399444,
+          "semantic": {
+            "changed": 7,
+            "distance": 0.563742932205688
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-03",
+          "distance": 0.13672847985347983,
+          "semantic": {
+            "changed": 8,
+            "distance": 0.61388931981557
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-04",
+          "distance": 0.10877649451565735,
+          "semantic": {
+            "changed": 6,
+            "distance": 0.4099745027835845
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-02",
+          "b": "life-v6-genome-03",
+          "distance": 0.226552374694877,
+          "semantic": {
+            "changed": 4,
+            "distance": 0.41605048526576666
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-02",
+          "b": "life-v6-genome-04",
+          "distance": 0.3671004159239453,
+          "semantic": {
+            "changed": 5,
+            "distance": 0.39618802880358456
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-03",
+          "b": "life-v6-genome-04",
+          "distance": 0.11716342416358592,
+          "semantic": {
+            "changed": 5,
+            "distance": 0.5595585651597436
+          },
+          "collision": false
+        }
+      ]
+    },
+    {
+      "presetId": "bean",
+      "age": 120,
+      "thresholds": [
+        {
+          "threshold": 0.05,
+          "separated": {
+            "numerator": 5,
+            "denominator": 6,
+            "percent": 83.33333333333333,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.05",
+            "age": 120
+          }
+        },
+        {
+          "threshold": 0.1,
+          "separated": {
+            "numerator": 5,
+            "denominator": 6,
+            "percent": 83.33333333333333,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.1",
+            "age": 120
+          }
+        },
+        {
+          "threshold": 0.2,
+          "separated": {
+            "numerator": 5,
+            "denominator": 6,
+            "percent": 83.33333333333333,
+            "condition": "bean; neutral; raw seed pairs; shape>=0.2",
+            "age": 120
+          }
+        }
+      ],
+      "semanticSeparated": {
+        "numerator": 6,
+        "denominator": 6,
+        "percent": 100,
+        "condition": "bean; neutral; >=2 proportion differences>=20%",
+        "age": 120
+      },
+      "nearTwins": {
+        "numerator": 2,
+        "denominator": 4,
+        "percent": 50,
+        "condition": "bean; neutral; seed has another seed at shape<10%",
+        "age": 120
+      },
+      "collisions": {
+        "numerator": 0,
+        "denominator": 6,
+        "percent": 0,
+        "condition": "bean; neutral; exact rendered frame collision",
+        "age": 120
+      },
+      "pairs": [
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-02",
+          "distance": 0.2576160717687982,
+          "semantic": {
+            "changed": 8,
+            "distance": 0.5697085484940015
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-03",
+          "distance": 0.21978239612317824,
+          "semantic": {
+            "changed": 10,
+            "distance": 0.6814558224624722
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-04",
+          "distance": 0.24597122176984373,
+          "semantic": {
+            "changed": 9,
+            "distance": 0.655328149312819
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-02",
+          "b": "life-v6-genome-03",
+          "distance": 0.4165716928956721,
+          "semantic": {
+            "changed": 7,
+            "distance": 0.5521504301331223
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-02",
+          "b": "life-v6-genome-04",
+          "distance": 0.4498297594900029,
+          "semantic": {
+            "changed": 5,
+            "distance": 0.5291019102146933
+          },
+          "collision": false
+        },
+        {
+          "a": "life-v6-genome-03",
+          "b": "life-v6-genome-04",
+          "distance": 0.017653289210210147,
+          "semantic": {
+            "changed": 4,
+            "distance": 0.3590289217184832
+          },
+          "collision": false
+        }
+      ]
+    }
+  ],
+  "lifecycles": [
+    {
+      "presetId": "bean",
+      "separated": {
+        "numerator": 6,
+        "denominator": 6,
+        "percent": 100,
+        "condition": "bean; neutral; shape>=10% at >=2 grown ages",
+        "age": "30,75,120"
+      },
+      "pairs": [
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-02",
+          "separatedAges": 3
+        },
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-03",
+          "separatedAges": 3
+        },
+        {
+          "a": "life-v6-genome-01",
+          "b": "life-v6-genome-04",
+          "separatedAges": 3
+        },
+        {
+          "a": "life-v6-genome-02",
+          "b": "life-v6-genome-03",
+          "separatedAges": 3
+        },
+        {
+          "a": "life-v6-genome-02",
+          "b": "life-v6-genome-04",
+          "separatedAges": 2
+        },
+        {
+          "a": "life-v6-genome-03",
+          "b": "life-v6-genome-04",
+          "separatedAges": 2
+        }
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "caseId": "bean__s01__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 0,
+      "toAge": 30,
+      "shapeDistance": 0.0494287182002873,
+      "semantic": {
+        "changed": 4,
+        "distance": 0.5263147903881816
+      }
+    },
+    {
+      "caseId": "bean__s01__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 30,
+      "toAge": 75,
+      "shapeDistance": 0.3125643628694671,
+      "semantic": {
+        "changed": 8,
+        "distance": 0.5513482079719172
+      }
+    },
+    {
+      "caseId": "bean__s01__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 75,
+      "toAge": 120,
+      "shapeDistance": 0.20048806533803445,
+      "semantic": {
+        "changed": 7,
+        "distance": 0.5561910946608312
+      }
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 0,
+      "toAge": 30,
+      "shapeDistance": 0.3098924896470851,
+      "semantic": {
+        "changed": 9,
+        "distance": 0.7450231589033713
+      }
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 30,
+      "toAge": 75,
+      "shapeDistance": 0.34833749444003703,
+      "semantic": {
+        "changed": 7,
+        "distance": 0.5906690210680323
+      }
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 75,
+      "toAge": 120,
+      "shapeDistance": 0.06913509595933186,
+      "semantic": {
+        "changed": 5,
+        "distance": 0.47038495855641593
+      }
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 0,
+      "toAge": 30,
+      "shapeDistance": 0.17422951622635025,
+      "semantic": {
+        "changed": 8,
+        "distance": 0.7008771004692173
+      }
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 30,
+      "toAge": 75,
+      "shapeDistance": 0.09470445704257807,
+      "semantic": {
+        "changed": 8,
+        "distance": 0.5486696677101761
+      }
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 75,
+      "toAge": 120,
+      "shapeDistance": 0.15796537826933219,
+      "semantic": {
+        "changed": 5,
+        "distance": 0.27820325357855846
+      }
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 0,
+      "toAge": 30,
+      "shapeDistance": 0.23835289564846068,
+      "semantic": {
+        "changed": 6,
+        "distance": 0.6547123782379214
+      }
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 30,
+      "toAge": 75,
+      "shapeDistance": 0.06987363785157429,
+      "semantic": {
+        "changed": 5,
+        "distance": 0.3922425357209988
+      }
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "presetId": "bean",
+      "historyId": "neutral",
+      "fromAge": 75,
+      "toAge": 120,
+      "shapeDistance": 0.09776634625627914,
+      "semantic": {
+        "changed": 5,
+        "distance": 0.3998947195840641
+      }
+    }
+  ],
+  "care": [],
+  "variance": [],
+  "protectedFeatures": [
+    {
+      "age": 0,
+      "retained": {
+        "numerator": 20,
+        "denominator": 20,
+        "percent": 100,
+        "condition": "authored face/marking/floating identities retain visible part pixels; not visual readability",
+        "age": 0
+      },
+      "rasterContribution": {
+        "numerator": 20,
+        "denominator": 20,
+        "percent": 100,
+        "condition": "protected identities with at least one winning composite pixel; not visual readability",
+        "age": 0
+      }
+    },
+    {
+      "age": 30,
+      "retained": {
+        "numerator": 20,
+        "denominator": 20,
+        "percent": 100,
+        "condition": "authored face/marking/floating identities retain visible part pixels; not visual readability",
+        "age": 30
+      },
+      "rasterContribution": {
+        "numerator": 20,
+        "denominator": 20,
+        "percent": 100,
+        "condition": "protected identities with at least one winning composite pixel; not visual readability",
+        "age": 30
+      }
+    },
+    {
+      "age": 75,
+      "retained": {
+        "numerator": 20,
+        "denominator": 20,
+        "percent": 100,
+        "condition": "authored face/marking/floating identities retain visible part pixels; not visual readability",
+        "age": 75
+      },
+      "rasterContribution": {
+        "numerator": 20,
+        "denominator": 20,
+        "percent": 100,
+        "condition": "protected identities with at least one winning composite pixel; not visual readability",
+        "age": 75
+      }
+    },
+    {
+      "age": 120,
+      "retained": {
+        "numerator": 20,
+        "denominator": 20,
+        "percent": 100,
+        "condition": "authored face/marking/floating identities retain visible part pixels; not visual readability",
+        "age": 120
+      },
+      "rasterContribution": {
+        "numerator": 20,
+        "denominator": 20,
+        "percent": 100,
+        "condition": "protected identities with at least one winning composite pixel; not visual readability",
+        "age": 120
+      }
+    }
+  ],
+  "phaseCoverage": [
+    {
+      "caseId": "bean__s01__neutral",
+      "age": 0,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s01__neutral",
+      "age": 30,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s01__neutral",
+      "age": 75,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s01__neutral",
+      "age": 120,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "age": 0,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "age": 30,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "age": 75,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s02__neutral",
+      "age": 120,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "age": 0,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "age": 30,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "age": 75,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s03__neutral",
+      "age": 120,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "age": 0,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "age": 30,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "age": 75,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    },
+    {
+      "caseId": "bean__s04__neutral",
+      "age": 120,
+      "scheduled": 8,
+      "intendedPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhases": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "actualPhaseStatus": "measured from controller diagnostics",
+      "completeIntendedCycle": true,
+      "completeActualCycle": true
+    }
+  ],
+  "movement": [
+    {
+      "presetId": "bean",
+      "age": 0,
+      "modes": [
+        {
+          "mode": "drift",
+          "frequency": {
+            "numerator": 4,
+            "denominator": 4,
+            "percent": 100,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 0
+          }
+        }
+      ],
+      "minPace": 0.64453125,
+      "maxPace": 0.8671875
+    },
+    {
+      "presetId": "bean",
+      "age": 30,
+      "modes": [
+        {
+          "mode": "hop",
+          "frequency": {
+            "numerator": 1,
+            "denominator": 4,
+            "percent": 25,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 30
+          }
+        },
+        {
+          "mode": "walk",
+          "frequency": {
+            "numerator": 2,
+            "denominator": 4,
+            "percent": 50,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 30
+          }
+        },
+        {
+          "mode": "drift",
+          "frequency": {
+            "numerator": 1,
+            "denominator": 4,
+            "percent": 25,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 30
+          }
+        }
+      ],
+      "minPace": 0.64453125,
+      "maxPace": 0.8671875
+    },
+    {
+      "presetId": "bean",
+      "age": 75,
+      "modes": [
+        {
+          "mode": "slither",
+          "frequency": {
+            "numerator": 1,
+            "denominator": 4,
+            "percent": 25,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 75
+          }
+        },
+        {
+          "mode": "hop",
+          "frequency": {
+            "numerator": 1,
+            "denominator": 4,
+            "percent": 25,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 75
+          }
+        },
+        {
+          "mode": "undulate",
+          "frequency": {
+            "numerator": 1,
+            "denominator": 4,
+            "percent": 25,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 75
+          }
+        },
+        {
+          "mode": "drift",
+          "frequency": {
+            "numerator": 1,
+            "denominator": 4,
+            "percent": 25,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 75
+          }
+        }
+      ],
+      "minPace": 0.64453125,
+      "maxPace": 0.8671875
+    },
+    {
+      "presetId": "bean",
+      "age": 120,
+      "modes": [
+        {
+          "mode": "walk",
+          "frequency": {
+            "numerator": 1,
+            "denominator": 4,
+            "percent": 25,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 120
+          }
+        },
+        {
+          "mode": "drift",
+          "frequency": {
+            "numerator": 1,
+            "denominator": 4,
+            "percent": 25,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 120
+          }
+        },
+        {
+          "mode": "slither",
+          "frequency": {
+            "numerator": 2,
+            "denominator": 4,
+            "percent": 50,
+            "condition": "bean; neutral raw seeds; controller selection only",
+            "age": 120
+          }
+        }
+      ],
+      "minPace": 0.64453125,
+      "maxPace": 0.8671875
+    }
+  ],
+  "limitations": [
+    "Numerical separation is not perceived distinctiveness.",
+    "Raster topology counts do not prove anatomical transformation.",
+    "Protected raster contribution is not visually confirmed feature readability.",
+    "Current frame part identity must be reviewed through deformation and ownership transitions.",
+    "Four-history variance panel includes severe care and is not comparable to a moderate-care population estimate.",
+    "Physical iPhone, signed widget and human review are separate checks.",
+    "Metric definitions differ from the provisional household baseline; percentage-point comparisons are not valid."
+  ]
+}

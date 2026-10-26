@@ -1,0 +1,1146 @@
+{
+  "kind": "software-gameplay-fixtures",
+  "claim": "Current-code functional regression fixtures; not original-device traces, vintage parity evidence, human visual approval, or physical iOS/widget testing.",
+  "generatedAt": "2026-10-25T17:10:33.006Z",
+  "generatedAtMs": 1792948233006,
+  "utcOffsetMinutes": -300,
+  "lineageRecipeVersion": "opentree16.1/ott3.7.3|infipet-animal-profiles-v1|animal-affinity-v1",
+  "assertions": {
+    "allThreeGamesCompleted": [
+      {
+        "game": "training",
+        "score": 5,
+        "rounds": 5,
+        "won": true
+      },
+      {
+        "game": "direction",
+        "score": 5,
+        "rounds": 5,
+        "won": true
+      },
+      {
+        "game": "numbers",
+        "score": 5,
+        "rounds": 5,
+        "won": true
+      }
+    ],
+    "juvenileBeforeFirstBattle": true,
+    "allDocumentsRoundTrip": true,
+    "recoveryGraceMinutes": 30,
+    "oldAgeGraceMinutes": 30,
+    "juvenileVisibleFace": [
+      {
+        "kind": "eye",
+        "parts": 2,
+        "visiblePixels": 5
+      },
+      {
+        "kind": "mouth",
+        "parts": 1,
+        "visiblePixels": 2
+      }
+    ]
+  },
+  "fixtures": [
+    {
+      "id": "juvenile",
+      "file": "juvenile.infipet.json",
+      "bytes": 34924,
+      "sha256": "a62f06205c9234e4f867cb936b53ed6a3fafdc713708cfab083bb083afd106b0",
+      "stage": "juvenile",
+      "stats": {
+        "careMistakes": 0,
+        "training": 1,
+        "battles": 0,
+        "wins": 0,
+        "overfeeds": 0,
+        "sleepDisturbances": 0,
+        "disciplineMistakes": 0,
+        "meals": 30,
+        "snacks": 21,
+        "medicines": 0,
+        "gamesWon": 3
+      },
+      "grace": null,
+      "clock": {
+        "startedAtMs": 1792768233006,
+        "nowMs": 1792948233006,
+        "hatchAtMs": 1792768233006,
+        "utcOffsetMinutes": -300,
+        "activeMs": 180000000,
+        "energyUnits": 161366994
+      },
+      "careSamples": 39
+    },
+    {
+      "id": "recovery",
+      "file": "recovery.infipet.json",
+      "bytes": 24553,
+      "sha256": "0ae6b07229022f2afb4e08f0e6770a425e24d58df2869f279f9097c6db4d0a6a",
+      "stage": "infant",
+      "stats": {
+        "careMistakes": 1,
+        "training": 0,
+        "battles": 0,
+        "wins": 0,
+        "overfeeds": 0,
+        "sleepDisturbances": 0,
+        "disciplineMistakes": 0,
+        "meals": 0,
+        "snacks": 0,
+        "medicines": 0,
+        "gamesWon": 0
+      },
+      "grace": {
+        "remainingActiveMs": 1800000,
+        "cause": "prolonged hunger",
+        "sinceMs": 1792905033006
+      },
+      "clock": {
+        "startedAtMs": 1792861833006,
+        "nowMs": 1792948233006,
+        "hatchAtMs": 1792861833006,
+        "utcOffsetMinutes": -300,
+        "activeMs": 0,
+        "energyUnits": 161366994
+      },
+      "careSamples": 18
+    },
+    {
+      "id": "oldage",
+      "file": "oldage.infipet.json",
+      "bytes": 91892,
+      "sha256": "775a08fe64637bca9d3c88212029f126a193455ea58057626e64801300801784",
+      "stage": "adult",
+      "stats": {
+        "careMistakes": 0,
+        "training": 0,
+        "battles": 0,
+        "wins": 0,
+        "overfeeds": 0,
+        "sleepDisturbances": 0,
+        "disciplineMistakes": 0,
+        "meals": 419,
+        "snacks": 269,
+        "medicines": 0,
+        "gamesWon": 0
+      },
+      "grace": {
+        "remainingActiveMs": 1800000,
+        "cause": "old age",
+        "sinceMs": 1792861833006
+      },
+      "clock": {
+        "startedAtMs": 1790269833006,
+        "nowMs": 1792948233006,
+        "hatchAtMs": 1790269833006,
+        "utcOffsetMinutes": -300,
+        "activeMs": 2588400000,
+        "energyUnits": 161366994
+      },
+      "careSamples": 540
+    }
+  ],
+  "juvenileCommandTrace": [
+    {
+      "id": "gameplay-proof-1",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "start-game",
+        "game": "training"
+      },
+      "result": "Training 1/5: attack high or low."
+    },
+    {
+      "id": "gameplay-proof-2",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "low"
+      },
+      "result": "Correct! Training 2/5: attack high or low."
+    },
+    {
+      "id": "gameplay-proof-3",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "high"
+      },
+      "result": "Correct! Training 3/5: attack high or low."
+    },
+    {
+      "id": "gameplay-proof-4",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "low"
+      },
+      "result": "Correct! Training 4/5: attack high or low."
+    },
+    {
+      "id": "gameplay-proof-5",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "low"
+      },
+      "result": "Correct! Training 5/5: attack high or low."
+    },
+    {
+      "id": "gameplay-proof-6",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "high"
+      },
+      "result": "Correct! You won: 5/5."
+    },
+    {
+      "id": "gameplay-proof-7",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "dismiss"
+      },
+      "result": "Back to your pet."
+    },
+    {
+      "id": "gameplay-proof-8",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "start-game",
+        "game": "direction"
+      },
+      "result": "Direction 1/5: which way will your pet turn?"
+    },
+    {
+      "id": "gameplay-proof-9",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "right"
+      },
+      "result": "Correct! Direction 2/5: which way will your pet turn?"
+    },
+    {
+      "id": "gameplay-proof-10",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "left"
+      },
+      "result": "Correct! Direction 3/5: which way will your pet turn?"
+    },
+    {
+      "id": "gameplay-proof-11",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "right"
+      },
+      "result": "Correct! Direction 4/5: which way will your pet turn?"
+    },
+    {
+      "id": "gameplay-proof-12",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "left"
+      },
+      "result": "Correct! Direction 5/5: which way will your pet turn?"
+    },
+    {
+      "id": "gameplay-proof-13",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "left"
+      },
+      "result": "Correct! You won: 5/5."
+    },
+    {
+      "id": "gameplay-proof-14",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "dismiss"
+      },
+      "result": "Back to your pet."
+    },
+    {
+      "id": "gameplay-proof-15",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "start-game",
+        "game": "numbers"
+      },
+      "result": "Number 1/5: is the next number higher or lower than 5?"
+    },
+    {
+      "id": "gameplay-proof-16",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "higher"
+      },
+      "result": "The next number was 7. Correct! Number 2/5: is the next number higher or lower than 7?"
+    },
+    {
+      "id": "gameplay-proof-17",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "higher"
+      },
+      "result": "The next number was 9. Correct! Number 3/5: is the next number higher or lower than 9?"
+    },
+    {
+      "id": "gameplay-proof-18",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "lower"
+      },
+      "result": "The next number was 7. Correct! Number 4/5: is the next number higher or lower than 7?"
+    },
+    {
+      "id": "gameplay-proof-19",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "lower"
+      },
+      "result": "The next number was 6. Correct! Number 5/5: is the next number higher or lower than 6?"
+    },
+    {
+      "id": "gameplay-proof-20",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "choose",
+        "choice": "lower"
+      },
+      "result": "The next number was 4. Correct! You won: 5/5."
+    },
+    {
+      "id": "gameplay-proof-21",
+      "atMs": 1792768233006,
+      "command": {
+        "type": "dismiss"
+      },
+      "result": "Back to your pet."
+    },
+    {
+      "id": "gameplay-proof-22",
+      "atMs": 1792771833006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-23",
+      "atMs": 1792773633006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-24",
+      "atMs": 1792773633006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-25",
+      "atMs": 1792775433006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-26",
+      "atMs": 1792779033006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-27",
+      "atMs": 1792779033006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-28",
+      "atMs": 1792779033006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-29",
+      "atMs": 1792779033006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-30",
+      "atMs": 1792782633006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-31",
+      "atMs": 1792784433006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-32",
+      "atMs": 1792784433006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-33",
+      "atMs": 1792786233006,
+      "command": {
+        "type": "discipline"
+      },
+      "result": "Your pet understood. Discipline increased."
+    },
+    {
+      "id": "gameplay-proof-34",
+      "atMs": 1792786233006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-35",
+      "atMs": 1792789833006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-36",
+      "atMs": 1792789833006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-37",
+      "atMs": 1792789833006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-38",
+      "atMs": 1792789833006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-39",
+      "atMs": 1792793433006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-40",
+      "atMs": 1792795233006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-41",
+      "atMs": 1792795233006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-42",
+      "atMs": 1792797033006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-43",
+      "atMs": 1792800633006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-44",
+      "atMs": 1792800633006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-45",
+      "atMs": 1792800633006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-46",
+      "atMs": 1792800633006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-47",
+      "atMs": 1792804233006,
+      "command": {
+        "type": "discipline"
+      },
+      "result": "Your pet understood. Discipline increased."
+    },
+    {
+      "id": "gameplay-proof-48",
+      "atMs": 1792804233006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-49",
+      "atMs": 1792806033006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-50",
+      "atMs": 1792806033006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-51",
+      "atMs": 1792807233006,
+      "command": {
+        "type": "lights",
+        "on": false
+      },
+      "result": "Lights off."
+    },
+    {
+      "id": "gameplay-proof-52",
+      "atMs": 1792843233006,
+      "command": {
+        "type": "lights",
+        "on": true
+      },
+      "result": "Lights on."
+    },
+    {
+      "id": "gameplay-proof-53",
+      "atMs": 1792843833006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-54",
+      "atMs": 1792843833006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-55",
+      "atMs": 1792843833006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-56",
+      "atMs": 1792843833006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-57",
+      "atMs": 1792847433006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-58",
+      "atMs": 1792849233006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-59",
+      "atMs": 1792849233006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-60",
+      "atMs": 1792851033006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-61",
+      "atMs": 1792854633006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-62",
+      "atMs": 1792854633006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-63",
+      "atMs": 1792854633006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-64",
+      "atMs": 1792854633006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-65",
+      "atMs": 1792858233006,
+      "command": {
+        "type": "discipline"
+      },
+      "result": "Your pet understood. Discipline increased."
+    },
+    {
+      "id": "gameplay-proof-66",
+      "atMs": 1792858233006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-67",
+      "atMs": 1792860033006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-68",
+      "atMs": 1792860033006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-69",
+      "atMs": 1792861833006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-70",
+      "atMs": 1792865433006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-71",
+      "atMs": 1792865433006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-72",
+      "atMs": 1792865433006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-73",
+      "atMs": 1792865433006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-74",
+      "atMs": 1792869033006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-75",
+      "atMs": 1792870833006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-76",
+      "atMs": 1792870833006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-77",
+      "atMs": 1792872633006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-78",
+      "atMs": 1792876233006,
+      "command": {
+        "type": "discipline"
+      },
+      "result": "Your pet understood. Discipline increased."
+    },
+    {
+      "id": "gameplay-proof-79",
+      "atMs": 1792876233006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-80",
+      "atMs": 1792876233006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-81",
+      "atMs": 1792876233006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-82",
+      "atMs": 1792876233006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-83",
+      "atMs": 1792879833006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-84",
+      "atMs": 1792881633006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-85",
+      "atMs": 1792881633006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-86",
+      "atMs": 1792883433006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-87",
+      "atMs": 1792887033006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-88",
+      "atMs": 1792887033006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-89",
+      "atMs": 1792887033006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-90",
+      "atMs": 1792887033006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-91",
+      "atMs": 1792890633006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-92",
+      "atMs": 1792892433006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-93",
+      "atMs": 1792892433006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-94",
+      "atMs": 1792893633006,
+      "command": {
+        "type": "lights",
+        "on": false
+      },
+      "result": "Lights off."
+    },
+    {
+      "id": "gameplay-proof-95",
+      "atMs": 1792929633006,
+      "command": {
+        "type": "lights",
+        "on": true
+      },
+      "result": "Lights on."
+    },
+    {
+      "id": "gameplay-proof-96",
+      "atMs": 1792930233006,
+      "command": {
+        "type": "discipline"
+      },
+      "result": "Your pet understood. Discipline increased."
+    },
+    {
+      "id": "gameplay-proof-97",
+      "atMs": 1792930233006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-98",
+      "atMs": 1792930233006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-99",
+      "atMs": 1792930233006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-100",
+      "atMs": 1792930233006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-101",
+      "atMs": 1792933833006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-102",
+      "atMs": 1792935633006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-103",
+      "atMs": 1792935633006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-104",
+      "atMs": 1792937433006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-105",
+      "atMs": 1792941033006,
+      "command": {
+        "type": "clean"
+      },
+      "result": "Your pet's home is clean."
+    },
+    {
+      "id": "gameplay-proof-106",
+      "atMs": 1792941033006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-107",
+      "atMs": 1792941033006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-108",
+      "atMs": 1792941033006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-109",
+      "atMs": 1792944633006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    },
+    {
+      "id": "gameplay-proof-110",
+      "atMs": 1792946433006,
+      "command": {
+        "type": "feed",
+        "food": "snack"
+      },
+      "result": "A snack cheered your pet up."
+    },
+    {
+      "id": "gameplay-proof-111",
+      "atMs": 1792946433006,
+      "command": {
+        "type": "feed",
+        "food": "protein"
+      },
+      "result": "Protein restored a strength heart."
+    },
+    {
+      "id": "gameplay-proof-112",
+      "atMs": 1792948233006,
+      "command": {
+        "type": "discipline"
+      },
+      "result": "Your pet understood. Discipline increased."
+    },
+    {
+      "id": "gameplay-proof-113",
+      "atMs": 1792948233006,
+      "command": {
+        "type": "feed",
+        "food": "meal"
+      },
+      "result": "Your pet ate a meal."
+    }
+  ]
+}

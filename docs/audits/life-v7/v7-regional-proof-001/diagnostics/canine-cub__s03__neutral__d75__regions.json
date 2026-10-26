@@ -1,0 +1,25 @@
+{
+  "id": "canine-cub__s03__neutral__d75__regions",
+  "sourceViewId": "canine-cub__s03__neutral__d75",
+  "age": 75,
+  "hash": "8112865887632514c00ac260077e1936456b38e014cc34386177bff725df8c2d",
+  "regionalOccupancy": {
+    "coreUnion": 300,
+    "head": 94,
+    "trunk": 209,
+    "enclosure": 0,
+    "headTrunkOverlap": 3,
+    "headFraction": 0.31333333333333335,
+    "trunkFraction": 0.6966666666666667,
+    "enclosureFraction": 0,
+    "headToTrunk": 0.44976076555023925,
+    "unit": "projected occupied pixels, not physical mass"
+  },
+  "legend": {
+    "trunk": "#FFFFFF",
+    "head": "#99DDFF",
+    "enclosure": "#C5A5FF",
+    "headTrunkOverlap": "#FFE08A"
+  },
+  "method": "Actual occupied part masks; projected area, not physical mass; fractions overlap and are not additive"
+}

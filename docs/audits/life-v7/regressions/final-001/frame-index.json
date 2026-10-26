@@ -1,0 +1,5947 @@
+[
+  {
+    "id": "hollow-floating__d0",
+    "fixtureId": "hollow-floating",
+    "kind": "endpoint",
+    "age": 0,
+    "time": 0,
+    "action": "idle",
+    "label": "hollow-floating d0",
+    "hash": "bae3d2be0b205e16678af04d9c9e04045e137f938eacd720c0233d74a341e7d3",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 62,
+        "winningPixels": 62
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      }
+    ],
+    "movement": "walk",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__d30",
+    "fixtureId": "hollow-floating",
+    "kind": "endpoint",
+    "age": 30,
+    "time": 0,
+    "action": "idle",
+    "label": "hollow-floating d30",
+    "hash": "9eb32aff27483c750b34eddb585c048f6ef23e1b8d85ccfbf81aed46794328d3",
+    "valid": true,
+    "stage": "teen",
+    "developmentalAge": 30,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 93,
+        "winningPixels": 87
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      }
+    ],
+    "movement": "walk",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.00047792286542813756,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.9182605382996516,
+          "lower": 2.9182605382996516,
+          "actualUpper": 2.9177826154342235,
+          "actualLower": 2.9184048695695135
+        },
+        {
+          "id": "leg-right",
+          "upper": 1.7945884645115735,
+          "lower": 1.7945884645115735,
+          "actualUpper": 1.794938080126113,
+          "actualLower": 1.794808435020409
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 29.06640625,
+            "y": 41.83984375
+          },
+          "worldPoint": {
+            "x": 29.06640625,
+            "y": 41.83984375
+          },
+          "desiredWorldPoint": {
+            "x": 29.06640625,
+            "y": 41.83984375
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 30.65625,
+            "y": 41.83984375
+          },
+          "worldPoint": {
+            "x": 30.65625,
+            "y": 41.83984375
+          },
+          "desiredWorldPoint": {
+            "x": 30.65625,
+            "y": 41.83984375
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": -5
+        },
+        "center": {
+          "x": 31.3681640625,
+          "y": 44.9365234375
+        },
+        "width": 39.263671875,
+        "height": 40.126953125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__d75",
+    "fixtureId": "hollow-floating",
+    "kind": "endpoint",
+    "age": 75,
+    "time": 0,
+    "action": "idle",
+    "label": "hollow-floating d75",
+    "hash": "6e1492ea714724926c70a9f9183d8eb9460c55f6bff409b27bc47d1df6e19969",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 110,
+        "winningPixels": 110
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 46.92578125
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 46.92578125
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 46.92578125
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 31.75,
+            "y": 46.92578125
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 46.92578125
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 46.92578125
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__d120",
+    "fixtureId": "hollow-floating",
+    "kind": "endpoint",
+    "age": 120,
+    "time": 0,
+    "action": "idle",
+    "label": "hollow-floating d120",
+    "hash": "a4ce004598eb1202b2f4716e05fa419a2f298910c372ab0d801fe4a136b077bf",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 127,
+        "winningPixels": 127
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.00036648677952610953,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 3.167741085473168,
+          "lower": 3.167741085473168,
+          "actualUpper": 3.167374598693642,
+          "actualLower": 3.1675275502440665
+        },
+        {
+          "id": "leg-right",
+          "upper": 2.778087565767373,
+          "lower": 2.778087565767373,
+          "actualUpper": 2.7780491272528236,
+          "actualLower": 2.777907688493888
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 32.328125,
+            "y": 48.7890625
+          },
+          "worldPoint": {
+            "x": 32.328125,
+            "y": 48.7890625
+          },
+          "desiredWorldPoint": {
+            "x": 32.328125,
+            "y": 48.7890625
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 33.17578125,
+            "y": 48.7890625
+          },
+          "worldPoint": {
+            "x": 33.17578125,
+            "y": 48.7890625
+          },
+          "desiredWorldPoint": {
+            "x": 33.17578125,
+            "y": 48.7890625
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 3.23046875
+        },
+        "center": {
+          "x": 34.3193359375,
+          "y": 28.384765625
+        },
+        "width": 39.361328125,
+        "height": 55.23046875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__motion0",
+    "fixtureId": "hollow-floating",
+    "kind": "motion",
+    "age": 75,
+    "time": 1e-8,
+    "action": "move",
+    "label": "hollow-floating p0",
+    "hash": "dfc7382fa27af802bf36e6298dd079958ab941f909aed08813e81fa5da7c28c8",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 110,
+        "winningPixels": 110
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 46.92578125
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 46.92578125
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 46.92578125
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 31.75,
+            "y": 46.92578125
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 46.92578125
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 46.92578125
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__motion1",
+    "fixtureId": "hollow-floating",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.1019108380254777,
+    "action": "move",
+    "label": "hollow-floating p1",
+    "hash": "7c54a161e2ebb0cb5716cec4f154e9268b613ae4d5864bcebe7f99c18e877338",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 10,
+        "winningPixels": 10
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 10,
+        "winningPixels": 10
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 110,
+        "winningPixels": 110
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.125,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 45.251953125
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 45.251953125
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 45.251953125
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 31.75,
+            "y": 45.251953125
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 45.251953125
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 45.251953125
+          },
+          "step": 0
+        }
+      ],
+      "phase": 1,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__motion2",
+    "fixtureId": "hollow-floating",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.20382166605095542,
+    "action": "move",
+    "label": "hollow-floating p2",
+    "hash": "5d2fa129d1af0baa494b0841978f73bc8d881a3ee8be32f960bf057a009ed861",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 105,
+        "winningPixels": 105
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 7,
+        "winningPixels": 7
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.25,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 43.8330078125
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 43.8330078125
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 43.8330078125
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 31.75,
+            "y": 43.8330078125
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 43.8330078125
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 43.8330078125
+          },
+          "step": 0
+        }
+      ],
+      "phase": 2,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__motion3",
+    "fixtureId": "hollow-floating",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.3057324940764331,
+    "action": "move",
+    "label": "hollow-floating p3",
+    "hash": "c6c45e7053297277dbbeaf74c976797d0384b3ee3f5a85b1e592249c13bb874b",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 107,
+        "winningPixels": 107
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.375,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 42.8837890625
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 42.8837890625
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 42.8837890625
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 31.75,
+            "y": 42.8837890625
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 42.8837890625
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 42.8837890625
+          },
+          "step": 0
+        }
+      ],
+      "phase": 3,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__motion4",
+    "fixtureId": "hollow-floating",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.40764332210191084,
+    "action": "move",
+    "label": "hollow-floating p4",
+    "hash": "164f5f5fdf4499e387a5862d83f31499a11ce2050f56d52e6f9ace35414aca6a",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 10,
+        "winningPixels": 10
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 114,
+        "winningPixels": 114
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.5,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 42.55078125
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 42.55078125
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 42.55078125
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 31.75,
+            "y": 42.55078125
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 42.55078125
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 42.55078125
+          },
+          "step": 1
+        }
+      ],
+      "phase": 4,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__motion5",
+    "fixtureId": "hollow-floating",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.5095541501273886,
+    "action": "move",
+    "label": "hollow-floating p5",
+    "hash": "c6c45e7053297277dbbeaf74c976797d0384b3ee3f5a85b1e592249c13bb874b",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 107,
+        "winningPixels": 107
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.625,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 42.8837890625
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 42.8837890625
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 42.8837890625
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 31.75,
+            "y": 42.8837890625
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 42.8837890625
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 42.8837890625
+          },
+          "step": 1
+        }
+      ],
+      "phase": 5,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__motion6",
+    "fixtureId": "hollow-floating",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.6114649781528663,
+    "action": "move",
+    "label": "hollow-floating p6",
+    "hash": "ee8efabdeff39418f3421b00ed6d5e5bb2f028591ee2077a49bd8f5414120440",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 9,
+        "winningPixels": 9
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 105,
+        "winningPixels": 105
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 7,
+        "winningPixels": 7
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.75,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 43.8330078125
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 43.8330078125
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 43.8330078125
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 31.75,
+            "y": 43.8330078125
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 43.8330078125
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 43.8330078125
+          },
+          "step": 1
+        }
+      ],
+      "phase": 6,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hollow-floating__motion7",
+    "fixtureId": "hollow-floating",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.713375806178344,
+    "action": "move",
+    "label": "hollow-floating p7",
+    "hash": "776abcaee5b51c0e21fd54f804d0f67196fa609b1cddde5ce52ae501d8754568",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "hand-left",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-left"
+        ],
+        "pixelCount": 10,
+        "winningPixels": 10
+      },
+      {
+        "id": "hand-right",
+        "kind": "hand",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "hand-right"
+        ],
+        "pixelCount": 10,
+        "winningPixels": 10
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 110,
+        "winningPixels": 110
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "pixelCount": 8,
+        "winningPixels": 8
+      }
+    ],
+    "movement": "hop",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.875,
+      "maximumBoneError": 0.00041224602817235834,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "leg-left",
+          "upper": 2.7889881319960903,
+          "lower": 2.7889881319960903,
+          "actualUpper": 2.7891640524447814,
+          "actualLower": 2.788575885967918
+        },
+        {
+          "id": "leg-right",
+          "upper": 4.4274733788041605,
+          "lower": 4.4274733788041605,
+          "actualUpper": 4.427808036578489,
+          "actualLower": 4.4274703032468565
+        }
+      ],
+      "contacts": [
+        {
+          "id": "leg-left",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 26.3515625,
+            "y": 45.251953125
+          },
+          "worldPoint": {
+            "x": 26.3515625,
+            "y": 45.251953125
+          },
+          "desiredWorldPoint": {
+            "x": 26.3515625,
+            "y": 45.251953125
+          },
+          "step": 0
+        },
+        {
+          "id": "leg-right",
+          "role": "right",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 31.75,
+            "y": 45.251953125
+          },
+          "worldPoint": {
+            "x": 31.75,
+            "y": 45.251953125
+          },
+          "desiredWorldPoint": {
+            "x": 31.75,
+            "y": 45.251953125
+          },
+          "step": 1
+        }
+      ],
+      "phase": 7,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 4.8203125
+        },
+        "center": {
+          "x": 35.451171875,
+          "y": 26.08984375
+        },
+        "width": 45.09765625,
+        "height": 53.8203125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__d0",
+    "fixtureId": "multiple-heads",
+    "kind": "endpoint",
+    "age": 0,
+    "time": 0,
+    "action": "idle",
+    "label": "multiple-heads d0",
+    "hash": "b435d50375626f58ec76a3c284797cbccec04b0f078da44da5410489ac8e2b21",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 64,
+        "winningPixels": 63
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 64,
+        "winningPixels": 63
+      }
+    ],
+    "movement": "slither",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__d30",
+    "fixtureId": "multiple-heads",
+    "kind": "endpoint",
+    "age": 30,
+    "time": 0,
+    "action": "idle",
+    "label": "multiple-heads d30",
+    "hash": "94f9420875dae913784814dcdda7ae47c13456a1cb8c4bba7453ca393839939b",
+    "valid": true,
+    "stage": "teen",
+    "developmentalAge": 30,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 64,
+        "winningPixels": 63
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 65,
+        "winningPixels": 64
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30.2607421875,
+          "y": 30.955078125
+        },
+        "width": 28.533203125,
+        "height": 37.41796875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__d75",
+    "fixtureId": "multiple-heads",
+    "kind": "endpoint",
+    "age": 75,
+    "time": 0,
+    "action": "idle",
+    "label": "multiple-heads d75",
+    "hash": "e310b47a5940a0984608670f9206fff0d841945f1926be05cc8545222aab83a2",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 65,
+        "winningPixels": 62
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 64,
+        "winningPixels": 63
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__d120",
+    "fixtureId": "multiple-heads",
+    "kind": "endpoint",
+    "age": 120,
+    "time": 0,
+    "action": "idle",
+    "label": "multiple-heads d120",
+    "hash": "9a19efb7b214ca759119dc239c062992bfb76f4805f50c6b8f00fdc47e33b2e0",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 65,
+        "winningPixels": 53
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 65,
+        "winningPixels": 64
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 32.1875,
+          "y": 31.830078125
+        },
+        "width": 23.8671875,
+        "height": 40.33984375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__motion0",
+    "fixtureId": "multiple-heads",
+    "kind": "motion",
+    "age": 75,
+    "time": 1e-8,
+    "action": "move",
+    "label": "multiple-heads p0",
+    "hash": "f470c34070e6d53d93e07ea1c9b8dbed4178ac639ea368d9da422f27de0fc155",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 64,
+        "winningPixels": 60
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 66,
+        "winningPixels": 63
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__motion1",
+    "fixtureId": "multiple-heads",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.1019108380254777,
+    "action": "move",
+    "label": "multiple-heads p1",
+    "hash": "f90f2348fdac457442466a3a293fc30daa842cc4996e1f8cb22c1680531a308f",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 66,
+        "winningPixels": 61
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 63,
+        "winningPixels": 60
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.125,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 1,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__motion2",
+    "fixtureId": "multiple-heads",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.20382166605095542,
+    "action": "move",
+    "label": "multiple-heads p2",
+    "hash": "42b13c831c6e40fd8070993b841de29ee111f76f2f5d56a75072d67af84cd249",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 64,
+        "winningPixels": 59
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 65,
+        "winningPixels": 62
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.25,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 2,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__motion3",
+    "fixtureId": "multiple-heads",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.3057324940764331,
+    "action": "move",
+    "label": "multiple-heads p3",
+    "hash": "3baf1d167002f62cde6f6ecea8d9ff98839294fd39aa85d58c05ffb2ffbad33b",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 66,
+        "winningPixels": 63
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 64,
+        "winningPixels": 63
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.375,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 3,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__motion4",
+    "fixtureId": "multiple-heads",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.40764332210191084,
+    "action": "move",
+    "label": "multiple-heads p4",
+    "hash": "d5077efe57a0dee21731311cbe2211629af31a7ebd4b89e813eefcd17363fe87",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 64,
+        "winningPixels": 61
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 65,
+        "winningPixels": 63
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.5,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 4,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__motion5",
+    "fixtureId": "multiple-heads",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.5095541501273886,
+    "action": "move",
+    "label": "multiple-heads p5",
+    "hash": "c29bbdc3382347b1c056ea96b7ad7001de2776ba0cca92c6c83e72268c7ee6f1",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 67,
+        "winningPixels": 65
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 66,
+        "winningPixels": 65
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.625,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 5,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__motion6",
+    "fixtureId": "multiple-heads",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.6114649781528663,
+    "action": "move",
+    "label": "multiple-heads p6",
+    "hash": "9416ef930e8e68a1b48d6eac8ba6dfb0ecff50403d249b07308817d21d8fc81c",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 66,
+        "winningPixels": 63
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 62,
+        "winningPixels": 61
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.75,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 6,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "multiple-heads__motion7",
+    "fixtureId": "multiple-heads",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.713375806178344,
+    "action": "move",
+    "label": "multiple-heads p7",
+    "hash": "4d6a1ec61a9903aeddeb5404255f1676e425888421739c03bb360ec0c9954b75",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head-left",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head-right",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 1,
+        "winningPixels": 1
+      },
+      {
+        "id": "head-left",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-left"
+        ],
+        "pixelCount": 66,
+        "winningPixels": 64
+      },
+      {
+        "id": "head-right",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "floating",
+        "sourcePartIds": [
+          "head-right"
+        ],
+        "pixelCount": 66,
+        "winningPixels": 65
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.875,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 7,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33.7607421875,
+          "y": 34.38671875
+        },
+        "width": 33.615234375,
+        "height": 37.80859375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "unlabelled__d0",
+    "fixtureId": "unlabelled",
+    "kind": "endpoint",
+    "age": 0,
+    "time": 0,
+    "action": "idle",
+    "label": "unlabelled d0",
+    "hash": "9928e2e0c91c45b5959d5fcfea63822615e51b2539b704a5525c4febff1a2fcb",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "unlabelled__d30",
+    "fixtureId": "unlabelled",
+    "kind": "endpoint",
+    "age": 30,
+    "time": 0,
+    "action": "idle",
+    "label": "unlabelled d30",
+    "hash": "543f3d36bd68f74bd992e4282217c1bfe9c777eea4531ed324ac0417f063f1bc",
+    "valid": true,
+    "stage": "teen",
+    "developmentalAge": 30,
+    "features": [],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 34.5751953125,
+          "y": 28.832670789077042
+        },
+        "width": 31.330078125,
+        "height": 34.33465842184592,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "unlabelled__d75",
+    "fixtureId": "unlabelled",
+    "kind": "endpoint",
+    "age": 75,
+    "time": 0,
+    "action": "idle",
+    "label": "unlabelled d75",
+    "hash": "c2d9857a0eecc93fc13b3580a58c7a12cfe47ceed991da1d25b0906b65431ace",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30.0419921875,
+          "y": 32.2744140625
+        },
+        "width": 30.083984375,
+        "height": 31.451171875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "unlabelled__d120",
+    "fixtureId": "unlabelled",
+    "kind": "endpoint",
+    "age": 120,
+    "time": 0,
+    "action": "idle",
+    "label": "unlabelled d120",
+    "hash": "4a2095e9a7dd32dc2c4672e8dd3e6e270583ea59191329732cd3c81423a7aa75",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 32.59765625,
+          "y": 32.50611433646867
+        },
+        "width": 32.8046875,
+        "height": 35.44870882706266,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__d0",
+    "fixtureId": "hair",
+    "kind": "endpoint",
+    "age": 0,
+    "time": 0,
+    "action": "idle",
+    "label": "hair d0",
+    "hash": "a06b39ab56faa035fa42010cb7f5ef93d885505ec58b567a66703d87da0134b3",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 42,
+        "winningPixels": 42
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 50,
+        "winningPixels": 38
+      }
+    ],
+    "movement": "slither",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__d30",
+    "fixtureId": "hair",
+    "kind": "endpoint",
+    "age": 30,
+    "time": 0,
+    "action": "idle",
+    "label": "hair d30",
+    "hash": "bfaa987c44946f19c649675a12ea53e51eea98af8babb3c60448f0a7734f24c0",
+    "valid": true,
+    "stage": "teen",
+    "developmentalAge": 30,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 76,
+        "winningPixels": 76
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 83,
+        "winningPixels": 67
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": -3
+        },
+        "center": {
+          "x": 28.328125,
+          "y": 43.7880859375
+        },
+        "width": 29.34375,
+        "height": 38.423828125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__d75",
+    "fixtureId": "hair",
+    "kind": "endpoint",
+    "age": 75,
+    "time": 0,
+    "action": "idle",
+    "label": "hair d75",
+    "hash": "6ca408d7bdb168efc1e858d898507b50537fa319927bdb7c049d871beb3bce36",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 5,
+        "winningPixels": 5
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 85,
+        "winningPixels": 85
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 88,
+        "winningPixels": 70
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 0.9964205039096438,
+        "offset": {
+          "x": -5.365768896611641,
+          "y": 10.17897480451781
+        },
+        "center": {
+          "x": 37.5,
+          "y": 21.8994140625
+        },
+        "width": 37,
+        "height": 56.201171875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__d120",
+    "fixtureId": "hair",
+    "kind": "endpoint",
+    "age": 120,
+    "time": 0,
+    "action": "idle",
+    "label": "hair d120",
+    "hash": "5d21c1a4ccedf317db213fcf5e4817ef92644797df17783b03d4085855004c59",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 96,
+        "winningPixels": 96
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 134,
+        "winningPixels": 108
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__motion0",
+    "fixtureId": "hair",
+    "kind": "motion",
+    "age": 120,
+    "time": 1e-8,
+    "action": "move",
+    "label": "hair p0",
+    "hash": "5551bc9f25062d680368ea9f7456012fa500dcf63c26c2de79495a123ac2f6ce",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 88,
+        "winningPixels": 88
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 113,
+        "winningPixels": 98
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__motion1",
+    "fixtureId": "hair",
+    "kind": "motion",
+    "age": 120,
+    "time": 0.1019108380254777,
+    "action": "move",
+    "label": "hair p1",
+    "hash": "3a9cdcae25c93be0efa33f2197e0b89b18a7bbcbd0dbc2d472372467578a2633",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 84,
+        "winningPixels": 84
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 90,
+        "winningPixels": 70
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.125,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 1,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__motion2",
+    "fixtureId": "hair",
+    "kind": "motion",
+    "age": 120,
+    "time": 0.20382166605095542,
+    "action": "move",
+    "label": "hair p2",
+    "hash": "6e1f56b0a4f6d82fef06e9433bbbeda895c6c04f767dab5dc2f689e853d081b4",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 91,
+        "winningPixels": 91
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 108,
+        "winningPixels": 83
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.25,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 2,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__motion3",
+    "fixtureId": "hair",
+    "kind": "motion",
+    "age": 120,
+    "time": 0.3057324940764331,
+    "action": "move",
+    "label": "hair p3",
+    "hash": "5fdfaa979372210e1fb51dfe4b0fe96fce7982fc6dbf0ea7150a677cd8a2af59",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 91,
+        "winningPixels": 91
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 89,
+        "winningPixels": 70
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.375,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 3,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__motion4",
+    "fixtureId": "hair",
+    "kind": "motion",
+    "age": 120,
+    "time": 0.40764332210191084,
+    "action": "move",
+    "label": "hair p4",
+    "hash": "fded83bd5aad5503681ba2b9ac47a71414718123728d1a514ad06ac7516365b6",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 95,
+        "winningPixels": 95
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 123,
+        "winningPixels": 93
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.5,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 4,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__motion5",
+    "fixtureId": "hair",
+    "kind": "motion",
+    "age": 120,
+    "time": 0.5095541501273886,
+    "action": "move",
+    "label": "hair p5",
+    "hash": "90df0d748425d3ff49e0d620bcf4a8b03229eb6027234054bb10679981194b26",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 94,
+        "winningPixels": 94
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 82,
+        "winningPixels": 62
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.625,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 5,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__motion6",
+    "fixtureId": "hair",
+    "kind": "motion",
+    "age": 120,
+    "time": 0.6114649781528663,
+    "action": "move",
+    "label": "hair p6",
+    "hash": "13eaf6b239da4c44f8c5f77d05a1d51e58397bc58a2d7f76ef76d99bfba68898",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 99,
+        "winningPixels": 99
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 114,
+        "winningPixels": 86
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.75,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 6,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "hair__motion7",
+    "fixtureId": "hair",
+    "kind": "motion",
+    "age": 120,
+    "time": 0.713375806178344,
+    "action": "move",
+    "label": "hair p7",
+    "hash": "1eb3b84237e753011f5aa2b6f2030015ee6898695c7021660e9ed70d818a1fd7",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "pixelCount": 6,
+        "winningPixels": 6
+      },
+      {
+        "id": "hair",
+        "kind": "hair",
+        "parentId": "head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "hair"
+        ],
+        "pixelCount": 87,
+        "winningPixels": 87
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "parentId": "body/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "head"
+        ],
+        "pixelCount": 83,
+        "winningPixels": 62
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.875,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 7,
+      "camera": {
+        "scale": 0.9655172413793104,
+        "offset": {
+          "x": 0.814924568965516,
+          "y": 7.862068965517242
+        },
+        "center": {
+          "x": 32.298828125,
+          "y": 25
+        },
+        "width": 29.40234375,
+        "height": 58,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__d0",
+    "fixtureId": "limbless",
+    "kind": "endpoint",
+    "age": 0,
+    "time": 0,
+    "action": "idle",
+    "label": "limbless d0",
+    "hash": "4793c9e278861fcae89fd3ab022ec87dad7fec012442f277042e4e53b8cb8383",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__d30",
+    "fixtureId": "limbless",
+    "kind": "endpoint",
+    "age": 30,
+    "time": 0,
+    "action": "idle",
+    "label": "limbless d30",
+    "hash": "d41435a0799b236efd5b2682919433d389a551b6cb7fa49e2af5ca0196474c10",
+    "valid": true,
+    "stage": "teen",
+    "developmentalAge": 30,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 32.794921875,
+          "y": 30.1923828125
+        },
+        "width": 26.8828125,
+        "height": 29.615234375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__d75",
+    "fixtureId": "limbless",
+    "kind": "endpoint",
+    "age": 75,
+    "time": 0,
+    "action": "idle",
+    "label": "limbless d75",
+    "hash": "d078bb7032c5e676e75ad82bfeb18b3f87d01cfc309d552d2658b74989bbef42",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__d120",
+    "fixtureId": "limbless",
+    "kind": "endpoint",
+    "age": 120,
+    "time": 0,
+    "action": "idle",
+    "label": "limbless d120",
+    "hash": "0d2911442738f74a496fd18f34269ff55089a3b8044c0ab315706447d608c49a",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 34.3193359375,
+          "y": 32.4697265625
+        },
+        "width": 33.361328125,
+        "height": 33.060546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__motion0",
+    "fixtureId": "limbless",
+    "kind": "motion",
+    "age": 75,
+    "time": 1e-8,
+    "action": "move",
+    "label": "limbless p0",
+    "hash": "92dc851d9cfcf796171062cde6b362fd7cbb1f202ff3a61a861b214ee27831d1",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__motion1",
+    "fixtureId": "limbless",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.1019108380254777,
+    "action": "move",
+    "label": "limbless p1",
+    "hash": "1ef95c19c0ab5e47d6469f7ce611699bf46aa1a82320bd43e035647d63f491d5",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.125,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 1,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__motion2",
+    "fixtureId": "limbless",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.20382166605095542,
+    "action": "move",
+    "label": "limbless p2",
+    "hash": "3418eba89b413861d8eff780168df7c6be15086b6831d812e7f4eb6c648ac4ff",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.25,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 2,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__motion3",
+    "fixtureId": "limbless",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.3057324940764331,
+    "action": "move",
+    "label": "limbless p3",
+    "hash": "ce7a9e96447ac2d062d23da3c80884996921a6e95cde8e80a3edf515541597c5",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.375,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 3,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__motion4",
+    "fixtureId": "limbless",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.40764332210191084,
+    "action": "move",
+    "label": "limbless p4",
+    "hash": "6e3c2129f4ae732858df81d2a14733d593861511507343a676995014d1a94183",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.5,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 4,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__motion5",
+    "fixtureId": "limbless",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.5095541501273886,
+    "action": "move",
+    "label": "limbless p5",
+    "hash": "68a0adbb579c7c35d93341ce78bc359ab12c378d10556d093858063990a5dc89",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.625,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 5,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__motion6",
+    "fixtureId": "limbless",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.6114649781528663,
+    "action": "move",
+    "label": "limbless p6",
+    "hash": "675492bede0ec60260e9aac0d8a2387ed70cca977468099d9b782643ae3a3ee6",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.75,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 6,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "limbless__motion7",
+    "fixtureId": "limbless",
+    "kind": "motion",
+    "age": 75,
+    "time": 0.713375806178344,
+    "action": "move",
+    "label": "limbless p7",
+    "hash": "345177d9f75a2420f296d86eff6c2335ddda6797068af671921ee4fb57d27608",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0.875,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 7,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30,
+          "y": 34.2265625
+        },
+        "width": 32,
+        "height": 31.546875,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "single-pixel__d0",
+    "fixtureId": "single-pixel",
+    "kind": "endpoint",
+    "age": 0,
+    "time": 0,
+    "action": "idle",
+    "label": "single-pixel d0",
+    "hash": "174f7b5befcc8a7eb2241e21d7a1a7a079a66e0837825d3aa735f267697c8ba7",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0,
+    "features": [],
+    "movement": "slither",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "single-pixel__d30",
+    "fixtureId": "single-pixel",
+    "kind": "endpoint",
+    "age": 30,
+    "time": 0,
+    "action": "idle",
+    "label": "single-pixel d30",
+    "hash": "c700e523f095d8bcd1927de83e886982fcef0077c1602bd4b380d7adea7bb713",
+    "valid": true,
+    "stage": "teen",
+    "developmentalAge": 30,
+    "features": [],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 32.939453125,
+          "y": 32.560546875
+        },
+        "width": 10.12109375,
+        "height": 10.87890625,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "single-pixel__d75",
+    "fixtureId": "single-pixel",
+    "kind": "endpoint",
+    "age": 75,
+    "time": 0,
+    "action": "idle",
+    "label": "single-pixel d75",
+    "hash": "687d051f7a6a351c70db3279b56278593f94517037cdc9d7d6d7cb8da273a179",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33,
+          "y": 33
+        },
+        "width": 12,
+        "height": 18,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "single-pixel__d120",
+    "fixtureId": "single-pixel",
+    "kind": "endpoint",
+    "age": 120,
+    "time": 0,
+    "action": "idle",
+    "label": "single-pixel d120",
+    "hash": "cb322bb9d0463258e12ce769c062c59b9460dad4c9de8287e34b23994b537b7e",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 33,
+          "y": 33
+        },
+        "width": 14,
+        "height": 22,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "dense__d0",
+    "fixtureId": "dense",
+    "kind": "endpoint",
+    "age": 0,
+    "time": 0,
+    "action": "idle",
+    "label": "dense d0",
+    "hash": "3b91b224bd9a505ba04fd6b5f220bf531be866535cce745feaf22378996519b2",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0,
+    "features": [
+      {
+        "id": "dense-eye",
+        "kind": "eye",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-eye"
+        ],
+        "pixelCount": 1024,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-hair",
+        "kind": "hair",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-hair"
+        ],
+        "pixelCount": 1024,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-hand",
+        "kind": "hand",
+        "parentId": "dense-arm",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "dense-hand"
+        ],
+        "pixelCount": 1024,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-head",
+        "kind": "head",
+        "parentId": "dense-body",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-head"
+        ],
+        "pixelCount": 1024,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-mouth",
+        "kind": "mouth",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-mouth"
+        ],
+        "pixelCount": 1024,
+        "winningPixels": 1024
+      }
+    ],
+    "movement": "slither",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "dense__d30",
+    "fixtureId": "dense",
+    "kind": "endpoint",
+    "age": 30,
+    "time": 0,
+    "action": "idle",
+    "label": "dense d30",
+    "hash": "edd76c13fb00565866860c0dc465fc4d10197e24370db7a25655d3a3ead08bd0",
+    "valid": true,
+    "stage": "teen",
+    "developmentalAge": 30,
+    "features": [
+      {
+        "id": "dense-eye",
+        "kind": "eye",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-eye"
+        ],
+        "pixelCount": 529,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-hair",
+        "kind": "hair",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-hair"
+        ],
+        "pixelCount": 536,
+        "winningPixels": 122
+      },
+      {
+        "id": "dense-hand",
+        "kind": "hand",
+        "parentId": "dense-arm",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "dense-hand"
+        ],
+        "pixelCount": 340,
+        "winningPixels": 134
+      },
+      {
+        "id": "dense-head",
+        "kind": "head",
+        "parentId": "dense-body",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-head"
+        ],
+        "pixelCount": 529,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-mouth",
+        "kind": "mouth",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-mouth"
+        ],
+        "pixelCount": 529,
+        "winningPixels": 529
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.00012269139924825367,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "dense-leg",
+          "upper": 8.20228060879191,
+          "lower": 8.20228060879191,
+          "actualUpper": 8.202403300191158,
+          "actualLower": 8.202239128598805
+        }
+      ],
+      "contacts": [
+        {
+          "id": "dense-leg",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 28.14453125,
+            "y": 43.64453125
+          },
+          "worldPoint": {
+            "x": 28.14453125,
+            "y": 43.64453125
+          },
+          "desiredWorldPoint": {
+            "x": 28.14453125,
+            "y": 43.64453125
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 0.5613485521859154,
+        "offset": {
+          "x": 12.711318205846077,
+          "y": 16.4823305988997
+        },
+        "center": {
+          "x": 34.361328125,
+          "y": 27.6435546875
+        },
+        "width": 85.27734375,
+        "height": 99.759765625,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "dense__d75",
+    "fixtureId": "dense",
+    "kind": "endpoint",
+    "age": 75,
+    "time": 0,
+    "action": "idle",
+    "label": "dense d75",
+    "hash": "2d8d191d48bff7974e3e4958ab7232d215ebd7a063305278a750805a55d7e837",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "dense-eye",
+        "kind": "eye",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-eye"
+        ],
+        "pixelCount": 361,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-hair",
+        "kind": "hair",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-hair"
+        ],
+        "pixelCount": 406,
+        "winningPixels": 102
+      },
+      {
+        "id": "dense-hand",
+        "kind": "hand",
+        "parentId": "dense-arm",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "dense-hand"
+        ],
+        "pixelCount": 175,
+        "winningPixels": 68
+      },
+      {
+        "id": "dense-head",
+        "kind": "head",
+        "parentId": "dense-body",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-head"
+        ],
+        "pixelCount": 361,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-mouth",
+        "kind": "mouth",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-mouth"
+        ],
+        "pixelCount": 361,
+        "winningPixels": 361
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.0004096551439900509,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "dense-leg",
+          "upper": 3.3449833270514144,
+          "lower": 3.3449833270514144,
+          "actualUpper": 3.344626623735042,
+          "actualLower": 3.3453929821954045
+        }
+      ],
+      "contacts": [
+        {
+          "id": "dense-leg",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 41.5234375,
+            "y": 36.29296875
+          },
+          "worldPoint": {
+            "x": 41.5234375,
+            "y": 36.29296875
+          },
+          "desiredWorldPoint": {
+            "x": 41.5234375,
+            "y": 36.29296875
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 0.42748091603053434,
+        "offset": {
+          "x": 15.35913645038168,
+          "y": 17.6793893129771
+        },
+        "center": {
+          "x": 38.927734375,
+          "y": 33.5
+        },
+        "width": 74.14453125,
+        "height": 131,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "dense__d120",
+    "fixtureId": "dense",
+    "kind": "endpoint",
+    "age": 120,
+    "time": 0,
+    "action": "idle",
+    "label": "dense d120",
+    "hash": "597845692c68f5086f28395826e176c90e7ddcadf7ea5b2c775aa865d4cc963e",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "dense-eye",
+        "kind": "eye",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-eye"
+        ],
+        "pixelCount": 361,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-hair",
+        "kind": "hair",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-hair"
+        ],
+        "pixelCount": 408,
+        "winningPixels": 91
+      },
+      {
+        "id": "dense-hand",
+        "kind": "hand",
+        "parentId": "dense-arm",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "dense-hand"
+        ],
+        "pixelCount": 140,
+        "winningPixels": 60
+      },
+      {
+        "id": "dense-head",
+        "kind": "head",
+        "parentId": "dense-body",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-head"
+        ],
+        "pixelCount": 361,
+        "winningPixels": 0
+      },
+      {
+        "id": "dense-mouth",
+        "kind": "mouth",
+        "parentId": "dense-head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "dense-mouth"
+        ],
+        "pixelCount": 361,
+        "winningPixels": 361
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.000032959207072025265,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "dense-leg",
+          "upper": 11.83512169766115,
+          "lower": 11.83512169766115,
+          "actualUpper": 11.835088738454077,
+          "actualLower": 11.835110333939271
+        }
+      ],
+      "contacts": [
+        {
+          "id": "dense-leg",
+          "role": "left",
+          "planted": false,
+          "supportWeight": 0,
+          "localPoint": {
+            "x": 40.35546875,
+            "y": 49.2421875
+          },
+          "worldPoint": {
+            "x": 40.35546875,
+            "y": 49.2421875
+          },
+          "desiredWorldPoint": {
+            "x": 40.35546875,
+            "y": 49.2421875
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 0.36363636363636365,
+        "offset": {
+          "x": 19.401633522727273,
+          "y": 21.454545454545453
+        },
+        "center": {
+          "x": 34.6455078125,
+          "y": 29
+        },
+        "width": 90.708984375,
+        "height": 154,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "egg__egg-source",
+    "fixtureId": "egg",
+    "kind": "endpoint",
+    "age": 0,
+    "time": 0,
+    "action": "idle",
+    "label": "egg egg-source",
+    "hash": "d617a3ca7618a6e983c9cd22c56d31b02cba6dc508cccc121c2d5c9c6903be16",
+    "valid": true,
+    "stage": "egg",
+    "developmentalAge": 0,
+    "features": [],
+    "movement": "drift",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "egg__hatch-minus",
+    "fixtureId": "egg",
+    "kind": "endpoint",
+    "age": 8.74,
+    "time": 0,
+    "action": "idle",
+    "label": "egg hatch-minus",
+    "hash": "3794171f6d29913615f26df253ae366cbd888d158c94afb75f9b759e7da28f5e",
+    "valid": true,
+    "stage": "egg",
+    "developmentalAge": 0,
+    "features": [
+      {
+        "id": "embryo.head",
+        "kind": "head",
+        "parentId": "embryo.mass.0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.head"
+        ],
+        "pixelCount": 22,
+        "winningPixels": 18
+      },
+      {
+        "id": "embryo.eye.0",
+        "kind": "eye",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.eye.0"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "embryo.mouth",
+        "kind": "mouth",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.mouth"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "embryo.hand.0",
+        "kind": "hand",
+        "parentId": "embryo.arm.0",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.0"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.hand.1",
+        "kind": "hand",
+        "parentId": "embryo.arm.1",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.1"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "egg__hatch-at",
+    "fixtureId": "egg",
+    "kind": "endpoint",
+    "age": 8.75,
+    "time": 0,
+    "action": "idle",
+    "label": "egg hatch-at",
+    "hash": "3794171f6d29913615f26df253ae366cbd888d158c94afb75f9b759e7da28f5e",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0,
+    "features": [
+      {
+        "id": "embryo.head",
+        "kind": "head",
+        "parentId": "embryo.mass.0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.head"
+        ],
+        "pixelCount": 22,
+        "winningPixels": 18
+      },
+      {
+        "id": "embryo.eye.0",
+        "kind": "eye",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.eye.0"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "embryo.mouth",
+        "kind": "mouth",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.mouth"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "embryo.hand.0",
+        "kind": "hand",
+        "parentId": "embryo.arm.0",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.0"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.hand.1",
+        "kind": "hand",
+        "parentId": "embryo.arm.1",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.1"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      }
+    ],
+    "movement": "walk",
+    "diagnostics": {
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "egg__hatch-plus",
+    "fixtureId": "egg",
+    "kind": "endpoint",
+    "age": 8.76,
+    "time": 0,
+    "action": "idle",
+    "label": "egg hatch-plus",
+    "hash": "1a253e50f74786dcaafbbc99e15f268356f2497fe054fd8df22589126e491c1d",
+    "valid": true,
+    "stage": "infant",
+    "developmentalAge": 0.009999999999999787,
+    "features": [
+      {
+        "id": "embryo.eye.0",
+        "kind": "eye",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.eye.0"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      },
+      {
+        "id": "embryo.hand.0",
+        "kind": "hand",
+        "parentId": "embryo.arm.0",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.0"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.hand.1",
+        "kind": "hand",
+        "parentId": "embryo.arm.1",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.1"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.head",
+        "kind": "head",
+        "parentId": "embryo.mass.0/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.head"
+        ],
+        "pixelCount": 22,
+        "winningPixels": 18
+      },
+      {
+        "id": "embryo.mouth",
+        "kind": "mouth",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.mouth"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      }
+    ],
+    "movement": "walk",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.0005350706101086011,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "embryo.leg.1",
+          "upper": 2.1993862780330335,
+          "lower": 2.1993862780330335,
+          "actualUpper": 2.198851207422925,
+          "actualLower": 2.199739276001875
+        },
+        {
+          "id": "embryo.leg.0",
+          "upper": 3.05,
+          "lower": 3.05,
+          "actualUpper": 3.0495759387777297,
+          "actualLower": 3.0498961509159734
+        }
+      ],
+      "contacts": [
+        {
+          "id": "embryo.leg.1",
+          "role": "left",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 25,
+            "y": 37
+          },
+          "worldPoint": {
+            "x": 25,
+            "y": 37
+          },
+          "desiredWorldPoint": {
+            "x": 25,
+            "y": 37
+          },
+          "step": 0
+        },
+        {
+          "id": "embryo.leg.0",
+          "role": "right",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 37.5,
+            "y": 37
+          },
+          "worldPoint": {
+            "x": 37.5,
+            "y": 37
+          },
+          "desiredWorldPoint": {
+            "x": 37.5,
+            "y": 37
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 30.681640625,
+          "y": 31.61328125
+        },
+        "width": 24.63671875,
+        "height": 22.7734375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "egg__dev30",
+    "fixtureId": "egg",
+    "kind": "endpoint",
+    "age": 38.75,
+    "time": 0,
+    "action": "idle",
+    "label": "egg dev30",
+    "hash": "3c63ed31a7eca145b90dff92bb1b1df51ee6f2fa8fff6d8a537aa16274a35ef4",
+    "valid": true,
+    "stage": "teen",
+    "developmentalAge": 30,
+    "features": [
+      {
+        "id": "embryo.eye.0",
+        "kind": "eye",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.eye.0"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.hand.0",
+        "kind": "hand",
+        "parentId": "embryo.arm.0",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.0"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.hand.1",
+        "kind": "hand",
+        "parentId": "embryo.arm.1",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.1"
+        ],
+        "pixelCount": 5,
+        "winningPixels": 5
+      },
+      {
+        "id": "embryo.head",
+        "kind": "head",
+        "parentId": "embryo.mass.0/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.head"
+        ],
+        "pixelCount": 35,
+        "winningPixels": 28
+      },
+      {
+        "id": "embryo.mouth",
+        "kind": "mouth",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.mouth"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      }
+    ],
+    "movement": "walk",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.0006017721017803623,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "embryo.leg.1",
+          "upper": 2.532964431940678,
+          "lower": 2.532964431940678,
+          "actualUpper": 2.5335662040424585,
+          "actualLower": 2.5326626450333576
+        },
+        {
+          "id": "embryo.leg.0",
+          "upper": 5.718521642576106,
+          "lower": 5.718521642576106,
+          "actualUpper": 5.71843047369814,
+          "actualLower": 5.718347754167952
+        }
+      ],
+      "contacts": [
+        {
+          "id": "embryo.leg.1",
+          "role": "left",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 29.2578125,
+            "y": 41.953125
+          },
+          "worldPoint": {
+            "x": 29.2578125,
+            "y": 41.953125
+          },
+          "desiredWorldPoint": {
+            "x": 29.2578125,
+            "y": 41.953125
+          },
+          "step": 0
+        },
+        {
+          "id": "embryo.leg.0",
+          "role": "right",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 35.3515625,
+            "y": 41.953125
+          },
+          "worldPoint": {
+            "x": 35.3515625,
+            "y": 41.953125
+          },
+          "desiredWorldPoint": {
+            "x": 35.3515625,
+            "y": 41.953125
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 35.255859375,
+          "y": 33.400390625
+        },
+        "width": 33.48828125,
+        "height": 32.73828125,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "egg__dev75",
+    "fixtureId": "egg",
+    "kind": "endpoint",
+    "age": 83.75,
+    "time": 0,
+    "action": "idle",
+    "label": "egg dev75",
+    "hash": "69607f262f35e6be81dea7ebf41369ee43eb5ab0b638e39c6e5f96aba7ec3ec8",
+    "valid": true,
+    "stage": "adult",
+    "developmentalAge": 75,
+    "features": [
+      {
+        "id": "embryo.eye.0",
+        "kind": "eye",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.eye.0"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "embryo.hand.0",
+        "kind": "hand",
+        "parentId": "embryo.arm.0",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.0"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.hand.1",
+        "kind": "hand",
+        "parentId": "embryo.arm.1",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.1"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.head",
+        "kind": "head",
+        "parentId": "embryo.mass.0/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.head"
+        ],
+        "pixelCount": 38,
+        "winningPixels": 29
+      },
+      {
+        "id": "embryo.mouth",
+        "kind": "mouth",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.mouth"
+        ],
+        "pixelCount": 2,
+        "winningPixels": 2
+      }
+    ],
+    "movement": "walk",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0.00024605539234023865,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [
+        {
+          "id": "embryo.leg.1",
+          "upper": 3.2355654580479425,
+          "lower": 3.2355654580479425,
+          "actualUpper": 3.2358115134402827,
+          "actualLower": 3.23578439863327
+        },
+        {
+          "id": "embryo.leg.0",
+          "upper": 3.3247604049748123,
+          "lower": 3.3247604049748123,
+          "actualUpper": 3.324568159699291,
+          "actualLower": 3.324701258497063
+        }
+      ],
+      "contacts": [
+        {
+          "id": "embryo.leg.1",
+          "role": "left",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 40.0234375,
+            "y": 39.87109375
+          },
+          "worldPoint": {
+            "x": 40.0234375,
+            "y": 39.87109375
+          },
+          "desiredWorldPoint": {
+            "x": 40.0234375,
+            "y": 39.87109375
+          },
+          "step": 0
+        },
+        {
+          "id": "embryo.leg.0",
+          "role": "right",
+          "planted": true,
+          "supportWeight": 1,
+          "localPoint": {
+            "x": 26.46875,
+            "y": 39.87109375
+          },
+          "worldPoint": {
+            "x": 26.46875,
+            "y": 39.87109375
+          },
+          "desiredWorldPoint": {
+            "x": 26.46875,
+            "y": 39.87109375
+          },
+          "step": 0
+        }
+      ],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 28.8759765625,
+          "y": 32.68199369450802
+        },
+        "width": 45.783203125,
+        "height": 34.600856360983954,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  },
+  {
+    "id": "egg__dev120",
+    "fixtureId": "egg",
+    "kind": "endpoint",
+    "age": 128.75,
+    "time": 0,
+    "action": "idle",
+    "label": "egg dev120",
+    "hash": "be7f9e0e5c2c4f383b55cddc0865733fa7196964569785deebbfec0c818b2ad0",
+    "valid": true,
+    "stage": "elderly",
+    "developmentalAge": 120,
+    "features": [
+      {
+        "id": "embryo.eye.0",
+        "kind": "eye",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.eye.0"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      },
+      {
+        "id": "embryo.hand.0",
+        "kind": "hand",
+        "parentId": "embryo.arm.0",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.0"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.hand.1",
+        "kind": "hand",
+        "parentId": "embryo.arm.1",
+        "relationship": "joint",
+        "sourcePartIds": [
+          "embryo.hand.1"
+        ],
+        "pixelCount": 4,
+        "winningPixels": 4
+      },
+      {
+        "id": "embryo.head",
+        "kind": "head",
+        "parentId": "embryo.mass.0/domain0",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.head"
+        ],
+        "pixelCount": 51,
+        "winningPixels": 45
+      },
+      {
+        "id": "embryo.mouth",
+        "kind": "mouth",
+        "parentId": "embryo.head",
+        "relationship": "surface",
+        "sourcePartIds": [
+          "embryo.mouth"
+        ],
+        "pixelCount": 3,
+        "winningPixels": 3
+      }
+    ],
+    "movement": "drift",
+    "diagnostics": {
+      "worldAdvance": 0,
+      "heldCycle": 0,
+      "maximumBoneError": 0,
+      "maximumContactError": 0,
+      "maximumGroundPenetration": 0,
+      "boneLengths": [],
+      "contacts": [],
+      "phase": 0,
+      "camera": {
+        "scale": 1,
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "center": {
+          "x": 31.9697265625,
+          "y": 30.1767578125
+        },
+        "width": 27.939453125,
+        "height": 39.646484375,
+        "motionMargin": 3
+      },
+      "viewportClipping": {
+        "outsidePixelCount": 0,
+        "parts": []
+      }
+    }
+  }
+]

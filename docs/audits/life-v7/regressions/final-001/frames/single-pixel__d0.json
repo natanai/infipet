@@ -1,0 +1,28 @@
+{
+  "id": "single-pixel__d0",
+  "fixtureId": "single-pixel",
+  "kind": "endpoint",
+  "age": 0,
+  "time": 0,
+  "action": "idle",
+  "label": "single-pixel d0",
+  "hash": "174f7b5befcc8a7eb2241e21d7a1a7a079a66e0837825d3aa735f267697c8ba7",
+  "pixels": [
+    {
+      "x": 32,
+      "y": 32,
+      "color": "#FFFFFF"
+    }
+  ],
+  "valid": true,
+  "stage": "infant",
+  "developmentalAge": 0,
+  "features": [],
+  "movement": "slither",
+  "diagnostics": {
+    "viewportClipping": {
+      "outsidePixelCount": 0,
+      "parts": []
+    }
+  }
+}

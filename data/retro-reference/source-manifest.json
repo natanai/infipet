@@ -1,0 +1,235 @@
+{
+  "retrievedOn": "2026-10-25",
+  "purpose": "Offline visual comparison only; no runtime sprite selection",
+  "files": [
+    {
+      "file": "data/retro-reference/sources/digital-monster-1997.html",
+      "url": "https://humulos.com/digimon/dm/",
+      "bytes": 282964,
+      "sha256": "ed0f00a8830620a0e75979a77e2123da550387157b711cb9a5e71f4be038510d",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "url": "https://www.spriters-resource.com/lcd_handhelds/tamagotchioriginalp1p2/page-1/",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "file": "data/retro-reference/sources/p1-rom-notes.txt",
+      "url": "https://rhubarbtart.neocities.org/file/tama_notes.txt",
+      "bytes": 13654,
+      "sha256": "66a8e57ba8844e253fcb97a253219277aaa899dbaf063d781527322e45ead12b",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/p1-rom-stats.txt",
+      "url": "https://rhubarbtart.neocities.org/file/stats.txt",
+      "bytes": 5649,
+      "sha256": "581fc4359721dfbaa19f7e0c7dddd36550d4cd014b9b2250eb611f4dd4307fa3",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/p1-hacking-log.html",
+      "url": "https://rhubarbtart.neocities.org/p1hackinglog",
+      "bytes": 18340,
+      "sha256": "95dac28b917536a89adca4d2ab172a86d6579fa75196ed350956d8a3de7e4e36",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/tamagotchi/p1-rom-sprites.zip",
+      "url": "https://rhubarbtart.neocities.org/file/sprites.zip",
+      "bytes": 20966,
+      "sha256": "ee35a2b14e25d516e2fbadb97f0abeb87c76eb6380c09a488da3adefd376a77a",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/tamagotchi/rip.py",
+      "url": "https://rhubarbtart.neocities.org/file/rip.py",
+      "bytes": 5227,
+      "sha256": "4d10ebedc4437ddc34df5c2d8edcc415a901448c34d3faa824b71a7358892b81",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/tamagotchi/p1-disassembly.asm",
+      "url": "https://raw.githubusercontent.com/agg23/tamagotchi-disassembled/master/tama.asm",
+      "bytes": 647210,
+      "sha256": "66ee3a17a5e5a14b94fdd738d6064fdc062de778e3c7aade2d761d2a70827f12",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/tamagotchi/p1-disassembly-README.md",
+      "url": "https://raw.githubusercontent.com/agg23/tamagotchi-disassembled/master/README.md",
+      "bytes": 1009,
+      "sha256": "f2556951947fa7eb85f4664c109056dbd0e6732423ff4411ea8843650b32bbd7",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "url": "https://www.mimitchi.com/html/q2.htm",
+      "unavailable": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1010)>"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/digitama_1e.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/digitama_1e.gif",
+      "bytes": 150,
+      "sha256": "aa1750e3e693467e2d8600fbb8fec92decde032035f7a4df896815b11f179e3a",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/bota.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/bota.gif",
+      "bytes": 113,
+      "sha256": "27384b64b3985d8e1e4c1f733d58da2527beb1694e2e078e7288c7fd77d58db9",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/koro.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/koro.gif",
+      "bytes": 135,
+      "sha256": "6c34014917c51f36b8a14eab69e4f933cf7f92d90281b7fbf7e7ba02e46dbe37",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/agu.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/agu.gif",
+      "bytes": 178,
+      "sha256": "88bb0198756c10b7eaad800972df1a193f19941f97276819e23d6ec09d490565",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/beta.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/beta.gif",
+      "bytes": 166,
+      "sha256": "359abd36aa1e2d8324ea849864a8aded6e515d3e51fca86fab82c8d87f50688c",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/grey.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/grey.gif",
+      "bytes": 990,
+      "sha256": "530b54725224819e7178ada178512316dcb0a95cfc27ad57b82a7a764f8c47c0",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/devi.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/devi.gif",
+      "bytes": 192,
+      "sha256": "cbafd8d8855820e28e6d0a5d30e636d048f1fa944a05fa233450db4a986fe4fc",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/airdra.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/airdra.gif",
+      "bytes": 987,
+      "sha256": "8c6c61f0a6da03bc46f470cae34ed6f2b423c3efb92a6bed37a692accf88fb33",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/nume.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/nume.gif",
+      "bytes": 963,
+      "sha256": "a3d57e85372203d30eaa56d0cb83075f211e7990d4738a6ead2e6f607411b5a8",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/tyrano.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/tyrano.gif",
+      "bytes": 991,
+      "sha256": "1b718ad28d613dae6b9de742d357e610a8f9973b334ae0c7a97281baa957eaef",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/mera.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/mera.gif",
+      "bytes": 992,
+      "sha256": "b859b6c08792d61ad8a8260dab98870898991e68388e04ef71e6440bcca4706c",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/seadra.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/seadra.gif",
+      "bytes": 979,
+      "sha256": "fd78e2c9ab886c99ad57bf8993c54f4069fda578b955d331161237a8805560c1",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/metalgrey_vi.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/metalgrey_vi.gif",
+      "bytes": 203,
+      "sha256": "f656fac260a9cd1483731f3b59cb5bc1ac22c0e7bd1b4af64c41f2493f081730",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/monzae.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/monzae.gif",
+      "bytes": 993,
+      "sha256": "144b8c679f2419b3f9f5a499e3eb065aab296e6e92769893ab2fbf6e2afbdb96",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "file": "data/retro-reference/sources/digimon/mame.gif",
+      "url": "https://humulos.com/digimon/images/dot/dm/mame.gif",
+      "bytes": 903,
+      "sha256": "e6ecc0605bdc81607d36e8cf1d67a6ac013cdea88bcc71506a844015e2433d91",
+      "license": "No license to source graphics inferred; see docs/retro-reference-sources.md"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144010.png?updated=1755482179",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144012.png?updated=1755482180",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144013.png?updated=1755482180",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144049.png?updated=1755482183",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144048.png?updated=1755482183",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144014.png?updated=1755482180",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144015.png?updated=1755482180",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144050.png?updated=1755482183",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144056.png?updated=1755482183",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144055.png?updated=1755482183",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144016.png?updated=1755482180",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144053.png?updated=1755482183",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144017.png?updated=1755482180",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144052.png?updated=1755482183",
+      "unavailable": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.spriters-resource.com/media/assets/141/144054.png?updated=1755482183",
+      "unavailable": "HTTP Error 403: Forbidden"
+    }
+  ]
+}

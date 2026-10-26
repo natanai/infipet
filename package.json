@@ -1,0 +1,51 @@
+{
+  "name": "infipet",
+  "version": "0.10.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start --go --lan",
+    "web": "expo start --go --web --port 8081",
+    "ios": "expo start --go --ios",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts tools/evolution-audit/*.test.ts tools/source-audit/*.test.ts",
+    "build:web": "expo export --platform web",
+    "build:ios": "expo export --platform ios --output-dir dist-ios",
+    "phylogeny:build": "node --max-old-space-size=4096 node_modules/tsx/dist/cli.mjs tools/phylogeny/build.ts",
+    "phylogeny:validate": "tsx tools/phylogeny/validate.ts",
+    "retro:presets": "tsx tools/retro-presets.ts",
+    "retro:list": "tsx tools/retro-audit/run.ts list",
+    "retro:audit": "tsx tools/retro-audit/run.ts search --publish-app",
+    "retro:verify": "tsx tools/retro-audit/run.ts verify",
+    "retro:probe-first-stage": "tsx tools/first-stage-probe.ts",
+    "audit:pets": "tsx tools/audit/run.ts",
+    "audit:pets:prepare": "tsx tools/audit/run.ts --prepare",
+    "audit:evolution": "tsx tools/source-audit/run.ts",
+    "format": "prettier --write App.tsx index.ts app.config.ts src tests"
+  },
+  "dependencies": {
+    "@expo/ui": "~57.0.26",
+    "@expo/vector-icons": "^15.1.0",
+    "@react-native-async-storage/async-storage": "^2.2.0",
+    "@react-native-community/slider": "^5.2.0",
+    "expo": "~57.0.31",
+    "expo-constants": "~57.0.22",
+    "expo-dev-client": "~57.0.20",
+    "expo-font": "~57.0.4",
+    "expo-status-bar": "~57.0.1",
+    "expo-widgets": "~57.0.27",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-svg": "15.15.4",
+    "react-native-web": "^0.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "@types/react": "~19.2.2",
+    "prettier": "^3.9.10",
+    "tsx": "^4.20.0",
+    "typescript": "~6.0.3"
+  }
+}

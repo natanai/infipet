@@ -1,0 +1,43 @@
+{
+  "agentGatePassed": true,
+  "priorHumanGateFailed": true,
+  "humanGateFailed": false,
+  "humanBenchmarkPending": true,
+  "overallGatePassed": false,
+  "status": "PROVISIONAL CANDIDATE — HUMAN BENCHMARK REVIEW PENDING",
+  "feedbackSummary": "v7 still mostly looks like stretching; the user wants meaningful stage metamorphosis, with optional cocoon lineages.",
+  "humanFrameScoresCreated": 0,
+  "humanFeedback": {
+    "id": "human-visual-feedback-2026-10-24",
+    "recordedAt": "2026-10-24T05:39:00.293Z",
+    "kind": "untargeted-verbal-feedback",
+    "source": "Human feedback relayed by the parent agent during live prototype inspection",
+    "summary": "v7 still mostly looks like stretching; the user wants meaningful stage metamorphosis, with optional cocoon lineages.",
+    "summaryIsVerbatimQuotation": false,
+    "humanVisualGate": "FAILED",
+    "expandedCollection": "ON HOLD by user direction",
+    "frameLevelHumanScoresAssigned": false,
+    "humanFrameReviewCount": null,
+    "scope": "Current v7 algorithm/live preview; no specific audited frames or numerical ratings were identified",
+    "agentGateCaveat": "The two agents' earlier12/12 proof scores used an overly permissive interpretation of clear metamorphosis. Those historical scores are preserved for diagnosis and do not override the user's failed visual gate.",
+    "nextDirection": "Root will strengthen coordinated lifecycle/regulatory development before further large audits; no new expansion is authorized by the old agent scores.",
+    "collectionStatus": {
+      "proofFinal": {
+        "cases": 120,
+        "views": 772,
+        "primary": 204,
+        "sourceProbes": 48,
+        "careProbes": 520,
+        "failures": 0
+      },
+      "varianceFinal": {
+        "cases": 384,
+        "uniqueFrames": 768,
+        "failures": 0
+      },
+      "threeFinalStarted": false,
+      "baselineStarted": false
+    },
+    "preservation": "Frozen manifests, captured pixels, metrics and original agent score records are not rewritten."
+  }
+}

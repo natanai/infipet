@@ -1,0 +1,15 @@
+# Causal surface expression
+
+`surface-expression-v1` adds independently seeded pigment expression on existing material. The inherited genome records `surfaceExpressionVersion`; the development program and blueprint cache also include it. Existing geometry channels retain their previous salts.
+
+An ordinary 38% inherited population can express a contrasting interior pigment while retaining its exterior rim. Each of four inherited stage ranks can select either the source pigment or the contrasting interior. Reached care, training and battle summaries can select among that potential. Live transitions use only earned, positive-hour stage commitments and interpolate for one chronological hour after each commitment. Lab previews interpolate at anatomical ages 10, 30, 75 and 120. Birth and unhatched eggs receive no surface operation.
+
+The current occupied structural silhouette supplies a bounded distance measurement. Filling enclosed holes is used only for this measurement; it never creates a material pixel. Interior colors interpolate, while source roles, source IDs, coordinates, feature geometry and physical occupancy remain unchanged. Returning to the source pigment can restore a previously filled appearance. This is pigment expression, not physical resorption or a newly hollow anatomical cavity.
+
+Eye and mouth ink keep their transported geometry and causal ancestry. When original ink loses contrast against the actual local expressed carrier, its pigment quantizes to the opposite light/dark tone. Single-color glyphs retain one coherent pigment, selected from the actual mean carrier background; multicolored glyphs retain per-pixel contrast adaptation. This avoids an equal-gray interval during a black/white inversion. Existing hollow sources sample real adjacent paint or empty dark space; they do not acquire imaginary filled skin from the contour measurement. Nonexpressive families retain their original pigments.
+
+Each affected `PartFrame` exposes typed `surfaceExpression` metadata: version, operation, expression amount, source ancestry, original/expressed palettes and changed-pixel count. Facial entries additionally report carrier ID and mean normalized luminance contrast before/after adaptation. Every final facial pixel remains subject to the renderer's ordinary protected compositing and the audit's visibility checks.
+
+Physical material occupancy must not be inferred from white pigment. The original neck regression retains its fixture and greater-than-90% head connection requirement using actual source-derived body/head/neck material, separately verifies final facial visibility and contrast, and rejects a detached head whose logical parent merely claims a connection.
+
+The tests cover seed-only inheritance, unchanged and expressive populations, forward/reverse surface outcomes, the one-hour commitment window, future-history isolation, exact colored birth, real gameplay-derived outlines on unseen source shapes, protected readable faces, cold/seek replay and unchanged physical geometry. These checks establish a general operator; they do not establish reproduction of any complete reference lifecycle.

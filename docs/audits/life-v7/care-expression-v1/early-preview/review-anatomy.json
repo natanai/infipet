@@ -1,0 +1,264 @@
+{
+  "reviewer": "/root/anatomy_engine",
+  "reviewerKind": "agent",
+  "type": "disposable-early-care-preview",
+  "sourceAuthorFamiliarity": true,
+  "notBlind": true,
+  "humanReview": false,
+  "fullCareGatePassed": false,
+  "mainAuditCoverageClaimed": false,
+  "onset": 0,
+  "viewAge": 14,
+  "runtimeSourceHash": "aa45913b5df0b758ff77727cfb1e2fd693369475cd8b4d1a8e25424ddabff044",
+  "sourceDrawingHash": "3059ca12e8d3ee5e96ed1b4f49d86f288052547bbe7024d95fcb126d53607f8b",
+  "sourceStableDuringCapture": true,
+  "scoreScale": {
+    "0": "no distinguishable response",
+    "1": "subtle or difficult at native64",
+    "2": "clear matched visual response",
+    "3": "strong unmistakable matched response"
+  },
+  "decisionBasis": "Conservative native64 readability, cross-checked on integer4x enlargements. Scores are manually assigned after actual image inspection, not derived from changed-pixel counts or need metadata.",
+  "profiles": [
+    {
+      "needId": "safety",
+      "zeroPercentScores": [
+        3,
+        3,
+        2,
+        3
+      ],
+      "zeroPercentClearCount": 4,
+      "denominator": 4,
+      "positiveHundredScores": null,
+      "positiveHundredClearCount": null,
+      "notes": "All four0% comparisons visibly change guarding/compaction/posture. The response varies with the actor; visibility does not prove a viewer can infer Safety semantically."
+    },
+    {
+      "needId": "security",
+      "zeroPercentScores": [
+        3,
+        2,
+        3,
+        3
+      ],
+      "zeroPercentClearCount": 4,
+      "denominator": 4,
+      "positiveHundredScores": null,
+      "positiveHundredClearCount": null,
+      "notes": "All four0% comparisons visibly change mass/root spacing and bracing. These are more than an isolated blinking pixel."
+    },
+    {
+      "needId": "trust",
+      "zeroPercentScores": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "zeroPercentClearCount": 4,
+      "denominator": 4,
+      "positiveHundredScores": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "positiveHundredClearCount": 4,
+      "notes": "All four0% comparisons change exposed head/anterior/appendage relationships;100% opens these relationships. Small facial clusters still limit fine expression readability."
+    },
+    {
+      "needId": "rest",
+      "zeroPercentScores": [
+        1,
+        2,
+        1,
+        2
+      ],
+      "zeroPercentClearCount": 2,
+      "denominator": 4,
+      "positiveHundredScores": [
+        2,
+        2,
+        1,
+        2
+      ],
+      "positiveHundredClearCount": 3,
+      "notes": "At native64 seed1 andseed3 low-Rest differences remain subtle: thinner lower body/support pixels become clearer at4x. Seed2 andseed4 low-Rest shape/support differences are clear. High Rest is clear in seeds1/2/4 but still subtle inseed3."
+    },
+    {
+      "needId": "relaxation",
+      "zeroPercentScores": [
+        3,
+        2,
+        2,
+        3
+      ],
+      "zeroPercentClearCount": 4,
+      "denominator": 4,
+      "positiveHundredScores": null,
+      "positiveHundredClearCount": null,
+      "notes": "All four0% comparisons show a different held bend/tension arrangement.100% correctly matches neutral; no arbitrary positive posture is introduced."
+    },
+    {
+      "needId": "physical-fitness",
+      "zeroPercentScores": [
+        2,
+        1,
+        1,
+        2
+      ],
+      "zeroPercentClearCount": 2,
+      "denominator": 4,
+      "positiveHundredScores": [
+        2,
+        2,
+        1,
+        2
+      ],
+      "positiveHundredClearCount": 3,
+      "notes": "Low Fitness is clear in seeds1/4; seeds2/3 remain subtle at native64 despite visible differences enlarged. High Fitness is clear in seeds1/2/4; seed3 still has a modest cross-section change."
+    }
+  ],
+  "automaticChecks": {
+    "allSameGenome": true,
+    "allBirthPixelsExact": true,
+    "oneSidedHundredControls": [
+      {
+        "needId": "safety",
+        "seed": "life-v7-genome-01",
+        "exactNeutral": true
+      },
+      {
+        "needId": "safety",
+        "seed": "life-v7-genome-02",
+        "exactNeutral": true
+      },
+      {
+        "needId": "safety",
+        "seed": "life-v7-genome-03",
+        "exactNeutral": true
+      },
+      {
+        "needId": "safety",
+        "seed": "life-v7-genome-04",
+        "exactNeutral": true
+      },
+      {
+        "needId": "security",
+        "seed": "life-v7-genome-01",
+        "exactNeutral": true
+      },
+      {
+        "needId": "security",
+        "seed": "life-v7-genome-02",
+        "exactNeutral": true
+      },
+      {
+        "needId": "security",
+        "seed": "life-v7-genome-03",
+        "exactNeutral": true
+      },
+      {
+        "needId": "security",
+        "seed": "life-v7-genome-04",
+        "exactNeutral": true
+      },
+      {
+        "needId": "relaxation",
+        "seed": "life-v7-genome-01",
+        "exactNeutral": true
+      },
+      {
+        "needId": "relaxation",
+        "seed": "life-v7-genome-02",
+        "exactNeutral": true
+      },
+      {
+        "needId": "relaxation",
+        "seed": "life-v7-genome-03",
+        "exactNeutral": true
+      },
+      {
+        "needId": "relaxation",
+        "seed": "life-v7-genome-04",
+        "exactNeutral": true
+      }
+    ]
+  },
+  "evidence": {
+    "uniqueConditions": 52,
+    "displayedCellsPerSize": 72,
+    "nativeImagesSaved": 52,
+    "nativeSheetsActuallyViewed": 6,
+    "enlargedSheetsActuallyViewed": 6,
+    "files": [
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/safety.png",
+        "sha256": "f65d6fbd0b509a5128ce209c137c0014adb912f4d4189c9cb54c590163495f0d",
+        "kind": "integer4x-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/safety-native64.png",
+        "sha256": "61d4898b09c39f4cc04ed2e672abcbd3fd71cb4e7e84281ab11da1b4aab280b2",
+        "kind": "native64-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/security.png",
+        "sha256": "8135c6c5fd5fd6339ed9600d172debfd4a2a0c6a63019aed87c09a15523b4eec",
+        "kind": "integer4x-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/security-native64.png",
+        "sha256": "10396c6c4c9c9d9cc003577b0b9cf8cabd0b1661ed19364301026da46a53b30b",
+        "kind": "native64-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/trust.png",
+        "sha256": "327991d91de9e37a5ef0f72e9ec42e167440fcbe8f513739296dab30ae4a5e7f",
+        "kind": "integer4x-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/trust-native64.png",
+        "sha256": "4de191b8b159b9701a11281cec161a3c29a02acf788ded53fe67021773aac4b2",
+        "kind": "native64-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/rest.png",
+        "sha256": "577685321533b64be73e040017c92afd5adbdc4f1b5823184f25c07141f93edf",
+        "kind": "integer4x-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/rest-native64.png",
+        "sha256": "ffe1eaee7fc425b09ac1c4ec4546607369081856072c1be779c4639c6bc271f1",
+        "kind": "native64-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/relaxation.png",
+        "sha256": "cc9735264f022611799dcc0af1e49cea6c9b81dff672bb7e5cf3067f20550a3f",
+        "kind": "integer4x-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/relaxation-native64.png",
+        "sha256": "8b46999e57ea86708d369caea584e21ecda4931f44e401a653fd88625d261289",
+        "kind": "native64-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/physical-fitness.png",
+        "sha256": "ed28b6f2466698cef8e6d33f98a3b600e55e365b25824c86cf8e04bfe85dc3c6",
+        "kind": "integer4x-contact-sheet"
+      },
+      {
+        "path": "C:/Games/infipet/docs/audits/life-v7/care-expression-v1/early-preview/physical-fitness-native64.png",
+        "sha256": "3385253304b7a3869409e64fd3dd3b6eec5ce783a91059ba37f44ac8a47122c2",
+        "kind": "native64-contact-sheet"
+      }
+    ]
+  },
+  "limitations": [
+    "Only the existing four raw proof seeds and onset0/view14 conditions; no seed filtering or cohort expansion.",
+    "This does not establish all onsets, movement continuity, pleasant anatomy, or a human care gate.",
+    "Source/engine familiarity can bias this informed review.",
+    "Rest and Fitness remain inconsistent in native64 salience even though enlarged images show differences."
+  ]
+}

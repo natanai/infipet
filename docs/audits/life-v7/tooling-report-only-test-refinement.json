@@ -1,0 +1,8 @@
+{
+  "recordedAt": "2026-10-24T08:11:24.1172774Z",
+  "file": "tools/source-audit/report-only.test.ts",
+  "previousSHA256": "319b9e4a10c9ec55c7ee3a2dd333e3524f9609333b04961d6b0c11f90c6801ed",
+  "currentSHA256": "cd855e60a7d1bda9aff20cb0fb022ce634c29a1f3401e095932d3d66087e2770",
+  "reason": "Strengthen frozen report-only fixture with an actually cached raw pixel view, core/regional masks and matching protected image paths, so unconditional diagnostic persistence would be detected as well as checkpoint writes. Runtime/report helper unchanged.",
+  "verification": "2/2 focused tests and TypeScript check pass; full27-test audit suite passed before this fixture-only refinement. No frozen audit case, manifest, image, diagnostic or review writes."
+}

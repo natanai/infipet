@@ -1,0 +1,1695 @@
+{
+  "scope": "First combined-game child transition only; not a full-life or native-reference witness",
+  "generatedAt": "2026-10-25T20:08:54.753Z",
+  "versions": {
+    "prototype": "life-v10",
+    "gameplay": 3,
+    "rules": "infipet-classic-v3",
+    "lineage": "opentree16.1/ott3.7.3|infipet-animal-profiles-v1|animal-affinity-v1|morphogenesis-v1|surface-expression-v1|somatic-growth-v1",
+    "needsCatalog": "0c5b73e19f6963a0d38332aafbdfb72149fb0ce5",
+    "needsRules": 2
+  },
+  "metric": "retro-mono-v2-native-8fg-4bg",
+  "engineSourceHash": "e8696289db0491cc7284367cdc56c43cf063c16bc32092d3a5d9a85892ab4b91",
+  "catalogByteHash": "c7c0d8be4617cedd090fd93d86699964dce4cb5381a6e903ffcf5d5c5355d8d7",
+  "sourceId": "p1.babytchi",
+  "sourceHash": "e8e086e63858d9600bed6a7fd07b3228b9eb98cce03f6076264eb1b8237742da",
+  "targetId": "p1.marutchi",
+  "targetStatus": "observed",
+  "fixedHour": 2,
+  "animationTime": 0,
+  "carePattern": "No commands before two chronological hours; ordinary active simulation",
+  "seeds": {
+    "start": 0,
+    "count": 100000,
+    "algorithm": "shared infipet-retro-cohort-v1 enumeration"
+  },
+  "inheritedFilter": "direct kind plus enabled somatic and surface potentials; no target data in runtime",
+  "rendered": 4710,
+  "visualPasses": 0,
+  "visualAndRelativeSizePasses": 0,
+  "fullLifeAcceptance": false,
+  "independentVisualAcceptance": false,
+  "best": {
+    "index": 21661,
+    "seed": "8f982d969930b3e3",
+    "metrics": {
+      "silhouetteIoU": 0.6797385620915033,
+      "filledSilhouetteIoU": 0.9341736694677871,
+      "pixelAgreement": 0.904296875,
+      "aspectSimilarity": 0.9523809523809523,
+      "densitySimilarity": 0.8928571428571429,
+      "components": {
+        "actual": 4,
+        "target": 4
+      },
+      "holes": {
+        "actual": 1,
+        "target": 1
+      },
+      "alignment": {
+        "dx": 0,
+        "dy": -1,
+        "gridSize": 32,
+        "transform": "translate-and-uniform-scale"
+      }
+    },
+    "relativeDimensions": {
+      "actual": {
+        "left": 25,
+        "top": 26,
+        "width": 14,
+        "height": 12,
+        "ink": 50
+      },
+      "target": {
+        "left": 3,
+        "top": 3,
+        "width": 10,
+        "height": 9,
+        "ink": 30
+      },
+      "actualWidthRatio": 2.3333333333333335,
+      "targetWidthRatio": 1.6666666666666667,
+      "actualHeightRatio": 2,
+      "targetHeightRatio": 1.5,
+      "widthSimilarity": 0.7142857142857143,
+      "heightSimilarity": 0.75,
+      "passed": false
+    },
+    "world": [
+      {
+        "x": 28,
+        "y": 26,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 29,
+        "y": 26,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 30,
+        "y": 26,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 31,
+        "y": 26,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 32,
+        "y": 26,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 33,
+        "y": 26,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 34,
+        "y": 26,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 35,
+        "y": 26,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 27,
+        "y": 27,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 28,
+        "y": 27,
+        "color": "#030303"
+      },
+      {
+        "x": 29,
+        "y": 27,
+        "color": "#030303"
+      },
+      {
+        "x": 30,
+        "y": 27,
+        "color": "#030303"
+      },
+      {
+        "x": 31,
+        "y": 27,
+        "color": "#030303"
+      },
+      {
+        "x": 32,
+        "y": 27,
+        "color": "#030303"
+      },
+      {
+        "x": 33,
+        "y": 27,
+        "color": "#030303"
+      },
+      {
+        "x": 34,
+        "y": 27,
+        "color": "#030303"
+      },
+      {
+        "x": 35,
+        "y": 27,
+        "color": "#030303"
+      },
+      {
+        "x": 36,
+        "y": 27,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 25,
+        "y": 28,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 26,
+        "y": 28,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 29,
+        "y": 28,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 30,
+        "y": 28,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 31,
+        "y": 28,
+        "color": "#000000"
+      },
+      {
+        "x": 32,
+        "y": 28,
+        "color": "#000000"
+      },
+      {
+        "x": 33,
+        "y": 28,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 34,
+        "y": 28,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 37,
+        "y": 28,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 38,
+        "y": 28,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 25,
+        "y": 29,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 26,
+        "y": 29,
+        "color": "#030303"
+      },
+      {
+        "x": 29,
+        "y": 29,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 30,
+        "y": 29,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 31,
+        "y": 29,
+        "color": "#000000"
+      },
+      {
+        "x": 32,
+        "y": 29,
+        "color": "#000000"
+      },
+      {
+        "x": 33,
+        "y": 29,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 34,
+        "y": 29,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 37,
+        "y": 29,
+        "color": "#030303"
+      },
+      {
+        "x": 38,
+        "y": 29,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 25,
+        "y": 30,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 26,
+        "y": 30,
+        "color": "#030303"
+      },
+      {
+        "x": 27,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 28,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 29,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 30,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 31,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 32,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 33,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 34,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 35,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 36,
+        "y": 30,
+        "color": "#000000"
+      },
+      {
+        "x": 37,
+        "y": 30,
+        "color": "#030303"
+      },
+      {
+        "x": 38,
+        "y": 30,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 25,
+        "y": 31,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 26,
+        "y": 31,
+        "color": "#030303"
+      },
+      {
+        "x": 27,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 28,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 29,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 30,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 31,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 32,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 33,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 34,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 35,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 36,
+        "y": 31,
+        "color": "#000000"
+      },
+      {
+        "x": 37,
+        "y": 31,
+        "color": "#030303"
+      },
+      {
+        "x": 38,
+        "y": 31,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 25,
+        "y": 32,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 26,
+        "y": 32,
+        "color": "#030303"
+      },
+      {
+        "x": 27,
+        "y": 32,
+        "color": "#000000"
+      },
+      {
+        "x": 28,
+        "y": 32,
+        "color": "#000000"
+      },
+      {
+        "x": 29,
+        "y": 32,
+        "color": "#000000"
+      },
+      {
+        "x": 31,
+        "y": 32,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 32,
+        "y": 32,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 34,
+        "y": 32,
+        "color": "#000000"
+      },
+      {
+        "x": 35,
+        "y": 32,
+        "color": "#000000"
+      },
+      {
+        "x": 36,
+        "y": 32,
+        "color": "#000000"
+      },
+      {
+        "x": 37,
+        "y": 32,
+        "color": "#030303"
+      },
+      {
+        "x": 38,
+        "y": 32,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 25,
+        "y": 33,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 26,
+        "y": 33,
+        "color": "#030303"
+      },
+      {
+        "x": 27,
+        "y": 33,
+        "color": "#000000"
+      },
+      {
+        "x": 28,
+        "y": 33,
+        "color": "#000000"
+      },
+      {
+        "x": 29,
+        "y": 33,
+        "color": "#000000"
+      },
+      {
+        "x": 34,
+        "y": 33,
+        "color": "#000000"
+      },
+      {
+        "x": 35,
+        "y": 33,
+        "color": "#000000"
+      },
+      {
+        "x": 36,
+        "y": 33,
+        "color": "#000000"
+      },
+      {
+        "x": 37,
+        "y": 33,
+        "color": "#030303"
+      },
+      {
+        "x": 38,
+        "y": 33,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 25,
+        "y": 34,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 26,
+        "y": 34,
+        "color": "#030303"
+      },
+      {
+        "x": 27,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 28,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 29,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 30,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 31,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 32,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 33,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 34,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 35,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 36,
+        "y": 34,
+        "color": "#000000"
+      },
+      {
+        "x": 37,
+        "y": 34,
+        "color": "#030303"
+      },
+      {
+        "x": 38,
+        "y": 34,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 25,
+        "y": 35,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 26,
+        "y": 35,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 27,
+        "y": 35,
+        "color": "#030303"
+      },
+      {
+        "x": 28,
+        "y": 35,
+        "color": "#000000"
+      },
+      {
+        "x": 29,
+        "y": 35,
+        "color": "#000000"
+      },
+      {
+        "x": 30,
+        "y": 35,
+        "color": "#000000"
+      },
+      {
+        "x": 31,
+        "y": 35,
+        "color": "#000000"
+      },
+      {
+        "x": 32,
+        "y": 35,
+        "color": "#000000"
+      },
+      {
+        "x": 33,
+        "y": 35,
+        "color": "#000000"
+      },
+      {
+        "x": 34,
+        "y": 35,
+        "color": "#000000"
+      },
+      {
+        "x": 35,
+        "y": 35,
+        "color": "#000000"
+      },
+      {
+        "x": 36,
+        "y": 35,
+        "color": "#030303"
+      },
+      {
+        "x": 37,
+        "y": 35,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 38,
+        "y": 35,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 27,
+        "y": 36,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 28,
+        "y": 36,
+        "color": "#030303"
+      },
+      {
+        "x": 29,
+        "y": 36,
+        "color": "#030303"
+      },
+      {
+        "x": 30,
+        "y": 36,
+        "color": "#030303"
+      },
+      {
+        "x": 31,
+        "y": 36,
+        "color": "#030303"
+      },
+      {
+        "x": 32,
+        "y": 36,
+        "color": "#030303"
+      },
+      {
+        "x": 33,
+        "y": 36,
+        "color": "#030303"
+      },
+      {
+        "x": 34,
+        "y": 36,
+        "color": "#030303"
+      },
+      {
+        "x": 35,
+        "y": 36,
+        "color": "#030303"
+      },
+      {
+        "x": 36,
+        "y": 36,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 28,
+        "y": 37,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 29,
+        "y": 37,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 30,
+        "y": 37,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 31,
+        "y": 37,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 32,
+        "y": 37,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 33,
+        "y": 37,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 34,
+        "y": 37,
+        "color": "#FFFFFF"
+      },
+      {
+        "x": 35,
+        "y": 37,
+        "color": "#FFFFFF"
+      }
+    ],
+    "parts": [
+      {
+        "id": "body",
+        "kind": "body",
+        "name": "Body",
+        "parentId": null,
+        "sourcePartId": "body",
+        "sourcePartIds": [
+          "body"
+        ],
+        "role": "trunk",
+        "readiness": 1,
+        "provenance": "authored",
+        "relationship": "root",
+        "layer": 0,
+        "pixels": [
+          {
+            "x": 28,
+            "y": 26,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 29,
+            "y": 26,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 30,
+            "y": 26,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 31,
+            "y": 26,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 32,
+            "y": 26,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 33,
+            "y": 26,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 34,
+            "y": 26,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 35,
+            "y": 26,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 27,
+            "y": 27,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 28,
+            "y": 27,
+            "color": "#030303"
+          },
+          {
+            "x": 29,
+            "y": 27,
+            "color": "#030303"
+          },
+          {
+            "x": 30,
+            "y": 27,
+            "color": "#030303"
+          },
+          {
+            "x": 31,
+            "y": 27,
+            "color": "#030303"
+          },
+          {
+            "x": 32,
+            "y": 27,
+            "color": "#030303"
+          },
+          {
+            "x": 33,
+            "y": 27,
+            "color": "#030303"
+          },
+          {
+            "x": 34,
+            "y": 27,
+            "color": "#030303"
+          },
+          {
+            "x": 35,
+            "y": 27,
+            "color": "#030303"
+          },
+          {
+            "x": 36,
+            "y": 27,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 25,
+            "y": 28,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 26,
+            "y": 28,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 30,
+            "y": 28,
+            "color": "#000000"
+          },
+          {
+            "x": 31,
+            "y": 28,
+            "color": "#000000"
+          },
+          {
+            "x": 32,
+            "y": 28,
+            "color": "#000000"
+          },
+          {
+            "x": 33,
+            "y": 28,
+            "color": "#000000"
+          },
+          {
+            "x": 37,
+            "y": 28,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 38,
+            "y": 28,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 25,
+            "y": 29,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 26,
+            "y": 29,
+            "color": "#030303"
+          },
+          {
+            "x": 29,
+            "y": 29,
+            "color": "#000000"
+          },
+          {
+            "x": 30,
+            "y": 29,
+            "color": "#000000"
+          },
+          {
+            "x": 31,
+            "y": 29,
+            "color": "#000000"
+          },
+          {
+            "x": 32,
+            "y": 29,
+            "color": "#000000"
+          },
+          {
+            "x": 33,
+            "y": 29,
+            "color": "#000000"
+          },
+          {
+            "x": 34,
+            "y": 29,
+            "color": "#000000"
+          },
+          {
+            "x": 37,
+            "y": 29,
+            "color": "#030303"
+          },
+          {
+            "x": 38,
+            "y": 29,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 25,
+            "y": 30,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 26,
+            "y": 30,
+            "color": "#030303"
+          },
+          {
+            "x": 27,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 28,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 29,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 30,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 31,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 32,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 33,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 34,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 35,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 36,
+            "y": 30,
+            "color": "#000000"
+          },
+          {
+            "x": 37,
+            "y": 30,
+            "color": "#030303"
+          },
+          {
+            "x": 38,
+            "y": 30,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 25,
+            "y": 31,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 26,
+            "y": 31,
+            "color": "#030303"
+          },
+          {
+            "x": 27,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 28,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 29,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 30,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 31,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 32,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 33,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 34,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 35,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 36,
+            "y": 31,
+            "color": "#000000"
+          },
+          {
+            "x": 37,
+            "y": 31,
+            "color": "#030303"
+          },
+          {
+            "x": 38,
+            "y": 31,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 25,
+            "y": 32,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 26,
+            "y": 32,
+            "color": "#030303"
+          },
+          {
+            "x": 27,
+            "y": 32,
+            "color": "#000000"
+          },
+          {
+            "x": 28,
+            "y": 32,
+            "color": "#000000"
+          },
+          {
+            "x": 29,
+            "y": 32,
+            "color": "#000000"
+          },
+          {
+            "x": 34,
+            "y": 32,
+            "color": "#000000"
+          },
+          {
+            "x": 35,
+            "y": 32,
+            "color": "#000000"
+          },
+          {
+            "x": 36,
+            "y": 32,
+            "color": "#000000"
+          },
+          {
+            "x": 37,
+            "y": 32,
+            "color": "#030303"
+          },
+          {
+            "x": 38,
+            "y": 32,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 25,
+            "y": 33,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 26,
+            "y": 33,
+            "color": "#030303"
+          },
+          {
+            "x": 27,
+            "y": 33,
+            "color": "#000000"
+          },
+          {
+            "x": 28,
+            "y": 33,
+            "color": "#000000"
+          },
+          {
+            "x": 29,
+            "y": 33,
+            "color": "#000000"
+          },
+          {
+            "x": 34,
+            "y": 33,
+            "color": "#000000"
+          },
+          {
+            "x": 35,
+            "y": 33,
+            "color": "#000000"
+          },
+          {
+            "x": 36,
+            "y": 33,
+            "color": "#000000"
+          },
+          {
+            "x": 37,
+            "y": 33,
+            "color": "#030303"
+          },
+          {
+            "x": 38,
+            "y": 33,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 25,
+            "y": 34,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 26,
+            "y": 34,
+            "color": "#030303"
+          },
+          {
+            "x": 27,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 28,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 29,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 30,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 31,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 32,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 33,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 34,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 35,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 36,
+            "y": 34,
+            "color": "#000000"
+          },
+          {
+            "x": 37,
+            "y": 34,
+            "color": "#030303"
+          },
+          {
+            "x": 38,
+            "y": 34,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 25,
+            "y": 35,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 26,
+            "y": 35,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 27,
+            "y": 35,
+            "color": "#030303"
+          },
+          {
+            "x": 28,
+            "y": 35,
+            "color": "#000000"
+          },
+          {
+            "x": 29,
+            "y": 35,
+            "color": "#000000"
+          },
+          {
+            "x": 30,
+            "y": 35,
+            "color": "#000000"
+          },
+          {
+            "x": 31,
+            "y": 35,
+            "color": "#000000"
+          },
+          {
+            "x": 32,
+            "y": 35,
+            "color": "#000000"
+          },
+          {
+            "x": 33,
+            "y": 35,
+            "color": "#000000"
+          },
+          {
+            "x": 34,
+            "y": 35,
+            "color": "#000000"
+          },
+          {
+            "x": 35,
+            "y": 35,
+            "color": "#000000"
+          },
+          {
+            "x": 36,
+            "y": 35,
+            "color": "#030303"
+          },
+          {
+            "x": 37,
+            "y": 35,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 38,
+            "y": 35,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 27,
+            "y": 36,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 28,
+            "y": 36,
+            "color": "#030303"
+          },
+          {
+            "x": 29,
+            "y": 36,
+            "color": "#030303"
+          },
+          {
+            "x": 30,
+            "y": 36,
+            "color": "#030303"
+          },
+          {
+            "x": 31,
+            "y": 36,
+            "color": "#030303"
+          },
+          {
+            "x": 32,
+            "y": 36,
+            "color": "#030303"
+          },
+          {
+            "x": 33,
+            "y": 36,
+            "color": "#030303"
+          },
+          {
+            "x": 34,
+            "y": 36,
+            "color": "#030303"
+          },
+          {
+            "x": 35,
+            "y": 36,
+            "color": "#030303"
+          },
+          {
+            "x": 36,
+            "y": 36,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 28,
+            "y": 37,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 29,
+            "y": 37,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 30,
+            "y": 37,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 31,
+            "y": 37,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 32,
+            "y": 37,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 33,
+            "y": 37,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 34,
+            "y": 37,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 35,
+            "y": 37,
+            "color": "#FFFFFF"
+          }
+        ],
+        "anchor": {
+          "x": 31.5,
+          "y": 31.64453125
+        },
+        "tip": {
+          "x": 28.23046875,
+          "y": 26.64453125
+        },
+        "attachment": null,
+        "attached": false,
+        "scale": 2.5833333333333335,
+        "growth": {
+          "x": 2.5833333333333335,
+          "y": 2.30078125
+        },
+        "rotation": 0,
+        "planted": false,
+        "bounds": {
+          "x": 25,
+          "y": 26,
+          "width": 14,
+          "height": 12
+        },
+        "surfaceExpression": {
+          "version": "surface-expression-v1",
+          "operation": "interior-pigment",
+          "expression": 1,
+          "sourcePartIds": [
+            "body"
+          ],
+          "originalColors": [
+            "#FFFFFF"
+          ],
+          "expressedColors": [
+            "#000000",
+            "#030303",
+            "#FFFFFF"
+          ],
+          "changedPixelCount": 90
+        }
+      },
+      {
+        "id": "eye-1",
+        "kind": "eye",
+        "name": "Eye",
+        "parentId": "body",
+        "sourcePartId": "eye-1",
+        "sourcePartIds": [
+          "eye-1"
+        ],
+        "role": "eye",
+        "readiness": 1,
+        "provenance": "authored",
+        "relationship": "surface",
+        "layer": 1,
+        "pixels": [
+          {
+            "x": 29,
+            "y": 28,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 30,
+            "y": 28,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 29,
+            "y": 29,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 30,
+            "y": 29,
+            "color": "#FFFFFF"
+          }
+        ],
+        "anchor": {
+          "x": 29.4765625,
+          "y": 28.59765625
+        },
+        "tip": {
+          "x": 29.4765625,
+          "y": 28.59765625
+        },
+        "attachment": {
+          "x": 29.4765625,
+          "y": 28.59765625
+        },
+        "attached": true,
+        "scale": 1.34765625,
+        "growth": {
+          "x": 1.34765625,
+          "y": 1.3515625
+        },
+        "rotation": 0,
+        "planted": false,
+        "bounds": {
+          "x": 29,
+          "y": 28,
+          "width": 2,
+          "height": 2
+        },
+        "surfaceExpression": {
+          "version": "surface-expression-v1",
+          "operation": "facial-contrast",
+          "expression": 1,
+          "sourcePartIds": [
+            "eye-1"
+          ],
+          "originalColors": [
+            "#000000"
+          ],
+          "expressedColors": [
+            "#FFFFFF"
+          ],
+          "changedPixelCount": 4,
+          "carrierId": "body",
+          "contrastBefore": 0.001176470588235294,
+          "contrastAfter": 0.9988235294117647
+        }
+      },
+      {
+        "id": "eye-2",
+        "kind": "eye",
+        "name": "Eye",
+        "parentId": "body",
+        "sourcePartId": "eye-2",
+        "sourcePartIds": [
+          "eye-2"
+        ],
+        "role": "eye",
+        "readiness": 1,
+        "provenance": "authored",
+        "relationship": "surface",
+        "layer": 2,
+        "pixels": [
+          {
+            "x": 33,
+            "y": 28,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 34,
+            "y": 28,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 33,
+            "y": 29,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 34,
+            "y": 29,
+            "color": "#FFFFFF"
+          }
+        ],
+        "anchor": {
+          "x": 33.5234375,
+          "y": 28.59765625
+        },
+        "tip": {
+          "x": 33.5234375,
+          "y": 28.59765625
+        },
+        "attachment": {
+          "x": 33.5234375,
+          "y": 28.59765625
+        },
+        "attached": true,
+        "scale": 1.34765625,
+        "growth": {
+          "x": 1.34765625,
+          "y": 1.3515625
+        },
+        "rotation": 0,
+        "planted": false,
+        "bounds": {
+          "x": 33,
+          "y": 28,
+          "width": 2,
+          "height": 2
+        },
+        "surfaceExpression": {
+          "version": "surface-expression-v1",
+          "operation": "facial-contrast",
+          "expression": 1,
+          "sourcePartIds": [
+            "eye-2"
+          ],
+          "originalColors": [
+            "#000000"
+          ],
+          "expressedColors": [
+            "#FFFFFF"
+          ],
+          "changedPixelCount": 4,
+          "carrierId": "body",
+          "contrastBefore": 0.001176470588235294,
+          "contrastAfter": 0.9988235294117647
+        }
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "name": "Mouth",
+        "parentId": "body",
+        "sourcePartId": "mouth",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "role": "mouth",
+        "readiness": 1,
+        "provenance": "authored",
+        "relationship": "surface",
+        "layer": 3,
+        "pixels": [
+          {
+            "x": 31,
+            "y": 32,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 32,
+            "y": 32,
+            "color": "#FFFFFF"
+          }
+        ],
+        "anchor": {
+          "x": 31.5,
+          "y": 31.81640625
+        },
+        "tip": {
+          "x": 30.82421875,
+          "y": 31.81640625
+        },
+        "attachment": {
+          "x": 31.5,
+          "y": 31.81640625
+        },
+        "attached": true,
+        "scale": 1.3515625,
+        "growth": {
+          "x": 1.3515625,
+          "y": 1.16015625
+        },
+        "rotation": 0,
+        "planted": false,
+        "bounds": {
+          "x": 31,
+          "y": 32,
+          "width": 2,
+          "height": 1
+        },
+        "surfaceExpression": {
+          "version": "surface-expression-v1",
+          "operation": "facial-contrast",
+          "expression": 1,
+          "sourcePartIds": [
+            "mouth"
+          ],
+          "originalColors": [
+            "#000000"
+          ],
+          "expressedColors": [
+            "#FFFFFF"
+          ],
+          "changedPixelCount": 2,
+          "carrierId": "body",
+          "contrastBefore": 0,
+          "contrastAfter": 0.9999999999999999
+        }
+      }
+    ]
+  }
+}

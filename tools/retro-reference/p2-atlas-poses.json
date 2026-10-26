@@ -1,0 +1,13 @@
+{
+  "shirobabytchi": {"assetId":144011,"crop":[2,21,10,29],"pose":"First complete baby pose on second row; egg hatching frames excluded"},
+  "tonmarutchi": {"assetId":144013,"crop":[3,3,13,14],"pose":"First full pose on top row"},
+  "tongaritchi": {"assetId":144015,"crop":[2,3,12,16],"pose":"First full pose on top row"},
+  "hashitamatchi": {"assetId":144049,"crop":[2,3,15,12],"pose":"First full flattened idle pose on top row"},
+  "mimitchi": {"assetId":144017,"crop":[2,3,15,17],"pose":"First full pose on top row"},
+  "pochitchi": {"assetId":144052,"crop":[2,4,17,17],"pose":"First full pose on top row"},
+  "zuccitchi": {"assetId":144054,"crop":[2,2,16,18],"pose":"First full pose on top row, including detached foot pixels"},
+  "hashizoutchi": {"assetId":144056,"crop":[2,4,16,17],"pose":"First full pose on top row"},
+  "takotchi": {"assetId":144058,"crop":[2,2,14,18],"pose":"First full pose on top row, including detached foot pixels"},
+  "kusatchi": {"assetId":144059,"crop":[2,3,15,18],"pose":"First full pose on top row"},
+  "zatchi": {"assetId":144065,"crop":[2,2,18,18],"pose":"First full pose on top row"}
+}

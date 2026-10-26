@@ -1,0 +1,11 @@
+{
+  "plannedActualFrames": 11,
+  "capturedActualFrames": 11,
+  "coreDiagnostics": 11,
+  "noEnclosureCoreVariants": 11,
+  "primaryFramesAdded": 0,
+  "populationFramesAdded": 0,
+  "noHoodStructuralChecks": 22,
+  "failures": [],
+  "visualReviewsCompleted": 0
+}

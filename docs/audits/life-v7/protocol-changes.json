@@ -1,0 +1,13 @@
+{
+  "changes": [
+    {
+      "recordedAt": "2026-10-24T07:00:46.539Z",
+      "from": "source-development-v7-audit2 / source-coherence-v7-metrics2",
+      "to": "source-development-v7-audit3 / source-coherence-v7-metrics3",
+      "reason": "Clarify human target: core organization plus a second independent anatomical change, not a compulsory new function per stage. Add colored actual regional masks and normalized projected occupancy evidence; preserve coherence prerequisite and historical failed-human feedback.",
+      "comparability": "Incomparable changed definitions unless both runs are recomputed. v7-metamorph-proof-001 remains on its captured audit2 definitions and failed attachment/coherence findings; it is not retroactively rescored.",
+      "historicalArchivesModified": false,
+      "disposablePreviewAdded": "tools/source-audit/preview.ts:16 endpoints from the same four raw seeds, no frozen audit or acceptance claim"
+    }
+  ]
+}

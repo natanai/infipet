@@ -1,0 +1,19 @@
+node_modules/
+.expo/
+dist/
+dist-ios/
+dist-ios-js/
+.cache/
+.life-v8-*.txt
+.life-v9-*.txt
+.life-v10-*.txt
+web-build/
+ios/
+android/
+*.log
+.env*
+
+# Large local data files
+/data/phylogeny/nodes.jsonl
+/docs/audits/life-v7/v7-regional-proof-002/view-index.json
+/docs/audits/life-v7/v7-regional-proof-003/view-index.json

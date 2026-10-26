@@ -1,0 +1,384 @@
+{
+  "reviewer": "/root/audit_v6",
+  "runId": "v6-full-004",
+  "reviewedViews": 1536,
+  "observations": [
+    {
+      "pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "reviewedViews": 256,
+      "overrides": [
+        {
+          "caseId": "bean__s05__neutral",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Diagonal/low adult and broad low elder mainly differ in contour, orientation and fullness; little independent anatomical reorganization is apparent."
+        },
+        {
+          "caseId": "bean__s05__safety-unmet",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Diagonal/low adult and broad low elder mainly differ in contour, orientation and fullness; little independent anatomical reorganization is apparent."
+        },
+        {
+          "caseId": "bean__s05__safety-recovery",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Diagonal/low adult and broad low elder mainly differ in contour, orientation and fullness; little independent anatomical reorganization is apparent."
+        },
+        {
+          "caseId": "bean__s05__rest-fitness-tended",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Diagonal/low adult and broad low elder mainly differ in contour, orientation and fullness; little independent anatomical reorganization is apparent."
+        },
+        {
+          "caseId": "bean__s07__neutral",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Two low horizontal fish/armored masses mainly change angle and contour; this comparison remains a variant rather than a clearly evolved form."
+        },
+        {
+          "caseId": "bean__s07__safety-unmet",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Two low horizontal fish/armored masses mainly change angle and contour; this comparison remains a variant rather than a clearly evolved form."
+        },
+        {
+          "caseId": "bean__s07__safety-recovery",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Two low horizontal fish/armored masses mainly change angle and contour; this comparison remains a variant rather than a clearly evolved form."
+        },
+        {
+          "caseId": "bean__s07__rest-fitness-tended",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Two low horizontal fish/armored masses mainly change angle and contour; this comparison remains a variant rather than a clearly evolved form."
+        },
+        {
+          "caseId": "bean__s10__safety-unmet",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Unmet/recovering Safety route retains a similar low support-bearing body; flattening and enclosure alone are weak as a dramatic stage change."
+        },
+        {
+          "caseId": "bean__s10__safety-recovery",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Unmet/recovering Safety route retains a similar low support-bearing body; flattening and enclosure alone are weak as a dramatic stage change."
+        }
+      ],
+      "notes": [
+        "Care selects visibly different inherited adult/elder routes for several raw seeds.",
+        "Some different named families still look like similar low horizontal masses.",
+        "Repeated tapering elders and small facial islands remain distinctiveness/readability concerns."
+      ]
+    },
+    {
+      "pages": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "reviewedViews": 256,
+      "overrides": [
+        {
+          "caseId": "sprout__s16__safety-unmet",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "The diagonal low juvenile and flatter low adult have similar facial/body organization; orientation and contour change dominate this care route."
+        },
+        {
+          "caseId": "sprout__s16__safety-recovery",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "The diagonal low juvenile and flatter low adult have similar facial/body organization; orientation and contour change dominate this care route."
+        }
+      ],
+      "notes": [
+        "Antenna motifs survive while body forms change among support-bearing, floating, ring and winged plans.",
+        "Care-dependent branches are visible without every deficit converging to one covering.",
+        "Some low horizontal family combinations remain too similar despite distinct internal family names."
+      ]
+    },
+    {
+      "pages": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "reviewedViews": 256,
+      "overrides": [
+        {
+          "caseId": "canine-cub__s05__neutral",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Broad armored/puff adult and round elder retain similar mass/facial organization. Contour/fullness changes do not clearly establish a new evolved form."
+        },
+        {
+          "caseId": "canine-cub__s05__safety-unmet",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Broad armored/puff adult and round elder retain similar mass/facial organization. Contour/fullness changes do not clearly establish a new evolved form."
+        },
+        {
+          "caseId": "canine-cub__s05__safety-recovery",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Broad armored/puff adult and round elder retain similar mass/facial organization. Contour/fullness changes do not clearly establish a new evolved form."
+        },
+        {
+          "caseId": "canine-cub__s05__rest-fitness-tended",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Broad armored/puff adult and round elder retain similar mass/facial organization. Contour/fullness changes do not clearly establish a new evolved form."
+        },
+        {
+          "caseId": "canine-cub__s07__neutral",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "This neutral/tended route goes from a broad spiky mass to a round pod without a clear second major anatomical reorganization."
+        },
+        {
+          "caseId": "canine-cub__s07__rest-fitness-tended",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "This neutral/tended route goes from a broad spiky mass to a round pod without a clear second major anatomical reorganization."
+        },
+        {
+          "caseId": "canine-cub__s11__neutral",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Two horizontal head-and-rear-body arrangements mainly change body fullness and tapering; this is a weak adjacent evolution despite different family labels."
+        },
+        {
+          "caseId": "canine-cub__s11__safety-unmet",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Two horizontal head-and-rear-body arrangements mainly change body fullness and tapering; this is a weak adjacent evolution despite different family labels."
+        },
+        {
+          "caseId": "canine-cub__s11__safety-recovery",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Two horizontal head-and-rear-body arrangements mainly change body fullness and tapering; this is a weak adjacent evolution despite different family labels."
+        },
+        {
+          "caseId": "canine-cub__s11__rest-fitness-tended",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "Two horizontal head-and-rear-body arrangements mainly change body fullness and tapering; this is a weak adjacent evolution despite different family labels."
+        }
+      ],
+      "notes": [
+        "Pointed ears and thin authored tail are visibly rooted and retain recognizable source shape; former unexplained white ovals are absent.",
+        "A first round armored/puff route remains borderline compared with the authored quadruped.",
+        "Later low horizontal family combinations can remain variants rather than major new forms."
+      ]
+    },
+    {
+      "pages": [
+        13,
+        14,
+        15,
+        16
+      ],
+      "reviewedViews": 256,
+      "overrides": [
+        {
+          "caseId": "ribbon__s06__neutral",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "The low horizontal adult becomes a broader domed/covered horizontal elder with similar head/body arrangement. Fullness and contour dominate rather than a clearly new organization."
+        },
+        {
+          "caseId": "ribbon__s06__safety-unmet",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "The low horizontal adult becomes a broader domed/covered horizontal elder with similar head/body arrangement. Fullness and contour dominate rather than a clearly new organization."
+        },
+        {
+          "caseId": "ribbon__s06__safety-recovery",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "The low horizontal adult becomes a broader domed/covered horizontal elder with similar head/body arrangement. Fullness and contour dominate rather than a clearly new organization."
+        },
+        {
+          "caseId": "ribbon__s06__rest-fitness-tended",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "The low horizontal adult becomes a broader domed/covered horizontal elder with similar head/body arrangement. Fullness and contour dominate rather than a clearly new organization."
+        },
+        {
+          "caseId": "ribbon__s08__neutral",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Two horizontal tapered head-and-body forms mostly alter length/curvature; this is a weak adjacent evolution despite different family roles."
+        },
+        {
+          "caseId": "ribbon__s08__rest-fitness-tended",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Two horizontal tapered head-and-body forms mostly alter length/curvature; this is a weak adjacent evolution despite different family roles."
+        },
+        {
+          "caseId": "ribbon__s16__neutral",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "A broad low adult and shorter spiky low elder retain similar anatomy; contour and aspect changes are insufficiently dramatic."
+        },
+        {
+          "caseId": "ribbon__s16__rest-fitness-tended",
+          "fromAge": 75,
+          "toAge": 120,
+          "distinctiveness": 1,
+          "notes": "A broad low adult and shorter spiky low elder retain similar anatomy; contour and aspect changes are insufficiently dramatic."
+        }
+      ],
+      "notes": [
+        "The authored coiled infant can become support-bearing, winged, ring, upright or layered forms.",
+        "Rooted ornaments retain pointed/coiled source character rather than unexplained discs.",
+        "Several low horizontal adult/elder family combinations remain variants rather than major metamorphoses."
+      ]
+    },
+    {
+      "pages": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "reviewedViews": 256,
+      "overrides": [
+        {
+          "caseId": "beetle__s05__safety-unmet",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "The round pear-like juvenile and adult remain similar masses with the same prominent marking; small contour/head shifts do not clearly establish a new evolved form."
+        },
+        {
+          "caseId": "beetle__s05__safety-recovery",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "The round pear-like juvenile and adult remain similar masses with the same prominent marking; small contour/head shifts do not clearly establish a new evolved form."
+        },
+        {
+          "caseId": "beetle__s07__neutral",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "A long low form becomes a shorter diagonal low form while retaining similar facial/body organization; mainly a proportion/curvature variant."
+        },
+        {
+          "caseId": "beetle__s07__safety-unmet",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "A long low form becomes a shorter diagonal low form while retaining similar facial/body organization; mainly a proportion/curvature variant."
+        },
+        {
+          "caseId": "beetle__s07__safety-recovery",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "A long low form becomes a shorter diagonal low form while retaining similar facial/body organization; mainly a proportion/curvature variant."
+        },
+        {
+          "caseId": "beetle__s07__rest-fitness-tended",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "A long low form becomes a shorter diagonal low form while retaining similar facial/body organization; mainly a proportion/curvature variant."
+        }
+      ],
+      "notes": [
+        "Prominent authored cross/elytra markings remain recognizable across body-plan changes.",
+        "Winged, upright, ring and support-bearing forms provide large changes for most sampled transitions.",
+        "Pear-to-pear and low-horizontal family combinations remain weak; different controller/family labels do not by themselves count as visually dramatic."
+      ]
+    },
+    {
+      "pages": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "reviewedViews": 256,
+      "overrides": [
+        {
+          "caseId": "wisp__s14__neutral",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Long low juvenile and flatter low adult retain similar face/body organization; length and contour change dominate rather than a clear new evolved form."
+        },
+        {
+          "caseId": "wisp__s14__safety-unmet",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Long low juvenile and flatter low adult retain similar face/body organization; length and contour change dominate rather than a clear new evolved form."
+        },
+        {
+          "caseId": "wisp__s14__safety-recovery",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Long low juvenile and flatter low adult retain similar face/body organization; length and contour change dominate rather than a clear new evolved form."
+        },
+        {
+          "caseId": "wisp__s14__rest-fitness-tended",
+          "fromAge": 30,
+          "toAge": 75,
+          "distinctiveness": 1,
+          "notes": "Long low juvenile and flatter low adult retain similar face/body organization; length and contour change dominate rather than a clear new evolved form."
+        }
+      ],
+      "notes": [
+        "Authored floating hands remain detached deliberately, unlike an attachment defect.",
+        "Tiny white eyes remain visible against generated white tissue through their contrast windows.",
+        "The halo can stay above its inferred body host rather than above the relocated facial mass; this is an ownership-interpretation limitation.",
+        "Low-horizontal family pairs remain the weakest visual transitions."
+      ]
+    }
+  ]
+}

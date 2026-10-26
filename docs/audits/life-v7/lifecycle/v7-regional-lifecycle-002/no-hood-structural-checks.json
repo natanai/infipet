@@ -1,0 +1,182 @@
+{
+  "conditions": "Neutral care; direct/metamorphic controls selected by genotype metadata, not appearance",
+  "checks": [
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 0,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 12,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 18,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 24,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 30,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 36,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 45,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 60,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 70,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 75,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "direct",
+      "seed": "life-v7-genome-01",
+      "age": 120,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 0,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 12,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 18,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 24,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 30,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 36,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 45,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 60,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 70,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 75,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    },
+    {
+      "kind": "metamorphic",
+      "seed": "life-v7-genome-03",
+      "age": 120,
+      "enclosure": 0,
+      "enclosureRegions": 0,
+      "passed": true
+    }
+  ],
+  "renderedControlImages": 0
+}

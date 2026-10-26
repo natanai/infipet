@@ -1,0 +1,25 @@
+{
+  "id": "wisp__s04__neutral__d30__regions",
+  "sourceViewId": "wisp__s04__neutral__d30",
+  "age": 30,
+  "hash": "cd48effafec9dca160bf418fbe420711e6aff8e6ace3d521490e7edd6de11c20",
+  "regionalOccupancy": {
+    "coreUnion": 16,
+    "head": 0,
+    "trunk": 16,
+    "enclosure": 0,
+    "headTrunkOverlap": 0,
+    "headFraction": 0,
+    "trunkFraction": 1,
+    "enclosureFraction": 0,
+    "headToTrunk": 0,
+    "unit": "projected occupied pixels, not physical mass"
+  },
+  "legend": {
+    "trunk": "#FFFFFF",
+    "head": "#99DDFF",
+    "enclosure": "#C5A5FF",
+    "headTrunkOverlap": "#FFE08A"
+  },
+  "method": "Actual occupied part masks; projected area, not physical mass; fractions overlap and are not additive"
+}

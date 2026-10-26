@@ -1,0 +1,1265 @@
+{
+  "caseId": "canine-cub__s01__neutral",
+  "sourceId": "canine-cub",
+  "genomeHash": "473edc9fb6ff7d48c1910a29f7ef8d9d1b8531fed6ce06424bda2ef955e93fa3",
+  "inheritedHash": "473edc9fb6ff7d48c1910a29f7ef8d9d1b8531fed6ce06424bda2ef955e93fa3",
+  "id": "canine-cub__s01__neutral__d30__p5",
+  "blindLabel": "V00033",
+  "kind": "pose",
+  "age": 30,
+  "time": 0.5095541501273886,
+  "actualPhase": 5,
+  "poseDiagnostics": {
+    "worldAdvance": 2.8125,
+    "heldCycle": 0.625,
+    "maximumBoneError": 0.000508739626505772,
+    "maximumContactError": 0,
+    "maximumGroundPenetration": 0,
+    "boneLengths": [
+      {
+        "id": "leg-hind-left",
+        "upper": 12.29498601340995,
+        "lower": 12.29498601340995,
+        "actualUpper": 12.295362638855329,
+        "actualLower": 12.294877080252494
+      },
+      {
+        "id": "leg-hind-right",
+        "upper": 9.878014098517857,
+        "lower": 9.878014098517857,
+        "actualUpper": 9.877940548915802,
+        "actualLower": 9.87759143289794
+      },
+      {
+        "id": "leg-fore-left",
+        "upper": 7.691252950676759,
+        "lower": 7.691252950676759,
+        "actualUpper": 7.691416727333043,
+        "actualLower": 7.69091131924372
+      },
+      {
+        "id": "leg-fore-right",
+        "upper": 8.483634731262244,
+        "lower": 8.483634731262244,
+        "actualUpper": 8.483125991635738,
+        "actualLower": 8.483653450592557
+      }
+    ],
+    "contacts": [
+      {
+        "id": "leg-hind-left",
+        "role": "hind-left",
+        "planted": true,
+        "supportWeight": 1,
+        "localPoint": {
+          "x": 7.01171875,
+          "y": 51.484375
+        },
+        "worldPoint": {
+          "x": 9.82421875,
+          "y": 51.484375
+        },
+        "desiredWorldPoint": {
+          "x": 9.82421875,
+          "y": 51.484375
+        },
+        "step": 0
+      },
+      {
+        "id": "leg-hind-right",
+        "role": "hind-right",
+        "planted": true,
+        "supportWeight": 1,
+        "localPoint": {
+          "x": 20.125,
+          "y": 51.484375
+        },
+        "worldPoint": {
+          "x": 22.9375,
+          "y": 51.484375
+        },
+        "desiredWorldPoint": {
+          "x": 22.9375,
+          "y": 51.484375
+        },
+        "step": 1
+      },
+      {
+        "id": "leg-fore-left",
+        "role": "fore-left",
+        "planted": false,
+        "supportWeight": 0,
+        "localPoint": {
+          "x": 41.9140625,
+          "y": 48.984375
+        },
+        "worldPoint": {
+          "x": 44.7265625,
+          "y": 48.984375
+        },
+        "desiredWorldPoint": {
+          "x": 44.7265625,
+          "y": 48.984375
+        },
+        "step": 0
+      },
+      {
+        "id": "leg-fore-right",
+        "role": "fore-right",
+        "planted": true,
+        "supportWeight": 1,
+        "localPoint": {
+          "x": 50.34765625,
+          "y": 51.484375
+        },
+        "worldPoint": {
+          "x": 53.16015625,
+          "y": 51.484375
+        },
+        "desiredWorldPoint": {
+          "x": 53.16015625,
+          "y": 51.484375
+        },
+        "step": 1
+      }
+    ],
+    "phase": 5
+  },
+  "elapsedMs": 2.6882000000000517,
+  "valid": true,
+  "hash": "74b74982f1d5dc502c69c774319172e8185b77ba184807c076d64cdf6357b526",
+  "development": {
+    "developmentalAge": 30,
+    "transitionId": "evolution.2",
+    "progress": 0,
+    "bodyPlanId": "material/split/articulate/contour|restructure/articulate/contour|restructure/articulate/contour",
+    "controllerFamily": "quadruped",
+    "commitments": [
+      {
+        "id": "evolution.1.redistribute",
+        "tick": 57,
+        "option": "split"
+      },
+      {
+        "id": "evolution.1.replace",
+        "tick": 229,
+        "option": "articulate"
+      },
+      {
+        "id": "evolution.1.enclose",
+        "tick": 355,
+        "option": "contour"
+      }
+    ],
+    "operations": [],
+    "anatomy": [
+      {
+        "id": "body",
+        "role": "divided-trunk",
+        "sourcePartIds": [
+          "body"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "ear-left",
+        "role": "ear",
+        "sourcePartIds": [
+          "ear-left"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "ear-right",
+        "role": "ear",
+        "sourcePartIds": [
+          "ear-right"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "eye-left",
+        "role": "eye",
+        "sourcePartIds": [
+          "eye-left"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "eye-right",
+        "role": "eye",
+        "sourcePartIds": [
+          "eye-right"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "flank-mark",
+        "role": "decoration",
+        "sourcePartIds": [
+          "flank-mark"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "foot-fore-left",
+        "role": "foot",
+        "sourcePartIds": [
+          "foot-fore-left"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "foot-fore-right",
+        "role": "foot",
+        "sourcePartIds": [
+          "foot-fore-right"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "foot-hind-left",
+        "role": "foot",
+        "sourcePartIds": [
+          "foot-hind-left"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "foot-hind-right",
+        "role": "foot",
+        "sourcePartIds": [
+          "foot-hind-right"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "head",
+        "role": "head",
+        "sourcePartIds": [
+          "head"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "leg-fore-left",
+        "role": "leg",
+        "sourcePartIds": [
+          "leg-fore-left"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "leg-fore-right",
+        "role": "leg",
+        "sourcePartIds": [
+          "leg-fore-right"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "leg-hind-left",
+        "role": "leg",
+        "sourcePartIds": [
+          "leg-hind-left"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "leg-hind-right",
+        "role": "leg",
+        "sourcePartIds": [
+          "leg-hind-right"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "mouth",
+        "role": "mouth",
+        "sourcePartIds": [
+          "mouth"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "nose",
+        "role": "decoration",
+        "sourcePartIds": [
+          "nose"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "tail",
+        "role": "tail",
+        "sourcePartIds": [
+          "tail"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "body/division",
+        "role": "segment",
+        "sourcePartIds": [
+          "body"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "body/isthmus",
+        "role": "bridge",
+        "sourcePartIds": [
+          "body"
+        ],
+        "readiness": 1
+      },
+      {
+        "id": "head/neck",
+        "role": "neck",
+        "sourcePartIds": [
+          "body"
+        ],
+        "readiness": 1
+      }
+    ],
+    "diagnostics": {
+      "sourceFingerprint": "6ae21273",
+      "geneticFingerprint": "9c621f53",
+      "sourceDescriptors": {
+        "aspect": 1.4210526315789473,
+        "density": 0.4346978557504873,
+        "components": 18,
+        "holes": 0,
+        "headCount": 1,
+        "supportCount": 4,
+        "floatingCount": 0,
+        "symmetry": 0.5215686274509804
+      },
+      "needSignals": {
+        "safety": {
+          "load": 0,
+          "opportunity": 0
+        },
+        "security": {
+          "load": 0,
+          "opportunity": 0
+        },
+        "trust": {
+          "load": 0,
+          "opportunity": 0
+        },
+        "rest": {
+          "load": 0,
+          "opportunity": 0
+        },
+        "relaxation": {
+          "load": 0,
+          "opportunity": 0
+        },
+        "physical-fitness": {
+          "load": 0,
+          "opportunity": 0
+        }
+      },
+      "generatedRegions": 3,
+      "materialPreserved": true,
+      "familyEndpoints": false,
+      "sourceClipConvention": "original-world-half-open",
+      "activeOperators": 0
+    },
+    "genomeFingerprint": "9c621f53",
+    "sourceFingerprint": "1844049595",
+    "programFingerprint": "659525067"
+  },
+  "wellbeing": {
+    "tick": 720,
+    "developmentalAge": 30,
+    "needs": {
+      "love-caring": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "nurturing": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "connection": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "belonging": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "support": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "consideration": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "need-for-all-living-things-to-flourish": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "inclusion": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "community": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "safety": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "contribution": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "peer-respect": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "respect": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "autonomy": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "to-be-seen": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "acknowledgement": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "appreciation": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "trust": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "dependability": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "honesty": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "honor": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "commitment": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "clarity": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "accountability": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "causality": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "fairness": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "justice": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "choice": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "freedom": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "reliability": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "act-freely": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "choose-freely": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "understanding": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "recognition": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "non-judgmental-communication": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "need-to-matter": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "friendship": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "space": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "peace": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "serenity": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "do-things-at-my-own-pace-and-in-my-own-way": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "calm": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "participation": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "to-be-heard": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "equality": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "empowerment": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "consistency": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "genuineness": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "mattering": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "rest": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "mutuality": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "relaxation": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "closeness": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "authenticity": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "self-expression": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "integrity": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "empathy": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "privacy": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "order": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "beauty": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "control": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "predictability": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "accomplishment": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "physical-fitness": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "acceptance": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "growth": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      },
+      "security": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0
+      }
+    },
+    "needDrivers": {
+      "safety": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0,
+        "acuteDeficit": 0,
+        "shortage": 0,
+        "opportunity": 0,
+        "load": 0
+      },
+      "security": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0,
+        "acuteDeficit": 0,
+        "shortage": 0,
+        "opportunity": 0,
+        "load": 0
+      },
+      "trust": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0,
+        "acuteDeficit": 0,
+        "shortage": 0,
+        "opportunity": 0,
+        "load": 0
+      },
+      "rest": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0,
+        "acuteDeficit": 0,
+        "shortage": 0,
+        "opportunity": 0,
+        "load": 0
+      },
+      "relaxation": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0,
+        "acuteDeficit": 0,
+        "shortage": 0,
+        "opportunity": 0,
+        "load": 0
+      },
+      "physical-fitness": {
+        "fulfillment": 0.75,
+        "shortTerm": 0.75,
+        "exposure": 0,
+        "memory": 0,
+        "acuteDeficit": 0,
+        "shortage": 0,
+        "opportunity": 0,
+        "load": 0
+      }
+    },
+    "feelings": [
+      {
+        "id": "peaceful",
+        "title": "Peaceful",
+        "intensity": 0.7900576652144081,
+        "satisfaction": "met"
+      },
+      {
+        "id": "excited",
+        "title": "Excited",
+        "intensity": 0.7810508795524947,
+        "satisfaction": "met"
+      },
+      {
+        "id": "energized",
+        "title": "Energized",
+        "intensity": 0.7760742842825128,
+        "satisfaction": "met"
+      }
+    ],
+    "development": {
+      "protection": 0,
+      "recovery": 0.75,
+      "vigor": 0.75,
+      "vigilance": 0,
+      "guarding": 0,
+      "defensiveDisplay": 0,
+      "noveltyDrive": 0.75
+    }
+  },
+  "lineage": [
+    {
+      "id": "body",
+      "kind": "body",
+      "parentId": null,
+      "sourceIds": [
+        "body"
+      ],
+      "relationship": "root",
+      "count": 131,
+      "visible": 109,
+      "center": {
+        "x": 22.5,
+        "y": 32
+      },
+      "width": 17,
+      "height": 10,
+      "readiness": 1
+    },
+    {
+      "id": "ear-left",
+      "kind": "ear",
+      "parentId": "head",
+      "sourceIds": [
+        "ear-left"
+      ],
+      "relationship": "surface",
+      "count": 51,
+      "visible": 51,
+      "center": {
+        "x": 44,
+        "y": 22
+      },
+      "width": 8,
+      "height": 10,
+      "readiness": 1
+    },
+    {
+      "id": "ear-right",
+      "kind": "ear",
+      "parentId": "head",
+      "sourceIds": [
+        "ear-right"
+      ],
+      "relationship": "surface",
+      "count": 43,
+      "visible": 43,
+      "center": {
+        "x": 54,
+        "y": 21.5
+      },
+      "width": 6,
+      "height": 9,
+      "readiness": 1
+    },
+    {
+      "id": "eye-left",
+      "kind": "eye",
+      "parentId": "head",
+      "sourceIds": [
+        "eye-left"
+      ],
+      "relationship": "surface",
+      "count": 8,
+      "visible": 1,
+      "center": {
+        "x": 44,
+        "y": 28.5
+      },
+      "width": 4,
+      "height": 3,
+      "readiness": 1
+    },
+    {
+      "id": "eye-right",
+      "kind": "eye",
+      "parentId": "head",
+      "sourceIds": [
+        "eye-right"
+      ],
+      "relationship": "surface",
+      "count": 4,
+      "visible": 4,
+      "center": {
+        "x": 50.5,
+        "y": 28
+      },
+      "width": 3,
+      "height": 2,
+      "readiness": 1
+    },
+    {
+      "id": "flank-mark",
+      "kind": "decoration",
+      "parentId": "body",
+      "sourceIds": [
+        "flank-mark"
+      ],
+      "relationship": "surface",
+      "count": 9,
+      "visible": 9,
+      "center": {
+        "x": 23,
+        "y": 31
+      },
+      "width": 4,
+      "height": 4,
+      "readiness": 1
+    },
+    {
+      "id": "foot-fore-left",
+      "kind": "foot",
+      "parentId": "leg-fore-left",
+      "sourceIds": [
+        "foot-fore-left"
+      ],
+      "relationship": "joint",
+      "count": 15,
+      "visible": 15,
+      "center": {
+        "x": 38,
+        "y": 44.5
+      },
+      "width": 6,
+      "height": 3,
+      "readiness": 1
+    },
+    {
+      "id": "foot-fore-right",
+      "kind": "foot",
+      "parentId": "leg-fore-right",
+      "sourceIds": [
+        "foot-fore-right"
+      ],
+      "relationship": "joint",
+      "count": 12,
+      "visible": 12,
+      "center": {
+        "x": 44,
+        "y": 46.5
+      },
+      "width": 6,
+      "height": 3,
+      "readiness": 1
+    },
+    {
+      "id": "foot-hind-left",
+      "kind": "foot",
+      "parentId": "leg-hind-left",
+      "sourceIds": [
+        "foot-hind-left"
+      ],
+      "relationship": "joint",
+      "count": 18,
+      "visible": 18,
+      "center": {
+        "x": 13.5,
+        "y": 46.5
+      },
+      "width": 7,
+      "height": 3,
+      "readiness": 1
+    },
+    {
+      "id": "foot-hind-right",
+      "kind": "foot",
+      "parentId": "leg-hind-right",
+      "sourceIds": [
+        "foot-hind-right"
+      ],
+      "relationship": "joint",
+      "count": 11,
+      "visible": 11,
+      "center": {
+        "x": 22.5,
+        "y": 46.5
+      },
+      "width": 5,
+      "height": 3,
+      "readiness": 1
+    },
+    {
+      "id": "head",
+      "kind": "head",
+      "parentId": "body",
+      "sourceIds": [
+        "head"
+      ],
+      "relationship": "surface",
+      "count": 134,
+      "visible": 69,
+      "center": {
+        "x": 45.5,
+        "y": 29
+      },
+      "width": 17,
+      "height": 10,
+      "readiness": 1
+    },
+    {
+      "id": "leg-fore-left",
+      "kind": "leg",
+      "parentId": "body",
+      "sourceIds": [
+        "leg-fore-left"
+      ],
+      "relationship": "joint",
+      "count": 46,
+      "visible": 36,
+      "center": {
+        "x": 36.5,
+        "y": 40.5
+      },
+      "width": 9,
+      "height": 13,
+      "readiness": 1
+    },
+    {
+      "id": "leg-fore-right",
+      "kind": "leg",
+      "parentId": "body",
+      "sourceIds": [
+        "leg-fore-right"
+      ],
+      "relationship": "joint",
+      "count": 44,
+      "visible": 35,
+      "center": {
+        "x": 42,
+        "y": 42
+      },
+      "width": 6,
+      "height": 12,
+      "readiness": 1
+    },
+    {
+      "id": "leg-hind-left",
+      "kind": "leg",
+      "parentId": "body",
+      "sourceIds": [
+        "leg-hind-left"
+      ],
+      "relationship": "joint",
+      "count": 53,
+      "visible": 46,
+      "center": {
+        "x": 16,
+        "y": 39
+      },
+      "width": 10,
+      "height": 18,
+      "readiness": 1
+    },
+    {
+      "id": "leg-hind-right",
+      "kind": "leg",
+      "parentId": "body",
+      "sourceIds": [
+        "leg-hind-right"
+      ],
+      "relationship": "joint",
+      "count": 51,
+      "visible": 29,
+      "center": {
+        "x": 22,
+        "y": 38.5
+      },
+      "width": 10,
+      "height": 19,
+      "readiness": 1
+    },
+    {
+      "id": "mouth",
+      "kind": "mouth",
+      "parentId": "head",
+      "sourceIds": [
+        "mouth"
+      ],
+      "relationship": "surface",
+      "count": 3,
+      "visible": 3,
+      "center": {
+        "x": 48.5,
+        "y": 33.5
+      },
+      "width": 3,
+      "height": 1,
+      "readiness": 1
+    },
+    {
+      "id": "nose",
+      "kind": "decoration",
+      "parentId": "head",
+      "sourceIds": [
+        "nose"
+      ],
+      "relationship": "surface",
+      "count": 7,
+      "visible": 7,
+      "center": {
+        "x": 51,
+        "y": 32
+      },
+      "width": 4,
+      "height": 2,
+      "readiness": 1
+    },
+    {
+      "id": "tail",
+      "kind": "tail",
+      "parentId": "body",
+      "sourceIds": [
+        "tail"
+      ],
+      "relationship": "joint",
+      "count": 32,
+      "visible": 28,
+      "center": {
+        "x": 12,
+        "y": 23.5
+      },
+      "width": 10,
+      "height": 13,
+      "readiness": 1
+    },
+    {
+      "id": "body/division",
+      "kind": "body",
+      "parentId": "body",
+      "sourceIds": [
+        "body"
+      ],
+      "relationship": "root",
+      "count": 65,
+      "visible": 44,
+      "center": {
+        "x": 39.5,
+        "y": 34.5
+      },
+      "width": 11,
+      "height": 9,
+      "readiness": 1
+    },
+    {
+      "id": "body/isthmus",
+      "kind": "body",
+      "parentId": "body",
+      "sourceIds": [
+        "body"
+      ],
+      "relationship": "joint",
+      "count": 5,
+      "visible": 5,
+      "center": {
+        "x": 31,
+        "y": 33
+      },
+      "width": 4,
+      "height": 2,
+      "readiness": 1
+    },
+    {
+      "id": "head/neck",
+      "kind": "body",
+      "parentId": "body",
+      "sourceIds": [
+        "body"
+      ],
+      "relationship": "joint",
+      "count": 32,
+      "visible": 32,
+      "center": {
+        "x": 43,
+        "y": 29.5
+      },
+      "width": 8,
+      "height": 5,
+      "readiness": 1
+    }
+  ],
+  "sourceTracking": {
+    "expected": 18,
+    "represented": 18,
+    "contributing": 18,
+    "expectedHosts": 17,
+    "correctHosts": 17,
+    "missing": [],
+    "hostMismatches": []
+  },
+  "movement": "walk",
+  "motionPace": 1.2265625,
+  "phase": 5
+}

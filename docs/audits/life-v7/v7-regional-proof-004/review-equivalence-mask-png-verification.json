@@ -1,0 +1,328 @@
+{
+  "fromRun": "v7-regional-proof-003",
+  "toRun": "v7-regional-proof-004",
+  "recordedAt": "2026-10-24T10:11:24.016Z",
+  "companionReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+  "masks": [
+    {
+      "id": "canine-cub__s01__neutral__d0__core",
+      "sourceViewId": "canine-cub__s01__neutral__d0",
+      "beforePixelHash": "0d8ad1d0bd386641a47ccff4cbbfc5f31c4bf1525d053c12f4a131dc39df74f3",
+      "afterPixelHash": "0d8ad1d0bd386641a47ccff4cbbfc5f31c4bf1525d053c12f4a131dc39df74f3",
+      "identical": true,
+      "beforePNGHash": "c46d32b6b243ea7fd4074867a20a77211a7277f28b489a194b2d2dbf1b43bb08",
+      "afterPNGHash": "c46d32b6b243ea7fd4074867a20a77211a7277f28b489a194b2d2dbf1b43bb08",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__regions",
+      "sourceViewId": "canine-cub__s01__neutral__d0",
+      "beforePixelHash": "34c4a86b67957b83119cce9be81d87ae57f90cb72668faa7cdeb01ee17e7d3fa",
+      "afterPixelHash": "34c4a86b67957b83119cce9be81d87ae57f90cb72668faa7cdeb01ee17e7d3fa",
+      "identical": true,
+      "beforePNGHash": "d01c7c98675aeb6896e51108e9c88f50f0f1a30f44311668177b5688e7ea1d87",
+      "afterPNGHash": "d01c7c98675aeb6896e51108e9c88f50f0f1a30f44311668177b5688e7ea1d87",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__core",
+      "sourceViewId": "canine-cub__s01__neutral__d30",
+      "beforePixelHash": "a4026c2b0d462c58e7f85a79ded237d58903d24370859ecdeed49279727dc278",
+      "afterPixelHash": "a4026c2b0d462c58e7f85a79ded237d58903d24370859ecdeed49279727dc278",
+      "identical": true,
+      "beforePNGHash": "42ab94aaafca8fb70d7439da2956d2cfaf484f6b826505f9924465424b2c12e8",
+      "afterPNGHash": "42ab94aaafca8fb70d7439da2956d2cfaf484f6b826505f9924465424b2c12e8",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__regions",
+      "sourceViewId": "canine-cub__s01__neutral__d30",
+      "beforePixelHash": "fd6ee7aad57660118baaff7353d4c4f04331f024afd1ad56852e33ad24102e55",
+      "afterPixelHash": "fd6ee7aad57660118baaff7353d4c4f04331f024afd1ad56852e33ad24102e55",
+      "identical": true,
+      "beforePNGHash": "2b3633ef3ca8e08483e64b6114792b9bf9d6ad8ab42b9335112cf1113c793208",
+      "afterPNGHash": "2b3633ef3ca8e08483e64b6114792b9bf9d6ad8ab42b9335112cf1113c793208",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__core",
+      "sourceViewId": "canine-cub__s01__neutral__d75",
+      "beforePixelHash": "d38608bb8daea8a9ec1fadb1f4cec7e86d5631245b67481248547ba02469317c",
+      "afterPixelHash": "d38608bb8daea8a9ec1fadb1f4cec7e86d5631245b67481248547ba02469317c",
+      "identical": true,
+      "beforePNGHash": "763cf25deb97c09a5dbfc295578a877c6a6b69533c2ad7c129d638500f4aafdd",
+      "afterPNGHash": "763cf25deb97c09a5dbfc295578a877c6a6b69533c2ad7c129d638500f4aafdd",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__regions",
+      "sourceViewId": "canine-cub__s01__neutral__d75",
+      "beforePixelHash": "72639aca30e4dd2075d21a5aa78e66102412b2c353db65451d07b2b11cd8f7e8",
+      "afterPixelHash": "72639aca30e4dd2075d21a5aa78e66102412b2c353db65451d07b2b11cd8f7e8",
+      "identical": true,
+      "beforePNGHash": "4000bada08857714e40f6c93dcbd5523826b448e553335762073b7556de67710",
+      "afterPNGHash": "4000bada08857714e40f6c93dcbd5523826b448e553335762073b7556de67710",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__core",
+      "sourceViewId": "canine-cub__s01__neutral__d120",
+      "beforePixelHash": "b61f5b01ec1f4a1c443b20f23dce7f8247aada71444e53878b4c76a170cc1c0c",
+      "afterPixelHash": "b61f5b01ec1f4a1c443b20f23dce7f8247aada71444e53878b4c76a170cc1c0c",
+      "identical": true,
+      "beforePNGHash": "0ff836993f606dd779c56824427daa9c5fc77dcd415e14173815266e053fb27e",
+      "afterPNGHash": "0ff836993f606dd779c56824427daa9c5fc77dcd415e14173815266e053fb27e",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__regions",
+      "sourceViewId": "canine-cub__s01__neutral__d120",
+      "beforePixelHash": "868f8fa21f4d5a0c114b425b447e914d48589b455595e36913b9e2597c1d9222",
+      "afterPixelHash": "868f8fa21f4d5a0c114b425b447e914d48589b455595e36913b9e2597c1d9222",
+      "identical": true,
+      "beforePNGHash": "3fcb9e9fcac23c842381d6585a9e2770baf538735f0e7e861d0a7bf6cf803777",
+      "afterPNGHash": "3fcb9e9fcac23c842381d6585a9e2770baf538735f0e7e861d0a7bf6cf803777",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__core",
+      "sourceViewId": "canine-cub__s02__neutral__d0",
+      "beforePixelHash": "0d8ad1d0bd386641a47ccff4cbbfc5f31c4bf1525d053c12f4a131dc39df74f3",
+      "afterPixelHash": "0d8ad1d0bd386641a47ccff4cbbfc5f31c4bf1525d053c12f4a131dc39df74f3",
+      "identical": true,
+      "beforePNGHash": "c46d32b6b243ea7fd4074867a20a77211a7277f28b489a194b2d2dbf1b43bb08",
+      "afterPNGHash": "c46d32b6b243ea7fd4074867a20a77211a7277f28b489a194b2d2dbf1b43bb08",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__regions",
+      "sourceViewId": "canine-cub__s02__neutral__d0",
+      "beforePixelHash": "34c4a86b67957b83119cce9be81d87ae57f90cb72668faa7cdeb01ee17e7d3fa",
+      "afterPixelHash": "34c4a86b67957b83119cce9be81d87ae57f90cb72668faa7cdeb01ee17e7d3fa",
+      "identical": true,
+      "beforePNGHash": "d01c7c98675aeb6896e51108e9c88f50f0f1a30f44311668177b5688e7ea1d87",
+      "afterPNGHash": "d01c7c98675aeb6896e51108e9c88f50f0f1a30f44311668177b5688e7ea1d87",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__core",
+      "sourceViewId": "canine-cub__s02__neutral__d30",
+      "beforePixelHash": "6a41916fea99765f98b921cc4ec9783966651bbfccb24d4442017cfb21f484e9",
+      "afterPixelHash": "6a41916fea99765f98b921cc4ec9783966651bbfccb24d4442017cfb21f484e9",
+      "identical": true,
+      "beforePNGHash": "70e5dd690329f37b943159b28b3b07d0b58fdc294ea44072c2c089bbb54ea911",
+      "afterPNGHash": "70e5dd690329f37b943159b28b3b07d0b58fdc294ea44072c2c089bbb54ea911",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__regions",
+      "sourceViewId": "canine-cub__s02__neutral__d30",
+      "beforePixelHash": "3b99820818281bb289263c85638bf3123d3b7ecdcc7c602d36e0255e0d84b133",
+      "afterPixelHash": "3b99820818281bb289263c85638bf3123d3b7ecdcc7c602d36e0255e0d84b133",
+      "identical": true,
+      "beforePNGHash": "1e1fb339243892f7ee3ff052d4cba2bc90cefecd4b73ce6018209be652a0c57a",
+      "afterPNGHash": "1e1fb339243892f7ee3ff052d4cba2bc90cefecd4b73ce6018209be652a0c57a",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__core",
+      "sourceViewId": "canine-cub__s02__neutral__d75",
+      "beforePixelHash": "afa3975cd795283fcb371bff59f2a2ab54be27e5d98cc10f7ac6492ac32d0632",
+      "afterPixelHash": "afa3975cd795283fcb371bff59f2a2ab54be27e5d98cc10f7ac6492ac32d0632",
+      "identical": true,
+      "beforePNGHash": "1873b3d5ebbc720b61b051bf310348e30e082fb9d8d8c6d8798455beffe08313",
+      "afterPNGHash": "1873b3d5ebbc720b61b051bf310348e30e082fb9d8d8c6d8798455beffe08313",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__regions",
+      "sourceViewId": "canine-cub__s02__neutral__d75",
+      "beforePixelHash": "423f29dbcc6e1f8a334714f52a3f77a168925291cac7fb7b95c12af62e8d8755",
+      "afterPixelHash": "423f29dbcc6e1f8a334714f52a3f77a168925291cac7fb7b95c12af62e8d8755",
+      "identical": true,
+      "beforePNGHash": "a2d243817ded2c1bf7fb5774a88e027b0c7d756228f1e88f7ec6d515d9d1f06c",
+      "afterPNGHash": "a2d243817ded2c1bf7fb5774a88e027b0c7d756228f1e88f7ec6d515d9d1f06c",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__core",
+      "sourceViewId": "canine-cub__s02__neutral__d120",
+      "beforePixelHash": "f3a51fa5d88d5bfa82e9c96814291ec646d7353ebd12ab164dae44f1705cdd51",
+      "afterPixelHash": "f3a51fa5d88d5bfa82e9c96814291ec646d7353ebd12ab164dae44f1705cdd51",
+      "identical": true,
+      "beforePNGHash": "112e5567ef904bef39543d55e45ef87238c2ce05717587f92d833da4160cc3b9",
+      "afterPNGHash": "112e5567ef904bef39543d55e45ef87238c2ce05717587f92d833da4160cc3b9",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__regions",
+      "sourceViewId": "canine-cub__s02__neutral__d120",
+      "beforePixelHash": "ade3ba31867f1fc7baf41ceb298686efac565fad81ff593e4c629bd4985bc1a2",
+      "afterPixelHash": "ade3ba31867f1fc7baf41ceb298686efac565fad81ff593e4c629bd4985bc1a2",
+      "identical": true,
+      "beforePNGHash": "01dd4ffeaa43f59df7eaa9bf64110de42b633b75ccd5c7639278509dd2d4b33c",
+      "afterPNGHash": "01dd4ffeaa43f59df7eaa9bf64110de42b633b75ccd5c7639278509dd2d4b33c",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__core",
+      "sourceViewId": "canine-cub__s03__neutral__d0",
+      "beforePixelHash": "0d8ad1d0bd386641a47ccff4cbbfc5f31c4bf1525d053c12f4a131dc39df74f3",
+      "afterPixelHash": "0d8ad1d0bd386641a47ccff4cbbfc5f31c4bf1525d053c12f4a131dc39df74f3",
+      "identical": true,
+      "beforePNGHash": "c46d32b6b243ea7fd4074867a20a77211a7277f28b489a194b2d2dbf1b43bb08",
+      "afterPNGHash": "c46d32b6b243ea7fd4074867a20a77211a7277f28b489a194b2d2dbf1b43bb08",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__regions",
+      "sourceViewId": "canine-cub__s03__neutral__d0",
+      "beforePixelHash": "34c4a86b67957b83119cce9be81d87ae57f90cb72668faa7cdeb01ee17e7d3fa",
+      "afterPixelHash": "34c4a86b67957b83119cce9be81d87ae57f90cb72668faa7cdeb01ee17e7d3fa",
+      "identical": true,
+      "beforePNGHash": "d01c7c98675aeb6896e51108e9c88f50f0f1a30f44311668177b5688e7ea1d87",
+      "afterPNGHash": "d01c7c98675aeb6896e51108e9c88f50f0f1a30f44311668177b5688e7ea1d87",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__core",
+      "sourceViewId": "canine-cub__s03__neutral__d30",
+      "beforePixelHash": "26ac87183b0e54b3cb3cafbc179773f0348d27701dc8a9a7765b83bcaa4cb013",
+      "afterPixelHash": "26ac87183b0e54b3cb3cafbc179773f0348d27701dc8a9a7765b83bcaa4cb013",
+      "identical": true,
+      "beforePNGHash": "4ce4ffd211ff3ffc03bfe0d6bbc5005eceb7a6a40ed31c3a6a5e483e10ddd8ba",
+      "afterPNGHash": "4ce4ffd211ff3ffc03bfe0d6bbc5005eceb7a6a40ed31c3a6a5e483e10ddd8ba",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__regions",
+      "sourceViewId": "canine-cub__s03__neutral__d30",
+      "beforePixelHash": "8753ec17a66e205f818c261b1cb6f477bd64a7128ac145eecf32dce9764d7803",
+      "afterPixelHash": "8753ec17a66e205f818c261b1cb6f477bd64a7128ac145eecf32dce9764d7803",
+      "identical": true,
+      "beforePNGHash": "4d140597aab923426dd496bf013ca6c47642527e2c78d48e6c6fa977af09f24c",
+      "afterPNGHash": "4d140597aab923426dd496bf013ca6c47642527e2c78d48e6c6fa977af09f24c",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__core",
+      "sourceViewId": "canine-cub__s03__neutral__d75",
+      "beforePixelHash": "466a0f03396e2dbf6a6623b132c2cd1ff9397c99194de57c33fb42a4bef11ec5",
+      "afterPixelHash": "466a0f03396e2dbf6a6623b132c2cd1ff9397c99194de57c33fb42a4bef11ec5",
+      "identical": true,
+      "beforePNGHash": "2d551f473badea214634e34d795656e6b9235021ed2b7b343c0208d317548ddf",
+      "afterPNGHash": "2d551f473badea214634e34d795656e6b9235021ed2b7b343c0208d317548ddf",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__regions",
+      "sourceViewId": "canine-cub__s03__neutral__d75",
+      "beforePixelHash": "7e63835a83ba6fa025adadc8e0925f63a12346dcab4a1f1e4023e699a776fcc6",
+      "afterPixelHash": "7e63835a83ba6fa025adadc8e0925f63a12346dcab4a1f1e4023e699a776fcc6",
+      "identical": true,
+      "beforePNGHash": "1355b13751e6f945af8dde5cc146bc217908f7b03a9e593c0216c8c8a2041d01",
+      "afterPNGHash": "1355b13751e6f945af8dde5cc146bc217908f7b03a9e593c0216c8c8a2041d01",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__core",
+      "sourceViewId": "canine-cub__s03__neutral__d120",
+      "beforePixelHash": "7b93140bfe84e1edd3cd5121e564e7de6df7ecd3de09aa1278c9a823737a0e78",
+      "afterPixelHash": "7b93140bfe84e1edd3cd5121e564e7de6df7ecd3de09aa1278c9a823737a0e78",
+      "identical": true,
+      "beforePNGHash": "87406d9cb2025c1ef314b56f985a3437fe039bc64e76ad748afa1ce9164f816f",
+      "afterPNGHash": "87406d9cb2025c1ef314b56f985a3437fe039bc64e76ad748afa1ce9164f816f",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__regions",
+      "sourceViewId": "canine-cub__s03__neutral__d120",
+      "beforePixelHash": "7039eedcd0fd92e9eab958cb68d201e0393aa7a9489cebd1468a91ab7cdde462",
+      "afterPixelHash": "7039eedcd0fd92e9eab958cb68d201e0393aa7a9489cebd1468a91ab7cdde462",
+      "identical": true,
+      "beforePNGHash": "0ecbfb4f43b7228ee913790a022d166bc715fb6f0a1e22262e92841797387e3d",
+      "afterPNGHash": "0ecbfb4f43b7228ee913790a022d166bc715fb6f0a1e22262e92841797387e3d",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__core",
+      "sourceViewId": "canine-cub__s04__neutral__d0",
+      "beforePixelHash": "0d8ad1d0bd386641a47ccff4cbbfc5f31c4bf1525d053c12f4a131dc39df74f3",
+      "afterPixelHash": "0d8ad1d0bd386641a47ccff4cbbfc5f31c4bf1525d053c12f4a131dc39df74f3",
+      "identical": true,
+      "beforePNGHash": "c46d32b6b243ea7fd4074867a20a77211a7277f28b489a194b2d2dbf1b43bb08",
+      "afterPNGHash": "c46d32b6b243ea7fd4074867a20a77211a7277f28b489a194b2d2dbf1b43bb08",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__regions",
+      "sourceViewId": "canine-cub__s04__neutral__d0",
+      "beforePixelHash": "34c4a86b67957b83119cce9be81d87ae57f90cb72668faa7cdeb01ee17e7d3fa",
+      "afterPixelHash": "34c4a86b67957b83119cce9be81d87ae57f90cb72668faa7cdeb01ee17e7d3fa",
+      "identical": true,
+      "beforePNGHash": "d01c7c98675aeb6896e51108e9c88f50f0f1a30f44311668177b5688e7ea1d87",
+      "afterPNGHash": "d01c7c98675aeb6896e51108e9c88f50f0f1a30f44311668177b5688e7ea1d87",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__core",
+      "sourceViewId": "canine-cub__s04__neutral__d30",
+      "beforePixelHash": "c7f9d58e2569005f977f891d9551625c52e5dbf4518d3bfe2392cffed7663ca4",
+      "afterPixelHash": "c7f9d58e2569005f977f891d9551625c52e5dbf4518d3bfe2392cffed7663ca4",
+      "identical": true,
+      "beforePNGHash": "63fdbe90f26b56d5f97035dbef5e825187df29ed23b74e3bf840bae6796d138b",
+      "afterPNGHash": "63fdbe90f26b56d5f97035dbef5e825187df29ed23b74e3bf840bae6796d138b",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__regions",
+      "sourceViewId": "canine-cub__s04__neutral__d30",
+      "beforePixelHash": "0b0ea308b3c55e10c34ce9e4762853f5efc50ae95baa9a10f879039769df5587",
+      "afterPixelHash": "0b0ea308b3c55e10c34ce9e4762853f5efc50ae95baa9a10f879039769df5587",
+      "identical": true,
+      "beforePNGHash": "9b7d7f7db31273feaea43b8a801d6ab2af7cf898a4495f4aace7dbadeab4a3ce",
+      "afterPNGHash": "9b7d7f7db31273feaea43b8a801d6ab2af7cf898a4495f4aace7dbadeab4a3ce",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__core",
+      "sourceViewId": "canine-cub__s04__neutral__d75",
+      "beforePixelHash": "9054b18c9ba027e7d3175474411780c311565cbcbc8f91e63e9b89b32a32cd0f",
+      "afterPixelHash": "9054b18c9ba027e7d3175474411780c311565cbcbc8f91e63e9b89b32a32cd0f",
+      "identical": true,
+      "beforePNGHash": "d8f90bf7198cc42f8f142136cc5b7c6e1ed4f45876e0609c26f0d9005a4bb97b",
+      "afterPNGHash": "d8f90bf7198cc42f8f142136cc5b7c6e1ed4f45876e0609c26f0d9005a4bb97b",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__regions",
+      "sourceViewId": "canine-cub__s04__neutral__d75",
+      "beforePixelHash": "3e74e44190439aa79e30a1c81b2f853e62ca3e63962a4fe2d9e45a23a4364065",
+      "afterPixelHash": "3e74e44190439aa79e30a1c81b2f853e62ca3e63962a4fe2d9e45a23a4364065",
+      "identical": true,
+      "beforePNGHash": "0a8610c081c4496adfe948098e3ec9322372fbc9948617687ccbcd76982e4741",
+      "afterPNGHash": "0a8610c081c4496adfe948098e3ec9322372fbc9948617687ccbcd76982e4741",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__core",
+      "sourceViewId": "canine-cub__s04__neutral__d120",
+      "beforePixelHash": "48ed6c3361f859c1c4f205157ff221d3fbc8d9590f31f6015d308f475fea1f2e",
+      "afterPixelHash": "48ed6c3361f859c1c4f205157ff221d3fbc8d9590f31f6015d308f475fea1f2e",
+      "identical": true,
+      "beforePNGHash": "c612301df45bfe5b7d8e62bf232d08fc4ceb2efca0e4133b7edffa3a77840388",
+      "afterPNGHash": "c612301df45bfe5b7d8e62bf232d08fc4ceb2efca0e4133b7edffa3a77840388",
+      "pngIdentical": true
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__regions",
+      "sourceViewId": "canine-cub__s04__neutral__d120",
+      "beforePixelHash": "d678e6a3b0e821d20e4c8e9ad99997240a0f4d41120127cfbe677926e6941879",
+      "afterPixelHash": "d678e6a3b0e821d20e4c8e9ad99997240a0f4d41120127cfbe677926e6941879",
+      "identical": true,
+      "beforePNGHash": "af6030e3c37d64fe5fbd6bb17eedbe3906f45ea4321267c7bf65c35acd49aca4",
+      "afterPNGHash": "af6030e3c37d64fe5fbd6bb17eedbe3906f45ea4321267c7bf65c35acd49aca4",
+      "pngIdentical": true
+    }
+  ]
+}

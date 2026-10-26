@@ -1,0 +1,8 @@
+{
+  "runId": "v6-three-final",
+  "engineHash": "219ac9d30796904bc6429e2219aa3712e76db7c62270cab964d6ce38db5f1a2e",
+  "checkedRuntimeAndMetricFiles": 16,
+  "changed": [],
+  "allCurrent": true,
+  "method": "SHA256 bytes of each captured runtime/metric source compared to current workspace; frozen manifest unchanged."
+}

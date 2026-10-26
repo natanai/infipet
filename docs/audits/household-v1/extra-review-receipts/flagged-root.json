@@ -1,0 +1,11 @@
+{
+  "reviewer": "agent:/root",
+  "kind": "agent",
+  "type": "diagnostic",
+  "notes": "Additional diagnostic pages are separate from the fixed primary sample. Images inspected before consulting the case reveal key; repeated source drawings and the known diagnostic selection rule prevent secure blinding.",
+  "pages": [
+    {"id":"F00","frameReferences":30,"observations":"Closest cat pair remains similar but differs in tail curl and head contour. Largest source-to-adult change is strongly widened head, splayed ears and short broad torso. Combined stress favors a tilted narrower profile, while fine feet and whiskers become tiny isolated-looking strokes. No unmistakable missing main tissue; the source facial colors remain readable. The day120/240 columns are often nearly indistinguishable."},
+    {"id":"F01","frameReferences":30,"observations":"Closest dog pair differs at ears, body depth and tail, within the same family. Largest shape response includes upright neck/head and a much longer muzzle; combined stress changes stance and torso tilt. Long thin muzzle/mouth strokes can read as prongs or fragmentation, especially in the occlusion selection. Four source feet are partly hidden by the profile and should not be judged absent from this image alone."},
+    {"id":"F02","frameReferences":30,"observations":"Rabbit keeps high-contrast pink ears, white head and broad feet. Strong variants fan/curve the ears or lean the head and torso; closest pair remains a similar seated family. Combined-stress form is thinner and leaning, with source tail still visible to one side. No major detached body mass is established; source tail spacing already exists at birth."}
+  ]
+}

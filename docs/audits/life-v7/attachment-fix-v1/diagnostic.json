@@ -1,0 +1,224 @@
+{
+  "createdAt": "2026-10-24T09:59:50.772Z",
+  "disposableDiagnostic": true,
+  "sourceId": "canine-cub--body-bend",
+  "sourceHash": "dee966f99ca48eb888529783735914da82e932445a2e60604e8a9d30bc0806ce",
+  "seed": "life-v7-genome-02",
+  "age": 120,
+  "action": "idle",
+  "time": 0,
+  "frozenRun": "v7-regional-proof-003",
+  "beforeHash": "fdfbf588639d61d6e789bbec8535df07dc4c985050a919bab144917ed02f7ab2",
+  "afterHash": "be3b82cbbf990111ac6662e00f7df7cb6bf637823d7b25da19751643fe1e8436",
+  "beforeComponents": [
+    412,
+    123
+  ],
+  "afterComponents": [
+    {
+      "count": 530,
+      "contributors": [
+        "body/domain0",
+        "body",
+        "body/domain2",
+        "ear-left",
+        "ear-right",
+        "foot-fore-left",
+        "foot-fore-right",
+        "foot-hind-left",
+        "foot-hind-right",
+        "head",
+        "leg-fore-left",
+        "leg-fore-right",
+        "leg-hind-left",
+        "leg-hind-right",
+        "tail",
+        "body/waist/0",
+        "body/waist/1",
+        "head/neck"
+      ]
+    },
+    {
+      "count": 2,
+      "cells": [
+        {
+          "x": 28,
+          "y": 22,
+          "color": "#FFFFFF"
+        },
+        {
+          "x": 28,
+          "y": 23,
+          "color": "#FFFFFF"
+        }
+      ],
+      "contributors": [
+        "head"
+      ]
+    }
+  ],
+  "neutralEndpoints": [
+    {
+      "seed": 1,
+      "age": 0,
+      "before": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "after": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "equal": true
+    },
+    {
+      "seed": 1,
+      "age": 30,
+      "before": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+      "after": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+      "equal": true
+    },
+    {
+      "seed": 1,
+      "age": 75,
+      "before": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+      "after": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+      "equal": true
+    },
+    {
+      "seed": 1,
+      "age": 120,
+      "before": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+      "after": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+      "equal": true
+    },
+    {
+      "seed": 2,
+      "age": 0,
+      "before": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "after": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "equal": true
+    },
+    {
+      "seed": 2,
+      "age": 30,
+      "before": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+      "after": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+      "equal": true
+    },
+    {
+      "seed": 2,
+      "age": 75,
+      "before": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+      "after": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+      "equal": true
+    },
+    {
+      "seed": 2,
+      "age": 120,
+      "before": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204",
+      "after": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204",
+      "equal": true
+    },
+    {
+      "seed": 3,
+      "age": 0,
+      "before": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "after": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "equal": true
+    },
+    {
+      "seed": 3,
+      "age": 30,
+      "before": "061e4da3f30172262f7c9863e67b5c593f6aee4deb7cede5a8cf484315856c2e",
+      "after": "061e4da3f30172262f7c9863e67b5c593f6aee4deb7cede5a8cf484315856c2e",
+      "equal": true
+    },
+    {
+      "seed": 3,
+      "age": 75,
+      "before": "66ed6c6599c3af0db02e95ca92531a6645530890ee862e9b4f99e2608303d549",
+      "after": "66ed6c6599c3af0db02e95ca92531a6645530890ee862e9b4f99e2608303d549",
+      "equal": true
+    },
+    {
+      "seed": 3,
+      "age": 120,
+      "before": "0d9673bba0d1aaef1722450c1cd4cd8256cf327dd197c3646f38a9ace6b70abe",
+      "after": "0d9673bba0d1aaef1722450c1cd4cd8256cf327dd197c3646f38a9ace6b70abe",
+      "equal": true
+    },
+    {
+      "seed": 4,
+      "age": 0,
+      "before": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "after": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "equal": true
+    },
+    {
+      "seed": 4,
+      "age": 30,
+      "before": "be243a9efccbd86cb3276c88b8234153cd622b03c28c9c308bb2a41311aa80c5",
+      "after": "be243a9efccbd86cb3276c88b8234153cd622b03c28c9c308bb2a41311aa80c5",
+      "equal": true
+    },
+    {
+      "seed": 4,
+      "age": 75,
+      "before": "38c546a90ba9e1d536b9c6b5a55505198d652d7e8e4dde65e2a16169f44f9eb8",
+      "after": "38c546a90ba9e1d536b9c6b5a55505198d652d7e8e4dde65e2a16169f44f9eb8",
+      "equal": true
+    },
+    {
+      "seed": 4,
+      "age": 120,
+      "before": "2f76e08d126f9279105be06fdb371f2fedd8a35213666f328690bb4fba27facf",
+      "after": "2f76e08d126f9279105be06fdb371f2fedd8a35213666f328690bb4fba27facf",
+      "equal": true
+    }
+  ],
+  "neutralEqual": 16,
+  "runtimeFiles": {
+    "src/simulation/adaptation-rules.ts": "2a5f683a72aa214f8f43732bacd2f128dc8eee96cf825029867513585281950d",
+    "src/simulation/anatomical-roles.ts": "e3680d4e2a039e7e6fcba75d7ec24dbaa4405084dbb3df0d131ad640d7a653e4",
+    "src/simulation/development.ts": "65f1eb143b19c1d0a9552e75f913a73fcdd368cda870f8067bbf7d5af6bd7509",
+    "src/simulation/enclosure.ts": "a7edb4a1ab0eac5667f181a61ba9a61f2355876b20beab739b9fe123f34cdcaf",
+    "src/simulation/genome.ts": "9e661c3d0041c9bb58fa65d9aafb60b129e9bdda29c289ca98667596fd710b3a",
+    "src/simulation/grooming.ts": "1a46f528263a8e1c4980fa8e2ba416c7404b900ab64a42046296ff38d3efd687",
+    "src/simulation/growth.ts": "4ce3c158ff8f3ffa2264e0e0d6ede69f7c99e9ef3e15ff0b3bff71d59958bb58",
+    "src/simulation/index.ts": "dc64b75ccf93f06ed55c8e59f765ef202637fee4ce4fb605bae49a9b432f68d7",
+    "src/simulation/locomotion.ts": "6cdf67013a4b897e247c6dc06c0c71017de0d3f9eea4194924a80ea27a14b13a",
+    "src/simulation/material-growth.ts": "432a89e10c200371453bfc8d304d64f39f7fa6d3bb1502c5285a5bfcb7c1e57b",
+    "src/simulation/material-raster.ts": "4290333e43a3fe19bfd08f35c63918535be832541cd098cf87ea11eebf3a30d0",
+    "src/simulation/material.ts": "8ba97ce27c2a93fa6ed3a71ff324d6e5efc7190cdd42938f9a6d2aff8beb15cc",
+    "src/simulation/metamorphosis.ts": "91208cd11d1717bac09df494e3014ba4cbbc60f4ed582c5fd2bae97e8da450d2",
+    "src/simulation/model.ts": "553d24e40e4f34cf0ce724c2f03ef6953f4ee7c1d8ccbc319645a70bf594a7fb",
+    "src/simulation/regional-layout.ts": "4be44fc9b3eae36c0f4e0aa3bbbb910315c255618d92f61d9de6c69b15ea3252",
+    "src/simulation/source-atlas.ts": "dffd8e15de6dab36a37c716106dc287c6100643d0cc835b86266320dbe12d806",
+    "src/simulation/variation-channels.ts": "1f8bb1854428d880029a97ee7d22fcaa67746a1d1b34ebe2a3861011bb1ae799"
+  },
+  "runtimeHash": "1fb391624705e2d0679d6a034117833f6a0df205066d08c452e3fd0c342c4a69",
+  "notes": [
+    "White 8-neighbor components measure final composited skin, excluding preserved black facial glyphs.",
+    "The remaining 2-pixel island is an authored head-skin corner beside the nose/mouth (not generated tissue). It is no longer used as a structural neck terminal; the main head skin and body form one 530-pixel component. Black glyphs remain intact.",
+    "This focused diagnostic is not a replacement for the frozen audit or a population visual gate."
+  ],
+  "main204Equivalence": {
+    "tested": 204,
+    "equal": 204,
+    "method": "Replay captures in original order, including move time0 pace lookup before each eight-phase cycle as in run.ts.",
+    "changed": []
+  },
+  "imageHashes": {
+    "before-64.png": "2e5b84418bce826dce36a636e1f6339a36af0c4d99005a0f588922f60e1955a7",
+    "after-64.png": "76a6a319888672c0d21477e68533449e991cbecaf15469a92d01a52870200bac",
+    "before-4x.png": "ddc73d12adb551eab408f8f60198914ccd745f03cddff3743b4590ba0423ec27",
+    "after-4x.png": "887355c66e1c6cb177b6ee2adb267e6e0b5d04a3149155e3e6d7d1076abf4e2b",
+    "comparison-4x.png": "650df5f90b34ca2ec257ba3d5ac0fbab9872b6805e675e68c67ee32c717030cc",
+    "before-head-crop-4x.png": "cf19b93d7dad3c808dc8e23465789b05a564e3a219ecdd99cadfbfff609b4832",
+    "after-head-crop-4x.png": "1c6d05162dc04d61118c13c055b8bd8b81dacb24926eb6b290dc54d1f7e8eb4f"
+  },
+  "visualInspection": {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "sourceAuthorFamiliarity": true,
+    "files": [
+      "comparison-4x.png"
+    ],
+    "finding": "The corrected broad neck joins the visible cranial skin to trunk; the prior head-sized separation is gone. Black nose/mouth remain. A tiny authored snout-side white corner remains isolated, so this is not a claim that every decorative white pixel belongs to one component."
+  }
+}

@@ -1,0 +1,10 @@
+[1/1] dm1__botamon--koromon--betamon--airdramon--metal-greymon: failed; weakest IoU 0.228
+{
+  "paths": 1,
+  "candidates": 1,
+  "unscored": 0,
+  "failed": 1,
+  "machineCandidates": 0,
+  "visuallyAccepted": 0
+}
+Report: C:\Games\infipet\docs\audits\retro-v1\rest-policy-probe\index.html

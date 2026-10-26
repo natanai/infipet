@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "runId": "rest-policy-probe",
+  "generatedAt": "2026-10-25T17:53:29.454Z",
+  "versions": {
+    "prototype": "life-v9",
+    "gameplay": 2,
+    "rules": "infipet-classic-v2",
+    "lineage": "opentree16.1/ott3.7.3|infipet-animal-profiles-v1|animal-affinity-v1|morphogenesis-v1"
+  },
+  "counts": {
+    "paths": 1,
+    "candidates": 1,
+    "unscored": 0,
+    "failed": 1,
+    "machineCandidates": 0,
+    "visuallyAccepted": 0
+  },
+  "paths": [
+    {
+      "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.airdramon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "rest-interrupted",
+        "worstIoU": 0.22839506172839505,
+        "meanIoU": 0.40260990098079297,
+        "witnessFile": "witnesses/dm1__botamon--koromon--betamon--airdramon--metal-greymon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.22839506172839505,
+              "filledSilhouetteIoU": 0.48911465892597966,
+              "pixelAgreement": 0.6337890625,
+              "aspectSimilarity": 0.9625000000000001,
+              "densitySimilarity": 0.7848484848484849,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "a6190ec8dfbd33a351d50752852cf378a1a023eabe1bc64dd1ca61b78e14133e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.betamon",
+            "characterId": "dm1.betamon",
+            "name": "Betamon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.27073552425665104,
+              "filledSilhouetteIoU": 0.6056971514242878,
+              "pixelAgreement": 0.544921875,
+              "aspectSimilarity": 0.8,
+              "densitySimilarity": 0.5458860759493671,
+              "components": {
+                "actual": 1,
+                "target": 19
+              },
+              "holes": {
+                "actual": 3,
+                "target": 5
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": "betamon",
+            "referenceBranchMatched": true,
+            "frameHash": "4443e585e61b0d7e9557176a30d02e2261cee66930629119d290029f5c0cf826",
+            "targetHash": "e80ee4c3d3886750fb45d74a38fb37819dfbdceb2f67e50d7c17142504bdec71",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.airdramon",
+            "characterId": "dm1.airdramon",
+            "name": "Airdramon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.25225225225225223,
+              "filledSilhouetteIoU": 0.6014814814814815,
+              "pixelAgreement": 0.5947265625,
+              "aspectSimilarity": 0.8125,
+              "densitySimilarity": 0.5902777777777778,
+              "components": {
+                "actual": 1,
+                "target": 33
+              },
+              "holes": {
+                "actual": 3,
+                "target": 9
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "airdramon",
+            "expectedBranch": "airdramon",
+            "referenceBranchMatched": true,
+            "frameHash": "d1d41a447dd28ed0f9876ae387183f9284650bc4f1862da8c568bf9bd384aebb",
+            "targetHash": "7132ce39353afaebd65a6ea3ced82f63911e99f3307808ff30bf5b96a8193983",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.metal-greymon",
+            "characterId": "dm1.metal-greymon",
+            "name": "Metal Greymon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.26166666666666666,
+              "filledSilhouetteIoU": 0.42606516290726815,
+              "pixelAgreement": 0.5673828125,
+              "aspectSimilarity": 0.75,
+              "densitySimilarity": 0.9034845132743363,
+              "components": {
+                "actual": 1,
+                "target": 24
+              },
+              "holes": {
+                "actual": 3,
+                "target": 15
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": false,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "airdramon",
+            "expectedBranch": "metal-greymon",
+            "referenceBranchMatched": false,
+            "frameHash": "027882ed236147c37eb2e55c08a1e1510b33c5db684a8f2edb9cb4de665945bb",
+            "targetHash": "b5194dea5d3946030a0a821901bed15c093e3eccbed3354417628a9eb1a0187d",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    }
+  ]
+}

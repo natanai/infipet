@@ -1,0 +1,2886 @@
+[
+  {
+    "id": "canine-cub__s01__neutral",
+    "group": "primary",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "canine-cub__s02__neutral",
+    "group": "primary",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "canine-cub__s03__neutral",
+    "group": "primary",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-03",
+    "seedIndex": 2,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "canine-cub__s04__neutral",
+    "group": "primary",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-04",
+    "seedIndex": 3,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ]
+  },
+  {
+    "id": "canine-cub--body-ratio__s01",
+    "group": "source",
+    "sourceId": "canine-cub--body-ratio",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Authored trunk proportions alter descendant trunk proportions; inherited genes stay fixed. Pixel area is recorded, not assumed conserved after rasterization."
+  },
+  {
+    "id": "canine-cub--body-ratio__s02",
+    "group": "source",
+    "sourceId": "canine-cub--body-ratio",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Authored trunk proportions alter descendant trunk proportions; inherited genes stay fixed. Pixel area is recorded, not assumed conserved after rasterization."
+  },
+  {
+    "id": "canine-cub--body-bend__s01",
+    "group": "source",
+    "sourceId": "canine-cub--body-bend",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Authored trunk curvature influences descendant centerline or material contour, without rerolling unrelated genes."
+  },
+  {
+    "id": "canine-cub--body-bend__s02",
+    "group": "source",
+    "sourceId": "canine-cub--body-bend",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Authored trunk curvature influences descendant centerline or material contour, without rerolling unrelated genes."
+  },
+  {
+    "id": "canine-cub--attachment-length__s01",
+    "group": "source",
+    "sourceId": "canine-cub--attachment-length",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Longer authored tail has a measurable corresponding descendant effect while retaining its source identity and root."
+  },
+  {
+    "id": "canine-cub--attachment-length__s02",
+    "group": "source",
+    "sourceId": "canine-cub--attachment-length",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Longer authored tail has a measurable corresponding descendant effect while retaining its source identity and root."
+  },
+  {
+    "id": "canine-cub--face-spacing__s01",
+    "group": "source",
+    "sourceId": "canine-cub--face-spacing",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Wider authored eye spacing remains distinguishable on descendant hosts; unrelated anatomy does not reroll."
+  },
+  {
+    "id": "canine-cub--face-spacing__s02",
+    "group": "source",
+    "sourceId": "canine-cub--face-spacing",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Wider authored eye spacing remains distinguishable on descendant hosts; unrelated anatomy does not reroll."
+  },
+  {
+    "id": "canine-cub--palette-control__s01",
+    "group": "source",
+    "sourceId": "canine-cub--palette-control",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Recoloring changes pigments but not anatomy, inherited genes, or structural descriptors."
+  },
+  {
+    "id": "canine-cub--palette-control__s02",
+    "group": "source",
+    "sourceId": "canine-cub--palette-control",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Recoloring changes pigments but not anatomy, inherited genes, or structural descriptors."
+  },
+  {
+    "id": "canine-cub--ordering-control__s01",
+    "group": "source",
+    "sourceId": "canine-cub--ordering-control",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Source array ordering with unchanged IDs, depths and pixels must not change output or genes."
+  },
+  {
+    "id": "canine-cub--ordering-control__s02",
+    "group": "source",
+    "sourceId": "canine-cub--ordering-control",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      30,
+      75,
+      120
+    ],
+    "expectation": "Source array ordering with unchanged IDs, depths and pixels must not change output or genes."
+  },
+  {
+    "id": "care__s01__onset0__control",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "onset": 0
+  },
+  {
+    "id": "care__s01__onset0__safety__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "safety-0-at-0",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "safety",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__safety__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "safety-1-at-0",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "safety",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__security__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "security-0-at-0",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "security",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__security__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "security-1-at-0",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "security",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__trust__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "trust-0-at-0",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "trust",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__trust__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "trust-1-at-0",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "trust",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__rest__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "rest-0-at-0",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "rest",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__rest__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "rest-1-at-0",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "rest",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__relaxation__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "relaxation-0-at-0",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "relaxation",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__relaxation__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "relaxation-1-at-0",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "relaxation",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__physical-fitness__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "physical-fitness-0-at-0",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "physical-fitness",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset0__physical-fitness__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "physical-fitness-1-at-0",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "physical-fitness",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__control",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "onset": 7
+  },
+  {
+    "id": "care__s01__onset7__safety__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "safety-0-at-7",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "safety",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__safety__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "safety-1-at-7",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "safety",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__security__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "security-0-at-7",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "security",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__security__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "security-1-at-7",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "security",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__trust__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "trust-0-at-7",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "trust",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__trust__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "trust-1-at-7",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "trust",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__rest__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "rest-0-at-7",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "rest",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__rest__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "rest-1-at-7",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "rest",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__relaxation__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "relaxation-0-at-7",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "relaxation",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__relaxation__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "relaxation-1-at-7",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "relaxation",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__physical-fitness__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "physical-fitness-0-at-7",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "physical-fitness",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset7__physical-fitness__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "physical-fitness-1-at-7",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "physical-fitness",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__control",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "onset": 90
+  },
+  {
+    "id": "care__s01__onset90__safety__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "safety-0-at-90",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "safety",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__safety__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "safety-1-at-90",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "safety",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__security__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "security-0-at-90",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "security",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__security__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "security-1-at-90",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "security",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__trust__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "trust-0-at-90",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "trust",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__trust__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "trust-1-at-90",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "trust",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__rest__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "rest-0-at-90",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "rest",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__rest__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "rest-1-at-90",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "rest",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__relaxation__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "relaxation-0-at-90",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "relaxation",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__relaxation__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "relaxation-1-at-90",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "relaxation",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__physical-fitness__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "physical-fitness-0-at-90",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "physical-fitness",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset90__physical-fitness__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "physical-fitness-1-at-90",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "physical-fitness",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__control",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "onset": 150
+  },
+  {
+    "id": "care__s01__onset150__safety__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "safety-0-at-150",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "safety",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__safety__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "safety-1-at-150",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "safety",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__security__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "security-0-at-150",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "security",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__security__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "security-1-at-150",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "security",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__trust__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "trust-0-at-150",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "trust",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__trust__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "trust-1-at-150",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "trust",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__rest__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "rest-0-at-150",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "rest",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__rest__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "rest-1-at-150",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "rest",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__relaxation__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "relaxation-0-at-150",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "relaxation",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__relaxation__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "relaxation-1-at-150",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "relaxation",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__physical-fitness__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "physical-fitness-0-at-150",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "physical-fitness",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s01__onset150__physical-fitness__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-01",
+    "seedIndex": 0,
+    "historyId": "physical-fitness-1-at-150",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "physical-fitness",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__control",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "onset": 0
+  },
+  {
+    "id": "care__s02__onset0__safety__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "safety-0-at-0",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "safety",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__safety__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "safety-1-at-0",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "safety",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__security__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "security-0-at-0",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "security",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__security__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "security-1-at-0",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "security",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__trust__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "trust-0-at-0",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "trust",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__trust__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "trust-1-at-0",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "trust",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__rest__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "rest-0-at-0",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "rest",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__rest__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "rest-1-at-0",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "rest",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__relaxation__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "relaxation-0-at-0",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "relaxation",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__relaxation__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "relaxation-1-at-0",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "relaxation",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__physical-fitness__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "physical-fitness-0-at-0",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 0,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "physical-fitness",
+    "onset": 0,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset0__physical-fitness__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "physical-fitness-1-at-0",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 0,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      0,
+      0.25,
+      1,
+      7,
+      14
+    ],
+    "needId": "physical-fitness",
+    "onset": 0,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__control",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "onset": 7
+  },
+  {
+    "id": "care__s02__onset7__safety__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "safety-0-at-7",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "safety",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__safety__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "safety-1-at-7",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "safety",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__security__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "security-0-at-7",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "security",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__security__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "security-1-at-7",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "security",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__trust__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "trust-0-at-7",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "trust",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__trust__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "trust-1-at-7",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "trust",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__rest__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "rest-0-at-7",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "rest",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__rest__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "rest-1-at-7",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "rest",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__relaxation__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "relaxation-0-at-7",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "relaxation",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__relaxation__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "relaxation-1-at-7",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "relaxation",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__physical-fitness__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "physical-fitness-0-at-7",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 168,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "physical-fitness",
+    "onset": 7,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset7__physical-fitness__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "physical-fitness-1-at-7",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 168,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      7,
+      7.25,
+      8,
+      14,
+      21
+    ],
+    "needId": "physical-fitness",
+    "onset": 7,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__control",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "onset": 90
+  },
+  {
+    "id": "care__s02__onset90__safety__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "safety-0-at-90",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "safety",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__safety__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "safety-1-at-90",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "safety",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__security__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "security-0-at-90",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "security",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__security__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "security-1-at-90",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "security",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__trust__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "trust-0-at-90",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "trust",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__trust__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "trust-1-at-90",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "trust",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__rest__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "rest-0-at-90",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "rest",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__rest__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "rest-1-at-90",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "rest",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__relaxation__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "relaxation-0-at-90",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "relaxation",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__relaxation__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "relaxation-1-at-90",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "relaxation",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__physical-fitness__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "physical-fitness-0-at-90",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 2160,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "physical-fitness",
+    "onset": 90,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset90__physical-fitness__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "physical-fitness-1-at-90",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 2160,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      90,
+      90.25,
+      91,
+      97,
+      104
+    ],
+    "needId": "physical-fitness",
+    "onset": 90,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__control",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "neutral",
+    "keyframes": [],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "onset": 150
+  },
+  {
+    "id": "care__s02__onset150__safety__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "safety-0-at-150",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "safety",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__safety__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "safety-1-at-150",
+    "keyframes": [
+      {
+        "needId": "safety",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "safety",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__security__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "security-0-at-150",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "security",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__security__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "security-1-at-150",
+    "keyframes": [
+      {
+        "needId": "security",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "security",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__trust__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "trust-0-at-150",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "trust",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__trust__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "trust-1-at-150",
+    "keyframes": [
+      {
+        "needId": "trust",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "trust",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__rest__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "rest-0-at-150",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "rest",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__rest__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "rest-1-at-150",
+    "keyframes": [
+      {
+        "needId": "rest",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "rest",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__relaxation__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "relaxation-0-at-150",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "relaxation",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__relaxation__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "relaxation-1-at-150",
+    "keyframes": [
+      {
+        "needId": "relaxation",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "relaxation",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__physical-fitness__0",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "physical-fitness-0-at-150",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 3600,
+        "fulfillment": 0
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "physical-fitness",
+    "onset": 150,
+    "fulfillment": 0,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  },
+  {
+    "id": "care__s02__onset150__physical-fitness__1",
+    "group": "care",
+    "sourceId": "canine-cub",
+    "seed": "life-v7-genome-02",
+    "seedIndex": 1,
+    "historyId": "physical-fitness-1-at-150",
+    "keyframes": [
+      {
+        "needId": "physical-fitness",
+        "tick": 3600,
+        "fulfillment": 1
+      }
+    ],
+    "ages": [
+      150,
+      150.25,
+      151,
+      157,
+      164
+    ],
+    "needId": "physical-fitness",
+    "onset": 150,
+    "fulfillment": 1,
+    "expectation": "Recorded mediator changes and actual pixels are separate evidence; no visual response claimed before review."
+  }
+]

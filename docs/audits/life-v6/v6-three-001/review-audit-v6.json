@@ -1,0 +1,85 @@
+{
+  "reviewer": "/root/audit_v6",
+  "reviewerKind": "agent",
+  "runId": "v6-three-001",
+  "conclusion": "Baseline findings: clear evolution32/36 transitions. Already-quadrupedal sources can repeat a larger quadruped at first milestone; this is recorded without tuning engine to these cases.",
+  "inspected": {
+    "endpointViews": 48,
+    "intermediateViews": 180,
+    "poseViews": 384,
+    "totalScheduledViews": 612
+  },
+  "evidence": [
+    "atlases/endpoint-001.png",
+    "atlases/interior-001.png",
+    "atlases/interior-002.png",
+    "atlases/interior-003.png",
+    "atlases/pose-001.png",
+    "atlases/pose-002.png",
+    "atlases/pose-003.png",
+    "atlases/pose-004.png",
+    "atlases/pose-005.png",
+    "atlases/pose-006.png"
+  ],
+  "clearEvolution": {
+    "numerator": 32,
+    "denominator": 36,
+    "percent": 88.88888888888889,
+    "condition": "Agent distinctiveness>=2; three starters, four raw seeds, neutral care, adjacent milestone comparisons"
+  },
+  "perPreset": [
+    {
+      "presetId": "bean",
+      "numerator": 12,
+      "denominator": 12,
+      "percent": 100
+    },
+    {
+      "presetId": "sprout",
+      "numerator": 12,
+      "denominator": 12,
+      "percent": 100
+    },
+    {
+      "presetId": "canine-cub",
+      "numerator": 8,
+      "denominator": 12,
+      "percent": 66.66666666666667
+    }
+  ],
+  "actualMotionPhaseCoverage": {
+    "numerator": 48,
+    "denominator": 48,
+    "percent": 100,
+    "condition": "Actual controller phases0–7 at all48 endpoints"
+  },
+  "findings": [
+    {
+      "id": "EV6-016",
+      "caseIds": [
+        "canine-cub__s01__neutral",
+        "canine-cub__s03__neutral",
+        "canine-cub__s04__neutral"
+      ],
+      "ages": [
+        0,
+        30
+      ],
+      "issue": "First transition can largely enlarge the authored support plan instead of choosing a substantially different organization."
+    },
+    {
+      "id": "EV6-017",
+      "caseId": "canine-cub__s03__neutral",
+      "ages": [
+        75,
+        120
+      ],
+      "issue": "Elder remains too similar to upright adult."
+    }
+  ],
+  "limitations": [
+    "Actual rendered contact sheets inspected; motion assessed through complete held pose sequences.",
+    "No human or physical-device review.",
+    "A passing bean proof is not a claim every drawing or genotype has dramatic evolution."
+  ]
+}

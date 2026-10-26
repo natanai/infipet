@@ -1,0 +1,1525 @@
+[
+  {
+    "id": "canine-cub",
+    "name": "Cub",
+    "parts": [
+      {
+        "id": "tail",
+        "kind": "tail",
+        "name": "Tail",
+        "position": {
+          "x": 3,
+          "y": 12
+        },
+        "parentId": "body",
+        "layer": 0,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "leg-hind-right",
+        "kind": "leg",
+        "name": "Leg Hind Right",
+        "position": {
+          "x": 13,
+          "y": 19
+        },
+        "parentId": "body",
+        "layer": 1,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "foot-hind-right",
+        "kind": "foot",
+        "name": "Foot Hind Right",
+        "position": {
+          "x": 13,
+          "y": 24
+        },
+        "parentId": "leg-hind-right",
+        "layer": 2,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 0,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "leg-fore-right",
+        "kind": "leg",
+        "name": "Leg Fore Right",
+        "position": {
+          "x": 24,
+          "y": 19
+        },
+        "parentId": "body",
+        "layer": 3,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "foot-fore-right",
+        "kind": "foot",
+        "name": "Foot Fore Right",
+        "position": {
+          "x": 24,
+          "y": 24
+        },
+        "parentId": "leg-fore-right",
+        "layer": 4,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 0,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "body",
+        "kind": "body",
+        "name": "Body",
+        "position": {
+          "x": 8,
+          "y": 14
+        },
+        "parentId": null,
+        "layer": 5,
+        "pixels": [
+          {
+            "x": 3,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 9,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 10,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 11,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 12,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 13,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 9,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 10,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 11,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 12,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 13,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 14,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 15,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 9,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 10,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 11,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 12,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 13,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 14,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 15,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 16,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 9,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 10,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 11,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 12,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 13,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 14,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 15,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 16,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 9,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 10,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 11,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 12,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 13,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 14,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 15,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 16,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 9,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 10,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 11,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 12,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 13,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 14,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 15,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 9,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 10,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 11,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 12,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 13,
+            "y": 6,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "head",
+        "kind": "head",
+        "name": "Head",
+        "position": {
+          "x": 21,
+          "y": 10
+        },
+        "parentId": "body",
+        "layer": 6,
+        "pixels": [
+          {
+            "x": 2,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 8,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 4,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 5,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 6,
+            "y": 6,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 7,
+            "y": 6,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "ear-left",
+        "kind": "ear",
+        "name": "Ear Left",
+        "position": {
+          "x": 22,
+          "y": 7
+        },
+        "parentId": "head",
+        "layer": 7,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "ear-right",
+        "kind": "ear",
+        "name": "Ear Right",
+        "position": {
+          "x": 27,
+          "y": 7
+        },
+        "parentId": "head",
+        "layer": 8,
+        "pixels": [
+          {
+            "x": 2,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 3,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "leg-hind-left",
+        "kind": "leg",
+        "name": "Leg Hind Left",
+        "position": {
+          "x": 9,
+          "y": 19
+        },
+        "parentId": "body",
+        "layer": 9,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "foot-hind-left",
+        "kind": "foot",
+        "name": "Foot Hind Left",
+        "position": {
+          "x": 8,
+          "y": 25
+        },
+        "parentId": "leg-hind-left",
+        "layer": 10,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 0,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "leg-fore-left",
+        "kind": "leg",
+        "name": "Leg Fore Left",
+        "position": {
+          "x": 20,
+          "y": 19
+        },
+        "parentId": "body",
+        "layer": 11,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 2,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 3,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 4,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 0,
+            "y": 5,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 5,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "foot-fore-left",
+        "kind": "foot",
+        "name": "Foot Fore Left",
+        "position": {
+          "x": 20,
+          "y": 25
+        },
+        "parentId": "leg-fore-left",
+        "layer": 12,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 2,
+            "y": 0,
+            "color": "#FFFFFF"
+          },
+          {
+            "x": 3,
+            "y": 0,
+            "color": "#FFFFFF"
+          }
+        ]
+      },
+      {
+        "id": "eye-left",
+        "kind": "eye",
+        "name": "Eye Left",
+        "position": {
+          "x": 24,
+          "y": 12
+        },
+        "parentId": "head",
+        "layer": 13,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#000000"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "color": "#000000"
+          }
+        ]
+      },
+      {
+        "id": "eye-right",
+        "kind": "eye",
+        "name": "Eye Right",
+        "position": {
+          "x": 28,
+          "y": 12
+        },
+        "parentId": "head",
+        "layer": 14,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#000000"
+          }
+        ]
+      },
+      {
+        "id": "nose",
+        "kind": "decoration",
+        "name": "Nose",
+        "position": {
+          "x": 28,
+          "y": 15
+        },
+        "parentId": "head",
+        "layer": 15,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#000000"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#000000"
+          }
+        ]
+      },
+      {
+        "id": "mouth",
+        "kind": "mouth",
+        "name": "Mouth",
+        "position": {
+          "x": 26,
+          "y": 16
+        },
+        "parentId": "head",
+        "layer": 16,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#000000"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#000000"
+          }
+        ]
+      },
+      {
+        "id": "flank-mark",
+        "kind": "decoration",
+        "name": "Flank Mark",
+        "position": {
+          "x": 12,
+          "y": 16
+        },
+        "parentId": "body",
+        "layer": 17,
+        "pixels": [
+          {
+            "x": 0,
+            "y": 0,
+            "color": "#000000"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "color": "#000000"
+          },
+          {
+            "x": 2,
+            "y": 0,
+            "color": "#000000"
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "color": "#000000"
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "color": "#000000"
+          }
+        ]
+      }
+    ],
+    "sourceHash": "3059ca12e8d3ee5e96ed1b4f49d86f288052547bbe7024d95fcb126d53607f8b",
+    "expectations": [
+      "Long horizontal trunk and smaller offset head",
+      "Four authored legs and feet",
+      "Pointed paired ears",
+      "Upturned bent tail",
+      "Unequal eye clusters and dark flank marking"
+    ]
+  }
+]

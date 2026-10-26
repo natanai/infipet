@@ -1,0 +1,25 @@
+{
+  "comparisonCoverage": {
+    "numerator": 12,
+    "denominator": 12,
+    "percent": 100,
+    "condition": "adjacent-stage comparisons with recorded visual review",
+    "age": "0→30,30→75,75→120"
+  },
+  "secondReviewCoverage": {
+    "numerator": 0,
+    "denominator": 12,
+    "percent": 0,
+    "condition": "adjacent-stage comparisons with >=2 reviewer identities",
+    "age": "0→30,30→75,75→120"
+  },
+  "distinctivenessDisagreement": {
+    "numerator": 0,
+    "denominator": 0,
+    "percent": null,
+    "condition": "independently reviewed comparisons with differing distinctiveness scores",
+    "age": "0→30,30→75,75→120"
+  },
+  "disagreements": [],
+  "humanReviewRecords": 0
+}

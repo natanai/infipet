@@ -1,0 +1,13 @@
+✔ v7 distinguishes source, inherited genome and developmental program fingerprints (230.5605ms)
+✔ v7 inherited genes are independent of source identities, palette, ordering and need history (20.2518ms)
+✔ v7 renaming material identities cannot change structural pixels (1045.7444ms)
+✔ v7 exact pre-event fractional anatomy excludes later need keyframes (105.0941ms)
+✔ v7 diagnostics are immutable snapshots and source editing never mutates earlier programs (80.1319ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1816.2624

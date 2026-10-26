@@ -1,0 +1,1933 @@
+[
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-00",
+    "rowIds": [
+      "4F000018",
+      "2E36B96E",
+      "6EC4DB3A",
+      "F14D2FD5",
+      "8F8BDEAD",
+      "6AD7974A",
+      "9BACA048",
+      "1A9EAE26"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Different head breadth, ear lean and tail curls are visible; development mainly enlarges/proportions the same upright anatomy. Small whisker/root fragments and tight leg silhouettes reduce crispness; no certain missing eyes established.",
+    "defects": [
+      "small-feature-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.440Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-00",
+    "rowIds": [
+      "9A8E0C2A",
+      "E7CC7F3C",
+      "67AB52CF",
+      "30348F25",
+      "44AB5E42",
+      "6C40F2D1",
+      "8D98DDBF",
+      "6C1D13D6"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Later silhouettes bend and widen markedly, with slanted heads and curled tails; each sequence remains related. Some feet compress into a narrow common base and whiskers become isolated small strokes, making exact feature boundaries uncertain.",
+    "defects": [
+      "small-feature-legibility",
+      "merged-foot-silhouette-alert"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-01",
+    "rowIds": [
+      "D49C6FF4",
+      "BED2A784",
+      "2012379A",
+      "6F62E538",
+      "F58F7CF5",
+      "0B2603EF",
+      "FAEC605A",
+      "85C7DD11"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Cohort shows broad versus narrow heads, different ear lean and tail posture. Within each row most later change is increased mass/proportion; facial dots remain visible but several legs/whiskers merge into the outline.",
+    "defects": [
+      "small-feature-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-01",
+    "rowIds": [
+      "244CEED9",
+      "ABD134A9",
+      "9B93A92F",
+      "063C1A87",
+      "C0FA0B6A",
+      "CE687EB0",
+      "1AC5AFFB",
+      "68741016"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Marked curled/slanted outlines distinguish several rows. Body remains readable and faces track the head; fine lower-limb boundaries and disconnected-looking whisker tips remain small ambiguous marks.",
+    "defects": [
+      "small-feature-legibility",
+      "merged-foot-silhouette-alert"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-02",
+    "rowIds": [
+      "3C4C5920",
+      "38C671B7",
+      "16457883",
+      "739AF11E",
+      "D775F53B",
+      "C90A5419",
+      "283D712B",
+      "2AF9546E",
+      "05F49ADD",
+      "FF3E3D61",
+      "F694AFB2",
+      "4BD0FE52",
+      "8F46AE6B",
+      "42CAB5ED",
+      "CF8FFA82",
+      "DBA0924E"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Rows show clear changes in head slant, widening/rounding of body, ear direction and tail curl; several late silhouettes return toward an upright form. Facial spots remain anchored visually, but thin whisker/foot strokes can merge or appear detached at this scale; no certain vanished organ established.",
+    "defects": [
+      "small-feature-legibility",
+      "merged-foot-silhouette-alert"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-03",
+    "rowIds": [
+      "23889EDF",
+      "867703E9",
+      "CE0888EC",
+      "DA26D1AB",
+      "095258B6",
+      "282B1162",
+      "7DC69BA7",
+      "37EF2D95"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Individual outlines differ, but sequences mainly scale existing upright head/body/ear/tail arrangements. Fine facial and foot details remain small; silhouette roots have a few isolated-looking pixels.",
+    "defects": [
+      "small-feature-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-03",
+    "rowIds": [
+      "6C7E7450",
+      "0C35AC18",
+      "2171B66C",
+      "1D5EA119",
+      "6D125DC4",
+      "DDBD5A83",
+      "F48DE73D",
+      "3814AF9D"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Curled and slanting late forms show more than simple scale, with reshaped heads and altered lower-body contours. Shared face marks remain generally readable; feet and fine whiskers are sometimes difficult to separate from adjacent mass.",
+    "defects": [
+      "small-feature-legibility",
+      "merged-foot-silhouette-alert"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-04",
+    "rowIds": [
+      "F0A98A5C"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Growth changes a compact upright outline into a larger curled silhouette with tilted ears and tail; facial marks remain legible, while the lower-body/whisker roots remain pixel-small.",
+    "defects": [
+      "small-feature-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-04",
+    "rowIds": [
+      "A6DE96D5",
+      "EE9075CC",
+      "67A41BDC"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. These sequences mainly enlarge head/body proportions within one upright family. Distinct ear lengths and body width remain visible, but the small feet and face marks offer limited crisp detail.",
+    "defects": [
+      "small-feature-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P00-05",
+    "rowIds": [
+      "4FB82D83",
+      "4CABEEEE",
+      "4DB5BE9C",
+      "3CAC22FA",
+      "5A9A71D7",
+      "C592C473",
+      "D3B54DA1",
+      "69A76479",
+      "09A51BB8",
+      "687BB1B5",
+      "FFDE2C1C",
+      "247FB6C0",
+      "90A4E415",
+      "FF2AB3C3",
+      "B6F6B3B5",
+      "5292E995",
+      "0053A13C",
+      "833E6AC9",
+      "B9374809",
+      "FD5A6098",
+      "7AC17D02",
+      "3ABB0552",
+      "121EFB6C",
+      "65F0E420",
+      "0FC4FE6F",
+      "A03EEA3C",
+      "242E9D95",
+      "7881D272",
+      "8671F737",
+      "B626ED65",
+      "57D62FC2",
+      "F6FE5DB0",
+      "862B1AA1",
+      "E3D0634A",
+      "1915FE0A",
+      "94BCF9B1",
+      "9D24BEDA",
+      "F936140B",
+      "6E91F48A",
+      "ED65514A",
+      "50FFF6D5",
+      "FA3B71C2",
+      "CFA831E5",
+      "6AC8B8B3",
+      "CC17F220",
+      "4AA5869A",
+      "67FE748C",
+      "C817AF9A",
+      "39561F82",
+      "48284067",
+      "75208AC5",
+      "DE60B586",
+      "0AFBC872",
+      "61A50C5F",
+      "6572BC5D",
+      "50F2CF32",
+      "45311B15",
+      "6574497D",
+      "DA3DD24F",
+      "85A3F80C",
+      "25CB3147",
+      "40D85FB7",
+      "B4F8FFEB",
+      "6AA3E168",
+      "CFB8C3BC",
+      "9E855382",
+      "DECF8EEC",
+      "2AC9D917",
+      "6F25A8CC",
+      "D5297A72",
+      "A30F124A",
+      "D29C7F12",
+      "923793D8",
+      "C9ABB544",
+      "C481C1D2",
+      "F4F5F631",
+      "18FE852C",
+      "B54ED301",
+      "2E452BFC",
+      "1CA8AB79",
+      "87694D71",
+      "9F038D49",
+      "7617B44C",
+      "5F57F77D",
+      "0FAB89F4",
+      "E32D6562",
+      "BF6A8C4F",
+      "650B405D",
+      "DBC86953",
+      "9C6E15DE",
+      "0795635B",
+      "18B142B1",
+      "0E038B40",
+      "68881DC1",
+      "EDD2F646",
+      "9A257AB7",
+      "BDB24BF0",
+      "DA1B53EC",
+      "37049B84",
+      "81BA3F09",
+      "C3884EB3",
+      "F804E35D",
+      "1B9C6FA7",
+      "414A7F49",
+      "4AE22171",
+      "3BB4F30F",
+      "4940FA6F",
+      "84227EA5",
+      "C38F57E1",
+      "0EF9694E",
+      "C5FDDE61",
+      "65469E4B",
+      "1C3C8914",
+      "7EEF7C9B",
+      "2DBC204C",
+      "6C5B16C1",
+      "6764D5D6",
+      "A012DDEB",
+      "7695E4A5",
+      "89904087"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": null,
+      "continuity": null
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. All120 adult cells inspected. Clear broad/narrow heads, taller/rounder bodies, slanted ears and varied tail curls distinguish individuals, while most retain the same face/body feature family. Tiny whisker, eye and foot boundaries are sometimes compressed or merge with the outline; adult-only images cannot establish development or an unequivocal missing source feature.",
+    "defects": [
+      "small-feature-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-00",
+    "rowIds": [
+      "2E2AB2F0",
+      "38B5A645",
+      "738CC6FE",
+      "79252BA1"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Individuals differ in torso length and head/muzzle proportions, but these rows mainly enlarge the existing side-on anatomy. Eye and ear patch remain readable; late muzzle lines and foot tips become jagged or partly merged.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-00",
+    "rowIds": [
+      "A38732C5",
+      "B8A29985",
+      "E46600A9",
+      "6C22C604",
+      "81A2EBD2",
+      "FB44BD97",
+      "36AB1951",
+      "547F57C5",
+      "BD71D6EC",
+      "E1DB33AC",
+      "3FE9B90D",
+      "BB2A0E17"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Several rows acquire strongly slanted/upturned heads, altered neck/body curvature and splayed or shorter lower-body outlines. Figure identity is related through the five frames; muzzle/foot strokes sometimes separate into jagged prongs or merge, without enough evidence here to assert a missing organ.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-01",
+    "rowIds": [
+      "DEC3327B",
+      "675BDFCF",
+      "50944220",
+      "C59A547D",
+      "31131963",
+      "F087828D",
+      "697C6B97",
+      "FF4FACA2",
+      "3E437FAD",
+      "93236748"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Rows retain side-on head/ear/torso/tail structure, differing mainly in relative mass and length. Head patches track coherently; thin muzzle and paw edges remain jagged and sometimes merged.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-01",
+    "rowIds": [
+      "551FF800",
+      "D1B7CC4A",
+      "D65267B1",
+      "83C768E7",
+      "D8AC5229",
+      "72F4F753"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Upturned heads or tilted compact bodies create clear outline changes beyond simple size. The face and ear remain attached visually, with recurring pronged muzzle outlines and ambiguous tiny paw boundaries.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-02",
+    "rowIds": [
+      "A79754D8",
+      "CAC2F853",
+      "55FA614C",
+      "60852403",
+      "BAB32E97",
+      "A9E9CEB9",
+      "D8BE755C",
+      "88D2FE13",
+      "9AA28A81",
+      "7AD86637",
+      "BA0FB152",
+      "AE0A7E53",
+      "BB3D5D04",
+      "1575E0F2",
+      "A09FE488",
+      "B59F1D14"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Sequences alternate long/upturned or pointed muzzles with more compact upright heads; torso thickness, leg stance and tail direction visibly develop. Ear/eye relationships remain readable. Thin muzzle and paw edges recur as jagged multiple strokes; no unequivocal missing source organ can be separated from silhouette overlap.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-03",
+    "rowIds": [
+      "14FC9F82",
+      "D71B1FEB",
+      "2F15F721",
+      "E19F7056"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. These rows largely enlarge or stretch a stable side-on family. Muzzle and paw tips remain somewhat fragmented-looking; head/ear/tail structure is visually related throughout.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-03",
+    "rowIds": [
+      "9128A9BA",
+      "D242609D"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Clear side-on body, readable ear patch and eye, separated paws and rooted tail persist through the five shown frames. Changes are chiefly body/head proportion and size; no conspicuous broken tissue seen.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-03",
+    "rowIds": [
+      "569C3284",
+      "57FA1B2D",
+      "8F073E10",
+      "03FB99D3",
+      "9BE0662C",
+      "B7F8CD6D",
+      "FC8D9B82",
+      "CC68ADDF",
+      "F4CE6A34",
+      "1B3DDB64"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. These sequences have visible neck/head elevation, torso curvature or diagonal stance changes beyond simple enlargement. Parts remain generally readable, with recurring tiny muzzle/paw aliases rather than established missing organs.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-04",
+    "rowIds": [
+      "2B545BB3",
+      "C7839951"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Main development increases torso/head proportions within a side-on family; the last two shown frames are closely related. Jagged snout edges and small paw boundaries remain readable but not crisp.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-04",
+    "rowIds": [
+      "FF4E42F8",
+      "6B1B0C5B"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Head elevation and slanted lower-body contours visibly change through the row. Ear patch/eye remain on the head; a few muzzle/foot pixels form thin protrusions or nearly merge.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-05",
+    "rowIds": [
+      "E30B8C3E",
+      "B5075008",
+      "785F2B51",
+      "683547C3",
+      "BDD47994",
+      "A441896F",
+      "BC132DC2",
+      "C1A73A73",
+      "615A3B05",
+      "F10D8C6F",
+      "4365CB6A",
+      "8EE53EDE",
+      "B9EE5AB2",
+      "D0EFC21B",
+      "92481DF0",
+      "45DB4385"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": null,
+      "continuity": null
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Selected adult cells have clear side-on anatomy, readable eye/ear patch, separated paws and a rooted tail without conspicuous broken tissue. Body length and muzzle/head proportions provide clear individual differences. No sequence judgment from this overview.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P01-05",
+    "rowIds": [
+      "767649DD",
+      "EFD0FCDA",
+      "284F594C",
+      "A7577211",
+      "0C51E9A7",
+      "B7EBE0AF",
+      "4075EC74",
+      "C81BDF5E",
+      "88EC5B2A",
+      "3204B949",
+      "25F2F2D0",
+      "898F75AF",
+      "68A4F08E",
+      "C60F3509",
+      "4C324239",
+      "EF264DFE",
+      "CF02F6C6",
+      "D390F64F",
+      "2DEEC96D",
+      "002D939A",
+      "D27298D8",
+      "F1C1F3D2",
+      "378B75D9",
+      "5D64E362",
+      "6BDBE80D",
+      "C69E7E0C",
+      "F380EC51",
+      "695AEB38",
+      "569AC7FF",
+      "C282E4CD",
+      "EF5CA0A7",
+      "D4C27CC8",
+      "F72A576D",
+      "AB6681A2",
+      "0F5CBC90",
+      "58157BC6",
+      "C9175D2E",
+      "D2F417BE",
+      "914F6A08",
+      "BAB7358C",
+      "6DDB75BF",
+      "C3625225",
+      "7F23425B",
+      "7E45E781",
+      "1B178E2E",
+      "8ABFC588",
+      "602B6B66",
+      "4417BB45",
+      "2B5B1E59",
+      "FCF0FB82",
+      "D99A8F28",
+      "BFC00D75",
+      "9D6832AF",
+      "76CFEB5D",
+      "AA93FF37",
+      "FFC41780",
+      "E801949B",
+      "B7E79487",
+      "4B796997",
+      "79AB509B",
+      "35D85B8E",
+      "7D5F5D57",
+      "306FCECC",
+      "16C1171C",
+      "5D638BF2",
+      "A0CEB58F",
+      "E81C3378",
+      "12B50A93",
+      "A46B4F18",
+      "E35A3ED4",
+      "5154CC21",
+      "05592E9A",
+      "B656A0E5",
+      "A019C779",
+      "0BBABCCA",
+      "ABA44115",
+      "759FB953",
+      "FA5C04A6",
+      "48B468D7",
+      "D3C3921B",
+      "D8228D1C",
+      "4C9CCA92",
+      "0EAAF486",
+      "D7930398",
+      "17B219FD",
+      "B7E01A5A",
+      "BD8749A8",
+      "F9B14957",
+      "9A748AFD",
+      "6F2E167B",
+      "8B80514D",
+      "7B2BEDBE",
+      "C212E9F2",
+      "AA0DE3B8",
+      "ABD962E1",
+      "EA39C46C",
+      "59FE52E7",
+      "C0808394",
+      "B15CE43C",
+      "EF407EF0",
+      "0A121AE0",
+      "A285F5F1",
+      "460C1F1F",
+      "DDE53E12"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": null,
+      "continuity": null
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. All remaining adult cells inspected. Individuals differ visibly in long/compact torso, head elevation and muzzle length, but remain one side-on feature family. Many muzzle edges become thin multi-pronged strokes and some paws are compressed or merge into the silhouette. These are legibility alerts rather than verified lost source organs.",
+    "defects": [
+      "jagged-muzzle",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:35:40.441Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-00",
+    "rowIds": [
+      "F74E70C6",
+      "19D0D61B",
+      "1FF7C01C"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Head, contrasting inner-ear marks, nose and gray body remain cleanly readable; change is mainly growth/proportion within the same arrangement. The small separated white tail is already present in the first frame and is not classified as a new detachment.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-00",
+    "rowIds": [
+      "5F6EB3D0",
+      "F32FAA1C",
+      "A1F369D2",
+      "C60D34BA",
+      "FA24C2E2",
+      "FE587879",
+      "6E9C445B",
+      "B48B9F2D",
+      "8504AAA0"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 2,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Ears visibly bend, fan or lean while head and body proportions evolve; contrasting ear interiors and facial marks stay readable through related silhouettes. Source tail separation persists and is treated as authored anatomy.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-00",
+    "rowIds": [
+      "0D799F37",
+      "8540619B",
+      "189CCBCB",
+      "9B761703"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Stronger head/ear/body slant gives clear individual changes; face and pink ear interiors remain generally legible. Very small lower-body strokes compress or look isolated in late frames, reducing crispness without establishing lost source tissue.",
+    "defects": [
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-01",
+    "rowIds": [
+      "4952CA9B",
+      "6804CBDF",
+      "9E32B2E5",
+      "0F79D58F",
+      "4ACA0F98",
+      "D29C66DF",
+      "38304D14",
+      "03583024",
+      "217B7A79",
+      "48D1908B"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. These rows mainly change proportions/scale within a consistent head/ear/gray-body family. Bright ear outlines, pink interiors, nose and paws remain readable. The small white tail remains separated as in the initial image, not newly broken.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-01",
+    "rowIds": [
+      "D6E286A5",
+      "87369E78",
+      "27E99022",
+      "B0F813AD",
+      "33FC945B",
+      "10528725"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 2,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Distinct ear bends and head/body tilt appear across each related sequence; clear ear interiors and facial marks stay associated with the head. No unmistakable lost organ or broken carrier seen.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-02",
+    "rowIds": [
+      "14D661B2",
+      "882B5C2A",
+      "EABF84E7",
+      "650246AB",
+      "AE060BDF",
+      "9E6BC739",
+      "E4BAFE19",
+      "4F6F9A28",
+      "55944D6B"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 2,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Ears and head rotate/fan while the gray body changes breadth and stance; pink ear interiors and face marks remain legible in related shapes. Several later forms become more upright again. Separated white tail follows the authored arrangement.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-02",
+    "rowIds": [
+      "B095EEB0",
+      "097F8705",
+      "B0ED4A7E",
+      "6FA16AA8",
+      "59695313",
+      "992410EF",
+      "F286934B"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Strong leaning/curling changes remain related, but some late ears flatten along the head and tiny feet compress into angular strokes. This makes boundaries harder to read; a source organ cannot confidently be declared absent from these snapshots.",
+    "defects": [
+      "ear-head-merge-alert",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-03",
+    "rowIds": [
+      "E428A94A",
+      "4D52AF46",
+      "96FC9DC2"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Growth is mostly a larger/proportioned version of the same upright head/ear/body arrangement. Ear interiors, face and paws stay cleanly readable; tail separation begins in source.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-03",
+    "rowIds": [
+      "AD48D8CB",
+      "B43E6BAD",
+      "79576273",
+      "BD2352FA",
+      "768A6345",
+      "41DE40A6",
+      "A5CC06B1",
+      "FC0E16B4"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 2,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Clear ear bends and changes in head/body angle distinguish the sequences. Contrast keeps ear interiors and nose readable, and silhouettes remain related without conspicuous broken tissue.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-03",
+    "rowIds": [
+      "251F251E",
+      "3419813A",
+      "935DEC87",
+      "9E0B37A6",
+      "51E807D7"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. More strongly curved heads/ears and diagonal bodies visibly transform; the broad sequence remains related. A few late ear boundaries merge with the head and feet reduce to small angular marks, limiting exact feature readability.",
+    "defects": [
+      "ear-head-merge-alert",
+      "small-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-04",
+    "rowIds": [
+      "F54A99F1",
+      "51115269"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 2,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Ears and head visibly lean/curl while torso/stance change; bright face and inner-ear contrasts preserve readable features across a related sequence. No conspicuous lost source feature seen.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-04",
+    "rowIds": [
+      "0B687E45",
+      "1341E7AA"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. These sequences primarily enlarge/change proportions of a consistent upright figure. Ear interiors, nose and gray body remain readable; the small separate tail matches the initial arrangement.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P02-05",
+    "rowIds": [
+      "0A3AF455",
+      "92C49B66",
+      "2538547D",
+      "7C5DA5CD",
+      "3C70937D",
+      "6018E958",
+      "8F2961E6",
+      "9B2D0186",
+      "8FF08C80",
+      "0387B869",
+      "3CFD95A2",
+      "7B83E1E9",
+      "311CDFBF",
+      "BCCF9672",
+      "15BAB3B8",
+      "A469F17A",
+      "2F73EBA8",
+      "E93F9CFE",
+      "C64E9B7A",
+      "93EAAFFE",
+      "9485CFA1",
+      "FAD4207F",
+      "B9D76071",
+      "0E137A05",
+      "1932826B",
+      "2DE8E299",
+      "2B070028",
+      "557AB426",
+      "B9B05776",
+      "C1D4915F",
+      "099A1C7D",
+      "D7FCA997",
+      "276CB1FB",
+      "135E890F",
+      "D04F934B",
+      "A652C1C4",
+      "A6AC93DB",
+      "08CD2862",
+      "CDB79F1E",
+      "035958BE",
+      "AEA3C39E",
+      "83785E39",
+      "34BA78BB",
+      "E164350F",
+      "E2179320",
+      "504FFF6B",
+      "C9C0AE05",
+      "48A45175",
+      "295F1C02",
+      "815ED1BA",
+      "9F2A04DE",
+      "3AE96D3D",
+      "69DE3B65",
+      "6D564298",
+      "0E0457AB",
+      "8C676A83",
+      "C68D9B8C",
+      "24238B37",
+      "EDFF60CE",
+      "F008F528",
+      "A12A5B73",
+      "99B9A214",
+      "1E49CC2E",
+      "E1F51747",
+      "3681E7B2",
+      "C12F7512",
+      "D46C7465",
+      "B4E57E39",
+      "2E8018E5",
+      "20D6B3D8",
+      "A456C02B",
+      "911F427D",
+      "38A606EE",
+      "7E6EE208",
+      "C306117C",
+      "5855155D",
+      "AE6CF3FB",
+      "665A10E1",
+      "C384883B",
+      "79562353",
+      "2382B86A",
+      "A50D9CB2",
+      "17CF980E",
+      "BAECE098",
+      "59B57E4C",
+      "3118D722",
+      "3A7814BE",
+      "0193E3E9",
+      "1FDD8C46",
+      "005A9D85",
+      "D146111D",
+      "D167575B",
+      "8C314D95",
+      "6DF43DC1",
+      "0E92216D",
+      "603EF200",
+      "F5FB8A30",
+      "D9880C61",
+      "769D31EF",
+      "B86E34B8",
+      "0D32501D",
+      "6FCC088A",
+      "28BA2BD7",
+      "A10BDDB6",
+      "6B2DAE4C",
+      "3B0AC372",
+      "D697B351",
+      "A6FD5C46",
+      "B66D6FC2",
+      "628FD392",
+      "8EB5B28C",
+      "83723265",
+      "C33DCD4C",
+      "A28D807B",
+      "73361EB0",
+      "CCB36769",
+      "9CC908A5",
+      "5A9FA45C",
+      "93115501",
+      "F56FEF2E"
+    ],
+    "scores": {
+      "distinctiveness": 1,
+      "coherence": 3,
+      "richness": null,
+      "continuity": null
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. All120 neutral adult cells inspected. Most look like close members of the same upright white-head/gray-body family, with changes chiefly ear lean/length and body proportions rather than varied feature combinations. Contrasting ear interiors, nose and paws remain legible. Separated small white tails are consistent with source anatomy, not evidence of newly detached tissue.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:37:48.844Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-00",
+    "rowIds": [
+      "7A580A2A",
+      "F94D25FF",
+      "74D45411",
+      "0CC5C45C",
+      "BED37B30",
+      "B43050E2",
+      "43FDABB3",
+      "C0951BE5"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Broader/flatter head bars and taller versus round bellies distinguish individuals, but most progression is scale/proportion within one compact family. Tiny pink feet and ear tips can become isolated-looking dots or merge with nearby outline; face/belly remain generally readable.",
+    "defects": [
+      "tiny-ear-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-00",
+    "rowIds": [
+      "9ECC49DF",
+      "BBF35AFA",
+      "D4BD08ED",
+      "C433D069",
+      "864F28EE",
+      "8846E9CD",
+      "D9A33311",
+      "BEC86349"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Later rows visibly lean/curl the head and reshape the body, including a diagonal narrow form and broader head/body combinations. Pink face marks and light belly track the main figure; tiny feet/ear tips remain ambiguous pixel-level details rather than certain lost parts.",
+    "defects": [
+      "tiny-ear-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-01",
+    "rowIds": [
+      "17D67A41",
+      "7FAB008F",
+      "C4F8CF50",
+      "1ED3BB84",
+      "F836B41C",
+      "BBABF4E6",
+      "1CF566DE",
+      "A496A052",
+      "559F69A9",
+      "5C4741F2",
+      "582A4B31",
+      "60F0A7FC",
+      "4CEFEA32",
+      "B13DBD1F"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. These sequences remain close compact-animal forms; head width, cheek projection and belly proportions change more than the feature arrangement. Pink nose stays visible; minute feet and ear-tip pixels reduce crisp anatomical separation.",
+    "defects": [
+      "tiny-ear-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-01",
+    "rowIds": [
+      "45CB64D6",
+      "AE4977C6"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Stronger late head/body lean and curvature are clearly visible beyond enlargement, while face/belly remain associated with the same figure. Small ear/foot pixels are still difficult to read as distinct anatomy.",
+    "defects": [
+      "tiny-ear-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-02",
+    "rowIds": [
+      "CF037D63",
+      "79736DE5",
+      "76EFF74F",
+      "3D9CFDEC",
+      "C24DACAA",
+      "C6F5E736",
+      "160A9407",
+      "C673A59D",
+      "F068038E",
+      "4819C1B8",
+      "3A183726",
+      "EC9F76B4",
+      "C0CFF5C3",
+      "3BE445D6",
+      "E9E24B93",
+      "75888870"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Head bars slant or flatten and body silhouettes broaden, narrow or return upright; changes are clearly visible across related sequences. Cream belly and pink face remain recognizable. Very small feet and ear-tip marks sometimes look detached or merged with the head edge, so clean anatomical separation is limited.",
+    "defects": [
+      "tiny-ear-foot-legibility",
+      "ear-head-merge-alert"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-03",
+    "rowIds": [
+      "990293F3",
+      "BCD08543",
+      "95ED6420",
+      "D120EF6B",
+      "4B685515",
+      "B4DE8C28",
+      "3CF27F98",
+      "F61C59E7"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Most change enlarges or reproportions the same head bar, belly and tiny-foot family. Contrasting face/belly stay readable, but minute appendage tips and head-edge overlap make boundaries less crisp.",
+    "defects": [
+      "tiny-ear-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-03",
+    "rowIds": [
+      "DB4262CD",
+      "C10FD0F5",
+      "B9DE4773",
+      "B4AF8A43",
+      "55F40464",
+      "2E149FD5",
+      "44D1B559",
+      "76D0BD5C"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Curled/slanting heads and altered body width/stance are visible beyond simple scale. Related face/belly motifs remain, with small ear/foot pixels sometimes merging or standing as isolated-looking marks; no unambiguous source-organ loss established.",
+    "defects": [
+      "tiny-ear-foot-legibility",
+      "ear-head-merge-alert"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-04",
+    "rowIds": [
+      "9AE11327",
+      "9915CB00",
+      "B7675F78",
+      "B29790D7"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 1,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. These four rows mainly enlarge/reproportion head, cream belly and compact body, with modest late head tilt. Face marks stay readable; tiny pink feet/ear tips are difficult to distinguish from jagged outline pixels.",
+    "defects": [
+      "tiny-ear-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P03-05",
+    "rowIds": [
+      "F115460C",
+      "320493C9",
+      "06ED22EF",
+      "F4D1E1CF",
+      "52A48C19",
+      "E15D0D4F",
+      "8F7E78A4",
+      "5D58C675",
+      "7B6ACBB0",
+      "23C4A7FA",
+      "75342629",
+      "D1AC6487",
+      "0A7C8311",
+      "82250A2B",
+      "A8E2C253",
+      "E02CA8B1",
+      "634882E4",
+      "F670F282",
+      "416CC12D",
+      "32C4EBD5",
+      "924B7236",
+      "E1B3B3AD",
+      "D91FD8CF",
+      "F14CC1A5",
+      "CA117D79",
+      "1200AD02",
+      "F8ECB4AC",
+      "877537F5",
+      "5E6B805D",
+      "6071FC25",
+      "A41C0394",
+      "8879254F",
+      "BCF9E9F4",
+      "DD46D9F5",
+      "35A27353",
+      "D091568E",
+      "E9FA085E",
+      "7B92105F",
+      "2B9A0E3B",
+      "09CD8104",
+      "AD697C5F",
+      "EAB3549E",
+      "60DD2888",
+      "A17964A3",
+      "9542D3F8",
+      "6D1E6652",
+      "F201F202",
+      "A01F7CA2",
+      "0D493271",
+      "B08DB697",
+      "AA21F662",
+      "87867757",
+      "13C514BD",
+      "7B5DE65E",
+      "85420D54",
+      "EB617E93",
+      "01180F14",
+      "A3D9DB77",
+      "6895E7C5",
+      "814FEFF9",
+      "20893F4C",
+      "410DCE54",
+      "3CA1422F",
+      "8FDF3289",
+      "9CE0F3BA",
+      "493CED06",
+      "7196575F",
+      "E54C6414",
+      "8E5384B8",
+      "8C49460A",
+      "24693DBF",
+      "59EBAC3A",
+      "684E8061",
+      "26A2AD17",
+      "CE0B0F70",
+      "CF4B2D39",
+      "AE27E582",
+      "ABB1FBC9",
+      "FC554B95",
+      "4F077CFD",
+      "3E25945B",
+      "517F1FE5",
+      "F9AC2534",
+      "E057FEE2",
+      "52D099C2",
+      "388E838F",
+      "2C027449",
+      "9DC32C0F",
+      "D72B4828",
+      "1C832A37",
+      "0A442EAD",
+      "D382B2A8",
+      "E95261E5",
+      "760FADAA",
+      "A96BA475",
+      "7DCEEC80",
+      "917C5C79",
+      "D9335817",
+      "8FBE685A",
+      "169A6C16",
+      "FBFCA6F7",
+      "6CCA55C8",
+      "599FB7DB",
+      "11366165",
+      "A2A362CA",
+      "6C8105C4",
+      "74953912",
+      "DFC44762",
+      "1BB3F8D8",
+      "0659D1C6",
+      "AEA5F3C3",
+      "9A37BB05",
+      "9A503B07",
+      "CA91214A",
+      "108DBDBB",
+      "0C63B171",
+      "454B7DFF",
+      "CB561963",
+      "10CF4C5F",
+      "A1E7751A"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": null,
+      "continuity": null
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. All120 adult cells inspected. Flat broad heads, taller narrow torsos, pear-shaped bellies and slanted faces give clear contour differences, though all retain the same compact feature family. Tiny feet and ear tips are frequently reduced to sparse pixels, and some cheek/ear edges merge visually. No certain source-organ loss inferred from this adult-only view.",
+    "defects": [
+      "tiny-ear-foot-legibility",
+      "ear-head-merge-alert"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-00",
+    "rowIds": [
+      "6B4A0F76",
+      "CAA87E08",
+      "C19C2155",
+      "7E2DB5F3"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Head, dark eye, pink nose and body patch remain readable through mainly size/proportion changes. Source-like compact anatomy tracks cleanly; small feet are still identifiable as colored extremities.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-00",
+    "rowIds": [
+      "D7A0529E",
+      "10C4251E",
+      "A045F7DF",
+      "9E281ACF"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 2,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Head angle and body length/rounding visibly change beyond simple enlargement while the eye, nose and contrasting body patch stay coherent. No clear missing feature or newly broken connection seen.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-00",
+    "rowIds": [
+      "FB5412AB",
+      "240BE9CC",
+      "E5509D4B",
+      "39645190",
+      "EA20C58B",
+      "57FAED97",
+      "42264F07",
+      "9003619A"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Several rows become elongated or diagonally tilted with raised pointed heads. Main face/patch remain readable, but leg/foot boundaries are thin and in places look isolated or folded; exact loss cannot be distinguished from overlapping paint here.",
+    "defects": [
+      "thin-leg-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-01",
+    "rowIds": [
+      "EE4CA02B",
+      "CAD4FFD7",
+      "A7FB5252",
+      "0051A706",
+      "5F189163",
+      "81A8FFA9",
+      "8C1CF5C3",
+      "C6453459"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Changes mostly reproportion or enlarge an existing side-on family. Eye, pink nose, body patch and colored extremities remain cleanly related across the shown frames.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-01",
+    "rowIds": [
+      "600AA7D8",
+      "62A371DB",
+      "4B37499C",
+      "24D6C4DE",
+      "C36C952C",
+      "FEF29F93",
+      "C6C1B3A6",
+      "9BFE3FE2"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Pointed/upturned heads and elongated or more diagonal bodies create clear outline changes. Fine legs/feet sometimes merge or appear as loose colored strokes, reducing clarity without proving a source-organ disappearance.",
+    "defects": [
+      "thin-leg-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-02",
+    "rowIds": [
+      "B2FBB9D4",
+      "5E5FB541",
+      "BADF16A6",
+      "FAB4CBA0",
+      "FAB998F4",
+      "7BB611A3",
+      "FFA8AC1B",
+      "F37DDC5E"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 2,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Head direction, muzzle length and barrel-like body shape visibly change while the eye, nose and patch retain a clear relationship. The sequence can become more upright or elongated without an unmistakable loss of source anatomy.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-02",
+    "rowIds": [
+      "E557B224",
+      "FA233149",
+      "04D5C8B9",
+      "CAB6863D",
+      "04D2E09C",
+      "0908E8EF",
+      "381C12E3",
+      "1F8DE9CB"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Strong pointed heads and diagonal or flattened body outlines provide clear development. Small lower-leg strokes sometimes fold, merge or look isolated; the main eye/nose/patch structure remains legible, so those are legibility alerts rather than established organ disappearance.",
+    "defects": [
+      "thin-leg-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-03",
+    "rowIds": [
+      "D95F6BAF",
+      "18C777A7",
+      "1A1C1B27",
+      "603D8DB4"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Mainly scale/proportion changes preserve a readable side-on face, patch and compact body. Colored extremities remain recognizable; no conspicuous anatomical break observed.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-03",
+    "rowIds": [
+      "54998854",
+      "E036894E",
+      "5CC81C92",
+      "C7E9B84F",
+      "2AF8F2C8",
+      "962D717C",
+      "7B763EB5",
+      "EEAE433B",
+      "D047A661",
+      "CA1B123E",
+      "7AF36384",
+      "340DCC80"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Upturned muzzles and tilted or more elongated bodies create clear contour changes beyond source enlargement. Face/patch remain generally readable, but fine pink legs/feet can compress or look separated from neighboring mass.",
+    "defects": [
+      "thin-leg-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-04",
+    "rowIds": [
+      "EA84D110",
+      "A712B797",
+      "329F4C01"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 3,
+      "richness": 1,
+      "continuity": 3
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Predominantly enlarges/reproportions the same head, body patch and rounded body. Eye/nose/patch remain cleanly related; colored extremities are visible despite small size.",
+    "defects": [],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-04",
+    "rowIds": [
+      "5F5C84F8"
+    ],
+    "scores": {
+      "distinctiveness": 2,
+      "coherence": 2,
+      "richness": 2,
+      "continuity": 2
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. Raised head and angled hind body visibly change the outline. Main face/patch stay readable, but tiny lower-leg/foot strokes can look folded or isolated; no certain missing organ established.",
+    "defects": [
+      "thin-leg-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  },
+  {
+    "reviewer": "/root/anatomy_engine",
+    "kind": "agent",
+    "pageId": "P04-05",
+    "rowIds": [
+      "9C7FBC7F",
+      "A6B9BE64",
+      "2A030582",
+      "3417A964",
+      "27F212BF",
+      "D6EA97A1",
+      "FBC6A305",
+      "C72F7DDB",
+      "25958CC8",
+      "93DF3C28",
+      "59BD8DCB",
+      "4D20E3ED",
+      "9999D560",
+      "DBFAE40A",
+      "9149FB23",
+      "29226FA5",
+      "7351EF4D",
+      "52C9406C",
+      "72C38E77",
+      "AC5FF183",
+      "66EAE184",
+      "62779FF9",
+      "7EA6B329",
+      "40119954",
+      "960D65E8",
+      "DB34E362",
+      "A7E8F341",
+      "0F570DFD",
+      "4C2E2EE4",
+      "87113CD5",
+      "BD246AA9",
+      "5BF8EFC3",
+      "0D2FF494",
+      "B0AA0FA0",
+      "78AEFFFB",
+      "86AC4620",
+      "36D062B2",
+      "2DEFD83F",
+      "77997A90",
+      "B091B0BE",
+      "76BB18D3",
+      "A4204E4E",
+      "8CF7CF68",
+      "7D60A5B9",
+      "158B0D4C",
+      "1EA0BAB9",
+      "1C79F993",
+      "B9495AC5",
+      "590B3801",
+      "6C91D994",
+      "74280604",
+      "4A8B4514",
+      "BB7CF962",
+      "DD2BA38A",
+      "8EE517D2",
+      "744C316B",
+      "05E9FCA3",
+      "D2634B16",
+      "DA13C66A",
+      "4E18FBA6",
+      "7AAF05AD",
+      "E1748DC8",
+      "2A849041",
+      "5C124C32",
+      "B8362CE9",
+      "B05DF1A5",
+      "5565B796",
+      "EDC951D0",
+      "DD9EA2DD",
+      "CDB86354",
+      "F1C740F1",
+      "B1E49C6D",
+      "A22D78F9",
+      "BE413783",
+      "971463C0",
+      "E3CC675F",
+      "080AA1BC",
+      "CB8AC0C7",
+      "9ED2EFE9",
+      "9590CF6D",
+      "B9004B38",
+      "CF9011E5",
+      "24C0DDD2",
+      "3AD7F22F",
+      "F5D2871E",
+      "FC09A427",
+      "8B1B2EF7",
+      "153AE53B",
+      "4290ED79",
+      "CFA74265",
+      "CF9246F9",
+      "8A691512",
+      "BFCFACA1",
+      "8E33FA1D",
+      "08E782E2",
+      "4036114B",
+      "23AD88A3",
+      "81991060",
+      "7ADA000E",
+      "FAAB7E2E",
+      "F72DCC08",
+      "859B0619",
+      "66E297F9",
+      "1E3F7B74",
+      "A1CD2D27",
+      "2F885B11",
+      "418E50F5",
+      "B5B29127",
+      "EDC70762",
+      "3C51F768",
+      "9C8B7872",
+      "BAA3D116",
+      "43C4780A",
+      "4498D6F0",
+      "A3568620",
+      "7DAC0F56",
+      "E18728AF",
+      "48D6D187",
+      "6332A0B7",
+      "027E22F1"
+    ],
+    "scores": {
+      "distinctiveness": 1,
+      "coherence": 2,
+      "richness": null,
+      "continuity": null
+    },
+    "notes": "Scored from opaque-label images before resolving this page row mapping; repeated layouts are not secure blinding. All120 adult cells inspected. Most remain close variations of the same pale side-on barrel/patch/head arrangement; major differences are length, roundness and posture. Face and body patch are generally clear, while many feet are sparse pink strokes that can merge or look isolated. This is limited legibility, not a verified lost organ, and species identity is not scored as a gate.",
+    "defects": [
+      "thin-leg-foot-legibility"
+    ],
+    "reviewedAt": "2026-10-24T01:41:19.400Z"
+  }
+]

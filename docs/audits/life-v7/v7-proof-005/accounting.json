@@ -1,0 +1,32 @@
+{
+  "expected": {
+    "presets": 1,
+    "seeds": 4,
+    "histories": 1,
+    "primaryCases": 4,
+    "sourceCases": 0,
+    "careCases": 0,
+    "cases": 4,
+    "endpoints": 16,
+    "interiors": 60,
+    "poses": 128,
+    "sourceViews": 0,
+    "careViews": 0,
+    "views": 204
+  },
+  "actual": {
+    "cases": 4,
+    "failures": 0,
+    "views": 204,
+    "primaryViews": 204,
+    "endpoints": 16,
+    "interiors": 60,
+    "poses": 128,
+    "sourceViews": 0,
+    "careViews": 0
+  },
+  "allPlannedCasesAccounted": true,
+  "allViewsCaptured": true,
+  "failures": [],
+  "visualGate": "passed recorded independent axes"
+}

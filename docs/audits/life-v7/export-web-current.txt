@@ -1,0 +1,19 @@
+Starting Metro Bundler
+
+| (node:26912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:26912) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+Web Bundled 3616ms index.ts (320 modules)
+
+› Assets (1):
+assets\fonts\DOS.0028c3eef555997a05dd744778a3a8dd.ttf (30KB)
+
+› web bundles (1):
+_expo/static/js/web/index-9a38cea870d2b3b0e3e59106d5b2d3c5.js (963KB)
+
+› Files (2):
+index.html (1.2KB)
+metadata.json (49B)
+
+Exported: dist

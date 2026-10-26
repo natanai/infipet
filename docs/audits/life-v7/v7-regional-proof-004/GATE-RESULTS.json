@@ -1,0 +1,167 @@
+{
+  "runId": "v7-regional-proof-004",
+  "createdAt": "2026-10-24T10:15:59.740Z",
+  "captureHash": "09cc36b1e1d7328da01406ec81f1801fb150cd22d6b121805874c68de943d69e",
+  "protocolVersion": "source-development-v7-audit3",
+  "metricVersion": "source-coherence-v7-metrics3",
+  "capture": {
+    "cases": 224,
+    "views": 1292,
+    "failures": 0,
+    "sourceUnchanged": true,
+    "primaryViews": 204,
+    "sourceViews": 48,
+    "careViews": 1040,
+    "coreMasks": 16,
+    "regionalMasks": 16
+  },
+  "gates": {
+    "main": {
+      "pass": true,
+      "independentJoint": {
+        "numerator": 12,
+        "denominator": 12,
+        "percent": 100,
+        "condition": "both distinct agent reviewers score evolution/descent/continuity/coherence>=2; one Cub, four published raw seeds, neutral care",
+        "age": "0→30,30→75,75→120"
+      },
+      "primaryMotionCycles": {
+        "numerator": 16,
+        "denominator": 16,
+        "percent": 100,
+        "condition": "eight-phase visual continuity/coherence>=2, primary reviewer",
+        "age": "0,30,75,120"
+      },
+      "secondaryMotionCycles": {
+        "numerator": 16,
+        "denominator": 16,
+        "percent": 100,
+        "condition": "eight-phase visual continuity/coherence>=2, secondary reviewer",
+        "age": "0,30,75,120"
+      }
+    },
+    "source": {
+      "pass": true,
+      "descentAndCoherence": {
+        "numerator": 48,
+        "denominator": 48,
+        "percent": 100,
+        "condition": "six source variants × two raw seeds × four ages; one independent primary source reviewer",
+        "age": "0,30,75,120"
+      },
+      "sourcePropertyGroups": {
+        "numerator": 8,
+        "denominator": 8,
+        "percent": 100,
+        "condition": "four geometry edits × two seeds show expected source influence at two or more developed ages",
+        "age": "30,75,120; tail strongest75/120"
+      },
+      "fixedCases": [
+        "canine-cub--body-bend__s02__d120",
+        "canine-cub--body-ratio__s02__d120"
+      ],
+      "historicalFailure": "The original003bent-source elder head separation remains recorded as coherence1 in that archive; only actual004inspection assigns current2."
+    },
+    "care": {
+      "pass": true,
+      "primaryShortageGroups": {
+        "numerator": 24,
+        "denominator": 24,
+        "percent": 100,
+        "condition": "six individual needs × four onsets at0%; at least3of4fixedseeds have visual response>=2",
+        "age": "14days after0,7,90,150"
+      },
+      "independentEndpointShortageGroups": {
+        "numerator": 24,
+        "denominator": 24,
+        "percent": 100,
+        "condition": "same24shortage groups independently scored at14day endpoints, not a second fullsequenceinspection",
+        "age": "14days after0,7,90,150"
+      },
+      "primaryFullSequenceCoverage": {
+        "applicableCareImages": 1040,
+        "comparisons": 192,
+        "priorCompleteSequencesTransferred": 189,
+        "freshSequences": 3,
+        "freshUniqueImages": 25,
+        "priorOnlyImages": 1015
+      },
+      "secondaryEndpointCoverage": {
+        "applicableEndpointImages": 208,
+        "comparisons": 192,
+        "priorComparisonsTransferred": 189,
+        "freshComparisons": 3,
+        "freshCurrentUniqueImages": 5
+      },
+      "positiveCareLimitation": "This gate is shortage-response coverage. Fully tended Safety/Security/Relaxation often have no perceptible difference from75%; no universalpositive-conditionvisualresponseclaim."
+    }
+  },
+  "reviewProvenance": {
+    "directInspectionAndExactTransfersSeparated": true,
+    "exactPreviousImages": 1281,
+    "comparedImages": 1292,
+    "changedImages": 11,
+    "exactMasks": 32,
+    "comparedMasks": 32,
+    "mainPerReviewer": {
+      "priorRecordsetsTransferred": 24,
+      "freshMotionRecordsets": 4,
+      "freshImages": 32,
+      "priorOnlyImages": 172
+    },
+    "source": {
+      "priorComparisonsTransferred": 46,
+      "freshComparisons": 2,
+      "currentSourceMilestonesFresh": 8,
+      "currentControlsFresh": 4,
+      "additionalFocusedIntervalFrames": 14
+    },
+    "receipts": [
+      {
+        "path": "primary-root-review.json",
+        "sha256": "c8672de0f73f55ee56c77822222898034627e770c9e5ef9ffd1b79d9ddbfb6df"
+      },
+      {
+        "path": "secondary-audit-agent.json",
+        "sha256": "feec16b5c6d03e3a8fd21e4e3597e37c5c809c58aa7443ec21a47bc96c05d1ed"
+      },
+      {
+        "path": "primary-source-counterfactual-audit.json",
+        "sha256": "8e9d2effcea1557f87bb060e9ecd7f50bd912fddc54955d3639032cb8d28b2d9"
+      },
+      {
+        "path": "care-review-starters/review-starters.json",
+        "sha256": "7d4afb2a40b27c01273614126c14c84b068383cdad7218863168a0ae3f8a224e"
+      },
+      {
+        "path": "care-review-audit/secondary-endpoint-review.json",
+        "sha256": "bb89e14d075d33c28544091e7a35348fd81e64d5065e556eba767e04da11aaab"
+      },
+      {
+        "path": "review-equivalence-from-003.json",
+        "sha256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4"
+      },
+      {
+        "path": "review-equivalence-mask-png-verification.json",
+        "sha256": "f932eb67e3058b3bc4f51d7ce47248fb6d754c26c6a73b3599d3e842ccddbacc"
+      }
+    ]
+  },
+  "outcome": {
+    "boundedAgentGatesPass": true,
+    "humanAcceptance": "PROVISIONAL CANDIDATE — HUMAN BENCHMARK REVIEW PENDING",
+    "humanFrameScoresAssigned": false,
+    "rootAuthorizedNextValidation": "three starters × four raw seeds ×204/4views =612primaryimages",
+    "full1536Authorized": false,
+    "full1536AuthorizationMeaning": "Execution has not been released through the stage gate; this does not mean user authorization is missing.",
+    "full1536UserScopeAuthorized": true,
+    "automaticExpansion": false
+  },
+  "limitations": [
+    "Minimumclear/adequate2ratings on a smallone-starter neutralproof do not establish player-perceiveddramaticness, arbitrarydrawingrobustness or populationuniqueness.",
+    "Thin supports, tiny/crowdedfaces and recurringcontourvocabulary remain explicitlynoted.",
+    "Eight heldposes are visualevidence; gaitworld-space tolerances are separate focusedtests.",
+    "Source/carecontrol panels have differentconditions/ages/denominators; these gates are not pooled into one favorablepercentage.",
+    "Historicalhumanfeedback remains authoritative; passing these agentgates doesnot claim humanacceptance."
+  ]
+}

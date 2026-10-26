@@ -1,0 +1,180 @@
+{
+  "seed": "life-v7-genome-01",
+  "source": "canine-cub",
+  "options": {
+    "action": "move",
+    "time": 1e-8
+  },
+  "createdAt": "2026-10-24T10:05:17.520Z",
+  "sourceHash": "3059ca12e8d3ee5e96ed1b4f49d86f288052547bbe7024d95fcb126d53607f8b",
+  "runtimeFiles": {
+    "growth.ts": "c311d974fe5972c3535b675625b8b00603f437202bd2544416f0674edaa065d2",
+    "locomotion.ts": "a13ae75af16bd7a60e8c03cf9ac9f98b655aef03674b9d7d6846ccbf8841f446",
+    "development.ts": "65f1eb143b19c1d0a9552e75f913a73fcdd368cda870f8067bbf7d5af6bd7509"
+  },
+  "rows": [
+    {
+      "age": 0,
+      "coldHash": "375a706e39c5d0c335c05a1bcbcc46a35506a4240190e3e8b2966ece546a8538",
+      "warmHash": "375a706e39c5d0c335c05a1bcbcc46a35506a4240190e3e8b2966ece546a8538",
+      "afterEvictionHash": "375a706e39c5d0c335c05a1bcbcc46a35506a4240190e3e8b2966ece546a8538",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 5,
+      "coldHash": "0a8a317fc7841a780ce723ece8923f9066cf4d19c5e0df47e1ed72e07cb5a36b",
+      "warmHash": "0a8a317fc7841a780ce723ece8923f9066cf4d19c5e0df47e1ed72e07cb5a36b",
+      "afterEvictionHash": "0a8a317fc7841a780ce723ece8923f9066cf4d19c5e0df47e1ed72e07cb5a36b",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 10,
+      "coldHash": "d2c4cec5a697bdbb68f3d5b86d86787717d997836cc9ee4448af417759a57284",
+      "warmHash": "d2c4cec5a697bdbb68f3d5b86d86787717d997836cc9ee4448af417759a57284",
+      "afterEvictionHash": "d2c4cec5a697bdbb68f3d5b86d86787717d997836cc9ee4448af417759a57284",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 15,
+      "coldHash": "ae3443d6630caba5f84fe23b0f267b075c9e15b4c9e9d5dc95a8e8b6e8cbdb91",
+      "warmHash": "ae3443d6630caba5f84fe23b0f267b075c9e15b4c9e9d5dc95a8e8b6e8cbdb91",
+      "afterEvictionHash": "ae3443d6630caba5f84fe23b0f267b075c9e15b4c9e9d5dc95a8e8b6e8cbdb91",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 20,
+      "coldHash": "801630c8e1318f170279a741d0dea22adf0155e1391d21743cab770757fd0a83",
+      "warmHash": "801630c8e1318f170279a741d0dea22adf0155e1391d21743cab770757fd0a83",
+      "afterEvictionHash": "801630c8e1318f170279a741d0dea22adf0155e1391d21743cab770757fd0a83",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 25,
+      "coldHash": "dc6ffb6a9d56d2d9906e278476b169ffc3a70f476ce9db0fc183ec9edfb75a1c",
+      "warmHash": "dc6ffb6a9d56d2d9906e278476b169ffc3a70f476ce9db0fc183ec9edfb75a1c",
+      "afterEvictionHash": "dc6ffb6a9d56d2d9906e278476b169ffc3a70f476ce9db0fc183ec9edfb75a1c",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 30,
+      "coldHash": "c90adfbbf0bd5541c576a0e48e1a35c49d2b8cd1f6fdfa690334ab7807d6935f",
+      "warmHash": "c90adfbbf0bd5541c576a0e48e1a35c49d2b8cd1f6fdfa690334ab7807d6935f",
+      "afterEvictionHash": "c90adfbbf0bd5541c576a0e48e1a35c49d2b8cd1f6fdfa690334ab7807d6935f",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 37.5,
+      "coldHash": "76791296fad2fc108821567c3cd19b25c402fb38ce1fc8a0d5200cc6b81b84ac",
+      "warmHash": "76791296fad2fc108821567c3cd19b25c402fb38ce1fc8a0d5200cc6b81b84ac",
+      "afterEvictionHash": "76791296fad2fc108821567c3cd19b25c402fb38ce1fc8a0d5200cc6b81b84ac",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 45,
+      "coldHash": "a058d86d2455ddc2b8da11a289c2c2563c1c010f247da4890baeaa174c8bb346",
+      "warmHash": "a058d86d2455ddc2b8da11a289c2c2563c1c010f247da4890baeaa174c8bb346",
+      "afterEvictionHash": "a058d86d2455ddc2b8da11a289c2c2563c1c010f247da4890baeaa174c8bb346",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 52.5,
+      "coldHash": "23665ac0154717cb54961e16f8e44564ba72c813b3bc67db4830037a3fce1931",
+      "warmHash": "23665ac0154717cb54961e16f8e44564ba72c813b3bc67db4830037a3fce1931",
+      "afterEvictionHash": "23665ac0154717cb54961e16f8e44564ba72c813b3bc67db4830037a3fce1931",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 60,
+      "coldHash": "5d4e076cefd54b355b3919d18c3945ce35c8651c46cde4e18a963c387260110a",
+      "warmHash": "5d4e076cefd54b355b3919d18c3945ce35c8651c46cde4e18a963c387260110a",
+      "afterEvictionHash": "5d4e076cefd54b355b3919d18c3945ce35c8651c46cde4e18a963c387260110a",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 67.5,
+      "coldHash": "3db12888c642d24a608ec167727714a066ab1dc54c19d9970e91b41f6ac6c37f",
+      "warmHash": "3db12888c642d24a608ec167727714a066ab1dc54c19d9970e91b41f6ac6c37f",
+      "afterEvictionHash": "3db12888c642d24a608ec167727714a066ab1dc54c19d9970e91b41f6ac6c37f",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 75,
+      "coldHash": "87b122e63283efa119e19b566222aed4d3e9abe34980cd0fb08a46d25a39e605",
+      "warmHash": "87b122e63283efa119e19b566222aed4d3e9abe34980cd0fb08a46d25a39e605",
+      "afterEvictionHash": "87b122e63283efa119e19b566222aed4d3e9abe34980cd0fb08a46d25a39e605",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 82.5,
+      "coldHash": "15f00fb8f7b69eaf67798f348553de7c2cde4ccef6e1372f16233409246129ff",
+      "warmHash": "15f00fb8f7b69eaf67798f348553de7c2cde4ccef6e1372f16233409246129ff",
+      "afterEvictionHash": "15f00fb8f7b69eaf67798f348553de7c2cde4ccef6e1372f16233409246129ff",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 90,
+      "coldHash": "b59ac59d8f5c7216f4f631ad83fba825eadc282089f80fb0bda9e07424660245",
+      "warmHash": "b59ac59d8f5c7216f4f631ad83fba825eadc282089f80fb0bda9e07424660245",
+      "afterEvictionHash": "b59ac59d8f5c7216f4f631ad83fba825eadc282089f80fb0bda9e07424660245",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 105,
+      "coldHash": "fc1de2c7a4b2b148d4e0650c88212d579019f2a59ead6475a1304b9c6cd8cf64",
+      "warmHash": "fc1de2c7a4b2b148d4e0650c88212d579019f2a59ead6475a1304b9c6cd8cf64",
+      "afterEvictionHash": "fc1de2c7a4b2b148d4e0650c88212d579019f2a59ead6475a1304b9c6cd8cf64",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 120,
+      "coldHash": "6c82989421a87d42bccd73564f1119b080f44881b44b4b0eec43c1c2a54535dd",
+      "warmHash": "6c82989421a87d42bccd73564f1119b080f44881b44b4b0eec43c1c2a54535dd",
+      "afterEvictionHash": "6c82989421a87d42bccd73564f1119b080f44881b44b4b0eec43c1c2a54535dd",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 240,
+      "coldHash": "7aa92106bf54bdd3a2db9c518784ba829f9f05b752fd789283de0bea5d43f9c0",
+      "warmHash": "7aa92106bf54bdd3a2db9c518784ba829f9f05b752fd789283de0bea5d43f9c0",
+      "afterEvictionHash": "7aa92106bf54bdd3a2db9c518784ba829f9f05b752fd789283de0bea5d43f9c0",
+      "equal": true,
+      "changedParts": []
+    },
+    {
+      "age": 1000,
+      "coldHash": "31b7322147839a299562972e8b083dd365b06e90c322ce6782cd744194d448a2",
+      "warmHash": "31b7322147839a299562972e8b083dd365b06e90c322ce6782cd744194d448a2",
+      "afterEvictionHash": "31b7322147839a299562972e8b083dd365b06e90c322ce6782cd744194d448a2",
+      "equal": true,
+      "changedParts": []
+    }
+  ],
+  "idleBirth": {
+    "coldHash": "1ec2656988105dae4723efa84c4ce82acd25af8033b8e5d5ea967da04365d0ad",
+    "warmHash": "1ec2656988105dae4723efa84c4ce82acd25af8033b8e5d5ea967da04365d0ad",
+    "equal": true
+  },
+  "historicalCause": [
+    "growth.frameKey buckets time0 and time1e-8 together, while the blink branch distinguishes time>0 and birth distinguishes time===0.",
+    "Seed1 blink bucket is0. The warmed epsilon request returns the previously cached unblinked time0 image; cold epsilon renders blinked eyes.",
+    "After unrelated future requests evict the whole-frame entry, the identical epsilon request changes to the cold result.",
+    "Additional boundary risk: frame key held epsilon1e-8 differs from locomotion held epsilon1e-9; use a key matching all rendering inputs/branches."
+  ]
+}

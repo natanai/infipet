@@ -1,0 +1,789 @@
+{
+  "runId": "v7-regional-proof-002",
+  "captureHash": "01c6676700bbaf40055ed1bbe6b322ef638cb39471af32033bd97c00910fe2ee",
+  "engineEvaluated": false,
+  "reviewer": "/root/anatomy_engine",
+  "sourceAuthorFamiliarity": true,
+  "files": [
+    {
+      "id": "canine-cub__s01__neutral__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub__s01__neutral__d0.png",
+      "pixelHash": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "pngSha256": "47bb1851c355887946a567ca3df6d1dd9e9c1c2477e91b370b56c57dfb5975ee"
+    },
+    {
+      "id": "canine-cub--body-ratio__s01__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-ratio__s01__d0.png",
+      "pixelHash": "53645568ee7937fa87f7da893d70fa9f6555de8bbc89555f79494c28442c7954",
+      "pngSha256": "319b39432ccc4999993fb97736524e7b84f6db3a539c51f0d077eccfc6f5c434"
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub__s01__neutral__d30.png",
+      "pixelHash": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+      "pngSha256": "2dc0b7629d46b8cf579e6908083e81627d2edf082616695ba97c3fef8b1891e2"
+    },
+    {
+      "id": "canine-cub--body-ratio__s01__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-ratio__s01__d30.png",
+      "pixelHash": "ddde2532ce86e6e5839fd989a4300ef439b78d9da18c55b15620d9bac040ecea",
+      "pngSha256": "3e70dfc88e05d7b636d937336b411fae11a99341f655633fcf09167375694d1b"
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub__s01__neutral__d75.png",
+      "pixelHash": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+      "pngSha256": "62301d89c6b056971ac6807f7c364c5e8d6defb4c19ce97aa6ff6dd9d8dc3304"
+    },
+    {
+      "id": "canine-cub--body-ratio__s01__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-ratio__s01__d75.png",
+      "pixelHash": "2c4ca7fef3d4976030040983469fb14b2ad29f617d39d2b13359ce29f0307b66",
+      "pngSha256": "913ab9fcdfa8799e4558892a45792d166d32bdf7e06a1a7405e0b974637818ba"
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub__s01__neutral__d120.png",
+      "pixelHash": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+      "pngSha256": "6dd4dfc258b65a7d4833e3ad77b91447c7e83a6a1ffb1a97909a4db6283db612"
+    },
+    {
+      "id": "canine-cub--body-ratio__s01__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-ratio__s01__d120.png",
+      "pixelHash": "c0a15c04647517a707d087e9ba3afa32400029d035bc4145fc46935c442c4dd8",
+      "pngSha256": "44b24d822ae93d639546eaee3ad4c4dc868697fe3f5e65dd90c2dccfb6d45635"
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub__s02__neutral__d0.png",
+      "pixelHash": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "pngSha256": "47bb1851c355887946a567ca3df6d1dd9e9c1c2477e91b370b56c57dfb5975ee"
+    },
+    {
+      "id": "canine-cub--body-ratio__s02__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-ratio__s02__d0.png",
+      "pixelHash": "53645568ee7937fa87f7da893d70fa9f6555de8bbc89555f79494c28442c7954",
+      "pngSha256": "319b39432ccc4999993fb97736524e7b84f6db3a539c51f0d077eccfc6f5c434"
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub__s02__neutral__d30.png",
+      "pixelHash": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+      "pngSha256": "648cee684588c16fb3da69fdffaa4e7dad3ad923433d9c2707b2f877f3b19e12"
+    },
+    {
+      "id": "canine-cub--body-ratio__s02__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-ratio__s02__d30.png",
+      "pixelHash": "c5fe4bc4602c40d8eb0f62bc56da97403869ae73c49b5833003a4e13eff835b3",
+      "pngSha256": "9f5f73d7d0585ef7789d6d1bb7787cd1876db37aff74b60740cc1054c4357226"
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub__s02__neutral__d75.png",
+      "pixelHash": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+      "pngSha256": "b2c9838af54f148f92ff529a5e7ad487e98913507dafaaf77f48c18585f977e3"
+    },
+    {
+      "id": "canine-cub--body-ratio__s02__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-ratio__s02__d75.png",
+      "pixelHash": "2306ddf00fe8dcecfd36a6b822063e226dacb1520107957820e7da94bfefa495",
+      "pngSha256": "d054cd63b65081061127b0bbb65a2464415c0eb9b4d158e72a9091cfa210bb1c"
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub__s02__neutral__d120.png",
+      "pixelHash": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204",
+      "pngSha256": "d7ed3935ee56f083e8f0a1432c6fae5011d03a0317ab3829c23de598f72e94a9"
+    },
+    {
+      "id": "canine-cub--body-ratio__s02__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-ratio__s02__d120.png",
+      "pixelHash": "a07f4279fca8f3eefe736b4adfe5afe11b8921ce546615636061f3817d2c167b",
+      "pngSha256": "7f99a6f7fe0380dd979b6e5fdf49bddccf6b170960655e81d179901d799348e2"
+    },
+    {
+      "id": "canine-cub--body-bend__s01__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-bend__s01__d0.png",
+      "pixelHash": "a588fe6c634985c492b75648c1c3c703914442fc36d58cae8232277aa9567540",
+      "pngSha256": "e1e670f3ff010000d99449004be69d0d110c6d62118b3cc156258930d82ce5ed"
+    },
+    {
+      "id": "canine-cub--body-bend__s01__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-bend__s01__d30.png",
+      "pixelHash": "0ef3ad53cfa4ffd6c5ac11f419cad14e1b8ecfaeb826cadc3cc3c4281814a5d4",
+      "pngSha256": "b7005b7202bc8c0f47c4cbe522e4010bd6eba300bf0de27d481e3d8533a64676"
+    },
+    {
+      "id": "canine-cub--body-bend__s01__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-bend__s01__d75.png",
+      "pixelHash": "4c516ccec7e45f23ccfa006dc778ebae12d74baa76155f87abb6efbd62d8da70",
+      "pngSha256": "fddd822b72452726209141d42107b539b8b583450ce0e78b7e7731992b2ba6ab"
+    },
+    {
+      "id": "canine-cub--body-bend__s01__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-bend__s01__d120.png",
+      "pixelHash": "aec877b8864da7fbff3c461e3761657b5f5be405fb248ea12771d575c98c8b33",
+      "pngSha256": "5ec2b578a786dd689d142408d33edef02b8d69d5b44b98254e8f45e1616856c7"
+    },
+    {
+      "id": "canine-cub--body-bend__s02__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-bend__s02__d0.png",
+      "pixelHash": "a588fe6c634985c492b75648c1c3c703914442fc36d58cae8232277aa9567540",
+      "pngSha256": "e1e670f3ff010000d99449004be69d0d110c6d62118b3cc156258930d82ce5ed"
+    },
+    {
+      "id": "canine-cub--body-bend__s02__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-bend__s02__d30.png",
+      "pixelHash": "513b2a60335dd078af170bcd5a591087eaecd4a217368dc1a31470b00403e426",
+      "pngSha256": "7e3a4f3e4de83e65b8a68fc8c0962d3f3e05987ee1989223e9f5b93a5436ea9a"
+    },
+    {
+      "id": "canine-cub--body-bend__s02__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-bend__s02__d75.png",
+      "pixelHash": "604c6ee7812dd31668704c5be1cfd26c7b055b643737954beed9856a8973bf57",
+      "pngSha256": "bace227413c40625b119d223d27b202e4aff304c32cd137ae17c8cdfabd3c004"
+    },
+    {
+      "id": "canine-cub--body-bend__s02__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--body-bend__s02__d120.png",
+      "pixelHash": "fdfbf588639d61d6e789bbec8535df07dc4c985050a919bab144917ed02f7ab2",
+      "pngSha256": "bfa5d174df522952f752bbebda50ac86896b2c62ab6a6f2e07b4b1588bbb2a3e"
+    },
+    {
+      "id": "canine-cub--attachment-length__s01__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--attachment-length__s01__d0.png",
+      "pixelHash": "6b1774a7d2311f3cf106431f53f9d158246898d3118029cf8e10388a9978ef9d",
+      "pngSha256": "0363e3917c2580bb52286f1f38635faa128db6c19f57f5a3caf57c3537cd4dd1"
+    },
+    {
+      "id": "canine-cub--attachment-length__s01__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--attachment-length__s01__d30.png",
+      "pixelHash": "910a0d59eff359bed1ba2ff715a49aae36fe0a9aab1e061e14c4a1980b5df3c4",
+      "pngSha256": "21a426879174f447b88ba51851a281d24ac9e9e6f12110f38e8b8962ca4d857e"
+    },
+    {
+      "id": "canine-cub--attachment-length__s01__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--attachment-length__s01__d75.png",
+      "pixelHash": "120e75a65f2752e151df00ab1100d8b414e237c0eba342567f82c9acfdeb1ceb",
+      "pngSha256": "5e4b6f68f7d41b40f5d3d208c9f08dad36db07fe29d5329f60096c4a63fb52be"
+    },
+    {
+      "id": "canine-cub--attachment-length__s01__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--attachment-length__s01__d120.png",
+      "pixelHash": "18e48064d4cf718db09caf266699c76134cdb97f89666f0fb1fe84a0589522d9",
+      "pngSha256": "a663229eee7924423e7269ef2ba816028e6617a64f9a676ed1044ffbbb12ddb4"
+    },
+    {
+      "id": "canine-cub--attachment-length__s02__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--attachment-length__s02__d0.png",
+      "pixelHash": "6b1774a7d2311f3cf106431f53f9d158246898d3118029cf8e10388a9978ef9d",
+      "pngSha256": "0363e3917c2580bb52286f1f38635faa128db6c19f57f5a3caf57c3537cd4dd1"
+    },
+    {
+      "id": "canine-cub--attachment-length__s02__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--attachment-length__s02__d30.png",
+      "pixelHash": "6e7bb3676b4c01664429866a7f231483ef1658434c8a6baaca7aea77516054e5",
+      "pngSha256": "2ffa79d5f2d673364588aeaa83a7e7bcc49006c67e2170237e6ebbeb82fa8f76"
+    },
+    {
+      "id": "canine-cub--attachment-length__s02__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--attachment-length__s02__d75.png",
+      "pixelHash": "873519c4fe11b2577a10603330a3f9eef9b257fd9e9ce6d08679967fca7865ad",
+      "pngSha256": "933622fb251a03744fa79f04f0260e681e934592ebb8cc772572119f4510cb46"
+    },
+    {
+      "id": "canine-cub--attachment-length__s02__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--attachment-length__s02__d120.png",
+      "pixelHash": "819e0d8107599234a94d5a54af46f353f0df32dc2f2c58468353c6b2bb0aaf1c",
+      "pngSha256": "87c4e20f23a14d76f613712ae6ff9a166abbc24626246bb85b0386de9cff383f"
+    },
+    {
+      "id": "canine-cub--face-spacing__s01__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--face-spacing__s01__d0.png",
+      "pixelHash": "1a9c81e5a204350f79d74cb20013d0e867e490cec46f9c09797243c7df211000",
+      "pngSha256": "46c66292e41f9feab1514822ce8e9ac589de91e7ef938d21934b2a3e185d541d"
+    },
+    {
+      "id": "canine-cub--face-spacing__s01__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--face-spacing__s01__d30.png",
+      "pixelHash": "a41e8757f1a52b0c498ebb8cf893e75436a27dcbe615d0eda4019f3f48a215e6",
+      "pngSha256": "da3232cca16ce7d858d78a7f1b4fa2aefa704a2261960f9c6ff1ca09b2131eeb"
+    },
+    {
+      "id": "canine-cub--face-spacing__s01__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--face-spacing__s01__d75.png",
+      "pixelHash": "dda243a2a83a6c65c2a50ce075af5172f9a589fdafe4d48acd82561ef9be6aed",
+      "pngSha256": "99cf1f34b95e02ef1adc044a606cb07c0f0d320b26b2e750987c41e253796f47"
+    },
+    {
+      "id": "canine-cub--face-spacing__s01__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--face-spacing__s01__d120.png",
+      "pixelHash": "1e4c88029b743a4f9a1636ea3e4989ec9e71d6ce5923468f25079c7faa611db5",
+      "pngSha256": "5da71c2acc02c179f22579437f773732775bb9fdaceff029b4bb090a4ad40eee"
+    },
+    {
+      "id": "canine-cub--face-spacing__s02__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--face-spacing__s02__d0.png",
+      "pixelHash": "1a9c81e5a204350f79d74cb20013d0e867e490cec46f9c09797243c7df211000",
+      "pngSha256": "46c66292e41f9feab1514822ce8e9ac589de91e7ef938d21934b2a3e185d541d"
+    },
+    {
+      "id": "canine-cub--face-spacing__s02__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--face-spacing__s02__d30.png",
+      "pixelHash": "da5599672c5229f66952aa461d53e6c5d7f3a9fe13fac15ef02cbb2eb7a7a95f",
+      "pngSha256": "7d033cd92e7651909e4ec60f1baaa498a44913fa8d709a4c787f4483077ec06c"
+    },
+    {
+      "id": "canine-cub--face-spacing__s02__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--face-spacing__s02__d75.png",
+      "pixelHash": "38cf1b4a399f2bf18233bf39d72c771b31f8517a8c42328d645375e03ca58be8",
+      "pngSha256": "7ebb01a3452c9b9f59b87cf781819a58de2fbe6b15e0494e0975d77b98075848"
+    },
+    {
+      "id": "canine-cub--face-spacing__s02__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--face-spacing__s02__d120.png",
+      "pixelHash": "b8192fcc6a48f6cbc26da06a992fa5753e3c3e7100f4eab4e999fbe166473649",
+      "pngSha256": "cd067a5577f1793ab9c4ac2a907f32074e27d9c3587ee9b4a9d6ad37316edeb3"
+    },
+    {
+      "id": "canine-cub--palette-control__s01__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--palette-control__s01__d0.png",
+      "pixelHash": "e23a0ea5d05f6141546d338d769f5081ed94284177c2d5a7250f88a2ea190722",
+      "pngSha256": "6212a07b2b78bfab272cf963402a55db449841260411e060343fabd9dc8ac34b"
+    },
+    {
+      "id": "canine-cub--palette-control__s01__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--palette-control__s01__d30.png",
+      "pixelHash": "439ca01b0b41f254472c00635f6dcdcf50f6891ef9a390d2e74e6ac8d3753ca8",
+      "pngSha256": "b5608b991484bdde575ae842d24b78d6a8323385937a4aabcd386be7b6965ae5"
+    },
+    {
+      "id": "canine-cub--palette-control__s01__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--palette-control__s01__d75.png",
+      "pixelHash": "98c93c8fa2a37d847fe8b958e54d6b5a1e613e13e2b00dd14346bc439fe1dcdd",
+      "pngSha256": "c41781584bbcb2eca6c9a2d5957814a2b22a68ad9bca35cb9405679e9c6ba156"
+    },
+    {
+      "id": "canine-cub--palette-control__s01__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--palette-control__s01__d120.png",
+      "pixelHash": "68fa1731b840037b56196e3c28b7b766d0e3b95a52db67dcfd0550cfeb326e82",
+      "pngSha256": "575847975bb99e0f391dde0259c42162e9a892103890721c371edbf18d7c7458"
+    },
+    {
+      "id": "canine-cub--palette-control__s02__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--palette-control__s02__d0.png",
+      "pixelHash": "e23a0ea5d05f6141546d338d769f5081ed94284177c2d5a7250f88a2ea190722",
+      "pngSha256": "6212a07b2b78bfab272cf963402a55db449841260411e060343fabd9dc8ac34b"
+    },
+    {
+      "id": "canine-cub--palette-control__s02__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--palette-control__s02__d30.png",
+      "pixelHash": "f18cacb701ff7160d01e8f893bd2bf63bf945ebb6409afecf71210037cc63d14",
+      "pngSha256": "f0377f1efa83fb99cba69cf30515b9f0fc8a96f8977ad4a2d7f80ab7ff616d06"
+    },
+    {
+      "id": "canine-cub--palette-control__s02__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--palette-control__s02__d75.png",
+      "pixelHash": "540a94fc3e29d73c1ba422589241c8d11c9479c7261e5aba76e1ad6f86a46ce1",
+      "pngSha256": "96ed8e151f752f075b069f3b20aae03e7c6b7a375f1746b6b1875190401d26e4"
+    },
+    {
+      "id": "canine-cub--palette-control__s02__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--palette-control__s02__d120.png",
+      "pixelHash": "56dfe030e044668ed39cbfd23fab29ada1b8630d07d82678dff71561f15ef473",
+      "pngSha256": "e9b2834ef3603462659b33f9680c4501945ff6e44ea2347d21a6843b34d8f936"
+    },
+    {
+      "id": "canine-cub--ordering-control__s01__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--ordering-control__s01__d0.png",
+      "pixelHash": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "pngSha256": "47bb1851c355887946a567ca3df6d1dd9e9c1c2477e91b370b56c57dfb5975ee"
+    },
+    {
+      "id": "canine-cub--ordering-control__s01__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--ordering-control__s01__d30.png",
+      "pixelHash": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+      "pngSha256": "2dc0b7629d46b8cf579e6908083e81627d2edf082616695ba97c3fef8b1891e2"
+    },
+    {
+      "id": "canine-cub--ordering-control__s01__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--ordering-control__s01__d75.png",
+      "pixelHash": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+      "pngSha256": "62301d89c6b056971ac6807f7c364c5e8d6defb4c19ce97aa6ff6dd9d8dc3304"
+    },
+    {
+      "id": "canine-cub--ordering-control__s01__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--ordering-control__s01__d120.png",
+      "pixelHash": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+      "pngSha256": "6dd4dfc258b65a7d4833e3ad77b91447c7e83a6a1ffb1a97909a4db6283db612"
+    },
+    {
+      "id": "canine-cub--ordering-control__s02__d0",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--ordering-control__s02__d0.png",
+      "pixelHash": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+      "pngSha256": "47bb1851c355887946a567ca3df6d1dd9e9c1c2477e91b370b56c57dfb5975ee"
+    },
+    {
+      "id": "canine-cub--ordering-control__s02__d30",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--ordering-control__s02__d30.png",
+      "pixelHash": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+      "pngSha256": "648cee684588c16fb3da69fdffaa4e7dad3ad923433d9c2707b2f877f3b19e12"
+    },
+    {
+      "id": "canine-cub--ordering-control__s02__d75",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--ordering-control__s02__d75.png",
+      "pixelHash": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+      "pngSha256": "b2c9838af54f148f92ff529a5e7ad487e98913507dafaaf77f48c18585f977e3"
+    },
+    {
+      "id": "canine-cub--ordering-control__s02__d120",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/images/canine-cub--ordering-control__s02__d120.png",
+      "pixelHash": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204",
+      "pngSha256": "d7ed3935ee56f083e8f0a1432c6fae5011d03a0317ab3829c23de598f72e94a9"
+    }
+  ],
+  "sheets": [
+    {
+      "variant": "body-ratio",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/review-receipts/source-comparisons/body-ratio.png",
+      "sha256": "fec07fa9b2624bf30b013be2752c52e4a13d5878a1a0ed4d1b3b089d6e73c8e4",
+      "viewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--body-ratio__s01__d0",
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--body-ratio__s01__d30",
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--body-ratio__s01__d75",
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--body-ratio__s01__d120",
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--body-ratio__s02__d0",
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--body-ratio__s02__d30",
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--body-ratio__s02__d75",
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--body-ratio__s02__d120"
+      ]
+    },
+    {
+      "variant": "body-bend",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/review-receipts/source-comparisons/body-bend.png",
+      "sha256": "02f5c04eb0b7723abb9b193cd3faffab0e9dec8bef003e5d9a4a44580926f08c",
+      "viewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--body-bend__s01__d0",
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--body-bend__s01__d30",
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--body-bend__s01__d75",
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--body-bend__s01__d120",
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--body-bend__s02__d0",
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--body-bend__s02__d30",
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--body-bend__s02__d75",
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--body-bend__s02__d120"
+      ]
+    },
+    {
+      "variant": "attachment-length",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/review-receipts/source-comparisons/attachment-length.png",
+      "sha256": "bb704134c6721304e81b90f941f19e111df252dbf374a54ac28ac7ebd99ce504",
+      "viewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--attachment-length__s01__d0",
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--attachment-length__s01__d30",
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--attachment-length__s01__d75",
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--attachment-length__s01__d120",
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--attachment-length__s02__d0",
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--attachment-length__s02__d30",
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--attachment-length__s02__d75",
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--attachment-length__s02__d120"
+      ]
+    },
+    {
+      "variant": "face-spacing",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/review-receipts/source-comparisons/face-spacing.png",
+      "sha256": "ac06094c0f19c9a9c18291a89f2a528f640262e39e35fe3992cdb23e99061cd1",
+      "viewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--face-spacing__s01__d0",
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--face-spacing__s01__d30",
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--face-spacing__s01__d75",
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--face-spacing__s01__d120",
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--face-spacing__s02__d0",
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--face-spacing__s02__d30",
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--face-spacing__s02__d75",
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--face-spacing__s02__d120"
+      ]
+    },
+    {
+      "variant": "palette-control",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/review-receipts/source-comparisons/palette-control.png",
+      "sha256": "493cea3c99e4ac526729c2290ecdc5c8c338e7dd5bade3f72250de352c467abc",
+      "viewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--palette-control__s01__d0",
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--palette-control__s01__d30",
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--palette-control__s01__d75",
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--palette-control__s01__d120",
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--palette-control__s02__d0",
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--palette-control__s02__d30",
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--palette-control__s02__d75",
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--palette-control__s02__d120"
+      ]
+    },
+    {
+      "variant": "ordering-control",
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/review-receipts/source-comparisons/ordering-control.png",
+      "sha256": "809707bb1d87ab37448a1e42673514898358c7e4c5f29ba93262213592870a00",
+      "viewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--ordering-control__s01__d0",
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--ordering-control__s01__d30",
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--ordering-control__s01__d75",
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--ordering-control__s01__d120",
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--ordering-control__s02__d0",
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--ordering-control__s02__d30",
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--ordering-control__s02__d75",
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--ordering-control__s02__d120"
+      ]
+    }
+  ],
+  "crops": [
+    {
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/review-receipts/source-comparisons/attachment-length-tail-crop.png",
+      "sha256": "c885a91628204a455fe46a714fce83f1b7d5d3cbf0d8957d6c28221cc1542a8f",
+      "basis": "Location only uses frozen control part bounds; image content is unaltered frozen PNG pixels.",
+      "records": [
+        {
+          "id": "canine-cub__s01__neutral__d0",
+          "rectangle": {
+            "x": 10,
+            "y": 18,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--attachment-length__s01__d0",
+          "rectangle": {
+            "x": 10,
+            "y": 18,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s01__neutral__d30",
+          "rectangle": {
+            "x": 17,
+            "y": 34,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--attachment-length__s01__d30",
+          "rectangle": {
+            "x": 17,
+            "y": 34,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s01__neutral__d75",
+          "rectangle": {
+            "x": 12,
+            "y": 22,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--attachment-length__s01__d75",
+          "rectangle": {
+            "x": 12,
+            "y": 22,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s01__neutral__d120",
+          "rectangle": {
+            "x": 8,
+            "y": 20,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--attachment-length__s01__d120",
+          "rectangle": {
+            "x": 8,
+            "y": 20,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s02__neutral__d0",
+          "rectangle": {
+            "x": 10,
+            "y": 18,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--attachment-length__s02__d0",
+          "rectangle": {
+            "x": 10,
+            "y": 18,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s02__neutral__d30",
+          "rectangle": {
+            "x": 11,
+            "y": 20,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--attachment-length__s02__d30",
+          "rectangle": {
+            "x": 11,
+            "y": 20,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s02__neutral__d75",
+          "rectangle": {
+            "x": 9,
+            "y": 15,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--attachment-length__s02__d75",
+          "rectangle": {
+            "x": 9,
+            "y": 15,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s02__neutral__d120",
+          "rectangle": {
+            "x": 22,
+            "y": 36,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--attachment-length__s02__d120",
+          "rectangle": {
+            "x": 22,
+            "y": 36,
+            "width": 24,
+            "height": 24
+          }
+        }
+      ]
+    },
+    {
+      "path": "C:/Games/infipet/docs/audits/life-v7/v7-regional-proof-002/review-receipts/source-comparisons/face-spacing-head-crop.png",
+      "sha256": "960595caf511f93c37ee33b8657f1791f8592348f1745b4278e8922ca4f2063e",
+      "basis": "Location only uses frozen control part bounds; image content is unaltered frozen PNG pixels.",
+      "records": [
+        {
+          "id": "canine-cub__s01__neutral__d0",
+          "rectangle": {
+            "x": 29,
+            "y": 17,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--face-spacing__s01__d0",
+          "rectangle": {
+            "x": 29,
+            "y": 17,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s01__neutral__d30",
+          "rectangle": {
+            "x": 17,
+            "y": 9,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--face-spacing__s01__d30",
+          "rectangle": {
+            "x": 17,
+            "y": 9,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s01__neutral__d75",
+          "rectangle": {
+            "x": 30,
+            "y": 22,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--face-spacing__s01__d75",
+          "rectangle": {
+            "x": 30,
+            "y": 22,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s01__neutral__d120",
+          "rectangle": {
+            "x": 37,
+            "y": 16,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--face-spacing__s01__d120",
+          "rectangle": {
+            "x": 37,
+            "y": 16,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s02__neutral__d0",
+          "rectangle": {
+            "x": 29,
+            "y": 17,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--face-spacing__s02__d0",
+          "rectangle": {
+            "x": 29,
+            "y": 17,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s02__neutral__d30",
+          "rectangle": {
+            "x": 32,
+            "y": 16,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--face-spacing__s02__d30",
+          "rectangle": {
+            "x": 32,
+            "y": 16,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s02__neutral__d75",
+          "rectangle": {
+            "x": 33,
+            "y": 15,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--face-spacing__s02__d75",
+          "rectangle": {
+            "x": 33,
+            "y": 15,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub__s02__neutral__d120",
+          "rectangle": {
+            "x": 23,
+            "y": 9,
+            "width": 24,
+            "height": 24
+          }
+        },
+        {
+          "id": "canine-cub--face-spacing__s02__d120",
+          "rectangle": {
+            "x": 23,
+            "y": 9,
+            "width": 24,
+            "height": 24
+          }
+        }
+      ]
+    }
+  ]
+}

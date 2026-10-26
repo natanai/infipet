@@ -1,0 +1,434 @@
+[
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Face separates above differentiated lobed body. Clear pod-like new form.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Lobed pod reorganizes into a long tapering limbless body with raised head. Body organization and propulsion differ from teen.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Long limbless form develops a high-bodied support-bearing quadruped/crawler. The target differs in mass/support organization; earlier wire/satellite defects are absent in these samples.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Infant differentiates into tall biped with small top head and feet.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Biped becomes wide round floating body and absorbs feet.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 2,
+    "transformationRichness": 3,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Round body opens into ring with protected facial island retained at upper rim.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Infant becomes a compact quadruped with separate head and support anatomy.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Quadruped retires support limbs into a diagonal/diamond body with changed head/body organization.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Compact mass extends into a tapering rear body with raised anterior head; face is larger and clearer than prior candidates.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Weakest/borderline clear evolution: teen now has angular/plated mass with explicit narrow notches and flattened underside, rather than a plain enlarged ellipse; facial mass is differentiated at right.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Plated horizontal form becomes upright narrow curved body with top head. Prior detached vertical fragment is gone.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/audit_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 2,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Upright body reorganizes into low tapering rear body and raised anterior head. Elder remains similar to third lineage and is a diversity concern despite a clear within-lineage transition.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] A separate small head and neck develop above a disproportionately larger lower mass. This is recognizable reorganization beyond uniform enlargement.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 3,
+    "transformationRichness": 3,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Upright bulb becomes an elongated limbless axial body with a raised leading head and tapering curved tail. Mass distribution and support strategy both change substantially.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s01__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 2,
+    "transformationRichness": 3,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Limbless axial form develops a horizontal four-legged body with redistributed trunk, head, back and articulated support. The five inspected intermediate samples retain connections; the earlier detached satellites and long growth-stalk defect are absent in this route.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Compact infant becomes a tall narrow body with head above it and a two-foot stance.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 3,
+    "transformationRichness": 3,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Tall support form broadens into a deep round body with a prominent upper face while support anatomy is absorbed.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s02__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 3,
+    "transformationRichness": 3,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Filled round body opens into a hollow ring with the face preserved on a material crown. The negative-space change is substantial and readable.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 3,
+    "transformationRichness": 3,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Round infant becomes a broad four-legged body with separate head and neck.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Quadruped becomes a low sloping aquatic body with reduced support and a more prominent forward face. Changes are clear but less extreme than this cohort's strongest transitions.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s03__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 3,
+    "transformationRichness": 2,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Low aquatic body becomes an elongated tapering axial form with raised face and wave-driven motion. This is a clear evolved form but still a related horizontal family rather than a wholesale body-plan reversal.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 0,
+    "toAge": 30,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 2,
+    "featureCoherence": 2,
+    "transformationRichness": 2,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Borderline but passes2: compact infant becomes a flattened armored profile with a changed back/shoulder contour, seam and forward facial region. Proportion redistribution plus surface organization make it more than enlargement alone.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 30,
+    "toAge": 75,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 3,
+    "transformationRichness": 3,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Horizontal armored profile becomes a tall limbless column with raised face, reversing mass arrangement and support presentation.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  },
+  {
+    "caseId": "bean__s04__neutral",
+    "fromAge": 75,
+    "toAge": 120,
+    "reviewer": "/root/locomotion_v6",
+    "reviewerKind": "agent",
+    "status": "reviewed",
+    "distinctiveness": 3,
+    "featureCoherence": 3,
+    "transformationRichness": 3,
+    "continuity": 3,
+    "notes": "[Transferred from v6-proof-010 via exact rendered-pixel equivalence; see receipt.] [Transferred from proof009 via exact204/204 rendered-pixel hashes; original direct review was proof007.] [Transferred from v6-proof-008 via204/204 exact rendered-pixel hashes; original direct inspections were proof007.] [Transferred from v6-proof-007 by exact204/204 rendered-pixel hash equivalence.] Tall column becomes a low long-tailed body with a raised face. Its endpoint approaches seed3's form family, a diversity weakness rather than failure of this adjacent transition.",
+    "provenance": {
+      "kind": "rendered-pixel-equivalence",
+      "previousRun": "v6-proof-010",
+      "equivalenceFile": "pixel-equivalence-v6-proof-010.json"
+    }
+  }
+]

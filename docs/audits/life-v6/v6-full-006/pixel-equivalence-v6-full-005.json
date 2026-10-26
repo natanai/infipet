@@ -1,0 +1,9 @@
+{
+  "fromRun": "v6-full-005",
+  "toRun": "v6-full-006",
+  "condition": "Exact rendered coordinate/color hashes for all scheduled IDs; does not imply unchanged hidden state or a fresh visual inspection",
+  "matched": 1536,
+  "compared": 1536,
+  "mismatches": [],
+  "completeEquivalence": true
+}

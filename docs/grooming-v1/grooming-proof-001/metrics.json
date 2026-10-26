@@ -1,0 +1,2770 @@
+{
+  "protocolVersion": "directional-grooming-proof-v1",
+  "runId": "grooming-proof-001",
+  "captureHash": "80c0e08cab637f62ae30f5f7dcc577e133071fd30d9ecc77d283292da08c76d8",
+  "sourceUnchangedDuringCapture": false,
+  "accounting": {
+    "plannedCases": 16,
+    "completedCases": 16,
+    "failures": 0,
+    "primaryFrames": 64,
+    "plannedPrimaryFrames": 64
+  },
+  "birthFidelity": {
+    "numerator": 16,
+    "denominator": 16,
+    "percent": 100,
+    "condition": "Exact birth pixels despite day-zero input",
+    "age": 0
+  },
+  "inheritedAgreement": {
+    "numerator": 16,
+    "denominator": 16,
+    "percent": 100,
+    "condition": "Same inherited genome as matched neutral",
+    "age": "7/14/30/75"
+  },
+  "needsAgreement": {
+    "numerator": 16,
+    "denominator": 16,
+    "percent": 100,
+    "condition": "Same wellbeing as matched neutral at all four ages",
+    "age": "7/14/30/75"
+  },
+  "replayAgreement": {
+    "numerator": 16,
+    "denominator": 16,
+    "percent": 100,
+    "condition": "Day14 pixels after reordered seeks",
+    "age": 14
+  },
+  "futureCausality": {
+    "numerator": 16,
+    "denominator": 16,
+    "percent": 100,
+    "condition": "All six pre/pulse-time comparisons agree",
+    "age": "0/7/14/30/75/100"
+  },
+  "renderedChange": {
+    "numerator": 48,
+    "denominator": 48,
+    "percent": 100,
+    "condition": "Treated frame differs by any rendered pixel from neutral; not a visual meaningfulness score",
+    "age": "7/14/30/75"
+  },
+  "views": [
+    {
+      "id": "s01__neutral__d7",
+      "blindLabel": "G0001",
+      "seed": "life-v7-genome-01",
+      "condition": "neutral",
+      "age": 7,
+      "hash": "31c8ce573ee5f97b725b91e34564d4de010d76ba5602003a4e1a7164a1265482",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 19,
+        "width": 4,
+        "height": 9,
+        "anchor": {
+          "x": 24.0390625,
+          "y": 34.84765625
+        },
+        "tip": {
+          "x": 25.0546875,
+          "y": 40.140625
+        },
+        "length": 5.389528024706947,
+        "lengthToTrunkHeight": 0.7699325749581353
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 263,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 19,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s01__neutral__d14",
+      "blindLabel": "G0002",
+      "seed": "life-v7-genome-01",
+      "condition": "neutral",
+      "age": 14,
+      "hash": "5efd3f9acc5c05580084b6832ebc9c20b093f8aac1ba3e13b90625cb27c181fa",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 38,
+        "width": 6,
+        "height": 13,
+        "anchor": {
+          "x": 19.984375,
+          "y": 33.890625
+        },
+        "tip": {
+          "x": 21.46875,
+          "y": 40.80859375
+        },
+        "length": 7.075426543085693,
+        "lengthToTrunkHeight": 0.7075426543085693
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 436,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 38,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s01__neutral__d30",
+      "blindLabel": "G0003",
+      "seed": "life-v7-genome-01",
+      "condition": "neutral",
+      "age": 30,
+      "hash": "0f354f015b87502062f2c9733aafbb049b7a5102ac45441ce4a61f1678d212e6",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 53,
+        "width": 8,
+        "height": 17,
+        "anchor": {
+          "x": 16,
+          "y": 32
+        },
+        "tip": {
+          "x": 20,
+          "y": 40
+        },
+        "length": 8.94427190999916,
+        "lengthToTrunkHeight": 0.9938079899999066
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 460,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 53,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s01__neutral__d75",
+      "blindLabel": "G0004",
+      "seed": "life-v7-genome-01",
+      "condition": "neutral",
+      "age": 75,
+      "hash": "c4b38bb3426be1af0018f32b59a3b777b252f42250f74f2ff2dafd1fc67d6749",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 101,
+        "width": 13,
+        "height": 26,
+        "anchor": {
+          "x": 16,
+          "y": 36
+        },
+        "tip": {
+          "x": 13,
+          "y": 45
+        },
+        "length": 9.486832980505138,
+        "lengthToTrunkHeight": 0.6776309271789385
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 644,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 101,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s01__outward__d7",
+      "blindLabel": "G0005",
+      "seed": "life-v7-genome-01",
+      "condition": "outward",
+      "age": 7,
+      "hash": "8baf95728896d61e2dcdcd071b80a788b1b6cdd3d084935b363b3610e3204475",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 20,
+        "width": 5,
+        "height": 9,
+        "anchor": {
+          "x": 24.0390625,
+          "y": 34.84765625
+        },
+        "tip": {
+          "x": 24.73046875,
+          "y": 40.74609375
+        },
+        "length": 5.938822067038657,
+        "lengthToTrunkHeight": 0.8484031524340939
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 15,
+        "changedBinaryCells": 15,
+        "unionCells": 272,
+        "rgbaFraction": 0.05514705882352941,
+        "binaryFraction": 0.05514705882352941
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 1,
+        "changedBinaryCells": 1,
+        "unionCells": 20,
+        "rgbaFraction": 0.05,
+        "binaryFraction": 0.05
+      }
+    },
+    {
+      "id": "s01__outward__d14",
+      "blindLabel": "G0006",
+      "seed": "life-v7-genome-01",
+      "condition": "outward",
+      "age": 14,
+      "hash": "4c928fac1a65880e7eee615150650e30a6820295e84917e868fcc2abe867c9ef",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 40,
+        "width": 6,
+        "height": 13,
+        "anchor": {
+          "x": 19.984375,
+          "y": 33.890625
+        },
+        "tip": {
+          "x": 20.94140625,
+          "y": 41.63671875
+        },
+        "length": 7.804990531529532,
+        "lengthToTrunkHeight": 0.7804990531529532
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 11,
+        "changedBinaryCells": 11,
+        "unionCells": 443,
+        "rgbaFraction": 0.024830699774266364,
+        "binaryFraction": 0.024830699774266364
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 8,
+        "changedBinaryCells": 8,
+        "unionCells": 43,
+        "rgbaFraction": 0.18604651162790697,
+        "binaryFraction": 0.18604651162790697
+      }
+    },
+    {
+      "id": "s01__outward__d30",
+      "blindLabel": "G0007",
+      "seed": "life-v7-genome-01",
+      "condition": "outward",
+      "age": 30,
+      "hash": "f0275bfb7a257196707b78768f927efc27ea72fa3dd2afac2e9f4d676e07087b",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 51,
+        "width": 8,
+        "height": 16,
+        "anchor": {
+          "x": 16,
+          "y": 32
+        },
+        "tip": {
+          "x": 20,
+          "y": 42
+        },
+        "length": 10.77032961426901,
+        "lengthToTrunkHeight": 1.1967032904743344
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 462,
+        "rgbaFraction": 0.008658008658008658,
+        "binaryFraction": 0.008658008658008658
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 54,
+        "rgbaFraction": 0.07407407407407407,
+        "binaryFraction": 0.07407407407407407
+      }
+    },
+    {
+      "id": "s01__outward__d75",
+      "blindLabel": "G0008",
+      "seed": "life-v7-genome-01",
+      "condition": "outward",
+      "age": 75,
+      "hash": "c6d715f653982c4bc6025137b69d4d85561ebd44bbeb3252335d718f5cfbc0d7",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 101,
+        "width": 14,
+        "height": 26,
+        "anchor": {
+          "x": 16,
+          "y": 36
+        },
+        "tip": {
+          "x": 12,
+          "y": 46
+        },
+        "length": 10.77032961426901,
+        "lengthToTrunkHeight": 0.7693092581620721
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 45,
+        "changedBinaryCells": 37,
+        "unionCells": 663,
+        "rgbaFraction": 0.06787330316742081,
+        "binaryFraction": 0.05580693815987934
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 10,
+        "changedBinaryCells": 10,
+        "unionCells": 106,
+        "rgbaFraction": 0.09433962264150944,
+        "binaryFraction": 0.09433962264150944
+      }
+    },
+    {
+      "id": "s01__inward__d7",
+      "blindLabel": "G0009",
+      "seed": "life-v7-genome-01",
+      "condition": "inward",
+      "age": 7,
+      "hash": "42eb81a2595e973a13e0e6f59f762666aa4a73146cace1a27accb0d1a1229a68",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 20,
+        "width": 4,
+        "height": 9,
+        "anchor": {
+          "x": 24.0390625,
+          "y": 34.84765625
+        },
+        "tip": {
+          "x": 25.29296875,
+          "y": 39.51953125
+        },
+        "length": 4.837219955657802,
+        "lengthToTrunkHeight": 0.6910314222368289
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 266,
+        "rgbaFraction": 0.015037593984962405,
+        "binaryFraction": 0.015037593984962405
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 3,
+        "changedBinaryCells": 3,
+        "unionCells": 21,
+        "rgbaFraction": 0.14285714285714285,
+        "binaryFraction": 0.14285714285714285
+      }
+    },
+    {
+      "id": "s01__inward__d14",
+      "blindLabel": "G0010",
+      "seed": "life-v7-genome-01",
+      "condition": "inward",
+      "age": 14,
+      "hash": "940b14fa5da17dd3480b5c14f4876f2ea051ae0471ef4984f3e46569fe3d0ee2",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 40,
+        "width": 6,
+        "height": 13,
+        "anchor": {
+          "x": 19.984375,
+          "y": 33.890625
+        },
+        "tip": {
+          "x": 21.87109375,
+          "y": 39.95703125
+        },
+        "length": 6.353030177139145,
+        "lengthToTrunkHeight": 0.6353030177139145
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 2,
+        "changedBinaryCells": 2,
+        "unionCells": 436,
+        "rgbaFraction": 0.0045871559633027525,
+        "binaryFraction": 0.0045871559633027525
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 41,
+        "rgbaFraction": 0.0975609756097561,
+        "binaryFraction": 0.0975609756097561
+      }
+    },
+    {
+      "id": "s01__inward__d30",
+      "blindLabel": "G0011",
+      "seed": "life-v7-genome-01",
+      "condition": "inward",
+      "age": 30,
+      "hash": "c6793d13380e4ee76aa989bf3f32d7aa7c377eb14d05583c837fe660b6f2af98",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 51,
+        "width": 8,
+        "height": 17,
+        "anchor": {
+          "x": 16,
+          "y": 32
+        },
+        "tip": {
+          "x": 20,
+          "y": 39
+        },
+        "length": 8.06225774829855,
+        "lengthToTrunkHeight": 0.8958064164776166
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 2,
+        "changedBinaryCells": 2,
+        "unionCells": 460,
+        "rgbaFraction": 0.004347826086956522,
+        "binaryFraction": 0.004347826086956522
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 54,
+        "rgbaFraction": 0.07407407407407407,
+        "binaryFraction": 0.07407407407407407
+      }
+    },
+    {
+      "id": "s01__inward__d75",
+      "blindLabel": "G0012",
+      "seed": "life-v7-genome-01",
+      "condition": "inward",
+      "age": 75,
+      "hash": "1157ca77cfa4e0befd76ac03516581cd40f684058af37b4e1201859cfdc36b3f",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 101,
+        "width": 14,
+        "height": 27,
+        "anchor": {
+          "x": 16,
+          "y": 36
+        },
+        "tip": {
+          "x": 13,
+          "y": 45
+        },
+        "length": 9.486832980505138,
+        "lengthToTrunkHeight": 0.6776309271789385
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 32,
+        "changedBinaryCells": 29,
+        "unionCells": 649,
+        "rgbaFraction": 0.04930662557781202,
+        "binaryFraction": 0.04468412942989214
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 8,
+        "changedBinaryCells": 8,
+        "unionCells": 105,
+        "rgbaFraction": 0.0761904761904762,
+        "binaryFraction": 0.0761904761904762
+      }
+    },
+    {
+      "id": "s01__bend__d7",
+      "blindLabel": "G0013",
+      "seed": "life-v7-genome-01",
+      "condition": "bend",
+      "age": 7,
+      "hash": "ffeeeb90a603cd90eb33cb7757c6aabedff8ef46b8ce5aada97b37eab64487de",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 18,
+        "width": 4,
+        "height": 8,
+        "anchor": {
+          "x": 24.0390625,
+          "y": 34.84765625
+        },
+        "tip": {
+          "x": 24.2109375,
+          "y": 39.98046875
+        },
+        "length": 5.135689357406778,
+        "lengthToTrunkHeight": 0.7336699082009683
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 10,
+        "changedBinaryCells": 10,
+        "unionCells": 268,
+        "rgbaFraction": 0.03731343283582089,
+        "binaryFraction": 0.03731343283582089
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 11,
+        "changedBinaryCells": 11,
+        "unionCells": 24,
+        "rgbaFraction": 0.4583333333333333,
+        "binaryFraction": 0.4583333333333333
+      }
+    },
+    {
+      "id": "s01__bend__d14",
+      "blindLabel": "G0014",
+      "seed": "life-v7-genome-01",
+      "condition": "bend",
+      "age": 14,
+      "hash": "87b6bc51c82b3bc9997b042d151c75b31071b58bfea3b0a27e2a8edb0508dca2",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 36,
+        "width": 5,
+        "height": 13,
+        "anchor": {
+          "x": 19.984375,
+          "y": 33.890625
+        },
+        "tip": {
+          "x": 20.36328125,
+          "y": 40.56640625
+        },
+        "length": 6.686525648207792,
+        "lengthToTrunkHeight": 0.6686525648207792
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 18,
+        "changedBinaryCells": 18,
+        "unionCells": 444,
+        "rgbaFraction": 0.04054054054054054,
+        "binaryFraction": 0.04054054054054054
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 18,
+        "changedBinaryCells": 18,
+        "unionCells": 46,
+        "rgbaFraction": 0.391304347826087,
+        "binaryFraction": 0.391304347826087
+      }
+    },
+    {
+      "id": "s01__bend__d30",
+      "blindLabel": "G0015",
+      "seed": "life-v7-genome-01",
+      "condition": "bend",
+      "age": 30,
+      "hash": "21e1efb7fec1c864be4efc1af3bec1f692bafdae00edaa443318f9023358cae9",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 52,
+        "width": 7,
+        "height": 17,
+        "anchor": {
+          "x": 16,
+          "y": 32
+        },
+        "tip": {
+          "x": 18,
+          "y": 41
+        },
+        "length": 9.219544457292889,
+        "lengthToTrunkHeight": 1.0243938285880987
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 26,
+        "changedBinaryCells": 26,
+        "unionCells": 478,
+        "rgbaFraction": 0.05439330543933055,
+        "binaryFraction": 0.05439330543933055
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 37,
+        "changedBinaryCells": 37,
+        "unionCells": 71,
+        "rgbaFraction": 0.5211267605633803,
+        "binaryFraction": 0.5211267605633803
+      }
+    },
+    {
+      "id": "s01__bend__d75",
+      "blindLabel": "G0016",
+      "seed": "life-v7-genome-01",
+      "condition": "bend",
+      "age": 75,
+      "hash": "660a8c3cc57bc2cb18df2868467fc9874fa68bc9642e3f0d5f595dcf70c9066a",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 96,
+        "width": 14,
+        "height": 26,
+        "anchor": {
+          "x": 16,
+          "y": 36
+        },
+        "tip": {
+          "x": 12,
+          "y": 45
+        },
+        "length": 9.848857801796104,
+        "lengthToTrunkHeight": 0.703489842985436
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 126,
+        "changedBinaryCells": 111,
+        "unionCells": 700,
+        "rgbaFraction": 0.18,
+        "binaryFraction": 0.15857142857142856
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 27,
+        "changedBinaryCells": 27,
+        "unionCells": 112,
+        "rgbaFraction": 0.24107142857142858,
+        "binaryFraction": 0.24107142857142858
+      }
+    },
+    {
+      "id": "s02__neutral__d7",
+      "blindLabel": "G0017",
+      "seed": "life-v7-genome-02",
+      "condition": "neutral",
+      "age": 7,
+      "hash": "b3c3dd730909ddef6d09878b1647449b0b209ff6edbd1fe3b3a8629da5f11220",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 18,
+        "width": 4,
+        "height": 8,
+        "anchor": {
+          "x": 24.16796875,
+          "y": 34.9375
+        },
+        "tip": {
+          "x": 25.16015625,
+          "y": 40.0625
+        },
+        "length": 5.2201591005597,
+        "lengthToTrunkHeight": 0.7457370143656714
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 255,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 18,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s02__neutral__d14",
+      "blindLabel": "G0018",
+      "seed": "life-v7-genome-02",
+      "condition": "neutral",
+      "age": 14,
+      "hash": "1a31dcbc465001779297b3330bff2859c9daf1a47b581c201862eaf18a75e851",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 39,
+        "width": 7,
+        "height": 12,
+        "anchor": {
+          "x": 18.58984375,
+          "y": 33.66015625
+        },
+        "tip": {
+          "x": 19.84375,
+          "y": 39.62109375
+        },
+        "length": 6.091392021754578,
+        "lengthToTrunkHeight": 0.6768213357505086
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 439,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 39,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s02__neutral__d30",
+      "blindLabel": "G0019",
+      "seed": "life-v7-genome-02",
+      "condition": "neutral",
+      "age": 30,
+      "hash": "51318dfee52ce5e1e78cb009d33236c8eb1df62356f49edfef812f31f0c1c675",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 73,
+        "width": 10,
+        "height": 21,
+        "anchor": {
+          "x": 18,
+          "y": 28
+        },
+        "tip": {
+          "x": 20,
+          "y": 33
+        },
+        "length": 5.385164807134505,
+        "lengthToTrunkHeight": 0.5983516452371672
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 459,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 73,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s02__neutral__d75",
+      "blindLabel": "G0020",
+      "seed": "life-v7-genome-02",
+      "condition": "neutral",
+      "age": 75,
+      "hash": "f0492a052bf5702b36a495a619f08b8b371d02dc5fd7cee16f3f205000ad2e25",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 41,
+        "width": 9,
+        "height": 16,
+        "anchor": {
+          "x": 16,
+          "y": 34
+        },
+        "tip": {
+          "x": 12,
+          "y": 44
+        },
+        "length": 10.77032961426901,
+        "lengthToTrunkHeight": 0.9791208740244554
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 555,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 41,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s02__outward__d7",
+      "blindLabel": "G0021",
+      "seed": "life-v7-genome-02",
+      "condition": "outward",
+      "age": 7,
+      "hash": "b4d1fc9419874bc5c6eedb5f81f5d1c14dad16806f5af2006f1f38674d6deec9",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 20,
+        "width": 5,
+        "height": 9,
+        "anchor": {
+          "x": 24.16796875,
+          "y": 34.9375
+        },
+        "tip": {
+          "x": 24.8515625,
+          "y": 40.64453125
+        },
+        "length": 5.747826206794672,
+        "lengthToTrunkHeight": 0.821118029542096
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 23,
+        "changedBinaryCells": 23,
+        "unionCells": 270,
+        "rgbaFraction": 0.08518518518518518,
+        "binaryFraction": 0.08518518518518518
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 2,
+        "changedBinaryCells": 2,
+        "unionCells": 20,
+        "rgbaFraction": 0.1,
+        "binaryFraction": 0.1
+      }
+    },
+    {
+      "id": "s02__outward__d14",
+      "blindLabel": "G0022",
+      "seed": "life-v7-genome-02",
+      "condition": "outward",
+      "age": 14,
+      "hash": "9d3754ceda6ffd4a2ee0b117abb407ac96bec0d200a4e56a30d36de97ea6cd62",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 38,
+        "width": 6,
+        "height": 12,
+        "anchor": {
+          "x": 18.58984375,
+          "y": 33.66015625
+        },
+        "tip": {
+          "x": 19.40625,
+          "y": 40.34765625
+        },
+        "length": 6.737148908480431,
+        "lengthToTrunkHeight": 0.7485721009422701
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 6,
+        "changedBinaryCells": 6,
+        "unionCells": 442,
+        "rgbaFraction": 0.013574660633484163,
+        "binaryFraction": 0.013574660633484163
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 7,
+        "changedBinaryCells": 7,
+        "unionCells": 42,
+        "rgbaFraction": 0.16666666666666666,
+        "binaryFraction": 0.16666666666666666
+      }
+    },
+    {
+      "id": "s02__outward__d30",
+      "blindLabel": "G0023",
+      "seed": "life-v7-genome-02",
+      "condition": "outward",
+      "age": 30,
+      "hash": "ac282b105ab52d10b7e1fcc4a1303101de86f9370c95dd7f1330a700f6ef4153",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 79,
+        "width": 11,
+        "height": 21,
+        "anchor": {
+          "x": 18,
+          "y": 28
+        },
+        "tip": {
+          "x": 20,
+          "y": 34
+        },
+        "length": 6.324555320336759,
+        "lengthToTrunkHeight": 0.7027283689263065
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 6,
+        "changedBinaryCells": 6,
+        "unionCells": 463,
+        "rgbaFraction": 0.012958963282937365,
+        "binaryFraction": 0.012958963282937365
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 10,
+        "changedBinaryCells": 10,
+        "unionCells": 81,
+        "rgbaFraction": 0.12345679012345678,
+        "binaryFraction": 0.12345679012345678
+      }
+    },
+    {
+      "id": "s02__outward__d75",
+      "blindLabel": "G0024",
+      "seed": "life-v7-genome-02",
+      "condition": "outward",
+      "age": 75,
+      "hash": "97530d1b5f378e0e964dc560ba8770ce7a51a9742b387df34393163b315b6a0f",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 48,
+        "width": 10,
+        "height": 16,
+        "anchor": {
+          "x": 16,
+          "y": 34
+        },
+        "tip": {
+          "x": 11,
+          "y": 44
+        },
+        "length": 11.180339887498949,
+        "lengthToTrunkHeight": 1.0163945352271773
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 18,
+        "changedBinaryCells": 18,
+        "unionCells": 562,
+        "rgbaFraction": 0.03202846975088968,
+        "binaryFraction": 0.03202846975088968
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 9,
+        "changedBinaryCells": 9,
+        "unionCells": 49,
+        "rgbaFraction": 0.1836734693877551,
+        "binaryFraction": 0.1836734693877551
+      }
+    },
+    {
+      "id": "s02__inward__d7",
+      "blindLabel": "G0025",
+      "seed": "life-v7-genome-02",
+      "condition": "inward",
+      "age": 7,
+      "hash": "88a0d7280907f768c66a64cfa2768098337a4e1e009fafef2e899e5013c206db",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 19,
+        "width": 4,
+        "height": 8,
+        "anchor": {
+          "x": 24.16796875,
+          "y": 34.9375
+        },
+        "tip": {
+          "x": 25.38671875,
+          "y": 39.46875
+        },
+        "length": 4.692289220092896,
+        "lengthToTrunkHeight": 0.6703270314418422
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 1,
+        "changedBinaryCells": 1,
+        "unionCells": 256,
+        "rgbaFraction": 0.00390625,
+        "binaryFraction": 0.00390625
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 1,
+        "changedBinaryCells": 1,
+        "unionCells": 19,
+        "rgbaFraction": 0.05263157894736842,
+        "binaryFraction": 0.05263157894736842
+      }
+    },
+    {
+      "id": "s02__inward__d14",
+      "blindLabel": "G0026",
+      "seed": "life-v7-genome-02",
+      "condition": "inward",
+      "age": 14,
+      "hash": "2a73497b03c3b01bd21ae16912b2737077686d312910782721a38644122bdd39",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 41,
+        "width": 6,
+        "height": 12,
+        "anchor": {
+          "x": 18.58984375,
+          "y": 33.66015625
+        },
+        "tip": {
+          "x": 20.16015625,
+          "y": 38.8828125
+        },
+        "length": 5.453624451071077,
+        "lengthToTrunkHeight": 0.6059582723412308
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 5,
+        "changedBinaryCells": 5,
+        "unionCells": 442,
+        "rgbaFraction": 0.011312217194570135,
+        "binaryFraction": 0.011312217194570135
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 42,
+        "rgbaFraction": 0.09523809523809523,
+        "binaryFraction": 0.09523809523809523
+      }
+    },
+    {
+      "id": "s02__inward__d30",
+      "blindLabel": "G0027",
+      "seed": "life-v7-genome-02",
+      "condition": "inward",
+      "age": 30,
+      "hash": "e726615edf89cf678dff843590132d74b44f6de4eb5416fcc21d23366e21b3a4",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 69,
+        "width": 10,
+        "height": 21,
+        "anchor": {
+          "x": 18,
+          "y": 28
+        },
+        "tip": {
+          "x": 20,
+          "y": 33
+        },
+        "length": 5.385164807134505,
+        "lengthToTrunkHeight": 0.5983516452371672
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 5,
+        "changedBinaryCells": 5,
+        "unionCells": 459,
+        "rgbaFraction": 0.010893246187363835,
+        "binaryFraction": 0.010893246187363835
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 6,
+        "changedBinaryCells": 6,
+        "unionCells": 74,
+        "rgbaFraction": 0.08108108108108109,
+        "binaryFraction": 0.08108108108108109
+      }
+    },
+    {
+      "id": "s02__inward__d75",
+      "blindLabel": "G0028",
+      "seed": "life-v7-genome-02",
+      "condition": "inward",
+      "age": 75,
+      "hash": "9d2d36473c3c5575256ceaef35d9cf418e9fbc933c3790ec5064078da0cd2593",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 44,
+        "width": 9,
+        "height": 16,
+        "anchor": {
+          "x": 16,
+          "y": 34
+        },
+        "tip": {
+          "x": 12,
+          "y": 43
+        },
+        "length": 9.848857801796104,
+        "lengthToTrunkHeight": 0.8953507092541912
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 15,
+        "changedBinaryCells": 15,
+        "unionCells": 560,
+        "rgbaFraction": 0.026785714285714284,
+        "binaryFraction": 0.026785714285714284
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 5,
+        "changedBinaryCells": 5,
+        "unionCells": 45,
+        "rgbaFraction": 0.1111111111111111,
+        "binaryFraction": 0.1111111111111111
+      }
+    },
+    {
+      "id": "s02__bend__d7",
+      "blindLabel": "G0029",
+      "seed": "life-v7-genome-02",
+      "condition": "bend",
+      "age": 7,
+      "hash": "5b46c1ac8d5c6f58add6682fc8ff506fc4e5034fe5415c7ed4ebb5012b2f84e2",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 17,
+        "width": 4,
+        "height": 8,
+        "anchor": {
+          "x": 24.16796875,
+          "y": 34.9375
+        },
+        "tip": {
+          "x": 24.33984375,
+          "y": 39.91015625
+        },
+        "length": 4.975625709022842,
+        "lengthToTrunkHeight": 0.7108036727175489
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 9,
+        "changedBinaryCells": 9,
+        "unionCells": 260,
+        "rgbaFraction": 0.03461538461538462,
+        "binaryFraction": 0.03461538461538462
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 9,
+        "changedBinaryCells": 9,
+        "unionCells": 22,
+        "rgbaFraction": 0.4090909090909091,
+        "binaryFraction": 0.4090909090909091
+      }
+    },
+    {
+      "id": "s02__bend__d14",
+      "blindLabel": "G0030",
+      "seed": "life-v7-genome-02",
+      "condition": "bend",
+      "age": 14,
+      "hash": "46d336ba19d6622cf8bf9295684a7ed02f78908768b7581f04bae82d320be1d5",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 43,
+        "width": 7,
+        "height": 12,
+        "anchor": {
+          "x": 18.58984375,
+          "y": 33.66015625
+        },
+        "tip": {
+          "x": 18.83984375,
+          "y": 39.40234375
+        },
+        "length": 5.747627100391625,
+        "lengthToTrunkHeight": 0.6386252333768473
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 10,
+        "changedBinaryCells": 10,
+        "unionCells": 446,
+        "rgbaFraction": 0.02242152466367713,
+        "binaryFraction": 0.02242152466367713
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 12,
+        "changedBinaryCells": 12,
+        "unionCells": 47,
+        "rgbaFraction": 0.2553191489361702,
+        "binaryFraction": 0.2553191489361702
+      }
+    },
+    {
+      "id": "s02__bend__d30",
+      "blindLabel": "G0031",
+      "seed": "life-v7-genome-02",
+      "condition": "bend",
+      "age": 30,
+      "hash": "75ef905f79fee901c4552d086d25b5c868799ae523a47dc29e5574264277d0ab",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 68,
+        "width": 9,
+        "height": 22,
+        "anchor": {
+          "x": 18,
+          "y": 28
+        },
+        "tip": {
+          "x": 19,
+          "y": 34
+        },
+        "length": 6.0827625302982185,
+        "lengthToTrunkHeight": 0.6758625033664687
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 17,
+        "changedBinaryCells": 17,
+        "unionCells": 466,
+        "rgbaFraction": 0.03648068669527897,
+        "binaryFraction": 0.03648068669527897
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 21,
+        "changedBinaryCells": 21,
+        "unionCells": 81,
+        "rgbaFraction": 0.25925925925925924,
+        "binaryFraction": 0.25925925925925924
+      }
+    },
+    {
+      "id": "s02__bend__d75",
+      "blindLabel": "G0032",
+      "seed": "life-v7-genome-02",
+      "condition": "bend",
+      "age": 75,
+      "hash": "56f4286133705e088ee5cfb0452d79f65ab2b4b0e2d837cf736bd72c7d463833",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 50,
+        "width": 10,
+        "height": 16,
+        "anchor": {
+          "x": 16,
+          "y": 34
+        },
+        "tip": {
+          "x": 11,
+          "y": 43
+        },
+        "length": 10.295630140987,
+        "lengthToTrunkHeight": 0.9359663764533637
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 31,
+        "changedBinaryCells": 31,
+        "unionCells": 572,
+        "rgbaFraction": 0.05419580419580419,
+        "binaryFraction": 0.05419580419580419
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 13,
+        "changedBinaryCells": 13,
+        "unionCells": 52,
+        "rgbaFraction": 0.25,
+        "binaryFraction": 0.25
+      }
+    },
+    {
+      "id": "s03__neutral__d7",
+      "blindLabel": "G0033",
+      "seed": "life-v7-genome-03",
+      "condition": "neutral",
+      "age": 7,
+      "hash": "ff3ae9d097f655ababf07f37fc8125e5eeb12f90b98b4556a490e65fc6ef174f",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 17,
+        "width": 4,
+        "height": 8,
+        "anchor": {
+          "x": 24.0390625,
+          "y": 34.82421875
+        },
+        "tip": {
+          "x": 25.0703125,
+          "y": 39.9140625
+        },
+        "length": 5.1932635174728095,
+        "lengthToTrunkHeight": 0.7418947882104013
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 257,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 17,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s03__neutral__d14",
+      "blindLabel": "G0034",
+      "seed": "life-v7-genome-03",
+      "condition": "neutral",
+      "age": 14,
+      "hash": "94fdb6a4ea168228789408d285236d93b5f558f8f5d72b52cddfbd0af177e024",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 35,
+        "width": 6,
+        "height": 12,
+        "anchor": {
+          "x": 19.78515625,
+          "y": 33.796875
+        },
+        "tip": {
+          "x": 21.328125,
+          "y": 39.5703125
+        },
+        "length": 5.9760633472113405,
+        "lengthToTrunkHeight": 0.7470079184014176
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 387,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 35,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s03__neutral__d30",
+      "blindLabel": "G0035",
+      "seed": "life-v7-genome-03",
+      "condition": "neutral",
+      "age": 30,
+      "hash": "344a789d26e159666f6472bd19a0ef0b960fa9270f04e28d62828f5b86b4ea3a",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 48,
+        "width": 7,
+        "height": 15,
+        "anchor": {
+          "x": 21,
+          "y": 30
+        },
+        "tip": {
+          "x": 23,
+          "y": 34
+        },
+        "length": 4.47213595499958,
+        "lengthToTrunkHeight": 0.6388765649999399
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 451,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 48,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s03__neutral__d75",
+      "blindLabel": "G0036",
+      "seed": "life-v7-genome-03",
+      "condition": "neutral",
+      "age": 75,
+      "hash": "19272e2dd03be73bd9cdcf7145ce883add9e04e1b8705ec1144f6de4c92de5f8",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 86,
+        "width": 12,
+        "height": 25,
+        "anchor": {
+          "x": 20,
+          "y": 29
+        },
+        "tip": {
+          "x": 17,
+          "y": 38
+        },
+        "length": 9.486832980505138,
+        "lengthToTrunkHeight": 0.9486832980505138
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 734,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 86,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s03__outward__d7",
+      "blindLabel": "G0037",
+      "seed": "life-v7-genome-03",
+      "condition": "outward",
+      "age": 7,
+      "hash": "7c8e0313e83095352e4931afdfa684604d5afd1b98664c9c5e44a5a9a8b45677",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 19,
+        "width": 5,
+        "height": 9,
+        "anchor": {
+          "x": 24.0390625,
+          "y": 34.82421875
+        },
+        "tip": {
+          "x": 24.7890625,
+          "y": 40.5234375
+        },
+        "length": 5.748355796256139,
+        "lengthToTrunkHeight": 0.8211936851794485
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 22,
+        "changedBinaryCells": 22,
+        "unionCells": 271,
+        "rgbaFraction": 0.08118081180811808,
+        "binaryFraction": 0.08118081180811808
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 20,
+        "rgbaFraction": 0.2,
+        "binaryFraction": 0.2
+      }
+    },
+    {
+      "id": "s03__outward__d14",
+      "blindLabel": "G0038",
+      "seed": "life-v7-genome-03",
+      "condition": "outward",
+      "age": 14,
+      "hash": "6bced9592b0d3400346d7b2a4a256c725d79b5e4d203dee29a4a18b5cd9f30b2",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 36,
+        "width": 6,
+        "height": 12,
+        "anchor": {
+          "x": 19.78515625,
+          "y": 33.796875
+        },
+        "tip": {
+          "x": 20.9921875,
+          "y": 40.328125
+        },
+        "length": 6.641848462662828,
+        "lengthToTrunkHeight": 0.8302310578328534
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 8,
+        "changedBinaryCells": 8,
+        "unionCells": 391,
+        "rgbaFraction": 0.020460358056265986,
+        "binaryFraction": 0.020460358056265986
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 7,
+        "changedBinaryCells": 7,
+        "unionCells": 39,
+        "rgbaFraction": 0.1794871794871795,
+        "binaryFraction": 0.1794871794871795
+      }
+    },
+    {
+      "id": "s03__outward__d30",
+      "blindLabel": "G0039",
+      "seed": "life-v7-genome-03",
+      "condition": "outward",
+      "age": 30,
+      "hash": "b248bd4609815b26a979305f909cbf28fc21bc6d58b023554230ecbaa7373c46",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 49,
+        "width": 8,
+        "height": 15,
+        "anchor": {
+          "x": 21,
+          "y": 30
+        },
+        "tip": {
+          "x": 23,
+          "y": 35
+        },
+        "length": 5.385164807134505,
+        "lengthToTrunkHeight": 0.7693092581620721
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 1,
+        "changedBinaryCells": 1,
+        "unionCells": 452,
+        "rgbaFraction": 0.0022123893805309734,
+        "binaryFraction": 0.0022123893805309734
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 1,
+        "changedBinaryCells": 1,
+        "unionCells": 49,
+        "rgbaFraction": 0.02040816326530612,
+        "binaryFraction": 0.02040816326530612
+      }
+    },
+    {
+      "id": "s03__outward__d75",
+      "blindLabel": "G0040",
+      "seed": "life-v7-genome-03",
+      "condition": "outward",
+      "age": 75,
+      "hash": "48bb62c1094d98cc7695687a61fe72e12ba5faa2f0eec4d8fd7fb3514778a545",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 86,
+        "width": 11,
+        "height": 25,
+        "anchor": {
+          "x": 20,
+          "y": 29
+        },
+        "tip": {
+          "x": 16,
+          "y": 38
+        },
+        "length": 9.848857801796104,
+        "lengthToTrunkHeight": 0.9848857801796104
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 20,
+        "changedBinaryCells": 20,
+        "unionCells": 744,
+        "rgbaFraction": 0.026881720430107527,
+        "binaryFraction": 0.026881720430107527
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 18,
+        "changedBinaryCells": 18,
+        "unionCells": 95,
+        "rgbaFraction": 0.18947368421052632,
+        "binaryFraction": 0.18947368421052632
+      }
+    },
+    {
+      "id": "s03__inward__d7",
+      "blindLabel": "G0041",
+      "seed": "life-v7-genome-03",
+      "condition": "inward",
+      "age": 7,
+      "hash": "4527d3a45ef23d7e5f7b10fe9a96b76847338d277aab9378d2a61f6b013be95c",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 19,
+        "width": 4,
+        "height": 8,
+        "anchor": {
+          "x": 24.0390625,
+          "y": 34.82421875
+        },
+        "tip": {
+          "x": 25.26953125,
+          "y": 39.29296875
+        },
+        "length": 4.635059860155698,
+        "lengthToTrunkHeight": 0.6621514085936712
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 2,
+        "changedBinaryCells": 2,
+        "unionCells": 259,
+        "rgbaFraction": 0.007722007722007722,
+        "binaryFraction": 0.007722007722007722
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 2,
+        "changedBinaryCells": 2,
+        "unionCells": 19,
+        "rgbaFraction": 0.10526315789473684,
+        "binaryFraction": 0.10526315789473684
+      }
+    },
+    {
+      "id": "s03__inward__d14",
+      "blindLabel": "G0042",
+      "seed": "life-v7-genome-03",
+      "condition": "inward",
+      "age": 14,
+      "hash": "f8f2f4bccd8347bd1c65d1f50156c1eb196b4053207e2ea2d11db5a74c33e8ca",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 36,
+        "width": 6,
+        "height": 11,
+        "anchor": {
+          "x": 19.78515625,
+          "y": 33.796875
+        },
+        "tip": {
+          "x": 21.55078125,
+          "y": 38.82421875
+        },
+        "length": 5.3283784420111395,
+        "lengthToTrunkHeight": 0.6660473052513924
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 389,
+        "rgbaFraction": 0.010282776349614395,
+        "binaryFraction": 0.010282776349614395
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 3,
+        "changedBinaryCells": 3,
+        "unionCells": 37,
+        "rgbaFraction": 0.08108108108108109,
+        "binaryFraction": 0.08108108108108109
+      }
+    },
+    {
+      "id": "s03__inward__d30",
+      "blindLabel": "G0043",
+      "seed": "life-v7-genome-03",
+      "condition": "inward",
+      "age": 30,
+      "hash": "9c54505d15df11c490aa86d9e9ee3a605b8bc37d944299aed0148f7fb303a54d",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 48,
+        "width": 7,
+        "height": 16,
+        "anchor": {
+          "x": 21,
+          "y": 30
+        },
+        "tip": {
+          "x": 23,
+          "y": 34
+        },
+        "length": 4.47213595499958,
+        "lengthToTrunkHeight": 0.6388765649999399
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 2,
+        "changedBinaryCells": 2,
+        "unionCells": 452,
+        "rgbaFraction": 0.004424778761061947,
+        "binaryFraction": 0.004424778761061947
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 2,
+        "changedBinaryCells": 2,
+        "unionCells": 49,
+        "rgbaFraction": 0.04081632653061224,
+        "binaryFraction": 0.04081632653061224
+      }
+    },
+    {
+      "id": "s03__inward__d75",
+      "blindLabel": "G0044",
+      "seed": "life-v7-genome-03",
+      "condition": "inward",
+      "age": 75,
+      "hash": "c7796c51610e13cca06b28daa3aa0c657119885062754e130e1b588ea7ec07a4",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 81,
+        "width": 12,
+        "height": 25,
+        "anchor": {
+          "x": 20,
+          "y": 29
+        },
+        "tip": {
+          "x": 17,
+          "y": 38
+        },
+        "length": 9.486832980505138,
+        "lengthToTrunkHeight": 0.9486832980505138
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 19,
+        "changedBinaryCells": 19,
+        "unionCells": 741,
+        "rgbaFraction": 0.02564102564102564,
+        "binaryFraction": 0.02564102564102564
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 17,
+        "changedBinaryCells": 17,
+        "unionCells": 92,
+        "rgbaFraction": 0.18478260869565216,
+        "binaryFraction": 0.18478260869565216
+      }
+    },
+    {
+      "id": "s03__bend__d7",
+      "blindLabel": "G0045",
+      "seed": "life-v7-genome-03",
+      "condition": "bend",
+      "age": 7,
+      "hash": "8e960922e9049d36902e3d853f11a3e1cb6ef9da38d2d8244eade2a1e696201b",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 18,
+        "width": 4,
+        "height": 8,
+        "anchor": {
+          "x": 24.0390625,
+          "y": 34.82421875
+        },
+        "tip": {
+          "x": 24.27734375,
+          "y": 39.75390625
+        },
+        "length": 4.935442918498583,
+        "lengthToTrunkHeight": 0.7050632740712262
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 8,
+        "changedBinaryCells": 8,
+        "unionCells": 262,
+        "rgbaFraction": 0.030534351145038167,
+        "binaryFraction": 0.030534351145038167
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 9,
+        "changedBinaryCells": 9,
+        "unionCells": 22,
+        "rgbaFraction": 0.4090909090909091,
+        "binaryFraction": 0.4090909090909091
+      }
+    },
+    {
+      "id": "s03__bend__d14",
+      "blindLabel": "G0046",
+      "seed": "life-v7-genome-03",
+      "condition": "bend",
+      "age": 14,
+      "hash": "7d69121897bf8ad5596a824c9c10bf885e3ccc23e4b6968e2ae410a42916c8f0",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 34,
+        "width": 5,
+        "height": 12,
+        "anchor": {
+          "x": 19.78515625,
+          "y": 33.796875
+        },
+        "tip": {
+          "x": 20.35546875,
+          "y": 39.39453125
+        },
+        "length": 5.626634148478138,
+        "lengthToTrunkHeight": 0.7033292685597673
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 18,
+        "changedBinaryCells": 18,
+        "unionCells": 396,
+        "rgbaFraction": 0.045454545454545456,
+        "binaryFraction": 0.045454545454545456
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 15,
+        "changedBinaryCells": 15,
+        "unionCells": 42,
+        "rgbaFraction": 0.35714285714285715,
+        "binaryFraction": 0.35714285714285715
+      }
+    },
+    {
+      "id": "s03__bend__d30",
+      "blindLabel": "G0047",
+      "seed": "life-v7-genome-03",
+      "condition": "bend",
+      "age": 30,
+      "hash": "b1d1dccbdf175b6b35283e8575a09ef64818dee0c45d0c5be63e0852613d5a62",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 50,
+        "width": 7,
+        "height": 15,
+        "anchor": {
+          "x": 21,
+          "y": 30
+        },
+        "tip": {
+          "x": 22,
+          "y": 35
+        },
+        "length": 5.099019513592785,
+        "lengthToTrunkHeight": 0.7284313590846836
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 12,
+        "changedBinaryCells": 12,
+        "unionCells": 460,
+        "rgbaFraction": 0.02608695652173913,
+        "binaryFraction": 0.02608695652173913
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 16,
+        "changedBinaryCells": 16,
+        "unionCells": 57,
+        "rgbaFraction": 0.2807017543859649,
+        "binaryFraction": 0.2807017543859649
+      }
+    },
+    {
+      "id": "s03__bend__d75",
+      "blindLabel": "G0048",
+      "seed": "life-v7-genome-03",
+      "condition": "bend",
+      "age": 75,
+      "hash": "b2d4f02bb04fac1e86c7d256d096ad9d400d05be9dfbb4083003050376931f75",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 82,
+        "width": 12,
+        "height": 25,
+        "anchor": {
+          "x": 20,
+          "y": 29
+        },
+        "tip": {
+          "x": 16,
+          "y": 37
+        },
+        "length": 8.94427190999916,
+        "lengthToTrunkHeight": 0.894427190999916
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 15,
+        "changedBinaryCells": 15,
+        "unionCells": 740,
+        "rgbaFraction": 0.02027027027027027,
+        "binaryFraction": 0.02027027027027027
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 12,
+        "changedBinaryCells": 12,
+        "unionCells": 90,
+        "rgbaFraction": 0.13333333333333333,
+        "binaryFraction": 0.13333333333333333
+      }
+    },
+    {
+      "id": "s04__neutral__d7",
+      "blindLabel": "G0049",
+      "seed": "life-v7-genome-04",
+      "condition": "neutral",
+      "age": 7,
+      "hash": "b4fec200749985614c40a5ad869efed8837d874d75e6585fbcb21ea213d461b1",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 17,
+        "width": 4,
+        "height": 7,
+        "anchor": {
+          "x": 24.85546875,
+          "y": 35.1640625
+        },
+        "tip": {
+          "x": 25.859375,
+          "y": 40.3046875
+        },
+        "length": 5.237733589007183,
+        "lengthToTrunkHeight": 0.7482476555724548
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 237,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 17,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s04__neutral__d14",
+      "blindLabel": "G0050",
+      "seed": "life-v7-genome-04",
+      "condition": "neutral",
+      "age": 14,
+      "hash": "440cae529107ecc39bafdb919c2be314d55293076e15f38610f7d264045d574d",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 22,
+        "width": 5,
+        "height": 10,
+        "anchor": {
+          "x": 24.375,
+          "y": 36.140625
+        },
+        "tip": {
+          "x": 25.671875,
+          "y": 42.3203125
+        },
+        "length": 6.314302999007987,
+        "lengthToTrunkHeight": 0.7015892221119986
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 316,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 22,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s04__neutral__d30",
+      "blindLabel": "G0051",
+      "seed": "life-v7-genome-04",
+      "condition": "neutral",
+      "age": 30,
+      "hash": "9c69721bb75d97ff505c67277b7c2b52a4c5b574cf311515f5113f5cdf1acd19",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 61,
+        "width": 9,
+        "height": 20,
+        "anchor": {
+          "x": 22,
+          "y": 38
+        },
+        "tip": {
+          "x": 27,
+          "y": 48
+        },
+        "length": 11.180339887498949,
+        "lengthToTrunkHeight": 0.9316949906249125
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 693,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 61,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s04__neutral__d75",
+      "blindLabel": "G0052",
+      "seed": "life-v7-genome-04",
+      "condition": "neutral",
+      "age": 75,
+      "hash": "73d9848897cd17aab85947e314229b666d9afaa9fa05633d58b82a9467307b97",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 67,
+        "width": 9,
+        "height": 17,
+        "anchor": {
+          "x": 19,
+          "y": 32
+        },
+        "tip": {
+          "x": 16,
+          "y": 37
+        },
+        "length": 5.8309518948453,
+        "lengthToTrunkHeight": 0.6478835438717
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 490,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 0,
+        "changedBinaryCells": 0,
+        "unionCells": 67,
+        "rgbaFraction": 0,
+        "binaryFraction": 0
+      }
+    },
+    {
+      "id": "s04__outward__d7",
+      "blindLabel": "G0053",
+      "seed": "life-v7-genome-04",
+      "condition": "outward",
+      "age": 7,
+      "hash": "30514bf42163b62e65d0b484e714c26b5c1fd865e476189fc85338508095ba37",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 18,
+        "width": 4,
+        "height": 8,
+        "anchor": {
+          "x": 24.85546875,
+          "y": 35.1640625
+        },
+        "tip": {
+          "x": 25.54296875,
+          "y": 40.9375
+        },
+        "length": 5.814227103958552,
+        "lengthToTrunkHeight": 0.8306038719940788
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 21,
+        "changedBinaryCells": 21,
+        "unionCells": 251,
+        "rgbaFraction": 0.08366533864541832,
+        "binaryFraction": 0.08366533864541832
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 1,
+        "changedBinaryCells": 1,
+        "unionCells": 18,
+        "rgbaFraction": 0.05555555555555555,
+        "binaryFraction": 0.05555555555555555
+      }
+    },
+    {
+      "id": "s04__outward__d14",
+      "blindLabel": "G0054",
+      "seed": "life-v7-genome-04",
+      "condition": "outward",
+      "age": 14,
+      "hash": "a9a0c12bf8ef4953ca484b0a309b15a51e075b9b87b139357dff974bccd97ec9",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 24,
+        "width": 6,
+        "height": 10,
+        "anchor": {
+          "x": 24.375,
+          "y": 36.140625
+        },
+        "tip": {
+          "x": 25.2265625,
+          "y": 43.10546875
+        },
+        "length": 7.016709139854688,
+        "lengthToTrunkHeight": 0.7796343488727432
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 32,
+        "changedBinaryCells": 32,
+        "unionCells": 337,
+        "rgbaFraction": 0.09495548961424333,
+        "binaryFraction": 0.09495548961424333
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 8,
+        "changedBinaryCells": 8,
+        "unionCells": 27,
+        "rgbaFraction": 0.2962962962962963,
+        "binaryFraction": 0.2962962962962963
+      }
+    },
+    {
+      "id": "s04__outward__d30",
+      "blindLabel": "G0055",
+      "seed": "life-v7-genome-04",
+      "condition": "outward",
+      "age": 30,
+      "hash": "e47a81b45861c7304ea0923a6c284e6df099037de15bc62377aefa83e5f0cc5d",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 62,
+        "width": 9,
+        "height": 20,
+        "anchor": {
+          "x": 22,
+          "y": 38
+        },
+        "tip": {
+          "x": 27,
+          "y": 49
+        },
+        "length": 12.08304597359457,
+        "lengthToTrunkHeight": 1.0069204977995476
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 696,
+        "rgbaFraction": 0.005747126436781609,
+        "binaryFraction": 0.005747126436781609
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 3,
+        "changedBinaryCells": 3,
+        "unionCells": 63,
+        "rgbaFraction": 0.047619047619047616,
+        "binaryFraction": 0.047619047619047616
+      }
+    },
+    {
+      "id": "s04__outward__d75",
+      "blindLabel": "G0056",
+      "seed": "life-v7-genome-04",
+      "condition": "outward",
+      "age": 75,
+      "hash": "eaecb4067d8dd0fdeafea0482cc59468db276aba459c551af8222c8f268c5580",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 69,
+        "width": 10,
+        "height": 17,
+        "anchor": {
+          "x": 19,
+          "y": 32
+        },
+        "tip": {
+          "x": 16,
+          "y": 37
+        },
+        "length": 5.8309518948453,
+        "lengthToTrunkHeight": 0.6478835438717
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 9,
+        "changedBinaryCells": 9,
+        "unionCells": 495,
+        "rgbaFraction": 0.01818181818181818,
+        "binaryFraction": 0.01818181818181818
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 6,
+        "changedBinaryCells": 6,
+        "unionCells": 71,
+        "rgbaFraction": 0.08450704225352113,
+        "binaryFraction": 0.08450704225352113
+      }
+    },
+    {
+      "id": "s04__inward__d7",
+      "blindLabel": "G0057",
+      "seed": "life-v7-genome-04",
+      "condition": "inward",
+      "age": 7,
+      "hash": "ed0c10232160392a06bc0a0535e4049526232a555bcd265bf19d00780d951ee6",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 15,
+        "width": 3,
+        "height": 7,
+        "anchor": {
+          "x": 24.85546875,
+          "y": 35.1640625
+        },
+        "tip": {
+          "x": 26.0859375,
+          "y": 39.66015625
+        },
+        "length": 4.661428145270033,
+        "lengthToTrunkHeight": 0.6659183064671476
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 1,
+        "changedBinaryCells": 1,
+        "unionCells": 237,
+        "rgbaFraction": 0.004219409282700422,
+        "binaryFraction": 0.004219409282700422
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 2,
+        "changedBinaryCells": 2,
+        "unionCells": 17,
+        "rgbaFraction": 0.11764705882352941,
+        "binaryFraction": 0.11764705882352941
+      }
+    },
+    {
+      "id": "s04__inward__d14",
+      "blindLabel": "G0058",
+      "seed": "life-v7-genome-04",
+      "condition": "inward",
+      "age": 14,
+      "hash": "2b476671aa16c3596fb32379003389deff790a55bfc8c9704aaceebc1b52252b",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 22,
+        "width": 5,
+        "height": 10,
+        "anchor": {
+          "x": 24.375,
+          "y": 36.140625
+        },
+        "tip": {
+          "x": 25.98828125,
+          "y": 41.53125
+        },
+        "length": 5.626856518716872,
+        "lengthToTrunkHeight": 0.6252062798574303
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 10,
+        "changedBinaryCells": 10,
+        "unionCells": 319,
+        "rgbaFraction": 0.03134796238244514,
+        "binaryFraction": 0.03134796238244514
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 24,
+        "rgbaFraction": 0.16666666666666666,
+        "binaryFraction": 0.16666666666666666
+      }
+    },
+    {
+      "id": "s04__inward__d30",
+      "blindLabel": "G0059",
+      "seed": "life-v7-genome-04",
+      "condition": "inward",
+      "age": 30,
+      "hash": "9d793bd3b3a7025a415ec6e88d68e91249bdf9071d3980316a29ae7ec8769293",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 64,
+        "width": 10,
+        "height": 20,
+        "anchor": {
+          "x": 22,
+          "y": 38
+        },
+        "tip": {
+          "x": 27,
+          "y": 46
+        },
+        "length": 9.433981132056603,
+        "lengthToTrunkHeight": 0.7861650943380503
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 4,
+        "changedBinaryCells": 4,
+        "unionCells": 696,
+        "rgbaFraction": 0.005747126436781609,
+        "binaryFraction": 0.005747126436781609
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 5,
+        "changedBinaryCells": 5,
+        "unionCells": 65,
+        "rgbaFraction": 0.07692307692307693,
+        "binaryFraction": 0.07692307692307693
+      }
+    },
+    {
+      "id": "s04__inward__d75",
+      "blindLabel": "G0060",
+      "seed": "life-v7-genome-04",
+      "condition": "inward",
+      "age": 75,
+      "hash": "873b2951c621285d57bae86b14d5575e69195907501decea515cc7dba76eaa34",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 68,
+        "width": 9,
+        "height": 17,
+        "anchor": {
+          "x": 19,
+          "y": 32
+        },
+        "tip": {
+          "x": 17,
+          "y": 36
+        },
+        "length": 4.47213595499958,
+        "lengthToTrunkHeight": 0.4969039949999533
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 3,
+        "changedBinaryCells": 3,
+        "unionCells": 492,
+        "rgbaFraction": 0.006097560975609756,
+        "binaryFraction": 0.006097560975609756
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 3,
+        "changedBinaryCells": 3,
+        "unionCells": 69,
+        "rgbaFraction": 0.043478260869565216,
+        "binaryFraction": 0.043478260869565216
+      }
+    },
+    {
+      "id": "s04__bend__d7",
+      "blindLabel": "G0061",
+      "seed": "life-v7-genome-04",
+      "condition": "bend",
+      "age": 7,
+      "hash": "10e4c55a496439981ff58b372a419752b1eed6c60cf8e9a177231abf9164df71",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 16,
+        "width": 4,
+        "height": 7,
+        "anchor": {
+          "x": 24.85546875,
+          "y": 35.1640625
+        },
+        "tip": {
+          "x": 25.01171875,
+          "y": 40.1328125
+        },
+        "length": 4.971206153942925,
+        "lengthToTrunkHeight": 0.710172307706132
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 5,
+        "changedBinaryCells": 5,
+        "unionCells": 240,
+        "rgbaFraction": 0.020833333333333332,
+        "binaryFraction": 0.020833333333333332
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 5,
+        "changedBinaryCells": 5,
+        "unionCells": 19,
+        "rgbaFraction": 0.2631578947368421,
+        "binaryFraction": 0.2631578947368421
+      }
+    },
+    {
+      "id": "s04__bend__d14",
+      "blindLabel": "G0062",
+      "seed": "life-v7-genome-04",
+      "condition": "bend",
+      "age": 14,
+      "hash": "e88c10521f4606f59fdc521b5678e9ea3dbb1177a09045109fdc5231ddbd722c",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 23,
+        "width": 5,
+        "height": 10,
+        "anchor": {
+          "x": 24.375,
+          "y": 36.140625
+        },
+        "tip": {
+          "x": 24.640625,
+          "y": 42.08203125
+        },
+        "length": 5.947340991414908,
+        "lengthToTrunkHeight": 0.6608156657127675
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 8,
+        "changedBinaryCells": 8,
+        "unionCells": 320,
+        "rgbaFraction": 0.025,
+        "binaryFraction": 0.025
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 7,
+        "changedBinaryCells": 7,
+        "unionCells": 26,
+        "rgbaFraction": 0.2692307692307692,
+        "binaryFraction": 0.2692307692307692
+      }
+    },
+    {
+      "id": "s04__bend__d30",
+      "blindLabel": "G0063",
+      "seed": "life-v7-genome-04",
+      "condition": "bend",
+      "age": 30,
+      "hash": "0cf8b6a4c0564dd47547950ce34fd432293b4201b8c60df97459088ee2539a7c",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 60,
+        "width": 8,
+        "height": 21,
+        "anchor": {
+          "x": 22,
+          "y": 38
+        },
+        "tip": {
+          "x": 26,
+          "y": 48
+        },
+        "length": 10.77032961426901,
+        "lengthToTrunkHeight": 0.8975274678557508
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 38,
+        "changedBinaryCells": 38,
+        "unionCells": 713,
+        "rgbaFraction": 0.05329593267882188,
+        "binaryFraction": 0.05329593267882188
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 37,
+        "changedBinaryCells": 37,
+        "unionCells": 79,
+        "rgbaFraction": 0.46835443037974683,
+        "binaryFraction": 0.46835443037974683
+      }
+    },
+    {
+      "id": "s04__bend__d75",
+      "blindLabel": "G0064",
+      "seed": "life-v7-genome-04",
+      "condition": "bend",
+      "age": 75,
+      "hash": "091ccc2bee6b5ba20b94a5ffd579aecbfaf385cd29cfcc73530111eeedfad9d1",
+      "target": {
+        "contributorIds": [
+          "leg-hind-left"
+        ],
+        "visibleCells": 68,
+        "width": 10,
+        "height": 17,
+        "anchor": {
+          "x": 19,
+          "y": 32
+        },
+        "tip": {
+          "x": 16,
+          "y": 36
+        },
+        "length": 5,
+        "lengthToTrunkHeight": 0.5555555555555556
+      },
+      "differenceFromNeutral": {
+        "changedRgbaCells": 8,
+        "changedBinaryCells": 8,
+        "unionCells": 494,
+        "rgbaFraction": 0.016194331983805668,
+        "binaryFraction": 0.016194331983805668
+      },
+      "targetDifferenceFromNeutral": {
+        "changedRgbaCells": 5,
+        "changedBinaryCells": 5,
+        "unionCells": 70,
+        "rgbaFraction": 0.07142857142857142,
+        "binaryFraction": 0.07142857142857142
+      }
+    }
+  ],
+  "checks": [
+    {
+      "caseId": "s01__neutral",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s01__outward",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s01__inward",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s01__bend",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s02__neutral",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s02__outward",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s02__inward",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s02__bend",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s03__neutral",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s03__outward",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s03__inward",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s03__bend",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s04__neutral",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s04__outward",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s04__inward",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    },
+    {
+      "caseId": "s04__bend",
+      "birth": true,
+      "genome": true,
+      "needs": true,
+      "replay": true,
+      "futurePulse": true,
+      "bounds": true
+    }
+  ],
+  "failures": [],
+  "visualStatus": "unreviewed",
+  "notes": [
+    "Raw and target-contributor differences may include common camera fitting; inspect actual images.",
+    "Length relative to trunk helps distinguish a local response from uniform framing.",
+    "No whole-body shape-diversity or human-review claim follows from this small grooming demonstration."
+  ]
+}

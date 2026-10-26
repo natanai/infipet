@@ -1,0 +1,67 @@
+16/384 cases
+32/384 cases
+48/384 cases
+64/384 cases
+80/384 cases
+96/384 cases
+112/384 cases
+128/384 cases
+144/384 cases
+160/384 cases
+176/384 cases
+192/384 cases
+208/384 cases
+224/384 cases
+240/384 cases
+256/384 cases
+272/384 cases
+288/384 cases
+304/384 cases
+320/384 cases
+336/384 cases
+352/384 cases
+368/384 cases
+384/384 cases
+{
+  "runId": "v7-regional-variance-final",
+  "actual": {
+    "cases": 384,
+    "uniqueFrames": 768,
+    "failures": 0,
+    "validFrames": 768
+  },
+  "panels": [
+    {
+      "id": "moderate",
+      "seedLargest": {
+        "numerator": 12,
+        "denominator": 12,
+        "percent": 100,
+        "condition": "within-source moderate balanced4-seed panel",
+        "age": "day75 and120, equally weighted source/age cells"
+      },
+      "proportions": {
+        "seed": 0.8778803266373081,
+        "history": 0.03478713333211684,
+        "interaction": 0.08733254003057535
+      }
+    },
+    {
+      "id": "severe",
+      "seedLargest": {
+        "numerator": 12,
+        "denominator": 12,
+        "percent": 100,
+        "condition": "within-source severe balanced4-seed panel",
+        "age": "day75 and120, equally weighted source/age cells"
+      },
+      "proportions": {
+        "seed": 0.8341501288752955,
+        "history": 0.0570594816961399,
+        "interaction": 0.10879038942856539
+      }
+    }
+  ],
+  "captureSourceUnchanged": true,
+  "report": "C:\\Games\\infipet\\docs\\audits\\life-v7\\variance\\v7-regional-variance-final\\REPORT.md"
+}

@@ -1,0 +1,4771 @@
+{
+  "version": 1,
+  "runId": "cohort-002",
+  "generatedAt": "2026-10-25T18:31:04.068Z",
+  "versions": {
+    "prototype": "life-v9",
+    "gameplay": 2,
+    "rules": "infipet-classic-v2",
+    "lineage": "opentree16.1/ott3.7.3|infipet-animal-profiles-v1|animal-affinity-v1|morphogenesis-v1",
+    "needsCatalog": "0c5b73e19f6963a0d38332aafbdfb72149fb0ce5",
+    "needsRules": 2
+  },
+  "counts": {
+    "paths": 25,
+    "candidates": 1500,
+    "unscored": 6,
+    "failed": 19,
+    "machineCandidates": 0,
+    "visuallyAccepted": 0,
+    "gameEligible": 25
+  },
+  "paths": [
+    {
+      "id": "dm1__botamon--koromon--agumon--greymon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.greymon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "battle-trained",
+        "worstIoU": 0.23943661971830985,
+        "meanIoU": 0.41928637777358874,
+        "witnessFile": "witnesses/dm1__botamon--koromon--agumon--greymon--metal-greymon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--agumon--greymon--metal-greymon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--greymon--metal-greymon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23943661971830985,
+              "filledSilhouetteIoU": 0.49134487350199735,
+              "pixelAgreement": 0.578125,
+              "aspectSimilarity": 0.9090909090909091,
+              "densitySimilarity": 0.6727272727272727,
+              "components": {
+                "actual": 3,
+                "target": 13
+              },
+              "holes": {
+                "actual": 1,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "e43f6f559d1e7a73241bfa1ecde3152147012e00799ffed3bbadf388f1350b3e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--greymon--metal-greymon/dm1.agumon",
+            "characterId": "dm1.agumon",
+            "name": "Agumon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.29931972789115646,
+              "filledSilhouetteIoU": 0.6076134699853587,
+              "pixelAgreement": 0.59765625,
+              "aspectSimilarity": 0.8333333333333334,
+              "densitySimilarity": 0.6084507042253521,
+              "components": {
+                "actual": 2,
+                "target": 15
+              },
+              "holes": {
+                "actual": 4,
+                "target": 6
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": "agumon",
+            "referenceBranchMatched": true,
+            "frameHash": "7ebaf02a36b15a3d13cdc174db1437c5de7d2ce5d90899679c4ba27c96ac890e",
+            "targetHash": "5706d5b09fc3712bcda2d72f11d5a46ab4dc9ed76ab430f7cf6a2dc6b1dfa259",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--greymon--metal-greymon/dm1.greymon",
+            "characterId": "dm1.greymon",
+            "name": "Greymon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2521613832853026,
+              "filledSilhouetteIoU": 0.5580246913580247,
+              "pixelAgreement": 0.4931640625,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 0.7050781249999999,
+              "components": {
+                "actual": 1,
+                "target": 20
+              },
+              "holes": {
+                "actual": 4,
+                "target": 8
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "greymon",
+            "expectedBranch": "greymon",
+            "referenceBranchMatched": true,
+            "frameHash": "874a174910acecfca0798535e8a3bf83b32544ca31ef533bf0eee7fba0af875f",
+            "targetHash": "1851ffdeacb329970264f5af09683ebd0bf896dc9abfad02ec8964c5dc520963",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--greymon--metal-greymon/dm1.metal-greymon",
+            "characterId": "dm1.metal-greymon",
+            "name": "Metal Greymon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.3055141579731744,
+              "filledSilhouetteIoU": 0.5700123915737298,
+              "pixelAgreement": 0.544921875,
+              "aspectSimilarity": 0.9,
+              "densitySimilarity": 0.8141447368421052,
+              "components": {
+                "actual": 1,
+                "target": 24
+              },
+              "holes": {
+                "actual": 3,
+                "target": 15
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "metal-greymon",
+            "expectedBranch": "metal-greymon",
+            "referenceBranchMatched": true,
+            "frameHash": "887bbfccfd0d2d495a8af204d2576c947d9b7981cb0774196de579919d0996af",
+            "targetHash": "b5194dea5d3946030a0a821901bed15c093e3eccbed3354417628a9eb1a0187d",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--agumon--devimon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.devimon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "playful-battles",
+        "worstIoU": 0.22839506172839505,
+        "meanIoU": 0.4256962223151219,
+        "witnessFile": "witnesses/dm1__botamon--koromon--agumon--devimon--metal-greymon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--agumon--devimon--metal-greymon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--devimon--metal-greymon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.22839506172839505,
+              "filledSilhouetteIoU": 0.48911465892597966,
+              "pixelAgreement": 0.6337890625,
+              "aspectSimilarity": 0.9625000000000001,
+              "densitySimilarity": 0.7848484848484849,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "a6190ec8dfbd33a351d50752852cf378a1a023eabe1bc64dd1ca61b78e14133e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--devimon--metal-greymon/dm1.agumon",
+            "characterId": "dm1.agumon",
+            "name": "Agumon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.29472140762463345,
+              "filledSilhouetteIoU": 0.607190412782956,
+              "pixelAgreement": 0.5302734375,
+              "aspectSimilarity": 0.9375,
+              "densitySimilarity": 0.5503184713375796,
+              "components": {
+                "actual": 1,
+                "target": 15
+              },
+              "holes": {
+                "actual": 2,
+                "target": 6
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": "agumon",
+            "referenceBranchMatched": true,
+            "frameHash": "26acdd04569141c443e5c471b7c38ede8b5a00e8ae8aeaeee21791f2dd221c1d",
+            "targetHash": "5706d5b09fc3712bcda2d72f11d5a46ab4dc9ed76ab430f7cf6a2dc6b1dfa259",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--devimon--metal-greymon/dm1.devimon",
+            "characterId": "dm1.devimon",
+            "name": "Devimon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.33384146341463417,
+              "filledSilhouetteIoU": 0.4656290531776913,
+              "pixelAgreement": 0.5732421875,
+              "aspectSimilarity": 0.7647058823529411,
+              "densitySimilarity": 0.8726395173453997,
+              "components": {
+                "actual": 3,
+                "target": 8
+              },
+              "holes": {
+                "actual": 2,
+                "target": 4
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": "devimon",
+            "referenceBranchMatched": true,
+            "frameHash": "fde4ef93dd31dcf33cd30eed49d1ed9cf85f6f78cec88d4b1fb03d4085c22d3e",
+            "targetHash": "5c019e2a4dffe54ec2d89bb5f81f4174efd086d130042e4c6402ce6531e263a7",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--devimon--metal-greymon/dm1.metal-greymon",
+            "characterId": "dm1.metal-greymon",
+            "name": "Metal Greymon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.271523178807947,
+              "filledSilhouetteIoU": 0.4276885043263288,
+              "pixelAgreement": 0.5703125,
+              "aspectSimilarity": 0.7272727272727273,
+              "densitySimilarity": 0.8665364583333334,
+              "components": {
+                "actual": 2,
+                "target": 24
+              },
+              "holes": {
+                "actual": 3,
+                "target": 15
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "metal-greymon",
+            "expectedBranch": "metal-greymon",
+            "referenceBranchMatched": true,
+            "frameHash": "fae1c1ffd23c779cf6ede1c85062d7d407ea88fe8fdc5eead193dda1421409a4",
+            "targetHash": "b5194dea5d3946030a0a821901bed15c093e3eccbed3354417628a9eb1a0187d",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--agumon--tyranomon--mamemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.tyranomon",
+        "dm1.mamemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "early-tended-then-stout",
+        "worstIoU": 0.23943661971830985,
+        "meanIoU": 0.47783496294672856,
+        "witnessFile": "witnesses/dm1__botamon--koromon--agumon--tyranomon--mamemon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--agumon--tyranomon--mamemon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--tyranomon--mamemon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23943661971830985,
+              "filledSilhouetteIoU": 0.49134487350199735,
+              "pixelAgreement": 0.578125,
+              "aspectSimilarity": 0.9090909090909091,
+              "densitySimilarity": 0.6727272727272727,
+              "components": {
+                "actual": 3,
+                "target": 13
+              },
+              "holes": {
+                "actual": 1,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "e43f6f559d1e7a73241bfa1ecde3152147012e00799ffed3bbadf388f1350b3e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--tyranomon--mamemon/dm1.agumon",
+            "characterId": "dm1.agumon",
+            "name": "Agumon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.30718954248366015,
+              "filledSilhouetteIoU": 0.6269727403156384,
+              "pixelAgreement": 0.5859375,
+              "aspectSimilarity": 0.8333333333333334,
+              "densitySimilarity": 0.561038961038961,
+              "components": {
+                "actual": 1,
+                "target": 15
+              },
+              "holes": {
+                "actual": 3,
+                "target": 6
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": "agumon",
+            "referenceBranchMatched": true,
+            "frameHash": "a2554d2dca896086e0c094d5676a4288f30cc2a530d89fe0b519948a35d47b36",
+            "targetHash": "5706d5b09fc3712bcda2d72f11d5a46ab4dc9ed76ab430f7cf6a2dc6b1dfa259",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--tyranomon--mamemon/dm1.tyranomon",
+            "characterId": "dm1.tyranomon",
+            "name": "Tyranomon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.3393124065769806,
+              "filledSilhouetteIoU": 0.6231884057971014,
+              "pixelAgreement": 0.568359375,
+              "aspectSimilarity": 0.9375,
+              "densitySimilarity": 0.7699052132701423,
+              "components": {
+                "actual": 1,
+                "target": 18
+              },
+              "holes": {
+                "actual": 4,
+                "target": 10
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "tyranomon",
+            "expectedBranch": "tyranomon",
+            "referenceBranchMatched": true,
+            "frameHash": "777bc9cd113ef1d60b73cc1b33315538acc3b502592dc745e9b09c95a9143adf",
+            "targetHash": "359cfb00f8558284e31b72df77d0d47075c4ebf2382fbe5af1cb7f2649bf2710",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--tyranomon--mamemon/dm1.mamemon",
+            "characterId": "dm1.mamemon",
+            "name": "Mamemon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.5032362459546925,
+              "filledSilhouetteIoU": 0.6048,
+              "pixelAgreement": 0.7001953125,
+              "aspectSimilarity": 0.9264705882352942,
+              "densitySimilarity": 0.881336405529954,
+              "components": {
+                "actual": 1,
+                "target": 5
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "mamemon",
+            "expectedBranch": "mamemon",
+            "referenceBranchMatched": true,
+            "frameHash": "f99ceff12ef4f3ea6fbe7483bbece1d84c0e3c8945676b53ea0b7d5b726260c3",
+            "targetHash": "8ac160a10b86e04a5ed34bc7011cab4a8582dc0c79c23995a78386eacfc3540f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--agumon--meramon--mamemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.meramon",
+        "dm1.mamemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "early-tended-then-strenuous",
+        "worstIoU": 0.23943661971830985,
+        "meanIoU": 0.46614984096666373,
+        "witnessFile": "witnesses/dm1__botamon--koromon--agumon--meramon--mamemon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--agumon--meramon--mamemon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--meramon--mamemon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23943661971830985,
+              "filledSilhouetteIoU": 0.49134487350199735,
+              "pixelAgreement": 0.578125,
+              "aspectSimilarity": 0.9090909090909091,
+              "densitySimilarity": 0.6727272727272727,
+              "components": {
+                "actual": 3,
+                "target": 13
+              },
+              "holes": {
+                "actual": 1,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "e43f6f559d1e7a73241bfa1ecde3152147012e00799ffed3bbadf388f1350b3e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--meramon--mamemon/dm1.agumon",
+            "characterId": "dm1.agumon",
+            "name": "Agumon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.30718954248366015,
+              "filledSilhouetteIoU": 0.6269727403156384,
+              "pixelAgreement": 0.5859375,
+              "aspectSimilarity": 0.8333333333333334,
+              "densitySimilarity": 0.561038961038961,
+              "components": {
+                "actual": 1,
+                "target": 15
+              },
+              "holes": {
+                "actual": 3,
+                "target": 6
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": "agumon",
+            "referenceBranchMatched": true,
+            "frameHash": "a2554d2dca896086e0c094d5676a4288f30cc2a530d89fe0b519948a35d47b36",
+            "targetHash": "5706d5b09fc3712bcda2d72f11d5a46ab4dc9ed76ab430f7cf6a2dc6b1dfa259",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--meramon--mamemon/dm1.meramon",
+            "characterId": "dm1.meramon",
+            "name": "Meramon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.27685325264750377,
+              "filledSilhouetteIoU": 0.6492146596858639,
+              "pixelAgreement": 0.533203125,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 0.6014884478672986,
+              "components": {
+                "actual": 1,
+                "target": 29
+              },
+              "holes": {
+                "actual": 4,
+                "target": 2
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "meramon",
+            "expectedBranch": "meramon",
+            "referenceBranchMatched": true,
+            "frameHash": "4eded10897259bb8cb1d5312aee5ab88da3c47fb0ddda77ca7ce11bffe9ff2f7",
+            "targetHash": "0d83d070060f7d1e80af93be602799c56d195df13f3fab59e3e6de7b08e1e950",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--meramon--mamemon/dm1.mamemon",
+            "characterId": "dm1.mamemon",
+            "name": "Mamemon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.5072697899838449,
+              "filledSilhouetteIoU": 0.594896331738437,
+              "pixelAgreement": 0.7021484375,
+              "aspectSimilarity": 0.826388888888889,
+              "densitySimilarity": 0.8673469387755102,
+              "components": {
+                "actual": 1,
+                "target": 5
+              },
+              "holes": {
+                "actual": 2,
+                "target": 3
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "mamemon",
+            "expectedBranch": "mamemon",
+            "referenceBranchMatched": true,
+            "frameHash": "ee403c9638f1e520d25333b6882fc97b33fcb1774a9d54897080120c8c8841a4",
+            "targetHash": "8ac160a10b86e04a5ed34bc7011cab4a8582dc0c79c23995a78386eacfc3540f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--agumon--numemon--monzaemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.numemon",
+        "dm1.monzaemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "5670db519fdc5103",
+        "policyId": "early-tended-then-sparse",
+        "worstIoU": 0.17176470588235293,
+        "meanIoU": 0.3804538563833353,
+        "witnessFile": "witnesses/dm1__botamon--koromon--agumon--numemon--monzaemon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--agumon--numemon--monzaemon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--numemon--monzaemon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.225177304964539,
+              "filledSilhouetteIoU": 0.6910688140556369,
+              "pixelAgreement": 0.5732421875,
+              "aspectSimilarity": 0.8250000000000001,
+              "densitySimilarity": 0.5381818181818182,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "d875ec8aafec604a187e84e79625e505a641a47d08bde1290b8a88ac091a8564",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--numemon--monzaemon/dm1.agumon",
+            "characterId": "dm1.agumon",
+            "name": "Agumon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.17176470588235293,
+              "filledSilhouetteIoU": 0.20118343195266272,
+              "pixelAgreement": 0.65625,
+              "aspectSimilarity": 0.37931034482758624,
+              "densitySimilarity": 0.634475138121547,
+              "components": {
+                "actual": 1,
+                "target": 15
+              },
+              "holes": {
+                "actual": 2,
+                "target": 6
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": "agumon",
+            "referenceBranchMatched": true,
+            "frameHash": "def8bd159312ed200452bc3a0800582062a0b376b20d149c7307bb4835d6d24f",
+            "targetHash": "5706d5b09fc3712bcda2d72f11d5a46ab4dc9ed76ab430f7cf6a2dc6b1dfa259",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--numemon--monzaemon/dm1.numemon",
+            "characterId": "dm1.numemon",
+            "name": "Numemon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2658450704225352,
+              "filledSilhouetteIoU": 0.444794952681388,
+              "pixelAgreement": 0.5927734375,
+              "aspectSimilarity": 0.9586466165413533,
+              "densitySimilarity": 0.5995964487489911,
+              "components": {
+                "actual": 3,
+                "target": 16
+              },
+              "holes": {
+                "actual": 4,
+                "target": 5
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "numemon",
+            "expectedBranch": "numemon",
+            "referenceBranchMatched": true,
+            "frameHash": "9abf7e2bc0b39ad87849df660f1a49a6c446ff19c2d68f81e907edf9fb6e4b5c",
+            "targetHash": "b112900c1d9cf791000a75c6d66f71721861868d2173cb26f7eb51cebd9f9a23",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--agumon--numemon--monzaemon/dm1.monzaemon",
+            "characterId": "dm1.monzaemon",
+            "name": "Monzaemon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23948220064724918,
+              "filledSilhouetteIoU": 0.5113065326633166,
+              "pixelAgreement": 0.541015625,
+              "aspectSimilarity": 0.8421052631578947,
+              "densitySimilarity": 0.6002747252747253,
+              "components": {
+                "actual": 1,
+                "target": 30
+              },
+              "holes": {
+                "actual": 1,
+                "target": 7
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "monzaemon",
+            "expectedBranch": "monzaemon",
+            "referenceBranchMatched": true,
+            "frameHash": "1c393b2e90e37ee8712562c9217a82802ea969bd9d7f571eca32ce80419f5747",
+            "targetHash": "813ba239c9460448455d993a1c90d3fb5f9d225b554dce65a16f8c03cd651b3c",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--devimon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.devimon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "recovery-intensive",
+        "worstIoU": 0.23943661971830985,
+        "meanIoU": 0.45427076597200167,
+        "witnessFile": "witnesses/dm1__botamon--koromon--betamon--devimon--metal-greymon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--betamon--devimon--metal-greymon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--devimon--metal-greymon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23943661971830985,
+              "filledSilhouetteIoU": 0.49134487350199735,
+              "pixelAgreement": 0.578125,
+              "aspectSimilarity": 0.9090909090909091,
+              "densitySimilarity": 0.6727272727272727,
+              "components": {
+                "actual": 3,
+                "target": 13
+              },
+              "holes": {
+                "actual": 1,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "e43f6f559d1e7a73241bfa1ecde3152147012e00799ffed3bbadf388f1350b3e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--devimon--metal-greymon/dm1.betamon",
+            "characterId": "dm1.betamon",
+            "name": "Betamon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2934131736526946,
+              "filledSilhouetteIoU": 0.6166077738515902,
+              "pixelAgreement": 0.654296875,
+              "aspectSimilarity": 0.576923076923077,
+              "densitySimilarity": 0.6229166666666667,
+              "components": {
+                "actual": 1,
+                "target": 19
+              },
+              "holes": {
+                "actual": 4,
+                "target": 5
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": "betamon",
+            "referenceBranchMatched": true,
+            "frameHash": "04b7ed17c56edd0620d01461d72132e56aaeb8c044154b214f8cc0b37f0e238b",
+            "targetHash": "e80ee4c3d3886750fb45d74a38fb37819dfbdceb2f67e50d7c17142504bdec71",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--devimon--metal-greymon/dm1.devimon",
+            "characterId": "dm1.devimon",
+            "name": "Devimon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.4519368723098996,
+              "filledSilhouetteIoU": 0.6173469387755102,
+              "pixelAgreement": 0.626953125,
+              "aspectSimilarity": 0.9473684210526315,
+              "densitySimilarity": 0.9780896686159843,
+              "components": {
+                "actual": 1,
+                "target": 8
+              },
+              "holes": {
+                "actual": 4,
+                "target": 4
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": "devimon",
+            "referenceBranchMatched": true,
+            "frameHash": "545580906718dd589bb43e95d43210066ffce2b806b630eb8e64d55fa7d3bb3c",
+            "targetHash": "5c019e2a4dffe54ec2d89bb5f81f4174efd086d130042e4c6402ce6531e263a7",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--devimon--metal-greymon/dm1.metal-greymon",
+            "characterId": "dm1.metal-greymon",
+            "name": "Metal Greymon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2865671641791045,
+              "filledSilhouetteIoU": 0.56875,
+              "pixelAgreement": 0.533203125,
+              "aspectSimilarity": 0.85,
+              "densitySimilarity": 0.7995180348258706,
+              "components": {
+                "actual": 2,
+                "target": 24
+              },
+              "holes": {
+                "actual": 3,
+                "target": 15
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "metal-greymon",
+            "expectedBranch": "metal-greymon",
+            "referenceBranchMatched": true,
+            "frameHash": "ce3f75143632b68cc22da4e5b253777b5a461fecfe2a4e7ad42b538d17e481f5",
+            "targetHash": "b5194dea5d3946030a0a821901bed15c093e3eccbed3354417628a9eb1a0187d",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.airdramon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "5670db519fdc5103",
+        "policyId": "rest-battles",
+        "worstIoU": 0.14130434782608695,
+        "meanIoU": 0.3845472799475144,
+        "witnessFile": "witnesses/dm1__botamon--koromon--betamon--airdramon--metal-greymon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.225177304964539,
+              "filledSilhouetteIoU": 0.6910688140556369,
+              "pixelAgreement": 0.5732421875,
+              "aspectSimilarity": 0.8250000000000001,
+              "densitySimilarity": 0.5381818181818182,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "d875ec8aafec604a187e84e79625e505a641a47d08bde1290b8a88ac091a8564",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.betamon",
+            "characterId": "dm1.betamon",
+            "name": "Betamon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.14130434782608695,
+              "filledSilhouetteIoU": 0.26666666666666666,
+              "pixelAgreement": 0.69140625,
+              "aspectSimilarity": 0.5057471264367817,
+              "densitySimilarity": 0.6404504189944134,
+              "components": {
+                "actual": 1,
+                "target": 19
+              },
+              "holes": {
+                "actual": 2,
+                "target": 5
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": "betamon",
+            "referenceBranchMatched": true,
+            "frameHash": "fb766bfabaa494b40a1abdfa9d2361254b08794043704adf83bfadeb131d0a18",
+            "targetHash": "e80ee4c3d3886750fb45d74a38fb37819dfbdceb2f67e50d7c17142504bdec71",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.airdramon",
+            "characterId": "dm1.airdramon",
+            "name": "Airdramon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.29246935201401053,
+              "filledSilhouetteIoU": 0.649331352154532,
+              "pixelAgreement": 0.60546875,
+              "aspectSimilarity": 0.9473684210526315,
+              "densitySimilarity": 0.6273739640883977,
+              "components": {
+                "actual": 1,
+                "target": 33
+              },
+              "holes": {
+                "actual": 2,
+                "target": 9
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "airdramon",
+            "expectedBranch": "airdramon",
+            "referenceBranchMatched": true,
+            "frameHash": "2d859a6dc62d044391354b2ce3919d4ca690d36dbd936adbcc19b814f5fb651b",
+            "targetHash": "7132ce39353afaebd65a6ea3ced82f63911e99f3307808ff30bf5b96a8193983",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon/dm1.metal-greymon",
+            "characterId": "dm1.metal-greymon",
+            "name": "Metal Greymon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2637853949329359,
+              "filledSilhouetteIoU": 0.5171990171990172,
+              "pixelAgreement": 0.517578125,
+              "aspectSimilarity": 0.8421052631578947,
+              "densitySimilarity": 0.7938535911602209,
+              "components": {
+                "actual": 1,
+                "target": 24
+              },
+              "holes": {
+                "actual": 2,
+                "target": 15
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "metal-greymon",
+            "expectedBranch": "metal-greymon",
+            "referenceBranchMatched": true,
+            "frameHash": "3cf090f6dd5c1f18329d50e02cc37b4f3b72cdfa93fcf77d755108302c077c0d",
+            "targetHash": "b5194dea5d3946030a0a821901bed15c093e3eccbed3354417628a9eb1a0187d",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--meramon--mamemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.meramon",
+        "dm1.mamemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "recovery-playful",
+        "worstIoU": 0.23943661971830985,
+        "meanIoU": 0.45984532802323963,
+        "witnessFile": "witnesses/dm1__botamon--koromon--betamon--meramon--mamemon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--betamon--meramon--mamemon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--meramon--mamemon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23943661971830985,
+              "filledSilhouetteIoU": 0.49134487350199735,
+              "pixelAgreement": 0.578125,
+              "aspectSimilarity": 0.9090909090909091,
+              "densitySimilarity": 0.6727272727272727,
+              "components": {
+                "actual": 3,
+                "target": 13
+              },
+              "holes": {
+                "actual": 1,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "e43f6f559d1e7a73241bfa1ecde3152147012e00799ffed3bbadf388f1350b3e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--meramon--mamemon/dm1.betamon",
+            "characterId": "dm1.betamon",
+            "name": "Betamon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2934131736526946,
+              "filledSilhouetteIoU": 0.6166077738515902,
+              "pixelAgreement": 0.654296875,
+              "aspectSimilarity": 0.576923076923077,
+              "densitySimilarity": 0.6229166666666667,
+              "components": {
+                "actual": 1,
+                "target": 19
+              },
+              "holes": {
+                "actual": 4,
+                "target": 5
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": "betamon",
+            "referenceBranchMatched": true,
+            "frameHash": "04b7ed17c56edd0620d01461d72132e56aaeb8c044154b214f8cc0b37f0e238b",
+            "targetHash": "e80ee4c3d3886750fb45d74a38fb37819dfbdceb2f67e50d7c17142504bdec71",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--meramon--mamemon/dm1.meramon",
+            "characterId": "dm1.meramon",
+            "name": "Meramon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.265527950310559,
+              "filledSilhouetteIoU": 0.5984354628422425,
+              "pixelAgreement": 0.5380859375,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 0.6442338197969543,
+              "components": {
+                "actual": 1,
+                "target": 29
+              },
+              "holes": {
+                "actual": 3,
+                "target": 2
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "meramon",
+            "expectedBranch": "meramon",
+            "referenceBranchMatched": true,
+            "frameHash": "0a401d58544a127305a1296be12e52db1740a642f1ca3c207e440a5eeabb3099",
+            "targetHash": "0d83d070060f7d1e80af93be602799c56d195df13f3fab59e3e6de7b08e1e950",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--meramon--mamemon/dm1.mamemon",
+            "characterId": "dm1.mamemon",
+            "name": "Mamemon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.5008488964346349,
+              "filledSilhouetteIoU": 0.605,
+              "pixelAgreement": 0.712890625,
+              "aspectSimilarity": 0.7368421052631579,
+              "densitySimilarity": 0.8708938120702826,
+              "components": {
+                "actual": 1,
+                "target": 5
+              },
+              "holes": {
+                "actual": 4,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "mamemon",
+            "expectedBranch": "mamemon",
+            "referenceBranchMatched": true,
+            "frameHash": "d86c8d2900af02fa04b27916308f8f062c82638c0e02f4c746b2084dacadc79a",
+            "targetHash": "8ac160a10b86e04a5ed34bc7011cab4a8582dc0c79c23995a78386eacfc3540f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--seadramon--mamemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.seadramon",
+        "dm1.mamemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "sparse-stout-battles",
+        "worstIoU": 0.23943661971830985,
+        "meanIoU": 0.4615183833951809,
+        "witnessFile": "witnesses/dm1__botamon--koromon--betamon--seadramon--mamemon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--betamon--seadramon--mamemon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--seadramon--mamemon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23943661971830985,
+              "filledSilhouetteIoU": 0.49134487350199735,
+              "pixelAgreement": 0.578125,
+              "aspectSimilarity": 0.9090909090909091,
+              "densitySimilarity": 0.6727272727272727,
+              "components": {
+                "actual": 3,
+                "target": 13
+              },
+              "holes": {
+                "actual": 1,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "e43f6f559d1e7a73241bfa1ecde3152147012e00799ffed3bbadf388f1350b3e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--seadramon--mamemon/dm1.betamon",
+            "characterId": "dm1.betamon",
+            "name": "Betamon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.29065040650406504,
+              "filledSilhouetteIoU": 0.6173285198555957,
+              "pixelAgreement": 0.6591796875,
+              "aspectSimilarity": 0.576923076923077,
+              "densitySimilarity": 0.6399828767123288,
+              "components": {
+                "actual": 1,
+                "target": 19
+              },
+              "holes": {
+                "actual": 3,
+                "target": 5
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": "betamon",
+            "referenceBranchMatched": true,
+            "frameHash": "9c11be25d1bd6e4ba954345d716d40466835d40a2c02a5f7008d4e9d1a17a267",
+            "targetHash": "e80ee4c3d3886750fb45d74a38fb37819dfbdceb2f67e50d7c17142504bdec71",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--seadramon--mamemon/dm1.seadramon",
+            "characterId": "dm1.seadramon",
+            "name": "Seadramon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.29780564263322884,
+              "filledSilhouetteIoU": 0.5491251682368775,
+              "pixelAgreement": 0.5625,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 0.6131114130434783,
+              "components": {
+                "actual": 1,
+                "target": 23
+              },
+              "holes": {
+                "actual": 4,
+                "target": 10
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "seadramon",
+            "expectedBranch": "seadramon",
+            "referenceBranchMatched": true,
+            "frameHash": "d8ea02e16c71f11103ec2b11284d4873d778c24b2a1be7a2d82adff6fbceefa0",
+            "targetHash": "9023cf66e246b8a8646c058d168479d0e3ec6f036b74156908054723b001764e",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--seadramon--mamemon/dm1.mamemon",
+            "characterId": "dm1.mamemon",
+            "name": "Mamemon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.47969924812030074,
+              "filledSilhouetteIoU": 0.5720653789004457,
+              "pixelAgreement": 0.662109375,
+              "aspectSimilarity": 0.875,
+              "densitySimilarity": 0.8414208074534162,
+              "components": {
+                "actual": 1,
+                "target": 5
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "mamemon",
+            "expectedBranch": "mamemon",
+            "referenceBranchMatched": true,
+            "frameHash": "f8f7d23a7d353bc703e86d8f5cf4732cd33edcc6ccab0dfbb165887ba817f2ce",
+            "targetHash": "8ac160a10b86e04a5ed34bc7011cab4a8582dc0c79c23995a78386eacfc3540f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--numemon--monzaemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.numemon",
+        "dm1.monzaemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "sparse-battles",
+        "worstIoU": 0.23943661971830985,
+        "meanIoU": 0.4086838788691446,
+        "witnessFile": "witnesses/dm1__botamon--koromon--betamon--numemon--monzaemon.json",
+        "checkpoints": [
+          {
+            "id": "dm1__botamon--koromon--betamon--numemon--monzaemon/dm1.botamon",
+            "characterId": "dm1.botamon",
+            "name": "Botamon",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": "botamon",
+            "referenceBranchMatched": true,
+            "frameHash": "3eb1e465dd5fc60d36b38328756fb636afbcb0f592448e299089b66cf83c9ecb",
+            "targetHash": "f3efb8422c28eec6fd747a71106eeb961cd7c0a92a58dc66b080d3f9cd83a276",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--numemon--monzaemon/dm1.koromon",
+            "characterId": "dm1.koromon",
+            "name": "Koromon",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23943661971830985,
+              "filledSilhouetteIoU": 0.49134487350199735,
+              "pixelAgreement": 0.578125,
+              "aspectSimilarity": 0.9090909090909091,
+              "densitySimilarity": 0.6727272727272727,
+              "components": {
+                "actual": 3,
+                "target": 13
+              },
+              "holes": {
+                "actual": 1,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": "koromon",
+            "referenceBranchMatched": true,
+            "frameHash": "e43f6f559d1e7a73241bfa1ecde3152147012e00799ffed3bbadf388f1350b3e",
+            "targetHash": "7a21c945f4a04dfba83b22a604d13ed9d74a2773335ee4cbadc3573ce363bc9f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--numemon--monzaemon/dm1.betamon",
+            "characterId": "dm1.betamon",
+            "name": "Betamon",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2934131736526946,
+              "filledSilhouetteIoU": 0.6166077738515902,
+              "pixelAgreement": 0.654296875,
+              "aspectSimilarity": 0.576923076923077,
+              "densitySimilarity": 0.6229166666666667,
+              "components": {
+                "actual": 1,
+                "target": 19
+              },
+              "holes": {
+                "actual": 4,
+                "target": 5
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": "betamon",
+            "referenceBranchMatched": true,
+            "frameHash": "04b7ed17c56edd0620d01461d72132e56aaeb8c044154b214f8cc0b37f0e238b",
+            "targetHash": "e80ee4c3d3886750fb45d74a38fb37819dfbdceb2f67e50d7c17142504bdec71",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--numemon--monzaemon/dm1.numemon",
+            "characterId": "dm1.numemon",
+            "name": "Numemon",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.24489795918367346,
+              "filledSilhouetteIoU": 0.4119318181818182,
+              "pixelAgreement": 0.5302734375,
+              "aspectSimilarity": 0.9333333333333333,
+              "densitySimilarity": 0.5786062717770034,
+              "components": {
+                "actual": 1,
+                "target": 16
+              },
+              "holes": {
+                "actual": 3,
+                "target": 5
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "numemon",
+            "expectedBranch": "numemon",
+            "referenceBranchMatched": true,
+            "frameHash": "c82e0e5c6ba842d62576a7bbf72966f5897c3ad3a2d7a3eebfb74811a39323a3",
+            "targetHash": "b112900c1d9cf791000a75c6d66f71721861868d2173cb26f7eb51cebd9f9a23",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "dm1__botamon--koromon--betamon--numemon--monzaemon/dm1.monzaemon",
+            "characterId": "dm1.monzaemon",
+            "name": "Monzaemon",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2656716417910448,
+              "filledSilhouetteIoU": 0.6968503937007874,
+              "pixelAgreement": 0.51953125,
+              "aspectSimilarity": 0.9411764705882353,
+              "densitySimilarity": 0.5617816091954023,
+              "components": {
+                "actual": 1,
+                "target": 30
+              },
+              "holes": {
+                "actual": 2,
+                "target": 7
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "monzaemon",
+            "expectedBranch": "monzaemon",
+            "referenceBranchMatched": true,
+            "frameHash": "f9af4d419f0fa960f2736104c9459a6ec95ff380b91804c30171373abcf2d5d1",
+            "targetHash": "813ba239c9460448455d993a1c90d3fb5f9d225b554dce65a16f8c03cd651b3c",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--tamatchi--mametchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.mametchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "tended",
+        "worstIoU": 0.27647058823529413,
+        "meanIoU": 0.48081364745433447,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--tamatchi--mametchi.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--mametchi/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--mametchi/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.3547486033519553,
+              "filledSilhouetteIoU": 0.8589108910891089,
+              "pixelAgreement": 0.548828125,
+              "aspectSimilarity": 0.8999999999999999,
+              "densitySimilarity": 0.42857142857142855,
+              "components": {
+                "actual": 1,
+                "target": 11
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--mametchi/p1.tamatchi",
+            "characterId": "p1.tamatchi",
+            "name": "Tamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.27647058823529413,
+              "filledSilhouetteIoU": 0.6869851729818781,
+              "pixelAgreement": 0.6396484375,
+              "aspectSimilarity": 0.7500000000000001,
+              "densitySimilarity": 0.5138888888888888,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "f2ff9c5d93e4ab52da52b333e64d317fd73d3ca21c67f81c3a573332d1fcd020",
+            "targetHash": "4d594988d7d6cf0facc6ff1625076aabeeea1b553183123ac52b5ba32c6524d0",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--mametchi/p1.mametchi",
+            "characterId": "p1.mametchi",
+            "name": "Mametchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2920353982300885,
+              "filledSilhouetteIoU": 0.7054908485856906,
+              "pixelAgreement": 0.609375,
+              "aspectSimilarity": 0.8,
+              "densitySimilarity": 0.5796610169491525,
+              "components": {
+                "actual": 2,
+                "target": 17
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "6949ca34399982231d36f90c56d082b31065d2435887c4164e15fd3c26f93ebb",
+            "targetHash": "7388eb2c50616f03b8789e39252c11253ab37f23e01a174ebf1f07a4edbbdb6f",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--tamatchi--ginjirotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.ginjirotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "tended",
+        "worstIoU": 0.27647058823529413,
+        "meanIoU": 0.4869293770213915,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--tamatchi--ginjirotchi.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--ginjirotchi/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--ginjirotchi/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.3547486033519553,
+              "filledSilhouetteIoU": 0.8589108910891089,
+              "pixelAgreement": 0.548828125,
+              "aspectSimilarity": 0.8999999999999999,
+              "densitySimilarity": 0.42857142857142855,
+              "components": {
+                "actual": 1,
+                "target": 11
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--ginjirotchi/p1.tamatchi",
+            "characterId": "p1.tamatchi",
+            "name": "Tamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.27647058823529413,
+              "filledSilhouetteIoU": 0.6869851729818781,
+              "pixelAgreement": 0.6396484375,
+              "aspectSimilarity": 0.7500000000000001,
+              "densitySimilarity": 0.5138888888888888,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "f2ff9c5d93e4ab52da52b333e64d317fd73d3ca21c67f81c3a573332d1fcd020",
+            "targetHash": "4d594988d7d6cf0facc6ff1625076aabeeea1b553183123ac52b5ba32c6524d0",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--ginjirotchi/p1.ginjirotchi",
+            "characterId": "p1.ginjirotchi",
+            "name": "Ginjirotchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.3164983164983165,
+              "filledSilhouetteIoU": 0.719435736677116,
+              "pixelAgreement": 0.603515625,
+              "aspectSimilarity": 0.9285714285714286,
+              "densitySimilarity": 0.6135220711491898,
+              "components": {
+                "actual": 2,
+                "target": 18
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "6949ca34399982231d36f90c56d082b31065d2435887c4164e15fd3c26f93ebb",
+            "targetHash": "0f2d293522eeb94e78dd13da72a62e4e6739e2bdfab8c49454fc23e879ee3871",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--tamatchi--maskutchi--bill",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.maskutchi",
+        "p1.bill"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "early-tended-then-strenuous",
+        "worstIoU": 0.26517571884984026,
+        "meanIoU": 0.4443874962777351,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--tamatchi--maskutchi--bill.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--maskutchi--bill/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--maskutchi--bill/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.3547486033519553,
+              "filledSilhouetteIoU": 0.8589108910891089,
+              "pixelAgreement": 0.548828125,
+              "aspectSimilarity": 0.8999999999999999,
+              "densitySimilarity": 0.42857142857142855,
+              "components": {
+                "actual": 1,
+                "target": 11
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--maskutchi--bill/p1.tamatchi",
+            "characterId": "p1.tamatchi",
+            "name": "Tamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.27647058823529413,
+              "filledSilhouetteIoU": 0.6869851729818781,
+              "pixelAgreement": 0.6396484375,
+              "aspectSimilarity": 0.7500000000000001,
+              "densitySimilarity": 0.5138888888888888,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "f2ff9c5d93e4ab52da52b333e64d317fd73d3ca21c67f81c3a573332d1fcd020",
+            "targetHash": "4d594988d7d6cf0facc6ff1625076aabeeea1b553183123ac52b5ba32c6524d0",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--maskutchi--bill/p1.maskutchi",
+            "characterId": "p1.maskutchi",
+            "name": "Maskutchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.32554257095158595,
+              "filledSilhouetteIoU": 0.5861538461538461,
+              "pixelAgreement": 0.60546875,
+              "aspectSimilarity": 0.9444444444444444,
+              "densitySimilarity": 0.7518012422360248,
+              "components": {
+                "actual": 1,
+                "target": 11
+              },
+              "holes": {
+                "actual": 3,
+                "target": 2
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "meramon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "fd76e531dcd69435b664c803ff8a2cb995350b5588458eb320a6e9ae821f1eb5",
+            "targetHash": "edd6a66bc55ecdb103c87541757c5fb2c75adc274ce98146c36023f6e2a2796c",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--maskutchi--bill/p1.bill",
+            "characterId": "p1.bill",
+            "name": "Bill",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.26517571884984026,
+              "filledSilhouetteIoU": 0.6429608127721336,
+              "pixelAgreement": 0.55078125,
+              "aspectSimilarity": 0.9955555555555555,
+              "densitySimilarity": 0.6603174603174603,
+              "components": {
+                "actual": 2,
+                "target": 20
+              },
+              "holes": {
+                "actual": 3,
+                "target": 2
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "mamemon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "0117fa42237986a50045c6ace3f7c56d6397fa6394bf3380c9c9f31a710c3e14",
+            "targetHash": "7ac7406c459a0c09b9c255368837197b0b390c0cc490cfe6ea89329755106635",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--tamatchi--kuchipatchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.kuchipatchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "tended",
+        "worstIoU": 0.2218487394957983,
+        "meanIoU": 0.46326698277076195,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--tamatchi--kuchipatchi.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--kuchipatchi/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--kuchipatchi/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.3547486033519553,
+              "filledSilhouetteIoU": 0.8589108910891089,
+              "pixelAgreement": 0.548828125,
+              "aspectSimilarity": 0.8999999999999999,
+              "densitySimilarity": 0.42857142857142855,
+              "components": {
+                "actual": 1,
+                "target": 11
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--kuchipatchi/p1.tamatchi",
+            "characterId": "p1.tamatchi",
+            "name": "Tamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.27647058823529413,
+              "filledSilhouetteIoU": 0.6869851729818781,
+              "pixelAgreement": 0.6396484375,
+              "aspectSimilarity": 0.7500000000000001,
+              "densitySimilarity": 0.5138888888888888,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "f2ff9c5d93e4ab52da52b333e64d317fd73d3ca21c67f81c3a573332d1fcd020",
+            "targetHash": "4d594988d7d6cf0facc6ff1625076aabeeea1b553183123ac52b5ba32c6524d0",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--kuchipatchi/p1.kuchipatchi",
+            "characterId": "p1.kuchipatchi",
+            "name": "Kuchipatchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2218487394957983,
+              "filledSilhouetteIoU": 0.6661585365853658,
+              "pixelAgreement": 0.5478515625,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 0.4576271186440678,
+              "components": {
+                "actual": 2,
+                "target": 23
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "6949ca34399982231d36f90c56d082b31065d2435887c4164e15fd3c26f93ebb",
+            "targetHash": "79fd27c640056c86420cf5df85efe543d2b8412f9b950740b7127b3f491d5f6e",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--tamatchi--nyorotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.nyorotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "bef497f874ed2cc2",
+        "policyId": "recovery-intensive",
+        "worstIoU": 0.2242562929061785,
+        "meanIoU": 0.45335337460216785,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--tamatchi--nyorotchi.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--nyorotchi/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--nyorotchi/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.3547486033519553,
+              "filledSilhouetteIoU": 0.8589108910891089,
+              "pixelAgreement": 0.548828125,
+              "aspectSimilarity": 0.8999999999999999,
+              "densitySimilarity": 0.42857142857142855,
+              "components": {
+                "actual": 1,
+                "target": 11
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--nyorotchi/p1.tamatchi",
+            "characterId": "p1.tamatchi",
+            "name": "Tamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2242562929061785,
+              "filledSilhouetteIoU": 0.5083892617449665,
+              "pixelAgreement": 0.6689453125,
+              "aspectSimilarity": 0.6666666666666667,
+              "densitySimilarity": 0.6666666666666666,
+              "components": {
+                "actual": 3,
+                "target": 13
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "f4064fb05f383504b91930668e509a4102958d8268daedce2d6c1d026fa253c3",
+            "targetHash": "4d594988d7d6cf0facc6ff1625076aabeeea1b553183123ac52b5ba32c6524d0",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--nyorotchi/p1.nyorotchi",
+            "characterId": "p1.nyorotchi",
+            "name": "Nyorotchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23440860215053763,
+              "filledSilhouetteIoU": 0.6185770750988142,
+              "pixelAgreement": 0.65234375,
+              "aspectSimilarity": 0.6363636363636365,
+              "densitySimilarity": 0.37745098039215685,
+              "components": {
+                "actual": 1,
+                "target": 19
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "004bcf082f2a64e532670d66a8d0a123ea2e8fc3c8d89b52d04a8ec2d7504c7f",
+            "targetHash": "8fb4d8329b6923d69c285b3092f620f47314b6c218eb687d2925d4c35ac53c10",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--tamatchi--tarakotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.tarakotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "320235f496d5165f",
+        "policyId": "rest-battles",
+        "worstIoU": 0.2721804511278195,
+        "meanIoU": 0.4743120734332439,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--tamatchi--tarakotchi.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--tarakotchi/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--tarakotchi/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.35006784260515605,
+              "filledSilhouetteIoU": 0.841978287092883,
+              "pixelAgreement": 0.5322265625,
+              "aspectSimilarity": 0.8999999999999999,
+              "densitySimilarity": 0.4137931034482758,
+              "components": {
+                "actual": 1,
+                "target": 11
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c4acc940c14214d01d929ccd3928bb9a42cdd38ee2a756236129cb04dd464364",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--tarakotchi/p1.tamatchi",
+            "characterId": "p1.tamatchi",
+            "name": "Tamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.275,
+              "filledSilhouetteIoU": 0.6790923824959482,
+              "pixelAgreement": 0.6318359375,
+              "aspectSimilarity": 0.7500000000000001,
+              "densitySimilarity": 0.5045454545454545,
+              "components": {
+                "actual": 1,
+                "target": 13
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "abd70a29bec748390864bb3ec568f19635de69a5266b1fbd2e9b33beb1fffdb0",
+            "targetHash": "4d594988d7d6cf0facc6ff1625076aabeeea1b553183123ac52b5ba32c6524d0",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--tamatchi--tarakotchi/p1.tarakotchi",
+            "characterId": "p1.tarakotchi",
+            "name": "Tarakotchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2721804511278195,
+              "filledSilhouetteIoU": 0.69164265129683,
+              "pixelAgreement": 0.52734375,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 0.5467243867243867,
+              "components": {
+                "actual": 1,
+                "target": 14
+              },
+              "holes": {
+                "actual": 2,
+                "target": 3
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "airdramon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "830358e6087047ae216012b9f7d91433f44e54931e97ef691e7899b42c463622",
+            "targetHash": "580e5a28f5ccb53df1cc0a248dac4ce85c791d480514849b861c10bbaebc0381",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--kuchitamatchi--kuchipatchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.kuchitamatchi",
+        "p1.kuchipatchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "trained",
+        "worstIoU": 0.19659735349716445,
+        "meanIoU": 0.40264204223695205,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--kuchitamatchi--kuchipatchi.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--kuchipatchi/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--kuchipatchi/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.19659735349716445,
+              "filledSilhouetteIoU": 0.5740740740740741,
+              "pixelAgreement": 0.5849609375,
+              "aspectSimilarity": 0.9523809523809523,
+              "densitySimilarity": 0.7368421052631579,
+              "components": {
+                "actual": 3,
+                "target": 11
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "2bcebc950bccce7282892c43a773827120fd84676e375de42265603783fac92d",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--kuchipatchi/p1.kuchitamatchi",
+            "characterId": "p1.kuchitamatchi",
+            "name": "Kuchitamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2144,
+              "filledSilhouetteIoU": 0.69164265129683,
+              "pixelAgreement": 0.5205078125,
+              "aspectSimilarity": 0.7857142857142857,
+              "densitySimilarity": 0.37672727272727274,
+              "components": {
+                "actual": 1,
+                "target": 15
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "020c46a7cf0f37c7f1f7a2f4be67279f241a157f4466c77b519c0009f7aaf1d1",
+            "targetHash": "62c37d6386f5543be5a7ce69b6b7d57d65af62f087abf67087556328ea48d916",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--kuchipatchi/p1.kuchipatchi",
+            "characterId": "p1.kuchipatchi",
+            "name": "Kuchipatchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.19957081545064378,
+              "filledSilhouetteIoU": 0.5946398659966499,
+              "pixelAgreement": 0.6357421875,
+              "aspectSimilarity": 0.6875,
+              "densitySimilarity": 0.47311827956989244,
+              "components": {
+                "actual": 2,
+                "target": 23
+              },
+              "holes": {
+                "actual": 7,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "greymon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "2207d61b49d0cf62ebc494924e216b40c568afa68f0e4d94f99a799d70b6c217",
+            "targetHash": "79fd27c640056c86420cf5df85efe543d2b8412f9b950740b7127b3f491d5f6e",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--kuchitamatchi--nyorotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.kuchitamatchi",
+        "p1.nyorotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "trained",
+        "worstIoU": 0.19659735349716445,
+        "meanIoU": 0.41025539164305624,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--kuchitamatchi--nyorotchi.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--nyorotchi/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--nyorotchi/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.19659735349716445,
+              "filledSilhouetteIoU": 0.5740740740740741,
+              "pixelAgreement": 0.5849609375,
+              "aspectSimilarity": 0.9523809523809523,
+              "densitySimilarity": 0.7368421052631579,
+              "components": {
+                "actual": 3,
+                "target": 11
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "2bcebc950bccce7282892c43a773827120fd84676e375de42265603783fac92d",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--nyorotchi/p1.kuchitamatchi",
+            "characterId": "p1.kuchitamatchi",
+            "name": "Kuchitamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.2144,
+              "filledSilhouetteIoU": 0.69164265129683,
+              "pixelAgreement": 0.5205078125,
+              "aspectSimilarity": 0.7857142857142857,
+              "densitySimilarity": 0.37672727272727274,
+              "components": {
+                "actual": 1,
+                "target": 15
+              },
+              "holes": {
+                "actual": 3,
+                "target": 1
+              },
+              "alignment": {
+                "dx": -1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "020c46a7cf0f37c7f1f7a2f4be67279f241a157f4466c77b519c0009f7aaf1d1",
+            "targetHash": "62c37d6386f5543be5a7ce69b6b7d57d65af62f087abf67087556328ea48d916",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--nyorotchi/p1.nyorotchi",
+            "characterId": "p1.nyorotchi",
+            "name": "Nyorotchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23002421307506055,
+              "filledSilhouetteIoU": 0.530241935483871,
+              "pixelAgreement": 0.689453125,
+              "aspectSimilarity": 0.6015625,
+              "densitySimilarity": 0.4139784946236559,
+              "components": {
+                "actual": 2,
+                "target": 19
+              },
+              "holes": {
+                "actual": 7,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "greymon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "2207d61b49d0cf62ebc494924e216b40c568afa68f0e4d94f99a799d70b6c217",
+            "targetHash": "8fb4d8329b6923d69c285b3092f620f47314b6c218eb687d2925d4c35ac53c10",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1__babytchi--marutchi--kuchitamatchi--tarakotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.kuchitamatchi",
+        "p1.tarakotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "sparse-stout-battles",
+        "worstIoU": 0.19659735349716445,
+        "meanIoU": 0.40990680434551113,
+        "witnessFile": "witnesses/p1__babytchi--marutchi--kuchitamatchi--tarakotchi.json",
+        "checkpoints": [
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--tarakotchi/p1.babytchi",
+            "characterId": "p1.babytchi",
+            "name": "Babytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "machine-candidate",
+            "metrics": {
+              "silhouetteIoU": 1,
+              "filledSilhouetteIoU": 1,
+              "pixelAgreement": 1,
+              "aspectSimilarity": 1,
+              "densitySimilarity": 1,
+              "components": {
+                "actual": 1,
+                "target": 1
+              },
+              "holes": {
+                "actual": 3,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c32be8ce15a24ad4c69cdcf1509aea741be37e0bd64312d75e49537fd788cb15",
+            "targetHash": "21c543fc58f21ef379862448330769579243b86b595d07cff1d813f014482ce9",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--tarakotchi/p1.marutchi",
+            "characterId": "p1.marutchi",
+            "name": "Marutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.19659735349716445,
+              "filledSilhouetteIoU": 0.5740740740740741,
+              "pixelAgreement": 0.5849609375,
+              "aspectSimilarity": 0.9523809523809523,
+              "densitySimilarity": 0.7368421052631579,
+              "components": {
+                "actual": 3,
+                "target": 11
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 0,
+                "dy": 0,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "2bcebc950bccce7282892c43a773827120fd84676e375de42265603783fac92d",
+            "targetHash": "48fa57b673e6c84dea803ee5baa6291c31361976953002cbc498db93f4d10f04",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--tarakotchi/p1.kuchitamatchi",
+            "characterId": "p1.kuchitamatchi",
+            "name": "Kuchitamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.23219814241486067,
+              "filledSilhouetteIoU": 0.7357142857142858,
+              "pixelAgreement": 0.515625,
+              "aspectSimilarity": 0.8461538461538461,
+              "densitySimilarity": 0.3869670152855994,
+              "components": {
+                "actual": 1,
+                "target": 15
+              },
+              "holes": {
+                "actual": 2,
+                "target": 1
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "betamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "e2f05d753a93cfe5611c6d5edf506715e7957a32779d2661f4724bc45aef3f69",
+            "targetHash": "62c37d6386f5543be5a7ce69b6b7d57d65af62f087abf67087556328ea48d916",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p1__babytchi--marutchi--kuchitamatchi--tarakotchi/p1.tarakotchi",
+            "characterId": "p1.tarakotchi",
+            "name": "Tarakotchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "failed",
+            "unavailableReason": "The care route is not documented; visual distance is measured but care parity is unscored.",
+            "metrics": {
+              "silhouetteIoU": 0.21083172147001933,
+              "filledSilhouetteIoU": 0.46827794561933533,
+              "pixelAgreement": 0.6015625,
+              "aspectSimilarity": 0.75,
+              "densitySimilarity": 0.6789964157706093,
+              "components": {
+                "actual": 1,
+                "target": 14
+              },
+              "holes": {
+                "actual": 6,
+                "target": 3
+              },
+              "alignment": {
+                "dx": 1,
+                "dy": -1,
+                "gridSize": 32,
+                "transform": "translate-and-uniform-scale"
+              }
+            },
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "seadramon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "c4092a71f8bfb93a7afa4864c51dfc4561788c60089f03bf7dea24aaeda56682",
+            "targetHash": "580e5a28f5ccb53df1cc0a248dac4ce85c791d480514849b861c10bbaebc0381",
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--mimitchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.tongaritchi",
+        "p2.mimitchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "tended",
+        "worstIoU": null,
+        "meanIoU": null,
+        "witnessFile": "witnesses/p2__shirobabytchi--tonmarutchi--tongaritchi--mimitchi.json",
+        "checkpoints": [
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--mimitchi/p2.shirobabytchi",
+            "characterId": "p2.shirobabytchi",
+            "name": "Shirobabytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "ed37e86229aac3ff55e8e34868fad4548bd1037fe797b1c3f235f816f5787da7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--mimitchi/p2.tonmarutchi",
+            "characterId": "p2.tonmarutchi",
+            "name": "Tonmarutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "081896b2b57a19a377b4ecc67bc4def7fdb0962592ca05cb0cacbdc081e3f613",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--mimitchi/p2.tongaritchi",
+            "characterId": "p2.tongaritchi",
+            "name": "Tongaritchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "322291d9c5d0377c26d75f16affec60cf239e0ed6ff7805360afe976affe582a",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--mimitchi/p2.mimitchi",
+            "characterId": "p2.mimitchi",
+            "name": "Mimitchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "76093e439163b7594cc0204acc4de64e0744451e2163483e5a058bfa7180e6b7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--pochitchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.tongaritchi",
+        "p2.pochitchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "tended",
+        "worstIoU": null,
+        "meanIoU": null,
+        "witnessFile": "witnesses/p2__shirobabytchi--tonmarutchi--tongaritchi--pochitchi.json",
+        "checkpoints": [
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--pochitchi/p2.shirobabytchi",
+            "characterId": "p2.shirobabytchi",
+            "name": "Shirobabytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "ed37e86229aac3ff55e8e34868fad4548bd1037fe797b1c3f235f816f5787da7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--pochitchi/p2.tonmarutchi",
+            "characterId": "p2.tonmarutchi",
+            "name": "Tonmarutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "081896b2b57a19a377b4ecc67bc4def7fdb0962592ca05cb0cacbdc081e3f613",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--pochitchi/p2.tongaritchi",
+            "characterId": "p2.tongaritchi",
+            "name": "Tongaritchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "322291d9c5d0377c26d75f16affec60cf239e0ed6ff7805360afe976affe582a",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--pochitchi/p2.pochitchi",
+            "characterId": "p2.pochitchi",
+            "name": "Pochitchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "76093e439163b7594cc0204acc4de64e0744451e2163483e5a058bfa7180e6b7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--zuccitchi--zatchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.tongaritchi",
+        "p2.zuccitchi",
+        "p2.zatchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "battle-trained",
+        "worstIoU": null,
+        "meanIoU": null,
+        "witnessFile": "witnesses/p2__shirobabytchi--tonmarutchi--tongaritchi--zuccitchi--zatchi.json",
+        "checkpoints": [
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--zuccitchi--zatchi/p2.shirobabytchi",
+            "characterId": "p2.shirobabytchi",
+            "name": "Shirobabytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "ed37e86229aac3ff55e8e34868fad4548bd1037fe797b1c3f235f816f5787da7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--zuccitchi--zatchi/p2.tonmarutchi",
+            "characterId": "p2.tonmarutchi",
+            "name": "Tonmarutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "081896b2b57a19a377b4ecc67bc4def7fdb0962592ca05cb0cacbdc081e3f613",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--zuccitchi--zatchi/p2.tongaritchi",
+            "characterId": "p2.tongaritchi",
+            "name": "Tongaritchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "bbaf7dc7a399b19f8174dc75e65b95892031aac938940da4606b00b7a22ab3e6",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--zuccitchi--zatchi/p2.zuccitchi",
+            "characterId": "p2.zuccitchi",
+            "name": "Zuccitchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "greymon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "9be9d48693bed72bd75d6eea3b9c7b62334776fea26d0aa3f4e0dbb7d5022102",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--zuccitchi--zatchi/p2.zatchi",
+            "characterId": "p2.zatchi",
+            "name": "Zatchi",
+            "atHour": 193,
+            "animationTime": 0,
+            "expectedStage": "advanced",
+            "actualStage": "advanced",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "metal-greymon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "ce6c0bf4dfaaabd8ab56bb63b5cdabba7a956181e4b0ed278b03c8436063bd60",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--hashizoutchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.hashitamatchi",
+        "p2.hashizoutchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "tended",
+        "worstIoU": null,
+        "meanIoU": null,
+        "witnessFile": "witnesses/p2__shirobabytchi--tonmarutchi--hashitamatchi--hashizoutchi.json",
+        "checkpoints": [
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--hashizoutchi/p2.shirobabytchi",
+            "characterId": "p2.shirobabytchi",
+            "name": "Shirobabytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "ed37e86229aac3ff55e8e34868fad4548bd1037fe797b1c3f235f816f5787da7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--hashizoutchi/p2.tonmarutchi",
+            "characterId": "p2.tonmarutchi",
+            "name": "Tonmarutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "081896b2b57a19a377b4ecc67bc4def7fdb0962592ca05cb0cacbdc081e3f613",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--hashizoutchi/p2.hashitamatchi",
+            "characterId": "p2.hashitamatchi",
+            "name": "Hashitamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "322291d9c5d0377c26d75f16affec60cf239e0ed6ff7805360afe976affe582a",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--hashizoutchi/p2.hashizoutchi",
+            "characterId": "p2.hashizoutchi",
+            "name": "Hashizoutchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "76093e439163b7594cc0204acc4de64e0744451e2163483e5a058bfa7180e6b7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--takotchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.hashitamatchi",
+        "p2.takotchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "tended",
+        "worstIoU": null,
+        "meanIoU": null,
+        "witnessFile": "witnesses/p2__shirobabytchi--tonmarutchi--hashitamatchi--takotchi.json",
+        "checkpoints": [
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--takotchi/p2.shirobabytchi",
+            "characterId": "p2.shirobabytchi",
+            "name": "Shirobabytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "ed37e86229aac3ff55e8e34868fad4548bd1037fe797b1c3f235f816f5787da7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--takotchi/p2.tonmarutchi",
+            "characterId": "p2.tonmarutchi",
+            "name": "Tonmarutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "081896b2b57a19a377b4ecc67bc4def7fdb0962592ca05cb0cacbdc081e3f613",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--takotchi/p2.hashitamatchi",
+            "characterId": "p2.hashitamatchi",
+            "name": "Hashitamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "322291d9c5d0377c26d75f16affec60cf239e0ed6ff7805360afe976affe582a",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--takotchi/p2.takotchi",
+            "characterId": "p2.takotchi",
+            "name": "Takotchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "76093e439163b7594cc0204acc4de64e0744451e2163483e5a058bfa7180e6b7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--kusatchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.hashitamatchi",
+        "p2.kusatchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": true,
+      "best": {
+        "seed": "c45832f044216ad4",
+        "policyId": "tended",
+        "worstIoU": null,
+        "meanIoU": null,
+        "witnessFile": "witnesses/p2__shirobabytchi--tonmarutchi--hashitamatchi--kusatchi.json",
+        "checkpoints": [
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--kusatchi/p2.shirobabytchi",
+            "characterId": "p2.shirobabytchi",
+            "name": "Shirobabytchi",
+            "atHour": 0,
+            "animationTime": 0,
+            "expectedStage": "hatchling",
+            "actualStage": "hatchling",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "botamon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "ed37e86229aac3ff55e8e34868fad4548bd1037fe797b1c3f235f816f5787da7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "documented"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--kusatchi/p2.tonmarutchi",
+            "characterId": "p2.tonmarutchi",
+            "name": "Tonmarutchi",
+            "atHour": 1,
+            "animationTime": 0,
+            "expectedStage": "infant",
+            "actualStage": "infant",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "koromon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "081896b2b57a19a377b4ecc67bc4def7fdb0962592ca05cb0cacbdc081e3f613",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--kusatchi/p2.hashitamatchi",
+            "characterId": "p2.hashitamatchi",
+            "name": "Hashitamatchi",
+            "atHour": 49,
+            "animationTime": 0,
+            "expectedStage": "juvenile",
+            "actualStage": "juvenile",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "agumon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "322291d9c5d0377c26d75f16affec60cf239e0ed6ff7805360afe976affe582a",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          },
+          {
+            "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--kusatchi/p2.kusatchi",
+            "characterId": "p2.kusatchi",
+            "name": "Kusatchi",
+            "atHour": 121,
+            "animationTime": 0,
+            "expectedStage": "adult",
+            "actualStage": "adult",
+            "status": "unscored",
+            "unavailableReason": "No verified monochrome reference target is available.",
+            "metrics": null,
+            "stageReached": true,
+            "alive": true,
+            "sourcePreserved": true,
+            "actualBranch": "devimon",
+            "expectedBranch": null,
+            "referenceBranchMatched": null,
+            "frameHash": "76093e439163b7594cc0204acc4de64e0744451e2163483e5a058bfa7180e6b7",
+            "targetHash": null,
+            "referenceTiming": "combined-clock-adaptation",
+            "careEvidence": "provisional"
+          }
+        ]
+      }
+    }
+  ]
+}

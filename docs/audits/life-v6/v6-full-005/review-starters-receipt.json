@@ -1,0 +1,49 @@
+{
+  "runId": "v6-full-005",
+  "engineHash": "d4ee15c1c95bb77cf1880713a03c22c2d7fac496326d147ec087dec4ac5c4c77",
+  "reviewer": "/root/starters_v6",
+  "manifestSha256": "bec8426e8b318b729c7e66ffce4df10ce066b6ff4a5d3afc355f606121cd8db5",
+  "reviewSha256": "fc82760cf1e23e017ceea03ce04688f10d2eff3fc51abab8119c24e60897450a",
+  "inspected": {
+    "endpointViews": 384,
+    "adjacentComparisons": 288,
+    "intermediateViews": 0,
+    "motionViews": 0,
+    "newlyInspectedViews": 384,
+    "equivalenceTransferredViews": 0
+  },
+  "selection": "Predeclared six starters × seed slots1,5,9,13 × all4 histories × all4 milestones",
+  "evidence": [
+    {
+      "path": "secondary/review-01.png",
+      "sha256": "1e084658005bbe7dcb356e1b90d767694626fe3fb7b14cb212c5ad76b3c21c3d",
+      "viewCount": 64
+    },
+    {
+      "path": "secondary/review-02.png",
+      "sha256": "bb2d31651f0b2241272e64a3a749140d105446dbdd36c1e4a9c0d901139842ed",
+      "viewCount": 64
+    },
+    {
+      "path": "secondary/review-03.png",
+      "sha256": "3ce3f05cc003eb8c4b8969623cc6c54773664e725d8f5e8c66cec2839843bf5b",
+      "viewCount": 64
+    },
+    {
+      "path": "secondary/review-04.png",
+      "sha256": "d11d12203d375918c352b7316b7ea6117db4e9850330db4565eeae7fc7a6a64b",
+      "viewCount": 64
+    },
+    {
+      "path": "secondary/review-05.png",
+      "sha256": "b167cc68a236c4a0dfdaf1fa0fd0307d3ee6a7843aa012e5a8dd2b82c983ce7b",
+      "viewCount": 64
+    },
+    {
+      "path": "secondary/review-06.png",
+      "sha256": "221218c33e7e13948c29795f1094dbbf35fe959755c7d5523904cae294286803",
+      "viewCount": 64
+    }
+  ],
+  "context": "Fresh actual005 original-detail inspection of all six contact sheets. Source author/prior slot familiarity acknowledged; no human, tween or gait credit. Any later006 use requires separately verified rendered-frame equivalence and must preserve005 inspection provenance."
+}

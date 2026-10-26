@@ -1,0 +1,1001 @@
+{
+  "version": 1,
+  "runId": "staged-smoke",
+  "generatedAt": "2026-10-25T20:16:31.611Z",
+  "versions": {
+    "prototype": "life-v10",
+    "gameplay": 3,
+    "rules": "infipet-classic-v3",
+    "lineage": "opentree16.1/ott3.7.3|infipet-animal-profiles-v1|animal-affinity-v1|morphogenesis-v1|surface-expression-v1|somatic-growth-v1",
+    "needsCatalog": "0c5b73e19f6963a0d38332aafbdfb72149fb0ce5",
+    "needsRules": 2
+  },
+  "searchMode": "staged",
+  "counts": {
+    "paths": 30,
+    "candidates": 24,
+    "unscored": 6,
+    "failed": 24,
+    "machineCandidates": 0,
+    "visuallyAccepted": 0,
+    "gameEligible": 0,
+    "fullLifeEligible": 0,
+    "nativeHistoryUnverified": 14
+  },
+  "paths": [
+    {
+      "id": "dm1__botamon--koromon--agumon--greymon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.greymon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--agumon--devimon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.devimon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--agumon--tyranomon--mamemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.tyranomon",
+        "dm1.mamemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--agumon--meramon--mamemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.meramon",
+        "dm1.mamemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--agumon--numemon--monzaemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.agumon",
+        "dm1.numemon",
+        "dm1.monzaemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--devimon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.devimon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--airdramon--metal-greymon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.airdramon",
+        "dm1.metal-greymon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--meramon--mamemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.meramon",
+        "dm1.mamemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--seadramon--mamemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.seadramon",
+        "dm1.mamemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "dm1__botamon--koromon--betamon--numemon--monzaemon",
+      "deviceId": "dm1",
+      "characterIds": [
+        "dm1.botamon",
+        "dm1.koromon",
+        "dm1.betamon",
+        "dm1.numemon",
+        "dm1.monzaemon"
+      ],
+      "rootCharacterId": "dm1.botamon",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.20159680638722555,
+          "frameHash": "073986ed699a9b2d42ae371cd55d5169ea905e2b862ca5faec62ec1c111146d7"
+        }
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--mimitchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.tongaritchi",
+        "p2.mimitchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 0,
+        "prefixSimulations": 0,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {},
+        "unscoredReference": true
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--pochitchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.tongaritchi",
+        "p2.pochitchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 0,
+        "prefixSimulations": 0,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {},
+        "unscoredReference": true
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--tongaritchi--zuccitchi--zatchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.tongaritchi",
+        "p2.zuccitchi",
+        "p2.zatchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 0,
+        "prefixSimulations": 0,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {},
+        "unscoredReference": true
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--hashizoutchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.hashitamatchi",
+        "p2.hashizoutchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 0,
+        "prefixSimulations": 0,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {},
+        "unscoredReference": true
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--takotchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.hashitamatchi",
+        "p2.takotchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 0,
+        "prefixSimulations": 0,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {},
+        "unscoredReference": true
+      }
+    },
+    {
+      "id": "p2__shirobabytchi--tonmarutchi--hashitamatchi--kusatchi",
+      "deviceId": "p2",
+      "characterIds": [
+        "p2.shirobabytchi",
+        "p2.tonmarutchi",
+        "p2.hashitamatchi",
+        "p2.kusatchi"
+      ],
+      "rootCharacterId": "p2.shirobabytchi",
+      "status": "unscored",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "prefixSearch": {
+        "attemptedInputs": 0,
+        "prefixSimulations": 0,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {},
+        "unscoredReference": true
+      }
+    },
+    {
+      "id": "p1__p1.kind-2.ginjirotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.ginjirotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-2.ginjirotchi",
+        "teenHistoryKind": 2,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-2.kuchipatchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.kuchipatchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-2.kuchipatchi",
+        "teenHistoryKind": 2,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-2.mametchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.mametchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-2.mametchi",
+        "teenHistoryKind": 2,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-2.maskutchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.maskutchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-2.maskutchi",
+        "teenHistoryKind": 2,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-2.nyorotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.nyorotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-2.nyorotchi",
+        "teenHistoryKind": 2,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-2.tarakotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.tarakotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-2.tarakotchi",
+        "teenHistoryKind": 2,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-3.maskutchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.maskutchi",
+        "p1.bill"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-3.maskutchi",
+        "teenHistoryKind": 3,
+        "adultHistoryKind": 6,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-3.nyorotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.nyorotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-3.nyorotchi",
+        "teenHistoryKind": 3,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-3.tarakotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.tamatchi",
+        "p1.tarakotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-3.tarakotchi",
+        "teenHistoryKind": 3,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-4.kuchipatchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.kuchitamatchi",
+        "p1.kuchipatchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-4.kuchipatchi",
+        "teenHistoryKind": 4,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-4.nyorotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.kuchitamatchi",
+        "p1.nyorotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-4.nyorotchi",
+        "teenHistoryKind": 4,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-4.tarakotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.kuchitamatchi",
+        "p1.tarakotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-4.tarakotchi",
+        "teenHistoryKind": 4,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-5.nyorotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.kuchitamatchi",
+        "p1.nyorotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-5.nyorotchi",
+        "teenHistoryKind": 5,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    },
+    {
+      "id": "p1__p1.kind-5.tarakotchi",
+      "deviceId": "p1",
+      "characterIds": [
+        "p1.babytchi",
+        "p1.marutchi",
+        "p1.kuchitamatchi",
+        "p1.tarakotchi"
+      ],
+      "rootCharacterId": "p1.babytchi",
+      "status": "failed",
+      "gameEligible": null,
+      "fullLifeEligible": null,
+      "nativeHistory": {
+        "editionId": "p1-world-5c864cb1",
+        "routeId": "p1.kind-5.tarakotchi",
+        "teenHistoryKind": 5,
+        "adultHistoryKind": 15,
+        "commandHistoryStatus": "unverified-controller-mapping"
+      },
+      "prefixSearch": {
+        "attemptedInputs": 1,
+        "prefixSimulations": 2,
+        "fullLivesSimulated": 0,
+        "rejectedAt": {
+          "infant@2": 1
+        },
+        "unscoredReference": false,
+        "bestRejectedPrefix": {
+          "seed": "c45832f044216ad4",
+          "policyId": "tended",
+          "atHour": 2,
+          "worstIoU": 0.19884169884169883,
+          "frameHash": "b65ceb915854adc1f1d3bf821c37d13cca9600cc4dae2a4c87c4064b01248557"
+        }
+      }
+    }
+  ],
+  "stagedSearch": {
+    "uniqueInputCandidates": 2,
+    "prefixSimulations": 4,
+    "uniquePrefixInputs": 4,
+    "fullLivesSimulated": 0,
+    "budgetExhausted": false,
+    "elapsedMs": 90,
+    "nextByRoot": {
+      "dm1.botamon": {
+        "seedIndex": 1,
+        "policyIndex": 0
+      },
+      "p1.babytchi": {
+        "seedIndex": 1,
+        "policyIndex": 0
+      }
+    }
+  }
+}

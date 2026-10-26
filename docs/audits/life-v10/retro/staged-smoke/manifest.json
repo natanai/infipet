@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "runId": "staged-smoke",
+  "versions": {
+    "prototype": "life-v10",
+    "gameplay": 3,
+    "rules": "infipet-classic-v3",
+    "lineage": "opentree16.1/ott3.7.3|infipet-animal-profiles-v1|animal-affinity-v1|morphogenesis-v1|surface-expression-v1|somatic-growth-v1",
+    "needsCatalog": "0c5b73e19f6963a0d38332aafbdfb72149fb0ce5",
+    "needsRules": 2
+  },
+  "engineSourceHash": "f177eb2f62b5a142d8796be67a4f2ce4819458bdd71f704a364e3c7c4787c39f",
+  "engineSourceFiles": [
+    "src/drawing-features.ts",
+    "src/drawing.ts",
+    "src/gameplay/index.ts",
+    "src/gameplay/native-p1.ts",
+    "src/gameplay/reference-profiles.ts",
+    "src/gameplay/reference-traces.json",
+    "src/lineage/clock.ts",
+    "src/lineage/index.ts",
+    "src/lineage/types.ts",
+    "src/needs/catalog-data.json",
+    "src/needs/catalog.ts",
+    "src/needs/development-profiles.ts",
+    "src/needs/index.ts",
+    "src/needs/simulation.ts",
+    "src/needs/timeline.ts",
+    "src/needs/types.ts",
+    "src/pet-format.ts",
+    "src/phylogeny/catalog-data.json",
+    "src/phylogeny/index.ts",
+    "src/retro/replay.ts",
+    "src/simulation/adaptation-rules.ts",
+    "src/simulation/anatomical-roles.ts",
+    "src/simulation/development.ts",
+    "src/simulation/enclosure.ts",
+    "src/simulation/genome.ts",
+    "src/simulation/grooming.ts",
+    "src/simulation/growth.ts",
+    "src/simulation/index.ts",
+    "src/simulation/locomotion.ts",
+    "src/simulation/material-growth.ts",
+    "src/simulation/material-raster.ts",
+    "src/simulation/material.ts",
+    "src/simulation/metamorphosis.ts",
+    "src/simulation/model.ts",
+    "src/simulation/morphogenesis.ts",
+    "src/simulation/regional-layout.ts",
+    "src/simulation/somatic-growth.ts",
+    "src/simulation/source-atlas.ts",
+    "src/simulation/surface-expression.ts",
+    "src/simulation/variation-channels.ts"
+  ],
+  "auditSourceHash": "da846beba7e6a3b92ccf4a0d2b4426327b7726cd8a13512948a009e00f69e37a",
+  "auditSourceFiles": [
+    "tools/retro-audit/catalog.ts",
+    "tools/retro-audit/diagnostics.ts",
+    "tools/retro-audit/engine.ts",
+    "tools/retro-audit/index.ts",
+    "tools/retro-audit/lifetime.ts",
+    "tools/retro-audit/metrics.ts",
+    "tools/retro-audit/portable.ts",
+    "tools/retro-audit/report.ts",
+    "tools/retro-audit/run.ts",
+    "tools/retro-audit/schedule.ts",
+    "tools/retro-audit/score.ts",
+    "tools/retro-audit/search.ts",
+    "tools/retro-audit/staged.ts",
+    "tools/retro-audit/types.ts"
+  ],
+  "sampleScheduleHash": "6b60e0abd8b95145f102a581c37b0e88f15f4af55df4039d2533f303c0e42697",
+  "scheduleFrozenAt": "2026-10-25T20:16:31.608Z",
+  "nativeRulesSourceBytesSha256": "6ded1b9017037a2e4ac472880a396f5d26dbe3978f18f19451207bf419494e3d",
+  "catalogFile": "data/retro-reference/catalog.json",
+  "catalogHash": "8909d553d1b87642d9ca1d3de26011467fe13884f5f929dcddfd9771eccf6c3c",
+  "catalogSnapshot": "reference-catalog.json",
+  "referenceCoverage": {
+    "forms": 36,
+    "formsWithTargets": 36,
+    "scoredReferenceForms": 25,
+    "provisionalReferenceForms": 11,
+    "sourceAvailableRoots": 3,
+    "graphPaths": 25,
+    "historyDistinguishedCases": 30,
+    "p1NativeHistoryCases": 14
+  },
+  "sampling": {
+    "pathComparisons": 24,
+    "uniqueSourceSeedCareRecipes": 2,
+    "searchMode": "staged",
+    "prefixSimulations": 4,
+    "fullLivesSimulated": 0,
+    "budgetExhausted": false,
+    "maxInputs": 2,
+    "maxMs": null,
+    "candidatesAreIndependentForEveryPath": false,
+    "explanation": "The same source/seed/care recipes are compared with all compatible reference paths; repeated comparisons are not new independent seeds."
+  },
+  "candidateSelection": "full acceptance status, terminal full-life eligibility, eligible checkpoints, worst-stage IoU, mean IoU; diagnostic gates required before any candidate claim",
+  "casesHash": "4aa07ef5b88796cf24f86ffa0e8f0b1d803ddfe7feda6f3130bfa144d021a787",
+  "summaryHash": "4c1c6cd14740fb2f9c27bff45d325775c597509bdee979230072fcdc50865f61",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "34bc6b271eee03ecf5ea3923fab0ca3063936720c944d3e3e41e4b4cc7a415a3"
+    },
+    {
+      "file": "reference-catalog.json",
+      "sha256": "2d8a6cf4ef5a295e0de5b7691c25676e794b2e0a1d3b5376bf2ad29303782ad6"
+    },
+    {
+      "file": "sample-schedule.json",
+      "sha256": "53eb92326cce15b048c40167adc63575f70efc72be40e199eaeb0098623c6549"
+    },
+    {
+      "file": "native-rules.json",
+      "sha256": "6ded1b9017037a2e4ac472880a396f5d26dbe3978f18f19451207bf419494e3d"
+    },
+    {
+      "file": "staged-progress.json",
+      "sha256": "4a062450e2c82228e8fecae7ccd931b8c501e529005a192e0091f99fcd009296"
+    }
+  ],
+  "metricVersion": "retro-mono-v2-native-8fg-4bg",
+  "thresholds": {
+    "silhouetteIoU": 0.9,
+    "filledSilhouetteIoU": 0.94,
+    "aspectSimilarity": 0.94,
+    "densitySimilarity": 0.9
+  },
+  "seedCohort": "shared-neutral-sha256-v1",
+  "seedStart": 0,
+  "seedCount": 1,
+  "policyIds": [
+    "tended"
+  ],
+  "policySpecifications": [
+    {
+      "id": "tended",
+      "label": "Timely basic care",
+      "intervalMinutes": 10,
+      "trainingMinutes": 0,
+      "battleMinutes": 0,
+      "extraMeal": false
+    }
+  ],
+  "referenceArtUsedOnlyForScoring": true,
+  "visualAcceptance": false,
+  "limits": [
+    "One monochrome neutral reference pose per available character; animation is unverified.",
+    "A bounded search result does not establish reachability across the entire seed space.",
+    "The combined game clock differs from original Tamagotchi timing.",
+    "Unverified care predicates remain unscored and missing targets cannot pass."
+  ]
+}

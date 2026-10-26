@@ -1,0 +1,17 @@
+{
+  "fromRun": "v6-proof-012",
+  "targetRun": "v6-proof-final",
+  "matched": 204,
+  "compared": 204,
+  "equivalenceFile": "pixel-equivalence-v6-proof-012.json",
+  "originalDirectReviewRun": "v6-proof-007",
+  "reviewers": [
+    "/root/audit_v6",
+    "/root/locomotion_v6"
+  ],
+  "originalReceipts": [
+    "../v6-proof-007/review-audit-v6.json",
+    "../v6-proof-007/review-locomotion.json"
+  ],
+  "limitation": "No fresh canonical images claimed inspected; all204exact current RGB hashes equal reviewed corpus."
+}

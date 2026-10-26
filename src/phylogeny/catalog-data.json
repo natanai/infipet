@@ -1,0 +1,1294 @@
+{
+  "datasetVersion": "opentree16.1/ott3.7.3",
+  "profileVersion": "infipet-animal-profiles-v1",
+  "rootId": "ott691846",
+  "nodes": [
+    {
+      "id": "ott691846",
+      "parentId": null,
+      "name": "Metazoa",
+      "ottId": 691846,
+      "rank": "kingdom",
+      "sourceChildCount": 3,
+      "children": [
+        "mrcaott42ott3989",
+        "ott641212"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "pg_2822@tree6569"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott42ott3989",
+      "parentId": "ott691846",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott42ott570365",
+        "ott67819"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [
+          "pg_2822@tree6569"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott42ott570365",
+      "parentId": "mrcaott42ott3989",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott42ott150",
+        "ott570376"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [
+          "pg_2822@tree6569"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott42ott150",
+      "parentId": "mrcaott42ott570365",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "ott117569",
+        "ott641033"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [
+          "pg_2822@tree6569"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott117569",
+      "parentId": "mrcaott42ott150",
+      "name": "Bilateria",
+      "ottId": 117569,
+      "rank": "no rank",
+      "sourceChildCount": 3,
+      "children": [
+        "mrcaott42ott49"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott42ott49",
+      "parentId": "ott117569",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "ott147604",
+        "ott189832"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [
+          "ot_508@tree2"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott147604",
+      "parentId": "mrcaott42ott49",
+      "name": "Deuterostomia",
+      "ottId": 147604,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [
+        "ott125642",
+        "ott6520512"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [
+          "ot_508@tree2",
+          "pg_1217@tree2455"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott125642",
+      "parentId": "ott147604",
+      "name": "Chordata",
+      "ottId": 125642,
+      "rank": "phylum",
+      "sourceChildCount": 3,
+      "children": [
+        "mrcaott42ott658"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott42ott658",
+      "parentId": "ott125642",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "ott947318"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott947318",
+      "parentId": "mrcaott42ott658",
+      "name": "Craniata",
+      "ottId": 947318,
+      "rank": "subphylum",
+      "sourceChildCount": 1,
+      "children": [
+        "ott801601"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott801601",
+      "parentId": "ott947318",
+      "name": "Vertebrata",
+      "ottId": 801601,
+      "rank": "subphylum",
+      "sourceChildCount": 2,
+      "children": [
+        "ott278114"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott278114",
+      "parentId": "ott801601",
+      "name": "Gnathostomata",
+      "ottId": 278114,
+      "rank": "superclass",
+      "sourceChildCount": 2,
+      "children": [
+        "ott114656"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott114656",
+      "parentId": "ott278114",
+      "name": "Teleostomi",
+      "ottId": 114656,
+      "rank": "no rank",
+      "sourceChildCount": 1,
+      "children": [
+        "ott114654"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott114654",
+      "parentId": "ott114656",
+      "name": "Euteleostomi",
+      "ottId": 114654,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [
+        "ott458402",
+        "ott773483"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott458402",
+      "parentId": "ott114654",
+      "name": "Sarcopterygii",
+      "ottId": 458402,
+      "rank": "superclass",
+      "sourceChildCount": 2,
+      "children": [
+        "ott4940726"
+      ],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott4940726",
+      "parentId": "ott458402",
+      "name": "Dipnotetrapodomorpha",
+      "ottId": 4940726,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [
+        "ott229562"
+      ],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott229562",
+      "parentId": "ott4940726",
+      "name": "Tetrapoda",
+      "ottId": 229562,
+      "rank": "superclass",
+      "sourceChildCount": 2,
+      "children": [
+        "ott229560",
+        "ott544595"
+      ],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott229560",
+      "parentId": "ott229562",
+      "name": "Amniota",
+      "ottId": 229560,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [
+        "ott244265",
+        "ott639642"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott244265",
+      "parentId": "ott229560",
+      "name": "Mammalia",
+      "ottId": 244265,
+      "rank": "class",
+      "sourceChildCount": 3,
+      "children": [],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott639642",
+      "parentId": "ott229560",
+      "name": "Sauropsida",
+      "ottId": 639642,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [
+        "ott329823"
+      ],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott329823",
+      "parentId": "ott639642",
+      "name": "Sauria",
+      "ottId": 329823,
+      "rank": "order",
+      "sourceChildCount": 34,
+      "children": [
+        "mrcaott246ott2982",
+        "mrcaott1662ott4128455"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1517@Tr60095"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott246ott2982",
+      "parentId": "ott329823",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 3,
+      "children": [
+        "mrcaott246ott31216",
+        "ott639666"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1431@Tr55921",
+          "pg_2573@tree5959"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott246ott31216",
+      "parentId": "mrcaott246ott2982",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 3,
+      "children": [
+        "mrcaott246ott3602822"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1431@Tr55921",
+          "ot_1490@tree1",
+          "pg_2573@tree5959"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott246ott3602822",
+      "parentId": "mrcaott246ott31216",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott246ott4143599"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1449@Tr55330",
+          "ot_1516@Tr55113"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott246ott4143599",
+      "parentId": "mrcaott246ott3602822",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott246ott3600976"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1449@Tr55330",
+          "ot_1516@Tr55113"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott246ott3600976",
+      "parentId": "mrcaott246ott4143599",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott246ott4132107"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1449@Tr55330"
+        ],
+        "conflictsWith": [],
+        "resolves": [
+          "ot_1516@Tr55113"
+        ]
+      }
+    },
+    {
+      "id": "mrcaott246ott4132107",
+      "parentId": "mrcaott246ott3600976",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "ott81461"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1516@Tr55113"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott81461",
+      "parentId": "mrcaott246ott4132107",
+      "name": "Aves",
+      "ottId": 81461,
+      "rank": "class",
+      "sourceChildCount": 2,
+      "children": [],
+      "evidence": {
+        "supportedBy": [
+          "ot_1516@Tr55113"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott639666",
+      "parentId": "mrcaott246ott2982",
+      "name": "Testudines",
+      "ottId": 639666,
+      "rank": "order",
+      "sourceChildCount": 15,
+      "children": [],
+      "evidence": {
+        "supportedBy": [
+          "ot_1490@tree1",
+          "pg_2573@tree5959"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott1662ott4128455",
+      "parentId": "ott329823",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott1662ott4127082"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1335@Tr55332",
+          "ot_1512@Tr55545"
+        ],
+        "conflictsWith": [
+          "ot_1431@Tr55921",
+          "ot_1513@Tr55903",
+          "ot_1517@Tr60095"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott1662ott4127082",
+      "parentId": "mrcaott1662ott4128455",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott1662ott4129629"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1335@Tr55332",
+          "ot_1512@Tr55545"
+        ],
+        "conflictsWith": [
+          "ot_1431@Tr55921",
+          "ot_1513@Tr55903"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott1662ott4129629",
+      "parentId": "mrcaott1662ott4127082",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott1662ott4142716"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1512@Tr55545"
+        ],
+        "conflictsWith": [
+          "ot_1431@Tr55921",
+          "ot_1513@Tr55903"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott1662ott4142716",
+      "parentId": "mrcaott1662ott4129629",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott1662ott4126667"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1512@Tr55545"
+        ],
+        "conflictsWith": [
+          "ot_1431@Tr55921",
+          "ot_1513@Tr55903"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott1662ott4126667",
+      "parentId": "mrcaott1662ott4142716",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott1662ott664349"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1335@Tr55332",
+          "ot_1512@Tr55545"
+        ],
+        "conflictsWith": [
+          "ot_1431@Tr55921",
+          "ot_1513@Tr55903"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott1662ott664349",
+      "parentId": "mrcaott1662ott4126667",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott1662ott4947157"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1335@Tr55332"
+        ],
+        "conflictsWith": [
+          "ot_1431@Tr55921",
+          "ot_1513@Tr55903"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott1662ott4947157",
+      "parentId": "mrcaott1662ott664349",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "ott35881"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1335@Tr55332"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott35881",
+      "parentId": "mrcaott1662ott4947157",
+      "name": "Lepidosauria",
+      "ottId": 35881,
+      "rank": "superorder",
+      "sourceChildCount": 2,
+      "children": [],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott544595",
+      "parentId": "ott229562",
+      "name": "Amphibia",
+      "ottId": 544595,
+      "rank": "class",
+      "sourceChildCount": 3,
+      "children": [],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott773483",
+      "parentId": "ott114654",
+      "name": "Actinopterygii",
+      "ottId": 773483,
+      "rank": "superclass",
+      "sourceChildCount": 3,
+      "children": [],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott6520512",
+      "parentId": "ott147604",
+      "name": "Ambulacraria",
+      "ottId": 6520512,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [
+        "ott451020"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott451020",
+      "parentId": "ott6520512",
+      "name": "Echinodermata",
+      "ottId": 451020,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott189832",
+      "parentId": "mrcaott42ott49",
+      "name": "Protostomia",
+      "ottId": 189832,
+      "rank": "no rank",
+      "sourceChildCount": 3,
+      "children": [
+        "mrcaott49ott6612",
+        "ott611099"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_1217@tree2455",
+          "pg_2710@tree6291",
+          "pg_2822@tree6569"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott49ott6612",
+      "parentId": "ott189832",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "ott155737"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2"
+        ],
+        "conflictsWith": [
+          "pg_1217@tree2455"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott155737",
+      "parentId": "mrcaott49ott6612",
+      "name": "Lophotrochozoa",
+      "ottId": 155737,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott56ott519"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "ot_811@tree1"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott56ott519",
+      "parentId": "ott155737",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "mrcaott56ott5497",
+        "ott941620"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_1314@Tr5182",
+          "ot_508@tree2",
+          "ot_811@tree1",
+          "pg_2710@tree6291",
+          "pg_2822@tree6569"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott56ott5497",
+      "parentId": "mrcaott56ott519",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "ott802117"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [
+          "ot_1314@Tr5182",
+          "ot_811@tree1"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott802117",
+      "parentId": "mrcaott56ott5497",
+      "name": "Mollusca",
+      "ottId": 802117,
+      "rank": "phylum",
+      "sourceChildCount": 4,
+      "children": [],
+      "evidence": {
+        "supportedBy": [
+          "ot_811@tree1"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott941620",
+      "parentId": "mrcaott56ott519",
+      "name": "Annelida",
+      "ottId": 941620,
+      "rank": "phylum",
+      "sourceChildCount": 120,
+      "children": [],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott611099",
+      "parentId": "ott189832",
+      "name": "Ecdysozoa",
+      "ottId": 611099,
+      "rank": "no rank",
+      "sourceChildCount": 3,
+      "children": [
+        "ott816442",
+        "mrcaott230ott52135"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_2710@tree6291",
+          "pg_2822@tree6569"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott816442",
+      "parentId": "ott611099",
+      "name": "Panarthropoda",
+      "ottId": 816442,
+      "rank": "no rank",
+      "sourceChildCount": 2,
+      "children": [
+        "ott632179"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott632179",
+      "parentId": "ott816442",
+      "name": "Arthropoda",
+      "ottId": 632179,
+      "rank": "phylum",
+      "sourceChildCount": 6,
+      "children": [],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_2710@tree6291",
+          "pg_2813@tree6550"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "mrcaott230ott52135",
+      "parentId": "ott611099",
+      "name": null,
+      "ottId": null,
+      "rank": null,
+      "sourceChildCount": 2,
+      "children": [
+        "ott395057"
+      ],
+      "evidence": {
+        "supportedBy": [
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [
+          "ot_508@tree2"
+        ],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott395057",
+      "parentId": "mrcaott230ott52135",
+      "name": "Nematoda",
+      "ottId": 395057,
+      "rank": "phylum",
+      "sourceChildCount": 75,
+      "children": [],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott641033",
+      "parentId": "mrcaott42ott150",
+      "name": "Cnidaria",
+      "ottId": 641033,
+      "rank": "phylum",
+      "sourceChildCount": 3,
+      "children": [],
+      "evidence": {
+        "supportedBy": [
+          "ot_508@tree2",
+          "pg_2710@tree6291"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott570376",
+      "parentId": "mrcaott42ott570365",
+      "name": "Placozoa",
+      "ottId": 570376,
+      "rank": "phylum",
+      "sourceChildCount": 3,
+      "children": [],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott67819",
+      "parentId": "mrcaott42ott3989",
+      "name": "Porifera",
+      "ottId": 67819,
+      "rank": "phylum",
+      "sourceChildCount": 3,
+      "children": [],
+      "evidence": {
+        "supportedBy": [
+          "pg_2710@tree6291",
+          "pg_2822@tree6569"
+        ],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    },
+    {
+      "id": "ott641212",
+      "parentId": "ott691846",
+      "name": "Ctenophora",
+      "ottId": 641212,
+      "rank": "phylum",
+      "sourceChildCount": 13,
+      "children": [],
+      "evidence": {
+        "supportedBy": [],
+        "conflictsWith": [],
+        "resolves": []
+      }
+    }
+  ],
+  "profiles": [
+    {
+      "id": "ott691846",
+      "name": "Metazoa",
+      "ottId": 691846,
+      "traits": [
+        "neutral"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott67819",
+      "name": "Porifera",
+      "ottId": 67819,
+      "traits": [
+        "porous",
+        "sessile"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott570376",
+      "name": "Placozoa",
+      "ottId": 570376,
+      "traits": [
+        "flat"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott641212",
+      "name": "Ctenophora",
+      "ottId": 641212,
+      "traits": [
+        "soft",
+        "radial"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott641033",
+      "name": "Cnidaria",
+      "ottId": 641033,
+      "traits": [
+        "tentacled",
+        "radial"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott117569",
+      "name": "Bilateria",
+      "ottId": 117569,
+      "traits": [
+        "axial"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott941620",
+      "name": "Annelida",
+      "ottId": 941620,
+      "traits": [
+        "segmented"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott395057",
+      "name": "Nematoda",
+      "ottId": 395057,
+      "traits": [
+        "slender"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott802117",
+      "name": "Mollusca",
+      "ottId": 802117,
+      "traits": [
+        "mantle",
+        "foot",
+        "shell"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott632179",
+      "name": "Arthropoda",
+      "ottId": 632179,
+      "traits": [
+        "jointed",
+        "segmented"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott451020",
+      "name": "Echinodermata",
+      "ottId": 451020,
+      "traits": [
+        "radial",
+        "plated"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott125642",
+      "name": "Chordata",
+      "ottId": 125642,
+      "traits": [
+        "axial",
+        "aquatic"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott773483",
+      "name": "Actinopterygii",
+      "ottId": 773483,
+      "traits": [
+        "fins",
+        "swim"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott229562",
+      "name": "Tetrapoda",
+      "ottId": 229562,
+      "traits": [
+        "support"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott544595",
+      "name": "Amphibia",
+      "ottId": 544595,
+      "traits": [
+        "tail",
+        "swim",
+        "support"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott244265",
+      "name": "Mammalia",
+      "ottId": 244265,
+      "traits": [
+        "support",
+        "coat"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott35881",
+      "name": "Lepidosauria",
+      "ottId": 35881,
+      "traits": [
+        "scaly",
+        "axial"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott639666",
+      "name": "Testudines",
+      "ottId": 639666,
+      "traits": [
+        "enclosing",
+        "shell"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    },
+    {
+      "id": "ott81461",
+      "name": "Aves",
+      "ottId": 81461,
+      "traits": [
+        "membranes",
+        "wing"
+      ],
+      "kind": "fictional-development-profile",
+      "sourceAnchor": "exact-synthetic-node"
+    }
+  ],
+  "unresolvedProfiles": [
+    {
+      "name": "Crocodylia",
+      "ottId": 195672,
+      "reason": "Taxonomic anchor absent from this synthetic tree; no fabricated node or edge is substituted.",
+      "resolution": "mrca-of-all-represented-taxonomic-descendants",
+      "mrcaId": "ott329823",
+      "representedTaxa": 77,
+      "representedTips": 47,
+      "mrcaTips": 32042,
+      "containsOtherTips": true,
+      "fallbackProfileId": "ott229562"
+    }
+  ]
+}

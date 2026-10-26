@@ -1,0 +1,906 @@
+{
+  "protocolVersion": "source-variance-v7-panel1",
+  "metricVersion": "source-coherence-v7-metrics1",
+  "captureHash": "eb3111124440c56d83c6dbb5eb122b3063fe3c3c32e0c3def4fae671a85b396e",
+  "expected": {
+    "cases": 384,
+    "uniqueFrames": 768,
+    "moderatePanelObservations": 624,
+    "severePanelObservations": 192,
+    "sharedNeutralFrames": 48
+  },
+  "actual": {
+    "cases": 384,
+    "uniqueFrames": 768,
+    "failures": 0,
+    "validFrames": 768
+  },
+  "panels": [
+    {
+      "id": "moderate",
+      "historyIds": [
+        "neutral",
+        "safety-50",
+        "safety-100",
+        "security-50",
+        "security-100",
+        "trust-50",
+        "trust-100",
+        "rest-50",
+        "rest-100",
+        "relaxation-50",
+        "relaxation-100",
+        "physical-fitness-50",
+        "physical-fitness-100"
+      ],
+      "conditions": "Neutral75%; six needs individually50% and100%, other needs unchanged",
+      "cells": [
+        {
+          "sourceId": "bean",
+          "age": 75,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.09980762494896916,
+            "history": 0.0013955116868603623,
+            "interaction": 0.00360699759580133,
+            "total": 0.10481013423163092
+          },
+          "proportions": {
+            "seed": 0.9522707482502962,
+            "history": 0.013314663673421833,
+            "interaction": 0.03441458807628132
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "bean",
+          "age": 120,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.11257911162253742,
+            "history": 0.0008631232077205629,
+            "interaction": 0.0023293360575339437,
+            "total": 0.1157715708877919
+          },
+          "proportions": {
+            "seed": 0.9724244973029806,
+            "history": 0.007455398601761386,
+            "interaction": 0.02012010409525826
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "sprout",
+          "age": 75,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.23594212321322416,
+            "history": 0.004635271162271575,
+            "interaction": 0.008364508541996643,
+            "total": 0.2489419029174922
+          },
+          "proportions": {
+            "seed": 0.9477798652942063,
+            "history": 0.01861989125955971,
+            "interaction": 0.03360024344623462
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "sprout",
+          "age": 120,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.27614078456534674,
+            "history": 0.0037535058103308643,
+            "interaction": 0.006423614009746744,
+            "total": 0.28631790438542404
+          },
+          "proportions": {
+            "seed": 0.9644551749499484,
+            "history": 0.013109574193020494,
+            "interaction": 0.022435250857032185
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "canine-cub",
+          "age": 75,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.11304915756263971,
+            "history": 0.0024246285203005265,
+            "interaction": 0.0094674323565346,
+            "total": 0.1249412184394748
+          },
+          "proportions": {
+            "seed": 0.9048187537678293,
+            "history": 0.01940615395451012,
+            "interaction": 0.07577509227766098
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "canine-cub",
+          "age": 120,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.1475070678133857,
+            "history": 0.00292292163203362,
+            "interaction": 0.007966537895883046,
+            "total": 0.15839652734130197
+          },
+          "proportions": {
+            "seed": 0.9312519048826595,
+            "history": 0.018453192636827882,
+            "interaction": 0.05029490248051522
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "ribbon",
+          "age": 75,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.18165739395129868,
+            "history": 0.0028253360540788615,
+            "interaction": 0.010535543050807032,
+            "total": 0.19501827305618474
+          },
+          "proportions": {
+            "seed": 0.9314890912758889,
+            "history": 0.014487545242823899,
+            "interaction": 0.054023363481286404
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "ribbon",
+          "age": 120,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.15423782537291758,
+            "history": 0.0024174012019006976,
+            "interaction": 0.00820146685777178,
+            "total": 0.16485669343258963
+          },
+          "proportions": {
+            "seed": 0.9355872798454851,
+            "history": 0.014663652118493931,
+            "interaction": 0.04974906803602356
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "beetle",
+          "age": 75,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.11524475838021311,
+            "history": 0.009956359254140117,
+            "interaction": 0.025317783264382988,
+            "total": 0.1505189008987365
+          },
+          "proportions": {
+            "seed": 0.7656497469227833,
+            "history": 0.06614690377548255,
+            "interaction": 0.16820334930173217
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "beetle",
+          "age": 120,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.1738918861656366,
+            "history": 0.005072817268869569,
+            "interaction": 0.010439099148334009,
+            "total": 0.18940380258284015
+          },
+          "proportions": {
+            "seed": 0.9181013464055504,
+            "history": 0.026783080380082945,
+            "interaction": 0.05511557321436684
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "wisp",
+          "age": 75,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.27618034224565585,
+            "history": 0.0019952797938571853,
+            "interaction": 0.008063555497984968,
+            "total": 0.2862391775374975
+          },
+          "proportions": {
+            "seed": 0.9648586354307703,
+            "history": 0.006970673305528914,
+            "interaction": 0.02817069126370249
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "wisp",
+          "age": 120,
+          "expected": 52,
+          "actual": 52,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.2903315998454856,
+            "history": 0.00204325680060216,
+            "interaction": 0.0073509423633866325,
+            "total": 0.29972579900947377
+          },
+          "proportions": {
+            "seed": 0.9686573555061531,
+            "history": 0.006817086841889031,
+            "interaction": 0.024525557651960028
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        }
+      ],
+      "seedLargest": {
+        "numerator": 12,
+        "denominator": 12,
+        "percent": 100,
+        "condition": "within-source moderate balanced4-seed panel",
+        "age": "day75 and120, equally weighted source/age cells"
+      },
+      "informativeCells": 12,
+      "equallyWeightedProportions": {
+        "seed": 0.9297786999862127,
+        "history": 0.018852317998616894,
+        "interaction": 0.051368982015171184
+      }
+    },
+    {
+      "id": "severe",
+      "historyIds": [
+        "neutral",
+        "safety-unmet",
+        "safety-recovery",
+        "rest-fitness-tended"
+      ],
+      "conditions": "Neutral; Safety0%; Safety0→100 day75; Rest/Fitness jointly100%",
+      "cells": [
+        {
+          "sourceId": "bean",
+          "age": 75,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.03730107744827347,
+            "history": 0.0019452393899704447,
+            "interaction": 0.0022257030903960182,
+            "total": 0.041472019928639955
+          },
+          "proportions": {
+            "seed": 0.8994275541065195,
+            "history": 0.046904862442619814,
+            "interaction": 0.053667583450860104
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "bean",
+          "age": 120,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.024467637734972375,
+            "history": 0.001838086445669213,
+            "interaction": 0.005699347877126962,
+            "total": 0.03200507205776855
+          },
+          "proportions": {
+            "seed": 0.764492505775608,
+            "history": 0.05743109849437307,
+            "interaction": 0.17807639573001888
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "sprout",
+          "age": 75,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.05951816377766171,
+            "history": 0.001965523778382429,
+            "interaction": 0.003448666259782645,
+            "total": 0.06493235381582682
+          },
+          "proportions": {
+            "seed": 0.9166179921103456,
+            "history": 0.03027033001078957,
+            "interaction": 0.05311167787886439
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "sprout",
+          "age": 120,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.05980867948972851,
+            "history": 0.007149652837072245,
+            "interaction": 0.010121600976106348,
+            "total": 0.0770799333029071
+          },
+          "proportions": {
+            "seed": 0.7759306077068544,
+            "history": 0.09275634436495539,
+            "interaction": 0.13131304792819024
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "canine-cub",
+          "age": 75,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.027938190031584376,
+            "history": 0.002800252916214489,
+            "interaction": 0.0059630071696313595,
+            "total": 0.03670145011743022
+          },
+          "proportions": {
+            "seed": 0.7612285057454989,
+            "history": 0.07629815463026064,
+            "interaction": 0.16247333962424043
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "canine-cub",
+          "age": 120,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.045966876427236444,
+            "history": 0.005056183132961374,
+            "interaction": 0.009349837869455707,
+            "total": 0.06037289742965343
+          },
+          "proportions": {
+            "seed": 0.7613826465890112,
+            "history": 0.08374922106153418,
+            "interaction": 0.15486813234945612
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "ribbon",
+          "age": 75,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.04045711204629991,
+            "history": 0.0031967468206975246,
+            "interaction": 0.003326172271395782,
+            "total": 0.04698003113839326
+          },
+          "proportions": {
+            "seed": 0.8611554966219965,
+            "history": 0.06804479995512525,
+            "interaction": 0.07079970342287727
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "ribbon",
+          "age": 120,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.03680650235173232,
+            "history": 0.005954650432837681,
+            "interaction": 0.005050455425704005,
+            "total": 0.04781160821027402
+          },
+          "proportions": {
+            "seed": 0.769823558117067,
+            "history": 0.12454403137098646,
+            "interaction": 0.10563241051194625
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "beetle",
+          "age": 75,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.03266897231100327,
+            "history": 0.004965328866032774,
+            "interaction": 0.004856886074082556,
+            "total": 0.042491187251118584
+          },
+          "proportions": {
+            "seed": 0.7688411274067956,
+            "history": 0.11685549845167156,
+            "interaction": 0.11430337414153328
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "beetle",
+          "age": 120,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.03986062982925087,
+            "history": 0.011438430424779026,
+            "interaction": 0.007881278041402423,
+            "total": 0.05918033829543228
+          },
+          "proportions": {
+            "seed": 0.6735451499155664,
+            "history": 0.1932809232633582,
+            "interaction": 0.13317392682107607
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "wisp",
+          "age": 75,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.07237735990850051,
+            "history": 0.0008464850018252475,
+            "interaction": 0.004585723496465999,
+            "total": 0.07780956840679176
+          },
+          "proportions": {
+            "seed": 0.9301858549080824,
+            "history": 0.010878931976589146,
+            "interaction": 0.05893521311532844
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        },
+        {
+          "sourceId": "wisp",
+          "age": 120,
+          "expected": 16,
+          "actual": 16,
+          "available": true,
+          "sumsOfSquares": {
+            "seed": 0.07135091587267782,
+            "history": 0.002487235754308488,
+            "interaction": 0.007063865934925968,
+            "total": 0.08090201756191229
+          },
+          "proportions": {
+            "seed": 0.8819423547512243,
+            "history": 0.03074380379210035,
+            "interaction": 0.08731384145667527
+          },
+          "informative": true,
+          "seedLargest": true,
+          "seedExceedsAllCare": true
+        }
+      ],
+      "seedLargest": {
+        "numerator": 12,
+        "denominator": 12,
+        "percent": 100,
+        "condition": "within-source severe balanced4-seed panel",
+        "age": "day75 and120, equally weighted source/age cells"
+      },
+      "informativeCells": 12,
+      "equallyWeightedProportions": {
+        "seed": 0.8137144461462141,
+        "history": 0.07764649998453031,
+        "interaction": 0.10863905386925556
+      }
+    }
+  ],
+  "geneticAgreement": [
+    {
+      "sourceId": "bean",
+      "seed": "life-v7-genome-01",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "inheritedHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "bean",
+      "seed": "life-v7-genome-02",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "inheritedHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "bean",
+      "seed": "life-v7-genome-03",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "inheritedHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "bean",
+      "seed": "life-v7-genome-04",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "inheritedHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "sprout",
+      "seed": "life-v7-genome-01",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "inheritedHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "sprout",
+      "seed": "life-v7-genome-02",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "inheritedHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "sprout",
+      "seed": "life-v7-genome-03",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "inheritedHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "sprout",
+      "seed": "life-v7-genome-04",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "inheritedHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "canine-cub",
+      "seed": "life-v7-genome-01",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "inheritedHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "canine-cub",
+      "seed": "life-v7-genome-02",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "inheritedHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "canine-cub",
+      "seed": "life-v7-genome-03",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "inheritedHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "canine-cub",
+      "seed": "life-v7-genome-04",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "inheritedHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "ribbon",
+      "seed": "life-v7-genome-01",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "inheritedHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "ribbon",
+      "seed": "life-v7-genome-02",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "inheritedHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "ribbon",
+      "seed": "life-v7-genome-03",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "inheritedHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "ribbon",
+      "seed": "life-v7-genome-04",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "inheritedHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "beetle",
+      "seed": "life-v7-genome-01",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "inheritedHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "beetle",
+      "seed": "life-v7-genome-02",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "inheritedHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "beetle",
+      "seed": "life-v7-genome-03",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "inheritedHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "beetle",
+      "seed": "life-v7-genome-04",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "inheritedHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "wisp",
+      "seed": "life-v7-genome-01",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "inheritedHashes": [
+        "315bb5ac8d36a2cc86214554a5f6840f2c758efa0ddf7e6d3725fb65e5727454"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "wisp",
+      "seed": "life-v7-genome-02",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "inheritedHashes": [
+        "c243c452d4e52e0624f133d6a5a208d56b04d8a63fc3d6afb1e8387193f7fd1b"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "wisp",
+      "seed": "life-v7-genome-03",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "inheritedHashes": [
+        "43a5887a3408f26e220e55c106f10a0726ef34d0a1ffee4bf4f819ede0fdd003"
+      ],
+      "unchanged": true
+    },
+    {
+      "sourceId": "wisp",
+      "seed": "life-v7-genome-04",
+      "expectedHistories": 16,
+      "actualHistories": 16,
+      "genomeHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "inheritedHashes": [
+        "a70f42a8bb071e2479e54953e3549302ff96897e21382fbc36c9a576e64011d6"
+      ],
+      "unchanged": true
+    }
+  ],
+  "failures": [],
+  "limitations": [
+    "Four fixed raw seeds per source are an exploratory cohort, not a population genetic-variance estimate.",
+    "Sums of squares use normalized regional proportions plus rotation-invariant radial occupancy, excluding size, pigments, movement and whole-creature pose.",
+    "History values50%/100% are the requested moderate comparison panel; Safety0% and recovery appear only in the separately reported severe panel.",
+    "Neutral observations are shared between panels and counted once in unique-frame accounting.",
+    "No rendered image, actual-image review, or perceived-distinctiveness score is produced by this machine-only runner.",
+    "Descriptor variance is conditional on the selected history levels, ages and four seeds. Largest component is not proof that any particular player will find a pet distinctive."
+  ]
+}

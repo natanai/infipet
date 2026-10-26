@@ -1,0 +1,1341 @@
+{
+  "schemaVersion": 1,
+  "version": "original-native-rules-v1",
+  "referenceOnly": true,
+  "retrievedOn": "2026-10-25",
+  "editions": [
+    {
+      "id": "p1-world-5c864cb1",
+      "deviceId": "p1",
+      "region": "World",
+      "year": 1997,
+      "romBytes": 12288,
+      "romSha1": "4b4979cf92dc9d2fb6d7295a38f209f3da144f72",
+      "romCrc32": "5c864cb1",
+      "evidence": {
+        "disassemblyUrl": "https://github.com/agg23/tamagotchi-disassembled/blob/master/tama.asm",
+        "sourceSha256": "66ee3a17a5e5a14b94fdd738d6064fdc062de778e3c7aade2d761d2a70827f12",
+        "identityMethod": "6144 complete source instruction words reconstructed in memory as big-endian16-bit words; SHA1 and CRC32 match pinned MAME World set",
+        "mameSource": "research/mame/hh_e0c6200.cpp",
+        "mameRevision": "774a180df2b6ef9c53e48337792256817c50f768"
+      },
+      "evolution": {
+        "selectorAddresses": [
+          "0x354-0x36c",
+          "0xdc6-0xdd1"
+        ],
+        "counterInputAddresses": {
+          "careMistakes": "0x042",
+          "missedDisciplineCalls": "0x051",
+          "historyKind": "0x050"
+        },
+        "disciplineDisplayIsSelectorInput": false,
+        "counterRange": [
+          0,
+          15
+        ],
+        "counterSaturationAddresses": [
+          "0xfe8-0xfea"
+        ],
+        "careCounterPersistsAfterAdult": true,
+        "adultFatalCareCounterAddress": "0x04f",
+        "counterResetAtEvolution": false,
+        "evolutionResetAddresses": [
+          "0xdd4-0xdd5",
+          "0xdf4-0xdfd"
+        ],
+        "resetExplanation": "Evolution resets sickness count0x049 and display discipline0x043; it does not reset0x042/0x051. Types2/4 set display discipline to8, independent of the selection counters.",
+        "historyKindTables": [
+          {
+            "historyKind": 0,
+            "sourceAddress": "0xd9c",
+            "selection": "first matching rule in source order",
+            "rules": [
+              {
+                "order": 0,
+                "sourceWords": [
+                  "0xd9c",
+                  "0xd9d"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.marutchi",
+                  "historyKind": 1
+                }
+              }
+            ]
+          },
+          {
+            "historyKind": 1,
+            "sourceAddress": "0xd9e",
+            "selection": "first matching rule in source order",
+            "rules": [
+              {
+                "order": 0,
+                "sourceWords": [
+                  "0xd9e",
+                  "0xd9f"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 3
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 3
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.kuchitamatchi",
+                  "historyKind": 5
+                }
+              },
+              {
+                "order": 1,
+                "sourceWords": [
+                  "0xda0",
+                  "0xda1"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 3
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.kuchitamatchi",
+                  "historyKind": 4
+                }
+              },
+              {
+                "order": 2,
+                "sourceWords": [
+                  "0xda2",
+                  "0xda3"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 3
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.tamatchi",
+                  "historyKind": 3
+                }
+              },
+              {
+                "order": 3,
+                "sourceWords": [
+                  "0xda4",
+                  "0xda5"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.tamatchi",
+                  "historyKind": 2
+                }
+              }
+            ]
+          },
+          {
+            "historyKind": 2,
+            "sourceAddress": "0xda6",
+            "selection": "first matching rule in source order",
+            "rules": [
+              {
+                "order": 0,
+                "sourceWords": [
+                  "0xda6",
+                  "0xda7"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 3
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 4
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.tarakotchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 1,
+                "sourceWords": [
+                  "0xda8",
+                  "0xda9"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 3
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 2
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.nyorotchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 2,
+                "sourceWords": [
+                  "0xdaa",
+                  "0xdab"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 3
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.kuchipatchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 3,
+                "sourceWords": [
+                  "0xdac",
+                  "0xdad"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 2
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.maskutchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 4,
+                "sourceWords": [
+                  "0xdae",
+                  "0xdaf"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 1
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.ginjirotchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 5,
+                "sourceWords": [
+                  "0xdb0",
+                  "0xdb1"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.mametchi",
+                  "historyKind": 15
+                }
+              }
+            ]
+          },
+          {
+            "historyKind": 3,
+            "sourceAddress": "0xdb2",
+            "selection": "first matching rule in source order",
+            "rules": [
+              {
+                "order": 0,
+                "sourceWords": [
+                  "0xdb2",
+                  "0xdb3"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 4
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 8
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.tarakotchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 1,
+                "sourceWords": [
+                  "0xdb4",
+                  "0xdb5"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 4
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.nyorotchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 2,
+                "sourceWords": [
+                  "0xdb6",
+                  "0xdb7"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 2
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.maskutchi",
+                  "historyKind": 6
+                }
+              },
+              {
+                "order": 3,
+                "sourceWords": [
+                  "0xdb8",
+                  "0xdb9"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.ginjirotchi",
+                  "historyKind": 15
+                }
+              }
+            ]
+          },
+          {
+            "historyKind": 4,
+            "sourceAddress": "0xdba",
+            "selection": "first matching rule in source order",
+            "rules": [
+              {
+                "order": 0,
+                "sourceWords": [
+                  "0xdba",
+                  "0xdbb"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 3
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.tarakotchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 1,
+                "sourceWords": [
+                  "0xdbc",
+                  "0xdbd"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 2
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.nyorotchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 2,
+                "sourceWords": [
+                  "0xdbe",
+                  "0xdbf"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.kuchipatchi",
+                  "historyKind": 15
+                }
+              }
+            ]
+          },
+          {
+            "historyKind": 5,
+            "sourceAddress": "0xdc0",
+            "selection": "first matching rule in source order",
+            "rules": [
+              {
+                "order": 0,
+                "sourceWords": [
+                  "0xdc0",
+                  "0xdc1"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 6
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.tarakotchi",
+                  "historyKind": 15
+                }
+              },
+              {
+                "order": 1,
+                "sourceWords": [
+                  "0xdc2",
+                  "0xdc3"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.nyorotchi",
+                  "historyKind": 15
+                }
+              }
+            ]
+          },
+          {
+            "historyKind": 6,
+            "sourceAddress": "0xdc4",
+            "selection": "first matching rule in source order",
+            "rules": [
+              {
+                "order": 0,
+                "sourceWords": [
+                  "0xdc4",
+                  "0xdc5"
+                ],
+                "predicate": {
+                  "all": [
+                    {
+                      "metric": "careMistakes",
+                      "op": "gte",
+                      "value": 0
+                    },
+                    {
+                      "metric": "missedDisciplineCalls",
+                      "op": "gte",
+                      "value": 0
+                    }
+                  ]
+                },
+                "outcome": {
+                  "characterId": "p1.bill",
+                  "historyKind": 15
+                }
+              }
+            ]
+          }
+        ],
+        "historyPaths": [
+          {
+            "id": "p1.kind-2.ginjirotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.ginjirotchi"
+            ],
+            "teenHistoryKind": 2,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 1
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-2.kuchipatchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.kuchipatchi"
+            ],
+            "teenHistoryKind": 2,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 0
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-2.mametchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.mametchi"
+            ],
+            "teenHistoryKind": 2,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 0
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-2.maskutchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.maskutchi"
+            ],
+            "teenHistoryKind": 2,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 2
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-2.nyorotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.nyorotchi"
+            ],
+            "teenHistoryKind": 2,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 2
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-2.tarakotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.tarakotchi"
+            ],
+            "teenHistoryKind": 2,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 4
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-3.maskutchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.maskutchi",
+              "p1.bill"
+            ],
+            "teenHistoryKind": 3,
+            "adultHistoryKind": 6,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 3
+              },
+              "atAdultCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 3
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-3.nyorotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.nyorotchi"
+            ],
+            "teenHistoryKind": 3,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 3
+              },
+              "atAdultCommit": {
+                "careMistakes": 4,
+                "missedDisciplineCalls": 3
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-3.tarakotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.tamatchi",
+              "p1.tarakotchi"
+            ],
+            "teenHistoryKind": 3,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 0,
+                "missedDisciplineCalls": 3
+              },
+              "atAdultCommit": {
+                "careMistakes": 4,
+                "missedDisciplineCalls": 8
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-4.kuchipatchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.kuchitamatchi",
+              "p1.kuchipatchi"
+            ],
+            "teenHistoryKind": 4,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 0
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-4.nyorotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.kuchitamatchi",
+              "p1.nyorotchi"
+            ],
+            "teenHistoryKind": 4,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 2
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-4.tarakotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.kuchitamatchi",
+              "p1.tarakotchi"
+            ],
+            "teenHistoryKind": 4,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 0
+              },
+              "atAdultCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 3
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-5.nyorotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.kuchitamatchi",
+              "p1.nyorotchi"
+            ],
+            "teenHistoryKind": 5,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 3
+              },
+              "atAdultCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 3
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          },
+          {
+            "id": "p1.kind-5.tarakotchi",
+            "characters": [
+              "p1.babytchi",
+              "p1.marutchi",
+              "p1.kuchitamatchi",
+              "p1.tarakotchi"
+            ],
+            "teenHistoryKind": 5,
+            "adultHistoryKind": 15,
+            "witnessCounters": {
+              "atTeenCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 3
+              },
+              "atAdultCommit": {
+                "careMistakes": 3,
+                "missedDisciplineCalls": 6
+              }
+            },
+            "monotoneCounterReachable": true,
+            "ordinaryCommandTraceVerified": false
+          }
+        ],
+        "unreachableLatentRules": [
+          {
+            "historyKind": 3,
+            "outcome": "p1.ginjirotchi",
+            "reason": "Table accepts missedDisciplineCalls<2, but entering kind3 already requires>=3 and the counter cannot decrease."
+          }
+        ],
+        "secret": {
+          "from": "p1.maskutchi",
+          "to": "p1.bill",
+          "requiredHistoryKind": 6,
+          "committedBy": {
+            "teenHistoryKind": 3,
+            "adultOutcome": "p1.maskutchi"
+          },
+          "displayDisciplineRequirement": null,
+          "subsequentCareSelectsDifferentBranch": false,
+          "requiresSurvival": true,
+          "nativeCountdownAwakeMinutes": 2880,
+          "eventPriorityAddresses": "0xf5b-0xf7d",
+          "notes": "Death predicates run before an expired lifecycle timer is dispatched.48awakehours correspond to4 ordinary12-hour Maskutchi days; clock manipulation changes chronological duration."
+        }
+      },
+      "nativeStatistics": [
+        {
+          "characterId": "p1.babytchi",
+          "characterIndex": 1,
+          "jumpAddress": "0x1559",
+          "vectorAddress": "0x1564",
+          "rawHex": "ff ff 03 04 2d c0 05 05 3c f0 80 11 00",
+          "wakeHour": null,
+          "sleepHour": null,
+          "baseHungerLossMinutes": 3,
+          "baseHappinessLossMinutes": 4,
+          "baseSicknessCountdownMinutes": 45,
+          "medicineParameterNibble": 12,
+          "minimumWeightBCD": "05",
+          "maximumWeightBCD": "05",
+          "baseLifecycleCountdownAwakeMinutes": 60,
+          "disciplineCountdownHeartLosses": null,
+          "initialDisciplineNibble": 0,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": false,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.marutchi",
+          "characterIndex": 2,
+          "jumpAddress": "0x155a",
+          "vectorAddress": "0x1571",
+          "rawHex": "09 14 32 3c de c3 10 99 64 65 80 11 00",
+          "wakeHour": 9,
+          "sleepHour": 20,
+          "baseHungerLossMinutes": 50,
+          "baseHappinessLossMinutes": 60,
+          "baseSicknessCountdownMinutes": 990,
+          "medicineParameterNibble": 12,
+          "minimumWeightBCD": "10",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 1380,
+          "disciplineCountdownHeartLosses": 6,
+          "initialDisciplineNibble": 0,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": false,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.tamatchi",
+          "characterIndex": 3,
+          "jumpAddress": "0x155b",
+          "vectorAddress": "0x157e",
+          "rawHex": "09 15 4b 55 78 c6 20 99 ac 68 80 11 01",
+          "wakeHour": 9,
+          "sleepHour": 21,
+          "baseHungerLossMinutes": 75,
+          "baseHappinessLossMinutes": 85,
+          "baseSicknessCountdownMinutes": 1656,
+          "medicineParameterNibble": 12,
+          "minimumWeightBCD": "20",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 2220,
+          "disciplineCountdownHeartLosses": 6,
+          "initialDisciplineNibble": 0,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": true,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.kuchitamatchi",
+          "characterIndex": 4,
+          "jumpAddress": "0x155c",
+          "vectorAddress": "0x158b",
+          "rawHex": "09 15 4b 55 94 c2 20 99 64 65 80 11 00",
+          "wakeHour": 9,
+          "sleepHour": 21,
+          "baseHungerLossMinutes": 75,
+          "baseHappinessLossMinutes": 85,
+          "baseSicknessCountdownMinutes": 660,
+          "medicineParameterNibble": 12,
+          "minimumWeightBCD": "20",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 1380,
+          "disciplineCountdownHeartLosses": 6,
+          "initialDisciplineNibble": 0,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": false,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.mametchi",
+          "characterIndex": 5,
+          "jumpAddress": "0x155d",
+          "vectorAddress": "0x1598",
+          "rawHex": "09 16 51 5b 3c 8f 30 99 ff ff 8f 11 01",
+          "wakeHour": 9,
+          "sleepHour": 22,
+          "baseHungerLossMinutes": 81,
+          "baseHappinessLossMinutes": 91,
+          "baseSicknessCountdownMinutes": 3900,
+          "medicineParameterNibble": 8,
+          "minimumWeightBCD": "30",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 4095,
+          "disciplineCountdownHeartLosses": null,
+          "initialDisciplineNibble": 15,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": true,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.ginjirotchi",
+          "characterIndex": 6,
+          "jumpAddress": "0x155e",
+          "vectorAddress": "0x15a5",
+          "rawHex": "09 16 51 5b f8 8a 30 99 30 7c 88 11 01",
+          "wakeHour": 9,
+          "sleepHour": 22,
+          "baseHungerLossMinutes": 81,
+          "baseHappinessLossMinutes": 91,
+          "baseSicknessCountdownMinutes": 2808,
+          "medicineParameterNibble": 8,
+          "minimumWeightBCD": "30",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 3120,
+          "disciplineCountdownHeartLosses": 7,
+          "initialDisciplineNibble": 8,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": true,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.maskutchi",
+          "characterIndex": 7,
+          "jumpAddress": "0x155f",
+          "vectorAddress": "0x15b2",
+          "rawHex": "0b 17 37 41 20 8a 30 99 40 7b b0 23 01",
+          "wakeHour": 11,
+          "sleepHour": 23,
+          "baseHungerLossMinutes": 55,
+          "baseHappinessLossMinutes": 65,
+          "baseSicknessCountdownMinutes": 2592,
+          "medicineParameterNibble": 8,
+          "minimumWeightBCD": "30",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 2880,
+          "disciplineCountdownHeartLosses": 7,
+          "initialDisciplineNibble": 0,
+          "gameLossCarryBiasNibble": 11,
+          "gameWinInputDelayIterations": 3,
+          "gameLossInputDelayIterations": 2,
+          "twoBiteMealFlag": true,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.kuchipatchi",
+          "characterIndex": 8,
+          "jumpAddress": "0x1560",
+          "vectorAddress": "0x15bf",
+          "rawHex": "09 16 3c 46 92 c4 20 99 18 f6 5f 43 01",
+          "wakeHour": 9,
+          "sleepHour": 22,
+          "baseHungerLossMinutes": 60,
+          "baseHappinessLossMinutes": 70,
+          "baseSicknessCountdownMinutes": 1170,
+          "medicineParameterNibble": 12,
+          "minimumWeightBCD": "20",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 1560,
+          "disciplineCountdownHeartLosses": null,
+          "initialDisciplineNibble": 15,
+          "gameLossCarryBiasNibble": 5,
+          "gameWinInputDelayIterations": 3,
+          "gameLossInputDelayIterations": 4,
+          "twoBiteMealFlag": true,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.nyorotchi",
+          "characterIndex": 9,
+          "jumpAddress": "0x1561",
+          "vectorAddress": "0x15cc",
+          "rawHex": "09 16 3c 46 68 d1 10 99 0c 73 88 11 00",
+          "wakeHour": 9,
+          "sleepHour": 22,
+          "baseHungerLossMinutes": 60,
+          "baseHappinessLossMinutes": 70,
+          "baseSicknessCountdownMinutes": 360,
+          "medicineParameterNibble": 13,
+          "minimumWeightBCD": "10",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 780,
+          "disciplineCountdownHeartLosses": 7,
+          "initialDisciplineNibble": 8,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": false,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.tarakotchi",
+          "characterIndex": 10,
+          "jumpAddress": "0x1562",
+          "vectorAddress": "0x15d9",
+          "rawHex": "0a 16 2d 32 94 c2 20 99 a0 75 80 11 01",
+          "wakeHour": 10,
+          "sleepHour": 22,
+          "baseHungerLossMinutes": 45,
+          "baseHappinessLossMinutes": 50,
+          "baseSicknessCountdownMinutes": 660,
+          "medicineParameterNibble": 12,
+          "minimumWeightBCD": "20",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 1440,
+          "disciplineCountdownHeartLosses": 7,
+          "initialDisciplineNibble": 0,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": true,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        },
+        {
+          "characterId": "p1.bill",
+          "characterIndex": 11,
+          "jumpAddress": "0x1563",
+          "vectorAddress": "0x1598",
+          "rawHex": "09 16 51 5b 3c 8f 30 99 ff ff 8f 11 01",
+          "wakeHour": 9,
+          "sleepHour": 22,
+          "baseHungerLossMinutes": 81,
+          "baseHappinessLossMinutes": 91,
+          "baseSicknessCountdownMinutes": 3900,
+          "medicineParameterNibble": 8,
+          "minimumWeightBCD": "30",
+          "maximumWeightBCD": "99",
+          "baseLifecycleCountdownAwakeMinutes": 4095,
+          "disciplineCountdownHeartLosses": null,
+          "initialDisciplineNibble": 15,
+          "gameLossCarryBiasNibble": 8,
+          "gameWinInputDelayIterations": 1,
+          "gameLossInputDelayIterations": 1,
+          "twoBiteMealFlag": true,
+          "interpretationEvidence": {
+            "raw": "hash-identified ROM vector",
+            "fields": "primary research notes at RAM0x230-0x249, independently checked against vector layout"
+          }
+        }
+      ],
+      "nativeClock": {
+        "tickUnit": "minute",
+        "maturationCoordinate": "awake clock minutes",
+        "sicknessPausesLifecycleCountdown": false,
+        "sleepBranchAddresses": "0xc82-0xc95",
+        "awakeBranchAddresses": "0xc96-0xcc7",
+        "lifecycleDecrementAddresses": "0xcc7-0xcd1",
+        "ageDisplayCoordinate": "number of wake events, BCD, capped99",
+        "ageIncrementAddresses": "0xf1d-0xf29",
+        "terminalAdultTimerMeaning": "For historyKind15, expiry sets0x04e; it is not itself an unconditional death event.",
+        "babyNapReportedMinutes": 5,
+        "babyNapEvidence": "primary research RAM0x215/0x216 notes; original65minute baby observation is60awake countdown+5minute nap",
+        "boundaryGap": "Exact sub-minute call/timer dispatch phase still requires repeatable emulator or device traces; raw countdown values are not silently rounded into chronological ages."
+      },
+      "careCallBoundaries": {
+        "hungerOrHappiness": {
+          "timerAddress": "0x208",
+          "targetNibble": 15,
+          "checkAddresses": "0xfc6-0xfcc",
+          "elapsedMinutes": null
+        },
+        "missedDiscipline": {
+          "timerAddress": "0x209",
+          "targetNibble": 15,
+          "checkAddresses": "0xfcd-0xfd2",
+          "elapsedMinutes": null
+        },
+        "sleepLights": {
+          "timerAddresses": [
+            "0x204",
+            "0x205"
+          ],
+          "triggerHighNibbleMinimum": 4,
+          "counterCountsAtThreshold": 64,
+          "checkAddresses": "0xf35-0xf3b",
+          "elapsedMinutes": null
+        },
+        "gap": "Published reports differ by one minute(14/15 and64/65).Initialization and scheduler phase must be traced before certifying wall-clock boundaries."
+      }
+    },
+    {
+      "id": "p2-japan-9f97539e",
+      "deviceId": "p2",
+      "region": "Japan",
+      "year": 1997,
+      "romBytes": 12288,
+      "romSha1": "09e5101b37636a314fc599d5d69b4846721b3c88",
+      "romCrc32": "9f97539e",
+      "status": "primary identity known; no local original P2 firmware/disassembly or independently reproduced traces",
+      "mameEvidence": "research/mame/hh_e0c6200.cpp:SYST(tamag2)",
+      "publishedExperimentClaim": {
+        "repository": "https://github.com/Sagestum/tamagotchi-carebot",
+        "revision": "1ee8f6f1dce394cc88a4cd193dbb0e05793fc66a",
+        "claim": "Same counter tables asP1",
+        "status": "reported, not independently reproduced; model names conflict with region evidence"
+      },
+      "englishBaselineCertification": false
+    },
+    {
+      "id": "p2-english-original-unresolved",
+      "deviceId": "p2",
+      "region": "English international",
+      "year": 1997,
+      "romSha1": null,
+      "status": "No primary edition-identified firmware or repeatable complete device trace located; all11 atlas morphology targets remain provisional.",
+      "careHistoryPredicates": null,
+      "nativeTimingConstants": null,
+      "completeTransitionGraphCertified": false
+    }
+  ],
+  "validation": {
+    "p1SelectorStatesCovered": 1792,
+    "p1MonotoneHistoryPaths": 14,
+    "ordinaryCommandPathsCertified": 0
+  },
+  "gaps": [
+    "EnglishP2 edition identity and complete native predicates/timings remain unverified; Japan-only claims cannot be relabeled as English.",
+    "A monotone counter witness proves numerical reachability only; native call opportunities and ordinary commands must be replayed for each history path.",
+    "P1 exact elapsed attention-window boundaries need event-phase traces.",
+    "Community atlas alone cannot certify originalP2 pixel or animation identity."
+  ]
+}

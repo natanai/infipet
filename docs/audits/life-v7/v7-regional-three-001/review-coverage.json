@@ -1,0 +1,379 @@
+{
+  "primaryComparisonCoverage": {
+    "numerator": 36,
+    "denominator": 36,
+    "percent": 100,
+    "condition": "primary actual-image transition review",
+    "age": "adjacent milestones"
+  },
+  "secondaryComparisonCoverage": {
+    "numerator": 36,
+    "denominator": 36,
+    "percent": 100,
+    "condition": "secondary actual-image transition review",
+    "age": "adjacent milestones"
+  },
+  "primaryEvolution": {
+    "numerator": 17,
+    "denominator": 36,
+    "percent": 47.22222222222222,
+    "condition": "primary reviewed transitions; evolution score >=2",
+    "age": "adjacent milestones"
+  },
+  "primaryDescent": {
+    "numerator": 36,
+    "denominator": 36,
+    "percent": 100,
+    "condition": "primary reviewed transitions; descent score >=2",
+    "age": "adjacent milestones"
+  },
+  "primaryJointGate": {
+    "numerator": 15,
+    "denominator": 36,
+    "percent": 41.666666666666664,
+    "condition": "primary reviewed transitions; all four independent axes >=2",
+    "age": "adjacent milestones"
+  },
+  "jointIndependentPass": {
+    "numerator": 14,
+    "denominator": 36,
+    "percent": 38.888888888888886,
+    "condition": "both distinct reviewer identities pass all four axes",
+    "age": "adjacent milestones"
+  },
+  "primaryImageCoverage": {
+    "numerator": 612,
+    "denominator": 612,
+    "percent": 100,
+    "condition": "primary declared inspected image hashes",
+    "age": "all"
+  },
+  "secondaryImageCoverage": {
+    "numerator": 612,
+    "denominator": 612,
+    "percent": 100,
+    "condition": "secondary declared inspected image hashes",
+    "age": "all"
+  },
+  "primaryCoreDiagnosticCoverage": {
+    "numerator": 48,
+    "denominator": 48,
+    "percent": 100,
+    "condition": "primary separately inspected core diagnostic images",
+    "age": "milestones"
+  },
+  "secondaryCoreDiagnosticCoverage": {
+    "numerator": 48,
+    "denominator": 48,
+    "percent": 100,
+    "condition": "secondary separately inspected core diagnostic images",
+    "age": "milestones"
+  },
+  "primaryRegionalMaskCoverage": {
+    "numerator": 48,
+    "denominator": 48,
+    "percent": 100,
+    "condition": "primary separately inspected regional mask variants",
+    "age": "milestones"
+  },
+  "secondaryRegionalMaskCoverage": {
+    "numerator": 48,
+    "denominator": 48,
+    "percent": 100,
+    "condition": "secondary separately inspected regional mask variants",
+    "age": "milestones"
+  },
+  "humanRecords": 0,
+  "unreviewedComparisons": [],
+  "disagreements": [
+    {
+      "id": "canine-cub__s01__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s01__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s01__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s02__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s02__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s02__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s03__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s03__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s03__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s04__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s04__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "canine-cub__s04__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s01__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s01__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s01__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s02__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s02__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s02__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s03__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s03__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s03__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s04__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s04__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "bean__s04__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s01__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s01__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s01__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s02__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s02__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s02__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s03__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": true,
+      "descent": false,
+      "thresholdPassDisagreement": true
+    },
+    {
+      "id": "wisp__s03__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s03__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    },
+    {
+      "id": "wisp__s04__neutral__transition__0-30",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": true,
+      "descent": false,
+      "thresholdPassDisagreement": true
+    },
+    {
+      "id": "wisp__s04__neutral__transition__30-75",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": true,
+      "descent": false,
+      "thresholdPassDisagreement": true
+    },
+    {
+      "id": "wisp__s04__neutral__transition__75-120",
+      "primaryReviewer": "/root",
+      "secondaryReviewer": "/root/anatomy_engine",
+      "evolution": false,
+      "descent": false,
+      "thresholdPassDisagreement": false
+    }
+  ],
+  "gatePassed": false
+}

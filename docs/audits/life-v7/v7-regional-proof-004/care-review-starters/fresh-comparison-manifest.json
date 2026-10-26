@@ -1,0 +1,266 @@
+{
+  "method": "Frozen004 PNGs enlarged nearest-neighbor2x; no engine evaluation",
+  "pages": [
+    {
+      "caseId": "care__s01__onset7__safety__0",
+      "file": "care__s01__onset7__safety__0.png",
+      "sha256": "d2bf1868116481210e1c4b0012158d60f327a190f9276e1881af0ec925e8cb8a",
+      "cells": [
+        {
+          "id": "care__s01__onset7__control__d7",
+          "row": 0,
+          "col": 0,
+          "age": 7,
+          "control": true,
+          "pngSha256": "9e71da30db7eee5bd1b2e79e7c6ff67562bcc183ff901e041ed9d79d8defbb04"
+        },
+        {
+          "id": "care__s01__onset7__control__d7.25",
+          "row": 0,
+          "col": 1,
+          "age": 7.25,
+          "control": true,
+          "pngSha256": "fb790fcdaf9477c6c046ef23d802544bae333d95ad6ef1778a45927c2f24f5a8"
+        },
+        {
+          "id": "care__s01__onset7__control__d8",
+          "row": 0,
+          "col": 2,
+          "age": 8,
+          "control": true,
+          "pngSha256": "e86843582af7cc63959a99533371a964a45877e4618654526e510cdab37bd495"
+        },
+        {
+          "id": "care__s01__onset7__control__d14",
+          "row": 0,
+          "col": 3,
+          "age": 14,
+          "control": true,
+          "pngSha256": "8e0919fd0e54635260c80e54375511078760f9ce42866e846c5124fb72d8ba98"
+        },
+        {
+          "id": "care__s01__onset7__control__d21",
+          "row": 0,
+          "col": 4,
+          "age": 21,
+          "control": true,
+          "pngSha256": "685f641486a04da84d936f70a0754436a486b19787e412d22308765e84693a0d"
+        },
+        {
+          "id": "care__s01__onset7__safety__0__d7",
+          "row": 1,
+          "col": 0,
+          "age": 7,
+          "control": false,
+          "pngSha256": "9e71da30db7eee5bd1b2e79e7c6ff67562bcc183ff901e041ed9d79d8defbb04"
+        },
+        {
+          "id": "care__s01__onset7__safety__0__d7.25",
+          "row": 1,
+          "col": 1,
+          "age": 7.25,
+          "control": false,
+          "pngSha256": "c0110d4ec7c80ae94fdc72cafac96aaecbf9222901cf5bab0bdd79e330c78a36"
+        },
+        {
+          "id": "care__s01__onset7__safety__0__d8",
+          "row": 1,
+          "col": 2,
+          "age": 8,
+          "control": false,
+          "pngSha256": "48d739e432b423ad3dc1d307334ed0cd0d74b7af9e551b719312d4c63a4752d4"
+        },
+        {
+          "id": "care__s01__onset7__safety__0__d14",
+          "row": 1,
+          "col": 3,
+          "age": 14,
+          "control": false,
+          "pngSha256": "5f6ca3e1082a69e1100c6c88e903fcf2f6285f8cdc939cfb9099b86176ef658f"
+        },
+        {
+          "id": "care__s01__onset7__safety__0__d21",
+          "row": 1,
+          "col": 4,
+          "age": 21,
+          "control": false,
+          "pngSha256": "014d6da1147db7c984fa524fe58970e2601621bd200ccda318d351420c23ecda"
+        }
+      ]
+    },
+    {
+      "caseId": "care__s01__onset7__relaxation__0",
+      "file": "care__s01__onset7__relaxation__0.png",
+      "sha256": "6c3fe9166f2f63afa409a253fb747218db5c72a8329bad1691920eacc1155df0",
+      "cells": [
+        {
+          "id": "care__s01__onset7__control__d7",
+          "row": 0,
+          "col": 0,
+          "age": 7,
+          "control": true,
+          "pngSha256": "9e71da30db7eee5bd1b2e79e7c6ff67562bcc183ff901e041ed9d79d8defbb04"
+        },
+        {
+          "id": "care__s01__onset7__control__d7.25",
+          "row": 0,
+          "col": 1,
+          "age": 7.25,
+          "control": true,
+          "pngSha256": "fb790fcdaf9477c6c046ef23d802544bae333d95ad6ef1778a45927c2f24f5a8"
+        },
+        {
+          "id": "care__s01__onset7__control__d8",
+          "row": 0,
+          "col": 2,
+          "age": 8,
+          "control": true,
+          "pngSha256": "e86843582af7cc63959a99533371a964a45877e4618654526e510cdab37bd495"
+        },
+        {
+          "id": "care__s01__onset7__control__d14",
+          "row": 0,
+          "col": 3,
+          "age": 14,
+          "control": true,
+          "pngSha256": "8e0919fd0e54635260c80e54375511078760f9ce42866e846c5124fb72d8ba98"
+        },
+        {
+          "id": "care__s01__onset7__control__d21",
+          "row": 0,
+          "col": 4,
+          "age": 21,
+          "control": true,
+          "pngSha256": "685f641486a04da84d936f70a0754436a486b19787e412d22308765e84693a0d"
+        },
+        {
+          "id": "care__s01__onset7__relaxation__0__d7",
+          "row": 1,
+          "col": 0,
+          "age": 7,
+          "control": false,
+          "pngSha256": "9e71da30db7eee5bd1b2e79e7c6ff67562bcc183ff901e041ed9d79d8defbb04"
+        },
+        {
+          "id": "care__s01__onset7__relaxation__0__d7.25",
+          "row": 1,
+          "col": 1,
+          "age": 7.25,
+          "control": false,
+          "pngSha256": "f5ae7411604bedc64065c6f33180e1eacd33993143fe76093f5e036a8dc508b8"
+        },
+        {
+          "id": "care__s01__onset7__relaxation__0__d8",
+          "row": 1,
+          "col": 2,
+          "age": 8,
+          "control": false,
+          "pngSha256": "cbe8a90abba26aa56012e50e35e648e19b64efb84c07e378a2f61f9a6a2785af"
+        },
+        {
+          "id": "care__s01__onset7__relaxation__0__d14",
+          "row": 1,
+          "col": 3,
+          "age": 14,
+          "control": false,
+          "pngSha256": "76415968e1db8a1ecf4d7b7fe6d61f39b621b463babc763b53caf54c1e3c2362"
+        },
+        {
+          "id": "care__s01__onset7__relaxation__0__d21",
+          "row": 1,
+          "col": 4,
+          "age": 21,
+          "control": false,
+          "pngSha256": "04b3fb22297b3f701a77f60056d627af6a6150c9031727f7a397c0a2d4ac3850"
+        }
+      ]
+    },
+    {
+      "caseId": "care__s02__onset150__relaxation__0",
+      "file": "care__s02__onset150__relaxation__0.png",
+      "sha256": "a0859c8912a09e73d4bf464df1f41f91efbda7c7d7747cf98189082a41b513c8",
+      "cells": [
+        {
+          "id": "care__s02__onset150__control__d150",
+          "row": 0,
+          "col": 0,
+          "age": 150,
+          "control": true,
+          "pngSha256": "22ff93319e0a01e1648447034d09ab00c0172bbc1e1e554aedc535fb3182ecd4"
+        },
+        {
+          "id": "care__s02__onset150__control__d150.25",
+          "row": 0,
+          "col": 1,
+          "age": 150.25,
+          "control": true,
+          "pngSha256": "2d752b7f6b6b6d8e9a81d9c07dcf42b32ebf3ab718f902db90de2843d350d62b"
+        },
+        {
+          "id": "care__s02__onset150__control__d151",
+          "row": 0,
+          "col": 2,
+          "age": 151,
+          "control": true,
+          "pngSha256": "2d752b7f6b6b6d8e9a81d9c07dcf42b32ebf3ab718f902db90de2843d350d62b"
+        },
+        {
+          "id": "care__s02__onset150__control__d157",
+          "row": 0,
+          "col": 3,
+          "age": 157,
+          "control": true,
+          "pngSha256": "f7ee2204d76fc4f34383708b03c9347e1f00d59297dd433700c57d4d3d058254"
+        },
+        {
+          "id": "care__s02__onset150__control__d164",
+          "row": 0,
+          "col": 4,
+          "age": 164,
+          "control": true,
+          "pngSha256": "fa82dadda3aacd3eb1ff394f4b69ca3c1628a3c0b78339e5732a1cea8d7550e0"
+        },
+        {
+          "id": "care__s02__onset150__relaxation__0__d150",
+          "row": 1,
+          "col": 0,
+          "age": 150,
+          "control": false,
+          "pngSha256": "22ff93319e0a01e1648447034d09ab00c0172bbc1e1e554aedc535fb3182ecd4"
+        },
+        {
+          "id": "care__s02__onset150__relaxation__0__d150.25",
+          "row": 1,
+          "col": 1,
+          "age": 150.25,
+          "control": false,
+          "pngSha256": "bf89607b5c048061502f668b2498668c4afbaee924243afde90a646267453c09"
+        },
+        {
+          "id": "care__s02__onset150__relaxation__0__d151",
+          "row": 1,
+          "col": 2,
+          "age": 151,
+          "control": false,
+          "pngSha256": "4ff3e765304cbed4f862763ab0ad6a9ca43ec77626b506f15bdcba7c1539f967"
+        },
+        {
+          "id": "care__s02__onset150__relaxation__0__d157",
+          "row": 1,
+          "col": 3,
+          "age": 157,
+          "control": false,
+          "pngSha256": "371db75e03e459d7ac35d80553b17c86c89a00244947881163857c267d866998"
+        },
+        {
+          "id": "care__s02__onset150__relaxation__0__d164",
+          "row": 1,
+          "col": 4,
+          "age": 164,
+          "control": false,
+          "pngSha256": "d39de11a7ac094fa02fab0618ddc86adb6f4479a11e011fb46e54d6b63349573"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "primaryComparisonCoverage": {
+    "numerator": 0,
+    "denominator": 12,
+    "percent": 0,
+    "condition": "primary actual-image transition review",
+    "age": "adjacent milestones"
+  },
+  "secondaryComparisonCoverage": {
+    "numerator": 0,
+    "denominator": 12,
+    "percent": 0,
+    "condition": "secondary actual-image transition review",
+    "age": "adjacent milestones"
+  },
+  "primaryEvolution": {
+    "numerator": 0,
+    "denominator": 0,
+    "percent": null,
+    "condition": "primary reviewed transitions; evolution score >=2",
+    "age": "adjacent milestones"
+  },
+  "primaryDescent": {
+    "numerator": 0,
+    "denominator": 0,
+    "percent": null,
+    "condition": "primary reviewed transitions; descent score >=2",
+    "age": "adjacent milestones"
+  },
+  "primaryJointGate": {
+    "numerator": 0,
+    "denominator": 0,
+    "percent": null,
+    "condition": "primary reviewed transitions; all four independent axes >=2",
+    "age": "adjacent milestones"
+  },
+  "jointIndependentPass": {
+    "numerator": 0,
+    "denominator": 12,
+    "percent": 0,
+    "condition": "both distinct reviewer identities pass all four axes",
+    "age": "adjacent milestones"
+  },
+  "primaryImageCoverage": {
+    "numerator": 0,
+    "denominator": 204,
+    "percent": 0,
+    "condition": "primary declared inspected image hashes",
+    "age": "all"
+  },
+  "secondaryImageCoverage": {
+    "numerator": 0,
+    "denominator": 204,
+    "percent": 0,
+    "condition": "secondary declared inspected image hashes",
+    "age": "all"
+  },
+  "primaryCoreDiagnosticCoverage": {
+    "numerator": 0,
+    "denominator": 16,
+    "percent": 0,
+    "condition": "primary separately inspected core diagnostic images",
+    "age": "milestones"
+  },
+  "secondaryCoreDiagnosticCoverage": {
+    "numerator": 0,
+    "denominator": 16,
+    "percent": 0,
+    "condition": "secondary separately inspected core diagnostic images",
+    "age": "milestones"
+  },
+  "humanRecords": 0,
+  "unreviewedComparisons": [
+    "canine-cub__s01__neutral__transition__0-30",
+    "canine-cub__s01__neutral__transition__30-75",
+    "canine-cub__s01__neutral__transition__75-120",
+    "canine-cub__s01__neutral__motion__0-0",
+    "canine-cub__s01__neutral__motion__30-30",
+    "canine-cub__s01__neutral__motion__75-75",
+    "canine-cub__s01__neutral__motion__120-120",
+    "canine-cub__s02__neutral__transition__0-30",
+    "canine-cub__s02__neutral__transition__30-75",
+    "canine-cub__s02__neutral__transition__75-120",
+    "canine-cub__s02__neutral__motion__0-0",
+    "canine-cub__s02__neutral__motion__30-30",
+    "canine-cub__s02__neutral__motion__75-75",
+    "canine-cub__s02__neutral__motion__120-120",
+    "canine-cub__s03__neutral__transition__0-30",
+    "canine-cub__s03__neutral__transition__30-75",
+    "canine-cub__s03__neutral__transition__75-120",
+    "canine-cub__s03__neutral__motion__0-0",
+    "canine-cub__s03__neutral__motion__30-30",
+    "canine-cub__s03__neutral__motion__75-75",
+    "canine-cub__s03__neutral__motion__120-120",
+    "canine-cub__s04__neutral__transition__0-30",
+    "canine-cub__s04__neutral__transition__30-75",
+    "canine-cub__s04__neutral__transition__75-120",
+    "canine-cub__s04__neutral__motion__0-0",
+    "canine-cub__s04__neutral__motion__30-30",
+    "canine-cub__s04__neutral__motion__75-75",
+    "canine-cub__s04__neutral__motion__120-120"
+  ],
+  "disagreements": [],
+  "gatePassed": false
+}

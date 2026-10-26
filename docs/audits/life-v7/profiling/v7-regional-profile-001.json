@@ -1,0 +1,1481 @@
+{
+  "protocol": "source-profile-v7-2",
+  "revision": "life-v7",
+  "createdAt": "2026-10-24T08:03:03.850Z",
+  "runtime": {
+    "node": "v24.22.1",
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Core(TM) i9-9900KS CPU @ 4.00GHz"
+  },
+  "sourceHashes": {
+    "src/pet-format.ts": "6549e633e74b42e63438f82640cd93652b9acc439f26244ec09a6b2983607643",
+    "src/presets.ts": "5079a2662b73ad7fc374b2c14cf524a25bb69616b3beb36a49a8d1ba56fc3c9b",
+    "src/needs/catalog-data.json": "4a4f5c5d8978a741b226bcfe963773641b02337811d934c680bbc87e58e7756d",
+    "src/needs/catalog.ts": "60e23d29461014a1a0e5890acc3ab5a8a867ec35bf30a4bf0b94ba3a0445e61a",
+    "src/needs/development-profiles.ts": "f9cb97af0baed2479e98817d01236f679a7f246af5a4aefa99ee6766d01d791f",
+    "src/needs/index.ts": "951d21d78c507a7718818e5c60503e22f569318e01cd2e27ee1d277abd0f6d30",
+    "src/needs/simulation.ts": "4fc31e7afb89dd4382891f8984e10cd5fe55a18af8e1f1f7843f371676ee108c",
+    "src/needs/timeline.ts": "94853bcd2b646b945366df82032774690919cb7d1e33ba67f8d5e037ecc15dbf",
+    "src/needs/types.ts": "29390f0d4415ee7cf719a9c75a711714230d92995d5f4867522489d4256fbc61",
+    "src/simulation/anatomical-roles.ts": "e3680d4e2a039e7e6fcba75d7ec24dbaa4405084dbb3df0d131ad640d7a653e4",
+    "src/simulation/development.ts": "180a784dc57bf94851317ac045447f800c30da7f5a3b0bd3d9fc7a8091b47e9a",
+    "src/simulation/enclosure.ts": "a7edb4a1ab0eac5667f181a61ba9a61f2355876b20beab739b9fe123f34cdcaf",
+    "src/simulation/genome.ts": "9e661c3d0041c9bb58fa65d9aafb60b129e9bdda29c289ca98667596fd710b3a",
+    "src/simulation/grooming.ts": "1a46f528263a8e1c4980fa8e2ba416c7404b900ab64a42046296ff38d3efd687",
+    "src/simulation/growth.ts": "7d59d85bdfa06431231c0f0b538d4faac3f551d34efedc476b9088ff60bb0d87",
+    "src/simulation/index.ts": "dc64b75ccf93f06ed55c8e59f765ef202637fee4ce4fb605bae49a9b432f68d7",
+    "src/simulation/locomotion.ts": "6cdf67013a4b897e247c6dc06c0c71017de0d3f9eea4194924a80ea27a14b13a",
+    "src/simulation/material-growth.ts": "432a89e10c200371453bfc8d304d64f39f7fa6d3bb1502c5285a5bfcb7c1e57b",
+    "src/simulation/material-raster.ts": "4290333e43a3fe19bfd08f35c63918535be832541cd098cf87ea11eebf3a30d0",
+    "src/simulation/material.ts": "8ba97ce27c2a93fa6ed3a71ff324d6e5efc7190cdd42938f9a6d2aff8beb15cc",
+    "src/simulation/metamorphosis.ts": "91208cd11d1717bac09df494e3014ba4cbbc60f4ed582c5fd2bae97e8da450d2",
+    "src/simulation/model.ts": "030ce2a12c7673bfcacac1afc728a22af14a84beb25b53acb1aad66d2c1dc33c",
+    "src/simulation/regional-layout.ts": "577724309aaf30536cdaf6ce27c5e1f6b25fd5e54516a6ab94961b149c9b6222",
+    "src/simulation/source-atlas.ts": "dffd8e15de6dab36a37c716106dc287c6100643d0cc835b86266320dbe12d806",
+    "src/simulation/variation-channels.ts": "1f8bb1854428d880029a97ee7d22fcaa67746a1d1b34ebe2a3861011bb1ae799",
+    "tools/source-audit/profile.ts": "076204dd584b6b1f329c7a5122db35decaa64c9f8ba97545a1d75302d0f77ccf"
+  },
+  "captureHash": "1e321a945280c840abcd838143b9ad55f46d8e3cffb52cd13035121c783485ed",
+  "sourceUnchangedDuringCapture": true,
+  "status": "complete",
+  "accounting": {
+    "plannedFixtures": 8,
+    "completedFixtures": 8,
+    "failures": 0
+  },
+  "fixtures": [
+    {
+      "fixtureId": "bean",
+      "sourceHash": "0884fc38fdcc7c92b65afce1750648e6a8efb7e53095a6833a7298922b80f686",
+      "authoredParts": 6,
+      "authoredCells": 137,
+      "compile": {
+        "samples": 3,
+        "medianMs": 5.338000000000022,
+        "p95Ms": 5.840900000000033,
+        "maximumMs": 5.840900000000033,
+        "within16ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under50ms"
+        },
+        "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup"
+      },
+      "observedCompilationsDuringCompile": 4,
+      "structure": {
+        "samples": 16,
+        "medianMs": 6.570099999999968,
+        "p95Ms": 8.765999999999963,
+        "maximumMs": 8.765999999999963,
+        "within16ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under50ms"
+        },
+        "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation"
+      },
+      "structuralAges": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        143,
+        180,
+        240
+      ],
+      "firstEightPoses": {
+        "samples": 8,
+        "medianMs": 1.6482000000000312,
+        "p95Ms": 2.378399999999999,
+        "maximumMs": 2.378399999999999,
+        "within16ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under50ms"
+        },
+        "condition": "Initial eight held motion phases at day75; structural frame already prepared"
+      },
+      "warmEightPoseCache": {
+        "samples": 128,
+        "medianMs": 0.5720000000000027,
+        "p95Ms": 0.7173999999999978,
+        "maximumMs": 1.1742000000000417,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under50ms"
+        },
+        "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying"
+      },
+      "advancingClockPlayback": {
+        "samples": 128,
+        "medianMs": 1.0838999999999714,
+        "p95Ms": 1.796799999999962,
+        "maximumMs": 2.422800000000052,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under50ms"
+        },
+        "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering"
+      },
+      "observedPosePixelBank": {
+        "before": {
+          "age": 75,
+          "hits": 0,
+          "misses": 122,
+          "entries": 40,
+          "pixels": 2351,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 2351
+        },
+        "after": {
+          "age": 75,
+          "hits": 640,
+          "misses": 122,
+          "entries": 40,
+          "pixels": 2351,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 2351
+        },
+        "additionalHits": 640,
+        "additionalMisses": 0,
+        "withinObservedBounds": true
+      },
+      "poseTimes": [
+        0.00010702341137123746,
+        0.10713043478260868,
+        0.21415384615384614,
+        0.3211772575250836,
+        0.4282006688963211,
+        0.5352240802675585,
+        0.642247491638796,
+        0.7492709030100335
+      ],
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      },
+      "cacheObservation": {
+        "size": 5,
+        "compilations": 5
+      }
+    },
+    {
+      "fixtureId": "sprout",
+      "sourceHash": "3df8bde76e687113f19d5a40446f3f6b883b5f0227b7b2a6541d4c50d94bcaef",
+      "authoredParts": 13,
+      "authoredCells": 162,
+      "compile": {
+        "samples": 3,
+        "medianMs": 6.00610000000006,
+        "p95Ms": 6.259599999999978,
+        "maximumMs": 6.259599999999978,
+        "within16ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under50ms"
+        },
+        "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup"
+      },
+      "observedCompilationsDuringCompile": 4,
+      "structure": {
+        "samples": 16,
+        "medianMs": 6.048799999999915,
+        "p95Ms": 9.82929999999999,
+        "maximumMs": 9.82929999999999,
+        "within16ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under50ms"
+        },
+        "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation"
+      },
+      "structuralAges": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        143,
+        180,
+        240
+      ],
+      "firstEightPoses": {
+        "samples": 8,
+        "medianMs": 1.7092999999999847,
+        "p95Ms": 1.74350000000004,
+        "maximumMs": 1.74350000000004,
+        "within16ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under50ms"
+        },
+        "condition": "Initial eight held motion phases at day75; structural frame already prepared"
+      },
+      "warmEightPoseCache": {
+        "samples": 128,
+        "medianMs": 0.7454999999999927,
+        "p95Ms": 1.1597000000000435,
+        "maximumMs": 2.0313999999999623,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under50ms"
+        },
+        "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying"
+      },
+      "advancingClockPlayback": {
+        "samples": 128,
+        "medianMs": 1.448500000000081,
+        "p95Ms": 2.2011999999999716,
+        "maximumMs": 4.912899999999809,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under50ms"
+        },
+        "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering"
+      },
+      "observedPosePixelBank": {
+        "before": {
+          "age": 75,
+          "hits": 36,
+          "misses": 290,
+          "entries": 60,
+          "pixels": 1813,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 1813
+        },
+        "after": {
+          "age": 75,
+          "hits": 1572,
+          "misses": 290,
+          "entries": 60,
+          "pixels": 1813,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 1813
+        },
+        "additionalHits": 1536,
+        "additionalMisses": 0,
+        "withinObservedBounds": true
+      },
+      "poseTimes": [
+        0.00010126582278481013,
+        0.10136708860759493,
+        0.20263291139240505,
+        0.3038987341772152,
+        0.40516455696202536,
+        0.5064303797468355,
+        0.6076962025316456,
+        0.7089620253164557
+      ],
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      },
+      "cacheObservation": {
+        "size": 8,
+        "compilations": 10
+      }
+    },
+    {
+      "fixtureId": "canine-cub",
+      "sourceHash": "3059ca12e8d3ee5e96ed1b4f49d86f288052547bbe7024d95fcb126d53607f8b",
+      "authoredParts": 18,
+      "authoredCells": 255,
+      "compile": {
+        "samples": 3,
+        "medianMs": 5.705600000000004,
+        "p95Ms": 6.104399999999941,
+        "maximumMs": 6.104399999999941,
+        "within16ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under50ms"
+        },
+        "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup"
+      },
+      "observedCompilationsDuringCompile": 4,
+      "structure": {
+        "samples": 16,
+        "medianMs": 7.155599999999822,
+        "p95Ms": 11.176300000000083,
+        "maximumMs": 11.176300000000083,
+        "within16ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under50ms"
+        },
+        "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation"
+      },
+      "structuralAges": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        143,
+        180,
+        240
+      ],
+      "firstEightPoses": {
+        "samples": 8,
+        "medianMs": 2.0471999999999753,
+        "p95Ms": 2.4231999999999516,
+        "maximumMs": 2.4231999999999516,
+        "within16ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under50ms"
+        },
+        "condition": "Initial eight held motion phases at day75; structural frame already prepared"
+      },
+      "warmEightPoseCache": {
+        "samples": 128,
+        "medianMs": 1.0078000000000884,
+        "p95Ms": 1.1079999999999472,
+        "maximumMs": 3.387100000000146,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under50ms"
+        },
+        "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying"
+      },
+      "advancingClockPlayback": {
+        "samples": 128,
+        "medianMs": 1.8893000000000484,
+        "p95Ms": 3.255200000000059,
+        "maximumMs": 4.737599999999929,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under50ms"
+        },
+        "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering"
+      },
+      "observedPosePixelBank": {
+        "before": {
+          "age": 75,
+          "hits": 40,
+          "misses": 338,
+          "entries": 72,
+          "pixels": 2258,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 2258
+        },
+        "after": {
+          "age": 75,
+          "hits": 1832,
+          "misses": 338,
+          "entries": 72,
+          "pixels": 2258,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 2258
+        },
+        "additionalHits": 1792,
+        "additionalMisses": 0,
+        "withinObservedBounds": true
+      },
+      "poseTimes": [
+        0.00011510791366906476,
+        0.1152230215827338,
+        0.23033093525179854,
+        0.3454388489208633,
+        0.4605467625899281,
+        0.5756546762589928,
+        0.6907625899280576,
+        0.8058705035971223
+      ],
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      },
+      "cacheObservation": {
+        "size": 8,
+        "compilations": 15
+      }
+    },
+    {
+      "fixtureId": "ribbon",
+      "sourceHash": "c2cce7b0bfa406292a64e2de5eef33caa6b2d9a5a5c8d4724fe34f89c2e75267",
+      "authoredParts": 10,
+      "authoredCells": 191,
+      "compile": {
+        "samples": 3,
+        "medianMs": 4.654500000000098,
+        "p95Ms": 4.754799999999932,
+        "maximumMs": 4.754799999999932,
+        "within16ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under50ms"
+        },
+        "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup"
+      },
+      "observedCompilationsDuringCompile": 4,
+      "structure": {
+        "samples": 16,
+        "medianMs": 4.689499999999953,
+        "p95Ms": 7.975400000000036,
+        "maximumMs": 7.975400000000036,
+        "within16ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under50ms"
+        },
+        "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation"
+      },
+      "structuralAges": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        143,
+        180,
+        240
+      ],
+      "firstEightPoses": {
+        "samples": 8,
+        "medianMs": 2.2131999999999152,
+        "p95Ms": 3.0488000000000284,
+        "maximumMs": 3.0488000000000284,
+        "within16ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under50ms"
+        },
+        "condition": "Initial eight held motion phases at day75; structural frame already prepared"
+      },
+      "warmEightPoseCache": {
+        "samples": 128,
+        "medianMs": 0.7980999999999767,
+        "p95Ms": 0.8907999999998992,
+        "maximumMs": 2.136199999999917,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under50ms"
+        },
+        "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying"
+      },
+      "advancingClockPlayback": {
+        "samples": 128,
+        "medianMs": 1.4929000000001906,
+        "p95Ms": 2.0329000000001543,
+        "maximumMs": 3.5559999999995853,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under50ms"
+        },
+        "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering"
+      },
+      "observedPosePixelBank": {
+        "before": {
+          "age": 75,
+          "hits": 0,
+          "misses": 248,
+          "entries": 72,
+          "pixels": 3184,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 3184
+        },
+        "after": {
+          "age": 75,
+          "hits": 1152,
+          "misses": 248,
+          "entries": 72,
+          "pixels": 3184,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 3184
+        },
+        "additionalHits": 1152,
+        "additionalMisses": 0,
+        "withinObservedBounds": true
+      },
+      "poseTimes": [
+        0.0001675392670157068,
+        0.1677068062827225,
+        0.3352460732984293,
+        0.5027853403141361,
+        0.670324607329843,
+        0.8378638743455498,
+        1.0054031413612565,
+        1.1729424083769635
+      ],
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      },
+      "cacheObservation": {
+        "size": 8,
+        "compilations": 20
+      }
+    },
+    {
+      "fixtureId": "beetle",
+      "sourceHash": "ca5d783a12d051fd7554ce8462ed0ec9221d009bbf2d8815bdf282963a412022",
+      "authoredParts": 21,
+      "authoredCells": 218,
+      "compile": {
+        "samples": 3,
+        "medianMs": 5.548800000000028,
+        "p95Ms": 5.566000000000258,
+        "maximumMs": 5.566000000000258,
+        "within16ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under50ms"
+        },
+        "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup"
+      },
+      "observedCompilationsDuringCompile": 4,
+      "structure": {
+        "samples": 16,
+        "medianMs": 5.189800000000105,
+        "p95Ms": 9.928300000000036,
+        "maximumMs": 9.928300000000036,
+        "within16ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under50ms"
+        },
+        "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation"
+      },
+      "structuralAges": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        143,
+        180,
+        240
+      ],
+      "firstEightPoses": {
+        "samples": 8,
+        "medianMs": 2.026799999999639,
+        "p95Ms": 2.151100000000042,
+        "maximumMs": 2.151100000000042,
+        "within16ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under50ms"
+        },
+        "condition": "Initial eight held motion phases at day75; structural frame already prepared"
+      },
+      "warmEightPoseCache": {
+        "samples": 128,
+        "medianMs": 0.8867999999997664,
+        "p95Ms": 0.9875000000001819,
+        "maximumMs": 2.643199999999979,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under50ms"
+        },
+        "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying"
+      },
+      "advancingClockPlayback": {
+        "samples": 128,
+        "medianMs": 1.7199999999998,
+        "p95Ms": 2.4278999999996813,
+        "maximumMs": 4.040700000000015,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under50ms"
+        },
+        "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering"
+      },
+      "observedPosePixelBank": {
+        "before": {
+          "age": 75,
+          "hits": 42,
+          "misses": 336,
+          "entries": 70,
+          "pixels": 2069,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 2069
+        },
+        "after": {
+          "age": 75,
+          "hits": 1834,
+          "misses": 336,
+          "entries": 70,
+          "pixels": 2069,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 2069
+        },
+        "additionalHits": 1792,
+        "additionalMisses": 0,
+        "withinObservedBounds": true
+      },
+      "poseTimes": [
+        0.00010631229235880399,
+        0.10641860465116278,
+        0.21273089700996678,
+        0.31904318936877074,
+        0.4253554817275748,
+        0.5316677740863788,
+        0.6379800664451828,
+        0.7442923588039867
+      ],
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      },
+      "cacheObservation": {
+        "size": 8,
+        "compilations": 25
+      }
+    },
+    {
+      "fixtureId": "wisp",
+      "sourceHash": "f39ad15751314cf225a2bc15da407c55d040df620dfee5f9c9fee0ffa8d252fe",
+      "authoredParts": 7,
+      "authoredCells": 58,
+      "compile": {
+        "samples": 3,
+        "medianMs": 2.252600000000257,
+        "p95Ms": 2.2651999999998225,
+        "maximumMs": 2.2651999999998225,
+        "within16ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under50ms"
+        },
+        "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup"
+      },
+      "observedCompilationsDuringCompile": 4,
+      "structure": {
+        "samples": 16,
+        "medianMs": 2.9286999999999352,
+        "p95Ms": 6.400600000000395,
+        "maximumMs": 6.400600000000395,
+        "within16ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under50ms"
+        },
+        "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation"
+      },
+      "structuralAges": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        143,
+        180,
+        240
+      ],
+      "firstEightPoses": {
+        "samples": 8,
+        "medianMs": 1.4304999999999382,
+        "p95Ms": 1.6052999999997155,
+        "maximumMs": 1.6052999999997155,
+        "within16ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under50ms"
+        },
+        "condition": "Initial eight held motion phases at day75; structural frame already prepared"
+      },
+      "warmEightPoseCache": {
+        "samples": 128,
+        "medianMs": 0.6077999999997701,
+        "p95Ms": 0.6440999999999804,
+        "maximumMs": 2.7864999999997053,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under50ms"
+        },
+        "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying"
+      },
+      "advancingClockPlayback": {
+        "samples": 128,
+        "medianMs": 1.1534999999998945,
+        "p95Ms": 1.234400000000278,
+        "maximumMs": 3.108600000000024,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under50ms"
+        },
+        "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering"
+      },
+      "observedPosePixelBank": {
+        "before": {
+          "age": 75,
+          "hits": 0,
+          "misses": 202,
+          "entries": 64,
+          "pixels": 2901,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 2901
+        },
+        "after": {
+          "age": 75,
+          "hits": 1024,
+          "misses": 202,
+          "entries": 64,
+          "pixels": 2901,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 2901
+        },
+        "additionalHits": 1024,
+        "additionalMisses": 0,
+        "withinObservedBounds": true
+      },
+      "poseTimes": [
+        0.0001415929203539823,
+        0.14173451327433625,
+        0.2833274336283186,
+        0.4249203539823009,
+        0.5665132743362832,
+        0.7081061946902656,
+        0.8496991150442479,
+        0.9912920353982302
+      ],
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      },
+      "cacheObservation": {
+        "size": 8,
+        "compilations": 30
+      }
+    },
+    {
+      "fixtureId": "sparse-256",
+      "sourceHash": "f2bd8df94e7ebae613cc42bf50c5fdba15c39f1beae3749e52099132815751ad",
+      "authoredParts": 1,
+      "authoredCells": 256,
+      "compile": {
+        "samples": 3,
+        "medianMs": 2.4254000000000815,
+        "p95Ms": 4.237699999999677,
+        "maximumMs": 4.237699999999677,
+        "within16ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 3,
+          "denominator": 3,
+          "percent": 100,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under50ms"
+        },
+        "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup"
+      },
+      "observedCompilationsDuringCompile": 4,
+      "structure": {
+        "samples": 16,
+        "medianMs": 3.6635999999998603,
+        "p95Ms": 8.096599999999853,
+        "maximumMs": 8.096599999999853,
+        "within16ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 16,
+          "denominator": 16,
+          "percent": 100,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under50ms"
+        },
+        "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation"
+      },
+      "structuralAges": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        143,
+        180,
+        240
+      ],
+      "firstEightPoses": {
+        "samples": 8,
+        "medianMs": 0.9567999999999302,
+        "p95Ms": 1.0039000000001579,
+        "maximumMs": 1.0039000000001579,
+        "within16ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under50ms"
+        },
+        "condition": "Initial eight held motion phases at day75; structural frame already prepared"
+      },
+      "warmEightPoseCache": {
+        "samples": 128,
+        "medianMs": 0.3829000000000633,
+        "p95Ms": 0.4209000000000742,
+        "maximumMs": 1.5403999999998632,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under50ms"
+        },
+        "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying"
+      },
+      "advancingClockPlayback": {
+        "samples": 128,
+        "medianMs": 0.6345000000001164,
+        "p95Ms": 0.7282999999997628,
+        "maximumMs": 2.370600000000195,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under50ms"
+        },
+        "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering"
+      },
+      "observedPosePixelBank": {
+        "before": {
+          "age": 75,
+          "hits": 0,
+          "misses": 92,
+          "entries": 24,
+          "pixels": 1404,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 1404
+        },
+        "after": {
+          "age": 75,
+          "hits": 384,
+          "misses": 92,
+          "entries": 24,
+          "pixels": 1404,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 1404
+        },
+        "additionalHits": 384,
+        "additionalMisses": 0,
+        "withinObservedBounds": true
+      },
+      "poseTimes": [
+        0.00011469534050179211,
+        0.11481003584229389,
+        0.22950537634408602,
+        0.3442007168458781,
+        0.4588960573476703,
+        0.5735913978494624,
+        0.6882867383512545,
+        0.8029820788530466
+      ],
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      },
+      "cacheObservation": {
+        "size": 8,
+        "compilations": 35
+      }
+    },
+    {
+      "fixtureId": "dense-15360",
+      "sourceHash": "ba68c3995e6d07d0b03e6dd6d411a63cdd1ad22547d649c523cb4ebd89c7a876",
+      "authoredParts": 15,
+      "authoredCells": 15360,
+      "compile": {
+        "samples": 3,
+        "medianMs": 121.20960000000014,
+        "p95Ms": 131.51260000000002,
+        "maximumMs": 131.51260000000002,
+        "within16ms": {
+          "numerator": 0,
+          "denominator": 3,
+          "percent": 0,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 0,
+          "denominator": 3,
+          "percent": 0,
+          "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup; measured Node public API call under50ms"
+        },
+        "condition": "Distinct deterministic seeds force blueprint misses; three samples after one separate warmup"
+      },
+      "observedCompilationsDuringCompile": 4,
+      "structure": {
+        "samples": 16,
+        "medianMs": 95.3089,
+        "p95Ms": 150.3076000000001,
+        "maximumMs": 150.3076000000001,
+        "within16ms": {
+          "numerator": 0,
+          "denominator": 16,
+          "percent": 0,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 0,
+          "denominator": 16,
+          "percent": 0,
+          "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation; measured Node public API call under50ms"
+        },
+        "condition": "Distinct structural ages; idle, animation time0; two warmup ages; one simulation"
+      },
+      "structuralAges": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        45,
+        60,
+        75,
+        90,
+        105,
+        120,
+        143,
+        180,
+        240
+      ],
+      "firstEightPoses": {
+        "samples": 8,
+        "medianMs": 32.01590000000033,
+        "p95Ms": 32.92209999999977,
+        "maximumMs": 32.92209999999977,
+        "within16ms": {
+          "numerator": 0,
+          "denominator": 8,
+          "percent": 0,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 8,
+          "denominator": 8,
+          "percent": 100,
+          "condition": "Initial eight held motion phases at day75; structural frame already prepared; measured Node public API call under50ms"
+        },
+        "condition": "Initial eight held motion phases at day75; structural frame already prepared"
+      },
+      "warmEightPoseCache": {
+        "samples": 128,
+        "medianMs": 3.9185999999999694,
+        "p95Ms": 4.5046000000002095,
+        "maximumMs": 6.126299999999901,
+        "within16ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying; measured Node public API call under50ms"
+        },
+        "condition": "128 calls cycling the same eight already rendered held phases at day75; includes returned-frame copying"
+      },
+      "advancingClockPlayback": {
+        "samples": 128,
+        "medianMs": 31.826900000000023,
+        "p95Ms": 34.29939999999988,
+        "maximumMs": 40.59259999999995,
+        "within16ms": {
+          "numerator": 0,
+          "denominator": 128,
+          "percent": 0,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under16ms"
+        },
+        "within50ms": {
+          "numerator": 128,
+          "denominator": 128,
+          "percent": 100,
+          "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering; measured Node public API call under50ms"
+        },
+        "condition": "128 increasing absolute-clock calls over16 cycles; fresh frame/world-contact diagnostics, with recurring held-pose material reuse; excludes UI and device rendering"
+      },
+      "observedPosePixelBank": {
+        "before": {
+          "age": 75,
+          "hits": 0,
+          "misses": 473,
+          "entries": 83,
+          "pixels": 117697,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 119996
+        },
+        "after": {
+          "age": 75,
+          "hits": 0,
+          "misses": 2777,
+          "entries": 83,
+          "pixels": 117697,
+          "pixelLimit": 120000,
+          "entryLimit": 512,
+          "maximumObservedPixels": 119996
+        },
+        "additionalHits": 0,
+        "additionalMisses": 2304,
+        "withinObservedBounds": true
+      },
+      "poseTimes": [
+        0.000128,
+        0.128128,
+        0.25612799999999997,
+        0.38412799999999997,
+        0.512128,
+        0.640128,
+        0.768128,
+        0.896128
+      ],
+      "declaredLimits": {
+        "worldSize": 64,
+        "generatedTissues": 32,
+        "cachedFrames": 12,
+        "cachedPixels": 120000
+      },
+      "cacheObservation": {
+        "size": 8,
+        "compilations": 40
+      }
+    }
+  ],
+  "failures": [],
+  "observedBlueprintBound": {
+    "numerator": 16,
+    "denominator": 16,
+    "percent": 100,
+    "maximumObservedSize": 8,
+    "condition": "Global blueprint occupancy<=8 after each of16 distinct-seed compilations",
+    "probes": [
+      {
+        "seed": "v7-profile/cache/0",
+        "size": 8,
+        "compilations": 41,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/1",
+        "size": 8,
+        "compilations": 42,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/2",
+        "size": 8,
+        "compilations": 43,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/3",
+        "size": 8,
+        "compilations": 44,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/4",
+        "size": 8,
+        "compilations": 45,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/5",
+        "size": 8,
+        "compilations": 46,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/6",
+        "size": 8,
+        "compilations": 47,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/7",
+        "size": 8,
+        "compilations": 48,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/8",
+        "size": 8,
+        "compilations": 49,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/9",
+        "size": 8,
+        "compilations": 50,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/10",
+        "size": 8,
+        "compilations": 51,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/11",
+        "size": 8,
+        "compilations": 52,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/12",
+        "size": 8,
+        "compilations": 53,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/13",
+        "size": 8,
+        "compilations": 54,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/14",
+        "size": 8,
+        "compilations": 55,
+        "withinDeclaredBound": true
+      },
+      {
+        "seed": "v7-profile/cache/15",
+        "size": 8,
+        "compilations": 56,
+        "withinDeclaredBound": true
+      }
+    ]
+  },
+  "limits": [
+    "Node API timings exclude React/SVG, native rendering, physical iPhone hardware and widget scheduling.",
+    "Warm pose results are cache-hit calls, not eight fresh rasterizations per screen refresh.",
+    "Timing samples are repeated evaluations of fixed fixtures, not independent players or a population confidence interval.",
+    "Blueprint occupancy and current-pose pixel/entry bounds are observed; structural-frame and needs replay bounds also have separate regression tests."
+  ]
+}

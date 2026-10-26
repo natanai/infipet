@@ -1,0 +1,2886 @@
+{
+  "reviewer": "/root/audit_v6",
+  "reviewerKind": "agent",
+  "role": "secondary",
+  "method": "Direct fresh view_image inspection of all four005 actual PNG contact sheets:16 endpoints,60 intermediates,128 poses. Scores are newly assigned to005 images, not silently transferred from004.",
+  "scope": {
+    "endpointViews": 16,
+    "interiorViews": 60,
+    "poseViews": 128,
+    "sourceCounterfactualViews": 0,
+    "careViews": 0,
+    "humanViews": 0
+  },
+  "images": [
+    {
+      "path": "atlases/endpoint-001.png",
+      "sha256": "939b58fbf085aae169af0fdaee46d92476143e3f3839d1fe956906dcb3bed21a"
+    },
+    {
+      "path": "atlases/interior-001.png",
+      "sha256": "a4f7850bea7838c1d49ca616c03a171715d3627fc46717221993d48ef5a23576"
+    },
+    {
+      "path": "atlases/pose-001.png",
+      "sha256": "598e9379afbcb795a27f362d8cd520c8b52de5e3713c6956a275c2922a9a20e6"
+    },
+    {
+      "path": "atlases/pose-002.png",
+      "sha256": "991ab3c44ae7dea16077f8b8f288b60df0e821945d3c9e19396fa28fb0cb3ffc"
+    }
+  ],
+  "views": [
+    {
+      "id": "canine-cub__s01__neutral__d0",
+      "blindLabel": "V00001",
+      "kind": "endpoint",
+      "age": 0,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30",
+      "blindLabel": "V00002",
+      "kind": "endpoint",
+      "age": 30,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75",
+      "blindLabel": "V00003",
+      "kind": "endpoint",
+      "age": 75,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120",
+      "blindLabel": "V00004",
+      "kind": "endpoint",
+      "age": 120,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0",
+      "blindLabel": "V00052",
+      "kind": "endpoint",
+      "age": 0,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30",
+      "blindLabel": "V00053",
+      "kind": "endpoint",
+      "age": 30,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75",
+      "blindLabel": "V00054",
+      "kind": "endpoint",
+      "age": 75,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120",
+      "blindLabel": "V00055",
+      "kind": "endpoint",
+      "age": 120,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0",
+      "blindLabel": "V00103",
+      "kind": "endpoint",
+      "age": 0,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30",
+      "blindLabel": "V00104",
+      "kind": "endpoint",
+      "age": 30,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75",
+      "blindLabel": "V00105",
+      "kind": "endpoint",
+      "age": 75,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120",
+      "blindLabel": "V00106",
+      "kind": "endpoint",
+      "age": 120,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0",
+      "blindLabel": "V00154",
+      "kind": "endpoint",
+      "age": 0,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30",
+      "blindLabel": "V00155",
+      "kind": "endpoint",
+      "age": 30,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75",
+      "blindLabel": "V00156",
+      "kind": "endpoint",
+      "age": 75,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120",
+      "blindLabel": "V00157",
+      "kind": "endpoint",
+      "age": 120,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t0-0",
+      "blindLabel": "V00005",
+      "kind": "interior",
+      "age": 5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t0-1",
+      "blindLabel": "V00006",
+      "kind": "interior",
+      "age": 10,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t0-2",
+      "blindLabel": "V00007",
+      "kind": "interior",
+      "age": 15,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t0-3",
+      "blindLabel": "V00008",
+      "kind": "interior",
+      "age": 20,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t0-4",
+      "blindLabel": "V00009",
+      "kind": "interior",
+      "age": 25,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t1-0",
+      "blindLabel": "V00010",
+      "kind": "interior",
+      "age": 37.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t1-1",
+      "blindLabel": "V00011",
+      "kind": "interior",
+      "age": 45,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t1-2",
+      "blindLabel": "V00012",
+      "kind": "interior",
+      "age": 52.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t1-3",
+      "blindLabel": "V00013",
+      "kind": "interior",
+      "age": 60,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t1-4",
+      "blindLabel": "V00014",
+      "kind": "interior",
+      "age": 67.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t2-0",
+      "blindLabel": "V00015",
+      "kind": "interior",
+      "age": 82.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t2-1",
+      "blindLabel": "V00016",
+      "kind": "interior",
+      "age": 90,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t2-2",
+      "blindLabel": "V00017",
+      "kind": "interior",
+      "age": 97.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t2-3",
+      "blindLabel": "V00018",
+      "kind": "interior",
+      "age": 105,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__t2-4",
+      "blindLabel": "V00019",
+      "kind": "interior",
+      "age": 112.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t0-0",
+      "blindLabel": "V00056",
+      "kind": "interior",
+      "age": 5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t0-1",
+      "blindLabel": "V00057",
+      "kind": "interior",
+      "age": 10,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t0-2",
+      "blindLabel": "V00058",
+      "kind": "interior",
+      "age": 15,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t0-3",
+      "blindLabel": "V00059",
+      "kind": "interior",
+      "age": 20,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t0-4",
+      "blindLabel": "V00060",
+      "kind": "interior",
+      "age": 25,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t1-0",
+      "blindLabel": "V00061",
+      "kind": "interior",
+      "age": 37.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t1-1",
+      "blindLabel": "V00062",
+      "kind": "interior",
+      "age": 45,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t1-2",
+      "blindLabel": "V00063",
+      "kind": "interior",
+      "age": 52.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t1-3",
+      "blindLabel": "V00064",
+      "kind": "interior",
+      "age": 60,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t1-4",
+      "blindLabel": "V00065",
+      "kind": "interior",
+      "age": 67.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t2-0",
+      "blindLabel": "V00066",
+      "kind": "interior",
+      "age": 82.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t2-1",
+      "blindLabel": "V00067",
+      "kind": "interior",
+      "age": 90,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t2-2",
+      "blindLabel": "V00068",
+      "kind": "interior",
+      "age": 97.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t2-3",
+      "blindLabel": "V00069",
+      "kind": "interior",
+      "age": 105,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__t2-4",
+      "blindLabel": "V00070",
+      "kind": "interior",
+      "age": 112.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t0-0",
+      "blindLabel": "V00107",
+      "kind": "interior",
+      "age": 5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t0-1",
+      "blindLabel": "V00108",
+      "kind": "interior",
+      "age": 10,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t0-2",
+      "blindLabel": "V00109",
+      "kind": "interior",
+      "age": 15,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t0-3",
+      "blindLabel": "V00110",
+      "kind": "interior",
+      "age": 20,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t0-4",
+      "blindLabel": "V00111",
+      "kind": "interior",
+      "age": 25,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t1-0",
+      "blindLabel": "V00112",
+      "kind": "interior",
+      "age": 37.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t1-1",
+      "blindLabel": "V00113",
+      "kind": "interior",
+      "age": 45,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t1-2",
+      "blindLabel": "V00114",
+      "kind": "interior",
+      "age": 52.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t1-3",
+      "blindLabel": "V00115",
+      "kind": "interior",
+      "age": 60,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t1-4",
+      "blindLabel": "V00116",
+      "kind": "interior",
+      "age": 67.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t2-0",
+      "blindLabel": "V00117",
+      "kind": "interior",
+      "age": 82.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t2-1",
+      "blindLabel": "V00118",
+      "kind": "interior",
+      "age": 90,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t2-2",
+      "blindLabel": "V00119",
+      "kind": "interior",
+      "age": 97.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t2-3",
+      "blindLabel": "V00120",
+      "kind": "interior",
+      "age": 105,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__t2-4",
+      "blindLabel": "V00121",
+      "kind": "interior",
+      "age": 112.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t0-0",
+      "blindLabel": "V00158",
+      "kind": "interior",
+      "age": 5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t0-1",
+      "blindLabel": "V00159",
+      "kind": "interior",
+      "age": 10,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t0-2",
+      "blindLabel": "V00160",
+      "kind": "interior",
+      "age": 15,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t0-3",
+      "blindLabel": "V00161",
+      "kind": "interior",
+      "age": 20,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t0-4",
+      "blindLabel": "V00162",
+      "kind": "interior",
+      "age": 25,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t1-0",
+      "blindLabel": "V00163",
+      "kind": "interior",
+      "age": 37.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t1-1",
+      "blindLabel": "V00164",
+      "kind": "interior",
+      "age": 45,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t1-2",
+      "blindLabel": "V00165",
+      "kind": "interior",
+      "age": 52.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t1-3",
+      "blindLabel": "V00166",
+      "kind": "interior",
+      "age": 60,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t1-4",
+      "blindLabel": "V00167",
+      "kind": "interior",
+      "age": 67.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t2-0",
+      "blindLabel": "V00168",
+      "kind": "interior",
+      "age": 82.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t2-1",
+      "blindLabel": "V00169",
+      "kind": "interior",
+      "age": 90,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t2-2",
+      "blindLabel": "V00170",
+      "kind": "interior",
+      "age": 97.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t2-3",
+      "blindLabel": "V00171",
+      "kind": "interior",
+      "age": 105,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__t2-4",
+      "blindLabel": "V00172",
+      "kind": "interior",
+      "age": 112.5,
+      "time": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__p0",
+      "blindLabel": "V00020",
+      "kind": "pose",
+      "age": 0,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__p1",
+      "blindLabel": "V00021",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.1019108380254777,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__p2",
+      "blindLabel": "V00022",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.20382166605095542,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__p3",
+      "blindLabel": "V00023",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.3057324940764331,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__p4",
+      "blindLabel": "V00024",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.40764332210191084,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__p5",
+      "blindLabel": "V00025",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.5095541501273886,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__p6",
+      "blindLabel": "V00026",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.6114649781528663,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s01__neutral__d0__p7",
+      "blindLabel": "V00027",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.713375806178344,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__p0",
+      "blindLabel": "V00028",
+      "kind": "pose",
+      "age": 30,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__p1",
+      "blindLabel": "V00029",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.1019108380254777,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__p2",
+      "blindLabel": "V00030",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.20382166605095542,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__p3",
+      "blindLabel": "V00031",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.3057324940764331,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__p4",
+      "blindLabel": "V00032",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.40764332210191084,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__p5",
+      "blindLabel": "V00033",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.5095541501273886,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__p6",
+      "blindLabel": "V00034",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.6114649781528663,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s01__neutral__d30__p7",
+      "blindLabel": "V00035",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.713375806178344,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__p0",
+      "blindLabel": "V00036",
+      "kind": "pose",
+      "age": 75,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__p1",
+      "blindLabel": "V00037",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.1019108380254777,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__p2",
+      "blindLabel": "V00038",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.20382166605095542,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__p3",
+      "blindLabel": "V00039",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.3057324940764331,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__p4",
+      "blindLabel": "V00040",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.40764332210191084,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__p5",
+      "blindLabel": "V00041",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.5095541501273886,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__p6",
+      "blindLabel": "V00042",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.6114649781528663,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s01__neutral__d75__p7",
+      "blindLabel": "V00043",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.713375806178344,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__p0",
+      "blindLabel": "V00044",
+      "kind": "pose",
+      "age": 120,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__p1",
+      "blindLabel": "V00045",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.1019108380254777,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__p2",
+      "blindLabel": "V00046",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.20382166605095542,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__p3",
+      "blindLabel": "V00047",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.3057324940764331,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__p4",
+      "blindLabel": "V00048",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.40764332210191084,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__p5",
+      "blindLabel": "V00049",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.5095541501273886,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__p6",
+      "blindLabel": "V00050",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.6114649781528663,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s01__neutral__d120__p7",
+      "blindLabel": "V00051",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.713375806178344,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__p0",
+      "blindLabel": "V00071",
+      "kind": "pose",
+      "age": 0,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__p1",
+      "blindLabel": "V00072",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.12500001,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__p2",
+      "blindLabel": "V00073",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.25000001,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__p3",
+      "blindLabel": "V00074",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.37500001,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__p4",
+      "blindLabel": "V00075",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.50000001,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__p5",
+      "blindLabel": "V00076",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.62500001,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__p6",
+      "blindLabel": "V00077",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.75000001,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s02__neutral__d0__p7",
+      "blindLabel": "V00078",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.87500001,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__p0",
+      "blindLabel": "V00079",
+      "kind": "pose",
+      "age": 30,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__p1",
+      "blindLabel": "V00080",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.12500001,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__p2",
+      "blindLabel": "V00081",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.25000001,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__p3",
+      "blindLabel": "V00082",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.37500001,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__p4",
+      "blindLabel": "V00083",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.50000001,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__p5",
+      "blindLabel": "V00084",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.62500001,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__p6",
+      "blindLabel": "V00085",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.75000001,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s02__neutral__d30__p7",
+      "blindLabel": "V00086",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.87500001,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__p0",
+      "blindLabel": "V00087",
+      "kind": "pose",
+      "age": 75,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__p1",
+      "blindLabel": "V00088",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.12500001,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__p2",
+      "blindLabel": "V00089",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.25000001,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__p3",
+      "blindLabel": "V00090",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.37500001,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__p4",
+      "blindLabel": "V00091",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.50000001,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__p5",
+      "blindLabel": "V00092",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.62500001,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__p6",
+      "blindLabel": "V00093",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.75000001,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s02__neutral__d75__p7",
+      "blindLabel": "V00094",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.87500001,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__p0",
+      "blindLabel": "V00095",
+      "kind": "pose",
+      "age": 120,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__p1",
+      "blindLabel": "V00096",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.12500001,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__p2",
+      "blindLabel": "V00097",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.25000001,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__p3",
+      "blindLabel": "V00098",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.37500001,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__p4",
+      "blindLabel": "V00099",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.50000001,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__p5",
+      "blindLabel": "V00100",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.62500001,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__p6",
+      "blindLabel": "V00101",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.75000001,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s02__neutral__d120__p7",
+      "blindLabel": "V00102",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.87500001,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__p0",
+      "blindLabel": "V00122",
+      "kind": "pose",
+      "age": 0,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__p1",
+      "blindLabel": "V00123",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.13852814852813852,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__p2",
+      "blindLabel": "V00124",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.27705628705627705,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__p3",
+      "blindLabel": "V00125",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.4155844255844156,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__p4",
+      "blindLabel": "V00126",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.5541125641125542,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__p5",
+      "blindLabel": "V00127",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.6926407026406927,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__p6",
+      "blindLabel": "V00128",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.8311688411688313,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s03__neutral__d0__p7",
+      "blindLabel": "V00129",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.9696969796969698,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__p0",
+      "blindLabel": "V00130",
+      "kind": "pose",
+      "age": 30,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__p1",
+      "blindLabel": "V00131",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.13852814852813852,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__p2",
+      "blindLabel": "V00132",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.27705628705627705,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__p3",
+      "blindLabel": "V00133",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.4155844255844156,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__p4",
+      "blindLabel": "V00134",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.5541125641125542,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__p5",
+      "blindLabel": "V00135",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.6926407026406927,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__p6",
+      "blindLabel": "V00136",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.8311688411688313,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s03__neutral__d30__p7",
+      "blindLabel": "V00137",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.9696969796969698,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__p0",
+      "blindLabel": "V00138",
+      "kind": "pose",
+      "age": 75,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__p1",
+      "blindLabel": "V00139",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.13852814852813852,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__p2",
+      "blindLabel": "V00140",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.27705628705627705,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__p3",
+      "blindLabel": "V00141",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.4155844255844156,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__p4",
+      "blindLabel": "V00142",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.5541125641125542,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__p5",
+      "blindLabel": "V00143",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.6926407026406927,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__p6",
+      "blindLabel": "V00144",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.8311688411688313,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s03__neutral__d75__p7",
+      "blindLabel": "V00145",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.9696969796969698,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__p0",
+      "blindLabel": "V00146",
+      "kind": "pose",
+      "age": 120,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__p1",
+      "blindLabel": "V00147",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.13852814852813852,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__p2",
+      "blindLabel": "V00148",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.27705628705627705,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__p3",
+      "blindLabel": "V00149",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.4155844255844156,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__p4",
+      "blindLabel": "V00150",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.5541125641125542,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__p5",
+      "blindLabel": "V00151",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.6926407026406927,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__p6",
+      "blindLabel": "V00152",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.8311688411688313,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s03__neutral__d120__p7",
+      "blindLabel": "V00153",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.9696969796969698,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__p0",
+      "blindLabel": "V00173",
+      "kind": "pose",
+      "age": 0,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__p1",
+      "blindLabel": "V00174",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.11808119081180811,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__p2",
+      "blindLabel": "V00175",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.23616237162361622,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__p3",
+      "blindLabel": "V00176",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.3542435524354243,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__p4",
+      "blindLabel": "V00177",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.47232473324723245,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__p5",
+      "blindLabel": "V00178",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.5904059140590406,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__p6",
+      "blindLabel": "V00179",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.7084870948708487,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s04__neutral__d0__p7",
+      "blindLabel": "V00180",
+      "kind": "pose",
+      "age": 0,
+      "time": 0.8265682756826569,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__p0",
+      "blindLabel": "V00181",
+      "kind": "pose",
+      "age": 30,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__p1",
+      "blindLabel": "V00182",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.11808119081180811,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__p2",
+      "blindLabel": "V00183",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.23616237162361622,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__p3",
+      "blindLabel": "V00184",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.3542435524354243,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__p4",
+      "blindLabel": "V00185",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.47232473324723245,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__p5",
+      "blindLabel": "V00186",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.5904059140590406,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__p6",
+      "blindLabel": "V00187",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.7084870948708487,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s04__neutral__d30__p7",
+      "blindLabel": "V00188",
+      "kind": "pose",
+      "age": 30,
+      "time": 0.8265682756826569,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__p0",
+      "blindLabel": "V00189",
+      "kind": "pose",
+      "age": 75,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__p1",
+      "blindLabel": "V00190",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.11808119081180811,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__p2",
+      "blindLabel": "V00191",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.23616237162361622,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__p3",
+      "blindLabel": "V00192",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.3542435524354243,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__p4",
+      "blindLabel": "V00193",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.47232473324723245,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__p5",
+      "blindLabel": "V00194",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.5904059140590406,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__p6",
+      "blindLabel": "V00195",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.7084870948708487,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s04__neutral__d75__p7",
+      "blindLabel": "V00196",
+      "kind": "pose",
+      "age": 75,
+      "time": 0.8265682756826569,
+      "phase": 7
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__p0",
+      "blindLabel": "V00197",
+      "kind": "pose",
+      "age": 120,
+      "time": 1e-8,
+      "phase": 0
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__p1",
+      "blindLabel": "V00198",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.11808119081180811,
+      "phase": 1
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__p2",
+      "blindLabel": "V00199",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.23616237162361622,
+      "phase": 2
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__p3",
+      "blindLabel": "V00200",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.3542435524354243,
+      "phase": 3
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__p4",
+      "blindLabel": "V00201",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.47232473324723245,
+      "phase": 4
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__p5",
+      "blindLabel": "V00202",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.5904059140590406,
+      "phase": 5
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__p6",
+      "blindLabel": "V00203",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.7084870948708487,
+      "phase": 6
+    },
+    {
+      "id": "canine-cub__s04__neutral__d120__p7",
+      "blindLabel": "V00204",
+      "kind": "pose",
+      "age": 120,
+      "time": 0.8265682756826569,
+      "phase": 7
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "canine-cub__s01__neutral__transition__0-30",
+      "caseId": "canine-cub__s01__neutral",
+      "kind": "transition",
+      "fromAge": 0,
+      "toAge": 30,
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub__s01__neutral__d30",
+        "canine-cub__s01__neutral__t0-0",
+        "canine-cub__s01__neutral__t0-1",
+        "canine-cub__s01__neutral__t0-2",
+        "canine-cub__s01__neutral__t0-3",
+        "canine-cub__s01__neutral__t0-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub__s01__neutral__d30",
+        "canine-cub__s01__neutral__t0-0",
+        "canine-cub__s01__neutral__t0-1",
+        "canine-cub__s01__neutral__t0-2",
+        "canine-cub__s01__neutral__t0-3",
+        "canine-cub__s01__neutral__t0-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub__s01__neutral__d30": "53c77d548dea3ae04452befd113fb0cbe943efd70656334f0de082d118930d82",
+        "canine-cub__s01__neutral__t0-0": "2f819808ce4dd268946ddb47f45167373dcc8c69dc709392b12da6ac0fd06c3f",
+        "canine-cub__s01__neutral__t0-1": "c9e3376543fced61ad7b91e64f3fa5b8b2eb0e2ceeec33e86ce8db597da5a3af",
+        "canine-cub__s01__neutral__t0-2": "95ceee63cd11084cbdc0742994e632a48cebffc2357ff390ac1a03914d012824",
+        "canine-cub__s01__neutral__t0-3": "675a89ac23b95e82e070bd0c65f1c28d96c4781aec63dd1e6a6caca2d8d5ce31",
+        "canine-cub__s01__neutral__t0-4": "33a7c6b2b219e6373fb002a7dbb289e9ae20d72e997538831ed6de0c945d744b"
+      },
+      "notes": "Clear source-derived head/trunk/support redistribution. Solid articulated source material retains authored face, pointed ears, tail and flank motif."
+    },
+    {
+      "id": "canine-cub__s01__neutral__transition__30-75",
+      "caseId": "canine-cub__s01__neutral",
+      "kind": "transition",
+      "fromAge": 30,
+      "toAge": 75,
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub__s01__neutral__d75",
+        "canine-cub__s01__neutral__t1-0",
+        "canine-cub__s01__neutral__t1-1",
+        "canine-cub__s01__neutral__t1-2",
+        "canine-cub__s01__neutral__t1-3",
+        "canine-cub__s01__neutral__t1-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub__s01__neutral__d75",
+        "canine-cub__s01__neutral__t1-0",
+        "canine-cub__s01__neutral__t1-1",
+        "canine-cub__s01__neutral__t1-2",
+        "canine-cub__s01__neutral__t1-3",
+        "canine-cub__s01__neutral__t1-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d30": "53c77d548dea3ae04452befd113fb0cbe943efd70656334f0de082d118930d82",
+        "canine-cub__s01__neutral__d75": "02961b281643da7639229a3f3072e301ebecd933c4e2285709ea44e8aa2af41d",
+        "canine-cub__s01__neutral__t1-0": "147706ae73bcf2329fef1a7f9baa338208ba314c4483d3dffa37b1e507ac30c2",
+        "canine-cub__s01__neutral__t1-1": "d9205ac66b8f2f04638f8393bc695066c269fced1b7df7d6f1a1a6d11639a429",
+        "canine-cub__s01__neutral__t1-2": "29b5fc5b40321732990bfb98b9412409a07a3f663e67091a14d3c9292329db07",
+        "canine-cub__s01__neutral__t1-3": "6c8668f4ef299a6c0da0ee729b2681adc587647ca578fd71f97f647e60b32865",
+        "canine-cub__s01__neutral__t1-4": "8e90c1b8d2bcc1c46dfb827f402ce7aa294c14730d1a32a870723a7401ea6aee"
+      },
+      "notes": "Upright, open supporting geometry develops from the long source trunk/head/tail arrangement. Sampled material transitions remain understandable."
+    },
+    {
+      "id": "canine-cub__s01__neutral__transition__75-120",
+      "caseId": "canine-cub__s01__neutral",
+      "kind": "transition",
+      "fromAge": 75,
+      "toAge": 120,
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub__s01__neutral__d120",
+        "canine-cub__s01__neutral__t2-0",
+        "canine-cub__s01__neutral__t2-1",
+        "canine-cub__s01__neutral__t2-2",
+        "canine-cub__s01__neutral__t2-3",
+        "canine-cub__s01__neutral__t2-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub__s01__neutral__d120",
+        "canine-cub__s01__neutral__t2-0",
+        "canine-cub__s01__neutral__t2-1",
+        "canine-cub__s01__neutral__t2-2",
+        "canine-cub__s01__neutral__t2-3",
+        "canine-cub__s01__neutral__t2-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d75": "02961b281643da7639229a3f3072e301ebecd933c4e2285709ea44e8aa2af41d",
+        "canine-cub__s01__neutral__d120": "e1779555576a7ed801f9c4faa4aa0270c495ad7d4c63903408aa16a0ac3a6f3f",
+        "canine-cub__s01__neutral__t2-0": "fc6da2420c153e68cb9ef09a6755cd38508fdf27247be4bab4a67f1d6d72d5eb",
+        "canine-cub__s01__neutral__t2-1": "23367176603c507df256ea3973d1158dd72b5d120806d2c0270e4628b4f93cd6",
+        "canine-cub__s01__neutral__t2-2": "930a535165caa4ffc9cd4c18b91c80a4dfd8b0917de751a43648b05baed35654",
+        "canine-cub__s01__neutral__t2-3": "47d16978446d6a354e97483e71fc272213e128658ba8aea02117c690ab7e39bd",
+        "canine-cub__s01__neutral__t2-4": "b60dce5d974c7cdb3a5816b9fb40e1f141bf97ad8888ee9bf032fbdf21e7bd9e"
+      },
+      "notes": "Strong axial elongation and compact lower support produce a clear later form. Slender tips and tiny face are readability limitations; authored relations remain traceable."
+    },
+    {
+      "id": "canine-cub__s01__neutral__motion__0-0",
+      "caseId": "canine-cub__s01__neutral",
+      "kind": "motion",
+      "fromAge": 0,
+      "toAge": 0,
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d0__p0",
+        "canine-cub__s01__neutral__d0__p1",
+        "canine-cub__s01__neutral__d0__p2",
+        "canine-cub__s01__neutral__d0__p3",
+        "canine-cub__s01__neutral__d0__p4",
+        "canine-cub__s01__neutral__d0__p5",
+        "canine-cub__s01__neutral__d0__p6",
+        "canine-cub__s01__neutral__d0__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d0__p0",
+        "canine-cub__s01__neutral__d0__p1",
+        "canine-cub__s01__neutral__d0__p2",
+        "canine-cub__s01__neutral__d0__p3",
+        "canine-cub__s01__neutral__d0__p4",
+        "canine-cub__s01__neutral__d0__p5",
+        "canine-cub__s01__neutral__d0__p6",
+        "canine-cub__s01__neutral__d0__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d0__p0": "a28d03e1bdbdf930bbf5eee9670ae1e8f892e7cf8b82ef8f0ce6532f11c8b11d",
+        "canine-cub__s01__neutral__d0__p1": "0d6d29d342096de55c19cc4d9b2b4d43e0e657dc9e7e83d5e6ef991c70ed50c9",
+        "canine-cub__s01__neutral__d0__p2": "31eb5402ecbe1a73c379b17710f314e09f032a8ebb9412c6c1e1323400941670",
+        "canine-cub__s01__neutral__d0__p3": "772570f17522f7865df517125257ebd864d7dd5497b1d4cfc9000015b8f34815",
+        "canine-cub__s01__neutral__d0__p4": "c6851f027fbfa43236303be89d8743cc7f0fe6b961144cea4b11c924b39ce6cc",
+        "canine-cub__s01__neutral__d0__p5": "5538e1571f40829b9a2455a4c6900a6ec581a85a85e40e69862e0c42f64e5b1f",
+        "canine-cub__s01__neutral__d0__p6": "84c0f93ac698140858aec5e765b5cc36193cba4b51f5c75be4e5924309b13000",
+        "canine-cub__s01__neutral__d0__p7": "d99cf92e4de972d10ecc283360b85da48a5ac1e2d7415c214c1070e6c2e3a997"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s01__neutral__motion__30-30",
+      "caseId": "canine-cub__s01__neutral",
+      "kind": "motion",
+      "fromAge": 30,
+      "toAge": 30,
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d30__p0",
+        "canine-cub__s01__neutral__d30__p1",
+        "canine-cub__s01__neutral__d30__p2",
+        "canine-cub__s01__neutral__d30__p3",
+        "canine-cub__s01__neutral__d30__p4",
+        "canine-cub__s01__neutral__d30__p5",
+        "canine-cub__s01__neutral__d30__p6",
+        "canine-cub__s01__neutral__d30__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d30__p0",
+        "canine-cub__s01__neutral__d30__p1",
+        "canine-cub__s01__neutral__d30__p2",
+        "canine-cub__s01__neutral__d30__p3",
+        "canine-cub__s01__neutral__d30__p4",
+        "canine-cub__s01__neutral__d30__p5",
+        "canine-cub__s01__neutral__d30__p6",
+        "canine-cub__s01__neutral__d30__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d30__p0": "f4ff570c8cb717632d61fb58c7a7cf6ae45cf784e5a65e145ab7def802bab4bd",
+        "canine-cub__s01__neutral__d30__p1": "e8e7b7fad227fd6ebb9aea7e8d8251bedb20e18bfb2fef30d6c380de6c9aafd5",
+        "canine-cub__s01__neutral__d30__p2": "b60f5f186cb2c9931987cf65b3d553ac34896c5b96b659856130276fdfb9705f",
+        "canine-cub__s01__neutral__d30__p3": "f34919fbae5f54e62bf850b2f979e799397f73bed643283ec62a979f8de3957a",
+        "canine-cub__s01__neutral__d30__p4": "42d5e1e772c36adabcc87a0871814e7fdf2f60ec03a99699cb5855a1e42f052b",
+        "canine-cub__s01__neutral__d30__p5": "7d27904579250089af549289c18e8c39b5df91a5dc55dfbfd0d241d574d09edd",
+        "canine-cub__s01__neutral__d30__p6": "53ded1d444d42448f23f99e77317ed55b280b27befb6bf7ee3300519af1df0e4",
+        "canine-cub__s01__neutral__d30__p7": "73459c881986c153f519fa9adf65e08a0ba4202b125a9348c1e97c0602f16d07"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s01__neutral__motion__75-75",
+      "caseId": "canine-cub__s01__neutral",
+      "kind": "motion",
+      "fromAge": 75,
+      "toAge": 75,
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d75__p0",
+        "canine-cub__s01__neutral__d75__p1",
+        "canine-cub__s01__neutral__d75__p2",
+        "canine-cub__s01__neutral__d75__p3",
+        "canine-cub__s01__neutral__d75__p4",
+        "canine-cub__s01__neutral__d75__p5",
+        "canine-cub__s01__neutral__d75__p6",
+        "canine-cub__s01__neutral__d75__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d75__p0",
+        "canine-cub__s01__neutral__d75__p1",
+        "canine-cub__s01__neutral__d75__p2",
+        "canine-cub__s01__neutral__d75__p3",
+        "canine-cub__s01__neutral__d75__p4",
+        "canine-cub__s01__neutral__d75__p5",
+        "canine-cub__s01__neutral__d75__p6",
+        "canine-cub__s01__neutral__d75__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d75__p0": "af142e4ce5597988dacc6567563d57ce17d0d72e43ae5a1a7a8e1732a1bb0bc7",
+        "canine-cub__s01__neutral__d75__p1": "cde0529b326b34791540b8fb1652715943a1e23c14ac46714705c04b9f6f3fa9",
+        "canine-cub__s01__neutral__d75__p2": "708501c23310cde4ce02d125699f10bb2608db5e1470e21abd63ce3920817aa9",
+        "canine-cub__s01__neutral__d75__p3": "d7c7568e78cfefcc30521d32625efddd8d13095eec14ab4a410af10ec83b40c7",
+        "canine-cub__s01__neutral__d75__p4": "899e87a4d8a1e41513441c31e2ee2927666414518eef014a06a41cb18ee43fd7",
+        "canine-cub__s01__neutral__d75__p5": "02e66ee8b803da882eac501ac052f7ab6f032efd7b0da5d01b3df2f3e5ffbb5a",
+        "canine-cub__s01__neutral__d75__p6": "43daf77f90feb388b717ac46a72d64f01dd4bf33e247a5a39b15d0faaef38361",
+        "canine-cub__s01__neutral__d75__p7": "b6a2e9f32aaa3690079c7e01f0d6ed15cee9f44eec091e55604f4b299f62efe2"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s01__neutral__motion__120-120",
+      "caseId": "canine-cub__s01__neutral",
+      "kind": "motion",
+      "fromAge": 120,
+      "toAge": 120,
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d120__p0",
+        "canine-cub__s01__neutral__d120__p1",
+        "canine-cub__s01__neutral__d120__p2",
+        "canine-cub__s01__neutral__d120__p3",
+        "canine-cub__s01__neutral__d120__p4",
+        "canine-cub__s01__neutral__d120__p5",
+        "canine-cub__s01__neutral__d120__p6",
+        "canine-cub__s01__neutral__d120__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d120__p0",
+        "canine-cub__s01__neutral__d120__p1",
+        "canine-cub__s01__neutral__d120__p2",
+        "canine-cub__s01__neutral__d120__p3",
+        "canine-cub__s01__neutral__d120__p4",
+        "canine-cub__s01__neutral__d120__p5",
+        "canine-cub__s01__neutral__d120__p6",
+        "canine-cub__s01__neutral__d120__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d120__p0": "5ba85d9f1a68464628ea38f1e8653ed7340f0a95a768d4969c9cfb53be4a4d85",
+        "canine-cub__s01__neutral__d120__p1": "5b41e8fd28262750885648bf63eed6000bfedbd716ea89af54144e7f4b7d2cdc",
+        "canine-cub__s01__neutral__d120__p2": "c0567bd256a5fffde88ada6e934ca9a6f75e08a2caf06c757e5159165fe32c96",
+        "canine-cub__s01__neutral__d120__p3": "d6e4f39ccc43cdcd929d64a5204da6ea14256af7d0c7377324b22ef00d25315b",
+        "canine-cub__s01__neutral__d120__p4": "1e5266471fe5281a63053bf533931a06af28b32f428cada56da5097dc5f99bef",
+        "canine-cub__s01__neutral__d120__p5": "9305a38ecc2179f6db9e3ae9f194d5e0563455c4b13834cad24a2e560dca8caa",
+        "canine-cub__s01__neutral__d120__p6": "7d709cf2a98da67eff15a16f2624afbb2c7f2f71675fe8e7101c2b9de246c651",
+        "canine-cub__s01__neutral__d120__p7": "f842f797ba471d8cab8cc4f53cbea4e8d6d757d7b9bf03e04591bfeeed8da419"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s02__neutral__transition__0-30",
+      "caseId": "canine-cub__s02__neutral",
+      "kind": "transition",
+      "fromAge": 0,
+      "toAge": 30,
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub__s02__neutral__d30",
+        "canine-cub__s02__neutral__t0-0",
+        "canine-cub__s02__neutral__t0-1",
+        "canine-cub__s02__neutral__t0-2",
+        "canine-cub__s02__neutral__t0-3",
+        "canine-cub__s02__neutral__t0-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub__s02__neutral__d30",
+        "canine-cub__s02__neutral__t0-0",
+        "canine-cub__s02__neutral__t0-1",
+        "canine-cub__s02__neutral__t0-2",
+        "canine-cub__s02__neutral__t0-3",
+        "canine-cub__s02__neutral__t0-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub__s02__neutral__d30": "e2593f8aedc6769e30875bd6a80899bdc7901a7dce829cb3eb5932e23c72f5e0",
+        "canine-cub__s02__neutral__t0-0": "4d8d4e613103bf743e9d1fb1378a8a7c676a1b49fcf043c80f632583f40356db",
+        "canine-cub__s02__neutral__t0-1": "5ed6af59e458e031712ed2245dfb4750510aacc405fa5a6d7944b278ed19be26",
+        "canine-cub__s02__neutral__t0-2": "1dad7a6907aaff37a59da4882c7cec7c12ecaeaa76393548caee26acadb89e9c",
+        "canine-cub__s02__neutral__t0-3": "c1f5c26659f300de27150406f83f029e898eeebabec63c034a73a3844c3eb434",
+        "canine-cub__s02__neutral__t0-4": "81cb314bfb26592c0ef3bccba351264a10cbca2e899cf97a716309d6bd92972d"
+      },
+      "notes": "Head/body mass and support reorganize into a clear source-related form with coherent material clusters."
+    },
+    {
+      "id": "canine-cub__s02__neutral__transition__30-75",
+      "caseId": "canine-cub__s02__neutral",
+      "kind": "transition",
+      "fromAge": 30,
+      "toAge": 75,
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub__s02__neutral__d75",
+        "canine-cub__s02__neutral__t1-0",
+        "canine-cub__s02__neutral__t1-1",
+        "canine-cub__s02__neutral__t1-2",
+        "canine-cub__s02__neutral__t1-3",
+        "canine-cub__s02__neutral__t1-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub__s02__neutral__d75",
+        "canine-cub__s02__neutral__t1-0",
+        "canine-cub__s02__neutral__t1-1",
+        "canine-cub__s02__neutral__t1-2",
+        "canine-cub__s02__neutral__t1-3",
+        "canine-cub__s02__neutral__t1-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d30": "e2593f8aedc6769e30875bd6a80899bdc7901a7dce829cb3eb5932e23c72f5e0",
+        "canine-cub__s02__neutral__d75": "65b40bfa29293ec57bd5a7b044cd4f2fd42337827ad3a25e75907f587e930de8",
+        "canine-cub__s02__neutral__t1-0": "3c9b1f8757e5d07d10aae9122a3d63d2ba25b0b36b87812d0a0fb5a258a4344e",
+        "canine-cub__s02__neutral__t1-1": "0f288ac3cbf0f7597e1dfa224ee9d5ab94a6e6067039c49e4d2655b739080db1",
+        "canine-cub__s02__neutral__t1-2": "eb3fb8f7ac064866fbd030b207c6ecd25eda76f664c26d97e47a8c1dd5a67eac",
+        "canine-cub__s02__neutral__t1-3": "d6536ce8933f5bfa117accb33ed1cd058c4d83cdfc49c2cdeb419b537d7ea2aa",
+        "canine-cub__s02__neutral__t1-4": "181f05b7d139e9eefccb2125c45f51b81eed29b34c8afe59f811482437efb885"
+      },
+      "notes": "Head orientation, proportions and articulated support produce a clear next form while preserving source tail/ear/face relationships."
+    },
+    {
+      "id": "canine-cub__s02__neutral__transition__75-120",
+      "caseId": "canine-cub__s02__neutral",
+      "kind": "transition",
+      "fromAge": 75,
+      "toAge": 120,
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub__s02__neutral__d120",
+        "canine-cub__s02__neutral__t2-0",
+        "canine-cub__s02__neutral__t2-1",
+        "canine-cub__s02__neutral__t2-2",
+        "canine-cub__s02__neutral__t2-3",
+        "canine-cub__s02__neutral__t2-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub__s02__neutral__d120",
+        "canine-cub__s02__neutral__t2-0",
+        "canine-cub__s02__neutral__t2-1",
+        "canine-cub__s02__neutral__t2-2",
+        "canine-cub__s02__neutral__t2-3",
+        "canine-cub__s02__neutral__t2-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d75": "65b40bfa29293ec57bd5a7b044cd4f2fd42337827ad3a25e75907f587e930de8",
+        "canine-cub__s02__neutral__d120": "8a62e575db8e38ca5b9e5493fc0e9501e2359e4e0873efe8dec352cb5efdfe6d",
+        "canine-cub__s02__neutral__t2-0": "dd9ea8b9bcb2aafdd9e669741a2ad8822dffac2240adfd56fff1917345799a4f",
+        "canine-cub__s02__neutral__t2-1": "4b474ba94cfbfcc8e145ea6ea64ec797fa42e077b4fd3c19ee290cb75d4f53a5",
+        "canine-cub__s02__neutral__t2-2": "523ff0936efe1c5e6d3aa2db464e1be2f1688c563ae7856bc5f0a94d80df44af",
+        "canine-cub__s02__neutral__t2-3": "91011cae8efe99e231fa55b23309c0bf8254ec4f73465e90b1e8204f35a1e178",
+        "canine-cub__s02__neutral__t2-4": "c0d8de6fcaf5caad46c3c4abef71ddf23ec0e09797643c4492a57ff4fd56d6bd"
+      },
+      "notes": "Now a conservative clear-form score2: compact trunk/head redistribution is accompanied by visible retirement of the fore supporting pair into non-planted effectors and hind-pair biped support. Eight posed phases help distinguish the functional change from a mere idle stance variation. Source appendage identities remain traceable; no extra new limb is needed."
+    },
+    {
+      "id": "canine-cub__s02__neutral__motion__0-0",
+      "caseId": "canine-cub__s02__neutral",
+      "kind": "motion",
+      "fromAge": 0,
+      "toAge": 0,
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d0__p0",
+        "canine-cub__s02__neutral__d0__p1",
+        "canine-cub__s02__neutral__d0__p2",
+        "canine-cub__s02__neutral__d0__p3",
+        "canine-cub__s02__neutral__d0__p4",
+        "canine-cub__s02__neutral__d0__p5",
+        "canine-cub__s02__neutral__d0__p6",
+        "canine-cub__s02__neutral__d0__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d0__p0",
+        "canine-cub__s02__neutral__d0__p1",
+        "canine-cub__s02__neutral__d0__p2",
+        "canine-cub__s02__neutral__d0__p3",
+        "canine-cub__s02__neutral__d0__p4",
+        "canine-cub__s02__neutral__d0__p5",
+        "canine-cub__s02__neutral__d0__p6",
+        "canine-cub__s02__neutral__d0__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d0__p0": "a28d03e1bdbdf930bbf5eee9670ae1e8f892e7cf8b82ef8f0ce6532f11c8b11d",
+        "canine-cub__s02__neutral__d0__p1": "898f2610428fd5ce4ea221aba70e823852403d7da0a8e42571b9dc8b76abeb6c",
+        "canine-cub__s02__neutral__d0__p2": "9f4948b410c2564b39d696ec3d479116711902d725894e56a139c953eae6b50a",
+        "canine-cub__s02__neutral__d0__p3": "efb8feecaa566f55cd7a3ec853d6b68c239071eaaf1de5923c692c08bcc4cd50",
+        "canine-cub__s02__neutral__d0__p4": "874219c174894aa49c44fb662a59dd7e72534b3134904f30d99a079e8a5149fb",
+        "canine-cub__s02__neutral__d0__p5": "5538e1571f40829b9a2455a4c6900a6ec581a85a85e40e69862e0c42f64e5b1f",
+        "canine-cub__s02__neutral__d0__p6": "84c0f93ac698140858aec5e765b5cc36193cba4b51f5c75be4e5924309b13000",
+        "canine-cub__s02__neutral__d0__p7": "d99cf92e4de972d10ecc283360b85da48a5ac1e2d7415c214c1070e6c2e3a997"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s02__neutral__motion__30-30",
+      "caseId": "canine-cub__s02__neutral",
+      "kind": "motion",
+      "fromAge": 30,
+      "toAge": 30,
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d30__p0",
+        "canine-cub__s02__neutral__d30__p1",
+        "canine-cub__s02__neutral__d30__p2",
+        "canine-cub__s02__neutral__d30__p3",
+        "canine-cub__s02__neutral__d30__p4",
+        "canine-cub__s02__neutral__d30__p5",
+        "canine-cub__s02__neutral__d30__p6",
+        "canine-cub__s02__neutral__d30__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d30__p0",
+        "canine-cub__s02__neutral__d30__p1",
+        "canine-cub__s02__neutral__d30__p2",
+        "canine-cub__s02__neutral__d30__p3",
+        "canine-cub__s02__neutral__d30__p4",
+        "canine-cub__s02__neutral__d30__p5",
+        "canine-cub__s02__neutral__d30__p6",
+        "canine-cub__s02__neutral__d30__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d30__p0": "a4af36c39cdc989d8c9c8330dcd6815ef351b14439334888dc5a2b227ec3306c",
+        "canine-cub__s02__neutral__d30__p1": "9e8ed714db3805cdc3bafab415bb4c1d3b2a3acc30e3e573e9e8960c2bdf8a9f",
+        "canine-cub__s02__neutral__d30__p2": "4d53f5bd260bbb22e87c8b4a08d9c5729573fa65eae9b56c2fe14d6acd1ae293",
+        "canine-cub__s02__neutral__d30__p3": "a28b1b86648d271932425c6dd5208b87134417776dbdad49bdd71c3aa9d67f65",
+        "canine-cub__s02__neutral__d30__p4": "bd81759c5b0f3c9c62c23d21bc918c3e2e414da11706e738c47a90cf98433539",
+        "canine-cub__s02__neutral__d30__p5": "5b34c7316dd77ef5293559597b4de8146794232fcf42512f64c5d7c919b820ed",
+        "canine-cub__s02__neutral__d30__p6": "d76140194ed9b777442d69cb53602504dcf12cbd01697320f8915cd3add9a900",
+        "canine-cub__s02__neutral__d30__p7": "90d2286198e2b2d0b41a41cf5244d398e7c438378e15aa0fadd587f3941d48a6"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s02__neutral__motion__75-75",
+      "caseId": "canine-cub__s02__neutral",
+      "kind": "motion",
+      "fromAge": 75,
+      "toAge": 75,
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d75__p0",
+        "canine-cub__s02__neutral__d75__p1",
+        "canine-cub__s02__neutral__d75__p2",
+        "canine-cub__s02__neutral__d75__p3",
+        "canine-cub__s02__neutral__d75__p4",
+        "canine-cub__s02__neutral__d75__p5",
+        "canine-cub__s02__neutral__d75__p6",
+        "canine-cub__s02__neutral__d75__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d75__p0",
+        "canine-cub__s02__neutral__d75__p1",
+        "canine-cub__s02__neutral__d75__p2",
+        "canine-cub__s02__neutral__d75__p3",
+        "canine-cub__s02__neutral__d75__p4",
+        "canine-cub__s02__neutral__d75__p5",
+        "canine-cub__s02__neutral__d75__p6",
+        "canine-cub__s02__neutral__d75__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d75__p0": "48b354e215d3e75dab4741b602d7de38c5b3e3a425e42aec5cab38903f287e9c",
+        "canine-cub__s02__neutral__d75__p1": "16976d29b306558dfd0e97ab8a18c050b3d567832a2763f4159a9c3b4cfa6307",
+        "canine-cub__s02__neutral__d75__p2": "de87f7323ab56fa0afb43a495f90168f538f0b79d894896b50510554c0e4ff1e",
+        "canine-cub__s02__neutral__d75__p3": "c88d156d17cb4cffbb748af23750611b1f9ee1b01fe17dfcd9e81941056038df",
+        "canine-cub__s02__neutral__d75__p4": "f73eb73d6635faf87dbb14680d1509408194a4cf56fb5b8a9f50596fd60dd6ab",
+        "canine-cub__s02__neutral__d75__p5": "e625aec43aa31e0329534b235144b86195bb8d131eef2d8cc17dda7045048c44",
+        "canine-cub__s02__neutral__d75__p6": "12c2b8f0f85b1bb356ccce1f3fda4f44ee8248ccff7eddeab5ff66f359b62cbf",
+        "canine-cub__s02__neutral__d75__p7": "ef2356f37c53ede1ddbbc70b18bcd2a6d5764563808990d172fe19999bf7aa2a"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s02__neutral__motion__120-120",
+      "caseId": "canine-cub__s02__neutral",
+      "kind": "motion",
+      "fromAge": 120,
+      "toAge": 120,
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d120__p0",
+        "canine-cub__s02__neutral__d120__p1",
+        "canine-cub__s02__neutral__d120__p2",
+        "canine-cub__s02__neutral__d120__p3",
+        "canine-cub__s02__neutral__d120__p4",
+        "canine-cub__s02__neutral__d120__p5",
+        "canine-cub__s02__neutral__d120__p6",
+        "canine-cub__s02__neutral__d120__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d120__p0",
+        "canine-cub__s02__neutral__d120__p1",
+        "canine-cub__s02__neutral__d120__p2",
+        "canine-cub__s02__neutral__d120__p3",
+        "canine-cub__s02__neutral__d120__p4",
+        "canine-cub__s02__neutral__d120__p5",
+        "canine-cub__s02__neutral__d120__p6",
+        "canine-cub__s02__neutral__d120__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d120__p0": "a30f88302708628901a3d027d9d08bc9637634194eb1813358a5e1417d29c853",
+        "canine-cub__s02__neutral__d120__p1": "cd2a3f30d0ae22c0be3fd3e6a16d308175f0e124a6ef1733315d679b238765f7",
+        "canine-cub__s02__neutral__d120__p2": "00bb75a8dd74450d2c835410f14ce82fac10cb6391b0292cbdc8f06b224c0b7b",
+        "canine-cub__s02__neutral__d120__p3": "af44e41d8b438e7405619958b485c4196c6b894d9c71f427e3595e75229f5437",
+        "canine-cub__s02__neutral__d120__p4": "d28d478907640059a5ab47374d6846a3c489cb8720e2d9018da5fb745c9415f1",
+        "canine-cub__s02__neutral__d120__p5": "3e1537de8d3a0fab5155a1d2d2b661d9dc95468d2eef1f02df83cb8b81bfc48a",
+        "canine-cub__s02__neutral__d120__p6": "de5ba54145593a3a5980a555d2a3bf002784d3b67c985c41dfc965019df52b60",
+        "canine-cub__s02__neutral__d120__p7": "831ce333f9a32a48b715644cd9089abcb84ffc2ea82d893bf411415eaac45665"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s03__neutral__transition__0-30",
+      "caseId": "canine-cub__s03__neutral",
+      "kind": "transition",
+      "fromAge": 0,
+      "toAge": 30,
+      "requiredViewIds": [
+        "canine-cub__s03__neutral__d0",
+        "canine-cub__s03__neutral__d30",
+        "canine-cub__s03__neutral__t0-0",
+        "canine-cub__s03__neutral__t0-1",
+        "canine-cub__s03__neutral__t0-2",
+        "canine-cub__s03__neutral__t0-3",
+        "canine-cub__s03__neutral__t0-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s03__neutral__d0",
+        "canine-cub__s03__neutral__d30",
+        "canine-cub__s03__neutral__t0-0",
+        "canine-cub__s03__neutral__t0-1",
+        "canine-cub__s03__neutral__t0-2",
+        "canine-cub__s03__neutral__t0-3",
+        "canine-cub__s03__neutral__t0-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s03__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub__s03__neutral__d30": "0aad2b3fe0d7915811ed230264d3f3b0368788ee50d8d149e1c464ef5cbfc0cb",
+        "canine-cub__s03__neutral__t0-0": "d2872d79c2a0bdbb489c39f1d22429fffce9bb3f4f37678223a48b224a278ba9",
+        "canine-cub__s03__neutral__t0-1": "4894503e1d31c1224751aef0e166f5841867485402a9c534489fe86baa1cc7e5",
+        "canine-cub__s03__neutral__t0-2": "371f58dd23e9078043ba44391adeb6b751e4bb3e41ddc445a74118e17b63e8f1",
+        "canine-cub__s03__neutral__t0-3": "b220c1b7ba437a347f5ea8c97e8d9bea434e201b5b80ce98c29dc1fb6ee5dfa5",
+        "canine-cub__s03__neutral__t0-4": "1e392ea00898442e6fa770464a53ced9e7902e3bccecfbee00b4cb24f24a09f3"
+      },
+      "notes": "Rooted triangular posterior membrane plus redistributed/splayed support qualify as a clear evolved form. Authored face/tail/ears remain related to the source; the small head/trunk junction remains connected in sampled images."
+    },
+    {
+      "id": "canine-cub__s03__neutral__transition__30-75",
+      "caseId": "canine-cub__s03__neutral",
+      "kind": "transition",
+      "fromAge": 30,
+      "toAge": 75,
+      "requiredViewIds": [
+        "canine-cub__s03__neutral__d30",
+        "canine-cub__s03__neutral__d75",
+        "canine-cub__s03__neutral__t1-0",
+        "canine-cub__s03__neutral__t1-1",
+        "canine-cub__s03__neutral__t1-2",
+        "canine-cub__s03__neutral__t1-3",
+        "canine-cub__s03__neutral__t1-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s03__neutral__d30",
+        "canine-cub__s03__neutral__d75",
+        "canine-cub__s03__neutral__t1-0",
+        "canine-cub__s03__neutral__t1-1",
+        "canine-cub__s03__neutral__t1-2",
+        "canine-cub__s03__neutral__t1-3",
+        "canine-cub__s03__neutral__t1-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s03__neutral__d30": "0aad2b3fe0d7915811ed230264d3f3b0368788ee50d8d149e1c464ef5cbfc0cb",
+        "canine-cub__s03__neutral__d75": "bad5a749f7fc33256d665c7758146055d51ca0d629eecb086091e26e6b2bef2a",
+        "canine-cub__s03__neutral__t1-0": "3c0c2e4701f9444f6f648ea70c691f7c3e7853cd327162c3d972ecd91f40a816",
+        "canine-cub__s03__neutral__t1-1": "8407426a6bf2cf5d33d9fe650b89b295f4c7749d047c5aa656543477756fc8bc",
+        "canine-cub__s03__neutral__t1-2": "6fbe79e64ce0cee88f4151a4683aaedbb4678b3903cca9a9b2823ad74e531b28",
+        "canine-cub__s03__neutral__t1-3": "029fee3a6c4e49664d322f80811841ac907e30b0aeebe3a6cad655c76e6742ff",
+        "canine-cub__s03__neutral__t1-4": "260eb88f7750cd9c486a47f5be081032a8a67751e38cee7538122ed0cef25307"
+      },
+      "notes": "Source trunk/head relation reorganizes into a tall open-legged form; source motif and material identity remain traceable across sampled ages."
+    },
+    {
+      "id": "canine-cub__s03__neutral__transition__75-120",
+      "caseId": "canine-cub__s03__neutral",
+      "kind": "transition",
+      "fromAge": 75,
+      "toAge": 120,
+      "requiredViewIds": [
+        "canine-cub__s03__neutral__d75",
+        "canine-cub__s03__neutral__d120",
+        "canine-cub__s03__neutral__t2-0",
+        "canine-cub__s03__neutral__t2-1",
+        "canine-cub__s03__neutral__t2-2",
+        "canine-cub__s03__neutral__t2-3",
+        "canine-cub__s03__neutral__t2-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s03__neutral__d75",
+        "canine-cub__s03__neutral__d120",
+        "canine-cub__s03__neutral__t2-0",
+        "canine-cub__s03__neutral__t2-1",
+        "canine-cub__s03__neutral__t2-2",
+        "canine-cub__s03__neutral__t2-3",
+        "canine-cub__s03__neutral__t2-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s03__neutral__d75": "bad5a749f7fc33256d665c7758146055d51ca0d629eecb086091e26e6b2bef2a",
+        "canine-cub__s03__neutral__d120": "105fb3d95165d5d01b602eb3d7144a9f5480b27f3be006417c69243a3a8a9d95",
+        "canine-cub__s03__neutral__t2-0": "d5c3be7a0d0e22850f9d8f0fa78e204073ac7f52a640feeeec53f6d06815b1a1",
+        "canine-cub__s03__neutral__t2-1": "c76af3799b30c57a9d9dbe9aa473a01e6b1de1dd51a739b5d37fe10a50bb07d8",
+        "canine-cub__s03__neutral__t2-2": "7567254758e7163c8121afade2a10c8d49cec87bbc0ee23f44153e73954ea704",
+        "canine-cub__s03__neutral__t2-3": "6f577e3061da098662ec58a640081f73a5c26faa3e47246dac6bf896551196db",
+        "canine-cub__s03__neutral__t2-4": "34ef20bdf99b22a4401e459d87298bc88d0e94c757462d1481076e2f0631dbb9"
+      },
+      "notes": "Lower support compacts and the axis becomes more upright; a clear late form while retaining the source-derived head/tail relation."
+    },
+    {
+      "id": "canine-cub__s03__neutral__motion__0-0",
+      "caseId": "canine-cub__s03__neutral",
+      "kind": "motion",
+      "fromAge": 0,
+      "toAge": 0,
+      "requiredViewIds": [
+        "canine-cub__s03__neutral__d0__p0",
+        "canine-cub__s03__neutral__d0__p1",
+        "canine-cub__s03__neutral__d0__p2",
+        "canine-cub__s03__neutral__d0__p3",
+        "canine-cub__s03__neutral__d0__p4",
+        "canine-cub__s03__neutral__d0__p5",
+        "canine-cub__s03__neutral__d0__p6",
+        "canine-cub__s03__neutral__d0__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s03__neutral__d0__p0",
+        "canine-cub__s03__neutral__d0__p1",
+        "canine-cub__s03__neutral__d0__p2",
+        "canine-cub__s03__neutral__d0__p3",
+        "canine-cub__s03__neutral__d0__p4",
+        "canine-cub__s03__neutral__d0__p5",
+        "canine-cub__s03__neutral__d0__p6",
+        "canine-cub__s03__neutral__d0__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s03__neutral__d0__p0": "a28d03e1bdbdf930bbf5eee9670ae1e8f892e7cf8b82ef8f0ce6532f11c8b11d",
+        "canine-cub__s03__neutral__d0__p1": "898f2610428fd5ce4ea221aba70e823852403d7da0a8e42571b9dc8b76abeb6c",
+        "canine-cub__s03__neutral__d0__p2": "9f4948b410c2564b39d696ec3d479116711902d725894e56a139c953eae6b50a",
+        "canine-cub__s03__neutral__d0__p3": "772570f17522f7865df517125257ebd864d7dd5497b1d4cfc9000015b8f34815",
+        "canine-cub__s03__neutral__d0__p4": "c6851f027fbfa43236303be89d8743cc7f0fe6b961144cea4b11c924b39ce6cc",
+        "canine-cub__s03__neutral__d0__p5": "5538e1571f40829b9a2455a4c6900a6ec581a85a85e40e69862e0c42f64e5b1f",
+        "canine-cub__s03__neutral__d0__p6": "84c0f93ac698140858aec5e765b5cc36193cba4b51f5c75be4e5924309b13000",
+        "canine-cub__s03__neutral__d0__p7": "d99cf92e4de972d10ecc283360b85da48a5ac1e2d7415c214c1070e6c2e3a997"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s03__neutral__motion__30-30",
+      "caseId": "canine-cub__s03__neutral",
+      "kind": "motion",
+      "fromAge": 30,
+      "toAge": 30,
+      "requiredViewIds": [
+        "canine-cub__s03__neutral__d30__p0",
+        "canine-cub__s03__neutral__d30__p1",
+        "canine-cub__s03__neutral__d30__p2",
+        "canine-cub__s03__neutral__d30__p3",
+        "canine-cub__s03__neutral__d30__p4",
+        "canine-cub__s03__neutral__d30__p5",
+        "canine-cub__s03__neutral__d30__p6",
+        "canine-cub__s03__neutral__d30__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s03__neutral__d30__p0",
+        "canine-cub__s03__neutral__d30__p1",
+        "canine-cub__s03__neutral__d30__p2",
+        "canine-cub__s03__neutral__d30__p3",
+        "canine-cub__s03__neutral__d30__p4",
+        "canine-cub__s03__neutral__d30__p5",
+        "canine-cub__s03__neutral__d30__p6",
+        "canine-cub__s03__neutral__d30__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s03__neutral__d30__p0": "0ef6ef76873285a9a51ea8463cbcaf8639391f390bd1fc1ee2e05550b74ab2c8",
+        "canine-cub__s03__neutral__d30__p1": "79a10e2a582203df58ef59d7b975f93358d585b6008307b5a34add2440a0e47c",
+        "canine-cub__s03__neutral__d30__p2": "de5f3233026ac34281342903a30ea5fd245a910eb569e3cf579838adab073ef6",
+        "canine-cub__s03__neutral__d30__p3": "fbab54386f44d5a9178d540ae271c04a06b23fca8048dbb251b1d2acb6458517",
+        "canine-cub__s03__neutral__d30__p4": "6e3f8003ecdf79c41fdcebd98a8469b408097478d48b0deceb7f7ecf78dd2c45",
+        "canine-cub__s03__neutral__d30__p5": "f6526ba78829aa1ede569f98cc1a72c830a19b70077c304fd073138a73c00bb0",
+        "canine-cub__s03__neutral__d30__p6": "495e376c0f99fd34b48be7f7c6f0ae1b24f463a140176217213ca0f1db590d51",
+        "canine-cub__s03__neutral__d30__p7": "af1fb022f327f86ce8c4488fc4bb5e5d707dd09755028ddc103398344b1fa41a"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s03__neutral__motion__75-75",
+      "caseId": "canine-cub__s03__neutral",
+      "kind": "motion",
+      "fromAge": 75,
+      "toAge": 75,
+      "requiredViewIds": [
+        "canine-cub__s03__neutral__d75__p0",
+        "canine-cub__s03__neutral__d75__p1",
+        "canine-cub__s03__neutral__d75__p2",
+        "canine-cub__s03__neutral__d75__p3",
+        "canine-cub__s03__neutral__d75__p4",
+        "canine-cub__s03__neutral__d75__p5",
+        "canine-cub__s03__neutral__d75__p6",
+        "canine-cub__s03__neutral__d75__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s03__neutral__d75__p0",
+        "canine-cub__s03__neutral__d75__p1",
+        "canine-cub__s03__neutral__d75__p2",
+        "canine-cub__s03__neutral__d75__p3",
+        "canine-cub__s03__neutral__d75__p4",
+        "canine-cub__s03__neutral__d75__p5",
+        "canine-cub__s03__neutral__d75__p6",
+        "canine-cub__s03__neutral__d75__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s03__neutral__d75__p0": "7fe66685b7800c80919a926bcde6e875512cd0bd9ce22de502f81c4ebbb5217e",
+        "canine-cub__s03__neutral__d75__p1": "14e943bbe77196f8d36796563a5f0c9695e161bde2a9c8f76077ef2f63ad57e8",
+        "canine-cub__s03__neutral__d75__p2": "4a52f5cab30328d8abf1354b219b50d63658cdf4104b2f3c372999f349847b30",
+        "canine-cub__s03__neutral__d75__p3": "e28d71899394cc06e21e6b4aa2647cafff834f3f62d6c60d7abb217f647c30a5",
+        "canine-cub__s03__neutral__d75__p4": "a9ce084b34587e993d0fb25f33d1242a0c9b376089c776b465a78c417f6a20dd",
+        "canine-cub__s03__neutral__d75__p5": "282801dc509c8db98adf1e5caaaa86d1242fb65ccfbff35d2e0c593fd5da4f72",
+        "canine-cub__s03__neutral__d75__p6": "5618911f4708df929f6165f67260a96bb31bff737405651348a4d305e0a63804",
+        "canine-cub__s03__neutral__d75__p7": "86e2e83d542c493b07e215d9249ee547198077c2a8222e635c49489ad1f18938"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s03__neutral__motion__120-120",
+      "caseId": "canine-cub__s03__neutral",
+      "kind": "motion",
+      "fromAge": 120,
+      "toAge": 120,
+      "requiredViewIds": [
+        "canine-cub__s03__neutral__d120__p0",
+        "canine-cub__s03__neutral__d120__p1",
+        "canine-cub__s03__neutral__d120__p2",
+        "canine-cub__s03__neutral__d120__p3",
+        "canine-cub__s03__neutral__d120__p4",
+        "canine-cub__s03__neutral__d120__p5",
+        "canine-cub__s03__neutral__d120__p6",
+        "canine-cub__s03__neutral__d120__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s03__neutral__d120__p0",
+        "canine-cub__s03__neutral__d120__p1",
+        "canine-cub__s03__neutral__d120__p2",
+        "canine-cub__s03__neutral__d120__p3",
+        "canine-cub__s03__neutral__d120__p4",
+        "canine-cub__s03__neutral__d120__p5",
+        "canine-cub__s03__neutral__d120__p6",
+        "canine-cub__s03__neutral__d120__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s03__neutral__d120__p0": "8b50e4755022806724a1463cfd1bd6bb5d4190db6d66b6d19754ea2e03216596",
+        "canine-cub__s03__neutral__d120__p1": "fb0a1e5ac53968c5674c25c01998c418e6ba50d8fc7c89d091821061d56c5276",
+        "canine-cub__s03__neutral__d120__p2": "5c5252bc18b3d69f5f24e8e4c06f425233fb20dc264135c12ef73ecad26f11cf",
+        "canine-cub__s03__neutral__d120__p3": "d0933834852ab06ac90b2d7aef21eeab185c8387d038e428c5529dec461b371d",
+        "canine-cub__s03__neutral__d120__p4": "b202fe7cf181943d5b2caffcf11ae693118d8ba2b91fead3bb022f65d063388b",
+        "canine-cub__s03__neutral__d120__p5": "6e2e5eb7b2cc434f4664b1f5868dd8a7fda614dae0dd5ac2afaafef4b94cba00",
+        "canine-cub__s03__neutral__d120__p6": "66e5786efbf080be26f1e51aadedf70cbc3d365eba80b780210900dd4d47fd26",
+        "canine-cub__s03__neutral__d120__p7": "e8451c7178ea2cb5394bbf3b67ca35f0eb82f43e6a02c5ccc768ea4bb791b917"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s04__neutral__transition__0-30",
+      "caseId": "canine-cub__s04__neutral",
+      "kind": "transition",
+      "fromAge": 0,
+      "toAge": 30,
+      "requiredViewIds": [
+        "canine-cub__s04__neutral__d0",
+        "canine-cub__s04__neutral__d30",
+        "canine-cub__s04__neutral__t0-0",
+        "canine-cub__s04__neutral__t0-1",
+        "canine-cub__s04__neutral__t0-2",
+        "canine-cub__s04__neutral__t0-3",
+        "canine-cub__s04__neutral__t0-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s04__neutral__d0",
+        "canine-cub__s04__neutral__d30",
+        "canine-cub__s04__neutral__t0-0",
+        "canine-cub__s04__neutral__t0-1",
+        "canine-cub__s04__neutral__t0-2",
+        "canine-cub__s04__neutral__t0-3",
+        "canine-cub__s04__neutral__t0-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s04__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub__s04__neutral__d30": "3119e83c90e4a80d81af1ca513a2a91ad6613f375cd42cfcf9f8342c7e10c750",
+        "canine-cub__s04__neutral__t0-0": "9f937d3e3dfc07c843c204f49357340c838b358ffd18513d964b5e44e0986085",
+        "canine-cub__s04__neutral__t0-1": "c70518ac679901171c5444ab777a69c54497d89483121074f23504320d162cdc",
+        "canine-cub__s04__neutral__t0-2": "d7aed8f743bf12c57ae12736ccaa98828c69f2415e8d6120d9a3170928dc64f4",
+        "canine-cub__s04__neutral__t0-3": "fb35dfdc0ff22637000d2c327cc9deb869db1c5ec03e73cfcab88f4d5143680b",
+        "canine-cub__s04__neutral__t0-4": "8ca921e7ecb68e73771837484447cf23d57c25533a3ef1d0eae90ca3a78ac654"
+      },
+      "notes": "Upright head/trunk reorganization is clear and source-related, with coherent lower clusters."
+    },
+    {
+      "id": "canine-cub__s04__neutral__transition__30-75",
+      "caseId": "canine-cub__s04__neutral",
+      "kind": "transition",
+      "fromAge": 30,
+      "toAge": 75,
+      "requiredViewIds": [
+        "canine-cub__s04__neutral__d30",
+        "canine-cub__s04__neutral__d75",
+        "canine-cub__s04__neutral__t1-0",
+        "canine-cub__s04__neutral__t1-1",
+        "canine-cub__s04__neutral__t1-2",
+        "canine-cub__s04__neutral__t1-3",
+        "canine-cub__s04__neutral__t1-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s04__neutral__d30",
+        "canine-cub__s04__neutral__d75",
+        "canine-cub__s04__neutral__t1-0",
+        "canine-cub__s04__neutral__t1-1",
+        "canine-cub__s04__neutral__t1-2",
+        "canine-cub__s04__neutral__t1-3",
+        "canine-cub__s04__neutral__t1-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s04__neutral__d30": "3119e83c90e4a80d81af1ca513a2a91ad6613f375cd42cfcf9f8342c7e10c750",
+        "canine-cub__s04__neutral__d75": "3bd6caf148822e847a209e7f78ea1d3fec34aa6c7f3a77301ae1b5abc631f8b9",
+        "canine-cub__s04__neutral__t1-0": "41371d938be3527154e3b810e636c8d33bf183f6aee1f60a710dce19df8bc1fc",
+        "canine-cub__s04__neutral__t1-1": "072eab07b5b50ba6b0e03dbb3e88b9e221bc3eb4cb6964ab5e0191046a7e0d6d",
+        "canine-cub__s04__neutral__t1-2": "382c9115a1533c3dc9ada724cdfa69c8ffc2f9f30a3325535f96ebe41e807724",
+        "canine-cub__s04__neutral__t1-3": "ae057114aba370588fe25dc66c449a7620dc61733e7380fc5b2686c81104770d",
+        "canine-cub__s04__neutral__t1-4": "004d30ae884d19fd384b33a3ab8704e9cc555471c721fa028dbd215fc4a97ff4"
+      },
+      "notes": "Upright teen redistributes into a lower diagonal organization with changed supporting geometry and preserved material identity."
+    },
+    {
+      "id": "canine-cub__s04__neutral__transition__75-120",
+      "caseId": "canine-cub__s04__neutral",
+      "kind": "transition",
+      "fromAge": 75,
+      "toAge": 120,
+      "requiredViewIds": [
+        "canine-cub__s04__neutral__d75",
+        "canine-cub__s04__neutral__d120",
+        "canine-cub__s04__neutral__t2-0",
+        "canine-cub__s04__neutral__t2-1",
+        "canine-cub__s04__neutral__t2-2",
+        "canine-cub__s04__neutral__t2-3",
+        "canine-cub__s04__neutral__t2-4"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": 2,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s04__neutral__d75",
+        "canine-cub__s04__neutral__d120",
+        "canine-cub__s04__neutral__t2-0",
+        "canine-cub__s04__neutral__t2-1",
+        "canine-cub__s04__neutral__t2-2",
+        "canine-cub__s04__neutral__t2-3",
+        "canine-cub__s04__neutral__t2-4"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s04__neutral__d75": "3bd6caf148822e847a209e7f78ea1d3fec34aa6c7f3a77301ae1b5abc631f8b9",
+        "canine-cub__s04__neutral__d120": "11b6b5b73549a53260c190f4b48201de1e21dabee1388fe80bedadce3134a35a",
+        "canine-cub__s04__neutral__t2-0": "9af488ee72f37b741731261f4bde01a4d1f272b704d6728d24847db39199d2b9",
+        "canine-cub__s04__neutral__t2-1": "456cf6d3b462db95a13431167f738407c65371176567b138a0159e74fe709cb9",
+        "canine-cub__s04__neutral__t2-2": "c74b8147d6eb54b77acd613cde30a49377e1009ee552e3e2d70e4cecd842fa7b",
+        "canine-cub__s04__neutral__t2-3": "ba0a6ea6143dd426dc3772238914e0c986d7d07ebd406467b446c81b711ed0ef",
+        "canine-cub__s04__neutral__t2-4": "7a7f7f1aea3401e7494f51da083a3e6dc4eecc4cfdd814798f2a5aa54a7af950"
+      },
+      "notes": "Head/trunk mass and support reorganize toward a compact upright form. Borderline score2 rather than major score3; authored long-tail identity persists."
+    },
+    {
+      "id": "canine-cub__s04__neutral__motion__0-0",
+      "caseId": "canine-cub__s04__neutral",
+      "kind": "motion",
+      "fromAge": 0,
+      "toAge": 0,
+      "requiredViewIds": [
+        "canine-cub__s04__neutral__d0__p0",
+        "canine-cub__s04__neutral__d0__p1",
+        "canine-cub__s04__neutral__d0__p2",
+        "canine-cub__s04__neutral__d0__p3",
+        "canine-cub__s04__neutral__d0__p4",
+        "canine-cub__s04__neutral__d0__p5",
+        "canine-cub__s04__neutral__d0__p6",
+        "canine-cub__s04__neutral__d0__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s04__neutral__d0__p0",
+        "canine-cub__s04__neutral__d0__p1",
+        "canine-cub__s04__neutral__d0__p2",
+        "canine-cub__s04__neutral__d0__p3",
+        "canine-cub__s04__neutral__d0__p4",
+        "canine-cub__s04__neutral__d0__p5",
+        "canine-cub__s04__neutral__d0__p6",
+        "canine-cub__s04__neutral__d0__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s04__neutral__d0__p0": "a28d03e1bdbdf930bbf5eee9670ae1e8f892e7cf8b82ef8f0ce6532f11c8b11d",
+        "canine-cub__s04__neutral__d0__p1": "898f2610428fd5ce4ea221aba70e823852403d7da0a8e42571b9dc8b76abeb6c",
+        "canine-cub__s04__neutral__d0__p2": "9f4948b410c2564b39d696ec3d479116711902d725894e56a139c953eae6b50a",
+        "canine-cub__s04__neutral__d0__p3": "efb8feecaa566f55cd7a3ec853d6b68c239071eaaf1de5923c692c08bcc4cd50",
+        "canine-cub__s04__neutral__d0__p4": "874219c174894aa49c44fb662a59dd7e72534b3134904f30d99a079e8a5149fb",
+        "canine-cub__s04__neutral__d0__p5": "5538e1571f40829b9a2455a4c6900a6ec581a85a85e40e69862e0c42f64e5b1f",
+        "canine-cub__s04__neutral__d0__p6": "84c0f93ac698140858aec5e765b5cc36193cba4b51f5c75be4e5924309b13000",
+        "canine-cub__s04__neutral__d0__p7": "d99cf92e4de972d10ecc283360b85da48a5ac1e2d7415c214c1070e6c2e3a997"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s04__neutral__motion__30-30",
+      "caseId": "canine-cub__s04__neutral",
+      "kind": "motion",
+      "fromAge": 30,
+      "toAge": 30,
+      "requiredViewIds": [
+        "canine-cub__s04__neutral__d30__p0",
+        "canine-cub__s04__neutral__d30__p1",
+        "canine-cub__s04__neutral__d30__p2",
+        "canine-cub__s04__neutral__d30__p3",
+        "canine-cub__s04__neutral__d30__p4",
+        "canine-cub__s04__neutral__d30__p5",
+        "canine-cub__s04__neutral__d30__p6",
+        "canine-cub__s04__neutral__d30__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s04__neutral__d30__p0",
+        "canine-cub__s04__neutral__d30__p1",
+        "canine-cub__s04__neutral__d30__p2",
+        "canine-cub__s04__neutral__d30__p3",
+        "canine-cub__s04__neutral__d30__p4",
+        "canine-cub__s04__neutral__d30__p5",
+        "canine-cub__s04__neutral__d30__p6",
+        "canine-cub__s04__neutral__d30__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s04__neutral__d30__p0": "8fa936bed3860152485bcd4c3f02af3853c906e709665f0779474744d927135f",
+        "canine-cub__s04__neutral__d30__p1": "5eac170c8a8031ae2a491f0685688b00af063c30a10694bcf89d317055a240a2",
+        "canine-cub__s04__neutral__d30__p2": "668a5f04b5fa61c0b0b23ccc05ef2fc7f99e87cefece37fab3a4ec44ef0b46b1",
+        "canine-cub__s04__neutral__d30__p3": "a5c1c33b5c101472e407139b5bffb9c8d168cda37b9f97ebf220c8f639fc3704",
+        "canine-cub__s04__neutral__d30__p4": "807998558699d97bffd2e54859381327a213e62d2ca40320889988ac92845d64",
+        "canine-cub__s04__neutral__d30__p5": "e10d76ffbefd3d20f145ba0125d4cf1f7fd961f4f41d273901ac1dd6e3563e1a",
+        "canine-cub__s04__neutral__d30__p6": "d8dfe25328550a22a2f3c7e7155294245b61b55da03f2af6a9709e56c112a3b5",
+        "canine-cub__s04__neutral__d30__p7": "4a49b06960705057cbf8fa3eaf957128b95c9a0a835b0317f973849dfdd42dc3"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s04__neutral__motion__75-75",
+      "caseId": "canine-cub__s04__neutral",
+      "kind": "motion",
+      "fromAge": 75,
+      "toAge": 75,
+      "requiredViewIds": [
+        "canine-cub__s04__neutral__d75__p0",
+        "canine-cub__s04__neutral__d75__p1",
+        "canine-cub__s04__neutral__d75__p2",
+        "canine-cub__s04__neutral__d75__p3",
+        "canine-cub__s04__neutral__d75__p4",
+        "canine-cub__s04__neutral__d75__p5",
+        "canine-cub__s04__neutral__d75__p6",
+        "canine-cub__s04__neutral__d75__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s04__neutral__d75__p0",
+        "canine-cub__s04__neutral__d75__p1",
+        "canine-cub__s04__neutral__d75__p2",
+        "canine-cub__s04__neutral__d75__p3",
+        "canine-cub__s04__neutral__d75__p4",
+        "canine-cub__s04__neutral__d75__p5",
+        "canine-cub__s04__neutral__d75__p6",
+        "canine-cub__s04__neutral__d75__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s04__neutral__d75__p0": "d4526840b07582c9ff85546e9882dca18449a6cd8e88233423fac4a9a6d020db",
+        "canine-cub__s04__neutral__d75__p1": "8af6fc85969a469863f702df92cb0f09017ebfd1eb29394f1ba592d9eaa30bef",
+        "canine-cub__s04__neutral__d75__p2": "0404012d476b2972ef6c2812338e140d0eb6087d7adef7628ff11e32c36d02eb",
+        "canine-cub__s04__neutral__d75__p3": "d144a09fb2e8ec5e1289b52f3f43e3e69c12b0bf189f6cd115fdea1058da5f2d",
+        "canine-cub__s04__neutral__d75__p4": "41b214fb55d0a5c5c8c859fbbddc40e33fa9262fc3c2258472bc4430344529be",
+        "canine-cub__s04__neutral__d75__p5": "e4dcb95597d3b6565b00088627a0f4dbf41b12befd428cd8ffa2a40ea58d7fb0",
+        "canine-cub__s04__neutral__d75__p6": "f98d8b45966e32f8e0cd6718e97a3330a69e305cb0ca0ede12a10a0bc17cdc2c",
+        "canine-cub__s04__neutral__d75__p7": "114f35605c1e449d843ee7cc66164cc05155ac0cfd921ac44adfc14738fdee7b"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    },
+    {
+      "id": "canine-cub__s04__neutral__motion__120-120",
+      "caseId": "canine-cub__s04__neutral",
+      "kind": "motion",
+      "fromAge": 120,
+      "toAge": 120,
+      "requiredViewIds": [
+        "canine-cub__s04__neutral__d120__p0",
+        "canine-cub__s04__neutral__d120__p1",
+        "canine-cub__s04__neutral__d120__p2",
+        "canine-cub__s04__neutral__d120__p3",
+        "canine-cub__s04__neutral__d120__p4",
+        "canine-cub__s04__neutral__d120__p5",
+        "canine-cub__s04__neutral__d120__p6",
+        "canine-cub__s04__neutral__d120__p7"
+      ],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "secondary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": null,
+      "causalCare": null,
+      "continuity": 2,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s04__neutral__d120__p0",
+        "canine-cub__s04__neutral__d120__p1",
+        "canine-cub__s04__neutral__d120__p2",
+        "canine-cub__s04__neutral__d120__p3",
+        "canine-cub__s04__neutral__d120__p4",
+        "canine-cub__s04__neutral__d120__p5",
+        "canine-cub__s04__neutral__d120__p6",
+        "canine-cub__s04__neutral__d120__p7"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s04__neutral__d120__p0": "fc744e7da0d661f2a75fd0d2244566aaada0149783db01777f9afefed0b33f5f",
+        "canine-cub__s04__neutral__d120__p1": "e7fb4ef6c90c77321d644257812ac0a3c4a06e2e2e23f06c12ed512a3a363e9d",
+        "canine-cub__s04__neutral__d120__p2": "5786cd7f9a37cc3d63eb393085748fb86ab0a38bdb00aa18da2f08a2ac876ea8",
+        "canine-cub__s04__neutral__d120__p3": "14a46244c248a1244c1fdda3e2a9354a0e1f7d4eb70332389c3e61928c1ff3a3",
+        "canine-cub__s04__neutral__d120__p4": "d6ad73b3d9b10782a59c84a9b5a211be8d33f00bf637c612cfd16ed4b760a8e3",
+        "canine-cub__s04__neutral__d120__p5": "21da0bd34fe102fe5a0b36b77229b612558fc9201ea6f8fc1efaec8ee76d1cfe",
+        "canine-cub__s04__neutral__d120__p6": "432edf93daf401e7440efb67a0be550b5a62100b93d5a5653f4c96d238da7f5d",
+        "canine-cub__s04__neutral__d120__p7": "62b47bcabe3a2d74e590a50a8b4ad5d14b1d26dd9f81c2d8cc97a26dc34d0380"
+      },
+      "notes": "Freshly inspected all eight005 held phases. Coherent material clusters and stable overall framing; no gross feature detachment or per-phase zoom failure observed. Seed4 teen oblique phases still have noticeable speckling/rotation, and slender late forms can obscure tiny facial detail. Coarse visual score2 does not claim measured stance slip, penetration, joint-length accuracy or natural gait."
+    }
+  ],
+  "findings": {
+    "evolutionPass": 12,
+    "descentPass": 12,
+    "jointPass": 12,
+    "transitionDenominator": 12,
+    "motionCyclesInspected": 16
+  },
+  "limitations": [
+    "Agent review with known implementation context and familiarity with earlier iterations; not a human or external blind assessment.",
+    "Five intermediate samples per interval cannot establish every-age continuity.",
+    "Motion sheets assess coarse coherence/framing, not measured physical gait tolerances.",
+    "Some slender late forms have tiny faces, and seed4 teen oblique phases show speckling; these remain cleanup findings rather than being hidden by the pass count.",
+    "Source-counterfactual and care-response visual audits are separate; this proof grants neither automatically."
+  ]
+}

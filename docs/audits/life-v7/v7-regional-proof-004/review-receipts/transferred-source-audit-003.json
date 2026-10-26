@@ -1,0 +1,2381 @@
+{
+  "fromRun": "v7-regional-proof-003",
+  "toRun": "v7-regional-proof-004",
+  "reviewer": "/root/audit_v6",
+  "reviewerKind": "agent",
+  "role": "primary",
+  "transferredAt": "2026-10-24T10:11:24.016Z",
+  "method": "Exact-equivalence inheritance only. Every required/inspected frame and derived mask must match. These records are prior-run inspections, not newly viewed images.",
+  "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+  "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+  "originalReviewTimes": {
+    "recordedAt": "2026-10-24T09:38:53.655Z"
+  },
+  "eligibleRecordCount": 46,
+  "excluded": [
+    {
+      "id": "canine-cub--body-ratio__s02__source-counterfactual__120-120",
+      "reviewer": "/root/audit_v6",
+      "changedViewIds": [
+        "canine-cub--body-ratio__s02__d120"
+      ],
+      "changedDiagnosticIds": []
+    },
+    {
+      "id": "canine-cub--body-bend__s02__source-counterfactual__120-120",
+      "reviewer": "/root/audit_v6",
+      "changedViewIds": [
+        "canine-cub--body-bend__s02__d120"
+      ],
+      "changedDiagnosticIds": []
+    }
+  ],
+  "records": [
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-ratio__s01__source-counterfactual__0-0",
+      "caseId": "canine-cub--body-ratio__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--body-ratio__s01__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--body-ratio__s01__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--body-ratio__s01__d0": "53645568ee7937fa87f7da893d70fa9f6555de8bbc89555f79494c28442c7954"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The edited trunk develops a different regional balance at30/75/120; this is visible in broad torso/neck/abdomen organization, not merely the unchanged seed string. The source edit also changes contact with its head atbirth, so an authored gap must not be called a new detachment. This edited drawing is already disconnected atbirth (white components109/82), so the day30 separation is not spontaneous attachment loss. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "dd3085a174e8a13e54e805aae2304be705e245a64a569176f7b6074cba34e208",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-ratio__s01__source-counterfactual__30-30",
+      "caseId": "canine-cub--body-ratio__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--body-ratio__s01__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--body-ratio__s01__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d30": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+        "canine-cub--body-ratio__s01__d30": "ddde2532ce86e6e5839fd989a4300ef439b78d9da18c55b15620d9bac040ecea"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The edited trunk develops a different regional balance at30/75/120; this is visible in broad torso/neck/abdomen organization, not merely the unchanged seed string. The source edit also changes contact with its head atbirth, so an authored gap must not be called a new detachment. This edited drawing is already disconnected atbirth (white components109/82), so the day30 separation is not spontaneous attachment loss. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "fba8bcd283d83126aea1245581a8367a164c0ca7b8146a7820d57eb67aafd275",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-ratio__s01__source-counterfactual__75-75",
+      "caseId": "canine-cub--body-ratio__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--body-ratio__s01__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--body-ratio__s01__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d75": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+        "canine-cub--body-ratio__s01__d75": "2c4ca7fef3d4976030040983469fb14b2ad29f617d39d2b13359ce29f0307b66"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The edited trunk develops a different regional balance at30/75/120; this is visible in broad torso/neck/abdomen organization, not merely the unchanged seed string. The source edit also changes contact with its head atbirth, so an authored gap must not be called a new detachment. This edited drawing is already disconnected atbirth (white components109/82), so the day30 separation is not spontaneous attachment loss. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "ef1c367fbd1ab433b027a13ea89a15f4ca161d565f29ba922b29e6e038f1d112",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-ratio__s01__source-counterfactual__120-120",
+      "caseId": "canine-cub--body-ratio__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--body-ratio__s01__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--body-ratio__s01__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d120": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+        "canine-cub--body-ratio__s01__d120": "c0a15c04647517a707d087e9ba3afa32400029d035bc4145fc46935c442c4dd8"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The edited trunk develops a different regional balance at30/75/120; this is visible in broad torso/neck/abdomen organization, not merely the unchanged seed string. The source edit also changes contact with its head atbirth, so an authored gap must not be called a new detachment. This edited drawing is already disconnected atbirth (white components109/82), so the day30 separation is not spontaneous attachment loss. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "ad247530d94a686f7e8c90d3483a09afc9ac03b98fd77bec2ea58d6661625460",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-ratio__s02__source-counterfactual__0-0",
+      "caseId": "canine-cub--body-ratio__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--body-ratio__s02__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--body-ratio__s02__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--body-ratio__s02__d0": "53645568ee7937fa87f7da893d70fa9f6555de8bbc89555f79494c28442c7954"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The edited trunk develops a different regional balance at30/75/120; this is visible in broad torso/neck/abdomen organization, not merely the unchanged seed string. The source edit also changes contact with its head atbirth, so an authored gap must not be called a new detachment. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "71bd9c4a47ffa0c03f4bf2ddcb4d617af3103863ae5243a9aac293fed8e9879f",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-ratio__s02__source-counterfactual__30-30",
+      "caseId": "canine-cub--body-ratio__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--body-ratio__s02__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--body-ratio__s02__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d30": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+        "canine-cub--body-ratio__s02__d30": "c5fe4bc4602c40d8eb0f62bc56da97403869ae73c49b5833003a4e13eff835b3"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The edited trunk develops a different regional balance at30/75/120; this is visible in broad torso/neck/abdomen organization, not merely the unchanged seed string. The source edit also changes contact with its head atbirth, so an authored gap must not be called a new detachment. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "cd58e8148c689b7f06197c0ce795a0dddff66766b97c7216f2d0dbba3dee1736",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-ratio__s02__source-counterfactual__75-75",
+      "caseId": "canine-cub--body-ratio__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--body-ratio__s02__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--body-ratio__s02__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d75": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+        "canine-cub--body-ratio__s02__d75": "2306ddf00fe8dcecfd36a6b822063e226dacb1520107957820e7da94bfefa495"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The edited trunk develops a different regional balance at30/75/120; this is visible in broad torso/neck/abdomen organization, not merely the unchanged seed string. The source edit also changes contact with its head atbirth, so an authored gap must not be called a new detachment. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "be9e17a0997dd4d8f4a32e5b6b40cf2972e13b7f152f879a2661d473c5f933bf",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-bend__s01__source-counterfactual__0-0",
+      "caseId": "canine-cub--body-bend__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--body-bend__s01__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--body-bend__s01__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--body-bend__s01__d0": "a588fe6c634985c492b75648c1c3c703914442fc36d58cae8232277aa9567540"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The curved authored trunk produces a visibly altered adult/elder contour and head/trunk relation under the same inherited genes. The response is broader than a local line bend. Seed02day120 additionally has a clear new head/body separation and therefore fails coherence. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "34b5146f178c0ea93b4d21cce4b260dfc1a481cafcfc3f8f15045676fa0bfd69",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-bend__s01__source-counterfactual__30-30",
+      "caseId": "canine-cub--body-bend__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--body-bend__s01__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--body-bend__s01__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d30": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+        "canine-cub--body-bend__s01__d30": "0ef3ad53cfa4ffd6c5ac11f419cad14e1b8ecfaeb826cadc3cc3c4281814a5d4"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The curved authored trunk produces a visibly altered adult/elder contour and head/trunk relation under the same inherited genes. The response is broader than a local line bend. Seed02day120 additionally has a clear new head/body separation and therefore fails coherence. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "ab8c04b47988cb24ecc64ccd3c57004e9f99f2afadf96eb60b36aaa737eab585",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-bend__s01__source-counterfactual__75-75",
+      "caseId": "canine-cub--body-bend__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--body-bend__s01__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--body-bend__s01__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d75": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+        "canine-cub--body-bend__s01__d75": "4c516ccec7e45f23ccfa006dc778ebae12d74baa76155f87abb6efbd62d8da70"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The curved authored trunk produces a visibly altered adult/elder contour and head/trunk relation under the same inherited genes. The response is broader than a local line bend. Seed02day120 additionally has a clear new head/body separation and therefore fails coherence. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "697144ed7dbb04c21e0ea5105f0ccf6dea2f49302a56cedea25a757192fe7bd4",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-bend__s01__source-counterfactual__120-120",
+      "caseId": "canine-cub--body-bend__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--body-bend__s01__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--body-bend__s01__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d120": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+        "canine-cub--body-bend__s01__d120": "aec877b8864da7fbff3c461e3761657b5f5be405fb248ea12771d575c98c8b33"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The curved authored trunk produces a visibly altered adult/elder contour and head/trunk relation under the same inherited genes. The response is broader than a local line bend. Seed02day120 additionally has a clear new head/body separation and therefore fails coherence. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "2458333a22dda844f06f09d036225b77e5a8150e89e1f3d8f5bbd373bf09971d",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-bend__s02__source-counterfactual__0-0",
+      "caseId": "canine-cub--body-bend__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--body-bend__s02__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--body-bend__s02__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--body-bend__s02__d0": "a588fe6c634985c492b75648c1c3c703914442fc36d58cae8232277aa9567540"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The curved authored trunk produces a visibly altered adult/elder contour and head/trunk relation under the same inherited genes. The response is broader than a local line bend. Seed02day120 additionally has a clear new head/body separation and therefore fails coherence. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "4b3c2b3ce63d92f0943531c80688be5876c6626656a5df0f095c9bf8f11da62d",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-bend__s02__source-counterfactual__30-30",
+      "caseId": "canine-cub--body-bend__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--body-bend__s02__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--body-bend__s02__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d30": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+        "canine-cub--body-bend__s02__d30": "513b2a60335dd078af170bcd5a591087eaecd4a217368dc1a31470b00403e426"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The curved authored trunk produces a visibly altered adult/elder contour and head/trunk relation under the same inherited genes. The response is broader than a local line bend. Seed02day120 additionally has a clear new head/body separation and therefore fails coherence. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "2ec3a2fbec71bca66a7bb2d35b06ffafbd35bfc12749fd85224d654c1faa940e",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--body-bend__s02__source-counterfactual__75-75",
+      "caseId": "canine-cub--body-bend__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--body-bend__s02__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--body-bend__s02__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d75": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+        "canine-cub--body-bend__s02__d75": "604c6ee7812dd31668704c5be1cfd26c7b055b643737954beed9856a8973bf57"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The curved authored trunk produces a visibly altered adult/elder contour and head/trunk relation under the same inherited genes. The response is broader than a local line bend. Seed02day120 additionally has a clear new head/body separation and therefore fails coherence. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "99ebc65995a388e386f4bdb7eaeaa582d143823fa6457341408a6c8c592b333c",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--attachment-length__s01__source-counterfactual__0-0",
+      "caseId": "canine-cub--attachment-length__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--attachment-length__s01__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--attachment-length__s01__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--attachment-length__s01__d0": "6b1774a7d2311f3cf106431f53f9d158246898d3118029cf8e10388a9978ef9d"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The longer source tail remains traceable as a local tip/extent difference, especially at75/120. The effect is subtle beside the much larger inherited core restructuring; no large whole-body transformation is credited to this edit. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "820e4249cb41dbefacf51dd8f8f4fdd5354b005de33b23f988ff97a47e23de50",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--attachment-length__s01__source-counterfactual__30-30",
+      "caseId": "canine-cub--attachment-length__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--attachment-length__s01__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--attachment-length__s01__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d30": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+        "canine-cub--attachment-length__s01__d30": "910a0d59eff359bed1ba2ff715a49aae36fe0a9aab1e061e14c4a1980b5df3c4"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The longer source tail remains traceable as a local tip/extent difference, especially at75/120. The effect is subtle beside the much larger inherited core restructuring; no large whole-body transformation is credited to this edit. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "db1e5f1c546f3643ca33b1544c28d80af38a930781b7e70b527f27c1366a4915",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--attachment-length__s01__source-counterfactual__75-75",
+      "caseId": "canine-cub--attachment-length__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--attachment-length__s01__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--attachment-length__s01__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d75": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+        "canine-cub--attachment-length__s01__d75": "120e75a65f2752e151df00ab1100d8b414e237c0eba342567f82c9acfdeb1ceb"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The longer source tail remains traceable as a local tip/extent difference, especially at75/120. The effect is subtle beside the much larger inherited core restructuring; no large whole-body transformation is credited to this edit. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "ba8b2c5b650babc1a83242392d82b453645c920ac3b5b43e850046cf6ddee18c",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--attachment-length__s01__source-counterfactual__120-120",
+      "caseId": "canine-cub--attachment-length__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--attachment-length__s01__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--attachment-length__s01__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d120": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+        "canine-cub--attachment-length__s01__d120": "18e48064d4cf718db09caf266699c76134cdb97f89666f0fb1fe84a0589522d9"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The longer source tail remains traceable as a local tip/extent difference, especially at75/120. The effect is subtle beside the much larger inherited core restructuring; no large whole-body transformation is credited to this edit. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "80002afb237b3dea4d7e008d46a19a6db8fdc1cc295712f2b920f0a69e0c0ba2",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--attachment-length__s02__source-counterfactual__0-0",
+      "caseId": "canine-cub--attachment-length__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--attachment-length__s02__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--attachment-length__s02__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--attachment-length__s02__d0": "6b1774a7d2311f3cf106431f53f9d158246898d3118029cf8e10388a9978ef9d"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The longer source tail remains traceable as a local tip/extent difference, especially at75/120. The effect is subtle beside the much larger inherited core restructuring; no large whole-body transformation is credited to this edit. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "c84a54d3b073a46307e30dcb62fd1857488f61f07a4193019e923c0fb63bdd11",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--attachment-length__s02__source-counterfactual__30-30",
+      "caseId": "canine-cub--attachment-length__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--attachment-length__s02__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--attachment-length__s02__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d30": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+        "canine-cub--attachment-length__s02__d30": "6e7bb3676b4c01664429866a7f231483ef1658434c8a6baaca7aea77516054e5"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The longer source tail remains traceable as a local tip/extent difference, especially at75/120. The effect is subtle beside the much larger inherited core restructuring; no large whole-body transformation is credited to this edit. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "f5b0c2820aadac8a41912d06c40950799ddac329f6efd700b9088a8f8842f2b3",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--attachment-length__s02__source-counterfactual__75-75",
+      "caseId": "canine-cub--attachment-length__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--attachment-length__s02__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--attachment-length__s02__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d75": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+        "canine-cub--attachment-length__s02__d75": "873519c4fe11b2577a10603330a3f9eef9b257fd9e9ce6d08679967fca7865ad"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The longer source tail remains traceable as a local tip/extent difference, especially at75/120. The effect is subtle beside the much larger inherited core restructuring; no large whole-body transformation is credited to this edit. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "f39f63f9433d9ec49af5643aa14109a8d99933656d4ba09d0d1625627af6ed79",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--attachment-length__s02__source-counterfactual__120-120",
+      "caseId": "canine-cub--attachment-length__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--attachment-length__s02__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--attachment-length__s02__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d120": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204",
+        "canine-cub--attachment-length__s02__d120": "819e0d8107599234a94d5a54af46f353f0df32dc2f2c58468353c6b2bb0aaf1c"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The longer source tail remains traceable as a local tip/extent difference, especially at75/120. The effect is subtle beside the much larger inherited core restructuring; no large whole-body transformation is credited to this edit. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "81370be3858f801b8f9ee20977658a7870fe3242fe109b8f747f67a93b146fa7",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--face-spacing__s01__source-counterfactual__0-0",
+      "caseId": "canine-cub--face-spacing__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--face-spacing__s01__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--face-spacing__s01__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--face-spacing__s01__d0": "1a9c81e5a204350f79d74cb20013d0e867e490cec46f9c09797243c7df211000"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The moved authored eye pixels produce different facial gaps/spacing on corresponding descendant hosts. The differences are small and can alter local protected-face contour; the overall inherited form remains related. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "941abc3e5bcace285f11415dd605fa0a2e11058b7bdc42ad9ccf689bdfec274c",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--face-spacing__s01__source-counterfactual__30-30",
+      "caseId": "canine-cub--face-spacing__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--face-spacing__s01__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--face-spacing__s01__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d30": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+        "canine-cub--face-spacing__s01__d30": "a41e8757f1a52b0c498ebb8cf893e75436a27dcbe615d0eda4019f3f48a215e6"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The moved authored eye pixels produce different facial gaps/spacing on corresponding descendant hosts. The differences are small and can alter local protected-face contour; the overall inherited form remains related. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "60671cb107fb4bab1110ddd15e8fba0ed6e36a801e8c979814401e77b98ee33b",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--face-spacing__s01__source-counterfactual__75-75",
+      "caseId": "canine-cub--face-spacing__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--face-spacing__s01__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--face-spacing__s01__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d75": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+        "canine-cub--face-spacing__s01__d75": "dda243a2a83a6c65c2a50ce075af5172f9a589fdafe4d48acd82561ef9be6aed"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The moved authored eye pixels produce different facial gaps/spacing on corresponding descendant hosts. The differences are small and can alter local protected-face contour; the overall inherited form remains related. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "99392a6f2dc2ae5b5e6daf95d548cca742d4c79a87db1169dd559fab808f98ca",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--face-spacing__s01__source-counterfactual__120-120",
+      "caseId": "canine-cub--face-spacing__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--face-spacing__s01__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--face-spacing__s01__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d120": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+        "canine-cub--face-spacing__s01__d120": "1e4c88029b743a4f9a1636ea3e4989ec9e71d6ce5923468f25079c7faa611db5"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The moved authored eye pixels produce different facial gaps/spacing on corresponding descendant hosts. The differences are small and can alter local protected-face contour; the overall inherited form remains related. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "c95999d47cf758e0f781d39d3d2fc9c96d764eac4c1138a238c8a38d80d4213c",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--face-spacing__s02__source-counterfactual__0-0",
+      "caseId": "canine-cub--face-spacing__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--face-spacing__s02__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--face-spacing__s02__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--face-spacing__s02__d0": "1a9c81e5a204350f79d74cb20013d0e867e490cec46f9c09797243c7df211000"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The moved authored eye pixels produce different facial gaps/spacing on corresponding descendant hosts. The differences are small and can alter local protected-face contour; the overall inherited form remains related. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "ec2fc9ea81aacadda34ac5df4eb00200babd68de507a3b633e0e76f7f8a85d7e",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--face-spacing__s02__source-counterfactual__30-30",
+      "caseId": "canine-cub--face-spacing__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--face-spacing__s02__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--face-spacing__s02__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d30": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+        "canine-cub--face-spacing__s02__d30": "da5599672c5229f66952aa461d53e6c5d7f3a9fe13fac15ef02cbb2eb7a7a95f"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The moved authored eye pixels produce different facial gaps/spacing on corresponding descendant hosts. The differences are small and can alter local protected-face contour; the overall inherited form remains related. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "70bb2f2a13b3327c92d20dfe4e6af39a6c1f5d974df1a7fcf2909b5983516dcd",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--face-spacing__s02__source-counterfactual__75-75",
+      "caseId": "canine-cub--face-spacing__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--face-spacing__s02__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--face-spacing__s02__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d75": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+        "canine-cub--face-spacing__s02__d75": "38cf1b4a399f2bf18233bf39d72c771b31f8517a8c42328d645375e03ca58be8"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The moved authored eye pixels produce different facial gaps/spacing on corresponding descendant hosts. The differences are small and can alter local protected-face contour; the overall inherited form remains related. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "9d0d9b6f80a9e07f9d6e7efbb85c11c669759c88018ecedb321733c7cb0c4a0c",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--face-spacing__s02__source-counterfactual__120-120",
+      "caseId": "canine-cub--face-spacing__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--face-spacing__s02__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--face-spacing__s02__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d120": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204",
+        "canine-cub--face-spacing__s02__d120": "b8192fcc6a48f6cbc26da06a992fa5753e3c3e7100f4eab4e999fbe166473649"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The moved authored eye pixels produce different facial gaps/spacing on corresponding descendant hosts. The differences are small and can alter local protected-face contour; the overall inherited form remains related. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "e26cd80348a66220578c98ad396cbf57aac443d3ee5c94154957bcb2908e071c",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--palette-control__s01__source-counterfactual__0-0",
+      "caseId": "canine-cub--palette-control__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--palette-control__s01__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--palette-control__s01__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--palette-control__s01__d0": "e23a0ea5d05f6141546d338d769f5081ed94284177c2d5a7250f88a2ea190722"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "Rendered pigments differ while the same shape and source organization remain. Pixel coordinates and inherited genes are checked separately; visual color difference is not genetic diversity. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "9d5278bf629c078957ad3960479f1353e3a34a93218f9985f349ffb9bd7ade63",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--palette-control__s01__source-counterfactual__30-30",
+      "caseId": "canine-cub--palette-control__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--palette-control__s01__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--palette-control__s01__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d30": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+        "canine-cub--palette-control__s01__d30": "439ca01b0b41f254472c00635f6dcdcf50f6891ef9a390d2e74e6ac8d3753ca8"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "Rendered pigments differ while the same shape and source organization remain. Pixel coordinates and inherited genes are checked separately; visual color difference is not genetic diversity. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "caa2b43624c8e15972c96857e350f89193f39cd4e41d577c8a3ac42872e21055",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--palette-control__s01__source-counterfactual__75-75",
+      "caseId": "canine-cub--palette-control__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--palette-control__s01__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--palette-control__s01__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d75": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+        "canine-cub--palette-control__s01__d75": "98c93c8fa2a37d847fe8b958e54d6b5a1e613e13e2b00dd14346bc439fe1dcdd"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "Rendered pigments differ while the same shape and source organization remain. Pixel coordinates and inherited genes are checked separately; visual color difference is not genetic diversity. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "11112753273541a3ca106dd68f9d8997e59f79c573f08e7205ea587a16171167",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--palette-control__s01__source-counterfactual__120-120",
+      "caseId": "canine-cub--palette-control__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--palette-control__s01__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--palette-control__s01__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d120": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+        "canine-cub--palette-control__s01__d120": "68fa1731b840037b56196e3c28b7b766d0e3b95a52db67dcfd0550cfeb326e82"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "Rendered pigments differ while the same shape and source organization remain. Pixel coordinates and inherited genes are checked separately; visual color difference is not genetic diversity. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "8deea00f75920624a135132448273556b1dff380266b2819c5e687df540e5d6d",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--palette-control__s02__source-counterfactual__0-0",
+      "caseId": "canine-cub--palette-control__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--palette-control__s02__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--palette-control__s02__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--palette-control__s02__d0": "e23a0ea5d05f6141546d338d769f5081ed94284177c2d5a7250f88a2ea190722"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "Rendered pigments differ while the same shape and source organization remain. Pixel coordinates and inherited genes are checked separately; visual color difference is not genetic diversity. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "42be6734c76ad1aa1d0554b5e2f70ebffb55791cd1332041bb87bf2a49d1cfdd",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--palette-control__s02__source-counterfactual__30-30",
+      "caseId": "canine-cub--palette-control__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--palette-control__s02__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--palette-control__s02__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d30": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+        "canine-cub--palette-control__s02__d30": "f18cacb701ff7160d01e8f893bd2bf63bf945ebb6409afecf71210037cc63d14"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "Rendered pigments differ while the same shape and source organization remain. Pixel coordinates and inherited genes are checked separately; visual color difference is not genetic diversity. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "cffe736d286e1e4e75184190505e5bce8e8e75290c08042189916fde4ac87c1d",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--palette-control__s02__source-counterfactual__75-75",
+      "caseId": "canine-cub--palette-control__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--palette-control__s02__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--palette-control__s02__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d75": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+        "canine-cub--palette-control__s02__d75": "540a94fc3e29d73c1ba422589241c8d11c9479c7261e5aba76e1ad6f86a46ce1"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "Rendered pigments differ while the same shape and source organization remain. Pixel coordinates and inherited genes are checked separately; visual color difference is not genetic diversity. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "5eea68ad6cd331a3d1cc60d825977389844d6c3bf803872c7d8f2b82b1f8f272",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--palette-control__s02__source-counterfactual__120-120",
+      "caseId": "canine-cub--palette-control__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--palette-control__s02__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--palette-control__s02__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d120": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204",
+        "canine-cub--palette-control__s02__d120": "56dfe030e044668ed39cbfd23fab29ada1b8630d07d82678dff71561f15ef473"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "Rendered pigments differ while the same shape and source organization remain. Pixel coordinates and inherited genes are checked separately; visual color difference is not genetic diversity. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "d01452d8d8172b96b9d934f6a37d3b06e87133913b0179dad69dd98443aa930e",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--ordering-control__s01__source-counterfactual__0-0",
+      "caseId": "canine-cub--ordering-control__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--ordering-control__s01__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d0",
+        "canine-cub--ordering-control__s01__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--ordering-control__s01__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The paired images appear identical. Exact pixel hashes and inherited genes are also checked, so input array order is not credited as developmental variety. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "d0f9a7feec1b3ee1d0992b3a8a0188e436edc1f96475f40a522f0aea3cac225b",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--ordering-control__s01__source-counterfactual__30-30",
+      "caseId": "canine-cub--ordering-control__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--ordering-control__s01__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d30",
+        "canine-cub--ordering-control__s01__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d30": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1",
+        "canine-cub--ordering-control__s01__d30": "2d3de0dc4f87a55659f387c484fb7915e61a3705da45bc046848304730ea3bf1"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The paired images appear identical. Exact pixel hashes and inherited genes are also checked, so input array order is not credited as developmental variety. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "fce997d83f99f3446f49bf01923ee26698336a1a0f654a128b3785bcd89ca5d4",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--ordering-control__s01__source-counterfactual__75-75",
+      "caseId": "canine-cub--ordering-control__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--ordering-control__s01__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d75",
+        "canine-cub--ordering-control__s01__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d75": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28",
+        "canine-cub--ordering-control__s01__d75": "847dc4f3852967099d92e09af572efd639f77ed2d95649082f4bc7df9b4e3a28"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The paired images appear identical. Exact pixel hashes and inherited genes are also checked, so input array order is not credited as developmental variety. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "4417038263f9aee4953c5096d1f8ad278914c141fb24b95b874d64c9d777a326",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--ordering-control__s01__source-counterfactual__120-120",
+      "caseId": "canine-cub--ordering-control__s01",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s01__neutral",
+      "requiredViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--ordering-control__s01__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s01__neutral__d120",
+        "canine-cub--ordering-control__s01__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s01__neutral__d120": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053",
+        "canine-cub--ordering-control__s01__d120": "2deee28ff41c3d2353355bb514d0a34099959eadfc1eb62af5d3b45cd9ca1053"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The paired images appear identical. Exact pixel hashes and inherited genes are also checked, so input array order is not credited as developmental variety. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "4e3c248319681e9f79abc52eca3cf14ef22379ddc8c60d22a8ef6b27dce1b93b",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--ordering-control__s02__source-counterfactual__0-0",
+      "caseId": "canine-cub--ordering-control__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 0,
+      "toAge": 0,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--ordering-control__s02__d0"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d0",
+        "canine-cub--ordering-control__s02__d0"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826",
+        "canine-cub--ordering-control__s02__d0": "e2fce81a182051ae5710f80009f77e1f4ca01560c85803913b52ba3906964826"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The paired images appear identical. Exact pixel hashes and inherited genes are also checked, so input array order is not credited as developmental variety. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "3b4bff7344cfb4f30d25bd96b44fcf86fc6b646ee2c9e5db9717fa9cc7643f63",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--ordering-control__s02__source-counterfactual__30-30",
+      "caseId": "canine-cub--ordering-control__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 30,
+      "toAge": 30,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--ordering-control__s02__d30"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d30",
+        "canine-cub--ordering-control__s02__d30"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d30": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af",
+        "canine-cub--ordering-control__s02__d30": "87e7fa4a777d0fa7295ef797c9497b2f5b297f23e71032952c287ad7dd98d6af"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The paired images appear identical. Exact pixel hashes and inherited genes are also checked, so input array order is not credited as developmental variety. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "0e6e0da67e7b798f107534b3f2fb2ef1c504e6ac6f33a0897a81af1be15cd896",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--ordering-control__s02__source-counterfactual__75-75",
+      "caseId": "canine-cub--ordering-control__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 75,
+      "toAge": 75,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--ordering-control__s02__d75"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d75",
+        "canine-cub--ordering-control__s02__d75"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d75": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c",
+        "canine-cub--ordering-control__s02__d75": "009dbea23222242599bb6a66c62aab3d691da3cd75f584099519ffe0ad11733c"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The paired images appear identical. Exact pixel hashes and inherited genes are also checked, so input array order is not credited as developmental variety. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "3ed2896b9eb4ddc97930f3d3d2cd7494d16992a876324b05faf49644de3777fa",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    },
+    {
+      "protocolVersion": "source-development-v7-audit3",
+      "id": "canine-cub--ordering-control__s02__source-counterfactual__120-120",
+      "caseId": "canine-cub--ordering-control__s02",
+      "kind": "source-counterfactual",
+      "fromAge": 120,
+      "toAge": 120,
+      "controlCaseId": "canine-cub__s02__neutral",
+      "requiredViewIds": [
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--ordering-control__s02__d120"
+      ],
+      "requiredDiagnosticIds": [],
+      "reviewer": "/root/audit_v6",
+      "reviewerKind": "agent",
+      "role": "primary",
+      "status": "reviewed",
+      "evolution": null,
+      "descent": 2,
+      "causalCare": null,
+      "continuity": null,
+      "featureCoherence": 2,
+      "inspectedViewIds": [
+        "canine-cub__s02__neutral__d120",
+        "canine-cub--ordering-control__s02__d120"
+      ],
+      "evidenceHashes": {
+        "canine-cub__s02__neutral__d120": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204",
+        "canine-cub--ordering-control__s02__d120": "573266c68015a13f5eec842272b4d041b1f0a78918ae2f2d0ac5a81f7848c204"
+      },
+      "inspectedDiagnosticIds": [],
+      "diagnosticEvidenceHashes": {},
+      "changeInventory": null,
+      "notes": "The paired images appear identical. Exact pixel hashes and inherited genes are also checked, so input array order is not credited as developmental variety. Fresh current-run PNG comparison; no scores inherited from002.",
+      "reviewProvenance": {
+        "kind": "verified-exact-pixel-equivalence",
+        "fromRun": "v7-regional-proof-003",
+        "originalReviewer": "/root/audit_v6",
+        "originalReviewTimes": {
+          "recordedAt": "2026-10-24T09:38:53.655Z"
+        },
+        "originalTimeNote": "Original receipt time fields retained exactly",
+        "sourceReceipt": "review-receipts/primary-source-counterfactual-audit.json",
+        "sourceReceiptSHA256": "154bc8df2add6ba87c91e30476609197ac93c8729e5dcf9cf7cb97c864d153e3",
+        "sourceRecordSHA256": "55ce4454e97700aacba2dfdc65e83d7cbc4f03a12f557d25dea8f87c9219bf46",
+        "equivalenceReceipt": "review-equivalence-from-003.json",
+        "equivalenceReceiptSHA256": "a8a9a85504377b453442060a6f4223f61c308b4c176524281582ae17760ad2e4",
+        "transferredAt": "2026-10-24T10:11:24.016Z",
+        "directImageInspectionInCurrentRun": false
+      }
+    }
+  ]
+}

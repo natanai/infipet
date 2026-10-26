@@ -1,0 +1,30 @@
+{
+  "reviewer": "agent:/root",
+  "reviewedAt": "2026-10-24T01:25:33.6352478Z",
+  "reviewed": [
+    "cat",
+    "dog",
+    "rabbit",
+    "hamster",
+    "guinea-pig",
+    "budgie",
+    "goldfish",
+    "turtle",
+    "leopard-gecko",
+    "corn-snake"
+  ],
+  "sourceHashes": [
+    "23a0cfa40414c199a676b6cd0346ce12082fbf1fc982fe80b0eb6a8282577cc8",
+    "b18958758ea1fb2ed448a6c861b0aa8020923c78ce3f9ade2ca60587e87621de",
+    "4f8e87b8ddd6c9bb015d04418825a4ebd2442048416b57d23a039d53de140a52",
+    "83af747975bc335417012ba24818c24778dbdca242a7e1525bed45bebf9350a9",
+    "424d8dff5f7cdeba8d2d4773d25c7b63c8ba585158ed185b0ef1865bb34c20fc",
+    "a8b93c2be2420a72ae5d9b14e6b9018024f81cc590cc5779268618a53e98fd2a",
+    "3bc888445fa6a76bed5f4776433447bb749e02831378702c546b216c36e16c50",
+    "2e11eca04643ae34138c2652adc65e2e2ec41d0688b7f1eab811f0776501d0c1",
+    "fff39d483c43dc987a2dc1c53b107dfa9ab2f1798542322e5445fe0dba17b0d9",
+    "a397587e2e9ccbd3f72bab282911e2baf69dacc8e2b1b2dc2fc9001c6b693e7f"
+  ],
+  "evidence": "sources.png",
+  "notes": "Viewed all ten authored infant drawings at 3x nearest-neighbor. Starting species and declared cues are legible. Cat and rabbit use seated representations; goldfish fins are details, turtle shell is body tissue. Approved source art before developed outputs."
+}

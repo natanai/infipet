@@ -1,0 +1,29 @@
+{
+  "reviewer": "/root",
+  "reviewerKind": "agent",
+  "sourceAuthorAware": true,
+  "method": "Direct view_image inspection of the whole64-frame contact sheet and matching64 contributor-only variants. Qualitative assessment; no per-case visibility score is inferred from a changed hash.",
+  "coverage": {
+    "wholeFrames": 64,
+    "contributorVariants": 64,
+    "humanImages": 0,
+    "perCaseScoresAssigned": 0
+  },
+  "evidence": [
+    {
+      "path": "contact.png",
+      "sha256": "cfeb24c2a6515136efbb48e93db680810405dcaf8d8bc7060f3ee4e8a985cd14"
+    },
+    {
+      "path": "target-contributors.png",
+      "sha256": "97328fa050845fc3b03012e290bba61ae027777c9ef889dd5ba695db7f35c868"
+    }
+  ],
+  "findings": [
+    "The targeted short leg usually changes by only one or two rendered pixels. This remains a gentle ownership prototype, not dramatic shape editing.",
+    "Contributor-only variants make opposite length/bend directions easier to see than whole-creature views.",
+    "Source head, tail and authored marks remain traceable; no source/care/genome rewriting is visible.",
+    "47/48 any-pixel changes is an automated sensitivity result, not a percentage of clearly perceptible grooming outcomes."
+  ],
+  "formalPerCaseVisibilityReview": "unreviewed"
+}

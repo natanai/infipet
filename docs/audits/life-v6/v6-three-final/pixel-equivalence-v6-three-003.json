@@ -1,0 +1,9 @@
+{
+  "fromRun": "v6-three-003",
+  "toRun": "v6-three-final",
+  "condition": "Exact rendered coordinate/color hashes for every scheduled view ID; visual review transfer only, not hidden-state equivalence",
+  "matched": 612,
+  "compared": 612,
+  "changed": [],
+  "completeEquivalence": true
+}

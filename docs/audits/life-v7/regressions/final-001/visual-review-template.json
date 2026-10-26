@@ -1,0 +1,82 @@
+[
+  {
+    "fixtureId": "hollow-floating",
+    "reviewer": null,
+    "status": "unreviewed",
+    "actualImagesInspected": [],
+    "featureVisibility": null,
+    "expectedGaps": null,
+    "motionContinuity": null,
+    "notes": "Unreviewed"
+  },
+  {
+    "fixtureId": "multiple-heads",
+    "reviewer": null,
+    "status": "unreviewed",
+    "actualImagesInspected": [],
+    "featureVisibility": null,
+    "expectedGaps": null,
+    "motionContinuity": null,
+    "notes": "Unreviewed"
+  },
+  {
+    "fixtureId": "unlabelled",
+    "reviewer": null,
+    "status": "unreviewed",
+    "actualImagesInspected": [],
+    "featureVisibility": null,
+    "expectedGaps": null,
+    "motionContinuity": null,
+    "notes": "Unreviewed"
+  },
+  {
+    "fixtureId": "hair",
+    "reviewer": null,
+    "status": "unreviewed",
+    "actualImagesInspected": [],
+    "featureVisibility": null,
+    "expectedGaps": null,
+    "motionContinuity": null,
+    "notes": "Unreviewed"
+  },
+  {
+    "fixtureId": "limbless",
+    "reviewer": null,
+    "status": "unreviewed",
+    "actualImagesInspected": [],
+    "featureVisibility": null,
+    "expectedGaps": null,
+    "motionContinuity": null,
+    "notes": "Unreviewed"
+  },
+  {
+    "fixtureId": "single-pixel",
+    "reviewer": null,
+    "status": "unreviewed",
+    "actualImagesInspected": [],
+    "featureVisibility": null,
+    "expectedGaps": null,
+    "motionContinuity": null,
+    "notes": "Unreviewed"
+  },
+  {
+    "fixtureId": "dense",
+    "reviewer": null,
+    "status": "unreviewed",
+    "actualImagesInspected": [],
+    "featureVisibility": null,
+    "expectedGaps": null,
+    "motionContinuity": null,
+    "notes": "Unreviewed"
+  },
+  {
+    "fixtureId": "egg",
+    "reviewer": null,
+    "status": "unreviewed",
+    "actualImagesInspected": [],
+    "featureVisibility": null,
+    "expectedGaps": null,
+    "motionContinuity": null,
+    "notes": "Unreviewed"
+  }
+]

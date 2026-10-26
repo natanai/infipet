@@ -1,0 +1,181 @@
+Babytchi:
+  Wake Time: n/a
+  Sleep Time: n/a
+  Base Hungry Heart Loss Rate: 3 minutes
+  Base Happy Heart Loss Rate: 4 minutes
+  Base Time to Sickness: 45 minutes
+  Shots to Get Well: 2
+  Min Weight: 5
+  Max Weight: 5
+  Base Time to Evolution: 60 minutes
+  Base Countdown to Discipline: n/a
+  Initial Discipline: 0%
+  Game Win Probability: 50.0%
+  Game Input Delay (on win): 1 iterations
+  Game Input Delay (on loss): 1 iterations
+  Bites to Eat Food: 4
+
+Marutchi:
+  Wake Time: 9:00
+  Sleep Time: 20:00
+  Base Hungry Heart Loss Rate: 50 minutes
+  Base Happy Heart Loss Rate: 60 minutes
+  Base Time to Sickness: 990 minutes
+  Shots to Get Well: 2
+  Min Weight: 10
+  Max Weight: 99
+  Base Time to Evolution: 1380 minutes
+  Base Countdown to Discipline: 6 hungry/happy heart decrements
+  Initial Discipline: 0%
+  Game Win Probability: 50.0%
+  Game Input Delay (on win): 1 iterations
+  Game Input Delay (on loss): 1 iterations
+  Bites to Eat Food: 4
+
+Tamatchi:
+  Wake Time: 9:00
+  Sleep Time: 21:00
+  Base Hungry Heart Loss Rate: 75 minutes
+  Base Happy Heart Loss Rate: 85 minutes
+  Base Time to Sickness: 1656 minutes
+  Shots to Get Well: 2
+  Min Weight: 20
+  Max Weight: 99
+  Base Time to Evolution: 2220 minutes
+  Base Countdown to Discipline: 6 hungry/happy heart decrements
+  Initial Discipline: 0% (50% for type 1 Tamatchi)
+  Game Win Probability: 50.0%
+  Game Input Delay (on win): 1 iterations
+  Game Input Delay (on loss): 1 iterations
+  Bites to Eat Food: 2
+
+Kuchitamatchi:
+  Wake Time: 9:00
+  Sleep Time: 21:00
+  Base Hungry Heart Loss Rate: 75 minutes
+  Base Happy Heart Loss Rate: 85 minutes
+  Base Time to Sickness: 660 minutes
+  Shots to Get Well: 2
+  Min Weight: 20
+  Max Weight: 99
+  Base Time to Evolution: 1380 minutes
+  Base Countdown to Discipline: 6 hungry/happy heart decrements
+  Initial Discipline: 0% (50% for type 1 Kuchitamatchi)
+  Game Win Probability: 50.0%
+  Game Input Delay (on win): 1 iterations
+  Game Input Delay (on loss): 1 iterations
+  Bites to Eat Food: 4
+
+Mametchi/Bill:
+  Wake Time: 9:00
+  Sleep Time: 22:00
+  Base Hungry Heart Loss Rate: 81 minutes
+  Base Happy Heart Loss Rate: 91 minutes
+  Base Time to Sickness: 3900 minutes
+  Shots to Get Well: 1
+  Min Weight: 30
+  Max Weight: 99
+  Base Time to Evolution: 4095 minutes
+  Base Countdown to Discipline: n/a
+  Initial Discipline: 100%
+  Game Win Probability: 50.0%
+  Game Input Delay (on win): 1 iterations
+  Game Input Delay (on loss): 1 iterations
+  Bites to Eat Food: 2
+  Hungry Vector: [81, 61, 46, 35, 27, 21, 16, 12, 9, 7, 6, 5]
+  Happy Vector: [91, 69, 52, 39, 30, 23, 18, 14, 11, 9, 7, 6]
+
+Ginjirotchi:
+  Wake Time: 9:00
+  Sleep Time: 22:00
+  Base Hungry Heart Loss Rate: 81 minutes
+  Base Happy Heart Loss Rate: 91 minutes
+  Base Time to Sickness: 2808 minutes
+  Shots to Get Well: 1
+  Min Weight: 30
+  Max Weight: 99
+  Base Time to Evolution: 3120 minutes
+  Base Countdown to Discipline: 7 hungry/happy heart decrements
+  Initial Discipline: 50%
+  Game Win Probability: 50.0%
+  Game Input Delay (on win): 1 iterations
+  Game Input Delay (on loss): 1 iterations
+  Bites to Eat Food: 2
+  Hungry Vector: [81, 61, 46, 35, 27, 21, 16, 12, 9, 7, 6, 5]
+  Happy Vector: [91, 69, 52, 39, 30, 23, 18, 14, 11, 9, 7, 6]
+
+Maskutchi:
+  Wake Time: 11:00
+  Sleep Time: 23:00
+  Base Hungry Heart Loss Rate: 55 minutes
+  Base Happy Heart Loss Rate: 65 minutes
+  Base Time to Sickness: 2592 minutes
+  Shots to Get Well: 1
+  Min Weight: 30
+  Max Weight: 99
+  Base Time to Evolution: 2880 minutes
+  Base Countdown to Discipline: 7 hungry/happy heart decrements
+  Initial Discipline: 0%
+  Game Win Probability: 31.25%
+  Game Input Delay (on win): 3 iterations
+  Game Input Delay (on loss): 2 iterations
+  Bites to Eat Food: 2
+  Hungry Vector: [55, 42, 32, 24, 18, 14, 11, 9, 7, 6, 5, 4]
+  Happy Vector: [65, 49, 37, 28, 21, 16, 12, 9, 7, 6, 5, 4]
+
+Kuchipatchi:
+  Wake Time: 9:00
+  Sleep Time: 22:00
+  Base Hungry Heart Loss Rate: 60 minutes
+  Base Happy Heart Loss Rate: 70 minutes
+  Base Time to Sickness: 1170 minutes
+  Shots to Get Well: 2
+  Min Weight: 20
+  Max Weight: 99
+  Base Time to Evolution: 1560 minutes
+  Base Countdown to Discipline: n/a
+  Initial Discipline: 100%
+  Game Win Probability: 68.75%
+  Game Input Delay (on win): 3 iterations
+  Game Input Delay (on loss): 4 iterations
+  Bites to Eat Food: 2
+  Hungry Vector: [60, 45, 34, 26, 20, 15, 12, 9, 7, 6, 5, 4]
+  Happy Vector: [70, 53, 40, 30, 23, 18, 14, 11, 9, 7, 6, 5]
+
+Nyorotchi:
+  Wake Time: 9:00
+  Sleep Time: 22:00
+  Base Hungry Heart Loss Rate: 60 minutes
+  Base Happy Heart Loss Rate: 70 minutes
+  Base Time to Sickness: 360 minutes
+  Shots to Get Well: 3
+  Min Weight: 10
+  Max Weight: 99
+  Base Time to Evolution: 780 minutes
+  Base Countdown to Discipline: 7 hungry/happy heart decrements
+  Initial Discipline: 50%
+  Game Win Probability: 50.0%
+  Game Input Delay (on win): 1 iterations
+  Game Input Delay (on loss): 1 iterations
+  Bites to Eat Food: 4
+  Hungry Vector: [60, 45, 34, 26, 20, 15, 12, 9, 7, 6, 5, 4]
+  Happy Vector: [70, 53, 40, 30, 23, 18, 14, 11, 9, 7, 6, 5]
+
+Tarakotchi:
+  Wake Time: 10:00
+  Sleep Time: 22:00
+  Base Hungry Heart Loss Rate: 45 minutes
+  Base Happy Heart Loss Rate: 50 minutes
+  Base Time to Sickness: 660 minutes
+  Shots to Get Well: 2
+  Min Weight: 20
+  Max Weight: 99
+  Base Time to Evolution: 1440 minutes
+  Base Countdown to Discipline: 7 hungry/happy heart decrements
+  Initial Discipline: 0%
+  Game Win Probability: 50.0%
+  Game Input Delay (on win): 1 iterations
+  Game Input Delay (on loss): 1 iterations
+  Bites to Eat Food: 2
+  Hungry Vector: [45, 34, 26, 20, 15, 12, 9, 7, 6, 5, 4, 3]
+  Happy Vector: [50, 38, 29, 22, 17, 13, 10, 8, 6, 5, 4, 3]

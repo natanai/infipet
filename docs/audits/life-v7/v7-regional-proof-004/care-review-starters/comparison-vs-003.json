@@ -1,0 +1,822 @@
+{
+  "comparable": true,
+  "checks": "Same rubric, source preset hash, catalog hash, source IDs, seed strings, keyframes and ages; unchanged sequences require exact stored-pixel and PNG match",
+  "conditions": [
+    {
+      "needId": "safety",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "safety",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "safety",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "safety",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "safety",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "safety",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "safety",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "safety",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "security",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "security",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "security",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "security",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "security",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "security",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "security",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "security",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "trust",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "trust",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "trust",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "trust",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "trust",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "trust",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "trust",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "trust",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "rest",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "rest",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "rest",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "rest",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "rest",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "rest",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "rest",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "rest",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "relaxation",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "relaxation",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "relaxation",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "relaxation",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "relaxation",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "relaxation",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "relaxation",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "relaxation",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "after": {
+        "numerator": 0,
+        "denominator": 4,
+        "percent": 0
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "physical-fitness",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "physical-fitness",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "physical-fitness",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "physical-fitness",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 0,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "physical-fitness",
+      "onsetDays": 0,
+      "ageDays": 14,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "after": {
+        "numerator": 3,
+        "denominator": 4,
+        "percent": 75
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "physical-fitness",
+      "onsetDays": 7,
+      "ageDays": 21,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "physical-fitness",
+      "onsetDays": 90,
+      "ageDays": 104,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    },
+    {
+      "needId": "physical-fitness",
+      "onsetDays": 150,
+      "ageDays": 164,
+      "fulfillment": 1,
+      "before": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "after": {
+        "numerator": 4,
+        "denominator": 4,
+        "percent": 100
+      },
+      "percentagePointChange": 0
+    }
+  ]
+}

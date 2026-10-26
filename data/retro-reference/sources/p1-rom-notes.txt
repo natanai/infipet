@@ -1,0 +1,150 @@
+TAMA NOTES: IMPORTANT MEMORY LOCATIONS
+
+0x010 and 0x011: Likely store the seconds of the clock, in DECIMAL
+0x012 and 0x013: Store the minute that we are setting (clock set mode), in DECIMAL
+0x014 and 0x015: Store the hour that we are setting (clock set mode), as a HEX value
+0x026: Which buttons are pressed right now.
+0x027: Which buttons the program… wants to service?
+0x028: Appears to be a copy of 0x026
+0x029: Appears to be a copy of 0x027
+0x02a and 0x02b: Offset for writing into the 0x100 display memory region, when transitioning between screens.
+0x02c: Which icon on the upper screen is selected.
+0x02d: Which icon on the lower screen is selected.
+0x02e: Controls looping behavior on the clock screen (with clock active).
+0x02f: Some kind of counter that gets incremented every time the clock interrupt handler runs.
+0x032 / 0x033: Related to the buzzer.
+0x034 / 0x035: Controls settings for the buzzer. If it’s set to a value < 7 it turns off the buzzer, otherwise activates it.
+0x036 / 0x037: Related to the buzzer.
+0x03c: Appears to be a signal that the clock is valid and active (to e.g. tell the program when it’s OK to increment the seconds counter)
+0x03f: Appears to be a signal that the user has hit the C button to finish setting the clock (but it may still be invalid)
+0x040: Tama’s hunger.
+0x041: Tama’s happiness.
+0x042: Number of care mistakes before the Tama becomes an adult.
+0x043: Tama’s discipline
+0x046 and 0x047: Weight (gets incremented by 1 or 2 when feeding), and is decimal.
+0x048: Setting this to 0x8 makes the tama sick.
+0x049: How many times the Tama has been sick in this stage of life (gets reset after evolution). If this hits 3 the Tama dies.
+0x04a: Setting this to 0x8 makes the tama sleep.
+0x04b: 0 for lights off, F for lights on
+0x04d: how many poops are on the screen
+0x04e: Whether the Tama will lay an egg after it dies. Gets set if an adult Tama (other than Masktchi that becomes Bill) is alive past the character’s “evolution countdown” (gets used for evolution in the baby/child/teen phases but only used to set this flag as an adult)
+0x04f: Number of care mistakes for a Tama after it becomes an adult (other than Masktchi that becomes Bill). If this hits 5 the Tama dies.
+0x050: Which growth chart we load when the Tama evolves next.
+0x051: Number of discipline mistakes.
+0x054 and 0x055: Tama’s age. Is in decimal
+0x05a: Gets incremented on every programmable timer interrupt (rolling over from 0xf -> 0x0). Used in the game as a source of randomness.
+0x05c: Determines an event to be taken (such as pooping, evolving, etc.)
+0x05d: This is the character index. It is 1 for the baby and 2 for Marutchi. I believe, cross-referencing the Wiki, that the other indices are:
+  3 - Tamatchi (can load 2 growth charts are claimed)
+  4 - Kuchitamatchi (can load 2 growth charts as claimed)
+  5 - Mametchi
+  6 - Genjirotchi
+  7 - Masktchi
+  8 - Kuchipatchi
+  9 - Nyorotchi
+  a - Tarakotchi
+  b - Bill
+0x05e - Gets modified by play_animation and is initialized to 1 when the baby hatches. This appears to get set to a different value for each possible animation the Tama can do.
+0x073: gets set to not-zero if we just fed Tama a snack. Gets used to select a default when the food menu is opened later.
+0x075: Holds the current cursor selection in a menu. Gets incremented by 1 and then rolls over to zero based on M[0x076].
+0x076: Holds the maximum value for the cursor. e.g. for the lamp menu it’s 2, so if M[0x075] hits 2, it then gets zeroed.
+0x078: Holds the initial value for the cursor (i.e. is the last selection for food, or the light setting you want for lights)
+0x07b (SPECULATIVE): is the Tama muted? It gets used to skip some buzzer-related code so a likely bet.
+0x07c: Initialized to 5 and counts down once every minute after the clock is set. When this is zero, the Tama is hatching. Gets set to F right as the Tama is hatching.
+0x080: A delay value that influences how long it will take for the game to register your input. Gets loaded from M[0x246] or M[0x247] depending on whether the game has decided whether we will win or lose, respectively.
+0x081: Used during the game to store the player input.
+0x082: Used during the game to store how many iterations we have left.
+0x083: Our current score in the game.
+0x084: Used during the game. Set to 0 if you’re going to lose this guess and 8 if you’re going to win. This is determined by doing an add of M[0x05a] + M[0x245] + 1; if the value causes the carry flag to be set, you will lose (and also M[0x247] is loaded into M[0x080]). Note that the way this works means that Kuchipatchi is more likely to win games, Masktchi is less likely to win them, and other characters all have the same likelihood of winning. (recalling that M[0x5a] is a “random number”)
+0x07d: Used to signal an interrupt handler not to re-enable interrupts yet.
+0x200 and 0x201: The time left to decrement a hungry heart (in minutes). Initializes to 0 when the Tama hatches (which causes it to reset to 3 immediately)
+0x202 and 0x203: The time left to decrement a happy heart (in minutes). Initializes to 2 when the Tama hatches.
+0x204 and 0x205: 0x205 is used to determine whether the attention icon should light up or not (if it’s < 4). In general these are used to indicate whether the lights need to be turned off, so that a care mistake can be applied if they were on too long after the Tama went to sleep.
+0x206 and 0x207: The time left to poop (in minutes). This is set to 180 minutes or 25 minutes after the Tama poops, depending on whether it’s a baby or not. Initializes to 15.
+0x208: Gets set when the Tama calls for attention because its happy or hungry hearts were empty.
+0x209: Whether tama needs to be scolded.
+0x20a and 0x20b and 0x20c: Gets incremented if either happy or hungry hearts are zero during the clock timer interrupt handler. Gets cleared if they are both nonzero. So this appears to be tracking how long we have neglected the Tama by leaving its hungry or happy hearts at 0.
+0x20d and 0x20e and 0x20f: Gets incremented if the Tama was sick when the clock timer interrupt went off. Gets decremented if the Tama was NOT sick when the clock timer interrupt went off. If it reaches 0, makes the Tama sick.
+0x210 and 0x211 and 0x212: Also gets decremented if the Tama was not sick when the clock timer interrupt went off. When it hits zero the Tama evolves. Note that this time does not get decremented while it’s sleeping.
+0x213: Tama’s countdown to discipline. Gets decremented when a happy or hungry heart is decremented.
+0x214: Used when deciding whether to call for scolding; stores the current discipline plus some increments. If adding the current discipline to this value (plus 1) causes it to roll over, we skip disciplining. Note that once the Tama’s discipline reaches 75%, we actually skip disciplining a bunch of times until it finally calls for it. Once the Tama’s discipline reaches 100%, we ALWAYS skip disciplining. (also if you miss a discipline, we could skip disciplining on later checks so you could lose the ability to do it)
+0x215: Likely used to determine how long the Babytchi should sleep. (Gets initialized to 5)
+0x216 and 0x217: Used to determine when the Babytchi should go to sleep (gets initialized to 40)
+0x230 and 0x231: Related to when the Tama should sleep. Probably the hour to wake up. Set to 0xff for Babytchi!
+0x232 and 0x233: Related to when the Tama should sleep. Probably the hour to go to sleep. Set to 0xff for Babytchi!
+0x234 and 0x235: How many minutes should this character lose a hungry heart?
+0x236 and 0x237: How many minutes should this character lose a happy heart?
+0x238 and 0x239 and 0x23a: Gets loaded into 0x20d after, for example, curing a Tama’s sickness. I know that 0x20d is incremented or decremented every minute but not clear exactly what all it’s used for (i.e. is it JUST used to make the Tama sick?)
+0x23b: How many shots for this Tama to get well? (i.e. it’s C for Babytchi resulting in 2 shots)
+0x23c and 0x23d: Min weight of THIS character
+0x23e and 0x23f: Max weight of THIS character (I surmise this because the Tama’s weight increased to 7 and then 0x23 was copied to the weight)
+0x240 and 0x241 and 0x242: Gets loaded to 0x210 and 0x211 and 0212, which determines when the Tama evolves.
+0x243: Tama’s initial countdown to discipline. 
+0x244: Tama’s initial discipline. (Can be modified at evolution based on M[0x050], our growth chart variable)
+0x245 - 0x247: Used during the game. These are the same for all characters except Masktchi and Kuchipatchi. Kuchipatchi has a noticeably slower reaction time during the game so that’s likely what these stats affect.
+  - all characters except Masktchi and Kuchipatchi: 8, 1, 1
+  - Masktchi: b, 3, 2
+  - Kuchipatchi: 5, 3, 4
+0x245: The character’s likelihood of winning a game. (Kuchipatchi more likely, Masktchi less likely, all other characters equal)
+0x246: The delay between pressing a button and registering the input during the game, if we are going to win. (this is 1 for all characters except Masktchi and Kuchipatchi, who have it set to 3)
+0x247: The delay between pressing a button and registering the input during the game, if we are going to lose. (this is 1 for all characters except Masktchi, who has 2, and Kuchipatchi, who has 4)
+0x248: How many bites the Tama will take to finish food. 1 = 2 bites, 0 = 4 bites.
+0x249: ??? This always seems to be 0. Probably unused and just gets loaded because of the way it’s coded.
+
+The region from 0x230 - 0x249 (if I did the calculation) right is, I surmise, a vector containing character-specific information.
+There is a jump table that loads this region. That code is probably where the character is initialized.
+
+Used during evolution:
+0x042 - Compared to M[0x090]. Care mistakes counter (hungry/happy hearts left empty, didn’t turn lights off when Tama went to bed)
+0x050 - Determines which vector to load in load_evolution_vector function. There are 7 of these vectors.
+0x051 - Compared to M[0x091] if M[0x042] was not less than M[0x090]. If M[0x051] is not less than M[0x091], we jump forward, otherwise we increment IX by 3 (progress in the vector!) and do the same checks with M[0x042] and M[0x051]. I surmise that M[0x090] and M[0x091] are requirements for a character and M[0x042] and M[0x051] are the current states we check them against. Maybe. So then when we jump forward that’s us selecting a character in the vector. 0x051 is a discipline mistakes counter.
+0x090 - Stores the vector from load_evolution_vector function
+
+Evolution checks:
+# care mistakes compared to 1st number in vector item. (Least-significant digit in Ghidra output) If it’s less than, we go to the next vector item.
+Otherwise, # discipline mistakes compared to 2nd number in vector item (most significant digit in Ghidra output). If it’s less than, we go to the next vector item. If it’s NOT less than, we’re done and this is the character.
+
+This means the growth chart proceeds from worst (top/front) to best (bottom/best) character.
+
+Based on this:
+From Marutchi:
+Tamatchi (type 1) - < 3 care mistakes, < 3 discipline mistakes
+Tamatchi (type 2) - < 3 care mistakes, >= 3 discipline mistake (so no discipline at all)
+Kuchitamatchi (type 1) - >= 3 care mistakes, < 3 discipline mistakes
+Kuchitamatchi (type 2) - >= 3 care mistakes, >= 3 discipline mistakes
+
+From Tamatchi (type 1):
+Mametchi - < 3 care mistakes, 0 discipline mistakes
+Ginjirotchi - < 3 care mistakes, 1 discipline mistake
+Masktchi (can’t evolve to Bill) - < 3 care mistakes, 2 or more discipline mistakes
+Kuchipatchi - >= 3 care mistakes, < 2 discipline mistakes
+Nyorotchi - >= 3 care mistakes, < 4 discipline mistakes
+Tarakotchi - >= 3 care mistakes, >= 4 discipline mistakes
+
+From Tamatchi (type 2):
+Genjirotchi - < 4 care mistakes, < 2 discipline mistakes
+Masktchi (can evolve to Bill) - < 4 care mistakes, >= 2 discipline mistakes
+Nyorotchi - >= 4 care mistakes, < 8 discipline mistakes
+Tarakotchi - >= 4 care mistakes, >= 8 discipline mistakes (so you have never disciplined it ever)
+
+From Kuchitamatchi (type 1): care mistakes no longer matter in this stage
+Kuchipatchi - < 2 discipline mistakes
+Nyorotchi - 2 discipline mistakes
+Tarakotchi - >= 3 discipline mistakes
+
+From Kuchitamatchi (type 2): care mistakes no longer matter in this stage
+Nyorotchi - < 6 discipline mistakes
+Tarakotchi - >= 6 discipline mistakes
+
+Care mistake questions:
+What is the exact timing? For the sleep case, do you get multiple care mistakes if you leave the lights on longer?
+—> I think it’s actually 14 minutes for a care mistake on hungry/happy after setting the attention light. (64 minutes for care mistake on lights)
+—> If you leave the lights on too long, the counter gets set to 0xf and should be clamped there. So it would only be 1 care mistake
+Are care and discipline mistakes cumulative or do they get reset between evolutions? (I think they are probably cumulative)
+—> I see no evidence that they are not cumulative, and when I force evolution in MAME I never see them get reset. Note though that adults that can’t evolve store care mistakes in a different location and it takes exactly 5 to kill them.
+
+Other questions:
+What was that one memory address used when deciding to ask for scolding? Where is it loaded?
+—> 0x209, gets loaded in one of the event jump targets
+How do we get the secret character? (I’m pretty sure if you get the right Tamatchi and it evolves into a Masktchi, it will ALWAYS evolve)
+—> This is still my theory, I think once 4 days have passed since getting the Masktchi from type-two Tamatchi, it will always evolve

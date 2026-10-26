@@ -1,0 +1,197 @@
+{
+  "version": 1,
+  "runId": "cohort-001",
+  "versions": {
+    "prototype": "life-v9",
+    "gameplay": 2,
+    "rules": "infipet-classic-v2",
+    "lineage": "opentree16.1/ott3.7.3|infipet-animal-profiles-v1|animal-affinity-v1|morphogenesis-v1"
+  },
+  "engineSourceHash": "2b6dfa7e4e35525be391cc7e236a97c573d70d34830e69306c79ab8c4bc48924",
+  "catalogFile": "data/retro-reference/catalog.json",
+  "catalogHash": "0aee0c42edb203bba133416656cb38444b5c49bac1059ba1efba905a1e3a7c95",
+  "casesHash": "5e3982f94567f554b3bb17f00ee67a1cfdc1cabeb4920e022dd42b44d2131b94",
+  "summaryHash": "411a3a4c1a9912703bad65829f6b5f27730120e057c315f4a8ef1a91e3f35b6b",
+  "files": [
+    {
+      "file": "witnesses/dm1__botamon--koromon--agumon--greymon--metal-greymon.json",
+      "sha256": "9db24f28a08edb8d6c8fdb041fe9f937ffb39e27444a3a908ae52301159290a4"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--agumon--greymon--metal-greymon.png",
+      "sha256": "c4be4ff64f7e0b4ac8b77b157ea252f17aa04a5b211a8dafe8faf3162e2199c1"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--agumon--devimon--metal-greymon.json",
+      "sha256": "ddffa2ff05ed1b73888ac56a2da1c7f59b954b89d6d4badd9301c63996e1757b"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--agumon--devimon--metal-greymon.png",
+      "sha256": "13aadc6563ac08a97c258ecae597f384c5116112792c7bbd05392862134fdb48"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--agumon--tyranomon--mamemon.json",
+      "sha256": "715ffea7ac24983d27deeea724d1187fa3b6129f6fa044da678da0b4aafe558d"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--agumon--tyranomon--mamemon.png",
+      "sha256": "f5d1b07a80d12ba1c19d506e41f668b72848432d48a53ee3601bce2edfe814b5"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--agumon--meramon--mamemon.json",
+      "sha256": "715ffea7ac24983d27deeea724d1187fa3b6129f6fa044da678da0b4aafe558d"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--agumon--meramon--mamemon.png",
+      "sha256": "d409a1d6b94e72c3486af2e7f3c4df462547a5285825b9cfc07816fc59528525"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--agumon--numemon--monzaemon.json",
+      "sha256": "9db24f28a08edb8d6c8fdb041fe9f937ffb39e27444a3a908ae52301159290a4"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--agumon--numemon--monzaemon.png",
+      "sha256": "476572b1ea5487d3bdddeac76cb8f9bb06fb4ae171ff61804a12d356c0b7c43b"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--betamon--devimon--metal-greymon.json",
+      "sha256": "6dd398f62d9f732374b7ab1a46de9c7c1f8106ccd26c807641209e3e1a172b64"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--betamon--devimon--metal-greymon.png",
+      "sha256": "ea85dd29af3f65b18498e57c1dc4212328ceecafd5b2a7d71acaf0d5e9bdc119"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--betamon--airdramon--metal-greymon.json",
+      "sha256": "28cd08410277b369a8331c03b25658a107bea6014af2f0918542f8c9ebc61048"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--betamon--airdramon--metal-greymon.png",
+      "sha256": "407e8c00614d27f7d4d19b050965d5b62c67e8a280fecffdbc2956ee706f846f"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--betamon--meramon--mamemon.json",
+      "sha256": "715ffea7ac24983d27deeea724d1187fa3b6129f6fa044da678da0b4aafe558d"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--betamon--meramon--mamemon.png",
+      "sha256": "f7ad9d3427d7cfb1cd6f589b3f740dd1a08a54036dc2f75da4c2ffa556de6f5c"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--betamon--seadramon--mamemon.json",
+      "sha256": "715ffea7ac24983d27deeea724d1187fa3b6129f6fa044da678da0b4aafe558d"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--betamon--seadramon--mamemon.png",
+      "sha256": "ae69f3f188a46ee71a22a18d7f060b045b3de58cbf77b2e7f1b59d0f926e18ea"
+    },
+    {
+      "file": "witnesses/dm1__botamon--koromon--betamon--numemon--monzaemon.json",
+      "sha256": "ddffa2ff05ed1b73888ac56a2da1c7f59b954b89d6d4badd9301c63996e1757b"
+    },
+    {
+      "file": "sheets/dm1__botamon--koromon--betamon--numemon--monzaemon.png",
+      "sha256": "568898c6e66c1cbf7f72ef57dec8cd0946eb6166c19d64e3465654758b8634b8"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--tamatchi--mametchi.json",
+      "sha256": "f52bcb83450a1925ceee58e449b787e97ca96b2d8257950c3f430ba5ac58543d"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--tamatchi--mametchi.png",
+      "sha256": "2177a5dc0f3babbcd157c45f4c11ccedc11db235c04836965ae45b91a18a04a0"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--tamatchi--ginjirotchi.json",
+      "sha256": "f52bcb83450a1925ceee58e449b787e97ca96b2d8257950c3f430ba5ac58543d"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--tamatchi--ginjirotchi.png",
+      "sha256": "a2f9381af574ee8ecb24fd08746bbe1eb798e03318796e8e637db8fd0c3aca81"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--tamatchi--maskutchi--bill.json",
+      "sha256": "a4b25aa718f2cf3c4c91c8d18d965afda2a787405d529352a962c291c44ab1c5"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--tamatchi--maskutchi--bill.png",
+      "sha256": "89a9bf8c7273bfefb9a1c667b1a80a42278c3204e2a1f5f5c691ca5418471983"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--tamatchi--kuchipatchi.json",
+      "sha256": "f52bcb83450a1925ceee58e449b787e97ca96b2d8257950c3f430ba5ac58543d"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--tamatchi--kuchipatchi.png",
+      "sha256": "8b3820427fba8db02191a112b8e57927c368654df933984267072d8bf81299a7"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--tamatchi--nyorotchi.json",
+      "sha256": "6f617a7ddbc3ab830abb080118237d09617db48461363d3f6bda34167f0c8df9"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--tamatchi--nyorotchi.png",
+      "sha256": "2c78162d7ae6d554073461d6e53bb4cb9921b02651e5ec6ab8974ceea88f4e37"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--tamatchi--tarakotchi.json",
+      "sha256": "5e730001ba3270f40f31b2aeabd40603cf1051bce67198f3c5988ed4cafad266"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--tamatchi--tarakotchi.png",
+      "sha256": "2dd5b257d997367939045bd173176dbdda9d5c2202a04febd612be1f73e5a580"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--kuchitamatchi--kuchipatchi.json",
+      "sha256": "fcc057585d3199ef2c2027ef901b9c1679775692db64504364c32ba66424f7d2"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--kuchitamatchi--kuchipatchi.png",
+      "sha256": "1ab3b95a74045042feddc736c87660616eb87dbfe7262a879d335cd918de2f1c"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--kuchitamatchi--nyorotchi.json",
+      "sha256": "fcc057585d3199ef2c2027ef901b9c1679775692db64504364c32ba66424f7d2"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--kuchitamatchi--nyorotchi.png",
+      "sha256": "c28334b7860a839d5831ea6f61dfaa7f79b7ce2ad702c83a2f218060563227a5"
+    },
+    {
+      "file": "witnesses/p1__babytchi--marutchi--kuchitamatchi--tarakotchi.json",
+      "sha256": "707fbb90cbe371299f5cfd2bddc299a774ad13fd45ada65eff68fdaa66be7a90"
+    },
+    {
+      "file": "sheets/p1__babytchi--marutchi--kuchitamatchi--tarakotchi.png",
+      "sha256": "adce0f4f4464f531b6690c7e7ed3b42a8d946096788feb4200dd6a2a741200be"
+    }
+  ],
+  "metricVersion": "retro-mono-v1",
+  "thresholds": {
+    "silhouetteIoU": 0.9,
+    "filledSilhouetteIoU": 0.94,
+    "aspectSimilarity": 0.94,
+    "densitySimilarity": 0.9
+  },
+  "seedCohort": "shared-neutral-sha256-v1",
+  "seedStart": 0,
+  "seedCount": 4,
+  "policyIds": [
+    "tended",
+    "trained",
+    "battle-trained",
+    "sparse-recovery",
+    "stout-training",
+    "rest-interrupted",
+    "rest-battles",
+    "sparse-battles"
+  ],
+  "referenceArtUsedOnlyForScoring": true,
+  "visualAcceptance": false,
+  "limits": [
+    "One monochrome neutral reference pose per available character; animation is unverified.",
+    "A bounded search result does not establish reachability across the entire seed space.",
+    "The combined game clock differs from original Tamagotchi timing.",
+    "Unverified care predicates remain unscored and missing targets cannot pass."
+  ]
+}
