@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import animalCatalog from "../src/phylogeny/catalog-data.json";
+import crossKingdomCatalog from "../src/phylogeny/cross-kingdom-data.json";
 import {
   ancestry, childrenOf, commonAncestor, datasetVersion, fullRootId,
   getNode, getProvenance, isDescendant, lineageMembership,
@@ -11,7 +12,10 @@ import {
 test("[PHY-001/A1] sourced plant, fungal, and animal roots retain external IDs and versions", () => {
   assert.equal(rootId, animalCatalog.rootId);
   assert.equal(datasetVersion, animalCatalog.datasetVersion);
-  assert.match(crossKingdomVersion, /2026-10-25/);
+  assert.match(crossKingdomVersion, /2026-10-26/);
+  assert.equal(crossKingdomCatalog.versionPinning.kind, "access-date-only");
+  assert.equal(crossKingdomCatalog.versionPinning.pinnedRelease, false);
+  assert.equal(crossKingdomCatalog.nodes.length, 11);
   for (const [id, taxonId] of [
     ["ncbi:2759", 2759], ["ncbi:33154", 33154],
     ["ncbi:33090", 33090], ["ncbi:4751", 4751],
@@ -22,6 +26,7 @@ test("[PHY-001/A1] sourced plant, fungal, and animal roots retain external IDs a
     if (provenance?.kind !== "scientific") throw new Error("Missing scientific source");
     assert.ok(provenance.externalTaxonIds.some(ref => ref.database === "ncbi" && ref.id === taxonId));
     assert.ok(provenance.sourceVersion);
+    assert.equal(provenance.parentRelationship, "documented-reference-ancestor-possibly-contracted");
   }
   const animalRoot = getProvenance(rootId);
   assert.equal(animalRoot?.kind, "scientific");
@@ -71,5 +76,6 @@ test("[PHY-001/A2] all edges are sourced, acyclic, and queries are deterministic
     assert.equal(source?.kind, "scientific");
     if (source?.kind !== "scientific") throw new Error("Missing provenance");
     assert.ok(source.parentEdgeSourceUrl?.startsWith("https://"));
+    assert.equal(source.parentRelationship, "documented-reference-ancestor-possibly-contracted");
   }
 });
