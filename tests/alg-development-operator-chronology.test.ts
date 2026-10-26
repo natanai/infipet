@@ -64,13 +64,13 @@ test("incremental unit IDs are unique and cumulative credit only creates newly e
   assert.equal(b.events.length,0);
   assert.strictEqual(b.graph,a.graph);
   const c=stepMaterialOperatorChronology(b.graph,program,b.state,
-    interval(program,2.5,3.5,[third]));
+    interval(program,2.5,4,[third]));
   assert.equal(c.events.length,2);
   assert.deepEqual(c.events.map(e=>e.id),[
     "operator/fixed%2Felongate/unit/2","operator/fixed%2Felongate/unit/3",
   ]);
   const d=stepMaterialOperatorChronology(c.graph,program,c.state,
-    interval(program,3.5,4,[third]));
+    interval(program,4,5,[third]));
   assert.equal(d.events.length,0);
   assert.equal(d.state.records[0].committedUnits,3);
   assert.equal(d.state.records[0].settled,true);
@@ -88,7 +88,7 @@ test("live relocated tip anchors future growth; earlier events and their coordin
     events:[{id:"remodel/half",kind:"translate",atHour:0.5,
       createdCellIds:[],removedCellIds:[],sourceCellIds:[]}]};
   const a=stepMaterialOperatorChronology(translated,program,state,
-    interval(program,0,2,[amount(program,op,1)]));
+    interval(program,0,1,[amount(program,op,1)]));
   assert.equal(a.events.length,1);
   assert.equal(a.events[0].atHour,1);
   const created=a.graph.cells.find(c=>c.id===a.events[0].createdCellIds[0])!;
@@ -160,7 +160,7 @@ test("resorbed source site is suppressed without corrupting the authoritative gr
   assert.equal(a.decisions[0].reason,"site-root-removed");
   assert.equal(a.state.records[0].committedUnits,0);
   const b=stepMaterialOperatorChronology(a.graph,program,a.state,
-    interval(program,2,4,[amount(program,op,1)]));
+    interval(program,due,4,[expression]));
   assert.strictEqual(b.graph,external);
   assert.equal(b.decisions[0].status,"suppressed");
   assert.equal(b.state.records[0].settled,true);
@@ -244,7 +244,7 @@ test("original cumulative dilation and newly committed material are intentionall
   const legacyGrowth=legacy.cells.length-graph.cells.length;
   const newGrowth=incremental.graph.cells.length-graph.cells.length;
   assert.ok(legacyGrowth>0);
-  assert.ok(newGrowth>0);
+  assert.ok(newGrowth>0,JSON.stringify({decisions:incremental.decisions,events:incremental.events,quota:materialOperatorPotential(op.kind,program.signals)}));
   assert.notDeepEqual(legacy.cells.map(c=>c.id),incremental.graph.cells.map(c=>c.id),
     "incremental quantum ownership is not a second cumulative age replay");
   // Old APIs are deliberately preserved as pure from-birth queries.
@@ -283,11 +283,11 @@ test("saved operator-expression ledger must match the actual graph events",()=>{
     ...a.state,records:a.state.records.map(r=>({...r,committedUnits:0})),
   };
   assert.throws(()=>stepMaterialOperatorChronology(a.graph,program,falselyRolledBack,
-    interval(program,1,2,[e])),/unacknowledged/);
+    interval(program,2,3,[e])),/unacknowledged/);
   const recovered=stepMaterialOperatorChronology(
     reconstructMaterialGraph(JSON.parse(JSON.stringify(a.graph))),
     program,JSON.parse(JSON.stringify(a.state)),
-    interval(program,1,2,[e]));
+    interval(program,2,3,[e]));
   assert.equal(recovered.events.length,0);
   integrity(recovered.graph,graph);
 });
