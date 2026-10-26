@@ -87,6 +87,6 @@ pnpm build:web
 pnpm build:ios
 ```
 
-See [verification](docs/VERIFICATION.md) for actual results and Node equivalents. Exports establish JavaScript bundling. Signed iOS, physical iPhone performance and WidgetKit scheduling require separate tests; widgets display precomputed snapshots.
+See [current life-v10 automated verification](docs/VERIFICATION-life-v10.md) for the latest CI results, and [historical life-v9 verification](docs/VERIFICATION.md) for the earlier version's separate evidence. Exports establish JavaScript bundling. Signed iOS, physical iPhone performance and WidgetKit scheduling require separate tests; widgets display precomputed snapshots.
 
 Terminal typography follows [pre-programmed.art](https://pre-programmed.art/). DOS font by VileR, CC BY-SA 4.0: [credits](assets/fonts/FONT-LICENSE.md), [design references](docs/REFERENCE.md).
