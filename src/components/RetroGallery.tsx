@@ -42,8 +42,8 @@ export function RetroGallery({
         reference forms
       </Text>
       <Text style={s.muted}>
-        Choose ordinary editable ink. Full lifecycle tests start with the
-        earliest baby drawing and generate every later form.
+        Each drawing includes a stable genetic seed. Growth and care follow
+        the normal engine, not the original game’s preassigned evolutions.
       </Text>
       <View style={styles.row}>
         {devices.map((d) => (
@@ -95,6 +95,11 @@ export function RetroGallery({
               <Text style={[s.muted, { textAlign: "center", fontSize: 13 }]}>
                 {item.root ? "Lifecycle beginning" : `${item.stage} drawing`}
               </Text>
+              {source && (
+                <Text style={[s.muted, { fontSize: 12, textAlign: "center" }]}>
+                  Seed {source.preset.seed}
+                </Text>
+              )}
               {!source && (
                 <Text style={[s.muted, { fontSize: 12, textAlign: "center" }]}>
                   Reference image pending

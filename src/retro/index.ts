@@ -23,6 +23,8 @@ export type RetroDrawing = {
   rows: string[];
   sourceUrl: string;
   referenceStatus?: string;
+  /** Stable candidate genotype seed; not a preordained evolution lookup. */
+  seed: string;
 };
 export type RetroPreset = RetroDrawing & {
   id: string;

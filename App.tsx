@@ -647,7 +647,7 @@ export default function App() {
     setTool("paint");
     setHistory([]);
     setRedo([]);
-    const nextSeed = seedOverride ?? newSeed();
+    const nextSeed = seedOverride ?? retro?.seed ?? newSeed();
     setSeed(nextSeed);
     setSeedInput(nextSeed);
     setName(preset?.name ?? "Little one");
