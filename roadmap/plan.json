@@ -438,7 +438,7 @@
         "OBS-001",
         "PHY-002"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
