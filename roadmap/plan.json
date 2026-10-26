@@ -62,7 +62,7 @@
       "dependsOn": [
         "SYS-001"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",

@@ -1,3 +1,4 @@
+import { inferInkSignature } from "./ink-signature";
 import {
   animalProfiles,
   datasetVersion,
@@ -84,6 +85,13 @@ export function classifySource(atlas: SourceAtlas): LineagePlacement {
   const evidence: string[] = [];
   const { headCount, supportCount, aspect, holes, floatingCount } =
     atlas.descriptors;
+  const ink = inferInkSignature(atlas);
+  if (ink.occupiedCells) {
+    evidence.push(`${ink.connectedComponents} connected ink component(s)`);
+    if (ink.holes) evidence.push(`${ink.holes} enclosed negative space(s)`);
+    if (ink.verticalSymmetry >= 0.7)
+      evidence.push("approximately mirrored ink across vertical axis");
+  }
   if (headCount) evidence.push(`${headCount} authored head region(s)`);
   if (supportCount) evidence.push(`${supportCount} authored support region(s)`);
   if (aspect > 1.5) evidence.push("elongated body geometry");

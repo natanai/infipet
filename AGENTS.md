@@ -14,3 +14,11 @@
 - Gameplay morphology must be generated solely from authored ink, the seed-inherited genome, the phylogenetic prior, chronological care/training/battle, and clock. Never reference retro character names, IDs, target pixel masks, or stage sprite tables inside the morphology renderer or its gene compiler.
 - Original-device evolution requires a **witness**: source drawing, particular seed, replayable player care commands or explicit history, stage timings, and independently measured resemblance at every checkpoint. No stage lookup or sprite interpolation counts as an algorithmic success. Treat ROM-derived P1 count predicates as constraints, not proof of live command replay.
 - Growth within a pet is ontogeny; the OpenTree animal ancestry graph constrains possible developmental specializations. Plant ancestry is not implemented: do not label a guessed shape as belonging to a plant clade without a real bundled provenance-backed plant subtree.
+
+## Canonical implementation checklist (required for every agent)
+
+- **Single source of truth:** [roadmap/plan.json](roadmap/plan.json). Do not create parallel Markdown roadmaps, issue-only completion trackers or generated progress reports.
+- Read dependencies and feature-specific acceptance criteria before working on a task: `node scripts/roadmap.mjs --task=OBS-001` (replace task ID).
+- After a change, add or update the named, focused test with all acceptance markers `[TASK-ID/A1]`, `[TASK-ID/A2]`, etc. Run **only that test** with `node scripts/roadmap.mjs --task=TASK-ID --run` while iterating. No screenshots or visual snapshots as automatic acceptance evidence.
+- Set status to `done` only after all its acceptance claims are asserted, the focused test passes and prerequisites are complete. The roadmap validator rejects unevidenced completion and cyclic/missing dependencies. CI executes validation and all focused tests.
+- Update the JSON task in the **same commit** as implementation and its tests; keep task IDs stable, and use `in_progress` or `blocked` when unfinished. Avoid accumulating large report assets.
