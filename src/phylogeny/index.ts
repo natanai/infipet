@@ -16,6 +16,7 @@ export type {
 
 export type PhylogenyNode = {
   id: string;
+  /** Nearest *represented* ancestor; intermediate scientific taxa may be omitted. */
   parentId: string | null;
   name: string | null;
   ottId: number | null;
@@ -52,6 +53,7 @@ export type SourceProvenance =
       /** Synthetic MRCA nodes have no external taxon number but do have source node IDs. */
       sourceNodeId: string;
       parentEdgeSourceUrl: string | null;
+      parentRelationship: "documented-reference-ancestor-possibly-contracted";
       evidence: PhylogenyNode["evidence"];
     }>
   | Readonly<{
@@ -60,6 +62,7 @@ export type SourceProvenance =
       sourceVersion: "1";
       externalTaxonIds: readonly [];
       parentEdgeSourceUrl: null;
+      parentRelationship: "invented-overlay";
       rationale: string;
     }>;
 export type ScientificNode = PhylogenyNode & Readonly<{
@@ -194,6 +197,7 @@ export function createPhylogenyView(
       return {
         kind: "fictional", source: "infipet-speculative-v1", sourceVersion: "1",
         externalTaxonIds: [], parentEdgeSourceUrl: null,
+        parentRelationship: "invented-overlay",
         rationale: node.fiction.rationale,
       };
     }
@@ -203,6 +207,7 @@ export function createPhylogenyView(
       sourceVersion: crossKingdomVersion,
       externalTaxonIds: [{ database: "ncbi", id: anchor.ncbiId }],
       sourceNodeId: id, parentEdgeSourceUrl: anchor.parentEdgeSourceUrl,
+      parentRelationship: "documented-reference-ancestor-possibly-contracted",
       evidence: node.evidence,
     };
     const refs: ExternalTaxonId[] = node.ottId === null
@@ -218,6 +223,7 @@ export function createPhylogenyView(
       parentEdgeSourceUrl: id === rootId
         ? crossKingdomData.animalCrosswalk.sourceUrl
         : "https://tree.opentreeoflife.org/",
+      parentRelationship: "documented-reference-ancestor-possibly-contracted",
       evidence: node.evidence,
     };
   };
