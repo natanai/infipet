@@ -1,10 +1,16 @@
 /**
  * Composable DEV-003 hourly transaction for the ONE authoritative organism.
  *
- * Call order: at boundary n, compose due *external* material operators on the
- * current graph, then call stepIterativeChronology(graph, state, exposure,
- * permanentBirth). Never pass an age-n graph to iterativeGrowthAt() as birth.
- * A new external site observed at boundary n becomes eligible in [n+1,n+2);
+ * Global order for each integer completion hour n+1:
+ *   1. Starting from graph committed at n, apply due external proposals in
+ *      ascending chronological order with n < event.atHour <= n+1.
+ *   2. At equal timestamp n+1, external proposals precede iterative growth.
+ *   3. stepIterativeChronology() observes that completed graph, allocates
+ *      resources sampled for [n,n+1), and commits its own events at n+1.
+ * Never feed an age-T graph to iterativeGrowthAt() as birth. Events with
+ * timestamps > n+1 are future-dated and rejected; the step's own growth
+ * cannot be moved before fractional remodeling by rounding event times.
+ * A new external site observed in this step is eligible in [n+1,n+2);
  * a child site made by this step likewise activates at n+1.
  *
  * The persistent site record includes direction, full exact torus state,
@@ -28,6 +34,15 @@
  * before their activation. Floating point affects only bounded steering and
  * finite weight calculation, never the recurrence or integer resource totals.
  *
+ * Lifetime policy: this composable stepper advances real hourly state through
+ * the inclusive age 8192, matching the verified remodeling chronological
+ * horizon. Its last interval is [8191,8192). Each hour remains fully
+ * deterministic, even if material is spatially blocked or resources are 0:
+ * allocations remain exact, sites/orbits are NEVER reset or wrapped, and
+ * unspent credits are recorded. An attempted step beyond age 8192 throws,
+ * never silently clamps. The old birth-only DEV-003 512-hour evaluator is
+ * deliberately unchanged. No special anatomy is invented after maturity.
+ *
  * Light is optional and NOT inferred from care. If light=null, steering has
  * no directional-light term. Runtime adapters may supply resources derived
  * from actual, chronological EnvironmentPressure; this module does not
@@ -41,6 +56,10 @@ import {
   type IterativeGrowthLedger, type GrowthCreditAllocation,
 } from "./iterative-growth";
 import type { MaterialDevelopmentProgram } from "./operators";
+import { REMODEL_LIMITS } from "./lifetime-remodeling";
+
+/** Inclusive supported age. No modulo clock, implicit maturity reset, or clamp. */
+export const ITERATIVE_CHRONOLOGY_MAX_HOURS = REMODEL_LIMITS.maxAgeHours;
 import type {
   MaterialCell, MaterialEvent, MaterialGraph, MaterialSite, MaterialTissue,
 } from "./material-graph";
@@ -119,7 +138,7 @@ function validateExposure(exposure: IterativeExposure, n: number): void {
 }
 
 function validateGraph(
-  graph: MaterialGraph, birth: MaterialDevelopmentProgram, boundaryHour = 0,
+  graph: MaterialGraph, birth: MaterialDevelopmentProgram, completionHour = 0,
 ) {
   if (graph.version !== 1 || graph.sourceFingerprint !== birth.source.sourceFingerprint ||
       JSON.stringify(graph.sourceCells) !== JSON.stringify(birth.source.sourceCells))
@@ -165,7 +184,7 @@ function validateGraph(
     throw new RangeError("Authoritative material exceeds the shared growth limit");
   if (graph.events.some(event =>
       !Number.isFinite(event.atHour) ||
-      event.atHour < 0 || event.atHour > boundaryHour))
+      event.atHour < 0 || event.atHour > completionHour))
     throw new RangeError("Authoritative graph contains a future or invalid material event");
   for (const link of graph.links) {
     if (!tissueIds.has(link.fromTissueId) || !tissueIds.has(link.toTissueId))
@@ -227,8 +246,12 @@ export function createIterativeChronologyState(
 /**
  * One pure chronological transaction. No frame-query side effects, no resets
  * to birth graph, no changes to other operators' events. Operator precedence:
- * supplied graph (already containing due external actions) -> reconcile
- * registered tips -> resource competition -> geometry -> next saved state.
+ * supplied graph (including all external actions through n+1) -> reconcile
+ * registered tips -> resource competition -> geometry at n+1 -> next state.
+ * External fractional proposals must already be applied in chronological
+ * order. Tie-breaking at n+1 is external actions first, this step second.
+ * The completion-time validation accepts times <= n+1, never later.
+ * Age n+1 sees genuine completed fractional events, not a future snapshot.
  */
 export function stepIterativeChronology(
   birth: MaterialDevelopmentProgram,
@@ -240,11 +263,12 @@ export function stepIterativeChronology(
       state.fingerprint !== birth.fingerprint ||
       state.genomeFingerprint !== birth.genomeFingerprint ||
       !Number.isSafeInteger(state.nextHour) ||
-      state.nextHour < 0 || state.nextHour >= ITERATIVE_LIMITS.hours)
+      state.nextHour < 0 ||
+      state.nextHour >= ITERATIVE_CHRONOLOGY_MAX_HOURS)
     throw new TypeError("Incompatible immutable growth identity or bounded interval");
   const n = state.nextHour;
   validateExposure(exposure, n);
-  const byId = validateGraph(graph, birth, n);
+  const byId = validateGraph(graph, birth, n + 1);
   const roots = sourceRoots(graph);
   const parentTissues = new Map(graph.tissues.map(t => [t.id, t.parentId]));
   function tissueDepth(id: string): number {
@@ -497,10 +521,14 @@ export function stepIterativeChronology(
 
 /**
  * Independent deterministic reconstruction helper; chronological external
- * reducer MUST be a pure function of (currentGraph, intervalHour). It sees
- * only the material accumulated by previous intervals, never a future-age
- * snapshot. Example: reducer applies due care/remodel operations at boundary
- * n, then iterative growth consumes the n-th explicit pressure sample.
+ * reducer MUST be a pure function of (currentGraph, intervalStartHour).
+ * Its output contains exactly the externally committed proposals through
+ * intervalStartHour+1 (including fractional proposals), in chronological
+ * order, with equal-time external changes before iterative growth. It cannot
+ * draw material from later timestamps. This is a caller-side scheduling
+ * contract: event cutoffs are validated, not source-specific proposal order.
+ * Iterative resources use the recorded interval-start sample, while anatomy
+ * is committed at the interval's end.
  */
 export function replayIterativeChronology(
   birth: MaterialDevelopmentProgram,
@@ -508,12 +536,12 @@ export function replayIterativeChronology(
   hour: number,
   applyDueExternal?: (graph: MaterialGraph, intervalHour: number) => MaterialGraph,
 ): Readonly<{ graph: MaterialGraph; state: IterativeChronologyState }> {
-  if (!Number.isSafeInteger(hour) || hour < 0 || hour > ITERATIVE_LIMITS.hours)
+  if (!Number.isSafeInteger(hour) || hour < 0 || hour > ITERATIVE_CHRONOLOGY_MAX_HOURS)
     throw new RangeError("Chronological replay requires a bounded integer age");
   let previous = -1;
   for (const sample of exposures) {
     if (!Number.isSafeInteger(sample.atHour) ||
-        sample.atHour < 0 || sample.atHour > ITERATIVE_LIMITS.hours ||
+        sample.atHour < 0 || sample.atHour > ITERATIVE_CHRONOLOGY_MAX_HOURS ||
         sample.atHour <= previous)
       throw new RangeError("Historical exposures must be strictly increasing integer hours");
     validateExposure(sample, sample.atHour);
