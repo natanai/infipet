@@ -1,18 +1,22 @@
 import {
   createPhylogenyView,
+  exploreDevelopmentalPossibilities,
+  describeLifetimeDevelopmentalTrajectory,
   type DevelopmentPrior,
   type SourceProvenance,
   type SpeculativeBranchInput,
+  type DevelopmentalPossibilityMap,
+  type LifetimeWaypointInput,
+  type LifetimeDevelopmentalTrajectory,
 } from "../phylogeny";
 
 /**
- * Contract for the drawing-inference and seed-genetics agents.
+ * Interface for drawing inference and seed genetics.
  *
- * One candidate ID -> one fixed ancestral prior for ONE pet's lifetime.
- * This is ontogeny, never reproduction, cross-generation population evolution,
- * or transitions into different taxa as the pet gets older.
- * Candidate rankings belong to inference; genomes/care histories are NOT read
- * here, and a drawing is never force-classified by this module.
+ * Scientific reference ancestry is fixed. A pet's anatomical inspiration can
+ * change during its life, even between distant reference branches. That is
+ * ontogeny/game transformation, NOT a literal species change, breeding,
+ * reproduction, or population evolution. No drawing is force-classified here.
  */
 export type BirthLineagePrior = Readonly<{
   candidateId: string;
@@ -37,4 +41,35 @@ export function candidateBirthPriors(
     priors.push({ candidateId: id, provenance, development });
   }
   return priors;
+}
+
+/**
+ * Ranked candidates are supplied by inference; this does NOT rank them.
+ * Anatomical inspirations are NOT blocked by the pet's birth-reference clade.
+ * Any supported source (including a labeled fiction overlay) is inspectable.
+ */
+export function candidateDevelopmentalMaps(
+  candidateIds: readonly string[],
+  referenceIds?: readonly string[],
+  fictionalBranches: readonly SpeculativeBranchInput[] = [],
+): readonly DevelopmentalPossibilityMap[] {
+  const view = createPhylogenyView(fictionalBranches);
+  const seen = new Set<string>();
+  return candidateIds.flatMap(id => {
+    if (seen.has(id)) return [];
+    seen.add(id);
+    const map = exploreDevelopmentalPossibilities(view, id, referenceIds);
+    return map ? [map] : [];
+  });
+}
+
+/** A typed outline, not a growth renderer or a care-dependent path selector. */
+export function describeCandidateTrajectory(
+  birthReferenceId: string,
+  waypoints: readonly LifetimeWaypointInput[],
+  fictionalBranches: readonly SpeculativeBranchInput[] = [],
+): LifetimeDevelopmentalTrajectory {
+  return describeLifetimeDevelopmentalTrajectory(
+    createPhylogenyView(fictionalBranches), birthReferenceId, waypoints,
+  );
 }
