@@ -94,10 +94,23 @@ export type IterativeGrowthSite = Readonly<{
   forks: number;
   state: "active" | "dormant" | "blocked";
 }>;
+export type GrowthSuppressionReason =
+  | "outside-world" | "protected-void" | "occupied" | "material-cap"
+  | "unrelated-source-proximity" | "independent-branch-proximity"
+  | "self-overcrowding";
+export type GrowthSuppression = Readonly<{
+  hour: number;
+  siteId: string;
+  kind: "elongate" | "branch" | "bud";
+  attempted: Readonly<Point>;
+  reason: GrowthSuppressionReason;
+}>;
 export type IterativeGrowthFrame = Readonly<{
   graph: MaterialGraph;
   sites: readonly IterativeGrowthSite[];
   ledger: readonly IterativeGrowthLedger[];
+  /** Each attempted invalid operation is suppressed with an inspectable cause. */
+  suppressions: readonly GrowthSuppression[];
 }>;
 export type IterativeGrowthProgram = Readonly<{
   version: 1;
@@ -129,6 +142,49 @@ const rotate = (p: Point, a: number): Point => ({
   y: p.x * Math.sin(a) + p.y * Math.cos(a),
 });
 const dot = (a: Point, b: Point) => a.x * b.x + a.y * b.y;
+
+/**
+ * Exact occupancy/negative-space test for a single proposed cell. All
+ * non-ancestral material is treated as separate even if it is near the
+ * candidate; independently branching tissues require an exclusive Moore
+ * neighborhood, except the one parent's tip during explicit attachment.
+ * This is a topological legibility rule, not an aesthetic silhouette score.
+ *
+ * A previously authored dense source is respected, not retroactively pruned:
+ * near-source contact within the same tissue is tolerated for the first cell.
+ */
+export function assessIterativePlacement(
+  occupied: ReadonlyMap<string, MaterialCell>,
+  protectedVoids: ReadonlySet<string>,
+  tip: MaterialCell,
+  tissueId: string,
+  destination: Readonly<Point>,
+  addedCells: number,
+): GrowthSuppressionReason | null {
+  const { x, y } = destination;
+  if (!Number.isInteger(x) || !Number.isInteger(y) ||
+      x < 0 || y < 0 || x >= ITERATIVE_LIMITS.world ||
+      y >= ITERATIVE_LIMITS.world) return "outside-world";
+  if (protectedVoids.has(coords(x, y))) return "protected-void";
+  if (occupied.has(coords(x, y))) return "occupied";
+  if (addedCells >= ITERATIVE_LIMITS.addedCells) return "material-cap";
+  for (let oy = -1; oy <= 1; oy++) for (let ox = -1; ox <= 1; ox++) {
+    const neighbor = occupied.get(coords(x + ox, y + oy));
+    if (!neighbor) continue;
+    if (!neighbor.sourceIds.some(id => tip.sourceIds.includes(id)))
+      return "unrelated-source-proximity";
+    if (neighbor.tissueId !== tissueId) {
+      // Only the exact parent tip is an authorized inter-tissue contact.
+      // The new child also receives an explicit MaterialLink.
+      if (neighbor.id !== tip.id || tip.tissueId === tissueId)
+        return "independent-branch-proximity";
+    } else if (neighbor.id !== tip.id &&
+        !tip.parentCellIds.includes(neighbor.id) &&
+        !(neighbor.provenance === "authored" && tip.provenance === "authored"))
+      return "self-overcrowding";
+  }
+  return null;
+}
 
 /**
  * Pure Hamilton/largest-remainder allocation over integer material credits.
@@ -236,6 +292,7 @@ export function iterativeGrowthAt(
   const byId = new Map(cells.map(c => [c.id, c]));
   const voids = new Set(original.protectedVoids);
   const outputLedger: IterativeGrowthLedger[] = [];
+  const suppressions: GrowthSuppression[] = [];
   const live: LiveSite[] = original.sites.map(s => ({
     id: s.id, tissueId: s.tissueId, tipCellId: s.rootCellId,
     parentSiteId: null, activationHour: 0, depth: 0, extensions: 0,
@@ -244,23 +301,20 @@ export function iterativeGrowthAt(
   })).filter(site => byId.has(site.tipCellId))
     .sort((a, b) => compareText(a.id, b.id));
 
-  const compatible = (a: MaterialCell, b: MaterialCell) =>
-    a.sourceIds.some(id => b.sourceIds.includes(id));
   function place(
     tip: MaterialCell, tissueId: string, axis: Point,
-    hourStep: number, siteId: string, kind: MaterialOperatorKind,
+    hourStep: number, siteId: string, kind: "elongate" | "branch" | "bud",
   ): MaterialCell | null {
     const dx = Math.round(norm(axis).x), dy = Math.round(norm(axis).y);
     const x = tip.x + dx, y = tip.y + dy, location = coords(x, y);
-    if ((!dx && !dy) || x < 0 || y < 0 ||
-        x >= ITERATIVE_LIMITS.world || y >= ITERATIVE_LIMITS.world ||
-        occupied.has(location) || voids.has(location) ||
-        cells.length - original.sourceCells.length >= ITERATIVE_LIMITS.addedCells)
+    const cause = (!dx && !dy)
+      ? "occupied" as const
+      : assessIterativePlacement(occupied, voids, tip, tissueId,
+          { x, y }, cells.length - original.sourceCells.length);
+    if (cause) {
+      suppressions.push({ hour: hourStep, siteId, kind,
+        attempted: { x, y }, reason: cause });
       return null;
-    // Different disconnected authored islands must never be accidentally joined.
-    for (let oy = -1; oy <= 1; oy++) for (let ox = -1; ox <= 1; ox++) {
-      const neighbor = occupied.get(coords(x + ox, y + oy));
-      if (neighbor && !compatible(tip, neighbor)) return null;
     }
     const operationId = "iterative/" + (hourStep + 1) + "/" +
       encodeURIComponent(siteId) + "/" + kind + "/" + cells.length;
@@ -399,5 +453,6 @@ export function iterativeGrowthAt(
     graph,
     sites: live.map(({ orbit, direction, ...site }) => ({ ...site })),
     ledger: outputLedger,
+    suppressions,
   };
 }
