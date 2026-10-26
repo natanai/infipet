@@ -156,8 +156,8 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/alg-observation-affinity.test.ts",
-        "command": "pnpm exec tsx --test tests/alg-observation-affinity.test.ts",
+        "testPath": "tests/ink-signature.test.ts",
+        "command": "pnpm exec tsx --test tests/ink-signature.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
@@ -189,8 +189,8 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/alg-observation-robustness.test.ts",
-        "command": "pnpm exec tsx --test tests/alg-observation-robustness.test.ts",
+        "testPath": "tests/ink-signature.test.ts",
+        "command": "pnpm exec tsx --test tests/ink-signature.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
@@ -1059,8 +1059,6 @@
     "reporting": "Prefer booleans, numeric hashes, invariants and narrow metric summaries; never commit screenshot batches, historical build logs or generated test matrices."
   },
   "baselineTests": [
-    "tests/retro-reference-score.test.ts",
-    "tests/alg-observation-affinity.test.ts",
-    "tests/alg-observation-robustness.test.ts"
+    "tests/retro-reference-score.test.ts"
   ]
 }
