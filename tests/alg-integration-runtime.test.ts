@@ -197,6 +197,12 @@ test("[integration-physical] generated material is rendered by frameAt with sour
   assert.ok(grownParts.flatMap(part => part.pixels).some(p =>
     composite.has(p.x + "," + p.y + "," + p.color)),
     "structural cells must actually survive final compositing into displayed pixels");
+  const legacyCoordinates = new Set(late.parts
+    .filter(part => part.role !== "material-growth")
+    .flatMap(part => part.pixels.map(p => p.x + "," + p.y)));
+  assert.ok(grownParts.flatMap(part => part.pixels).some(p =>
+    !legacyCoordinates.has(p.x + "," + p.y)),
+    "source-derived physical operators must add visible silhouette geometry, not just recolor overlapping pixels");
   assert.ok(late.evolution?.diagnostics?.biologicalComposition &&
     (late.evolution.diagnostics.biologicalComposition as {physicalOperatorsConnected:boolean})
       .physicalOperatorsConnected);
