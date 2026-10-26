@@ -29,6 +29,7 @@ export type { ChaosState, MaterialChaos } from "./chaos";
 export {
   initializeMaterialOperatorChronology,
   stepMaterialOperatorChronology,
+  materialOperatorChaosRate, materialMaximumCumulativeExpression,
 } from "./operator-chronology";
 export type {
   MaterialCumulativeExpression, MaterialExpressionInterval,
