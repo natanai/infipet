@@ -1,4 +1,7 @@
 import animalData from "./catalog-data.json";
+import { exploreDevelopmentalPossibilities, describeLifetimeDevelopmentalTrajectory } from "./possibilities";
+export { exploreDevelopmentalPossibilities, describeLifetimeDevelopmentalTrajectory } from "./possibilities";
+export type { AnatomicalPossibility, DevelopmentalPossibilityMap, LifetimeWaypointInput, LifetimeAnatomicalWaypoint, LifetimeDevelopmentalTrajectory } from "./possibilities";
 import crossKingdomData from "./cross-kingdom-data.json";
 import {
   compileAncestralTraits,
@@ -261,6 +264,11 @@ export const lineageMembership = base.lineageMembership;
 export const getProvenance = base.getProvenance;
 export const resolveBiologicalConstraints = base.resolveBiologicalConstraints;
 export const validatePhylogeny = base.validate;
+/** Science graph is immutable; anatomical inspirations may vary during one lifetime. */
+export const developmentalPossibilities = (birthReferenceId: string, candidateIds?: readonly string[]) =>
+  exploreDevelopmentalPossibilities(base, birthReferenceId, candidateIds);
+export const lifetimeDevelopmentalTrajectory = (birthReferenceId: string, waypoints: readonly import("./possibilities").LifetimeWaypointInput[]) =>
+  describeLifetimeDevelopmentalTrajectory(base, birthReferenceId, waypoints);
 const profilesById = new Map(animalProfiles.map(profile => [profile.id, profile]));
 /** IDs outside the compact supported animal closure have no animal profile. */
 export function nearestSupportedProfile(id: string): AnimalProfile | undefined {
