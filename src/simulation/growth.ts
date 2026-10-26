@@ -716,13 +716,13 @@ export function createSimulation(
     lineage = liveContext
       ? compileLineage(blueprint.atlas, inherited, liveContext.stagePoints)
       : undefined,
-    programFingerprint = lineage
-      ? String(
-          hash(
-            `${fingerprint}|${lineage.fingerprint}|${JSON.stringify(liveContext?.stageEndHours)}|${hatchAt}`,
-          ),
-        )
-      : fingerprint,
+    programFingerprint = String(hash(JSON.stringify([
+      fingerprint,
+      blueprint.material.fingerprint,
+      lineage?.fingerprint ?? null,
+      liveContext?.stageEndHours ?? null,
+      hatchAt,
+    ]))),
     needs = createNeedsSimulation(seed, options.needTimeline),
     groomingSimulation = createGroomingSimulation(options.groomingTimeline),
     structural = new Map<number, ResolvedDevelopment>(),
@@ -731,7 +731,9 @@ export function createSimulation(
   const materialAt = (chronologicalHour: number): MaterialGraph => {
     // A material time is always derived from the *same* permanent birth graph.
     // Caching changes cost, never chronological output or inherited identity.
-    const hour = Math.max(0, chronologicalHour);
+    // The actual game records physiological history at chronological-hour
+    // boundaries, so freeze geometric material snapshots to that same clock.
+    const hour = Math.floor(Math.max(0, chronologicalHour));
     const hit = materialSnapshots.get(hour);
     if (hit) return hit;
     const graph = materialDevelopmentAt(blueprint!.material, hour);
@@ -813,7 +815,10 @@ export function createSimulation(
     somaticGrowthGenes: genes.somaticGrowth,
     sourceAtlas: blueprint.atlas,
     // Read-only merged scientific/genetic evidence; no replacement renderer.
-    biologicalPotential: blueprint.biology,
+    biologicalPotential: {
+      ...blueprint.biology,
+      physicalOperatorsConnected: true,
+    },
     materialProgramFingerprint: blueprint.material.fingerprint,
     authoredInkSignature: signature,
     genomeIdentity: blueprint.biology.genomeIdentity,
