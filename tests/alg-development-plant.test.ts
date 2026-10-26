@@ -767,3 +767,195 @@ test("[INT-001] native per-unit remodeling event provenance is recognized as a g
     createIterativeChronologyState(birth), chronoExposure(0, 0)),
   /creation event/);
 });
+
+
+/**
+ * Iterative-boundary-lifetime counterexamples: these exercise the LIVE merged
+ * remodeling transaction API against the composable growth API. No fabricated
+ * translation events or manually mutated material coordinates are involved.
+ */
+import {
+  compileLifetimeRemodeling, remodelingProposalsBetween,
+  applyRemodelingInterval, EMPTY_REMODELING_CHRONOLOGY,
+  type RemodelOperation,
+} from "../src/development/lifetime-remodeling";
+import { ITERATIVE_CHRONOLOGY_MAX_HOURS } from "../src/development/iterative-chronology";
+import { CHAOS_MAX_TICK } from "../src/development/chaos";
+
+function exactBoundaryInputs() {
+  // The actual SourceAtlas compilation applies +16 to local source pixels:
+  // authored part at (-6,-6), with its (0,0) pixel, is world point (10,10).
+  const parts = drawing(["#"]).map(part =>
+    ({ ...part, position: { x: -6, y: -6 } }));
+  const { atlas, genome } = materialInputs(parts, "fractional-actual-remodel");
+  const compiled = compileMaterialDevelopment(atlas, genome);
+  const original = compiled.source.sourceCells[0];
+  assert.deepEqual({ x: original.x, y: original.y }, { x: 10, y: 10 });
+  const selected = compiled.source.sites[0];
+  assert.ok(selected, "real SourceAtlas must derive a growth-site attachment");
+  const source: MaterialGraph = {
+    ...compiled.source,
+    // Hold exactly one genuine source-derived site in this small exact oracle:
+    // multiple independently competing ports would make its allocation
+    // depend on the real Hamilton weights, as covered by earlier tests.
+    sites: [{ ...selected, direction: { x: 1, y: 0 } }],
+    tissues: compiled.source.tissues.map(t => ({
+      ...t, growthSiteIds: t.growthSiteIds.filter(id => id === selected.id),
+    })),
+  };
+  const birth: MaterialDevelopmentProgram = { ...compiled, source };
+  return { birth, genome, original, growthSite: source.sites[0] };
+}
+
+test("[INT-001] fractional remodeling at 0.5 precedes growth completion at 1", () => {
+  const { birth, genome, original, growthSite } = exactBoundaryInputs();
+  const translate: RemodelOperation = {
+    id: "fractional-translate-down", kind: "translate",
+    tissueId: growthSite.tissueId, sourceSiteId: growthSite.id,
+    direction: { x: 0, y: 1 }, atHour: 0,
+    durationHours: 6, units: 12, strength: 1,
+  };
+  const remodeling = compileLifetimeRemodeling(birth, genome, [translate]);
+  const due = remodelingProposalsBetween(remodeling, 0, 0.5);
+  assert.deepEqual(due.map(p => p.atHour), [0.5],
+    "the real remodeling scheduler must propose one transition at 0.5");
+  const resolved = applyRemodelingInterval(
+    birth.source, remodeling, due, EMPTY_REMODELING_CHRONOLOGY);
+  assert.deepEqual(resolved.transactions.map(t => t.attempt.status), ["accepted"]);
+  assert.deepEqual(resolved.graph.events.map(e => e.atHour), [0.5]);
+  const translated = resolved.graph.cells.find(c => c.id === original.id)!;
+  assert.deepEqual([translated.x, translated.y], [10, 11]);
+  assert.deepEqual(resolved.graph.sourceCells, birth.source.sourceCells);
+
+  const grown = stepIterativeChronology(birth, resolved.graph,
+    createIterativeChronologyState(birth), chronoExposure(0, 0.25));
+  assert.deepEqual([grown.ledger.available, grown.ledger.spent,
+    grown.ledger.unspent], [1, 1, 0]);
+  assert.deepEqual(grown.events.map(e => e.atHour), [1]);
+  const extension = grown.graph.cells.find(c =>
+    c.id === grown.events[0].createdCellIds[0])!;
+  assert.deepEqual([extension.x, extension.y], [11, 11],
+    "extension observes ACTUAL translated world-space tip, not birth position");
+  assert.deepEqual(extension.parentCellIds, [original.id]);
+  assert.deepEqual(extension.sourceIds, original.sourceIds);
+  assert.deepEqual(grown.graph.events.map(e => e.atHour), [0.5, 1]);
+  assert.deepEqual(grown.graph.sourceCells, birth.source.sourceCells);
+  assert.equal(grown.graph.cells.some(c => c.provenance === "generated" &&
+    c.x === 11 && c.y === 10), false);
+  assert.equal(grown.state.sites[0].tipCellId, extension.id);
+
+  const replay = replayIterativeChronology(birth, [chronoExposure(0, 0.25)], 1,
+    (graph, n) => n === 0
+      ? applyRemodelingInterval(graph, remodeling, due).graph
+      : graph);
+  assert.deepEqual(replay, { graph: grown.graph, state: grown.state },
+    "pure replay over the real fractional proposal gives the same frame");
+});
+
+test("[INT-001] exactly-on-boundary remodeling wins tie; genuinely future proposals are rejected", () => {
+  const { birth, genome, original, growthSite } = exactBoundaryInputs();
+  const operation = (durationHours: number): RemodelOperation => ({
+    id: "boundary-translate/" + durationHours, kind: "translate",
+    tissueId: growthSite.tissueId, sourceSiteId: growthSite.id,
+    direction: { x: 0, y: 1 },
+    atHour: 0, durationHours, units: 12, strength: 1,
+  });
+  for (const [duration, eventTime] of [[12, 1], [18, 1.5]]) {
+    const remod = compileLifetimeRemodeling(birth, genome, [operation(duration)]);
+    const proposals = remodelingProposalsBetween(remod, 0, eventTime);
+    assert.equal(proposals[0].atHour, eventTime);
+    const transformed = applyRemodelingInterval(
+      birth.source, remod, proposals).graph;
+    assert.deepEqual(transformed.events.map(e => e.atHour), [eventTime]);
+    if (eventTime === 1) {
+      const output = stepIterativeChronology(birth, transformed,
+        createIterativeChronologyState(birth), chronoExposure(0, 0.25));
+      const newCell = output.graph.cells.find(c =>
+        c.id === output.events[0].createdCellIds[0])!;
+      assert.deepEqual([newCell.x, newCell.y], [11, 11]);
+      assert.deepEqual(newCell.parentCellIds, [original.id]);
+      assert.deepEqual(output.graph.events.map(e => e.atHour), [1, 1],
+        "equal-time external operation is applied before iterative completion");
+    } else {
+      assert.throws(() => stepIterativeChronology(birth, transformed,
+        createIterativeChronologyState(birth), chronoExposure(0, 0.25)),
+      /future or invalid material event/,
+      "1.5 is genuinely beyond the completion at hour 1");
+    }
+  }
+});
+
+test("[INT-001] lifespan 511,512,513,720,2048,8192 remains chronological and finite", () => {
+  const { birth, original } = exactBoundaryInputs();
+  assert.equal(ITERATIVE_CHRONOLOGY_MAX_HOURS, 8192);
+  assert.equal(ITERATIVE_CHRONOLOGY_MAX_HOURS, CHAOS_MAX_TICK);
+  // No resources until hour 719: the site ages and its exact torus orbit
+  // advances, without any speculative anatomy or suppressed growth.
+  const exposures = [
+    chronoExposure(0, 0),
+    chronoExposure(719, 0.25),
+    chronoExposure(720, 0),
+    chronoExposure(8191, 0.25),
+  ];
+  const checkpoint = new Map<number, ReturnType<typeof replayIterativeChronology>>();
+  for (const age of [511, 512, 513, 719, 720, 721, 2048, 8191, 8192]) {
+    const result = replayIterativeChronology(birth, exposures, age);
+    checkpoint.set(age, result);
+    assert.equal(result.state.nextHour, age,
+      "no clock wrap, reset, timestamp clamp, or discontinuity");
+    assert.equal(result.state.ledger.length, age);
+    assert.equal(result.state.ledger.reduce((v, l) => v + l.spent + l.unspent, 0),
+      result.state.ledger.reduce((v, l) => v + l.available, 0));
+    assert.deepEqual(result.state.sites[0].orbit,
+      chaosAt(seedChaos(birth.fingerprint + "|" + result.state.sites[0].id), age),
+      "dormant and active sites continue the exact finite cat-map orbit");
+    assert.deepEqual(result.graph.sourceCells, birth.source.sourceCells);
+    assert.ok(result.graph.cells.every(c =>
+      c.sourceIds.every(id => birth.source.sourceCells.some(s => s.id === id))));
+  }
+  for (const age of [511, 512, 513, 719]) {
+    assert.equal(checkpoint.get(age)!.graph.cells.length, 1,
+      "resources absent: no anatomical invention at the old 512-hour boundary");
+  }
+  assert.equal(checkpoint.get(720)!.graph.cells.length, 2,
+    "recorded resource at 719 generates one actual cell after hour 512");
+  const lateCell = checkpoint.get(720)!.graph.cells.find(c =>
+    c.provenance === "generated")!;
+  assert.deepEqual([lateCell.x, lateCell.y], [11, 10]);
+  assert.deepEqual(lateCell.parentCellIds, [original.id]);
+  assert.equal(checkpoint.get(8191)!.graph.cells.length, 2);
+  assert.equal(checkpoint.get(8192)!.graph.cells.length, 3,
+    "the same growth-bearing source site remains eligible at hour 8191");
+  const last = checkpoint.get(8192)!;
+  assert.deepEqual(last.state.ledger.filter(l => l.spent).map(l => l.hour),
+    [719, 8191]);
+  assert.equal(last.state.sites[0].extensions, 2);
+  assert.throws(() => replayIterativeChronology(birth, exposures, 8193),
+    /bounded integer age/);
+  assert.throws(() => stepIterativeChronology(birth, last.graph, last.state,
+    chronoExposure(8192, 1)), /bounded interval/);
+  assert.deepEqual(
+    replayIterativeChronology(birth, exposures, 513),
+    checkpoint.get(513), "seeking earlier age after 8192 has no history effect");
+});
+
+test("[INT-001] empty organism is valid through the last hour; resource ledgers conserve credits", () => {
+  const { atlas, genome } = materialInputs(fixtures.empty, "empty-long-lived");
+  const birth = compileMaterialDevelopment(atlas, genome);
+  const completed = replayIterativeChronology(birth, [
+    chronoExposure(0, 1), chronoExposure(513, 0.5),
+    chronoExposure(720, 1), chronoExposure(8191, 0),
+  ], ITERATIVE_CHRONOLOGY_MAX_HOURS);
+  assert.deepEqual(completed.graph.cells, []);
+  assert.deepEqual(completed.state.sites, []);
+  assert.equal(completed.state.nextHour, 8192);
+  assert.equal(completed.state.ledger.length, 8192);
+  assert.equal(completed.state.ledger.reduce((total, ledger) =>
+    total + ledger.spent, 0), 0);
+  for (const ledger of completed.state.ledger) {
+    assert.equal(ledger.spent, 0);
+    assert.equal(ledger.unassigned, ledger.available);
+    assert.equal(ledger.unspent, ledger.available);
+    assert.deepEqual(ledger.bySite, []);
+  }
+});
