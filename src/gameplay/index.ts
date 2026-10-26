@@ -89,7 +89,8 @@ export type GameActivity =
       prompt: string;
     };
 type Call = { atMs: number; missed: boolean };
-type CareSample = { hour: number; values: number[] };
+/** Existing hourly care evidence, with optional hunger sampling for old save compatibility. */
+type CareSample = { hour: number; values: number[]; nutrition?: number };
 export type CommandRecord = Readonly<{
   id: string;
   atMs: number;
@@ -328,13 +329,19 @@ function sample(s: GameState) {
   const hour = Math.floor(hourAt(s));
   if (hour > GAME_RULES.lifespanMs / HOUR) return;
   const values = careValues(s),
+    nutrition = s.meters.hunger / 4,
     prev = s.careSamples.at(-1);
   if (prev?.hour === hour) {
     prev.values = values;
+    prev.nutrition = nutrition;
     return;
   }
-  if (!prev || values.some((n, i) => n !== prev.values[i]))
-    s.careSamples.push({ hour, values });
+  if (
+    !prev ||
+    values.some((n, i) => n !== prev.values[i]) ||
+    prev.nutrition !== nutrition
+  )
+    s.careSamples.push({ hour, values, nutrition });
 }
 function updateCalls(s: GameState) {
   if (s.stage === "egg" || s.dead) return;
@@ -1394,11 +1401,12 @@ export function validateGameState(value: unknown): GameState {
         (i === 0 || p.hour > s.careSamples[i - 1].hour) &&
         Array.isArray(p.values) &&
         p.values.length === 6 &&
-        p.values.every((n) => finite(n, 0, 1)),
+        p.values.every((n) => finite(n, 0, 1)) &&
+        (p.nutrition === undefined || finite(p.nutrition, 0, 1)),
     )
   )
     throw new Error("Invalid derived care history.");
-  s.careSamples.forEach((p) => keys(p, ["hour", "values"]));
+  s.careSamples.forEach((p) => keys(p, ["hour", "values", "nutrition"]));
   if (typeof s.message !== "string" || s.message.length > 1000)
     throw new Error("Invalid game message.");
   if (s.activity !== null) {
