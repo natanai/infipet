@@ -92,6 +92,8 @@ export type IterativeGrowthSite = Readonly<{
   depth: number;
   extensions: number;
   forks: number;
+  /** Source-derived lateral membrane/surface expansion cells. */
+  lateralCells: number;
   state: "active" | "dormant" | "blocked";
 }>;
 export type GrowthSuppressionReason =
@@ -101,7 +103,7 @@ export type GrowthSuppressionReason =
 export type GrowthSuppression = Readonly<{
   hour: number;
   siteId: string;
-  kind: "elongate" | "branch" | "bud";
+  kind: "elongate" | "branch" | "bud" | "expand";
   attempted: Readonly<Point>;
   reason: GrowthSuppressionReason;
 }>;
@@ -129,6 +131,7 @@ type LiveSite = {
   depth: number;
   extensions: number;
   forks: number;
+  lateralCells: number;
   orbit: ChaosState;
   state: IterativeGrowthSite["state"];
 };
@@ -311,14 +314,14 @@ export function iterativeGrowthAt(
   const live: LiveSite[] = original.sites.map((s): LiveSite => ({
     id: s.id, tissueId: s.tissueId, tipCellId: s.rootCellId,
     parentSiteId: null, activationHour: 0, depth: 0, extensions: 0,
-    forks: 0, direction: norm(s.direction),
+    forks: 0, lateralCells: 0, direction: norm(s.direction),
     orbit: seedChaos(birth.fingerprint + "|" + s.id), state: "dormant",
   })).filter(site => byId.has(site.tipCellId))
     .sort((a, b) => compareText(a.id, b.id));
 
   function place(
     tip: MaterialCell, tissueId: string, axis: Point,
-    hourStep: number, siteId: string, kind: "elongate" | "branch" | "bud",
+    hourStep: number, siteId: string, kind: "elongate" | "branch" | "bud" | "expand",
   ): MaterialCell | null {
     const dx = Math.round(norm(axis).x), dy = Math.round(norm(axis).y);
     const x = tip.x + dx, y = tip.y + dy, location = coords(x, y);
@@ -430,11 +433,30 @@ export function iterativeGrowthAt(
               id: anchorId, tissueId: childId, tipCellId: created.id,
               parentSiteId: site.id, activationHour: n + 1,
               direction, depth: site.depth + 1, extensions: 0, forks: 0,
-              orbit: seedChaos(birth.fingerprint + "|" + anchorId),
+              lateralCells: 0, orbit: seedChaos(birth.fingerprint + "|" + anchorId),
               state: "dormant",
             });
             site.forks++;
             break;
+          }
+        }
+        // Generic sheet-capable specialization: a mature daughter axis can
+        // spend a material credit on one adjacent *lateral* cell rather than
+        // axial elongation. No leaf outline is encoded. Moore clearance and
+        // parent ancestry are checked by the very same placement predicate.
+        // A simple periodic gate is phase-modulated by the chaotic orbit.
+        const membranePotential = birth.signals.channels.support.membrane *
+          birth.signals.channels.appendages.extension;
+        const canSpread = !created && site.depth > 0 &&
+          site.extensions >= 2 && membranePotential >= 0.01 &&
+          site.lateralCells < site.extensions * 2 &&
+          (n + site.forks + site.extensions) % 3 === 0;
+        if (canSpread) {
+          const preferred = site.orbit.y % 2 === 0 ? 1 : -1;
+          for (const sign of [preferred, -preferred]) {
+            created = place(tip, site.tissueId,
+              rotate(axis, sign * Math.PI / 2), n, site.id, "expand");
+            if (created) { site.lateralCells++; break; }
           }
         }
         if (!created) {
