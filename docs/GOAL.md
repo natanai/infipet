@@ -30,7 +30,7 @@ The result must work in the normal playable application, including its care, gam
 
 **A preset library, successful game counters, passing software tests, or a benchmark framework does not complete this goal. Completion requires actual, independently verifiable reproduction witnesses.**
 
-## 1. Required reference coverage
+### 1. Required reference coverage
 
 - Cover all **36 currently identified forms**: 14 Digital Monster V1, 11 P1 and 11 P2.
 - Treat the **25 currently cataloged stage paths as a minimum**, not proof that every original route has been captured. Resolve original care-history variants, secret-form requirements and valid alternative endings.
@@ -42,7 +42,7 @@ The result must work in the normal playable application, including its care, gam
 
 Later franchise generations and unrelated editions are outside this goal unless explicitly added.
 
-## 2. Procedural integrity: permitted improvements and prohibited shortcuts
+### 2. Procedural integrity: permitted improvements and prohibited shortcuts
 
 **General improvements to the shared engine are authorized**, including anatomy, material redistribution, pigment expression, facial development, movement and developmental timing.
 
@@ -62,7 +62,7 @@ The following constraints are mandatory:
 
 Keep the phylogenetic system integrated as a constrained game affinity model. Preserve real ancestry relationships, uncertainty and broad fallbacks. Do not invent biological relationships or character-specific taxonomic exceptions to force a match.
 
-## 3. Definition of a successful reproduction
+### 3. Definition of a successful reproduction
 
 A passing witness contains **one starting drawing, one seed and one chronological history of actual player commands** that reproduces the entire reference path.
 
@@ -80,7 +80,7 @@ Every passing path must receive visual review separate from its automated score.
 
 **Every stage must pass under the same recipe.** A collection of unrelated successful adults, exact copied birth drawings, or a favorable average cannot substitute for whole-path reproduction. Do not lower acceptance thresholds to manufacture success.
 
-## 4. Playability, interfaces and reproducibility
+### 4. Playability, interfaces and reproducibility
 
 - Every reproduced form must function throughout all lawful, age-appropriate care actions, minigames, training, battles, illness/recovery, sleep and mortality scenarios in the normal application.
 - Keep one shared editable drawing canvas, untimed creation and an explicit **Begin life** action. Reference reproduction must not require a separate simulation mode with special powers.
@@ -93,7 +93,7 @@ Every passing path must receive visual review separate from its automated score.
 - Preserve the separation between chronological care time and anatomical maturation, including the existing six-hour and seven-day care responses.
 - Follow prototype policy: introduce a new revision when required, reset only `infipet.*`, and add no migrations or backups unless requested.
 
-## 5. Evidence required before declaring completion
+### 5. Evidence required before declaring completion
 
 Deliver:
 
