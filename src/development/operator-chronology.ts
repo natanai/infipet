@@ -200,7 +200,7 @@ function canDeposit(g:MaterialGraph,p:Point,tissueId:string,provisional:readonly
   const connected=activeLinks(g,tissueId);
   if(parentId) {
     for(const id of activeLinks(g,parentId)) connected.add(id);
-    for(const cell of provisional) if(cell.tissueId.startsWith(parentId.replace(/\\/growth\\/.*/, "")+"/growth/")) connected.add(cell.tissueId);
+    for(const cell of provisional) connected.add(cell.tissueId);
   }
   for(const c of all)if(touching(c,p) && !connected.has(c.tissueId) &&
     c.tissueId!==tissueId) return "occupied";
