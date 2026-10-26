@@ -272,12 +272,13 @@ test("[DEV-003/A1] growth-bearing branches recursively produce attached growth s
   }
   const firstHour = graph.at(1);
   const secondHour = graph.at(2);
-  assert.ok(firstHour.sites.every(s => s.depth === 0));
-  assert.ok(secondHour.sites.every(s =>
-    s.depth === 0 || s.activationHour === 2));
-  assert.ok(secondHour.ledger[1].bySite.every(s =>
-    firstHour.sites.some(site => site.id === s.siteId)),
-    "newborn daughter tips cannot compete before their activation hour");
+  assert.ok(firstHour.ledger[0].bySite.every(a =>
+    firstHour.sites.some(s => s.id === a.siteId && s.activationHour === 0)),
+    "newborn sites cannot draw resources from the interval of their creation");
+  assert.ok(secondHour.ledger[1].bySite.every(a =>
+    firstHour.sites.some(s => s.id === a.siteId && s.activationHour <= 1)),
+    "next-hour candidates must already have existed at that interval's start");
+  assert.ok(secondHour.sites.every(s => s.activationHour <= 2));
   const replay = graph.at(30);
   graph.at(0); graph.at(20); graph.at(2); graph.at(15);
   assert.deepEqual(graph.at(30), replay, "render/query order has no effect");
