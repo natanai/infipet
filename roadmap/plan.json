@@ -679,7 +679,7 @@
       "dependsOn": [
         "DEV-001"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -694,15 +694,31 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/environment-history.test.ts",
-        "command": "pnpm exec tsx --test tests/environment-history.test.ts",
+        "testPath": "tests/alg-environment-history.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-history.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/gameplay",
-        "src/needs"
+        "src/environment/history.ts",
+        "src/gameplay/index.ts"
       ],
-      "algorithmId": "environment"
+      "algorithmId": "environment",
+      "interfaceContract": {
+        "inputs": [
+          "GameState.commandHistory ordered receipts",
+          "GameState.careSamples with optional nutrition",
+          "existing needs timeline and simulation"
+        ],
+        "exports": [
+          "createEnvironmentalHistory"
+        ],
+        "outputs": [
+          "EnvironmentPressure at historical hour",
+          "chronological nutrition, recovery, stress and activity exposures",
+          "cumulative deficits and event provenance"
+        ],
+        "invariant": "No independent event log or retroactive care; legacy unknown nutrition stays neutral"
+      }
     },
     {
       "id": "CARE-002",
@@ -714,7 +730,7 @@
         "GEN-001",
         "DEV-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -729,15 +745,33 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/reaction-norm.test.ts",
-        "command": "pnpm exec tsx --test tests/reaction-norm.test.ts",
+        "testPath": "tests/alg-environment-material.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-material.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation",
-        "src/gameplay"
+        "src/environment/reaction-norm.ts",
+        "src/environment/material-development.ts"
       ],
-      "algorithmId": "environment"
+      "algorithmId": "environment",
+      "interfaceContract": {
+        "inputs": [
+          "immutable SourceAtlas",
+          "permanent InheritedGenome",
+          "recorded GameState",
+          "optional authoritative DevelopmentPrior"
+        ],
+        "exports": [
+          "compileCareDevelopmentSignals",
+          "careMaterialOperatorsAt",
+          "createCareMaterialDevelopment"
+        ],
+        "outputs": [
+          "immutable care-modulated canonical MaterialOperator schedule",
+          "materialAt(hour) source-ancestry-bearing MaterialGraph"
+        ],
+        "invariant": "No DNA mutation, sprite targets, template tissues or future exposure influencing earlier material"
+      }
     },
     {
       "id": "CARE-003",
@@ -1179,6 +1213,9 @@
   },
   "baselineTests": [
     "tests/retro-reference-score.test.ts",
+    "tests/alg-environment-history.test.ts",
+    "tests/alg-environment-reaction.test.ts",
+    "tests/alg-environment-material.test.ts",
     "tests/alg-integration-runtime.test.ts"
   ],
   "singleCreatureLifecycle": {
