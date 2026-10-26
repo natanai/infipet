@@ -118,7 +118,9 @@ function validateExposure(exposure: IterativeExposure, n: number): void {
   }
 }
 
-function validateGraph(graph: MaterialGraph, birth: MaterialDevelopmentProgram) {
+function validateGraph(
+  graph: MaterialGraph, birth: MaterialDevelopmentProgram, boundaryHour = 0,
+) {
   if (graph.version !== 1 || graph.sourceFingerprint !== birth.source.sourceFingerprint ||
       JSON.stringify(graph.sourceCells) !== JSON.stringify(birth.source.sourceCells))
     throw new TypeError("Chronological material cannot exchange or rewrite original ink");
@@ -140,6 +142,10 @@ function validateGraph(graph: MaterialGraph, birth: MaterialDevelopmentProgram) 
   }
   if (graph.cells.length - graph.sourceCells.length > ITERATIVE_LIMITS.addedCells)
     throw new RangeError("Authoritative material exceeds the shared growth limit");
+  if (graph.events.some(event =>
+      !Number.isFinite(event.atHour) ||
+      event.atHour < 0 || event.atHour > boundaryHour))
+    throw new RangeError("Authoritative graph contains a future or invalid material event");
   for (const link of graph.links) {
     if (!tissueIds.has(link.fromTissueId) || !tissueIds.has(link.toTissueId))
       throw new TypeError("Link refers to a missing tissue");
@@ -217,7 +223,7 @@ export function stepIterativeChronology(
     throw new TypeError("Incompatible immutable growth identity or bounded interval");
   const n = state.nextHour;
   validateExposure(exposure, n);
-  const byId = validateGraph(graph, birth);
+  const byId = validateGraph(graph, birth, n);
   const roots = sourceRoots(graph);
   const parentTissues = new Map(graph.tissues.map(t => [t.id, t.parentId]));
   function tissueDepth(id: string): number {
@@ -273,7 +279,15 @@ export function stepIterativeChronology(
         !tissuesById.has(record.tissueId)) {
       changes.push({ atHour: n, siteId: record.id,
         kind: "invalidated", reason: "source-invalid" });
-      known.add(record.id); // invalid IDs never repeatedly claim introduction
+      lives.push({
+        id: record.id, tissueId: record.tissueId,
+        tipCellId: record.rootCellId, parentSiteId: null,
+        activationHour: n + 1, direction: unit(record.direction),
+        depth: 0, extensions: 0, forks: 0, lateralCells: 0,
+        orbit: seedChaos(birth.fingerprint + "|" + record.id),
+        status: "invalidated",
+      });
+      known.add(record.id); // persistent tombstone; no later resurrection
       continue;
     }
     const depth = tissueDepth(record.tissueId);
@@ -475,6 +489,17 @@ export function replayIterativeChronology(
 ): Readonly<{ graph: MaterialGraph; state: IterativeChronologyState }> {
   if (!Number.isSafeInteger(hour) || hour < 0 || hour > ITERATIVE_LIMITS.hours)
     throw new RangeError("Chronological replay requires a bounded integer age");
+  let previous = -1;
+  for (const sample of exposures) {
+    if (!Number.isSafeInteger(sample.atHour) ||
+        sample.atHour < 0 || sample.atHour > ITERATIVE_LIMITS.hours ||
+        sample.atHour <= previous)
+      throw new RangeError("Historical exposures must be strictly increasing integer hours");
+    validateExposure(sample, sample.atHour);
+    previous = sample.atHour;
+  }
+  if (hour > 0 && exposures[0]?.atHour !== 0)
+    throw new RangeError("Replay must begin with genuinely supplied hour-zero resources");
   let graph = birth.source;
   let state = createIterativeChronologyState(birth);
   for (let n = 0; n < hour; n++) {
