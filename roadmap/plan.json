@@ -205,7 +205,7 @@
       "dependsOn": [
         "OBS-001"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -220,14 +220,30 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/cross-kingdom-tree.test.ts",
-        "command": "pnpm exec tsx --test tests/cross-kingdom-tree.test.ts",
+        "testPath": "tests/alg-ancestry-tree.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-ancestry-tree.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
         "src/phylogeny"
       ],
-      "algorithmId": "ancestry"
+      "algorithmId": "ancestry",
+      "interfaceContract": {
+        "purpose": "Ontogenetic developmental prior for one fixed birth ancestry; no phylogenetic movement, reproduction or population evolution.",
+        "exports": [
+          "ancestry nodes: id, parentId, children, rank",
+          "external IDs: OTT/NCBI provenance per node",
+          "parentOf / childrenOf / ancestry / commonAncestor / isDescendant"
+        ],
+        "inputs": [
+          "candidate lineage/taxon ID(s)"
+        ],
+        "outputs": [
+          "machine-readable provenance",
+          "fixed ancestry and developmental capabilities"
+        ],
+        "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
+      }
     },
     {
       "id": "PHY-002",
@@ -237,7 +253,7 @@
       "dependsOn": [
         "PHY-001"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -252,15 +268,30 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/ancestral-trait-inheritance.test.ts",
-        "command": "pnpm exec tsx --test tests/ancestral-trait-inheritance.test.ts",
+        "testPath": "tests/alg-ancestry-traits.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-ancestry-traits.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
         "src/phylogeny",
-        "src/lineage"
+        "src/lineage/phylogeny-priors.ts"
       ],
-      "algorithmId": "ancestry"
+      "algorithmId": "ancestry",
+      "interfaceContract": {
+        "purpose": "Ontogenetic developmental prior for one fixed birth ancestry; no phylogenetic movement, reproduction or population evolution.",
+        "exports": [
+          "resolveBiologicalConstraints(id): DevelopmentPrior",
+          "candidateBirthPriors(ids, fictionalBranches?) to supply drawing inference and seed genetics"
+        ],
+        "inputs": [
+          "candidate lineage/taxon ID(s)"
+        ],
+        "outputs": [
+          "machine-readable provenance",
+          "fixed ancestry and developmental capabilities"
+        ],
+        "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
+      }
     },
     {
       "id": "PHY-003",
@@ -270,7 +301,7 @@
       "dependsOn": [
         "PHY-002"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -285,14 +316,30 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/speculative-branches.test.ts",
-        "command": "pnpm exec tsx --test tests/speculative-branches.test.ts",
+        "testPath": "tests/alg-ancestry-fiction.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-ancestry-fiction.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
         "src/phylogeny"
       ],
-      "algorithmId": "ancestry"
+      "algorithmId": "ancestry",
+      "interfaceContract": {
+        "purpose": "Ontogenetic developmental prior for one fixed birth ancestry; no phylogenetic movement, reproduction or population evolution.",
+        "exports": [
+          "createPhylogenyView(fictionalBranches): PhylogenyView",
+          "fiction: namespace, explicit fictional provenance, same operator vocabulary"
+        ],
+        "inputs": [
+          "candidate lineage/taxon ID(s)",
+          "explicit speculative branch definitions"
+        ],
+        "outputs": [
+          "machine-readable provenance",
+          "fixed ancestry and developmental capabilities"
+        ],
+        "unrepresentedBehavior": "unknown IDs return undefined or are omitted, never assigned imaginary ancestry"
+      }
     },
     {
       "id": "GEN-001",
@@ -883,14 +930,16 @@
     {
       "id": "ancestry",
       "name": "Provenance-backed phylogeny",
-      "purpose": "Supply biological ancestry, inherited constraints and separate speculative extensions.",
+      "purpose": "Constrain single-pet ontogenetic changes from fixed birth ancestry; no reproduction or population-level evolution.",
       "inputs": [
-        "externally sourced taxon records",
-        "source feature evidence"
+        "externally verified NCBI taxonomy lineage records and historical OTT animal catalog",
+        "documented broad developmental trait evidence",
+        "optional explicitly fictional overlays (not scientific taxa)"
       ],
       "outputs": [
-        "versioned ancestry graph",
-        "lineage trait constraints"
+        "PhylogenyView: ancestry, commonAncestor, lineageMembership, parent/children, scientific or fictional provenance",
+        "DevelopmentPrior: fixed birth ancestry, inherited and refined trait priors, generic operators",
+        "BirthLineagePrior[]: typed inference/genetics adapter, no forced classification"
       ],
       "ownedPaths": [
         "src/phylogeny/",
