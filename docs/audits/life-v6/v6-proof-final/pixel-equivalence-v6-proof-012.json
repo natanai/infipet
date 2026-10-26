@@ -1,9 +1,0 @@
-{
-  "fromRun": "v6-proof-012",
-  "toRun": "v6-proof-final",
-  "condition": "Exact rendered coordinate/color hashes for every scheduled view ID; visual review transfer only, not hidden-state equivalence",
-  "matched": 204,
-  "compared": 204,
-  "changed": [],
-  "completeEquivalence": true
-}
