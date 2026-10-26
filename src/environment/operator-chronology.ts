@@ -128,7 +128,7 @@ function checkHistory(history: EnvironmentalHistory): void {
         sample.hour <= previousSample ||
         (sample.nutrition !== null && !finiteRange(sample.nutrition, 0, 1)) ||
         !Array.isArray(sample.needs) || sample.needs.length !== 6 ||
-        sample.needs.some(value => !finiteRange(value, 0, 1)))
+        sample.needs.some((value: number) => !finiteRange(value, 0, 1)))
       throw new TypeError("Invalid or unordered physiological sample");
     previousSample = sample.hour;
   }
