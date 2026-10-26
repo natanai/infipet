@@ -5,7 +5,9 @@ import { compileSources } from "../src/simulation/material";
 import { describeSource } from "../src/simulation/source-atlas";
 import { createSimulation } from "../src/simulation";
 import { compileGenome, genomeCacheKey } from "../src/simulation/genome";
-import { compileRuntimeBiology } from "../src/integration";
+import { compileRuntimeBiology, compileRuntimeMaterialProgram } from "../src/integration";
+import { materialDevelopmentAt, materialSourceAncestry } from "../src/development";
+import { flattenAnatomy } from "../src/simulation/model";
 import { classifySource, compileLineage, lineageAt, lineageTraitsAt } from "../src/lineage";
 import { createGame, deriveCareTimeline, deriveDevelopmentContext } from "../src/gameplay";
 import { encodePet, decodePet, LINEAGE_RECIPE_VERSION, PROTOTYPE_REVISION, type PetDocument } from "../src/pet-format";
@@ -161,4 +163,67 @@ test("[integration] a normal single-pet save reconstructs the existing retro gam
   assert.match(app, /createSimulation\(life\.parts, life\.seed, life\.mode/);
   assert.match(app, /savePet\(/);
   assert.match(app, /<GamePanel/);
+});
+
+test("[integration-physical] generated material is rendered by frameAt with source ancestry, not just diagnostic counts", () => {
+  const birthGenome = compileGenome(seed);
+  const source = atlas(branching);
+  const biology = compileRuntimeBiology(source, birthGenome);
+  const materialProgram = compileRuntimeMaterialProgram(source, birthGenome, biology);
+  const graph0 = materialDevelopmentAt(materialProgram, 0);
+  const graphLate = materialDevelopmentAt(materialProgram, 240);
+  assert.deepEqual(graph0.cells, graph0.sourceCells);
+  assert.ok(graphLate.cells.some(cell => cell.provenance === "generated"),
+    "merged DEV-002 operations must create real source-derived material");
+  assert.deepEqual(graphLate.sourceCells, graph0.sourceCells);
+  for (const cell of graphLate.cells) {
+    assert.ok(materialSourceAncestry(graphLate, cell.id).length > 0);
+    assert.ok(cell.sourceIds.every(id => graph0.sourceCells.some(sourceCell => sourceCell.id === id)));
+  }
+
+  const pet = createSimulation(branching, seed, "infant", { liveContext: context });
+  const born = pet.frameAt(0, { action: "idle", time: 0 });
+  const expected = flattenAnatomy(branching).map(cell => ({
+    ...cell, x: cell.x + 16, y: cell.y + 16,
+  }));
+  assert.deepEqual(born.pixels, expected, "authored pixel/color identity must survive birth exactly");
+  assert.ok(!born.parts.some(part => part.role === "material-growth"));
+  const late = pet.frameAt(10, { action: "idle", time: 0 });
+  const grownParts = late.parts.filter(part => part.role === "material-growth");
+  assert.ok(grownParts.length > 0, "operator-generated anatomy must reach the existing PartFrame renderer");
+  assert.ok(grownParts.some(part => part.pixels.length > 0));
+  assert.ok(grownParts.every(part => part.provenance === "grown" && part.sourcePartIds?.length));
+  const composite = new Set(late.pixels.map(p => p.x + "," + p.y + "," + p.color));
+  assert.ok(grownParts.flatMap(part => part.pixels).some(p =>
+    composite.has(p.x + "," + p.y + "," + p.color)),
+    "structural cells must actually survive final compositing into displayed pixels");
+  assert.ok(late.evolution?.diagnostics?.biologicalComposition &&
+    (late.evolution.diagnostics.biologicalComposition as {physicalOperatorsConnected:boolean})
+      .physicalOperatorsConnected);
+  assert.deepEqual(pet.genome, birthGenome);
+  assert.equal(pet.program.materialProgramFingerprint, materialProgram.fingerprint);
+});
+
+test("[integration-physical] material growth replays deterministically across pose, age seeking and sources", () => {
+  const options = { liveContext: context };
+  const a = createSimulation(branching, seed, "infant", options);
+  const b = createSimulation(branching, seed, "infant", options);
+  const moments = [0, 2, 5, 10];
+  const forward = moments.map(age => a.frameAt(age, { time: 1, action: "move" }));
+  const reverse = [...moments].reverse().map(age =>
+    b.frameAt(age, { time: 1, action: "move" })).reverse();
+  for (let i = 0; i < moments.length; i++) {
+    assert.deepEqual(forward[i].pixels, reverse[i].pixels);
+    assert.deepEqual(forward[i].parts, reverse[i].parts);
+  }
+  const stationary = a.frameAt(10, { time: 0, action: "idle" });
+  const walking = a.frameAt(10, { time: 3, action: "move" });
+  assert.ok(stationary.parts.some(part => part.role === "material-growth"));
+  assert.ok(walking.parts.some(part => part.role === "material-growth"));
+  assert.deepEqual(
+    stationary.parts.filter(p => p.role === "material-growth").map(p => p.sourcePartIds),
+    walking.parts.filter(p => p.role === "material-growth").map(p => p.sourcePartIds),
+    "locomotion changes visible pose, not ancestry");
+  assert.notDeepEqual(stationary.pixels, walking.pixels, "retains interactive pose");
+  assert.ok(walking.capabilities.canMove);
 });
