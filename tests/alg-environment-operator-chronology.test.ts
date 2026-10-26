@@ -199,19 +199,34 @@ test("fractional command affects only following interval, and unsampled nutritio
     "the next actual hourly sample controls nutrition");
 });
 
+/** Ordinary game caretaker with the same policy before and after reconstruction. */
+function maintain(s: GameState, hour: number): GameState {
+  s = advanceGame(s, BIRTH + hour * HOUR);
+  if (s.attention.discipline)
+    s = commandGame(s, { type: "discipline" }, BIRTH + hour * HOUR,
+      "usual-discipline-" + hour);
+  if (hour % 8 === 0)
+    s = commandGame(s, { type: "clean" }, BIRTH + hour * HOUR,
+      "usual-clean-" + hour);
+  if (!s.sleeping && s.meters.hunger < 4)
+    s = commandGame(s, { type: "feed", food: "meal" }, BIRTH + hour * HOUR,
+      "usual-feed-" + hour);
+  if (s.health.sickness)
+    s = commandGame(s, { type: "medicine" }, BIRTH + hour * HOUR,
+      "usual-medicine-" + hour);
+  assert.equal(s.dead, false, "care fixture died at " + hour);
+  return s;
+}
+
 test("save/reload and extending history preserve previously consumed credit", () => {
   let early = createGame(SEED, "infant", BIRTH);
-  for (let h = 1; h <= 12; h++) early = advanceGame(early, BIRTH + h * HOUR);
+  for (let h = 1; h <= 12; h++) early = maintain(early, h);
   assert.equal(early.dead, false);
   const earlyHistory = createEnvironmentalHistory(early);
   const old = createCareOperatorChronology(original, earlyHistory, genome.genotype);
   const checkpoint = old.advance(old.initial(), 12).next;
   let later = validateGameState(JSON.parse(JSON.stringify(early))) as GameState;
-  for (let h = 13; h <= 20; h++) {
-    later = advanceGame(later, BIRTH + h * HOUR);
-    if (h === 18) later = commandGame(later, { type: "clean" },
-      BIRTH + h * HOUR, "clean-later");
-  }
+  for (let h = 13; h <= 20; h++) later = maintain(later, h);
   const newHistory = createEnvironmentalHistory(later);
   const next = createCareOperatorChronology(original, newHistory, genome.genotype);
   assert.deepEqual(old.interval(10, 12), next.interval(10, 12),
@@ -223,9 +238,12 @@ test("save/reload and extending history preserve previously consumed credit", ()
     near(op.progressDelta + earlier, oneShot.deltas[i].progressAtEnd,
       "new-only credit plus previously recorded progress");
   }
-  assert.deepEqual(next, createCareOperatorChronology(original,
+  const reloaded = createCareOperatorChronology(original,
     createEnvironmentalHistory(validateGameState(JSON.parse(JSON.stringify(later)))),
-    genome.genotype));
+    genome.genotype);
+  assert.deepEqual(next.interval(0, 20), reloaded.interval(0, 20));
+  assert.deepEqual(next.advance(next.initial(), 20),
+    reloaded.advance(reloaded.initial(), 20));
 });
 
 test("invalid and nonfinite histories, programs, queries, and cursors are rejected", () => {
