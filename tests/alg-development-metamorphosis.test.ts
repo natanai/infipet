@@ -567,3 +567,57 @@ test("[DEV-004/A2] unusual cavity and multi-island drawings reject occupation wi
     empty.material.source);
   assert.deepEqual(remodelingMechanicalState(empty.material.source).capabilities,[]);
 });
+
+
+test("[DEV-004/A2] equal-time competing extensions commit one coordinate and reject the loser atomically",()=>{
+  const p=makeComposable(drawing(["#.#",".#."]),t=>[
+    opAt("A-left","extend",t[0].id,10,{
+      direction:{x:1,y:0},sourceSiteId:"fixture/left",
+    }),
+    opAt("B-right","extend",t[0].id,10,{
+      direction:{x:-1,y:0},sourceSiteId:"fixture/right",
+    }),
+  ],"COMPETING-TIPS");
+  const birth=p.material.source;
+  const left=birth.cells.find(c=>c.x===birth.cells.reduce((n,c)=>Math.min(n,c.x),64) &&
+    c.y===Math.min(...birth.cells.map(c=>c.y)))!;
+  const right=birth.cells.find(c=>c.x===Math.max(...birth.cells.map(c=>c.x)) &&
+    c.y===Math.min(...birth.cells.map(c=>c.y)))!;
+  assert.ok(left&&right&&left.id!==right.id);
+  // Additional sites refer to actual drawn cells; no new material or
+  // anatomical assumptions are manufactured by this adversarial fixture.
+  const sites=[...birth.sites,{
+    id:"fixture/left",tissueId:left.tissueId,
+    rootCellId:left.id,direction:{x:1,y:0},
+  },{
+    id:"fixture/right",tissueId:right.tissueId,
+    rootCellId:right.id,direction:{x:-1,y:0},
+  }];
+  const graph:MaterialGraph={...birth,sites,
+    tissues:birth.tissues.map(t=>t.id===left.tissueId?
+      {...t,growthSiteIds:[...t.growthSiteIds,"fixture/left","fixture/right"]}:t)};
+  const due=remodelingProposalsBetween(p.remodel,0,11)
+    .filter(q=>q.unit===1);
+  assert.equal(due.length,2);
+  assert.equal(due[0].atHour,due[1].atHour);
+  for(const order of [due,[...due].reverse()]) {
+    const result=applyRemodelingInterval(graph,p.remodel,order);
+    assert.deepEqual(result.transactions.map(t=>t.attempt.status),
+      ["accepted","rejected"]);
+    assert.equal(result.transactions[1].deferral?.reason,
+      "extension-occupied-or-void");
+    assert.strictEqual(result.transactions[1].graph,
+      result.transactions[0].graph);
+    assert.equal(result.graph.cells.length,birth.cells.length+1);
+    const generated=result.graph.cells.filter(c=>c.provenance==="generated");
+    assert.equal(generated.length,1);
+    assert.equal(generated[0].operationId,order[0].operation.id);
+    assert.equal(generated[0].x,Math.min(left.x,right.x)+1);
+    assert.equal(generated[0].y,left.y);
+    assert.deepEqual(result.graph.events.slice(0,birth.events.length),
+      birth.events);
+    assert.ok(result.chronology.attempts.some(a=>
+      a.status==="rejected" && a.reason==="extension-occupied-or-void"));
+    unchangedOriginal(graph,result.graph);
+  }
+});
