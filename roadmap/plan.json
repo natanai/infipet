@@ -492,7 +492,7 @@
         "DEV-001",
         "GEN-001"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
