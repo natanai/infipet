@@ -95,10 +95,11 @@ export function verifyTaxonPossibility(
           nodeId.startsWith("ott") ? ref.database === "ott" &&
           String(ref.id) === nodeId.slice(3) : true)
       ));
-  if (!authentic(provenance, id, node.parentId) ||
+  if (provenance?.kind !== "scientific" ||
+      !authentic(provenance, id, node.parentId) ||
       !authentic(rootProvenance, rootId, root.parentId) ||
       !verifiedTree.lineageMembership(id, rootId)) return null;
-  const scientific = provenance!;
+  const scientific = provenance;
   return {
     affinity, nodeId: node.id, source: scientific.source,
     sourceVersion: scientific.sourceVersion,
