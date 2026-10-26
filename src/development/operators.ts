@@ -122,11 +122,13 @@ export function applyMaterialOperators(
   rebuild();
   const active = (id: string) => cells.filter(c => c.tissueId === id);
   const canPlace = (x: number, y: number, tissueId: string, allowedParentId?: string) => {
+    const siblingPrefix = tissueId.includes("/growth/") ? tissueId.split("/growth/")[0] + "/growth/" : null;
     if (!within(x, y) || protectedVoids.has(key(x, y)) ||
         cells.length - birth.sourceCells.length >= MATERIAL_LIMITS.addedCells) return false;
     // Adjacent unconnected islands cannot merge except through an explicit fuse.
     for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
-      if ((occupied.get(key(x + dx, y + dy)) ?? []).some(c => c.tissueId !== tissueId && c.tissueId !== allowedParentId))
+      if ((occupied.get(key(x + dx, y + dy)) ?? []).some(c => c.tissueId !== tissueId && c.tissueId !== allowedParentId &&
+        !(siblingPrefix && c.tissueId.startsWith(siblingPrefix))))
         return false;
     }
     return !occupied.has(key(x, y));
