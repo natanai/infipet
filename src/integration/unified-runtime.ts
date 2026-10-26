@@ -27,12 +27,12 @@ import {
   type MaterialDevelopmentProgram, type MaterialGraph,
   type MaterialOperator, type MaterialOperatorChronologyState,
   type IterativeChronologyState, type IterativeExposure,
-  type LifetimeRemodelingProgram, type RemodelingChronology,
+  type LifetimeRemodelingProgram, type RemodelingChronology, REMODEL_LIMITS,
   type RemodelingProposal, type MaterialExpressionInterval,
 } from "../development";
 import {
   remodelingProposalsBetween, applyRemodelingProposal,
-  EMPTY_REMODELING_CHRONOLOGY, REMODEL_LIMITS,
+  EMPTY_REMODELING_CHRONOLOGY,
 } from "../development/remodel-transactions";
 import type { InheritedGenome } from "../simulation/genome";
 import type { EnvironmentalHistory, CareOperatorChronology, CareExpressionCursor } from "../environment";
