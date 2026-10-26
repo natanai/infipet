@@ -50,6 +50,14 @@ test("[DEV-002/A1] source-derived operators change anatomy, not just pigment", (
   assert.ok(connected.cells.length > separated.source.cells.length);
   assert.ok(connected.cells.some(cell => cell.sourceIds.length === 2));
   assert.deepEqual(connected.sourceCells, separated.source.sourceCells);
+  const obstructedInput = materialInputs(drawing(["#.#.#"]));
+  const obstructed = compileMaterialDevelopment(obstructedInput.atlas, obstructedInput.genome);
+  const attempted = applyMaterialOperators(obstructed.source, [{
+    ...manual("blocked", "fuse", obstructed.source.tissues[0].id),
+    targetTissueId: obstructed.source.tissues[2].id,
+  }], 100, obstructed.signals);
+  assert.equal(attempted.links.length, 0, "a third island cannot be bridged through");
+  assert.deepEqual(attempted.cells, obstructed.source.cells);
 });
 
 test("[DEV-002/A2] composition, reconstruction, seeded signals and scientific hints are deterministic", () => {
