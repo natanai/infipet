@@ -128,11 +128,26 @@ function validateGraph(
   const tissueIds = new Set(graph.tissues.map(t => t.id));
   const sources = new Set(birth.source.sourceCells.map(c => c.id));
   const siteIds = new Set<string>();
+  if (graph.sites.length > ITERATIVE_LIMITS.sites)
+    throw new RangeError("Authoritative growth-site count exceeds the finite limit");
   for (const s of graph.sites) {
     if (siteIds.has(s.id)) throw new TypeError("Duplicate material growth site");
     siteIds.add(s.id);
   }
+  const creationEvents = new Map<string, string>();
+  for (const event of graph.events) {
+    for (const id of event.createdCellIds) {
+      if (creationEvents.has(id))
+        throw new TypeError("Material cell has multiple independent creation events");
+      creationEvents.set(id, event.id);
+    }
+  }
   for (const cell of graph.cells) {
+    if (cell.provenance === "authored" && !sources.has(cell.id))
+      throw new TypeError("Unaccounted authored material cannot be introduced after birth");
+    if (cell.provenance === "generated" &&
+        (!cell.operationId || creationEvents.get(cell.id) !== cell.operationId))
+      throw new TypeError("Generated material requires its exact historical creation event");
     if (cells.has(cell.id) || !tissueIds.has(cell.tissueId) ||
         !Number.isInteger(cell.x) || !Number.isInteger(cell.y) ||
         cell.x < 0 || cell.x >= 64 || cell.y < 0 || cell.y >= 64 ||
