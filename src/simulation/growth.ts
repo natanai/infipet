@@ -1696,7 +1696,9 @@ export function createSimulation(
         diagnostics,
       };
     // Nominal movement modes do not establish physical travel or aerodynamic lift.
-    capabilities.canMove = physicalMovementCapable;
+    // canMove is the legacy action/pose affordance (waving, bobbing, etc.).
+    // Verified spatial translation is exposed separately as
+    // diagnostics.locomotionSupported, never inferred from canMove.
     capabilities.canWalk = physicalMovementCapable;
     capabilities.canFly = false;
     if (egg)
