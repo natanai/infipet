@@ -160,6 +160,7 @@ export function assessIterativePlacement(
   tissueId: string,
   destination: Readonly<Point>,
   addedCells: number,
+  tissueRoots: ReadonlyMap<string, string>,
 ): GrowthSuppressionReason | null {
   const { x, y } = destination;
   if (!Number.isInteger(x) || !Number.isInteger(y) ||
@@ -171,9 +172,11 @@ export function assessIterativePlacement(
   for (let oy = -1; oy <= 1; oy++) for (let ox = -1; ox <= 1; ox++) {
     const neighbor = occupied.get(coords(x + ox, y + oy));
     if (!neighbor) continue;
-    if (!neighbor.sourceIds.some(id => tip.sourceIds.includes(id)))
-      return "unrelated-source-proximity";
+    const related = neighbor.sourceIds.some(id => tip.sourceIds.includes(id)) ||
+      (tissueRoots.has(neighbor.tissueId) &&
+        tissueRoots.get(neighbor.tissueId) === tissueRoots.get(tip.tissueId));
     if (neighbor.tissueId !== tissueId) {
+      if (!related) return "unrelated-source-proximity";
       // Only the exact parent tip is an authorized inter-tissue contact.
       // The new child also receives an explicit MaterialLink.
       if (neighbor.id !== tip.id || tip.tissueId === tissueId)
@@ -293,6 +296,18 @@ export function iterativeGrowthAt(
   const voids = new Set(original.protectedVoids);
   const outputLedger: IterativeGrowthLedger[] = [];
   const suppressions: GrowthSuppression[] = [];
+  const tissueRoots = new Map<string, string>();
+  const byTissue = new Map(original.tissues.map(t => [t.id, t]));
+  function rootTissue(id: string): string {
+    let cursor = id;
+    const seen = new Set<string>();
+    while (byTissue.get(cursor)?.parentId && !seen.has(cursor)) {
+      seen.add(cursor);
+      cursor = byTissue.get(cursor)!.parentId!;
+    }
+    return cursor;
+  }
+  for (const t of original.tissues) tissueRoots.set(t.id, rootTissue(t.id));
   const live: LiveSite[] = original.sites.map(s => ({
     id: s.id, tissueId: s.tissueId, tipCellId: s.rootCellId,
     parentSiteId: null, activationHour: 0, depth: 0, extensions: 0,
@@ -310,7 +325,7 @@ export function iterativeGrowthAt(
     const cause = (!dx && !dy)
       ? "occupied" as const
       : assessIterativePlacement(occupied, voids, tip, tissueId,
-          { x, y }, cells.length - original.sourceCells.length);
+          { x, y }, cells.length - original.sourceCells.length, tissueRoots);
     if (cause) {
       suppressions.push({ hour: hourStep, siteId, kind,
         attempted: { x, y }, reason: cause });
@@ -401,6 +416,7 @@ export function iterativeGrowthAt(
               rigidity: Math.min(1, birth.signals.channels.support.rigidity *
                 (0.5 + 0.1 * site.depth)),
             });
+            tissueRoots.set(childId, tissueRoots.get(site.tissueId) ?? site.tissueId);
             materialSites.push({
               id: anchorId, tissueId: childId, rootCellId: created.id,
               direction,
