@@ -1,3 +1,4 @@
+import { compileMaterialDevelopment, type MaterialDevelopmentProgram } from "../development";
 import { inferSourceAffinities, type AffinityInference, type BiologicalAffinity } from "../lineage/source-classifier";
 import {
   createPhylogenyView,
@@ -98,4 +99,24 @@ export function compileRuntimeBiology(
     physicalOperatorsConnected: false,
     chronologicalExposureConnected: false,
   };
+}
+
+/**
+ * Select a *soft anatomical operator inspiration*, never an organism's
+ * scientific identity. A ranking is heuristic and cannot disallow any
+ * morphology. All alternatives remain exposed on RuntimeBiology.
+ *
+ * The physical engine reads only generic DevelopmentPrior operator evidence
+ * and the permanent seed genotype. No reference species becomes a destination.
+ */
+export function compileRuntimeMaterialProgram(
+  atlas: SourceAtlas,
+  inherited: InheritedGenome,
+  biology: RuntimeBiology,
+): MaterialDevelopmentProgram {
+  const inspiration = biology.references[0];
+  const prior = inspiration?.anatomicalPossibilities.possibilities.find(
+    possibility => possibility.referenceId === inspiration.referenceId,
+  )?.referencePriors;
+  return compileMaterialDevelopment(atlas, inherited, prior);
 }
