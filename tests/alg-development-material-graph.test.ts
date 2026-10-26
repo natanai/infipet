@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createMaterialGraph, reconstructMaterialGraph, materialSourceAncestry } from "../src/development/material-graph";
-import { compileMaterialDevelopment, materialDevelopmentAt, MATERIAL_LIMITS } from "../src/development/operators";
+import { applyMaterialOperators, compileMaterialDevelopment, materialDevelopmentAt, MATERIAL_LIMITS } from "../src/development/operators";
 import { fixtures, drawing, materialInputs } from "./alg-development-fixtures";
 
 test("[DEV-001/A1] every cell has original authored source ancestry, including generated growth", () => {
@@ -59,6 +59,16 @@ test("[DEV-001/A2] attachment identities, islands and replay survive time and se
     assert.deepEqual(materialDevelopmentAt(program, hour), graph);
   }
   assert.deepEqual(materialDevelopmentAt(program, 20), materialDevelopmentAt(program, 20));
+  const attachment = birth.links[0];
+  const resorbed = applyMaterialOperators(birth, [{
+    id: "test/remove-perimeter", kind: "resorb",
+    tissueId: attachment.toTissueId, atHour: 0,
+    durationHours: 10, strength: 1,
+  }], 100, program.signals);
+  const retained = new Set(resorbed.cells.map(c => c.id));
+  assert.ok(retained.has(attachment.toCellId!));
+  assert.ok(retained.has(attachment.fromCellId!));
+  assert.deepEqual(resorbed.links, birth.links);
   // A single imported part may contain multiple genuine detached islands.
   const detached = createMaterialGraph(materialInputs(fixtures.disconnected).atlas);
   assert.equal(detached.tissues.length, 3);
