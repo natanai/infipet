@@ -137,7 +137,7 @@ export function createMaterialGraph(atlas: SourceAtlas): MaterialGraph {
   const sourceCells: MaterialCell[] = [], tissues: MaterialTissue[] = [];
   const sites: MaterialSite[] = [], links: MaterialLink[] = [];
   const sourceOwners = new Map<string, string[]>();
-  const patches = [...atlas.patches].sort((a, b) => a.idREPLACE_ME);
+  const patches = [...atlas.patches].sort((a, b) => compareText(a.id, b.id));
   for (const patch of patches) {
     const all = patch.source.cells;
     const groups = islands(all);
