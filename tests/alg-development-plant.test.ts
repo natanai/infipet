@@ -404,3 +404,271 @@ test("[DEV-003/A2] light/history permutations cannot leak future into past", () 
   assert.equal(iterativeGrowthAt(birth, zero(0), 5).graph.cells.length,
     birth.source.cells.length, "zero resources never creates hidden material");
 });
+
+
+/* INT-001 integration contract tests. The original DEV-003 tests above are
+ * intentionally unchanged: these independently exercise the new stateful,
+ * chronology-composable interface rather than re-baselining old results. */
+import {
+  createIterativeChronologyState, replayIterativeChronology,
+  stepIterativeChronology, type IterativeChronologyState,
+} from "../src/development/iterative-chronology";
+import { applyMaterialOperators } from "../src/development/operators";
+import { stepChaos } from "../src/development/chaos";
+
+const chronoExposure = (atHour: number, resources = 0.25,
+  light: IterativeExposure["light"] = null): IterativeExposure =>
+  ({ atHour, resources, light });
+function checkChronologicalTransaction(
+  before: MaterialGraph,
+  birth: MaterialDevelopmentProgram,
+  result: ReturnType<typeof stepIterativeChronology>,
+) {
+  const { graph: after, ledger, state } = result;
+  assert.deepEqual(after.sourceCells, birth.source.sourceCells);
+  assert.equal(after.sourceFingerprint, before.sourceFingerprint);
+  assert.equal(after.cells.length - before.cells.length, ledger.spent);
+  assert.equal(ledger.spent + ledger.unspent, ledger.available);
+  assert.equal(ledger.bySite.reduce((sum, a) => sum + a.allocated, 0) +
+    ledger.unassigned, ledger.available);
+  assert.equal(ledger.bySite.reduce((sum, a) => sum + a.spent, 0), ledger.spent);
+  assert.ok(ledger.bySite.every(a =>
+    a.allocated >= a.spent && a.spent >= 0 && Number.isFinite(a.weight)));
+  assert.equal(result.events.length, ledger.spent);
+  assert.deepEqual(after.events.slice(before.events.length), result.events);
+  assert.deepEqual(after.links.slice(0, before.links.length), before.links);
+  assert.deepEqual(after.tissues.slice(0, before.tissues.length), before.tissues);
+  assert.ok(state.sites.every(s => s.depth <= ITERATIVE_LIMITS.depth &&
+    s.forks <= ITERATIVE_LIMITS.forksPerSite));
+  assert.equal(new Set(after.cells.map(c => c.id)).size, after.cells.length);
+  assert.equal(new Set(after.cells.map(pt)).size, after.cells.length);
+  const sourceIds = new Set(birth.source.sourceCells.map(c => c.id));
+  const all = new Map(after.cells.map(c => [c.id, c]));
+  for (const cell of after.cells) {
+    assert.ok(cell.sourceIds.every(id => sourceIds.has(id)));
+    if (result.events.some(e => e.createdCellIds.includes(cell.id))) {
+      const parent = all.get(cell.parentCellIds[0]);
+      assert.ok(parent && parent.sourceIds.every(id => cell.sourceIds.includes(id)));
+      assert.ok(Math.max(Math.abs(cell.x - parent.x), Math.abs(cell.y - parent.y)) === 1);
+      assert.equal(cell.provenance, "generated");
+      assert.ok(!after.protectedVoids.includes(pt(cell)));
+    }
+  }
+}
+
+test("[INT-001] exact independent hourly oracle and pure time-state continuity", () => {
+  const rows = [...Array(15).fill("................"), "........#......."];
+  const birth = noForks(controlled(rows, "composed-exact-points"));
+  const tip = birth.source.sourceCells[0];
+  let graph = birth.source;
+  let state = createIterativeChronologyState(birth);
+  const birthCopy = JSON.stringify(graph), stateCopy = JSON.stringify(state);
+  const first = stepIterativeChronology(birth, graph, state, chronoExposure(0));
+  assert.equal(JSON.stringify(graph), birthCopy, "step never mutates external graph");
+  assert.equal(JSON.stringify(state), stateCopy, "step never mutates its saved state");
+  const firstAgain = stepIterativeChronology(birth, graph, state, chronoExposure(0));
+  assert.deepEqual(first, firstAgain);
+  for (let n = 0; n < 4; n++) {
+    const next = stepIterativeChronology(birth, graph, state, chronoExposure(n));
+    checkChronologicalTransaction(graph, birth, next);
+    graph = next.graph; state = next.state;
+    // Independent integer-lattice oracle: one credit/hour, source tip
+    // progresses north one physical unit per completed discrete interval.
+    assert.deepEqual(graph.cells.filter(c => c.provenance === "generated")
+      .map(c => [c.x, c.y]), Array.from({ length: n + 1 }, (_, k) =>
+      [tip.x, tip.y - k - 1]));
+    assert.equal(state.nextHour, n + 1);
+    assert.deepEqual(state.sites[0].orbit,
+      stepChaos(n === 0 ? firstAgain.state.sites[0].orbit :
+        state.sites[0].orbit) === null ? {} : state.sites[0].orbit);
+  }
+  const replay = replayIterativeChronology(birth,
+    [chronoExposure(0)], 4);
+  assert.deepEqual(replay, { graph, state },
+    "reconstruction from immutable birth equals sequential stepping");
+  assert.throws(() => stepIterativeChronology(birth, graph, state,
+    chronoExposure(0)), /exact hour/);
+});
+
+test("[INT-001] child activation is strictly chronological and all forks retain tissue ancestry", () => {
+  const rows = [...Array(24).fill("................................"),
+    "................#..............."];
+  const birth = controlled(rows, "recursive-branch-a");
+  let graph = birth.source, state = createIterativeChronologyState(birth);
+  for (let n = 0; n < 22; n++) {
+    const beforeSites = new Set(state.sites.filter(s => s.activationHour <= n)
+      .map(s => s.id));
+    const next = stepIterativeChronology(birth, graph, state,
+      chronoExposure(n, 1));
+    checkChronologicalTransaction(graph, birth, next);
+    assert.ok(next.ledger.bySite.every(a => beforeSites.has(a.siteId)),
+      "new children cannot consume growth credits before their birth hour");
+    assert.ok(next.changes.filter(c => c.reason === "branch-born")
+      .every(c => c.atHour === n + 1));
+    graph = next.graph; state = next.state;
+  }
+  assert.ok(state.sites.some(s => s.depth >= 2),
+    "branches become growth-bearing descendants, not one-time decoration");
+  for (const child of state.sites.filter(s => s.parentSiteId)) {
+    const parent = state.sites.find(s => s.id === child.parentSiteId);
+    assert.ok(parent);
+    assert.equal(child.depth, parent.depth + 1);
+    assert.equal(graph.tissues.find(t => t.id === child.tissueId)?.parentId,
+      parent.tissueId);
+    assert.ok(graph.links.some(l =>
+      l.fromTissueId === child.tissueId && l.toTissueId === parent.tissueId));
+  }
+});
+
+test("[INT-001] genuine existing material operators contribute tissues without resetting old site history", () => {
+  const { atlas, genome } = materialInputs(fixtures.blob, "external-tissue-injection");
+  const birth = compileMaterialDevelopment(atlas, genome);
+  const first = stepIterativeChronology(birth, birth.source,
+    createIterativeChronologyState(birth), chronoExposure(0, 0));
+  const existing = first.state.sites.map(s => ({ ...s }));
+  const origin = birth.source.sites[0];
+  assert.ok(origin);
+  const external = applyMaterialOperators(first.graph, [{
+    id: "external-structural-fork", kind: "branch",
+    tissueId: origin.tissueId, siteId: origin.id,
+    atHour: 0, durationHours: 1, strength: 1,
+  }], 10, birth.signals);
+  assert.ok(external.sites.length > first.graph.sites.length,
+    "the real merged operator must add active anatomical structures");
+  const integrated = stepIterativeChronology(birth, external, first.state,
+    chronoExposure(1, 0));
+  checkChronologicalTransaction(external, birth, integrated);
+  assert.deepEqual(integrated.state.sites.slice(0, existing.length)
+    .map(({ orbit, ...other }) => other),
+    existing.map(({ orbit, ...other }) => other),
+    "prior sites retain their identity, age, and cumulative extension state");
+  assert.ok(integrated.changes.some(c => c.reason === "external-site"));
+  const arrivals = integrated.state.sites.filter(s =>
+    s.activationHour === 2);
+  assert.ok(arrivals.length > 0);
+  assert.ok(integrated.ledger.bySite.every(a =>
+    !arrivals.some(s => s.id === a.siteId)));
+  const next = stepIterativeChronology(birth, integrated.graph,
+    integrated.state, chronoExposure(2, 1));
+  assert.ok(next.ledger.bySite.some(a => arrivals.some(s => s.id === a.siteId)));
+  assert.ok(next.graph.events.some(e => e.id === "external-structural-fork"));
+  assert.ok(next.graph.cells.some(c =>
+    c.operationId === "external-structural-fork"));
+});
+
+test("[INT-001] removed tips invalidate rather than teleport; persistent relocation follows the identical cell ID", () => {
+  const rows = [...Array(15).fill("................"), "........#......."];
+  const birth = noForks(controlled(rows, "removal-vs-relocation"));
+  const one = stepIterativeChronology(birth, birth.source,
+    createIterativeChronologyState(birth), chronoExposure(0));
+  const grownTipId = one.state.sites[0].tipCellId;
+  const grownTip = one.graph.cells.find(c => c.id === grownTipId)!;
+  const resorbed: MaterialGraph = {
+    ...one.graph,
+    cells: one.graph.cells.filter(c => c.id !== grownTipId),
+    events: [...one.graph.events, {
+      id: "external-resorb", kind: "resorb", atHour: 1,
+      removedCellIds: [grownTipId], createdCellIds: [],
+      sourceCellIds: [...grownTip.sourceIds],
+    }],
+  };
+  const invalidated = stepIterativeChronology(birth, resorbed, one.state,
+    chronoExposure(1, 1));
+  assert.ok(invalidated.changes.some(c =>
+    c.siteId === one.state.sites[0].id &&
+    c.reason === "tip-removed"));
+  assert.equal(invalidated.ledger.spent, 0);
+  assert.equal(invalidated.state.sites[0].status, "invalidated");
+  const irreversible = stepIterativeChronology(birth,
+    invalidated.graph, invalidated.state, chronoExposure(2, 1));
+  assert.equal(irreversible.ledger.spent, 0);
+
+  // Real relocation semantics: preserve every existing cell ID, and translate
+  // the entire connected tissue including its live tip before advancing.
+  const translated: MaterialGraph = {
+    ...one.graph, cells: one.graph.cells.map(c =>
+      ({ ...c, x: c.x + 2 })),
+    events: [...one.graph.events, {
+      id: "external-translate", kind: "translate", atHour: 1,
+      createdCellIds: [], removedCellIds: [],
+      sourceCellIds: [...grownTip.sourceIds],
+    }],
+  };
+  const moved = stepIterativeChronology(birth, translated, one.state,
+    chronoExposure(1));
+  checkChronologicalTransaction(translated, birth, moved);
+  assert.equal(moved.state.sites[0].status, "active");
+  assert.equal(moved.ledger.spent, 1);
+  const child = moved.graph.cells.find(c => c.id === moved.events[0].createdCellIds[0])!;
+  assert.deepEqual(child.parentCellIds, [grownTipId]);
+  assert.deepEqual([child.x, child.y], [grownTip.x + 2, grownTip.y - 1]);
+  assert.deepEqual(moved.graph.sourceCells, birth.source.sourceCells);
+});
+
+test("[INT-001] late care and genuine recorded changes cannot affect earlier anatomy", () => {
+  const rows = [...Array(15).fill("................"), "........#......."];
+  const birth = noForks(controlled(rows, "replay-prefix"));
+  const before = replayIterativeChronology(birth, [
+    chronoExposure(0, 0.25), chronoExposure(4, 0.5),
+  ], 5);
+  const later = replayIterativeChronology(birth, [
+    chronoExposure(0, 0.25), chronoExposure(4, 0.5),
+    chronoExposure(5, 1, { x: 1, y: 0, intensity: 1 }),
+  ], 5);
+  assert.deepEqual(before, later);
+  const full = replayIterativeChronology(birth, [
+    chronoExposure(0, 0.25), chronoExposure(4, 0.5),
+    chronoExposure(5, 1, { x: 1, y: 0, intensity: 1 }),
+  ], 8);
+  assert.notDeepEqual(geometry(full.graph), geometry(before.graph));
+  // External remodeling is applied at its own chronological boundary, never
+  // by substituting its eventual age-T graph as the organism's birth.
+  const external = (graph: MaterialGraph, n: number): MaterialGraph =>
+    n !== 3 ? graph : ({
+      ...graph, cells: graph.cells.map(c => ({ ...c, x: c.x + 1 })),
+      events: [...graph.events, {
+        id: "late-translation", kind: "translate", atHour: 3,
+        createdCellIds: [], removedCellIds: [], sourceCellIds: [],
+      }],
+    });
+  const early = replayIterativeChronology(birth, zero(0.25), 3, external);
+  const withEvent = replayIterativeChronology(birth, zero(0.25), 5, external);
+  assert.deepEqual(early.graph,
+    replayIterativeChronology(birth, zero(0.25), 3).graph);
+  assert.ok(withEvent.graph.events.some(e => e.id === "late-translation"));
+  assert.notDeepEqual(withEvent.graph.cells, early.graph.cells);
+});
+
+test("[INT-001] long physical resource accounting, arbitrary material and immutable seed identity", () => {
+  const cases = [fixtures.empty, fixtures.disconnected, fixtures.cavity,
+    fixtures.fantasy, drawing(Array(32).fill("#".repeat(32)))];
+  for (let c = 0; c < cases.length; c++) {
+    const { atlas, genome } = materialInputs(cases[c], "chronology-shape-" + c);
+    const birth = compileMaterialDevelopment(atlas, genome);
+    let graph = birth.source, state = createIterativeChronologyState(birth);
+    for (let n = 0; n < 36; n++) {
+      const value = n % 5 === 0 ? 0 : n % 3 === 0 ? 0.25 : 1;
+      const result = stepIterativeChronology(birth, graph, state,
+        chronoExposure(n, value));
+      checkChronologicalTransaction(graph, birth, result);
+      graph = result.graph; state = result.state;
+    }
+    assert.equal(state.ledger.reduce((x, a) => x + a.spent, 0),
+      graph.cells.length - birth.source.cells.length);
+    assert.equal(state.ledger.length, 36);
+    if (!birth.source.sourceCells.length) {
+      assert.equal(graph.cells.length, 0);
+      assert.equal(state.sites.length, 0);
+      assert.ok(state.ledger.every(l => l.spent === 0));
+    }
+    assert.deepEqual(
+      replayIterativeChronology(birth,
+        Array.from({ length: 36 }, (_, n) =>
+          chronoExposure(n, n % 5 === 0 ? 0 : n % 3 === 0 ? 0.25 : 1)), 36),
+      { graph, state });
+    const altered = { ...birth, genomeFingerprint: "different-individual" };
+    assert.throws(() => stepIterativeChronology(altered,
+      graph, state, chronoExposure(36)), /identity/);
+    assert.deepEqual(graph.sourceCells, birth.source.sourceCells);
+  }
+});
