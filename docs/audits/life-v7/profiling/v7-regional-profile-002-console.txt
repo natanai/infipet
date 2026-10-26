@@ -1,9 +1,0 @@
-bean: structure p959.36ms; warm poses p950.75ms
-sprout: structure p9511.76ms; warm poses p950.97ms
-canine-cub: structure p9511.09ms; warm poses p951.15ms
-ribbon: structure p958.99ms; warm poses p950.91ms
-beetle: structure p9511.13ms; warm poses p951.02ms
-wisp: structure p957.34ms; warm poses p950.74ms
-sparse-256: structure p958.23ms; warm poses p950.43ms
-dense-15360: structure p95125.86ms; warm poses p954.41ms
-Saved C:\Games\infipet\docs\audits\life-v7\profiling\v7-regional-profile-002.json; complete

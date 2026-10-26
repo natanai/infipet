@@ -1,9 +1,0 @@
-{
-  "fromRun": "v6-proof-008",
-  "toRun": "v6-proof-009",
-  "condition": "Exact rendered coordinate/color hash equality for all scheduled IDs; not internal-state equivalence",
-  "matched": 204,
-  "compared": 204,
-  "mismatches": [],
-  "completeEquivalence": true
-}

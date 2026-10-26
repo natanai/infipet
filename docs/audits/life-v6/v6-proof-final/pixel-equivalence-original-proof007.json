@@ -1,9 +1,0 @@
-{
-  "fromRun": "v6-proof-007",
-  "toRun": "v6-proof-final",
-  "matched": 204,
-  "compared": 204,
-  "mismatches": [],
-  "completeEquivalence": true,
-  "condition": "Direct comparison to originally inspected proof corpus, avoiding dependence on intermediate receipt links"
-}

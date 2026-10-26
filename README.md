@@ -1,5 +1,7 @@
 # Infipet / life-v10
 
+> **Repository status:** This is a playable prototype, not a validated solution to arbitrary-drawing growth. Active source, tests, tools, and recent v8–v10 evidence are preserved; older bulk experiment outputs are available on the [pre-cleanup archive branch](https://github.com/natanai/infipet/tree/archive/pre-cleanup-2026-10-25). See [repository maintenance](docs/REPO-MAINTENANCE.md).
+
 The [official goal](docs/GOAL.md) is **in progress**. No complete near-exact retro lifecycle has been demonstrated. New shared surface/somatic growth and full-life verification are under development; published life-v9 results are historical, not scores for this engine. Current work is recorded under [life-v10](docs/audits/life-v10/).
 
 Draw an infant or an egg, begin its life, and care for a real-time pocket companion. Infipet combines classic care, training, guessing games and CPU battles with the existing procedural anatomical renderer. Animal-affinity routes follow a pinned scientific phylogeny; developmental effects remain fictional game rules.

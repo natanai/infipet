@@ -1,9 +1,0 @@
-{
-  "fromRun": "v6-proof-010",
-  "toRun": "v6-proof-011",
-  "condition": "Exact rendered coordinate/color hashes for all scheduled IDs; does not imply unchanged hidden state or a fresh visual inspection",
-  "matched": 204,
-  "compared": 204,
-  "mismatches": [],
-  "completeEquivalence": true
-}

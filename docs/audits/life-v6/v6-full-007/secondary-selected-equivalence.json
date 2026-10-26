@@ -1,9 +1,0 @@
-{
-  "actuallyInspectedRun": "v6-full-005",
-  "targetRun": "v6-full-007",
-  "matched": 384,
-  "compared": 384,
-  "mismatches": [],
-  "completeEquivalence": true,
-  "selection": "Same384frames: all6starters,seed slots1/5/9/13,all4histories,all4milestones"
-}
