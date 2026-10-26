@@ -64,7 +64,6 @@ import { NeedsLab } from "./src/components/NeedsLab";
 import { FeelingsSheet } from "./src/components/FeelingsSheet";
 import { GamePanel } from "./src/components/GamePanel";
 import { RetroGallery } from "./src/components/RetroGallery";
-import { RetroBenchmarks } from "./src/components/RetroBenchmarks";
 import { RETRO_PRESETS, cloneRetroPreset } from "./src/retro";
 import {
   advanceGame,
@@ -95,7 +94,6 @@ type Sheet =
   | "about"
   | "feelings"
   | "retro"
-  | "benchmarks"
   | null;
 type SourceSnapshot = { parts: PetPart[]; mode: SourceMode };
 const copy = (parts: PetPart[]) =>
@@ -979,7 +977,6 @@ export default function App() {
     about: "About Infipet",
     feelings: "A little check-in",
     retro: "Retro drawings",
-    benchmarks: "Lifecycle litmus",
   };
 
   if ((!fontLoaded && !fontError) || !hydrated)
@@ -1663,35 +1660,14 @@ export default function App() {
                     >
                       Retro reference drawings
                     </Button>
-                    <Button
-                      label="Open lifecycle litmus tests"
-                      onPress={() => open("benchmarks")}
-                    >
-                      Lifecycle litmus tests
-                    </Button>
                   </>
                 )}
                 {sheet === "retro" && (
                   <RetroGallery
                     onSelect={(id) => start("infant", id)}
-                    onBenchmarks={() => open("benchmarks")}
                   />
                 )}
-                {sheet === "benchmarks" && (
-                  <RetroBenchmarks
-                    onLoadLife={(doc) => {
-                      if (commandPending.current)
-                        throw new Error(
-                          "Finish the current care action first.",
-                        );
-                      restore(doc);
-                    }}
-                    onEditSource={(id, nextSeed) =>
-                      start("infant", id, nextSeed)
-                    }
-                  />
-                )}
-                {sheet === "parts" && (
+                                {sheet === "parts" && (
                   <>
                     <View style={styles.wrap}>
                       {PART_KINDS.map((k) => (
@@ -1825,7 +1801,6 @@ export default function App() {
                     {(
                       [
                         { sheet: "retro", label: "Retro drawings" },
-                        { sheet: "benchmarks", label: "Lifecycle litmus" },
                         { sheet: "create", label: "New pet" },
                         { sheet: "name", label: "Name" },
                         { sheet: "seed", label: "Seed & possibilities" },

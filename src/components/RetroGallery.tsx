@@ -13,10 +13,8 @@ const devices = [
 ];
 export function RetroGallery({
   onSelect,
-  onBenchmarks,
 }: {
   onSelect: (id: string) => void;
-  onBenchmarks: () => void;
 }) {
   const [device, setDevice] = useState("all"),
     [search, setSearch] = useState("");
@@ -71,14 +69,6 @@ export function RetroGallery({
         placeholderTextColor={T.muted}
         style={s.input}
       />
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel="Open lifecycle litmus tests"
-        onPress={onBenchmarks}
-        style={s.button}
-      >
-        <Text style={s.text}>Lifecycle litmus tests</Text>
-      </Pressable>
       <View style={styles.row}>
         {roster.map((item) => {
           const source = drawings.get(item.referenceId);
