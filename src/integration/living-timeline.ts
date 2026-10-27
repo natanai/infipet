@@ -20,7 +20,7 @@
  * shared between simultaneous GameState snapshots or different organisms.
  */
 import type { GameState } from "../gameplay";
-import type { MaterialDevelopmentProgram } from "../development";
+import { compileLifetimeRemodeling, type MaterialDevelopmentProgram } from "../development";
 import type { InheritedGenome } from "../simulation/genome";
 import type { EnvironmentalHistory, CareOperatorChronology } from "../environment";
 import {
@@ -40,6 +40,7 @@ type Evidence = Readonly<{
 type Entry = {
   program: MaterialDevelopmentProgram;
   genomeIdentity: string;
+  remodelingIdentity: string;
   evidence: Evidence;
   history: EnvironmentalHistory;
   timeline: UnifiedMaterialTimeline;
@@ -91,11 +92,20 @@ export function createReusedLivingTimeline(args:Readonly<{
 }>):UnifiedMaterialTimeline {
   const {birthKey,genomeIdentity,program,genome,game,history,care}=args;
   const evidence=evidenceOf(game,history);
+  // Verify the actual permanent remodeling schedule, not merely seed/hour.
+  // The same program is otherwise compiled by createUnifiedMaterialTimeline.
+  const remodelingProgram=compileLifetimeRemodeling(program,genome);
+  const remodelingIdentity=JSON.stringify([
+    remodelingProgram.version,remodelingProgram.seed,
+    remodelingProgram.genomeFingerprint,remodelingProgram.signals,
+    remodelingProgram.birth.sourceFingerprint,remodelingProgram.operations,
+  ]);
   const prior=lives.get(birthKey);
   let states:ReturnType<UnifiedMaterialTimeline["exportCanonicalStates"]>=[];
   if(prior &&
      prior.program===program &&
      prior.genomeIdentity===genomeIdentity &&
+     prior.remodelingIdentity===remodelingIdentity &&
      consistentOrigin(prior.evidence,evidence) &&
      evidence.maxHour>=prior.evidence.maxHour &&
      isPrefix(prior.evidence.samples,evidence.samples) &&
@@ -114,10 +124,11 @@ export function createReusedLivingTimeline(args:Readonly<{
     coldStarts++;
   }
   const timeline=createUnifiedMaterialTimeline({
-    program,genome,care,history,canonicalStates:states,
+    program,genome,care,history,remodelingProgram,canonicalStates:states,
   });
   lives.delete(birthKey);
-  lives.set(birthKey,{program,genomeIdentity,evidence,history,timeline});
+  lives.set(birthKey,{program,genomeIdentity,remodelingIdentity,
+    evidence,history,timeline});
   while(lives.size>MAX_LIVES)lives.delete(lives.keys().next().value!);
   return timeline;
 }
