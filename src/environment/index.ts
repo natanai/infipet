@@ -28,3 +28,6 @@ export type {
   CareExposureAdvance,
   CareOperatorChronology,
 } from "./operator-chronology";
+
+export {summarizeDailyCareWindow,createDailyCareWindowSummarizer} from "./daily-care";
+export type {DailyCareWindowV1} from "./daily-care";

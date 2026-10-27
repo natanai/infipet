@@ -120,7 +120,7 @@ function main() {
       console.log(tests.join("\n"));
       return;
     }
-    const result = spawnSync("pnpm", ["exec","tsx","--test",...tests], {
+    const result = spawnSync(process.execPath, ["--import","tsx","--test",...tests], {
       cwd:root,stdio:"inherit",shell:process.platform==="win32",
     });
     if (result.error) { console.error(result.error.message); process.exitCode = 1; }
@@ -137,7 +137,7 @@ function main() {
     console.log(JSON.stringify(task, null, 2));
     if (argv.includes("--run")) {
       if (!fs.existsSync(file(task.verification.testPath))) { console.error("Focused test not yet implemented"); process.exitCode = 1; return; }
-      const r = spawnSync("pnpm", ["exec", "tsx", "--test", task.verification.testPath], {cwd:root, stdio:"inherit", shell:process.platform==="win32"});
+      const r = spawnSync(process.execPath, ["--import", "tsx", "--test", task.verification.testPath], {cwd:root, stdio:"inherit", shell:process.platform==="win32"});
       if (r.error) { console.error(r.error.message); process.exitCode = 1; }
       else process.exitCode = r.status ?? 1;
     }

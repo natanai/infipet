@@ -16,7 +16,7 @@ function validTick(tick: number): void {
 /** Strict bounds, last-write-wins at the same need/hour, stable canonical order. */
 export function normalizeNeedTimeline(value: unknown): NeedKeyframe[] {
   if (!Array.isArray(value) || value.length > MAX_NEED_KEYFRAMES)
-    throw new Error("Need timeline must contain at most 8192 keyframes.");
+    throw new Error("Need timeline exceeds the supported keyframe budget.");
   const unique = new Map<string, NeedKeyframe>();
   for (const candidate of value) {
     if (

@@ -11,7 +11,8 @@ export const MAX_DEVELOPMENT_DAYS = DEFAULT_PREVIEW_DAYS;
 export const MAX_NEED_TICK = Number.MAX_SAFE_INTEGER;
 export const MAX_SIMULATION_DAYS = MAX_NEED_TICK / 24;
 export const DEFAULT_FULFILLMENT = 0.75;
-export const MAX_NEED_KEYFRAMES = 8192;
+/** Six physiological channels through 8,761 hourly daily-life observations. */
+export const MAX_NEED_KEYFRAMES = 65536;
 export type NeedKeyframe = {
   needId: NeedId;
   tick: number;

@@ -483,7 +483,7 @@ function physicalUnit(
      !contiguous(remaining({ ...graph,cells },t.id))))return fail("severed-tissue");
   const event:MaterialEvent={
     id:identifier,kind:op.kind,atHour,
-    createdCellIds:newCells.map(c=>c.id),
+    createdCellIds:newCells.map(c=>c.id),createdCells:newCells,
     removedCellIds:removed.map(c=>c.id),
     sourceCellIds:[...new Set([...newCells,...removed].flatMap(c=>c.sourceIds))].sort(compareText),
   };

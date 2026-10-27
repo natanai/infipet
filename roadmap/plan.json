@@ -920,7 +920,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1278,7 +1278,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -1469,7 +1469,7 @@
       "dependsOn": [
         "DEV-006"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1496,7 +1496,8 @@
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "export": "applyDailyMaterialStep (or equivalent pure daily physical transition)",
-        "input": "dailyMaterialStepV1; do not import environment module"
+        "input": "dailyMaterialStepV1; do not import environment module",
+        "evidence": "Pure atomic daily composition of existing physical material, remodeling and persistent iterative operators. Actual event timestamps, archived creations, exact identity inventory and 365-step unfamiliar-drawing cohort verified."
       }
     },
     {
@@ -1507,7 +1508,7 @@
       "dependsOn": [
         "CARE-003"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1534,7 +1535,8 @@
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "export": "summarizeDailyCareWindow (or equivalent)",
-        "output": "dailyCareWindowV1, no physical graph execution"
+        "output": "dailyCareWindowV1, no physical graph execution",
+        "evidence": "Exact integer-ms half-open integration of recorded post-event physiology and presence, boundary/fractional/rejected commands, legacy unknowns and future-independent day 365 forcing verified."
       }
     },
     {
@@ -1545,7 +1547,7 @@
       "dependsOn": [
         "GAME-001"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1566,13 +1568,16 @@
       },
       "implementationPaths": [
         "src/gameplay/index.ts",
-        "tests/alg-environment-yearlong-gameplay.test.ts"
+        "tests/alg-environment-yearlong-gameplay.test.ts",
+        "src/needs/types.ts",
+        "src/needs/timeline.ts"
       ],
       "algorithmId": "environment",
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "retain": "actual gameplay physiological time steps and stage rules; only remove false maximum-life barrier",
-        "doNotEdit": "src/environment/daily-care.ts or src/development/"
+        "doNotEdit": "src/environment/daily-care.ts or src/development/",
+        "evidence": "Actual command-driven healthy 370-day life and untreated physiological mortality; safe absolute clocks, append-only receipts, exact post-event observations through maturity, hourly compatibility samples. Focused test passes."
       }
     },
     {

@@ -405,7 +405,7 @@ export function stepIterativeChronology(
     };
     const event: MaterialEvent = {
       id: operationId, kind, atHour: n + 1,
-      createdCellIds: [id], removedCellIds: [],
+      createdCellIds: [id], createdCells:[cell], removedCellIds: [],
       sourceCellIds: [...cell.sourceIds],
     };
     cells.push(cell); byId.set(id, cell);
