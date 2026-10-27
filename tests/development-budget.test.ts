@@ -20,7 +20,8 @@ import { createUnifiedMaterialTimeline, chaosWeightedCareHours,
 import { createEnvironmentalHistory,createCareOperatorChronology } from "../src/environment";
 import { createGame,advanceGame,commandGame,HOUR,
   deriveCareTimeline,deriveDevelopmentContext } from "../src/gameplay";
-import { getLivingTimelineCacheStats } from "../src/integration/living-timeline";
+import { getLivingTimelineCacheStats,createReusedLivingTimeline } from "../src/integration/living-timeline";
+import { createUnifiedMaterialTimeline } from "../src/integration/unified-runtime";
 import type { PetPart } from "../src/simulation/model";
 type SourceShape = "sparse"|"complex"|"dense";
 const named = (shape:SourceShape): PetPart[] => {
@@ -289,4 +290,44 @@ test("[PERF-001/A1] retroactive edits, source/seed swaps, restoration and cache 
   // Old history may have been evicted, but no future or different pet can
   // retroactively mutate its original graph/frame.
   assert.deepEqual(old.frameAt(3/24).pixels,after.frameAt(3/24).pixels);
+});
+
+test("[PERF-001/A1] authenticated snapshot reuse reproduces whole physical graph, operators, care, remodeling and chaos",()=>{
+  const {program,genome}=programFor("complex","perf/direct/graph-equality");
+  const game1=advanceGame(createGame(genome.seed,"infant",start),
+    start+2*HOUR,"active");
+  const game2=advanceGame(commandGame(game1,
+    {type:"feed",food:"snack"},start+2*HOUR+120000,
+    "prefix/accepted/2.0333"),start+3*HOUR,"active");
+  const create=(game:typeof game1,useReuse:boolean)=>{
+    const history=createEnvironmentalHistory(game);
+    const care=createCareOperatorChronology(program,history,genome.genotype);
+    return useReuse
+      ? createReusedLivingTimeline({
+          birthKey:"perf/direct/graph-equality/"+genome.seed,
+          genomeIdentity:genome.seed,program,genome,game,history,care,
+        })
+      : createUnifiedMaterialTimeline({program,genome,care,history});
+  };
+  const prev=create(game1,true);
+  for(const h of [0,0.5,1,1.5,2]) prev.at(h);
+  const next=create(game2,true),reference=create(game2,false);
+  assert.ok(next.evaluationStats().imported>0);
+  for(const h of [0,0.5,1,1.5,2,2.01,2.033333333333333,2.25,2.5,3,1.5]){
+    const observed=next.at(h);
+    const uncached=reference.replay(h);
+    assert.deepEqual(observed,uncached,
+      "ALL graph/iterative/remodel/care/chaos/physical inventory fields must match");
+    assert.deepEqual(observed.graph.sourceCells,program.source.sourceCells);
+    assert.ok(observed.graph.events.every(e=>e.atHour<=h));
+    assert.equal(observed.graph.cells.length,
+      program.source.cells.length+observed.graph.events.reduce(
+        (n,e)=>n+e.createdCellIds.length-e.removedCellIds.length,0));
+  }
+  const edited=JSON.parse(JSON.stringify(game2)) as typeof game2;
+  edited.careSamples[0].values[1]=1-edited.careSamples[0].values[1];
+  const changed=create(edited,true);
+  assert.equal(changed.evaluationStats().imported,0,
+    "any retroactive physiological edit forbids importing past material states");
+  assert.deepEqual(changed.at(3),create(edited,false).replay(3));
 });
