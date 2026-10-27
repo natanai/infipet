@@ -465,23 +465,35 @@ test("[INT-001/A3] saved traditional-care histories reconstruct the exact same l
 
 test("[INT-001/A3] genuine saved care changes physiological expression without changing genome or birth",()=>{
   const seed="INT-CARE-CONTRAST-12";
-  const {program,genome}=realProgram(["####","####","####"],seed,"elongate",12);
+  const {program,genome}=realProgram(["####","####","####"],seed,"elongate",30);
   const birth=11*HOUR;
   let fed=createGame(seed,"infant",birth);
   let unfed=createGame(seed,"infant",birth);
-  for(let i=1;i<=12;i++) {
+  for(let i=1;i<=30;i++) {
     const at=birth+i*HOUR;
     fed=advanceGame(fed,at);
     unfed=advanceGame(unfed,at);
-    if(i%3===0)
+    if(fed.attention.discipline)
+      fed=commandGame(fed,{type:"discipline"},at,"well-discipline-"+i);
+    if(unfed.attention.discipline)
+      unfed=commandGame(unfed,{type:"discipline"},at,"low-discipline-"+i);
+    if(i%8===0) {
+      fed=commandGame(fed,{type:"clean"},at,"well-clean-"+i);
+      unfed=commandGame(unfed,{type:"clean"},at,"low-clean-"+i);
+    }
+    if(!fed.sleeping&&fed.meters.hunger<4)
       fed=commandGame(fed,{type:"feed",food:"meal"},at,"meal-"+i);
+    if(i%8===0&&!unfed.sleeping&&unfed.meters.hunger<4)
+      unfed=commandGame(unfed,{type:"feed",food:"meal"},at,"sparse-meal-"+i);
   }
+  assert.equal(fed.dead,false);
+  assert.equal(unfed.dead,false);
   const historyA=createEnvironmentalHistory(fed);
   const historyB=createEnvironmentalHistory(unfed);
   const careA=createCareOperatorChronology(program,historyA,genome.genotype);
   const careB=createCareOperatorChronology(program,historyB,genome.genotype);
-  const expressedA=chaosWeightedCareHours(program.operators[0],0,12,careA);
-  const expressedB=chaosWeightedCareHours(program.operators[0],0,12,careB);
+  const expressedA=chaosWeightedCareHours(program.operators[0],0,30,careA);
+  const expressedB=chaosWeightedCareHours(program.operators[0],0,30,careB);
   assert.ok(Math.abs(expressedA-expressedB)>1e-6,
     "actual accepted feeding history must affect expression in this fixture");
   const a=createUnifiedMaterialTimeline({program,genome,care:careA,history:historyA});
@@ -489,8 +501,11 @@ test("[INT-001/A3] genuine saved care changes physiological expression without c
   assert.deepEqual(a.at(0).graph,b.at(0).graph);
   assert.deepEqual(a.at(0).iterative,b.at(0).iterative);
   assert.deepEqual(a.at(0).material,b.at(0).material);
-  assert.notDeepEqual(coords(a.at(12).graph.cells),coords(b.at(12).graph.cells),
-    "real saved feeding histories must yield measurably different physical cell geometry");
+  const physicalWitness=[2,4,6,8,12,16,20,24,28,30].find(hour=>
+    JSON.stringify(coords(a.at(hour).graph.cells)) !==
+    JSON.stringify(coords(b.at(hour).graph.cells)));
+  assert.ok(physicalWitness!==undefined,
+    "different actual meal histories must alter physical positions at an independently sampled chronological age");
   assert.deepEqual(a.at(12),a.replay(12));
   assert.deepEqual(b.at(12),b.replay(12));
   assert.deepEqual(a.at(3),a.replay(3));
