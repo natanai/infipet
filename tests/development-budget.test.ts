@@ -331,3 +331,23 @@ test("[PERF-001/A1] authenticated snapshot reuse reproduces whole physical graph
     "any retroactive physiological edit forbids importing past material states");
   assert.deepEqual(changed.at(3),create(edited,false).replay(3));
 });
+
+test("[PERF-001/A1] newborn and pre-hour App ticks never transfer hour-zero as a completed checkpoint",()=>{
+  const seed="perf/newborn/no-zero-import",source=named("sparse");
+  const original=createGame(seed,"infant",start);
+  const make=(game:typeof original,enabled=true)=>createSimulation(
+    source,seed,"infant",{
+      careGame:game,needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),reuseLivingMaterial:enabled,
+    });
+  make(original).frameAt(0,{time:0,action:"idle"});
+  for(let seconds=1;seconds<=5;seconds++){
+    const now=advanceGame(original,start+seconds*1000,"active");
+    const cached=make(now),independent=make(now,false);
+    const age=seconds*1000/(24*HOUR);
+    assert.deepEqual(cached.frameAt(age,{time:0,action:"idle"}).pixels,
+      independent.frameAt(age,{time:0,action:"idle"}).pixels);
+    assert.equal(cached.getMaterialRuntimeStats!().imported,0,
+      "hour zero is birth, not an importable integer growth checkpoint");
+  }
+});
