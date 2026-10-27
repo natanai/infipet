@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "infipet-artificial-life",
-  "updatedOn": "2026-10-26",
+  "updatedOn": "2026-10-27",
   "mandate": "One pet per creation: arbitrary authored ink, a permanent hidden seed, and chronological care drive that SAME organism through potentially dramatic developmental forms guided by a scientifically sourced phylogenetic possibility map. No breeding, reproduction, offspring, multi-generation mechanics or heritable change between creatures.",
   "sourceOfTruth": true,
   "lifecycle": {
@@ -22,7 +22,9 @@
     "Scientific taxonomy and fictional extensions have distinct, inspectable provenance.",
     "A replay witness is source drawing, seed, engine version, chronological care history, and times.",
     "Avoid generated screenshots, recordings or diagnostic bulk files in main; use small deterministic numeric tests.",
-    "Every agent reads this plan before touching the engine, updates task status and acceptance tests together."
+    "Every agent reads this plan before touching the engine, updates task status and acceptance tests together.",
+    "Product temporal contract (migration target): a physical anatomical change may commit only at T_k=hatchAtMs+k*86400000 for k=1..365, never between checks or after maturity; zero-change outcomes are valid.",
+    "Current 30-day forced lifespan and hourly/8192-hour anatomy are legacy implementation and must be superseded; preserve historical test evidence explicitly as legacy rather than claiming it is the new product behavior."
   ],
   "tasks": [
     {
@@ -1300,7 +1302,8 @@
           "webExport": ".github/workflows/integration-web.yml runs pnpm build:web on pull requests",
           "performance": "scripts/benchmark-unified.ts independently measures 32x32 authored ink, first/repeated frameAt at hours 720 and 8192, full chronology seek, reverse seek, RSS, heap, 64x64 domain and checkpoint cap; CI enforces finite conservative ceilings"
         },
-        "blockerIssue": null
+        "blockerIssue": null,
+        "legacyChronologyNote": "LEGACY implementation evidence only. Original hourly/fractional physical operators and 8192h limits are superseded for user-facing anatomy by anatomicalDevelopment. INT-002 owns actual runtime migration."
       }
     },
     {
@@ -1344,10 +1347,11 @@
       "id": "PERF-001",
       "phase": 4,
       "area": "Reliability",
-      "title": "Bound evaluation memory and growth cost at scale",
+      "title": "Bound everyday daily-check runtime and living memory for the 365-check lifecycle",
       "dependsOn": [
         "DEV-006",
-        "EVAL-001"
+        "EVAL-001",
+        "INT-002"
       ],
       "status": "todo",
       "acceptance": [
@@ -1371,7 +1375,12 @@
       "implementationPaths": [
         "src/simulation"
       ],
-      "algorithmId": "integration"
+      "algorithmId": "integration",
+      "interfaceContract": {
+        "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
+        "oldBenchmarks": "Prior dense 720h and 8192h continuous-growth measurements are legacy profiler results, NOT present product requirements",
+        "acceptance": "After INT-002, measure due daily checks, a year-long late return, unchanged-between-check display and cached mature-pet play"
+      }
     },
     {
       "id": "UI-001",
@@ -1450,6 +1459,198 @@
           "src/styles.css",
           "src/author/authorDesktopSuite.css"
         ]
+      }
+    },
+    {
+      "id": "DEV-007",
+      "phase": 5,
+      "area": "Development",
+      "title": "Exactly one source-preserving physical decision per real-time day for at most 365 checks",
+      "dependsOn": [
+        "DEV-006"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "A daily physical material step is deterministic from the prior graph and one exact DailyCareWindowV1 forcing; event identity and material conservation hold, with physically honest no-op outcomes",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "No daily operator executes twice, between 24h boundaries, or after the 365th lifetime check; independently derived day 1/day 365/fractional/late-return counterexamples pass",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-daily-step.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-daily-step.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/",
+        "tests/alg-development-daily-step.test.ts"
+      ],
+      "algorithmId": "development",
+      "interfaceContract": {
+        "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
+        "export": "applyDailyMaterialStep (or equivalent pure daily physical transition)",
+        "input": "dailyMaterialStepV1; do not import environment module"
+      }
+    },
+    {
+      "id": "CARE-004",
+      "phase": 5,
+      "area": "Environment",
+      "title": "Deterministic recorded-care forcing for exact 24h developmental windows",
+      "dependsOn": [
+        "CARE-003"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "DailyCareWindowV1 integrates only exact real saved history in [T_(k-1),T_k) with correct timezone-neutral boundaries, absent behavior, fractional commands and nutrition samples",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Equivalent histories yield identical forcing, changes after the window cannot rewrite it, and missing/unrecorded care is not invented, including checks 1 and 365",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-environment-daily-care.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-daily-care.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/environment/daily-care.ts",
+        "tests/alg-environment-daily-care.test.ts"
+      ],
+      "algorithmId": "environment",
+      "interfaceContract": {
+        "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
+        "export": "summarizeDailyCareWindow (or equivalent)",
+        "output": "dailyCareWindowV1, no physical graph execution"
+      }
+    },
+    {
+      "id": "GAME-002",
+      "phase": 5,
+      "area": "Player",
+      "title": "Remove forced 30-day death and make real-time saved life compatible with 365 potential daily checks",
+      "dependsOn": [
+        "GAME-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "A correctly cared-for saved pet can survive beyond 30 days and through the 365th elapsed 24h opportunity without artificial age-based death, while real care/health death remains possible",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Save/reopen, absence, fractional command timestamps, daylight-saving/timezone changes, out-of-order clocks and deterministic stage rules remain valid without inventing care",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-environment-yearlong-gameplay.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-yearlong-gameplay.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/gameplay/index.ts",
+        "tests/alg-environment-yearlong-gameplay.test.ts"
+      ],
+      "algorithmId": "environment",
+      "interfaceContract": {
+        "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
+        "retain": "actual gameplay physiological time steps and stage rules; only remove false maximum-life barrier",
+        "doNotEdit": "src/environment/daily-care.ts or src/development/"
+      }
+    },
+    {
+      "id": "INT-002",
+      "phase": 5,
+      "area": "Runtime integration",
+      "title": "Switch live player rendering and authoritative chronology to 365 daily physical checkpoints",
+      "dependsOn": [
+        "DEV-007",
+        "CARE-004",
+        "GAME-002"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "The same live saved pet retains identical material for every time between successive 24h checks, evaluates due days once chronologically, and freezes all anatomical material after check 365",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Replay from birth and cached/reloaded snapshots are exact for novel player drawings, time changes, missed days, care counterfactuals and actual renderer ownership while physiological gameplay continues",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-integration-daily-life.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-integration-daily-life.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/integration/",
+        "src/simulation/growth.ts",
+        "tests/alg-integration-daily-life.test.ts"
+      ],
+      "algorithmId": "integration",
+      "interfaceContract": {
+        "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
+        "readiness": "not assignable until its existing prerequisite tasks are done; no worker should wait in chat"
+      }
+    },
+    {
+      "id": "EVAL-004",
+      "phase": 5,
+      "area": "Evaluation",
+      "title": "Requalify retro and physical evaluation evidence against daily 365-check runtime",
+      "dependsOn": [
+        "INT-002",
+        "EVAL-003"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Whole-life objective trajectories and witness searches require real daily timestamps and never use 1h/49h/121h old targets as expected physical transitions",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Any anatomical changes between days or beyond 365 are caught mathematically, and legacy hourly reference benchmarks remain labeled historical only",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-evaluation-daily-life.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-evaluation-daily-life.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "tests/alg-evaluation-",
+        "tests/retro-witness-search.test.ts"
+      ],
+      "algorithmId": "evaluation",
+      "interfaceContract": {
+        "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
+        "readiness": "not assignable until daily runtime is merged"
       }
     }
   ],
@@ -1596,7 +1797,8 @@
         "DEV-003",
         "DEV-004",
         "DEV-005",
-        "DEV-006"
+        "DEV-006",
+        "DEV-007"
       ],
       "readyWhen": [
         "OBS-001"
@@ -1623,7 +1825,9 @@
       "taskIds": [
         "CARE-001",
         "CARE-002",
-        "CARE-003"
+        "CARE-003",
+        "CARE-004",
+        "GAME-002"
       ],
       "readyWhen": [
         "SYS-001"
@@ -1651,7 +1855,8 @@
       "taskIds": [
         "EVAL-001",
         "EVAL-002",
-        "EVAL-003"
+        "EVAL-003",
+        "EVAL-004"
       ],
       "readyWhen": [
         "SYS-001"
@@ -1681,7 +1886,8 @@
         "GAME-001",
         "PERF-001",
         "MOT-001",
-        "INT-001"
+        "INT-001",
+        "INT-002"
       ],
       "readyWhen": [
         "OBS-001"
@@ -1745,7 +1951,7 @@
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
     "creation": "one authored drawing plus one once-assigned alphanumeric random seed",
     "genotype": "per-pet fixed developmental potential; no mating, meiosis, gametes, parent genomes, genetic recombination, offspring or inheritance across pets",
-    "progression": "the same pet may undergo major anatomical evolution-like transformations as it ages, with chronological care and conditions influencing expression and divergence",
+    "progression": "The same pet may undergo dramatic, constrained anatomical changes at no more than 365 real-time daily check boundaries (one per elapsed 24h from hatch/birth), with actual recorded care influencing each check; its mature physical anatomy is fixed after check 365. Physiological play continues independently.",
     "phylogeny": "the scientific tree supplies hierarchical anatomical constraints and branching possibilities for single-pet developmental trajectories; stage affinities along its branches may change, but this is a game developmental metaphor, not a claim that an individual changes its actual scientific ancestry",
     "terminology": {
       "phylogeneticAncestor": "a reference node in a biological taxonomy, not a parent pet",
@@ -1762,5 +1968,63 @@
       "genetic recombination between pets",
       "species succession by reproduction"
     ]
+  },
+  "anatomicalDevelopment": {
+    "schemaVersion": 1,
+    "authority": "APPROVED PRODUCT SPECIFICATION; migration in progress; old hourly/8192h source code and historical tests describe the prior implementation, NOT the desired model",
+    "unitOfGrowth": "one discrete physical-development opportunity each 86400000 elapsed milliseconds",
+    "anchor": "the individual pet's persisted clock.hatchAtMs (the moment a live organism hatches or is born); incubation does not consume a daily check",
+    "intervalMilliseconds": 86400000,
+    "firstCheckIndex": 1,
+    "finalCheckIndex": 365,
+    "checkTime": "T_k = hatchAtMs + k*86400000, for integer 1 <= k <= 365, using safe integer UTC epoch milliseconds; not local midnight or calendar dates",
+    "careWindows": "Check k consumes only recorded chronological history on [T_(k-1), T_k); a command exactly at T_k belongs to the NEXT care window; no future observations or invented care while away",
+    "anatomicalState": "A(t)=A_0 for 0 <= t < T_1; A(t)=A_k for T_k <= t < T_(k+1) (1 <= k < 365); A(t)=A_365 for all t >= T_365, while alive. Each A_k is one verified fully physical graph",
+    "checkOperation": "A_k=F(A_(k-1),immutable birth drawing, fixed genotype, permanent chaotic seed/state, valid physical operators, summarized actual care window k, chronological resource bounds). Any F may be a physically constrained identity/null",
+    "invariant": "All new, removed, or relocated anatomical cells/tissues/links originate in explicit material transactions at exactly T_k; no anatomical mutations at fractional/hourly times, in renderer, or after T_365",
+    "timelineTime": "Use elapsed 24h intervals, including time zone/DST changes; app sessions, reopening, preview scrubbing and render frames cannot trigger extra checks",
+    "missedChecks": "On return, replay due check indices in ascending order using recorded evidence and the game's actual absent-state effects; no fabricated player commands, no batch leap that skips a check, at most 365 lifetime physical checks",
+    "snapshots": "Memoize the last validated completed check by persistent birth/genome/care-prefix identity; deterministic fresh replay from authored birth must reproduce every material transaction and graph exactly",
+    "independentGameplay": "Physiology, needs, care, death from legitimate gameplay causes, animation, locomotion, pose and surface appearance may continue between/after checks; none may silently mutate physical anatomy",
+    "lifePolicy": "Retire GAME_RULES.lifespanMs=30*DAY as a forced maximum. A still-living pet must be able to reach check 365; natural/care-driven death before then may legitimately end its remaining opportunities. A surviving pet can live after anatomical maturity",
+    "offlineClock": "Persist historical birth and event times; reject backward / impossible timestamps and replay deterministically; local-only time cannot fully prevent device-clock tampering without a trusted server, so never promise tamper proof offline",
+    "legacyStatus": "Historical 512h, 720h, 8192h hourly growth tests and prior 30-day maximum remain historical benchmark evidence only; not acceptance targets for the 365-check product. They must be retired or explicitly moved to legacy qualification by the owning implementation agents",
+    "sharedContract": {
+      "dailyCareWindowV1": {
+        "input": [
+          "immutable game birth/hatch timestamp",
+          "start and end epoch milliseconds",
+          "actual ordered accepted/rejected player commands",
+          "recorded physiological samples and absent/active gameplay history"
+        ],
+        "output": [
+          "checkIndex (1..365)",
+          "startMs/endMs exactly 86400000 apart",
+          "deterministic exact chronological integrated environmental expression over that interval",
+          "provenance digest for the consumed prefix",
+          "explicit unknown/nonobserved inputs, never invented acts"
+        ],
+        "boundary": "[startMs,endMs); commands at endMs do not affect this check"
+      },
+      "dailyMaterialStepV1": {
+        "input": [
+          "prior authoritative MaterialGraph plus immutable genotype/seed",
+          "checkIndex/time",
+          "DailyCareWindowV1 forcing",
+          "allowed source-derived physical operator schedule"
+        ],
+        "output": [
+          "new authoritative MaterialGraph",
+          "accepted/deferred/suppressed transactions",
+          "unchanged source ancestry/genome and deterministic chaos ledger"
+        ],
+        "constraints": [
+          "changes only at check timestamp",
+          "null operation legal",
+          "active birth/event creation-removal inventory exactly reconciles",
+          "zero anatomy change between checks or after check 365"
+        ]
+      }
+    }
   }
 }
