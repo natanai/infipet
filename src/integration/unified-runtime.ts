@@ -61,6 +61,10 @@ export type UnifiedMaterialTimeline = Readonly<{
   /** Independent from-birth evaluation; does not read/write any checkpoint. */
   replay: (hour: number) => UnifiedMaterialState;
   checkpointCount: () => number;
+  /** A bounded copy of completed canonical hours; never fractional query states. */
+  exportCanonicalStates: () => readonly UnifiedMaterialState[];
+  /** Observation only: zero cold advances on a successful history-prefix reuse. */
+  evaluationStats: () => Readonly<{cold: number; resumed: number; imported: number}>;
 }>;
 
 /** Exact care credit * chaos rate, partitioning wherever r_i changes. */
@@ -128,6 +132,8 @@ type LiveOptions = Readonly<{
   history?: EnvironmentalHistory;
   /** An override is useful for exact, independent tissue/relocation tests. */
   remodelingProgram?: LifetimeRemodelingProgram;
+  /** Internal authenticated-prefix handoff; the caller must verify history first. */
+  canonicalStates?: readonly UnifiedMaterialState[];
 }>;
 
 /** Locate each quantum's earliest earned threshold, never its frame-query time.
@@ -292,6 +298,38 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
   // result: the next query must derive threshold crossings from a canonical
   // integer boundary, not a previous request's arbitrary cutoff.
   let hotHour:UnifiedMaterialState|null=null;
+  let cold=0, resumed=0;
+  // Defensive deep copies prohibit any graph/cursor alias between timelines.
+  // A transfer never carries fractional states or unbounded old checkpoints.
+  const clone=<T>(value:T):T => Array.isArray(value)
+    ? value.map(clone) as T
+    : value && typeof value==="object"
+      ? Object.fromEntries(Object.entries(value).map(([key,v])=>[key,clone(v)])) as T
+      : value;
+  let imported=0;
+  for(const candidate of (options.canonicalStates??[]).slice(0,UNIFIED_CHECKPOINT_LIMIT)){
+    const h=candidate.atHour;
+    if(!Number.isSafeInteger(h) || h<=0 || h>maxHour ||
+       candidate.iterative.nextHour!==h ||
+       candidate.graph.sourceFingerprint!==program.source.sourceFingerprint ||
+       candidate.material.programFingerprint!==program.fingerprint ||
+       candidate.material.genotypeFingerprint!==program.genomeFingerprint ||
+       candidate.iterative.fingerprint!==program.fingerprint ||
+       candidate.iterative.genomeFingerprint!==program.genomeFingerprint ||
+       candidate.material.nextHour!==h ||
+       Boolean(candidate.care)!==Boolean(care) ||
+       (candidate.care &&
+        (candidate.care.throughHour!==h ||
+         candidate.care.programFingerprint!==program.fingerprint ||
+         candidate.care.genotypeFingerprint!==program.genomeFingerprint)) ||
+       JSON.stringify(candidate.graph.sourceCells)!==JSON.stringify(program.source.sourceCells) ||
+       candidate.graph.events.some(event=>event.atHour>h))
+      throw new TypeError("Cannot import an incompatible or fractional material checkpoint");
+    if(checkpoints.has(h))throw new TypeError("Duplicate imported canonical hour");
+    checkpoints.set(h,clone(candidate));
+    imported++;
+  }
+  if(imported) hotHour=checkpoints.get(Math.max(...checkpoints.keys()))!;
   const birth=()=>beginning(program,care);
   function replay(hour:number):UnifiedMaterialState {
     return advance(birth(),hour,program,remod,care,history);
@@ -315,8 +353,22 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
       initial=advance(initial,boundary,program,remod,care,history,checkpoint);
     if(initial.atHour===boundary) hotHour=initial;
     const result=advance(initial,hour,program,remod,care,history,checkpoint);
+    if(hour>0) {
+      if(initial.atHour>0) resumed++;
+      else cold++;
+    }
     return result;
   }
   return {version:1,program,maxHour,birth,at,replay,
-    checkpointCount:()=>checkpoints.size};
+    checkpointCount:()=>checkpoints.size,
+    exportCanonicalStates:()=> {
+      const values=[...checkpoints.values()];
+      if(hotHour&&!checkpoints.has(hotHour.atHour))values.push(hotHour);
+      // Keep four evenly historical LRU states plus the latest hot hour.
+      const last=values.slice(-4);
+      if(hotHour&&!last.some(s=>s.atHour===hotHour!.atHour))
+        last.push(hotHour);
+      return last.slice(-5).map(clone);
+    },
+    evaluationStats:()=>Object.freeze({cold,resumed,imported})};
 }
