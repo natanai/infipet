@@ -408,7 +408,8 @@ test("[EVAL-002/A2] externally established retro stages report every age, metada
   // and fixed seed. Historical targets enter ONLY here, after all stages are
   // physically generated and independently replayed. This is not a ROM-care
   // replay witness and is never asserted to be historical-device parity.
-  const physicalRun=buildProductionTrajectoryWitness(starting,birthSeed,milestones);
+  const physicalRun=buildProductionTrajectoryWitness(starting,birthSeed,milestones,
+    {renderScope:"composited-screen"});
   const scored=evaluateTrajectory(physicalRun.samples,targets,
     physicalRun.sourceFingerprint);
   assert.deepEqual(scored.stages.map(s=>s.atHour),[...milestones]);
@@ -429,7 +430,7 @@ test("[EVAL-002/A2] externally established retro stages report every age, metada
     generatedCellsAcrossAges:physicalRun.counts.generatedCells,
     eventsAcrossAges:physicalRun.counts.graphEvents,
     stages:scored.stages.map(s=>({
-      atHour:s.atHour,status:s.status,
+      atHour:s.atHour,status:s.status,scope:s.renderScope,
       silhouetteIoU:s.silhouetteIoU,score:s.shapeScore,
       structuralScore:s.structuralScore,
       mismatches:s.mismatches,reasons:s.reasons,
