@@ -62,7 +62,7 @@ export type UnifiedMaterialTimeline = Readonly<{
   replay: (hour: number) => UnifiedMaterialState;
   checkpointCount: () => number;
   /** A bounded copy of completed canonical hours; never fractional query states. */
-  exportCanonicalStates: () => readonly UnifiedMaterialState[];
+  exportCanonicalStates: (throughHour?: number) => readonly UnifiedMaterialState[];
   /** Observation only: zero cold advances on a successful history-prefix reuse. */
   evaluationStats: () => Readonly<{cold: number; resumed: number; imported: number}>;
 }>;
@@ -361,14 +361,18 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
   }
   return {version:1,program,maxHour,birth,at,replay,
     checkpointCount:()=>checkpoints.size,
-    exportCanonicalStates:()=> {
-      const values=[...checkpoints.values()];
-      if(hotHour&&!checkpoints.has(hotHour.atHour))values.push(hotHour);
-      // Keep four evenly historical LRU states plus the latest hot hour.
-      const last=values.slice(-4);
-      if(hotHour&&!last.some(s=>s.atHour===hotHour!.atHour))
-        last.push(hotHour);
-      return last.slice(-5).map(clone);
+    exportCanonicalStates:(throughHour=maxHour)=> {
+      // Material graphs and iterative ledgers become large in late life.
+      // Transfer only the newest completed hour that is causally safe.
+      // Earlier reverse seeks use independent replay or the local bounded LRU.
+      // Filtering BEFORE copying prevents copying invalidated future states.
+      let latest:UnifiedMaterialState|null=null;
+      for(const state of checkpoints.values())
+        if(state.atHour<=throughHour &&
+           (!latest||state.atHour>latest.atHour))latest=state;
+      if(hotHour&&hotHour.atHour<=throughHour &&
+         (!latest||hotHour.atHour>latest.atHour))latest=hotHour;
+      return latest?[clone(latest)]:[];
     },
     evaluationStats:()=>Object.freeze({cold,resumed,imported})};
 }
