@@ -132,9 +132,23 @@ export function createReusedLivingTimeline(args:Readonly<{
     if(prior)rejections++;
     coldStarts++;
   }
-  const timeline=createUnifiedMaterialTimeline({
-    program,genome,care,history,remodelingProgram,canonicalStates:states,
-  });
+  let timeline:UnifiedMaterialTimeline;
+  try {
+    timeline=createUnifiedMaterialTimeline({
+      program,genome,care,history,remodelingProgram,canonicalStates:states,
+    });
+  } catch(error) {
+    // A stale or externally mutated checkpoint must NEVER crash the actual
+    // player. Fail closed to the independently reconstructible birth state.
+    // Preserve unrelated errors, including invalid care/genome contracts.
+    if(!(error instanceof TypeError) ||
+       !error.message.startsWith("Cannot import an incompatible or fractional material checkpoint"))
+      throw error;
+    rejections++;coldStarts++;
+    timeline=createUnifiedMaterialTimeline({
+      program,genome,care,history,remodelingProgram,
+    });
+  }
   lives.delete(birthKey);
   lives.set(birthKey,{program,genomeIdentity,remodelingIdentity,
     evidence,history,timeline});
