@@ -298,7 +298,7 @@ export function evaluateTrajectory(
     const materialShape=frame?.graph?describeShape(frame.graph.cells):null;
     if(!frame)return {
       id:reference.id,atHour:reference.atHour,
-      renderScope:frame?.renderScope??"composited-screen",status:"unresolved" as const,
+      renderScope:"composited-screen" as const,status:"unresolved" as const,
       shapeScore:null,silhouetteIoU:null,structuralScore:null,
       scores:null,observed:null,reference:null,materialShape,physical,rendering,
       mismatches:[],reasons:["missing-generated-milestone"],
