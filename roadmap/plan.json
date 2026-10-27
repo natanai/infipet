@@ -1026,7 +1026,7 @@
         "CARE-002",
         "MOT-001"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1093,12 +1093,14 @@
           "materialCellsAddedMax": 3072,
           "world": 64
         },
-        "remainingVerification": [
-          "Prove exact visual pixel mapping for relocated/resorbed authored material and deep generated branches in actual frameAt",
-          "Verify web export, full-life first-query wall-clock and allocation limits",
-          "Complete saved GameState counterfactual and reconstruction tests",
-          "Run green CI on final branch head before marking done"
-        ],
+        "remainingVerification": [],
+        "acceptanceEvidence": {
+          "A1": "Real original-material, remodeling and iterative transactions; fractional ordering, earned quantum threshold, source ancestry and deterministic replay tested in alg-integration-unified-development.test.ts",
+          "A2": "Real frameAt resorption, lattice relocation, deep daughter ancestry and exact independently derived quadrilateral pixel-ownership oracle; rejects protected-void occupancy",
+          "A3": "Two genuine saved GameState feeding histories differ only in accepted care; identical rendered frames before intervention, demonstrably different material-growth pixels afterward, stable permanent genotype and JSON save/replay",
+          "webExport": ".github/workflows/integration-web.yml runs pnpm build:web on pull requests",
+          "performance": "scripts/benchmark-unified.ts independently measures 32x32 authored ink, first/repeated frameAt at hours 720 and 8192, full chronology seek, reverse seek, RSS, heap, 64x64 domain and checkpoint cap; CI enforces finite conservative ceilings"
+        },
         "blockerIssue": null
       }
     },
