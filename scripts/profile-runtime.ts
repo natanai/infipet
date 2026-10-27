@@ -11,7 +11,14 @@ import { performance } from "node:perf_hooks";
 import { cpus, totalmem, freemem, platform, arch } from "node:os";
 import { readFileSync } from "node:fs";
 import { createSimulation, getBlueprintCacheStats } from "../src/simulation";
-import { compileMaterialDevelopment } from "../src/development";
+import {
+  compileMaterialDevelopment, initializeMaterialOperatorChronology,
+  stepMaterialOperatorChronology, createIterativeChronologyState,
+  stepIterativeChronology, compileLifetimeRemodeling,
+  remodelingProposalsBetween, applyRemodelingProposal,
+  EMPTY_REMODELING_CHRONOLOGY,
+} from "../src/development";
+import { cellCorners, rasterCellQuads } from "../src/simulation/material-raster";
 import { compileGenome } from "../src/simulation/genome";
 import { createUnifiedMaterialTimeline } from "../src/integration/unified-runtime";
 import { compileRuntimeCareMaterial, compileRuntimeBiology } from "../src/integration";
@@ -108,6 +115,39 @@ for(const shape of Object.keys(shapes) as Shape[]){
   measured("compile.material-program.unhinted",shape,()=>compileMaterialDevelopment(
     sim.program.sourceAtlas as SourceAtlas,genome));
   measured("compile.unified-timeline",shape,()=>createUnifiedMaterialTimeline({program,genome}));
+  // Isolated genuine merged module calls: component CPU/allocation evidence.
+  // These are NOT additive exclusive fractions of the long-running timeline.
+  const operatorState=measured("component.material-ledger.init",shape,()=>
+    initializeMaterialOperatorChronology(program));
+  const physicalStep=measured("component.material-transaction.hour1",shape,()=>
+    stepMaterialOperatorChronology(program.source,program,operatorState,{
+      fromHour:0,toHour:1,expressions:program.operators.map(op=>({
+        operatorId:op.id,cumulative:0,
+      })),
+    }));
+  assert.equal(physicalStep.state.nextHour,1);
+  const iterativeState=measured("component.iterative-ledger.init",shape,()=>
+    createIterativeChronologyState(program));
+  const iterativeStep=measured("component.iterative-transaction.hour1",shape,()=>
+    stepIterativeChronology(program,program.source,iterativeState,{
+      atHour:0,resources:0.5,light:null,
+    }));
+  assert.equal(iterativeStep.state.nextHour,1);
+  const remodeling=measured("component.remodeling-program.compile",shape,()=>
+    compileLifetimeRemodeling(program,genome));
+  const remodelProposals=measured("component.remodeling-proposals.first24h",shape,()=>
+    remodelingProposalsBetween(remodeling,0,24));
+  if(remodelProposals[0]){
+    const outcome=measured("component.remodeling-proposal.apply-one",shape,()=>
+      applyRemodelingProposal(program.source,remodeling,remodelProposals[0],
+        EMPTY_REMODELING_CHRONOLOGY));
+    assert.ok(outcome.graph.sourceCells.length===program.source.sourceCells.length);
+  }
+  const rastered=measured("component.graph-raster.identity-transform",shape,()=>
+    rasterCellQuads(program.source.cells.map(cell=>({
+      cell,quad:cellCorners(cell),center:{x:cell.x,y:cell.y},
+    }))));
+  assert.ok(rastered.length>=program.source.cells.length);
   // Real render frames: all authoritative operations and material raster/pose.
   for(const hour of [0,24,720,8192]){
     const frame=measured("frame.first."+hour+"h",shape,()=>sim.frameAt(hour/24,{time:0,action:"idle"}));
