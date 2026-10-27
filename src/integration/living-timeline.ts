@@ -55,12 +55,12 @@ let lastPhases:Readonly<{
 /** Observational clock times never feed biological decisions. */
 export function getLivingTimelinePhaseStats(){return lastPhases;}
 export function getLivingTimelineCacheStats(){
-  const checkpointCounts=[...lives.values()].map(e=>e.timeline.checkpointCount());
+  const checkpointCounts=[...lives.values()].map(e=>e.timeline.retainedStateCount());
   return Object.freeze({
     entries:lives.size,limit:MAX_LIVES,
     checkpoints:checkpointCounts.reduce((n,count)=>n+count,0),
-    maxCheckpointsPerTimeline:16,
-    maxTotalCheckpoints:MAX_LIVES*16,
+    maxCheckpointsPerTimeline:17,
+    maxTotalCheckpoints:MAX_LIVES*17,
     transfers,rejections,coldStarts,
   });
 }
