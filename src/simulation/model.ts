@@ -225,6 +225,8 @@ export type SimulationOptions = {
   }>;
   /** Recorded canonical game history, supplying material-operator care effects. */
   careGame?: GameState;
+  /** Test/profiler oracle: force independent from-birth material replay. */
+  reuseLivingMaterial?: boolean;
   needTimeline?: readonly NeedKeyframe[];
   groomingTimeline?: readonly GroomStroke[];
   liveContext?: LiveDevelopmentContext;
@@ -241,6 +243,12 @@ export type PetSimulation = {
   stateAt(age: number): WellbeingState;
   developmentAt(age: number): DevelopmentState;
   frameAt(age: number, options?: FrameOptions): PetFrame;
+  /** Backend-only chronology instrumentation; never part of creature state. */
+  getMaterialRuntimeStats?(): Readonly<{
+    cold: number;
+    resumed: number;
+    imported: number;
+  }>;
   /** Bind an idle display gesture to authored material; does not change the simulation. */
   groomingStrokeAt(age: number, from: Point, to: Point): GroomStroke | null;
   /** Runtime telemetry is separate from deterministic frame/development output. */

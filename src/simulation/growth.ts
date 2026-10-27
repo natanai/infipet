@@ -44,12 +44,13 @@ import {
 } from "./development";
 import { compileGenome, genomeCacheKey } from "./genome";
 import {
-  compileRuntimeBiology, compileRuntimeMaterialProgram, compileRuntimeCareMaterial,
+  compileRuntimeBiology, compileRuntimeMaterialProgram,
   type RuntimeBiology,
 } from "../integration";
 import { type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
-import { createCareOperatorChronology } from "../environment";
+import { createCareOperatorChronology, createEnvironmentalHistory } from "../environment";
 import { createUnifiedMaterialTimeline } from "../integration/unified-runtime";
+import { createReusedLivingTimeline } from "../integration/living-timeline";
 import { inferFunctionalMaterial, type MaterialMovementBinding } from "../integration/functional-material";
 import {
   compileSurfaceExpression,
@@ -743,18 +744,40 @@ export function createSimulation(
   const physicalProgram = verified?.program ?? blueprint.material;
   const { tissues, genes } = blueprint,
     careMaterial = options.careGame
-      ? compileRuntimeCareMaterial(blueprint.atlas, inherited,
-          blueprint.biology, options.careGame)
+      ? (() => {
+          // The old CARE helper recompiled a second, identical birth-time
+          // physical program on EVERY 1-second tick, only for .history.
+          // Use the cached authoritative blueprint program already above.
+          if (inherited.seed !== options.careGame!.seed ||
+              inherited.mode !== options.careGame!.mode)
+            throw new TypeError("Material genome and recorded life must be the same pet");
+          return {history:createEnvironmentalHistory(options.careGame!)};
+        })()
       : undefined,
-    unified = createUnifiedMaterialTimeline({
-      program: physicalProgram, genome: inherited,
-      ...(verified?.remodelingProgram ? { remodelingProgram: verified.remodelingProgram } : {}),
-      ...(careMaterial ? {
-        care: createCareOperatorChronology(physicalProgram,
-          careMaterial.history, inherited.genotype),
-        history: careMaterial.history,
-      } : {}),
-    }),
+    // Benchmarked 2h lives are cheaper to replay from birth than to
+    // authenticate/transfer a whole graph. Skip the extra cache machinery
+    // strictly before the first 3 chronological hours; ordinary authoritative
+    // replay and its checkpoints remain intact. This policy does not touch
+    // any existing older-life cached entry, so later updates can still reuse it.
+    unified = careMaterial && options.careGame && !verified &&
+      options.reuseLivingMaterial!==false &&
+      (options.careGame.clock.nowMs-options.careGame.clock.hatchAtMs) >= 3*60*60*1000
+      ? createReusedLivingTimeline({
+          birthKey:cacheKey,genomeIdentity:genomeCacheKey(inherited),
+          program:physicalProgram,genome:inherited,
+          game:options.careGame,history:careMaterial.history,
+          care:createCareOperatorChronology(physicalProgram,
+            careMaterial.history,inherited.genotype),
+        })
+      : createUnifiedMaterialTimeline({
+          program: physicalProgram, genome: inherited,
+          ...(verified?.remodelingProgram ? { remodelingProgram: verified.remodelingProgram } : {}),
+          ...(careMaterial ? {
+            care: createCareOperatorChronology(physicalProgram,
+              careMaterial.history, inherited.genotype),
+            history: careMaterial.history,
+          } : {}),
+        }),
     surfaceGenes = compileSurfaceExpression(inherited),
     hatchAt = liveContext
       ? Math.max(0, liveContext.hatchAtHours) / 24
@@ -1944,6 +1967,7 @@ export function createSimulation(
       ),
     developmentAt,
     frameAt,
+    getMaterialRuntimeStats: () => unified.evaluationStats(),
     getRenderCacheStats: () =>
       Object.freeze({
         age: posedAge,
