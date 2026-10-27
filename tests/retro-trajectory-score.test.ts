@@ -83,6 +83,22 @@ test("[EVAL-002/A1] independent shape scores follow exact mathematical identity,
   assert.throws(()=>describeShape([{x:NaN,y:0}]),/safe integers/);
   assert.throws(()=>describeShape([{x:0,y:0},{x:129,y:0}]),/bounds/);
 
+  const withoutGraph=[
+    input(0,square,square),
+    input(24,square,square),
+  ];
+  const unsupported=evaluateTrajectory(withoutGraph.map(s=>s.actual),
+    withoutGraph.map(s=>s.ref));
+  assert.equal(unsupported.status,"unresolved",
+    "perfect visible match with no material graph must remain unresolved");
+  assert.deepEqual(unsupported.stages.map(s=>s.silhouetteIoU),[1,1]);
+  assert.deepEqual(unsupported.stages.map(s=>s.status),["unresolved","unresolved"]);
+  const visibleFailure=evaluateTrajectory([
+    input(0,square,square).actual,input(24,square,ring).actual,
+  ],[input(0,square,square).ref,input(24,square,ring).ref]);
+  assert.equal(visibleFailure.status,"fail",
+    "missing topology cannot obscure directly measurable negative silhouette evidence");
+
   const solid=input(0,square,square,graph(square));
   const hollow=input(24,square,ring,graph(square));
   const result=evaluateTrajectory([solid.actual,hollow.actual],[solid.ref,hollow.ref],"drawing-one");
@@ -171,11 +187,15 @@ test("[EVAL-002/A2] externally established retro stages report every age, metada
   assert.ok(score.stages.every(s=>typeof s.shapeScore==="number"));
   assert.deepEqual(evaluateTrajectory(actual,changedTargets),score,
     "evaluation must ignore all target metadata");
-  assert.equal(score.status,"unresolved",
-    "frames without an authoritative material graph cannot prove physical structural match");
+  assert.notEqual(score.status,"pass",
+    "frames without physical ancestry cannot support structural resemblance claims");
+  assert.ok(score.stages.every(stage=>stage.status!=="pass"),
+    "geometric failure is conclusive; otherwise ungrounded physical parity remains unresolved");
   assert.ok(score.stages.every(s=>s.physical.status==="unavailable"));
   assert.equal(score.scope,"numerical-resemblance-not-hardware-parity");
   assert.ok(score.aggregateScore!==null&&score.aggregateScore>=0&&score.aggregateScore<=1);
-  assert.equal(evaluateTrajectory(actual.slice(0,3),targets).status,"unresolved",
+  const missing=evaluateTrajectory(actual.slice(0,3),targets);
+  assert.notEqual(missing.status,"pass",
     "missing one milestone cannot be covered up by a strong final frame");
+  assert.ok(missing.reasons.includes("milestone-coverage-mismatch"));
 });
