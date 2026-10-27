@@ -1,6 +1,5 @@
 /**
- * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY continuous/hourly authoritative physical chronology. Product specification now requires at most 365 physical-development checks at exact elapsed 24h intervals. This runtime is not yet migrated; INT-002 will implement the cutover, maintaining exact care and provenance.
- * Historical tests and algorithms remain until the disjoint daily migration lands.
+ * Legacy continuous-clock mathematical reference API. Ordinary player simulation does not import this scheduler; it uses daily-runtime.ts. This module remains for independent comparison of shared transaction primitives, with no authority over the player clock.
  */
 /**
  * INT-001: one source-preserving anatomical timeline built from the real

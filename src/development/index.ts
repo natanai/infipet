@@ -105,3 +105,7 @@ export type {
   SpeculativeOperatorBinding, SpeculativeCompileSuppression,
   SpeculativeMaterialComposition, SpeculativePhysicalOutcome,
 } from "./speculative-material";
+
+export {createDailyMaterialState,applyDailyMaterialStep,verifyDailyMaterialInventory,
+  dailyCheckTime,completedDailyChecks,DAILY_INTERVAL_MS,FINAL_ANATOMICAL_CHECK} from "./daily-step";
+export type {DailyCareWindowV1,DailyMaterialState,DailyCheckRecord} from "./daily-step";

@@ -292,15 +292,20 @@ export function applyRemodelingProposal(
   graph:MaterialGraph, program:LifetimeRemodelingProgram,
   proposal:RemodelingProposal,
   chronology:RemodelingChronology=EMPTY_REMODELING_CHRONOLOGY,
+  /** Daily callers commit an earned proposal only at ceil(nominal tick).
+   * This changes the real transaction clock, not just its displayed sprite. */
+  commitAtOpportunity?:number,
 ):RemodelingTransaction {
-  const op=proposal.operation, k=proposal.unit, atHour=proposal.atHour;
+  const op=proposal.operation, k=proposal.unit, atHour=commitAtOpportunity??proposal.atHour;
   const id=op.id+"/unit/"+k;
   const priorTime=chronology.attempts.at(-1)?.atHour??0;
   const priorIds=new Set(chronology.attempts.map(a=>a.id));
   let reason:string|null=null;
   const due=scheduled(op,k,program);
   if(!Number.isFinite(atHour)||atHour<0||atHour>REMODEL_LIMITS.maxAgeHours ||
-     due===null || atHour!==due) reason="not-due-or-invalid-proposal";
+     due===null || proposal.atHour!==due ||
+     (commitAtOpportunity===undefined ? atHour!==due :
+       (!Number.isSafeInteger(atHour)||atHour!==Math.ceil(due)))) reason="not-due-or-invalid-proposal";
   else if(atHour<priorTime) reason="nonmonotone-remodel-chronology";
   else if(priorIds.has(id)||graph.events.some(e=>e.id===id))
     reason="duplicate-remodel-proposal";
@@ -473,7 +478,7 @@ export function applyRemodelingProposal(
   // everything back; no partial changes, no failed event in graph.
   if(!reason) {
     const candidate:MaterialGraph={...next,events:[...next.events,{
-      id,kind:op.kind,atHour,createdCellIds:created.map(c=>c.id),
+      id,kind:op.kind,atHour,createdCellIds:created.map(c=>c.id),createdCells:created,
       removedCellIds:removed.map(c=>c.id),
       sourceCellIds:uniqueSources([...created,...removed]),
     }]};
@@ -503,7 +508,7 @@ export function applyRemodelingProposal(
         {rigidityBefore:beforeRigidity,rigidityAfter:afterRigidity}),
     };
     next={...next,events:[...next.events,{
-      id,kind:op.kind,atHour,createdCellIds:transition.createdCellIds,
+      id,kind:op.kind,atHour,createdCells:created,createdCellIds:transition.createdCellIds,
       removedCellIds:transition.removedCellIds,
       sourceCellIds:transition.sourceCellIds,
     }]};

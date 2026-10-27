@@ -1,7 +1,3 @@
-/**
- * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY forced 30-day maximum lifespan. GAME-002 must remove the artificial 30-day death rule to allow a healthy living pet to reach 365 daily anatomical checks, while retaining legitimate care-related death. Gameplay may still update physiology at finer time resolution.
- * Historical tests and algorithms remain until the disjoint daily migration lands.
- */
 /** Infipet's deterministic, serializable pocket-pet game. No renderer or wall-clock reads. */
 import type { NeedKeyframe, NeedId } from "../needs";
 import { selectV1Branch } from "./reference-profiles";
@@ -28,7 +24,6 @@ export const GAME_RULES = Object.freeze({
   wasteMs: 3 * HOUR,
   sleepHour: 21,
   wakeHour: 7,
-  lifespanMs: 30 * DAY,
 });
 export type GameStage =
   "egg" | "hatchling" | "infant" | "juvenile" | "adult" | "advanced";
@@ -95,6 +90,14 @@ export type GameActivity =
 type Call = { atMs: number; missed: boolean };
 /** Existing hourly care evidence, with optional hunger sampling for old save compatibility. */
 type CareSample = { hour: number; values: number[]; nutrition?: number };
+/** Actual post-event physiology; piecewise held until the next observation.
+ * Presence describes the following interval, never an invented care action. */
+export type CareObservation = Readonly<{
+  atMs: number; values: readonly number[]; nutrition: number;
+  presence: "active" | "absent" | "birth";
+}>;
+export const ANATOMICAL_HISTORY_MS = 365 * DAY;
+export const MAX_GAME_TIMESTAMP = 8_640_000_000_000_000 - DAY;
 export type CommandRecord = Readonly<{
   id: string;
   atMs: number;
@@ -172,6 +175,8 @@ export type GameState = {
   commandHistory: CommandRecord[];
   randomCounters: { refusals: number; games: number; battles: number };
   careSamples: CareSample[];
+  /** Absent only in pre-daily saves; unknown historical effects remain unknown. */
+  careObservations?: CareObservation[];
 };
 export type GameOptions = { utcOffsetMinutes?: number };
 const STAGES: GameStage[] = [
@@ -212,9 +217,11 @@ const immutableRecord = (record: CommandRecord): CommandRecord =>
 /** Share only immutable records; cloning a long life must not stringify its entire archive per tick. */
 function copyGame(s: GameState): GameState {
   return {
-    ...clone({ ...s, commandHistory: [], receipts: [] }),
+    ...clone({ ...s, commandHistory: [], receipts: [], careSamples: [], careObservations: [] }),
     receipts: [...s.receipts],
-    commandHistory: s.commandHistory.map(immutableRecord),
+    commandHistory: [...s.commandHistory],
+    careSamples: [...s.careSamples],
+    ...(s.careObservations ? {careObservations:[...s.careObservations]} : {careObservations:undefined}),
   };
 }
 export function validateGameCommand(value: unknown): GameCommand {
@@ -325,19 +332,30 @@ function careValues(s: GameState) {
     ),
   ].map((n) => Math.round(n * 1000) / 1000);
 }
-function sample(s: GameState) {
+function sample(s: GameState, presence: CareObservation["presence"] = "active",recordObservation=true) {
   if (s.stage === "egg") return;
+  // Detailed anatomical evidence has a finite 365-day horizon. Current
+  // meters and commands still operate without a maximum biological lifespan.
+  if (s.clock.nowMs - s.clock.hatchAtMs > ANATOMICAL_HISTORY_MS) return;
+  if(recordObservation){
+  const observed: CareObservation = Object.freeze({atMs:s.clock.nowMs,
+    values:Object.freeze(careValues(s)), nutrition:s.meters.hunger/4, presence});
+  if (!s.careObservations) s.careObservations=[];
+  const last=s.careObservations.at(-1);
+  if (last?.atMs===observed.atMs) s.careObservations[s.careObservations.length-1]=observed;
+  else if (!last || last.nutrition!==observed.nutrition || last.presence!==presence ||
+      observed.values.some((v,i)=>v!==last.values[i])) s.careObservations.push(observed);
+  }
   // Only exact chronological hour boundaries are sampled. A fractional-hour
   // command cannot retroactively change a prior care keyframe.
   if ((s.clock.nowMs - s.clock.hatchAtMs) % HOUR !== 0) return;
   const hour = Math.floor(hourAt(s));
-  if (hour > GAME_RULES.lifespanMs / HOUR) return;
   const values = careValues(s),
     nutrition = s.meters.hunger / 4,
     prev = s.careSamples.at(-1);
   if (prev?.hour === hour) {
-    prev.values = values;
-    prev.nutrition = nutrition;
+    Object.freeze(values);
+    s.careSamples[s.careSamples.length-1] = Object.freeze({hour,values,nutrition});
     return;
   }
   if (
@@ -345,7 +363,7 @@ function sample(s: GameState) {
     values.some((n, i) => n !== prev.values[i]) ||
     prev.nutrition !== nutrition
   )
-    s.careSamples.push({ hour, values, nutrition });
+    {Object.freeze(values);s.careSamples.push(Object.freeze({ hour, values, nutrition }));}
 }
 function updateCalls(s: GameState) {
   if (s.stage === "egg" || s.dead) return;
@@ -378,7 +396,6 @@ function lethalCause(s: GameState) {
     now - s.health.injurySinceMs >= 6 * HOUR
   )
     return "untreated injury";
-  if (now - s.clock.hatchAtMs >= GAME_RULES.lifespanMs) return "old age";
   return null;
 }
 function die(s: GameState, cause: string) {
@@ -419,9 +436,7 @@ function updateHealth(s: GameState, presence: "active" | "absent") {
     log(
       s,
       "return-grace",
-      cause === "old age"
-        ? "Your pet has reached the end of its life. You have 30 active minutes together when you return."
-        : "Your pet is critically unwell. You have 30 active minutes to help when you return.",
+      "Your pet is critically unwell. You have 30 active minutes to help when you return.",
     );
   }
 }
@@ -503,7 +518,7 @@ export function createGame(
   if (!Number.isInteger(offset) || Math.abs(offset) > 840)
     throw new Error("Invalid clock offset.");
   const hatchAtMs = startedAt + (mode === "egg" ? GAME_RULES.eggMs : 0);
-  if (!Number.isSafeInteger(hatchAtMs + GAME_RULES.lifespanMs))
+  if (!Number.isSafeInteger(hatchAtMs + ANATOMICAL_HISTORY_MS) || hatchAtMs + ANATOMICAL_HISTORY_MS > MAX_GAME_TIMESTAMP)
     throw new Error("Game clock exceeds the supported timestamp range.");
   const state: GameState = {
     version: GAME_RULES_VERSION,
@@ -574,15 +589,16 @@ export function createGame(
     commandHistory: [],
     randomCounters: { refusals: 0, games: 0, battles: 0 },
     careSamples: [],
+    careObservations: [],
   };
   state.schedule.sleepBoundaryAtMs = nextBoundary(state);
   if (mode === "infant") {
     applyStage(state);
-    sample(state);
+    sample(state, "birth");
   }
   return state;
 }
-function dueEvents(s: GameState, presence: "active" | "absent") {
+function dueEvents(s: GameState, presence: "active" | "absent",recordObservation=true) {
   const now = s.clock.nowMs;
   if (nextStageAt(s) <= now) applyStage(s);
   if (s.schedule.sleepBoundaryAtMs <= now) {
@@ -640,12 +656,11 @@ function dueEvents(s: GameState, presence: "active" | "absent") {
     log(s, "care-mistake", "A care call went unanswered.");
   }
   updateHealth(s, presence);
-  sample(s);
+  sample(s, presence,recordObservation);
 }
 function nextEvent(s: GameState) {
   const dates = [
     nextStageAt(s),
-    s.clock.hatchAtMs + GAME_RULES.lifespanMs,
     ...Object.values(s.schedule),
   ];
   for (const call of [s.attention.care, s.attention.sleep])
@@ -669,12 +684,13 @@ export function advanceGame(
 ): GameState {
   if (
     !Number.isSafeInteger(toMs) ||
-    toMs < 0 ||
+    toMs < input.clock.nowMs || toMs > MAX_GAME_TIMESTAMP ||
     !["active", "absent"].includes(presence)
   )
     throw new Error("Invalid game clock.");
   const s = copyGame(input);
-  if (toMs <= s.clock.nowMs || s.dead) return s;
+  if (toMs === s.clock.nowMs || s.dead) return s;
+  if(s.careObservations?.at(-1)?.presence!==presence)sample(s, presence);
   if (presence === "absent" && s.activity && "targets" in s.activity) {
     s.activity = null;
     log(
@@ -685,20 +701,8 @@ export function advanceGame(
   }
   // Event boundaries, rather than render ticks, make batched and incremental replay equal.
   while (s.clock.nowMs < toMs && !s.dead) {
-    if (s.clock.nowMs >= s.clock.hatchAtMs + GAME_RULES.lifespanMs) {
-      const elapsed = Math.min(
-        toMs - s.clock.nowMs,
-        presence === "active" && s.grace ? s.grace.remainingActiveMs : Infinity,
-      );
-      s.clock.nowMs += elapsed;
-      if (presence === "active") {
-        s.clock.activeMs += elapsed;
-        if (s.grace) s.grace.remainingActiveMs -= elapsed;
-      }
-      if (s.grace?.remainingActiveMs === 0) die(s, lethalCause(s) ?? "old age");
-      break;
-    }
-    let at = Math.min(toMs, nextEvent(s));
+    const eventAt=nextEvent(s);
+    let at = Math.min(toMs, eventAt);
     if (presence === "active" && s.grace)
       at = Math.min(at, s.clock.nowMs + s.grace.remainingActiveMs);
     const elapsed = at - s.clock.nowMs;
@@ -725,7 +729,9 @@ export function advanceGame(
       }
       s.grace = null;
     }
-    dueEvents(s, presence);
+    // A render/query cutoff is not a physiological observation. Exact timer
+    // boundaries, actual commands and presence transitions alone create data.
+    dueEvents(s, presence,at===eventAt);
   }
   return s;
 }
@@ -1095,6 +1101,7 @@ export function validateGameState(value: unknown): GameState {
     "commandHistory",
     "randomCounters",
     "careSamples",
+    "careObservations",
   ]);
   if (
     s.version !== GAME_RULES_VERSION ||
@@ -1109,7 +1116,7 @@ export function validateGameState(value: unknown): GameState {
   if (
     !s.clock ||
     !integer(s.clock.startedAtMs) ||
-    !integer(s.clock.nowMs, s.clock.startedAtMs) ||
+    !integer(s.clock.nowMs, s.clock.startedAtMs, MAX_GAME_TIMESTAMP) ||
     !integer(s.clock.hatchAtMs, s.clock.startedAtMs) ||
     !integer(s.clock.utcOffsetMinutes, -840, 840) ||
     !finite(s.clock.activeMs) ||
@@ -1204,12 +1211,6 @@ export function validateGameState(value: unknown): GameState {
       typeof s.grace.cause !== "string")
   )
     throw new Error("Invalid return grace.");
-  if (
-    !s.dead &&
-    !s.grace &&
-    s.clock.nowMs >= s.clock.hatchAtMs + GAME_RULES.lifespanMs
-  )
-    throw new Error("Missing terminal state.");
   if (s.grace) keys(s.grace, ["remainingActiveMs", "cause", "sinceMs"]);
   if (
     (s.dead && !s.death) ||
@@ -1331,7 +1332,6 @@ export function validateGameState(value: unknown): GameState {
     throw new Error("Missing advanced decision.");
   if (
     !s.dead &&
-    s.clock.nowMs < s.clock.hatchAtMs + GAME_RULES.lifespanMs &&
     Object.values(s.schedule).some((at) => at <= s.clock.nowMs)
   )
     throw new Error("Stale game schedule.");
@@ -1397,11 +1397,11 @@ export function validateGameState(value: unknown): GameState {
     throw new Error("Invalid number game history.");
   if (
     !Array.isArray(s.careSamples) ||
-    s.careSamples.length > 721 ||
+    s.careSamples.length > 8761 ||
     !s.careSamples.every(
       (p, i) =>
         p &&
-        integer(p.hour, 0, Math.min(720, Math.floor(gameAgeHours(s)))) &&
+        integer(p.hour, 0, Math.min(8760, Math.floor(gameAgeHours(s)))) &&
         (i === 0 || p.hour > s.careSamples[i - 1].hour) &&
         Array.isArray(p.values) &&
         p.values.length === 6 &&
@@ -1411,6 +1411,17 @@ export function validateGameState(value: unknown): GameState {
   )
     throw new Error("Invalid derived care history.");
   s.careSamples.forEach((p) => keys(p, ["hour", "values", "nutrition"]));
+  if (s.careObservations !== undefined) {
+    if (!Array.isArray(s.careObservations)) throw new Error("Invalid care observations.");
+    s.careObservations.forEach((o,i)=>{
+      keys(o,["atMs","values","nutrition","presence"]);
+      if (!integer(o.atMs,s.clock.hatchAtMs,Math.min(s.clock.nowMs,s.clock.hatchAtMs+ANATOMICAL_HISTORY_MS)) ||
+          (i>0 && o.atMs<=s.careObservations![i-1].atMs) ||
+          !Array.isArray(o.values) || o.values.length!==6 || !o.values.every(v=>finite(v,0,1)) ||
+          !finite(o.nutrition,0,1) || !["birth","active","absent"].includes(o.presence))
+        throw new Error("Invalid care observation chronology.");
+    });
+  }
   if (typeof s.message !== "string" || s.message.length > 1000)
     throw new Error("Invalid game message.");
   if (s.activity !== null) {
@@ -1496,5 +1507,9 @@ export function validateGameState(value: unknown): GameState {
         throw new Error("Invalid number sequence.");
     }
   }
-  return copyGame(s);
+  const validated=copyGame(s);
+  validated.careSamples=validated.careSamples.map(o=>Object.isFrozen(o)&&Object.isFrozen(o.values)?o:Object.freeze({...o,values:Object.freeze([...o.values]) as unknown as number[]}));
+  validated.commandHistory=validated.commandHistory.map(immutableRecord);
+  if(validated.careObservations)validated.careObservations=validated.careObservations.map(o=>Object.isFrozen(o)&&Object.isFrozen(o.values)?o:Object.freeze({...o,values:Object.freeze([...o.values])}));
+  return validated;
 }

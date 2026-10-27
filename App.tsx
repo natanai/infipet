@@ -38,6 +38,8 @@ import {
   decodePet,
   encodePet,
   loadEditablePet,
+  loadOriginalPetBackup,
+  preparePetForDaily,
   savePet,
   PROTOTYPE_REVISION,
   type PetDocument,
@@ -72,6 +74,7 @@ import {
 import type { LivingPet } from "./src/pet-format";
 import {
   birthPlayerLife,
+  prepareReturnedLife,
   advancePlayerLife,
   commandPlayerLife,
 } from "./src/integration/player-lifecycle";
@@ -218,10 +221,13 @@ export default function App() {
   const [hydrated, setHydrated] = useState(false);
   const [writable, setWritable] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [originalSavedPet,setOriginalSavedPet]=useState<string|null>(null);
   const [notice, setNotice] = useState("");
   const [importInput, setImportInput] = useState("");
   const [importError, setImportError] = useState("");
   const [showCode, setShowCode] = useState(false);
+  const [exportCode,setExportCode]=useState("");
+  const [exportMessage,setExportMessage]=useState("");
   const [widgetMessage, setWidgetMessage] = useState("");
   const [needTimeline, setNeedTimeline] = useState<NeedKeyframe[]>([]);
   const [groomingTimeline, setGroomingTimeline] = useState<GroomStroke[]>([]);
@@ -241,8 +247,11 @@ export default function App() {
   const [sandbox, setSandbox] = useState(false);
   const [settling, setSettling] = useState(false);
   const commandPending = useRef(false);
+  const pendingReturnLife = useRef<LivingPet | undefined>(undefined);
+  const returnGeneration = useRef(0);
   const deathSeen = useRef<string | null>(null);
-  const playing = view === "live" && (!devEnabled || !sandbox) && !!life;
+  const legacyLife=!!life&&life.anatomicalClock!=="daily-365-v1";
+  const playing = view === "live" && (!devEnabled || !sandbox) && !!life && !legacyLife;
   const layout = developmentLayout(width, devEnabled);
   const size = Math.floor(
     Math.min(
@@ -283,14 +292,14 @@ export default function App() {
   // Build only from the native saved-life evidence. Each accepted care command
   // invalidates this memo immediately; time is not approximated or bucketed.
   const livingSimulation = useMemo(() => {
-    if (!life) return null;
+    if (!life||life.anatomicalClock!=="daily-365-v1") return null;
     return createSimulation(life.parts, life.seed, life.mode, {
-      needTimeline: deriveCareTimeline(life.game),
       groomingTimeline: life.groomingTimeline,
       liveContext: deriveDevelopmentContext(life.game),
       careGame: life.game,
+      anatomicalCheckpoint:life.anatomicalCheckpoint,
     });
-  }, [life?.parts, life?.seed, life?.mode, life?.game, life?.groomingTimeline]);
+  }, [life?.parts, life?.seed, life?.mode, life?.game, life?.groomingTimeline,life?.anatomicalCheckpoint]);
   const liveAge = life
     ? Math.max(
         0,
@@ -314,6 +323,16 @@ export default function App() {
       life?.game.dead,
     ],
   );
+  // Save a completed physical state once per daily boundary. Ordinary frames
+  // and care commands reuse it; persisted integrity is revalidated on reopen.
+  useEffect(()=>{
+    if(!life||!livingSimulation||!livingFrame||livingFrame.generation<1)return;
+    const existing=life.anatomicalCheckpoint as {state?:{completedChecks?:number}}|undefined;
+    if(existing?.state?.completedChecks===livingFrame.generation &&
+        (livingSimulation.getMaterialRuntimeStats?.().imported??0)>0)return;
+    const anatomicalCheckpoint=livingSimulation.exportAnatomicalCheckpoint();
+    if(anatomicalCheckpoint)commitLife({...life,anatomicalCheckpoint});
+  },[life,livingSimulation,livingFrame?.generation]);
   const frame = playing ? livingFrame! : previewFrame!;
   const pixels = useMemo(() => drawingPixels(parts), [parts]);
   const document: PetDocument = {
@@ -340,6 +359,7 @@ export default function App() {
   const persist = async (
     message = "Progress is unsaved. Export a copy from More.",
   ): Promise<boolean> => {
+    if(latest.current.document.life&&latest.current.document.life.anatomicalClock!=="daily-365-v1")return false;
     const request = ++saveRequest.current;
     try {
       await savePet(latest.current.document);
@@ -372,7 +392,7 @@ export default function App() {
   useEffect(() => {
     let active = true;
     void loadEditablePet()
-      .then((doc) => {
+      .then(async (doc) => {
         if (!active) return;
         presence.current =
           AppState.currentState === "active" ? "active" : "absent";
@@ -387,20 +407,24 @@ export default function App() {
           setNeedTimeline(doc.needTimeline);
           setGroomingTimeline(doc.groomingTimeline ?? []);
           if (doc.life) {
-            const resumed = {
-              ...advancePlayerLife(doc.life, Date.now(), "absent"),
-            };
+            const legacy=doc.life.anatomicalClock!=="daily-365-v1";
+            const resumed = legacy?doc.life:await prepareReturnedLife(advancePlayerLife(doc.life, Date.now(), "absent"));
+            if(!active)return;
             commitLife(resumed);
-            setView("live");
+            if(legacy){setParts(doc.life.parts);setMode(doc.life.mode);setSeed(doc.life.seed);setSeedInput(doc.life.seed);setName(doc.life.name);setAge(0);}
+            setView(legacy?"draw":"live");
             setSandbox(false);
           }
-          setWritable(true);
+          setWritable(!doc.life||doc.life.anatomicalClock==="daily-365-v1");
         } else setWritable(true);
+        void loadOriginalPetBackup().then(raw=>{if(active)setOriginalSavedPet(raw);});
         setHydrated(true);
       })
-      .catch(() => {
+      .catch(async () => {
+        const original=await loadOriginalPetBackup().catch(()=>null);
         if (active) {
-          setSaveError("Storage unavailable. Export your pet to keep a copy.");
+          setOriginalSavedPet(original);
+          setSaveError(original?"This saved pet could not be opened. Its original file is preserved in More → Export.":"Storage unavailable. Export your pet to keep a copy.");
           setHydrated(true);
         }
       });
@@ -434,7 +458,7 @@ export default function App() {
     let checkpoint = Date.now();
     const tick = () => {
       const current = lifeRef.current;
-      if (!current || current.game.dead || presence.current !== "active")
+      if (!current || current.anatomicalClock!=="daily-365-v1" || current.game.dead || presence.current !== "active")
         return;
       const next = {
         ...current,
@@ -463,23 +487,57 @@ export default function App() {
     return () => clearInterval(timer);
   }, [growing, writable]);
   useEffect(() => {
+    let disposed=false;
     const sub = AppState.addEventListener("change", (state) => {
       const nextPresence = state === "active" ? "active" : "absent";
-      const current = lifeRef.current;
-      if (current && presence.current !== nextPresence) {
-        commitLife({
-          ...advancePlayerLife(current, Date.now(), presence.current),
-        });
+      const previousPresence=presence.current;
+      const current=pendingReturnLife.current??lifeRef.current;
+      if(nextPresence==="absent"){
+        // Cancel a pending UI commit, retaining its chronological life for the
+        // next return. A partly caught-up graph never replaces the saved pet.
+        returnGeneration.current++;
+        if(pendingReturnLife.current)
+          pendingReturnLife.current=advancePlayerLife(pendingReturnLife.current,Date.now(),"absent");
+        else if(current?.anatomicalClock==="daily-365-v1"&&previousPresence==="active")
+          commitLife(advancePlayerLife(current,Date.now(),"active"));
+        presence.current="absent";
+        setGrowing(false);setMotion(false);
+        if(latest.current.writable)void persist("Could not save. Export a copy from More.");
+        return;
       }
-      presence.current = nextPresence;
-      if (state !== "active") {
-        setGrowing(false);
-        setMotion(false);
-        if (latest.current.writable)
-          void persist("Could not save. Export a copy from More.");
-      } else setMotion(true);
+      if(!current||current.anatomicalClock!=="daily-365-v1"){
+        presence.current="active";setMotion(true);return;
+      }
+      if(previousPresence==="active"&&!pendingReturnLife.current)return;
+      const generation=++returnGeneration.current;
+      pendingReturnLife.current=advancePlayerLife(current,Date.now(),"absent");
+      // Rendering continues with the previously complete state. Commands and
+      // ordinary ticks resume only after every missed physical check is ready.
+      presence.current="absent";commandPending.current=true;
+      setSettling(true);setMotion(false);
+      void (async()=>{
+        try{
+          for(;;){
+            const ready=await prepareReturnedLife(pendingReturnLife.current!);
+            if(disposed||generation!==returnGeneration.current)return;
+            const next=advancePlayerLife(ready,Date.now(),"absent");
+            const due=Math.min(365,Math.floor(Math.max(0,next.game.clock.nowMs-next.game.clock.hatchAtMs)/86400000));
+            const completed=(ready.anatomicalCheckpoint as {state?:{completedChecks?:number}}|undefined)?.state?.completedChecks??0;
+            pendingReturnLife.current=next;
+            if(completed<due)continue;
+            pendingReturnLife.current=undefined;
+            commitLife(next);presence.current="active";
+            commandPending.current=false;setSettling(false);setMotion(true);
+            if(latest.current.writable)void persist();
+            return;
+          }
+        }catch(error){
+          if(!disposed&&generation===returnGeneration.current)
+            setSaveError(error instanceof Error?error.message:"Could not reopen your pet. Export a copy from More.");
+        }
+      })();
     });
-    return () => sub.remove();
+    return () => { disposed=true;returnGeneration.current++;sub.remove(); };
   }, []);
   useEffect(() => {
     if (!motion || view !== "live") return;
@@ -650,6 +708,7 @@ export default function App() {
   };
   const live = () => {
     if (!lifeRef.current) return;
+    if(lifeRef.current.anatomicalClock!=="daily-365-v1"){setView("draw");return;}
     setView("live");
     setSandbox(false);
     setMotion(true);
@@ -662,7 +721,9 @@ export default function App() {
     const current = lifeRef.current;
     if (current && !current.game.dead && !confirmed) {
       confirmReplacement(
-        `Replace ${current.name}? Its current life and care history will be replaced. Export a copy from More to keep it.`,
+        current.anatomicalClock!=="daily-365-v1"
+          ? `Begin a new daily life from ${current.name}'s drawing? The earlier saved life stays available in More → Export.`
+          : `Replace ${current.name}? Its current life and care history will be replaced. Export a copy from More to keep it.`,
         () => void beginLife(true),
       );
       return;
@@ -695,7 +756,7 @@ export default function App() {
   };
   const careCommand = async (command: GameCommand) => {
     const current = lifeRef.current;
-    if (!current || commandPending.current) return;
+    if (!current || commandPending.current || presence.current!=="active") return;
     commandPending.current = true;
     setSettling(true);
     const now = Date.now();
@@ -739,10 +800,11 @@ export default function App() {
     }
   };
   const restore = (doc: PetDocument) => {
+    const legacy=!!doc.life&&doc.life.anatomicalClock!=="daily-365-v1";
     commitLife(
       doc.life
         ? {
-            ...advancePlayerLife(doc.life, Date.now(), "absent"),
+            ...(legacy?doc.life:advancePlayerLife(doc.life, Date.now(), "absent")),
           }
         : undefined,
     );
@@ -767,9 +829,31 @@ export default function App() {
     setAction("idle");
     setTarget(null);
     setGrowing(false);
-    setWritable(true);
-    setView(doc.life ? "live" : "draw");
+    setWritable(!legacy);
+    if(legacy&&doc.life){setParts(doc.life.parts);setMode(doc.life.mode);setSeed(doc.life.seed);setSeedInput(doc.life.seed);setName(doc.life.name);setAge(0);}
+    void loadOriginalPetBackup().then(setOriginalSavedPet);
+    setView(doc.life&&!legacy ? "live" : "draw");
     setSheet(null);
+  };
+  const openPetFile=()=>{
+    if(Platform.OS!=="web")return;
+    setImportError("");
+    const picker=globalThis.document.createElement("input");
+    picker.type="file";picker.accept=".json,application/json";picker.style.display="none";
+    picker.addEventListener("cancel",()=>picker.remove(),{once:true});
+    picker.onchange=async()=>{
+      try{
+        const file=picker.files?.[0];if(!file)return;
+        if(file.size>16*1024*1024)throw new Error("Pet files must be at most 16 MB.");
+        const imported=await preparePetForDaily(await file.text());
+        const current=lifeRef.current;
+        if(current&&!current.game.dead)confirmReplacement(
+          `Importing replaces ${current.name} and its care history. Export a copy first to keep it.`,()=>restore(imported));
+        else restore(imported);
+      }catch(error){setImportError(error instanceof Error?error.message:"This pet could not be opened.");}
+      finally{picker.remove();}
+    };
+    globalThis.document.body.appendChild(picker);picker.click();
   };
   const open = (next: Sheet) => {
     if (next === "name") setNameInput(playing && life ? life.name : name);
@@ -777,7 +861,7 @@ export default function App() {
       setImportError("");
       setImportInput("");
     }
-    if (next === "share") setShowCode(false);
+    if (next === "share") {setShowCode(false);setExportMessage("");}
     setSheet(next);
   };
   const changeSeed = (next: string) => {
@@ -866,7 +950,7 @@ export default function App() {
     if (!enabled) {
       setSandbox(false);
       setMotion(true);
-      setView(lifeRef.current ? "live" : "draw");
+      setView(lifeRef.current?.anatomicalClock==="daily-365-v1" ? "live" : "draw");
       setGrooming(false);
       setAction("idle");
       setTarget(null);
@@ -874,6 +958,7 @@ export default function App() {
     }
   };
   const groomStroke = (from: Point, to: Point) => {
+    if(playing&&(commandPending.current||presence.current!=="active"))return;
     const stroke = (playing ? livingSimulation : simulation)?.groomingStrokeAt(
       playing ? liveAge : age,
       from,
@@ -885,13 +970,17 @@ export default function App() {
     }
     const currentLife = lifeRef.current;
     if (playing && currentLife) {
+      const now=Date.now();
+      if(now<currentLife.game.clock.nowMs)return;
+      const advanced=advancePlayerLife(currentLife,now,"active");
       commitLife({
-        ...currentLife,
+        ...advanced,
         groomingTimeline: normalizeGroomTimeline([
           ...currentLife.groomingTimeline,
           {
             ...stroke,
-            id: `groom-${Date.now()}-${currentLife.groomingTimeline.length}`,
+            tick:(now-advanced.game.clock.hatchAtMs)/3600000,
+            id: `groom-${now}-${currentLife.groomingTimeline.length}`,
           },
         ]),
       });
@@ -919,6 +1008,11 @@ export default function App() {
         Math.max(0, Math.min(MAX_SIMULATION_DAYS, Math.round(value * 24) / 24)),
     );
   };
+  const revealExportCode=()=>{
+    const code=encodePet(latest.current.document);
+    if(code.length>200_000){setExportMessage("This pet has a long history. Save a pet file to move it to another device.");setShowCode(false);return;}
+    setExportMessage("");setExportCode(code);setShowCode(true);
+  };
   const share = async () => {
     try {
       if (Platform.OS === "web") {
@@ -930,7 +1024,7 @@ export default function App() {
           message: encodePet(document),
         });
     } catch {
-      setShowCode(true);
+      revealExportCode();
     }
   };
   const download = () => {
@@ -1029,7 +1123,7 @@ export default function App() {
                     {playing && life ? life.name : document.name}
                   </Text>
                   <Text numberOfLines={1} style={s.muted}>
-                    {view === "draw"
+                    {legacyLife?"Earlier pet · preserved file":view === "draw"
                       ? life && !life.game.dead
                         ? "Drawing draft · your pet lives on"
                         : mode === "egg"
@@ -1051,6 +1145,9 @@ export default function App() {
                   </>
                 )}
               </View>
+              {legacyLife&&<View style={{maxWidth:size+24,padding:10}}>
+                <Text style={s.muted}>This earlier saved pet is preserved. Its past anatomy cannot be carried into daily growth. Save the original file in More → Export, or begin a new life from its drawing.</Text>
+              </View>}
               <View style={[styles.device, { width: size + 24 }]}>
                 <View style={styles.nav}>
                   {(
@@ -1824,16 +1921,25 @@ export default function App() {
                         Save pet file
                       </Button>
                     )}
+                    {originalSavedPet && Platform.OS === "web" && <>
+                      <Text style={s.muted}>Your earlier save is kept unchanged. Its previous hourly anatomy cannot be reproduced by the daily clock.</Text>
+                      <Button label="Download original saved pet" onPress={()=>{
+                        const blob=new Blob([originalSavedPet],{type:"application/json"});
+                        const url=URL.createObjectURL(blob),a=globalThis.document.createElement("a");
+                        a.href=url;a.download="infipet-before-daily-growth.json";a.click();URL.revokeObjectURL(url);
+                      }}>Save original pet file</Button>
+                    </>}
                     <Button
                       label="Show pet code"
-                      onPress={() => setShowCode(!showCode)}
+                      onPress={() => showCode?setShowCode(false):revealExportCode()}
                     >
                       {showCode ? "Hide code" : "Show code"}
                     </Button>
+                    {!!exportMessage&&<Text style={s.muted}>{exportMessage}</Text>}
                     {showCode && (
                       <TextInput
                         accessibilityLabel="Exported pet code"
-                        value={encodePet(document)}
+                        value={exportCode}
                         editable={false}
                         multiline
                         selectTextOnFocus
@@ -1870,12 +1976,13 @@ export default function App() {
                         {importError}
                       </Text>
                     )}
+                    {Platform.OS==="web"&&<Button label="Open pet file" onPress={openPetFile}>Open pet file</Button>}
                     <Button
                       label="Import pet code"
                       disabled={!importInput.trim()}
-                      onPress={() => {
+                      onPress={async () => {
                         try {
-                          const imported = decodePet(importInput);
+                          const imported = await preparePetForDaily(importInput);
                           const current = lifeRef.current;
                           if (current && !current.game.dead)
                             confirmReplacement(

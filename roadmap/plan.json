@@ -23,8 +23,8 @@
     "A replay witness is source drawing, seed, engine version, chronological care history, and times.",
     "Avoid generated screenshots, recordings or diagnostic bulk files in main; use small deterministic numeric tests.",
     "Every agent reads this plan before touching the engine, updates task status and acceptance tests together.",
-    "Product temporal contract (migration target): a physical anatomical change may commit only at T_k=hatchAtMs+k*86400000 for k=1..365, never between checks or after maturity; zero-change outcomes are valid.",
-    "Current 30-day forced lifespan and hourly/8192-hour anatomy are legacy implementation and must be superseded; preserve historical test evidence explicitly as legacy rather than claiming it is the new product behavior."
+    "Product temporal contract: a physical anatomical change may commit only at T_k=hatchAtMs+k*86400000 for k=1..365, never between checks or after maturity; zero-change outcomes are valid.",
+    "The former forced 30-day lifespan and hourly/8192-hour anatomy are retired. Historical numerical evidence is explicitly legacy; only the daily timeline defines production anatomy."
   ],
   "tasks": [
     {
@@ -317,7 +317,7 @@
           "LifetimeDevelopmentalTrajectory: chronologically validated inspiration waypoints, generic operator hints, execution=development-engine-not-implemented",
           "candidateBirthPriors, candidateDevelopmentalMaps, describeCandidateTrajectory from src/lineage/phylogeny-priors.ts"
         ],
-        "missingIntegration": "No classifier selection, seed/care waypoint planning, phenotype realization, or physical continuity validation in this module. Development and integration owners must implement these downstream."
+        "missingIntegration": "The shared runtime composes reference priors and physical operators. This isolated reference API does not render or assign a scientific identity to the pet."
       }
     },
     {
@@ -360,7 +360,7 @@
           "createPhylogenyView(speculativeBranches) with distinct fictional provenance",
           "fictional possibility entries via exploreDevelopmentalPossibilities and typed lifetime waypoints"
         ],
-        "missingIntegration": "No rendering engine is implemented. Fictional operator hints are only suggestions to the shared future Development agent."
+        "missingIntegration": "The shared runtime composes reference priors and physical operators. This isolated reference API does not render or assign a scientific identity to the pet."
       }
     },
     {
@@ -592,7 +592,7 @@
         "equations": [
           "B_n=floor(4*resources(n)); weight=(0.5+genotypeRate)*(0.8+0.4*chaosX)*(1+0.75*directionalLight)/(1+0.25*siteDepth)",
           "quota_i=B_n*w_i/sum(w); floor quota, then award residual credits by fractional remainder and lexical ID tie-break",
-          "stepChaos(x,y)=((2x+y) mod 65521,(x+y) mod 65521) per completed hourly growth interval"
+          "stepChaos(x,y)=((2x+y) mod 65521,(x+y) mod 65521) per completed dimensionless tick; production advances once per daily opportunity"
         ],
         "invariants": [
           "sum(allocations)+unassigned=B_n; sum(spent)+unspent=B_n and one created cell per spent credit",
@@ -602,15 +602,16 @@
           "no future environmental sample affects past anatomical state"
         ],
         "limits": {
-          "maxHours": 512,
           "worldCellsPerAxis": 64,
-          "creditsPerHour": 4,
           "maximumSites": 4096,
           "maximumDepth": 5,
           "maximumForksPerSite": 3,
-          "maximumGeneratedCells": 3072
+          "maximumGeneratedCells": 3072,
+          "legacyStandaloneMaxTicks": 8192,
+          "creditsPerTick": 4
         },
-        "missingLiveIntegration": "Recorded game care history has no measured light samples; this module needs runtime light input and rendering integration by the integration operator."
+        "missingLiveIntegration": "Connected by INT-002 at daily checks. No recorded light data is fabricated; absent measurements remain unknown.",
+        "numericalScope": "Hour-named stand-alone APIs and long-domain tests are legacy numerical primitives. Daily production uses tick k as opportunity k, never 24 hidden physical iterations."
       }
     },
     {
@@ -920,7 +921,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1278,7 +1279,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -1300,10 +1301,10 @@
           "A2": "Real frameAt resorption, lattice relocation, deep daughter ancestry and exact independently derived quadrilateral pixel-ownership oracle; rejects protected-void occupancy",
           "A3": "Two genuine saved GameState feeding histories differ only in accepted care; identical rendered frames before intervention, demonstrably different material-growth pixels afterward, stable permanent genotype and JSON save/replay",
           "webExport": ".github/workflows/integration-web.yml runs pnpm build:web on pull requests",
-          "performance": "scripts/benchmark-unified.ts independently measures 32x32 authored ink, first/repeated frameAt at hours 720 and 8192, full chronology seek, reverse seek, RSS, heap, 64x64 domain and checkpoint cap; CI enforces finite conservative ceilings"
+          "performance": "Superseded by PERF-001 daily qualification. Old hourly profilers are retained in git history; compatibility entry points now run daily-benchmark.ts."
         },
         "blockerIssue": null,
-        "legacyChronologyNote": "LEGACY implementation evidence only. Original hourly/fractional physical operators and 8192h limits are superseded for user-facing anatomy by anatomicalDevelopment. INT-002 owns actual runtime migration."
+        "legacyChronologyNote": "LEGACY fractional/hourly primitive evidence. Production runtime is INT-002 daily chronology; this API and its numerical tests are retained for independent operator comparison."
       }
     },
     {
@@ -1353,7 +1354,7 @@
         "EVAL-001",
         "INT-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1373,13 +1374,55 @@
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/integration/daily-runtime.ts",
+        "src/simulation/growth.ts",
+        "scripts/daily-benchmark.ts",
+        "scripts/benchmark-browser-runtime.mjs",
+        "tests/development-budget.test.ts"
       ],
       "algorithmId": "integration",
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "oldBenchmarks": "Prior dense 720h and 8192h continuous-growth measurements are legacy profiler results, NOT present product requirements",
-        "acceptance": "After INT-002, measure due daily checks, a year-long late return, unchanged-between-check display and cached mature-pet play"
+        "acceptance": "After INT-002, measure due daily checks, a year-long late return, unchanged-between-check display and cached mature-pet play",
+        "evidence": "Both isolated Node acceptance tests pass across sparse, unusual, dense and 15-brush maximum-complexity drawings, real 366-day care, all ten scenarios, exact paired cold graphs, bounded allocation ledgers and invalid-cache recovery. All eight actual Chromium maximum-complexity saved-life scenarios completed and exact original graphs persisted across normal care. Nine exported UI flows pass including offline year-long reopen and mounted catch-up. Final registered gate: 195 functional tests plus two isolated performance tests pass.",
+        "referenceEnvironment": "Linux x64 Node v24.22.1; CI Node22. Native phones have not been measured.",
+        "budgets": {
+          "ordinaryUpdateP95Ms": 33.333333333333336,
+          "firstBoundaryMs": 150,
+          "cold365ChecksMs": 8000,
+          "savedMatureReopenMs": 1500,
+          "stateBytes": 8388608,
+          "isolatedRssMiB": 768
+        },
+        "measuredReference": {
+          "worstOrdinaryP95Ms": 18.64,
+          "maxColdYearMs": 3529.6,
+          "maxSavedReopenMs": 287.39,
+          "maxStateBytes": 1599557,
+          "maxIsolatedRssMiB": 537.54
+        },
+        "browserReference": {
+          "environment": "Linux headless Chromium153, 1024-cell/15-brush sources at birth/day7/day90/day366; 180 native RAF gaps and four saved care acknowledgements per age. Date shifted to actual recorded histories; performance timers remain native.",
+          "desktop": {
+            "maxReopenMs": 1508.35,
+            "maxFrameGapP95Ms": 16.8,
+            "maxSavedCareAckP95Ms": 238.59
+          },
+          "cpu4xMobileViewportEmulation": {
+            "maxReopenMs": 6856.87,
+            "maxFrameGapP95Ms": 33.3,
+            "maxSavedCareAckP95Ms": 828.83,
+            "maxFrameGapMs": 216.6,
+            "realPhone": false
+          },
+          "desktopBudgets": {
+            "frameGapP95Ms": 34,
+            "savedReopenMs": 3000,
+            "savedCareAckP95Ms": 1000
+          },
+          "limits": "Four acknowledgements are a small tail sample, not population p95. Frame gaps include rendering and saved-state work, not isolated algorithm time. Emulation is observational, not native-device qualification."
+        }
       }
     },
     {
@@ -1469,7 +1512,7 @@
       "dependsOn": [
         "DEV-006"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1496,7 +1539,8 @@
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "export": "applyDailyMaterialStep (or equivalent pure daily physical transition)",
-        "input": "dailyMaterialStepV1; do not import environment module"
+        "input": "dailyMaterialStepV1; do not import environment module",
+        "evidence": "Pure atomic daily composition of existing physical material, remodeling and persistent iterative operators. Actual event timestamps, archived creations, exact identity inventory and 365-step unfamiliar-drawing cohort verified."
       }
     },
     {
@@ -1507,7 +1551,7 @@
       "dependsOn": [
         "CARE-003"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1534,7 +1578,8 @@
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "export": "summarizeDailyCareWindow (or equivalent)",
-        "output": "dailyCareWindowV1, no physical graph execution"
+        "output": "dailyCareWindowV1, no physical graph execution",
+        "evidence": "Exact integer-ms half-open integration of recorded post-event physiology and presence, boundary/fractional/rejected commands, legacy unknowns and future-independent day 365 forcing verified."
       }
     },
     {
@@ -1545,7 +1590,7 @@
       "dependsOn": [
         "GAME-001"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1566,13 +1611,16 @@
       },
       "implementationPaths": [
         "src/gameplay/index.ts",
-        "tests/alg-environment-yearlong-gameplay.test.ts"
+        "tests/alg-environment-yearlong-gameplay.test.ts",
+        "src/needs/types.ts",
+        "src/needs/timeline.ts"
       ],
       "algorithmId": "environment",
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "retain": "actual gameplay physiological time steps and stage rules; only remove false maximum-life barrier",
-        "doNotEdit": "src/environment/daily-care.ts or src/development/"
+        "doNotEdit": "src/environment/daily-care.ts or src/development/",
+        "evidence": "Actual command-driven healthy 370-day life and untreated physiological mortality; safe absolute clocks, append-only receipts, exact post-event observations through maturity, hourly compatibility samples. Focused test passes. A 24-hour metamorphic test confirms one-second and hourly batching produce identical full GameState/evidence; render cutoffs cannot inflate observation history."
       }
     },
     {
@@ -1585,7 +1633,7 @@
         "CARE-004",
         "GAME-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1612,7 +1660,10 @@
       "algorithmId": "integration",
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
-        "readiness": "not assignable until its existing prerequisite tasks are done; no worker should wait in chat"
+        "export": "createDailyMaterialTimeline / createReusedDailyMaterialTimeline; createSimulation and frameAt are the production consumers",
+        "evidence": "Focused daily integration passes across ten unfamiliar drawings, birth/first/day200/final/mature checks, real care counterfactuals, exact active ownership and fresh/cached replay. All nine actual exported-app player flows pass, including mounted seven-day return, offline healthy 366-day maximum-complexity reopen, corruption recovery and exact original-save preservation.",
+        "legacySaves": "Exact old physical continuity cannot be recovered from contour rendering. Preserve exact original bytes and the unchanged old life read-only; explicit Begin life starts a new birth without fabricated past checks.",
+        "storage": "Large web lives use atomically replaced IndexedDB payloads. Optional checkpoints are integrity/history-validated and safely reconstructed when malformed. Catch-up completes in chronological main-thread slices before UI commit."
       }
     },
     {
@@ -1624,7 +1675,7 @@
         "INT-002",
         "EVAL-003"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1644,13 +1695,15 @@
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "tests/alg-evaluation-",
+        "tests/alg-evaluation-daily-life.test.ts",
+        "tests/alg-evaluation-daily-proof.ts",
         "tests/retro-witness-search.test.ts"
       ],
       "algorithmId": "evaluation",
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
-        "readiness": "not assignable until daily runtime is merged"
+        "evidence": "Independent BigInt clock expectation, material inventory/ancestry/ownership and full cold reconstruction pass. Negative cases detect 23h growth, duplicate check1, fabricated absence checks, fractional boundary epoch, future care, post365 transactions, false rendered ancestry, missing ownership and cached/fresh divergence. Existing independent metric and recorded-command witness research remains registered.",
+        "legacyReferences": "Former 1h/49h/121h references remain labeled historical research. Daily witness searches require actual 24h-multiple milestones and chronological physiological commands; no target shapes enter runtime compilation."
       }
     }
   ],
@@ -1971,7 +2024,7 @@
   },
   "anatomicalDevelopment": {
     "schemaVersion": 1,
-    "authority": "APPROVED PRODUCT SPECIFICATION; migration in progress; old hourly/8192h source code and historical tests describe the prior implementation, NOT the desired model",
+    "authority": "APPROVED PRODUCT SPECIFICATION; implemented by the production daily material timeline. Historical hour-named numerical helpers do not define the player clock.",
     "unitOfGrowth": "one discrete physical-development opportunity each 86400000 elapsed milliseconds",
     "anchor": "the individual pet's persisted clock.hatchAtMs (the moment a live organism hatches or is born); incubation does not consume a daily check",
     "intervalMilliseconds": 86400000,
@@ -1986,9 +2039,9 @@
     "missedChecks": "On return, replay due check indices in ascending order using recorded evidence and the game's actual absent-state effects; no fabricated player commands, no batch leap that skips a check, at most 365 lifetime physical checks",
     "snapshots": "Memoize the last validated completed check by persistent birth/genome/care-prefix identity; deterministic fresh replay from authored birth must reproduce every material transaction and graph exactly",
     "independentGameplay": "Physiology, needs, care, death from legitimate gameplay causes, animation, locomotion, pose and surface appearance may continue between/after checks; none may silently mutate physical anatomy",
-    "lifePolicy": "Retire GAME_RULES.lifespanMs=30*DAY as a forced maximum. A still-living pet must be able to reach check 365; natural/care-driven death before then may legitimately end its remaining opportunities. A surviving pet can live after anatomical maturity",
+    "lifePolicy": "The forced 30-day lifespan is removed. Actual care and physiological mortality remain; healthy pets survive through check 365 and afterward with permanently mature anatomy.",
     "offlineClock": "Persist historical birth and event times; reject backward / impossible timestamps and replay deterministically; local-only time cannot fully prevent device-clock tampering without a trusted server, so never promise tamper proof offline",
-    "legacyStatus": "Historical 512h, 720h, 8192h hourly growth tests and prior 30-day maximum remain historical benchmark evidence only; not acceptance targets for the 365-check product. They must be retired or explicitly moved to legacy qualification by the owning implementation agents",
+    "legacyStatus": "Historical 512h/720h/8192h primitive tests are explicitly legacy numerical coverage. Former hourly performance gates are retired; production qualification is the 365-opportunity daily suite.",
     "sharedContract": {
       "dailyCareWindowV1": {
         "input": [

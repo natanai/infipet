@@ -885,7 +885,7 @@ test("[INT-001] exactly-on-boundary remodeling wins tie; genuinely future propos
   }
 });
 
-test("[INT-001] lifespan 511,512,513,720,2048,8192 remains chronological and finite", () => {
+test("[INT-001] legacy primitive numerical domain through 8192 ticks remains chronological and finite", () => {
   const { birth, original } = exactBoundaryInputs();
   assert.equal(ITERATIVE_CHRONOLOGY_MAX_HOURS, 8192);
   assert.equal(ITERATIVE_CHRONOLOGY_MAX_HOURS, CHAOS_MAX_TICK);

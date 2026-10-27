@@ -175,6 +175,10 @@ export function createNeedsSimulation(
   const initialBeforeEvents = clone(initial);
   apply(initial);
   const checkpoints = new Map<number, Snapshot>([[0, initial]]);
+  // Only canonical EVENT snapshots may resume numerical integration. A prior
+  // arbitrary frame cutoff would split an exponential segment differently.
+  // Storing after each real event preserves exactly the cold arithmetic order.
+  const canonicalEvents = new Map<number,Snapshot>([[0,clone(initial)]]);
   const temperament = feelings.map(
     (feeling) => 0.94 + unit(seed + "|feeling|" + feeling.id) * 0.12,
   );
@@ -200,14 +204,20 @@ export function createNeedsSimulation(
     if (hit) return clone(hit);
     // Query-dependent chunk boundaries must not change floating-point replay.
     // Misses always integrate the same canonical event segments from the origin.
-    const start = beforeEvents && target === 0 ? initialBeforeEvents : initial;
+    let start = beforeEvents && target === 0 ? initialBeforeEvents : initial;
+    for(const [tick,snapshot] of canonicalEvents)
+      if(tick>start.tick&&(beforeEvents?tick<target:tick<=target))start=snapshot;
     const current = clone(start);
-    for (const tick of eventTicks) {
-      if (tick <= current.tick) continue;
+    let lo=0,hi=eventTicks.length;
+    while(lo<hi){const mid=(lo+hi)>>>1;if(eventTicks[mid]<=current.tick)lo=mid+1;else hi=mid;}
+    for (let i=lo;i<eventTicks.length;i++) {
+      const tick=eventTicks[i];
       if (tick > target || (beforeEvents && tick === target)) break;
       integrate(current, (tick - current.tick) * HOUR);
       current.tick = tick;
       apply(current);
+      canonicalEvents.delete(tick);canonicalEvents.set(tick,clone(current));
+      while(canonicalEvents.size>MAX_CHECKPOINTS)canonicalEvents.delete(canonicalEvents.keys().next().value!);
     }
     integrate(current, (target - current.tick) * HOUR);
     current.tick = target;

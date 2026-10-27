@@ -27,11 +27,9 @@ test("[SYS-001/A1] canonical roadmap rejects duplicate IDs, missing dependencies
 
 test("[SYS-001/A2] a completed task cannot lack evidence and task-level runner validates", () => {
   const invented = structuredClone(plan);
-  const todo = invented.tasks.find((t: {status:string}) => t.status === "todo");
-  assert.ok(todo);
-  // A todo task may already have an existing focused test (e.g., a partial
-  // PERF-001 implementation). Explicitly construct missing evidence rather
-  // than assuming the first pending task is missing its file.
+  const todo = invented.tasks[0];
+  // Construct missing evidence independently of how many tasks remain. A
+  // completely implemented roadmap must still reject an unevidenced claim.
   todo.verification.testPath = "tests/absent-roadmap-contract-evidence.test.ts";
   todo.verification.command = "pnpm exec tsx --test " + todo.verification.testPath;
   todo.status = "done";
@@ -107,7 +105,7 @@ test("[SYS-001/A1] approved 365-day clock is exact and distinct from legacy hour
   assert.equal(clock.intervalMilliseconds,dayMs);
   assert.equal(clock.firstCheckIndex,1);
   assert.equal(clock.finalCheckIndex,365);
-  assert.match(clock.authority,/migration in progress/i);
+  assert.match(clock.authority,/approved product specification/i);
   assert.match(clock.legacyStatus,/historical/i);
   assert.match(clock.lifePolicy,/30.day/i);
   assert.match(clock.anatomicalState,/A_365/);
@@ -118,8 +116,8 @@ test("[SYS-001/A1] approved 365-day clock is exact and distinct from legacy hour
   assert.equal(checks[364]-birthMs,365*dayMs);
   assert.ok(checks.every((t,i)=>i===0||t-checks[i-1]===dayMs));
   const scheduled=["DEV-007","CARE-004","GAME-002","INT-002","EVAL-004"];
-  for(const id of scheduled) assert.ok(plan.tasks.some((task:{id:string;status:string})=>
-    task.id===id&&task.status!=="done"),"daily migration must not be falsely completed: "+id);
+  for(const id of scheduled) assert.ok(plan.tasks.some((task:{id:string})=>
+    task.id===id),"daily migration must keep its evidenced task identity: "+id);
   const integration=plan.tasks.find((task:{id:string})=>task.id==="INT-002");
   for(const id of ["DEV-007","CARE-004","GAME-002"])
     assert.ok(integration?.dependsOn.includes(id),"live integration requires "+id);

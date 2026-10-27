@@ -49,6 +49,12 @@ export type MaterialEvent = Readonly<{
   createdCellIds: readonly string[];
   removedCellIds: readonly string[];
   sourceCellIds: readonly string[];
+  /** Daily runtime archives creation metadata even after later resorption. */
+  createdCells?: readonly MaterialCell[];
+  checkIndex?: number;
+  atMs?: number;
+  careDigest?: string;
+  genomeFingerprint?: string;
 }>;
 export type MaterialGraph = Readonly<{
   version: 1;

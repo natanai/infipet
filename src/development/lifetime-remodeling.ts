@@ -1,6 +1,5 @@
 /**
- * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY hour-indexed remodeling proposal schedule. The 8192-hour operator ceiling describes the pre-daily implementation, not the approved product lifecycle. The target contract allows physical remodeling only on daily check k=1..365, never between checks or afterward.
- * Historical tests and algorithms remain until the disjoint daily migration lands.
+ * Shared inherited proposal compiler. Daily production interprets proposal coordinates as dimensionless opportunity ticks and commits accepted proposals only at their daily check. The stand-alone hour-named domain is legacy primitive coverage, not permission for fractional anatomical changes.
  */
 /**
  * DEV-004: source-preserving lifetime tissue remodeling.

@@ -1,6 +1,8 @@
 /** Real exported-app interaction tests. Run pnpm build:web, install Chromium,
  * then pnpm test:ui. UI screenshots are layout evidence only. */
 import test from "node:test";
+import {execFileSync} from "node:child_process";
+import {tmpdir} from "node:os";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { readFile, mkdir } from "node:fs/promises";
@@ -519,6 +521,117 @@ try {
     assert.notEqual(replacement.life.game.clock.startedAtMs, identity.birth);
     assert.deepEqual(replacement.life.parts, replacement.parts);
     assert.deepEqual(replacement.life.game.commandHistory, []);
+    await context.close();
+  });
+  await test("daily boundaries, mature checkpoint reopening, damaged-cache recovery and original-save preservation",async()=>{
+    const context=await browser.newContext();const page=await context.newPage();
+    page.on("pageerror",error=>errors.push(error.message));
+    const T=Date.UTC(2026,9,27,12,17,23,456),DAY=86400000;
+    await page.clock.install({time:new Date(T)});
+    await page.goto(url);
+    const canvas=page.getByLabel("Draw your whole pet here",{exact:true});await canvas.waitFor();
+    const box=await canvas.boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
+    await button(page,"Begin life").click();await button(page,"Meal").waitFor();
+    const birth=await saved(page,doc=>!!doc.life);
+    const anchor=birth.life.game.clock.hatchAtMs;
+    const identity=livingIdentity(birth);
+    await page.goto("about:blank");await page.clock.setFixedTime(new Date(anchor+DAY-1));await page.goto(url);await button(page,"Meal").waitFor();
+    const before=await saved(page,doc=>doc.life.game.clock.nowMs>=doc.life.game.clock.hatchAtMs+86400000-1);
+    assert.equal(before.life.anatomicalCheckpoint,undefined,"no physical step before 24 elapsed hours");
+    await page.goto("about:blank");await page.clock.setFixedTime(new Date(anchor+DAY));await page.goto(url);await button(page,"Meal").waitFor();
+    const first=await saved(page,doc=>doc.life.anatomicalCheckpoint?.state.completedChecks===1);
+    assert.equal(first.life.anatomicalCheckpoint.state.checks[0].atMs,anchor+DAY);
+    // A mounted tab returns through the same sliced catch-up path as reopening.
+    await page.evaluate(()=>{Object.defineProperty(document,"visibilityState",{configurable:true,get:()=>"hidden"});document.dispatchEvent(new Event("visibilitychange"));});
+    await page.clock.setFixedTime(new Date(anchor+7*DAY));
+    await page.evaluate(()=>{Object.defineProperty(document,"visibilityState",{configurable:true,get:()=>"visible"});document.dispatchEvent(new Event("visibilitychange"));});
+    const mounted=await saved(page,doc=>doc.life.anatomicalCheckpoint?.state.completedChecks===7);
+    assert.deepEqual(mounted.life.anatomicalCheckpoint.state.checks.map(c=>c.checkIndex),[1,2,3,4,5,6,7]);
+    assert.deepEqual(livingIdentity(mounted),identity);
+
+    await page.goto("about:blank");await page.clock.setFixedTime(new Date(anchor+365*DAY));await page.goto(url);await button(page,"Meal").waitFor();
+    const grown=await saved(page,doc=>doc.life.anatomicalCheckpoint?.state.completedChecks===365);
+    const mature=JSON.stringify(grown.life.anatomicalCheckpoint.state);
+    assert.deepEqual(livingIdentity(grown),identity);
+    await page.goto("about:blank");await page.clock.setFixedTime(new Date(anchor+366*DAY));await page.goto(url);await button(page,"Meal").waitFor();
+    const older=await saved(page,doc=>doc.life.game.clock.nowMs>=doc.life.game.clock.hatchAtMs+366*86400000);
+    assert.equal(JSON.stringify(older.life.anatomicalCheckpoint.state),mature);
+    const broken=JSON.parse(JSON.stringify(older));broken.life.anatomicalCheckpoint.state.graph.cells[0].x+=1;
+    await page.goto("about:blank");
+    await page.addInitScript(raw=>{if(location.protocol!=="http:"&&location.protocol!=="https:")return;if(!sessionStorage.getItem("broken-seeded")){localStorage.setItem("infipet.pet",raw);sessionStorage.setItem("broken-seeded","yes");}},JSON.stringify(broken));
+    await page.goto(url);await button(page,"Meal").waitFor();
+    await page.waitForFunction(x=>JSON.parse(localStorage.getItem("infipet.pet"))?.life?.anatomicalCheckpoint?.state.graph.cells[0].x!==x,broken.life.anatomicalCheckpoint.state.graph.cells[0].x);
+    const repaired=await stored(page);
+    // Inspect after the recovery save rather than trusting a renderer count.
+    assert.equal(JSON.stringify(repaired.life.anatomicalCheckpoint.state),mature);
+    const legacy=JSON.parse(JSON.stringify(birth));delete legacy.life.anatomicalClock;delete legacy.life.anatomicalCheckpoint;delete legacy.life.game.careObservations;
+    const original=JSON.stringify(legacy);
+    await page.goto("about:blank");
+    await page.addInitScript(raw=>{if(location.protocol!=="http:"&&location.protocol!=="https:")return;if(!sessionStorage.getItem("legacy-seeded")){localStorage.setItem("infipet.pet",raw);sessionStorage.setItem("legacy-seeded","yes");}},original);
+    await page.clock.setFixedTime(new Date(anchor+3600000));await page.goto(url);
+    await page.getByText("This earlier saved pet is preserved.",{exact:false}).waitFor();
+    assert.equal(await button(page,"Meal").count(),0,"earlier life is read-only, never a fabricated daily chronology");
+    assert.equal(await page.evaluate(()=>localStorage.getItem("infipet.pet")),original,"original main bytes are unchanged");
+    await openTools(page);await button(page,"Preview player experience").click();
+    assert.equal(await page.getByLabel("Draw your whole pet here",{exact:true}).isVisible(),true,
+      "leaving developer tools returns a preserved earlier life to its original drawing");
+
+    const backup=await page.evaluate(()=>localStorage.getItem(localStorage.getItem("infipet.before-daily-v1")));
+    assert.equal(backup,original,"exact pre-migration bytes survive before replacement");
+    await button(page,"Open more menu").click();await button(page,"Export pet").click();
+    assert.equal(await button(page,"Download original saved pet").isVisible(),true);
+    await button(page,"Close panel").click();await button(page,"Begin life").click();
+    await button(page,"Confirm replacement").click();await button(page,"Meal").waitFor();
+    const replacement=await saved(page,doc=>doc.life.anatomicalClock==="daily-365-v1");
+    assert.deepEqual(replacement.life.parts,identity.parts);
+    assert.notEqual(replacement.life.game.clock.hatchAtMs,anchor,"new life receives a real new birth timestamp");
+    assert.deepEqual(replacement.life.game.commandHistory,[]);
+    assert.equal(replacement.life.anatomicalCheckpoint,undefined,"no invented pre-creation check history");
+    await context.close();
+    const blocked=await browser.newContext(),blockedPage=await blocked.newPage();
+    blockedPage.on("pageerror",error=>errors.push(error.message));
+    await blockedPage.addInitScript(raw=>{
+      if(location.protocol!=="http:"&&location.protocol!=="https:")return;
+      localStorage.setItem("infipet.pet",raw);
+      const originalSet=Storage.prototype.setItem;
+      Storage.prototype.setItem=function(key,value){
+        if(key.startsWith("infipet.before-daily-v1"))throw new Error("Qualification: backup storage unavailable");
+        return originalSet.call(this,key,value);
+      };
+    },original);
+    await blockedPage.goto(url);await blockedPage.getByRole("alert").waitFor();
+    assert.equal(await blockedPage.evaluate(()=>localStorage.getItem("infipet.pet")),original);
+    const pad=blockedPage.getByLabel("Draw your whole pet here",{exact:true});await pad.waitFor();
+    const area=await pad.boundingBox();await blockedPage.mouse.click(area.x+area.width/2,area.y+area.height/2);
+    await button(blockedPage,"Begin life").click();await button(blockedPage,"Meal").waitFor();
+    await blockedPage.getByText("Progress is unsaved.",{exact:false}).waitFor();
+    assert.equal(await blockedPage.evaluate(()=>localStorage.getItem("infipet.pet")),original,
+      "backup failure cannot be bypassed by beginning a new life: exact original main bytes survive");
+    await blocked.close();
+  });
+  await test("healthy 366-day maximum-complexity save persists through IndexedDB and reopens offline",async()=>{
+    const fixture=path.join(tmpdir(),"infipet-year-life-browser.json");
+    execFileSync(process.execPath,["--import","tsx","scripts/create-year-life-fixture.ts",fixture],{stdio:"pipe"});
+    const raw=await readFile(fixture,"utf8"),expected=JSON.parse(raw);
+    assert.ok(raw.length>1500000,"exercise large persistent care and checkpoint storage");
+    const context=await browser.newContext(),page=await context.newPage();
+    page.on("pageerror",error=>errors.push(error.message));
+    await page.clock.install({time:new Date(expected.life.game.clock.nowMs)});
+    await page.goto(url);await button(page,"Open more menu").click();await button(page,"Import pet").click();
+    const choosing=page.waitForEvent("filechooser");await button(page,"Open pet file").click();
+    await (await choosing).setFiles(fixture);await button(page,"Meal").waitFor();
+    await page.waitForFunction(()=>JSON.parse(localStorage.getItem("infipet.pet"))?.storage==="infipet-indexeddb-v1");
+    await page.evaluate(async()=>{await navigator.serviceWorker.ready;});
+    await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
+    await context.setOffline(true);await page.reload();await button(page,"Meal").waitFor();
+    await button(page,"Open more menu").click();await button(page,"Export pet").click();
+    const downloading=page.waitForEvent("download");await button(page,"Download pet file").click();
+    const opened=JSON.parse(await readFile(await (await downloading).path(),"utf8"));
+    assert.deepEqual(livingIdentity(opened),livingIdentity(expected));
+    assert.equal(opened.life.game.dead,false,"healthy biological life continues beyond maturity");
+    assert.equal(opened.life.anatomicalCheckpoint.state.completedChecks,365);
+    assert.deepEqual(opened.life.anatomicalCheckpoint.state.graph,expected.life.anatomicalCheckpoint.state.graph);
+    assert.deepEqual(opened.life.game.commandHistory,expected.life.game.commandHistory);
     await context.close();
   });
   assert.deepEqual(errors, [], "no application runtime errors");

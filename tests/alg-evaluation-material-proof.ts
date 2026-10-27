@@ -64,7 +64,7 @@ const sameRoots=(a:readonly string[],b:readonly string[])=>
   identical([...new Set(a)].sort(),[...new Set(b)].sort());
 const SUPPORTED_CREATION_KINDS=new Set([
   "elongate","branch","bud","expand","remodel","extend","split",
-  "thicken","tip-extension","appendage-extension","surface-expansion",
+  "reinforce","fuse","thicken","tip-extension","appendage-extension","surface-expansion",
 ]);
 
 export function auditPhysicalEvidence(graph?:MaterialGraph,cutoffHour=Infinity):PhysicalEvidence{
@@ -124,7 +124,7 @@ export function auditPhysicalEvidence(graph?:MaterialGraph,cutoffHour=Infinity):
     for(const id of e.createdCellIds){
       if(birth.has(id)||creators.has(id)||preEvent.has(id))
         errors.push(error("recreated-or-resurrected-material",id));
-      const now=active.get(id);
+      const now=e.createdCells?.find(c=>c.id===id)??active.get(id);
       if(now&&now.provenance!=="generated")
         errors.push(error("event-creates-authored-material",id));
       const ancestry=now?.sourceIds??e.sourceCellIds;
@@ -152,6 +152,7 @@ export function auditPhysicalEvidence(graph?:MaterialGraph,cutoffHour=Infinity):
       }
       creators.set(id,{eventId:e.id,kind:e.kind,atHour:e.atHour,roots:ancestry,
         parents:now?.parentCellIds??[]});
+      preEvent.set(id,{roots:ancestry,born:e.atHour});
     }
     for(const id of e.removedCellIds){living.delete(id);removed.add(id);}
     for(const id of e.createdCellIds){

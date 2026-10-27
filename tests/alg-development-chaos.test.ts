@@ -82,7 +82,7 @@ test("[CHAOS/A1] exact cat-map dynamics match a wholly independent modular refer
   assert.throws(() => chaoticTurn(dynamics({ x: 1, y: 1 }, 0.5), 1), /bounds/);
 });
 
-test("[CHAOS/A2] hourly chaotic growth obeys independent integration, positive bounded rate and chronological causality", () => {
+test("[CHAOS/A2] legacy primitive tick integration obeys independent mathematics, positive bounded rate and chronological causality", () => {
   for (const seed of ["single-pixel", "ring", "fork", "empty", "fantasy"]) {
     const chaos = dynamics(seedChaos(seed));
     for (const [start, duration] of [[0, 9], [10.25, 25], [40.5, 42.75], [110, 80]]) {
