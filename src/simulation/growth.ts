@@ -1200,7 +1200,7 @@ export function createSimulation(
       const sourceId=root&&physical.graph.tissues.find(t=>t.id===root.tissueId)?.sourcePartId;
       if(!root||!sourceId)return null;
       const dx=to.x-from.x,dy=to.y-from.y,length=Math.hypot(dx,dy);
-      return {tick:Math.floor(frame.developmentalAge*24),sourceId,
+      return {tick:Math.round(frame.developmentalAge*86400000)/3600000,sourceId,
         materialAnchor:{x:root.x,y:root.y},direction:{x:dx/length,y:dy/length},
         strength:clamp(length/12,0.1,1)};
     },

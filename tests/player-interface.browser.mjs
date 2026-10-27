@@ -572,6 +572,10 @@ try {
     await page.getByText("This earlier saved pet is preserved.",{exact:false}).waitFor();
     assert.equal(await button(page,"Meal").count(),0,"earlier life is read-only, never a fabricated daily chronology");
     assert.equal(await page.evaluate(()=>localStorage.getItem("infipet.pet")),original,"original main bytes are unchanged");
+    await openTools(page);await button(page,"Disable development tools").click();
+    assert.equal(await page.getByLabel("Draw your whole pet here",{exact:true}).isVisible(),true,
+      "leaving developer tools returns a preserved earlier life to its original drawing");
+
     const backup=await page.evaluate(()=>localStorage.getItem(localStorage.getItem("infipet.before-daily-v1")));
     assert.equal(backup,original,"exact pre-migration bytes survive before replacement");
     await button(page,"Open more menu").click();await button(page,"Export pet").click();
@@ -584,6 +588,26 @@ try {
     assert.deepEqual(replacement.life.game.commandHistory,[]);
     assert.equal(replacement.life.anatomicalCheckpoint,undefined,"no invented pre-creation check history");
     await context.close();
+    const blocked=await browser.newContext(),blockedPage=await blocked.newPage();
+    blockedPage.on("pageerror",error=>errors.push(error.message));
+    await blockedPage.addInitScript(raw=>{
+      if(location.protocol!=="http:"&&location.protocol!=="https:")return;
+      localStorage.setItem("infipet.pet",raw);
+      const originalSet=Storage.prototype.setItem;
+      Storage.prototype.setItem=function(key,value){
+        if(key.startsWith("infipet.before-daily-v1"))throw new Error("Qualification: backup storage unavailable");
+        return originalSet.call(this,key,value);
+      };
+    },original);
+    await blockedPage.goto(url);await blockedPage.getByRole("alert").waitFor();
+    assert.equal(await blockedPage.evaluate(()=>localStorage.getItem("infipet.pet")),original);
+    const pad=blockedPage.getByLabel("Draw your whole pet here",{exact:true});await pad.waitFor();
+    const area=await pad.boundingBox();await blockedPage.mouse.click(area.x+area.width/2,area.y+area.height/2);
+    await button(blockedPage,"Begin life").click();await button(blockedPage,"Meal").waitFor();
+    await blockedPage.getByText("Progress is unsaved.",{exact:false}).waitFor();
+    assert.equal(await blockedPage.evaluate(()=>localStorage.getItem("infipet.pet")),original,
+      "backup failure cannot be bypassed by beginning a new life: exact original main bytes survive");
+    await blocked.close();
   });
   await test("healthy 366-day maximum-complexity save persists through IndexedDB and reopens offline",async()=>{
     const fixture=path.join(tmpdir(),"infipet-year-life-browser.json");

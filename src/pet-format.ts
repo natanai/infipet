@@ -10,6 +10,7 @@ import {
 import {
   GROOMING_RULES,
   normalizeGroomTimeline,
+  validGroomTick,
   type GroomStroke,
 } from "./simulation/grooming";
 import {
@@ -299,8 +300,8 @@ function validatedGrooming(value: unknown): GroomStroke[] {
       ])
     )
       return invalid(`${label} contains unsupported fields.`);
-    if (!Number.isSafeInteger(candidate.tick) || (candidate.tick as number) < 0)
-      return invalid(`${label} tick must be a nonnegative safe integer hour.`);
+    if (!validGroomTick(candidate.tick))
+      return invalid(`${label} tick must represent a nonnegative integer millisecond in elapsed hours.`);
     const sourceId = boundedText(candidate.sourceId, `${label} source ID`, 64);
     if (
       !isRecord(candidate.materialAnchor) ||

@@ -950,7 +950,7 @@ export default function App() {
     if (!enabled) {
       setSandbox(false);
       setMotion(true);
-      setView(lifeRef.current ? "live" : "draw");
+      setView(lifeRef.current?.anatomicalClock==="daily-365-v1" ? "live" : "draw");
       setGrooming(false);
       setAction("idle");
       setTarget(null);
@@ -958,6 +958,7 @@ export default function App() {
     }
   };
   const groomStroke = (from: Point, to: Point) => {
+    if(playing&&(commandPending.current||presence.current!=="active"))return;
     const stroke = (playing ? livingSimulation : simulation)?.groomingStrokeAt(
       playing ? liveAge : age,
       from,
@@ -969,13 +970,17 @@ export default function App() {
     }
     const currentLife = lifeRef.current;
     if (playing && currentLife) {
+      const now=Date.now();
+      if(now<currentLife.game.clock.nowMs)return;
+      const advanced=advancePlayerLife(currentLife,now,"active");
       commitLife({
-        ...currentLife,
+        ...advanced,
         groomingTimeline: normalizeGroomTimeline([
           ...currentLife.groomingTimeline,
           {
             ...stroke,
-            id: `groom-${Date.now()}-${currentLife.groomingTimeline.length}`,
+            tick:(now-advanced.game.clock.hatchAtMs)/3600000,
+            id: `groom-${now}-${currentLife.groomingTimeline.length}`,
           },
         ]),
       });

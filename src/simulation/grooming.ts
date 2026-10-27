@@ -1,6 +1,14 @@
 import { clamp, compareText, type PartKind, type Point } from "./model";
 
 /** Developmental hours after birth/hatching; vectors use original source material coordinates. */
+/** Fractional elapsed hours must represent an exact integer-millisecond event.
+ * The tolerance corrects only floating conversion roundoff, never a real
+ * sub-millisecond timestamp. Earlier integer-hour saves remain valid. */
+export function validGroomTick(value:unknown):value is number {
+  if(typeof value!=="number"||!Number.isFinite(value)||value<0)return false;
+  const ms=value*3600000,nearest=Math.round(ms);
+  return Number.isSafeInteger(nearest)&&Math.abs(ms-nearest)<=8*Number.EPSILON*Math.max(1,ms);
+}
 export type GroomStroke = {
   tick: number;
   sourceId: string;
@@ -117,7 +125,7 @@ function contentKey(s: GroomStroke) {
     s.strength,
   ]);
 }
-/** Invalid records are ignored; identical hour/material commands cannot amplify a gesture. */
+/** Invalid records are ignored; identical timestamp/material commands cannot amplify a gesture. */
 export function normalizeGroomTimeline(
   input: readonly GroomStroke[],
 ): GroomStroke[] {
@@ -125,7 +133,7 @@ export function normalizeGroomTimeline(
   for (const raw of Array.isArray(input) ? input : []) {
     if (
       !raw ||
-      !Number.isSafeInteger(raw.tick) ||
+      !validGroomTick(raw.tick) ||
       raw.tick < 0 ||
       typeof raw.sourceId !== "string" ||
       !raw.sourceId.trim() ||
@@ -137,7 +145,7 @@ export function normalizeGroomTimeline(
     )
       continue;
     const stroke: GroomStroke = {
-      tick: raw.tick,
+      tick: Math.round(raw.tick*3600000)/3600000,
       sourceId: raw.sourceId.trim(),
       materialAnchor: {
         x: quantize(clamp(raw.materialAnchor.x, 0, 63), 256),

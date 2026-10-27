@@ -18,6 +18,7 @@ import {checkpointDigest} from "./integration/checkpoint-integrity";
 
 const REVISION_KEY = "infipet.revision";
 const PET_KEY = "infipet.pet";
+let recoveryChecked=false;
 async function readPayload(key:string):Promise<string|null>{
   const raw=await AsyncStorage.getItem(key);
   return raw&&pointedLargeSave(raw,key)?readLargeWebSave(key):raw;
@@ -85,7 +86,9 @@ export function loadEditablePet(): Promise<PetDocument | null> {
   return serial(async () => {
     await ensureRevision();
     const raw = await readPayload(PET_KEY);
-    return raw === null ? null : prepareRawPet(raw,true);
+    const doc=raw===null?null:await prepareRawPet(raw,true);
+    recoveryChecked=true;
+    return doc;
   });
 }
 
@@ -96,6 +99,19 @@ export async function savePet(pet: PetDocument): Promise<void> {
   const raw = encodePet(pet);
   return serial(async () => {
     await ensureRevision();
+    if(!recoveryChecked){
+      // A failed initial backup must not be bypassed by drawing a new pet.
+      // Recheck before the first replacement write; later ordinary saves do
+      // not repeatedly decode a multi-megabyte existing daily document.
+      const original=await readPayload(PET_KEY);
+      if(original!==null){
+        let needsRecovery=false;
+        try{const old=decodePet(original);needsRecovery=!!old.life&&old.life.anatomicalClock!=="daily-365-v1";}
+        catch{needsRecovery=true;}
+        if(needsRecovery)await archiveOriginal(original);
+      }
+      recoveryChecked=true;
+    }
     await writePayload(PET_KEY, raw);
   });
 }

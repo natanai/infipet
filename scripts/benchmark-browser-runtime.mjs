@@ -133,13 +133,21 @@ try{
       "same-day physiology, care and animation cannot change permanent material");
     assert.deepEqual(errors,[],"no runtime exceptions");
     const metrics=await cdp.send("Performance.getMetrics"),heap=metrics.metrics.find(m=>m.name==="JSHeapUsedSize")?.value??null;
+    // Measured Linux headless desktop reference gates. Throttled viewports are
+    // explicitly observational emulation; these are not native-phone budgets.
+    const desktopBudgets={frameGapP95Ms:34,savedReopenMs:3000,savedCareAckP95Ms:1000};
+    if(scenario.cpuRate===1){
+      assert.ok(pct(sample.intervals,.95)<=desktopBudgets.frameGapP95Ms,"desktop frame-gap tail exceeds budget");
+      assert.ok(savedReopenMs<=desktopBudgets.savedReopenMs,"desktop saved-life reopening exceeds budget");
+      assert.ok(pct(careMs,.95)<=desktopBudgets.savedCareAckP95Ms,"desktop care acknowledgement exceeds budget");
+    }
     console.log(JSON.stringify({kind:"browser-qualification",scenario:scenario.name,hour:fixture.hour,
       importMs:+importMs.toFixed(2),savedReopenMs:+savedReopenMs.toFixed(2),
       frameGapMedianMs:pct(sample.intervals,.5),frameGapP95Ms:pct(sample.intervals,.95),frameGapMaxMs:pct(sample.intervals,1),
       careAckMedianMs:pct(careMs,.5),careAckP95Ms:pct(careMs,.95),careAckMaxMs:pct(careMs,1),
       longTaskCount:sample.longTasks.length,longTaskP95Ms:pct(sample.longTasks.map(x=>x.duration),.95),
       jsHeapUsedMiB:heap===null?null:+(heap/1048576).toFixed(2),realPhone:false,
-      interpretation:"180 native RAF gaps and 4 saved care acknowledgements per age; CPU emulation is not device qualification"}));
+      desktopBudgets,interpretation:"180 native RAF gaps and 4 saved care acknowledgements per age; CPU emulation is not device qualification"}));
     await context.close();
   }
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}

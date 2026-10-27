@@ -602,13 +602,13 @@
           "no future environmental sample affects past anatomical state"
         ],
         "limits": {
-          "maxHours": 512,
           "worldCellsPerAxis": 64,
-          "creditsPerHour": 4,
           "maximumSites": 4096,
           "maximumDepth": 5,
           "maximumForksPerSite": 3,
-          "maximumGeneratedCells": 3072
+          "maximumGeneratedCells": 3072,
+          "legacyStandaloneMaxTicks": 8192,
+          "creditsPerTick": 4
         },
         "missingLiveIntegration": "Connected by INT-002 at daily checks. No recorded light data is fabricated; absent measurements remain unknown.",
         "numericalScope": "Hour-named stand-alone APIs and long-domain tests are legacy numerical primitives. Daily production uses tick k as opportunity k, never 24 hidden physical iterations."
@@ -1354,7 +1354,7 @@
         "EVAL-001",
         "INT-002"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1374,14 +1374,18 @@
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/integration/daily-runtime.ts",
+        "src/simulation/growth.ts",
+        "scripts/daily-benchmark.ts",
+        "scripts/benchmark-browser-runtime.mjs",
+        "tests/development-budget.test.ts"
       ],
       "algorithmId": "integration",
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "oldBenchmarks": "Prior dense 720h and 8192h continuous-growth measurements are legacy profiler results, NOT present product requirements",
         "acceptance": "After INT-002, measure due daily checks, a year-long late return, unchanged-between-check display and cached mature-pet play",
-        "evidence": "Both isolated Node acceptance tests pass across sparse, unusual, dense and 15-brush maximum-complexity drawings, real 366-day care, all ten scenarios, exact paired cold graphs, bounded allocation ledgers and invalid-cache recovery.",
+        "evidence": "Both isolated Node acceptance tests pass across sparse, unusual, dense and 15-brush maximum-complexity drawings, real 366-day care, all ten scenarios, exact paired cold graphs, bounded allocation ledgers and invalid-cache recovery. All eight actual Chromium maximum-complexity saved-life scenarios completed and exact original graphs persisted across normal care. Nine exported UI flows pass including offline year-long reopen and mounted catch-up. Final registered gate: 195 functional tests plus two isolated performance tests pass.",
         "referenceEnvironment": "Linux x64 Node v24.22.1; CI Node22. Native phones have not been measured.",
         "budgets": {
           "ordinaryUpdateP95Ms": 33.333333333333336,
@@ -1392,13 +1396,33 @@
           "isolatedRssMiB": 768
         },
         "measuredReference": {
-          "worstOrdinaryP95Ms": 12.87,
+          "worstOrdinaryP95Ms": 18.64,
           "maxColdYearMs": 3529.6,
-          "maxSavedReopenMs": 250.42,
+          "maxSavedReopenMs": 287.39,
           "maxStateBytes": 1599557,
-          "maxIsolatedRssMiB": 412.02
+          "maxIsolatedRssMiB": 537.54
         },
-        "next": "Finish expanded headless Chromium measurements of actual maximum-complexity saved-life import, reopen, native RAF gaps and saved care acknowledgements; then final registered regression and CI gates."
+        "browserReference": {
+          "environment": "Linux headless Chromium153, 1024-cell/15-brush sources at birth/day7/day90/day366; 180 native RAF gaps and four saved care acknowledgements per age. Date shifted to actual recorded histories; performance timers remain native.",
+          "desktop": {
+            "maxReopenMs": 1508.35,
+            "maxFrameGapP95Ms": 16.8,
+            "maxSavedCareAckP95Ms": 238.59
+          },
+          "cpu4xMobileViewportEmulation": {
+            "maxReopenMs": 6856.87,
+            "maxFrameGapP95Ms": 33.3,
+            "maxSavedCareAckP95Ms": 828.83,
+            "maxFrameGapMs": 216.6,
+            "realPhone": false
+          },
+          "desktopBudgets": {
+            "frameGapP95Ms": 34,
+            "savedReopenMs": 3000,
+            "savedCareAckP95Ms": 1000
+          },
+          "limits": "Four acknowledgements are a small tail sample, not population p95. Frame gaps include rendering and saved-state work, not isolated algorithm time. Emulation is observational, not native-device qualification."
+        }
       }
     },
     {
