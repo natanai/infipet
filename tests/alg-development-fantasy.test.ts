@@ -143,6 +143,14 @@ test("[DEV-005/A1] multiple inspirations yield real source-connected material an
   assert.ok(results.some(o=>o.events.some(e=>e.createdCellIds.length>0)));
   assert.ok(results.flatMap(o=>o.events).every(e=>
     e.sourceCellIds.every(s=>sources.has(s))));
+  console.log("DEV-005 structural witness "+JSON.stringify({
+    seed:witness!.genome.seed,atHour,birthActive:birth.cells.length,
+    afterActive:graph.cells.length,speculativeEvents:successful.length,
+    speculativeCreated:created.length,
+    speculativeRemoved:successful.reduce((n,e)=>n+e.removedCellIds.length,0),
+    physicallyActiveSpeculative:created.filter(id=>
+      graph.cells.some(c=>c.id===id)).length,
+  }));
 });
 
 test("[DEV-005/A1] fiction changes physical material versus identical ordinary program",()=>{
@@ -301,6 +309,14 @@ test("[DEV-005/A2] physical suppression blocks forbidden negative space and reco
   assert.ok(ledger.some(d=>d.status==="suppressed" || d.status==="deferred"),
     "a full cavity cannot always be filled by generic material operators");
   assert.ok(ledger.every(d=>d.reason===null || typeof d.reason==="string"));
+  console.log("DEV-005 cavity counterexample "+JSON.stringify({
+    protectedVoids:birth.protectedVoids.length,
+    prevented:ledger.filter(d=>d.status==="suppressed" ||
+      d.status==="deferred").length,
+    reasons:[...new Set(ledger.map(d=>d.reason).filter(Boolean))],
+    occupiedProtectedVoids:state.graph.cells.filter(c=>
+      birth.protectedVoids.includes(c.x+","+c.y)).length,
+  }));
   assert.deepEqual(state.graph.sourceCells,birth.sourceCells);
 });
 
