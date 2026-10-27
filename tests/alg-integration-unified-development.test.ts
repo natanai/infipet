@@ -556,3 +556,178 @@ test("[INT-001/A1] actual fractional remodeling moves a persistent iterative tip
   assert.deepEqual(t.at(0.5),half);
   assert.deepEqual(t.at(0),t.birth());
 });
+
+
+/** Real module programs, but explicit deterministic anatomy instead of opaque
+ * birth-only rendering fixtures. The verification seam cannot alter source
+ * cell identities, source positions, or inherited genotype. */
+function tracedSimulation(ink: ReturnType<typeof drawing>, seed: string,
+  opts: { careGame?: ReturnType<typeof createGame>; remodel?: boolean; care?: boolean } = {}) {
+  let physical!: ActualMaterialProgram;
+  let inherited!: ReturnType<typeof materialInputs>["genome"];
+  let remodeling: LifetimeRemodelingProgram | undefined;
+  const simulation = createSimulation(ink,seed,"infant",{
+    ...(opts.careGame ? { careGame:opts.careGame } : {}),
+    verifyMaterialProgram(base,genome) {
+      inherited=genome;
+      const root=[...base.source.cells].sort((a,b)=>
+        b.x-a.x || Math.abs(a.y-18)-Math.abs(b.y-18))[0];
+      assert.ok(root,"verification drawing must have original ink");
+      const id=root.tissueId+"/int-001-physical-site";
+      const source={...base.source,
+        sites:[{id,tissueId:root.tissueId,rootCellId:root.id,
+          direction:{x:1,y:0}}],
+        tissues:base.source.tissues.map(t=>({...t,
+          growthSiteIds:t.id===root.tissueId?[id]:[]})),
+      };
+      const signals={...base.signals,
+        channels:{...base.signals.channels,
+          maturation:{...base.signals.channels.maturation,plasticity:1},
+          growth:{...base.signals.channels.growth,rate:0.9}}};
+      physical={...base,source,signals,
+        operators:opts.care?[{
+          id:"int-001/care-elongation",tissueId:root.tissueId,siteId:id,
+          kind:"elongate",atHour:0,durationHours:30,strength:1,
+          direction:{x:1,y:0},
+        }]:[],
+        fingerprint:base.fingerprint+"/int-001-render-trace"+
+          (opts.care?"/care":"")};
+      if(opts.remodel){
+        remodeling=compileLifetimeRemodeling(physical,genome,[
+          {id:"verify-resorb",kind:"resorb",tissueId:root.tissueId,
+            atHour:0,durationHours:0.25,units:1,strength:1},
+          {id:"verify-translate",kind:"translate",tissueId:root.tissueId,
+            direction:{x:0,y:1},atHour:0.25,durationHours:0.25,
+            units:1,strength:1},
+        ]);
+      }
+      return {program:physical,...(remodeling?{remodelingProgram:remodeling}:{})};
+    },
+  });
+  return {simulation,program:physical,genome:inherited,remodeling};
+}
+function annotatedPixels(frame: ReturnType<ReturnType<typeof createSimulation>["frameAt"]>) {
+  return frame.parts.flatMap((part: {id:string;pixels:readonly {x:number;y:number;materialCellId?:string;materialSourceIds?:readonly string[];materialParentCellIds?:readonly string[]}[]})=>
+    part.pixels.filter(pixel=>pixel.materialCellId).map(pixel=>({
+      partId:part.id,id:pixel.materialCellId!,x:pixel.x,y:pixel.y,
+      sources:pixel.materialSourceIds,parents:pixel.materialParentCellIds,
+    })));
+}
+test("[INT-001/A2] actual frameAt raster preserves every relocated source ID, resorption and daughter ancestry",()=>{
+  const ink=drawing([".....","..###","..###","..###","....."],"body");
+  const {simulation,program,genome,remodeling}=tracedSimulation(ink,
+    "INT-LIVE-PIXEL-2026",{remodel:true});
+  assert.ok(remodeling);
+  const timeline=createUnifiedMaterialTimeline({program,genome,remodelingProgram:remodeling});
+  const t0=timeline.at(0),r=timeline.at(0.25),shift=timeline.at(0.5),late=timeline.at(8);
+  const removed=t0.graph.cells.filter(c=>!r.graph.cells.some(a=>a.id===c.id));
+  assert.equal(removed.length,1,"one real DEV-004 structural resorption");
+  assert.equal(r.remodeling.attempts.find(a=>a.id==="verify-resorb/unit/1")?.status,
+    "accepted");
+  const moved=shift.graph.cells.filter(c=>c.provenance==="authored");
+  assert.equal(shift.remodeling.attempts.find(a=>a.id==="verify-translate/unit/1")?.status,
+    "accepted");
+  for(const cell of moved){
+    const born=t0.graph.cells.find(c=>c.id===cell.id)!;
+    assert.equal(cell.x,born.x);
+    assert.equal(cell.y,born.y+1,"independent integer-lattice translation oracle");
+  }
+  const generated=late.graph.cells.filter(c=>c.provenance==="generated");
+  assert.ok(generated.length>=2,"real DEV-003 iterative growth must produce active daughters");
+  assert.ok(generated.some(c=>c.parentCellIds.some(parent=>
+    generated.some(other=>other.id===parent))),
+    "chronologically deeper child must descend from a generated parent");
+  const frames=[0.5,1,2,4,8].map(hour=>({
+    hour, frame:simulation.frameAt(hour/24,{action:"idle",time:0}),
+    graph:timeline.at(hour).graph,
+  }));
+  for(const {hour,frame,graph} of frames) {
+    const pixels=annotatedPixels(frame);
+    const active=new Map(graph.cells.map(cell=>[cell.id,cell]));
+    assert.ok(pixels.length>0,"frameAt must expose actual cell-owned visible pixels at "+hour);
+    assert.ok(!pixels.some(p=>removed.some(c=>c.id===p.id)),
+      "resorbed source ink cannot own a visible physical pixel");
+    for(const p of pixels){
+      const owner=active.get(p.id);
+      assert.ok(owner,"displayed physical pixel must cite an active material cell");
+      assert.deepEqual(p.sources,owner!.sourceIds,
+        "displayed cell must cite original immutable source");
+      assert.deepEqual(p.parents,owner!.parentCellIds,
+        "visible ancestry must preserve actual parent-cell IDs");
+      assert.ok(graph.sourceCells.some(c=>owner!.sourceIds.includes(c.id)));
+      assert.ok(!graph.protectedVoids.includes(owner!.x+","+owner!.y),
+        "physical cells cannot occupy protected cavities");
+    }
+    for(const original of moved)
+      assert.ok(pixels.some(p=>p.id===original.id),
+        "each active relocated authored cell must own a visible pixel at "+hour);
+    if(hour>=4)
+      assert.ok(pixels.some(p=>generated.some(c=>c.id===p.id)),
+        "frameAt must render real generated cells rather than merely report them");
+    assert.deepEqual(simulation.frameAt(hour/24,{action:"idle",time:0}),frame);
+  }
+  const last=frames[frames.length-1].frame;
+  const seen=new Set(annotatedPixels(last).map(p=>p.id));
+  assert.ok(generated.some(c=>seen.has(c.id)));
+  assert.deepEqual(late,timeline.replay(8));
+});
+
+test("[INT-001/A3] real saved feeding changes player-visible physical pixels only after causal care",()=>{
+  const seed="CARE-GEOMETRY-527",ink=drawing(["#####","#####","#####"],"body");
+  const birth=12*HOUR;
+  let fed=createGame(seed,"infant",birth);
+  let sparse=createGame(seed,"infant",birth);
+  for(let i=1;i<=30;i++){
+    const at=birth+i*HOUR;
+    fed=advanceGame(fed,at);sparse=advanceGame(sparse,at);
+    if(fed.attention.discipline)fed=commandGame(fed,{type:"discipline"},at,"f-d-"+i);
+    if(sparse.attention.discipline)sparse=commandGame(sparse,{type:"discipline"},at,"s-d-"+i);
+    if(i%8===0){
+      fed=commandGame(fed,{type:"clean"},at,"f-c-"+i);
+      sparse=commandGame(sparse,{type:"clean"},at,"s-c-"+i);
+    }
+    if(!fed.sleeping&&fed.meters.hunger<4)
+      fed=commandGame(fed,{type:"feed",food:"meal"},at,"f-m-"+i);
+    if(i%8===0&&!sparse.sleeping&&sparse.meters.hunger<4)
+      sparse=commandGame(sparse,{type:"feed",food:"meal"},at,"s-m-"+i);
+    if(fed.health.sickness)fed=commandGame(fed,{type:"medicine"},at,"f-med-"+i);
+    if(sparse.health.sickness)sparse=commandGame(sparse,{type:"medicine"},at,"s-med-"+i);
+  }
+  assert.equal(fed.dead,false);assert.equal(sparse.dead,false);
+  const before=tracedSimulation(ink,seed,{careGame:createGame(seed,"infant",birth),care:true});
+  const well=tracedSimulation(ink,seed,{careGame:fed,care:true});
+  const low=tracedSimulation(ink,seed,{careGame:sparse,care:true});
+  assert.deepEqual(well.program.source,low.program.source);
+  assert.equal(well.genome.fingerprint,low.genome.fingerprint);
+  assert.deepEqual(well.simulation.frameAt(0),low.simulation.frameAt(0));
+  const wellHistory=createEnvironmentalHistory(fed);
+  const lowHistory=createEnvironmentalHistory(sparse);
+  const careWell=createCareOperatorChronology(well.program,wellHistory,well.genome.genotype);
+  const careLow=createCareOperatorChronology(low.program,lowHistory,low.genome.genotype);
+  const wellTimeline=createUnifiedMaterialTimeline({program:well.program,genome:well.genome,
+    history:wellHistory,care:careWell});
+  const lowTimeline=createUnifiedMaterialTimeline({program:low.program,genome:low.genome,
+    history:lowHistory,care:careLow});
+  assert.deepEqual(wellTimeline.at(0).graph,lowTimeline.at(0).graph);
+  const ages=[1,2,3,4,6,8,10,12,16,20,24,28,30];
+  const witness=ages.map(hour=>{
+    const fg=wellTimeline.at(hour).graph,lg=lowTimeline.at(hour).graph;
+    const f=well.simulation.frameAt(hour/24,{time:0,action:"idle"});
+    const l=low.simulation.frameAt(hour/24,{time:0,action:"idle"});
+    const visible=(frame:typeof f)=>annotatedPixels(frame)
+      .filter(p=>p.partId.startsWith("material-growth/"))
+      .map(p=>[p.id,p.x,p.y].join(":")).sort();
+    return {hour,actualGraphDifference:JSON.stringify(coords(fg.cells)) !==
+      JSON.stringify(coords(lg.cells)),a:visible(f),b:visible(l)};
+  }).find(x=>x.actualGraphDifference && JSON.stringify(x.a)!==JSON.stringify(x.b));
+  assert.ok(witness,"saved meals must alter material geometry visible in real frameAt pixels");
+  assert.ok(witness!.a.length>0 || witness!.b.length>0);
+  assert.deepEqual(well.simulation.frameAt(0),before.simulation.frameAt(0));
+  assert.deepEqual(low.simulation.frameAt(0),before.simulation.frameAt(0));
+  assert.deepEqual(wellTimeline.at(0).graph,lowTimeline.at(0).graph);
+  assert.deepEqual(wellTimeline.at(3),wellTimeline.replay(3));
+  assert.deepEqual(lowTimeline.at(3),lowTimeline.replay(3));
+  const restored=tracedSimulation(ink,seed,{careGame:JSON.parse(JSON.stringify(fed)),care:true});
+  assert.deepEqual(restored.simulation.frameAt(witness!.hour/24,{time:0,action:"idle"}),
+    well.simulation.frameAt(witness!.hour/24,{time:0,action:"idle"}));
+});
