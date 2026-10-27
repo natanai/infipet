@@ -279,6 +279,7 @@ export function compileSpeculativeMaterialComposition(
   // sourceFingerprint, genomeFingerprint, original operators or birth cells.
   const program: MaterialDevelopmentProgram = {
     ...base,
+    iterativeSeedFingerprint: base.iterativeSeedFingerprint ?? base.fingerprint,
     operators: ops,
     fingerprint: hash(JSON.stringify([
       "speculative-material-v1", base.fingerprint,
