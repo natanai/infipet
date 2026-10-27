@@ -225,6 +225,8 @@ export type SimulationOptions = {
   }>;
   /** Recorded canonical game history, supplying material-operator care effects. */
   careGame?: GameState;
+  /** Test/profiler oracle: force independent from-birth material replay. */
+  reuseLivingMaterial?: boolean;
   needTimeline?: readonly NeedKeyframe[];
   groomingTimeline?: readonly GroomStroke[];
   liveContext?: LiveDevelopmentContext;
