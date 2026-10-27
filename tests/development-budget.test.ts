@@ -468,3 +468,74 @@ test("[PERF-001/A1] adversarial sample, command, timestamp, save identity and ev
   assert.deepEqual(cached.frameAt(6/24,{time:0,action:"idle"}).pixels,
     independent.frameAt(6/24,{time:0,action:"idle"}).pixels);
 });
+
+test("[PERF-001/A2] 256 living updates and cache eviction have hard snapshot-count bounds and independent restoration",()=>{
+  const seed="perf/long-run/sealed",source=named("dense");
+  const build=(parts:PetPart[],s:string,game:ReturnType<typeof createGame>,
+    useReuse=true)=>createSimulation(parts,s,"infant",{
+      careGame:game,needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),reuseLivingMaterial:useReuse,
+    });
+  let game=advanceGame(createGame(seed,"infant",start),
+    start+24*HOUR,"absent");
+  assert.equal(game.dead,false);
+  build(source,seed,game).frameAt(1,{time:0,action:"idle"});
+  const memoryBefore=process.memoryUsage();
+  let transferCount=0;
+  for(let i=1;i<=256;i++){
+    game=advanceGame(game,start+24*HOUR+i*1000,"active");
+    const current=build(source,seed,game);
+    const age=(24*HOUR+i*1000)/(24*HOUR);
+    const actual=current.frameAt(age,{time:0,action:"idle"});
+    const stats=current.getMaterialRuntimeStats!();
+    assert.equal(stats.cold,0,
+      "complete matching historical care must resume instead of reconstructing");
+    assert.ok(stats.imported>0);
+    transferCount+=stats.imported;
+    if(i%32===0){
+      const expected=build(source,seed,game,false)
+        .frameAt(age,{time:0,action:"idle"});
+      assert.deepEqual(actual.pixels,expected.pixels);
+      assert.deepEqual(actual.wellbeing,expected.wellbeing);
+    }
+    const occupancy=getLivingTimelineCacheStats();
+    assert.ok(occupancy.entries<=occupancy.limit);
+    assert.ok(occupancy.checkpoints<=occupancy.maxTotalCheckpoints);
+  }
+  assert.equal(transferCount,256);
+  const restored=structuredClone(game);
+  const afterSave=build(source,seed,restored);
+  const finalAge=(restored.clock.nowMs-restored.clock.startedAtMs)/(24*HOUR);
+  assert.deepEqual(afterSave.frameAt(finalAge,{time:0,action:"idle"}).pixels,
+    build(source,seed,restored,false).frameAt(finalAge,{time:0,action:"idle"}).pixels);
+  assert.ok(afterSave.getMaterialRuntimeStats!().imported>0);
+  // Evict with different permanent organisms; checking seed alone is insufficient.
+  for(let i=0;i<5;i++){
+    const otherSeed="perf/long-run/evict/"+i;
+    const glyph:PetPart[]=[{id:"unfamiliar",name:"Ungrouped ink",kind:"body",
+      parentId:null,position:{x:0,y:0},
+      pixels:Array.from({length:1024},(_,n)=>({x:n%32,y:Math.floor(n/32),
+        color:"#92a6bb"})).filter(p=>
+        (((p.x*31+p.y*17+i*11)^((p.y+2)*13))%9+9)%9<3),
+    }];
+    const other=advanceGame(createGame(otherSeed,"infant",start),
+      start+24*HOUR,"absent");
+    const sim=build(glyph,otherSeed,other);
+    sim.frameAt(1,{time:0,action:"idle"});
+    assert.ok(getLivingTimelineCacheStats().entries<=3);
+  }
+  const evicted=build(source,seed,game);
+  assert.equal(evicted.getMaterialRuntimeStats!().imported,0,
+    "evicted pet must cold-replay, not reuse unrelated saved material");
+  assert.deepEqual(evicted.frameAt(finalAge,{time:0,action:"idle"}).pixels,
+    build(source,seed,game,false).frameAt(finalAge,{time:0,action:"idle"}).pixels);
+  const after=process.memoryUsage();
+  process.stdout.write(JSON.stringify({kind:"PERF-001/A2/living-memory",
+    ticks:256,imports:transferCount,cache:getLivingTimelineCacheStats(),
+    rssBeforeMiB:+(memoryBefore.rss/1048576).toFixed(2),
+    rssAfterMiB:+(after.rss/1048576).toFixed(2),
+    heapAfterMiB:+(after.heapUsed/1048576).toFixed(2),
+    note:"sampled process allocations; hard guarantees are checkpoint/identity counts"
+  })+"\n");
+  assert.ok(after.rss/1048576<768,"runaway process RSS on bounded living cache");
+});
