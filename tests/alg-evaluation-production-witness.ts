@@ -17,6 +17,9 @@ import type { MaterialDevelopmentProgram } from "../src/development";
 import type { InheritedGenome } from "../src/simulation/genome";
 import type { StageSample, RenderWitness } from "./alg-evaluation-trajectory-metrics";
 import { auditPhysicalEvidence, auditRenderedOwnership } from "./alg-evaluation-material-proof";
+import { createEnvironmentalHistory, createCareOperatorChronology } from "../src/environment";
+import { deriveCareTimeline, deriveDevelopmentContext, validateGameState,
+  type GameState } from "../src/gameplay";
 
 type Authenticated = Readonly<{ snapshot: string; programFingerprint: string; seed: string }>;
 const authenticated = new WeakMap<object, Authenticated>();
@@ -41,6 +44,8 @@ export type ProductionWitness = Readonly<{
     generatedCells:number; graphEvents:number; genuinelyVerifiedStages:number;
   }>;
   limitations: readonly string[];
+  careEvidence?: Readonly<{commandCount:number;sampleCount:number;
+    stageCount:number;maxHour:number;accepted:number;rejected:number}>;
 }>;
 type RuntimeQuad = Readonly<{ partId:string;cellId:string;quad:readonly {x:number;y:number}[] }>;
 const identical=(left:unknown,right:unknown)=>JSON.stringify(left)===JSON.stringify(right);
@@ -51,14 +56,29 @@ const copy=(parts:readonly PetPart[]):PetPart[]=>parts.map(p=>({
 /** Numbers are hours since hatching. Production frame age is hour/24 days. */
 export function buildProductionTrajectoryWitness(
   authored:readonly PetPart[],seed:string,hours:readonly number[],
-  options: Readonly<{renderScope?:"physical-material"|"composited-screen"}> = {},
+  options: Readonly<{renderScope?:"physical-material"|"composited-screen";
+    careGame?:GameState}> = {},
 ):ProductionWitness{
   if(!seed||!hours.length||hours.length>16||
      hours.some(h=>!Number.isFinite(h)||h<0))
     throw new RangeError("Invalid seed or milestone hours");
+  const careGame=options.careGame;
+  if(careGame){
+    validateGameState(careGame);
+    if(careGame.seed!==seed||careGame.mode!=="infant")
+      throw new TypeError("Recorded care does not belong to birth seed and infant mode");
+    const maxRequested=Math.max(...hours);
+    if(careGame.clock.nowMs<careGame.clock.hatchAtMs+maxRequested*3_600_000)
+      throw new RangeError("Recorded care cannot extrapolate to an unobserved future stage");
+  }
   let program:MaterialDevelopmentProgram|undefined;
   let genome:InheritedGenome|undefined;
   const sim=createSimulation(copy(authored),seed,"infant",{
+    ...(careGame?{
+      careGame,
+      needTimeline:deriveCareTimeline(careGame),
+      liveContext:deriveDevelopmentContext(careGame),
+    }:{}),
     verifyMaterialProgram:(canonical,inherited)=>{
       program=canonical;genome=inherited;
       return {program:canonical}; // no edits to the actual compiled program
@@ -69,8 +89,12 @@ export function buildProductionTrajectoryWitness(
   const inherited=genome as InheritedGenome;
   if(physical.genomeFingerprint!==inherited.genotype.fingerprint)
     throw new TypeError("Birth genotype differs from development program");
-  const primary=createUnifiedMaterialTimeline({program:physical,genome:inherited});
-  const independent=createUnifiedMaterialTimeline({program:physical,genome:inherited});
+  const history=careGame?createEnvironmentalHistory(careGame):undefined;
+  const care=history?createCareOperatorChronology(physical,history,inherited.genotype):undefined;
+  const chronology={program:physical,genome:inherited,
+    ...(history&&care?{history,care}:{})};
+  const primary=createUnifiedMaterialTimeline(chronology);
+  const independent=createUnifiedMaterialTimeline(chronology);
   const birth=primary.birth().graph;
   if(!identical(birth,independent.replay(0).graph)||
      !identical(birth,physical.source))
@@ -137,5 +161,14 @@ export function buildProductionTrajectoryWitness(
     genomeFingerprint:inherited.genotype.fingerprint,
     sourceFingerprint:physical.source.sourceFingerprint,seed,
     counts:{stages:samples.length,materialPixels,annotatedPixels,
-      generatedCells,graphEvents,genuinelyVerifiedStages:verified},limitations};
+      generatedCells,graphEvents,genuinelyVerifiedStages:verified},limitations,
+    ...(careGame&&history?{careEvidence:{
+      commandCount:history.commands.length,
+      sampleCount:history.samples.length,
+      stageCount:careGame.stageCommitments.length,
+      maxHour:history.maxHour,
+      accepted:history.commands.filter(c=>c.accepted).length,
+      rejected:history.commands.filter(c=>!c.accepted).length,
+    }}:{}),
+  };
 }
