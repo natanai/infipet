@@ -127,7 +127,6 @@ export function createReusedLivingTimeline(args:Readonly<{
         JSON.stringify(prior.history.atHour(s.atHour-1))===
           JSON.stringify(history.atHour(s.atHour-1))
       ));
-    if(states.length) transfers++;
   } else {
     if(prior)rejections++;
     coldStarts++;
@@ -137,6 +136,7 @@ export function createReusedLivingTimeline(args:Readonly<{
     timeline=createUnifiedMaterialTimeline({
       program,genome,care,history,remodelingProgram,canonicalStates:states,
     });
+    if(states.length)transfers++;
   } catch(error) {
     // A stale or externally mutated checkpoint must NEVER crash the actual
     // player. Fail closed to the independently reconstructible birth state.
