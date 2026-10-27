@@ -489,6 +489,8 @@ test("[INT-001/A3] genuine saved care changes physiological expression without c
   assert.deepEqual(a.at(0).graph,b.at(0).graph);
   assert.deepEqual(a.at(0).iterative,b.at(0).iterative);
   assert.deepEqual(a.at(0).material,b.at(0).material);
+  assert.notDeepEqual(coords(a.at(12).graph.cells),coords(b.at(12).graph.cells),
+    "real saved feeding histories must yield measurably different physical cell geometry");
   assert.deepEqual(a.at(12),a.replay(12));
   assert.deepEqual(b.at(12),b.replay(12));
   assert.deepEqual(a.at(3),a.replay(3));
