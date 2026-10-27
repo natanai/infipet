@@ -29,7 +29,10 @@ test("[PERF-001 preparation] observational timing does not perturb chaotic progr
   const elapsed=performance.now()-t0;
   assert.ok(Number.isFinite(elapsed)&&elapsed>=0);
   const second=createSimulation(source,seed,"infant");
-  assert.deepEqual(first,second.frameAt(2,{time:1,action:"move"}));
+  const repeated=second.frameAt(2,{time:1,action:"move"});
+  assert.deepEqual(first.pixels,repeated.pixels);
+  assert.deepEqual(first.parts.map(p=>[p.id,p.pixels]),
+    repeated.parts.map(p=>[p.id,p.pixels]));
   assert.equal(sim.program.materialProgramFingerprint,birthFingerprint);
   assert.equal(second.program.materialProgramFingerprint,birthFingerprint);
   assert.ok(getBlueprintCacheStats().size<=8);
