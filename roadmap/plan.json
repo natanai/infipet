@@ -729,7 +729,7 @@
         "DEV-004",
         "DEV-005"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -751,7 +751,32 @@
       "implementationPaths": [
         "src/simulation"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "purpose": "Verify physical material continuity and structural diversity of one authored organism across independently generated cohort shapes and permanent seeds",
+        "inputDomain": "20 deterministic arbitrary-ink shapes; 2 seeds per shape; fractional chronology through 72 h, two 720 h histories and one 2880 h midlife history",
+        "exports": [
+          "tests/development-quality.test.ts numerical physical cohort report"
+        ],
+        "metrics": [
+          "exact painted pixels and source-part identity",
+          "8-connected occupancy components",
+          "4-connected protected cavities",
+          "occupied bounding extents and aspect",
+          "attachment/fusion degree",
+          "growth site and branch counts",
+          "original-cell ancestry",
+          "physical geometry and topology distinct from pigmentation"
+        ],
+        "invariants": [
+          "every live generated cell has valid original-source ancestry, physical parent and a chronological creation witness",
+          "source ink metadata is immutable even when physical positions change",
+          "rejected operations create no cells or phantom relationships",
+          "out-of-order query and independent replay preserve earlier graphs",
+          "future care and future inspiration operations do not alter past anatomy"
+        ],
+        "result": "20/20 exact birth draws; 0 observed birth mismatches; 20 distinct birth structures, 39 distinct h72 structures, 38/40 physically changed lifetimes, 2 honest null effects; 120-day witness retains provenance"
+      }
     },
     {
       "id": "CARE-001",
@@ -893,7 +918,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1112,7 +1137,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
