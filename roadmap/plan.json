@@ -1026,7 +1026,7 @@
         "CARE-002",
         "MOT-001"
       ],
-      "status": "blocked",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -1052,42 +1052,54 @@
       },
       "implementationPaths": [
         "src/integration/chronological-material.ts",
+        "src/integration/unified-runtime.ts",
+        "src/integration/functional-material.ts",
         "src/simulation/growth.ts"
       ],
       "algorithmId": "integration",
       "interfaceContract": {
         "exports": [
-          "evaluateChronologicalMaterial",
-          "compareChronologicalEvents",
-          "validateChronologicalGraph"
+          "createUnifiedMaterialTimeline",
+          "chaosWeightedCareHours",
+          "cumulativeChaosCareExpression",
+          "evaluateChronologicalMaterial"
         ],
-        "mode": "blocked-incremental-handoff",
-        "blockerIssue": 16,
-        "chronology": "Hours since hatching. Care recorded at t applies to subsequent intervals. Original material and iterative completions at t, then remodeling transitions at t, then care boundaries at t; IDs lexical within equal kind/time.",
+        "inputs": [
+          "SourceAtlas original cells and material program",
+          "permanent seeded InheritedGenome",
+          "care chronicle compiled from saved GameState",
+          "persistent module-specific original/iterative/remodel ledgers"
+        ],
+        "outputs": [
+          "one active shared MaterialGraph",
+          "checkpointed deterministic replay",
+          "visibly remodeled authored and generated anatomy",
+          "locomotor topology derived from active material"
+        ],
+        "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
+        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
-          "A transition reads and replaces the SAME MaterialGraph and returns its changed module state; independent full-body snapshots are not composable",
-          "SourceCells/sourceFingerprint/protectedVoids immutable; active generated cells cite sourceIds and operatorId",
-          "Active material links must resolve to live tissue endpoints; rejected conflicts are atomic",
-          "No future care/events read before time; no clamping beyond DEV-003's 512-hour contract"
+          "Material graph and module state share a single birth fingerprint/genotype",
+          "No cumulative from-birth snapshots overlaid",
+          "Physical units stamped at deterministic thresholds, never arbitrary frame-query cutoff",
+          "Suppression ledgers can advance without partially committing matter",
+          "Future care and remodeling cannot rewrite previous states",
+          "Cache checkpoints pure-equivalent to from-birth replay"
         ],
         "limits": {
-          "maxHour": 8192,
-          "iterativeHourlyDomain": 512,
-          "maxEvents": 65536,
-          "maxAddedCells": 3072,
+          "maxHours": 8192,
+          "maxCheckpoints": 16,
+          "checkpointIntervalHours": 24,
+          "materialCellsAddedMax": 3072,
           "world": 64
         },
-        "blockers": [
-          "CARE-002/DEV-002 cumulative material operators lack a validated per-interval mutation/replay contract",
-          "DEV-003 iterativeGrowthAt accepts birth program, not current graph and persistent site-orbit state",
-          "DEV-004 lifetimeRemodelingAt accepts birth graph, not the current graph and one atomic fractional transition",
-          "DEV-003 supplies no explicit post-512-hour policy; live pet can exceed 512 hours"
+        "remainingVerification": [
+          "Prove exact visual pixel mapping for relocated/resorbed authored material and deep generated branches in actual frameAt",
+          "Verify web export, full-life first-query wall-clock and allocation limits",
+          "Complete saved GameState counterfactual and reconstruction tests",
+          "Run green CI on final branch head before marking done"
         ],
-        "remainingWork": [
-          "Connect verified incremental DEV/CARE interfaces after handoff",
-          "Use unified state for all active authored/generated cell mapping and removal, physical attachments and motion",
-          "Prove actual frameAt/save/care counterfactuals, numeric limits, pnpm test and pnpm build:web"
-        ]
+        "blockerIssue": null
       }
     },
     {
