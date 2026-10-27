@@ -113,11 +113,20 @@ export function createReusedLivingTimeline(args:Readonly<{
     const cutoff=earliestAdded(prior,evidence,history);
     // Pressure equality defends against future-dependent implementations
     // accidentally introduced into EnvironmentalHistory in future releases.
+    const newEvidenceAppended =
+      evidence.samples.length!==prior.evidence.samples.length ||
+      evidence.commands.length!==prior.evidence.commands.length;
     states=prior.timeline.exportCanonicalStates(cutoff).filter(s=>
-      JSON.stringify(prior.history.atHour(s.atHour))===
-        JSON.stringify(history.atHour(s.atHour)) &&
-      JSON.stringify(prior.history.atHour(s.atHour-1))===
-        JSON.stringify(history.atHour(s.atHour-1)));
+      // With no new record, the byte-identical historical prefix is a
+      // complete witness of equal EnvironmentPressure on [0, old.maxHour].
+      // This is the overwhelmingly common one-second physiological tick.
+      // New commands/samples additionally compare both boundary pressures.
+      !newEvidenceAppended || (
+        JSON.stringify(prior.history.atHour(s.atHour))===
+          JSON.stringify(history.atHour(s.atHour)) &&
+        JSON.stringify(prior.history.atHour(s.atHour-1))===
+          JSON.stringify(history.atHour(s.atHour-1))
+      ));
     if(states.length) transfers++;
   } else {
     if(prior)rejections++;
