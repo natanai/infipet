@@ -241,10 +241,13 @@ test("[EVAL-003/A2] bounded actual historical reference search publishes exact n
   }));
   const search=searchRecordedCareWitness({
     source:birthDrawing,birthAtMs:birth,searchSeed:"retro-path-v1",
-    references:targets,seeds:1,strategies:["maintain"],budget:1,
+    references:targets,seeds:2,strategies:["maintain","meals"],budget:4,
   });
-  assert.equal(search.examined,1);
+  assert.equal(search.examined,4);
+  assert.equal(search.candidates.length,4);
   assert.ok(search.best,"bounded search must preserve a complete exact replayable best witness");
+  assert.deepEqual(search.best.witness.care.stageCommitments.map(s=>s.atHour),
+    [0,1,49,121],"developmental gates come from genuine gameplay chronology");
   assert.equal(search.best.result.stages.length,4);
   assert.equal(search.searchStatus,"unresolved");
   assert.ok(search.best.result.stages.every(s=>s.shapeScore!==null));
@@ -255,11 +258,14 @@ test("[EVAL-003/A2] bounded actual historical reference search publishes exact n
     createRecordedCareWitness({
       source:search.best.witness.source,seed:search.best.witness.permanentSeed,
       birthAtMs:birth,steps:search.best.witness.chronologicalSteps,
-      stages:hours,searchSeed:"retro-path-v1",enumerationIndex:0,
-      strategy:"maintain",
+      stages:hours,searchSeed:"retro-path-v1",
+      enumerationIndex:search.best.specification.index,
+      strategy:search.best.specification.strategy,
     }).production.samples.map(s=>s.graph));
   console.info("EVAL-003 SEARCH "+JSON.stringify({
     budget:search.budget,examined:search.examined,status:search.searchStatus,
+    candidateRankings:search.candidates,
+    incomplete:search.incompleteCandidates,
     seed:search.best.specification.permanentSeed,
     strategy:search.best.specification.strategy,
     commands:search.best.witness.care.commandHistory.length,
