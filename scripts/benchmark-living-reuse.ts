@@ -148,7 +148,8 @@ for(const shape of ["sparse","complex","dense"] as const){
     assert.deepEqual(reused.frame.pixels,cold.frame.pixels);
     assert.ok(reused.stats.imported>0);
     assert.equal(reused.stats.cold,0);
-    assert.ok(cold.stats.cold>0);
+    assert.equal(cold.stats.imported,0,
+      "independent comparison must never import material checkpoints");
     paired.push({cold:cold.ms,warm:reused.ms,
       imports:reused.stats.imported,fromBirth:cold.stats.cold});
   }
@@ -205,8 +206,9 @@ for(const hour of [24,720] as const)for(const shape of ["sparse","complex","dens
     const lastRun=i%2?sample(true):sample(false);
     const cached=i%2?lastRun:firstRun,reference=i%2?firstRun:lastRun;
     assert.deepEqual(cached.frame.pixels,reference.frame.pixels);
-    assert.ok(cached.stats.imported>0);
-    assert.ok(reference.stats.cold>0);
+    assert.equal(reference.stats.imported,0,
+      "cold reference must never import checkpoints");
+    if(cached.stats.imported>0)assert.equal(cached.stats.cold,0);
     before.push(reference.ms);after.push(cached.ms);
     imported+=cached.stats.imported;cold+=reference.stats.cold;
   }
@@ -261,8 +263,9 @@ for(const scenario of [
     const b=n%2===0?sample(false):sample(true);
     const reused=n%2===0?a:b,reference=n%2===0?b:a;
     assert.deepEqual(reused.frame.pixels,reference.frame.pixels);
-    assert.ok(reused.stats.imported>0);
-    assert.ok(reference.stats.cold>0);
+    assert.equal(reference.stats.imported,0,
+      "cold care-command reference must never import checkpoints");
+    if(reused.stats.imported>0)assert.equal(reused.stats.cold,0);
     cold.push(reference.ms);warm.push(reused.ms);
   }
   const summary=(samples:number[])=>{
