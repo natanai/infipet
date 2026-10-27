@@ -466,7 +466,7 @@ test("[INT-001/A3] saved traditional-care histories reconstruct the exact same l
 test("[INT-001/A3] genuine saved care changes physiological expression without changing genome or birth",()=>{
   const seed="CARE-GEOMETRY-527";
   const {program,genome}=realProgram(["####","####","####"],seed,"elongate",30);
-  const birth=11*HOUR;
+  const birth=12*HOUR;
   let fed=createGame(seed,"infant",birth);
   let unfed=createGame(seed,"infant",birth);
   for(let i=1;i<=30;i++) {
