@@ -17,7 +17,7 @@ const dense32=Array.from({length:32},(_,y)=>
     x>=12&&x<=19&&y>=12&&y<=19 ? "." : "#").join(""));
 let program: MaterialDevelopmentProgram | undefined;
 let inherited: InheritedGenome | undefined;
-const benchmark=(label:string,task:()=>unknown)=>{
+const benchmark=<T>(label:string,task:()=>T): {result:T;elapsedMs:number}=>{
   const before=process.memoryUsage();
   const start=performance.now();
   const result=task();
