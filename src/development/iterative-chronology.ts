@@ -1,4 +1,8 @@
 /**
+ * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY hourly physical stepper, retained temporarily for backward comparison. Approved physical-development contract is 365 checks at hatchAtMs+k*86400000 only; this module must be replaced/adapted by DEV-007 and INT-002, not extended to 8760 hourly mutations.
+ * Historical tests and algorithms remain until the disjoint daily migration lands.
+ */
+/**
  * Composable DEV-003 hourly transaction for the ONE authoritative organism.
  *
  * Global order for each integer completion hour n+1:
