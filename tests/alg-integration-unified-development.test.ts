@@ -148,10 +148,10 @@ test("[INT-001/A1] conflicts defer atomically with a stable unchanged material s
   const collision: ChronologicalProposal<State> = {
     id: "collide", kind: "remodel-transition", atHour: 1,
     apply(graph, context) {
-      if (graph.cells.some(c => c.x === 11 && c.y === 10))
+      if (graph.cells.some(c => c.x === 11 && c.y === 11))
         return { accepted: false, reason: "occupied", graph, context };
       return { accepted: true, graph: { ...graph, cells: [...graph.cells,
-        { ...source("collider", 11, 10), provenance: "generated",
+        { ...source("collider", 11, 11), provenance: "generated",
           sourceIds: ["ink/2"], parentCellIds: ["ink/2"], operationId: "collide" }] },
         context };
     },
