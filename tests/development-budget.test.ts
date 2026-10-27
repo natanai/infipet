@@ -432,7 +432,6 @@ test("[PERF-001/A1] adversarial sample, command, timestamp, save identity and ev
   };
   const corruptions:Array<(game:typeof baseline)=>void>=[
     s=>{s.careSamples[0].values[0]=1-s.careSamples[0].values[0];},
-    s=>{s.careSamples[0].hour+=1;},
     s=>{s.commandHistory[0]={...s.commandHistory[0],id:"id/collision"};},
     s=>{s.commandHistory[0]={...s.commandHistory[0],
       atMs:s.commandHistory[0].atMs+1000};},
@@ -457,8 +456,13 @@ test("[PERF-001/A1] adversarial sample, command, timestamp, save identity and ev
   altered.commandHistory.reverse();
   assert.throws(()=>make(altered),/Invalid or unordered care command record/);
   makeWarm();
+  const brokenSample=structuredClone(baseline);
+  brokenSample.careSamples[0].hour=brokenSample.careSamples[1]?.hour??1;
+  assert.throws(()=>make(brokenSample),/Invalid or unordered physiological sample/);
+  makeWarm();
   const otherSave=structuredClone(baseline);
   otherSave.clock.hatchAtMs+=1000;
+  otherSave.clock.nowMs+=1000;
   const cached=make(otherSave),independent=make(otherSave,false);
   assert.equal(cached.getMaterialRuntimeStats!().imported,0);
   assert.deepEqual(cached.frameAt(6/24,{time:0,action:"idle"}).pixels,
