@@ -50,6 +50,8 @@ import { PixelIcon } from "./src/components/PixelIcon";
 import { PartInfo } from "./src/components/PartInfo";
 import Slider from "./src/components/TimelineSlider";
 import { PartPalette } from "./src/components/PartPalette";
+import { DevelopmentPanel } from "./src/components/DevelopmentPanel";
+import { developmentLayout } from "./src/interface/development-layout";
 import { PRESET_COLORS } from "./src/palette";
 import { publishWidget } from "./src/widget";
 import {
@@ -79,14 +81,12 @@ import {
 } from "./src/seed-variation";
 
 type Sheet =
-  | "development"
   | "confirm"
   | "info"
   | "color"
   | "more"
   | "share"
   | "import"
-  | "widget"
   | "name"
   | "about"
   | "feelings"
@@ -206,7 +206,9 @@ export default function App() {
     message: string;
     accept: () => void;
   } | null>(null);
-  const [timeOpen, setTimeOpen] = useState(false);
+  const [devEnabled, setDevEnabled] = useState(false);
+  const devSession = useRef(0);
+  const devEnabledRef = useRef(false);
   const [time, setTime] = useState(0);
   const [action, setAction] = useState<PetAction>("idle");
   const [target, setTarget] = useState<Point | null>(null);
@@ -227,7 +229,6 @@ export default function App() {
   const [groomUndo, setGroomUndo] = useState<GroomStroke[][]>([]);
   const [groomRedo, setGroomRedo] = useState<GroomStroke[][]>([]);
   const [needPreview, setNeedPreview] = useState<NeedKeyframe[] | null>(null);
-  const [labOpen, setLabOpen] = useState(false);
   const [timeExtent, setTimeExtent] = useState(240);
   const [labIdentity, setLabIdentity] = useState(0);
   const [rerollBusy, setRerollBusy] = useState(false);
@@ -241,27 +242,15 @@ export default function App() {
   const [settling, setSettling] = useState(false);
   const commandPending = useRef(false);
   const deathSeen = useRef<string | null>(null);
-  const playing = view === "live" && !sandbox && !!life;
-  const wideLab = view === "live" && labOpen && width >= 900;
+  const playing = view === "live" && (!devEnabled || !sandbox) && !!life;
+  const layout = developmentLayout(width, devEnabled);
   const size = Math.floor(
     Math.min(
-      width - 48,
-      wideLab
-        ? Math.max(260, height - 220)
-        : labOpen && view === "live"
-          ? Math.max(250, height - 650)
-          : Math.max(
-              160,
-              height - (view === "draw" ? 420 : timeOpen ? 430 : 250),
-            ),
-      view === "draw" ? 400 : wideLab ? 440 : 520,
+      layout.playerWidth - 48,
+      Math.max(160, height - (view === "draw" ? 420 : 250)),
+      view === "draw" ? 400 : 520,
     ),
   );
-  const controlsWidth = wideLab
-    ? 360
-    : labOpen
-      ? Math.min(width - 24, 544)
-      : size + 24;
   const simulation = useMemo(
     () =>
       createSimulation(parts, seed, mode, {
@@ -282,14 +271,14 @@ export default function App() {
   // the actual living pet during normal play.
   const previewFrame = useMemo(
     () =>
-      playing
+      playing && !devEnabled
         ? null
         : simulation.frameAt(age, {
             time,
             action,
             ...(target ? { target } : {}),
           }),
-    [playing, simulation, age, time, action, target],
+    [playing, devEnabled, simulation, age, time, action, target],
   );
   // Build only from the native saved-life evidence. Each accepted care command
   // invalidates this memo immediately; time is not approximated or bucketed.
@@ -498,7 +487,7 @@ export default function App() {
     return () => clearInterval(timer);
   }, [motion, view]);
   useEffect(() => {
-    if (!growing || view !== "live") return;
+    if (!growing || view !== "live" || !devEnabled) return;
     const timer = setInterval(
       () =>
         setAge((a) => {
@@ -508,7 +497,7 @@ export default function App() {
       100,
     );
     return () => clearInterval(timer);
-  }, [growing, view, speed]);
+  }, [growing, view, speed, devEnabled]);
   useEffect(() => {
     if (view === "draw") setGrowing(false);
   }, [view]);
@@ -639,7 +628,6 @@ export default function App() {
     setTimeExtent(DEFAULT_PREVIEW_DAYS);
     setNeedPreview(null);
     setLabIdentity((value) => value + 1);
-    setLabOpen(false);
     setMode("infant");
     setParts(preset ? clonePreset(preset.id) : []);
     setKind("body");
@@ -653,7 +641,6 @@ export default function App() {
     setBornAt(Date.now());
     resetPreview();
     setView("draw");
-    setTimeOpen(false);
     setSheet(null);
     setSandbox(true);
   };
@@ -665,8 +652,6 @@ export default function App() {
     if (!lifeRef.current) return;
     setView("live");
     setSandbox(false);
-    setLabOpen(false);
-    setTimeOpen(false);
     setMotion(true);
     setGrooming(false);
     setNeedPreview(null);
@@ -693,8 +678,6 @@ export default function App() {
     latest.current.writable = true;
     setView("live");
     setSandbox(false);
-    setLabOpen(false);
-    setTimeOpen(false);
     setAction("idle");
     setTarget(null);
     setTime(0);
@@ -734,7 +717,8 @@ export default function App() {
       setSettling(false);
     }
   };
-  const act = (next: PetAction) => {
+  const act = (next: PetAction, preview = false) => {
+    if (preview) openLab();
     setGrooming(false);
     setAction(next);
     setView("live");
@@ -743,7 +727,7 @@ export default function App() {
     setTarget(null);
     if (next === "play") {
       const resting =
-        playing && livingSimulation
+        !preview && playing && livingSimulation
           ? livingSimulation.frameAt(liveAge)
           : simulation.frameAt(age);
       const part =
@@ -770,7 +754,6 @@ export default function App() {
     setGroomRedo([]);
     setNeedPreview(null);
     setLabIdentity((value) => value + 1);
-    setLabOpen(false);
     setParts(doc.parts);
     setMode(doc.mode);
     setName(doc.name);
@@ -790,16 +773,15 @@ export default function App() {
   };
   const open = (next: Sheet) => {
     if (next === "name") setNameInput(playing && life ? life.name : name);
-    if (next === "development") setSeedInput(seed);
     if (next === "import") {
       setImportError("");
       setImportInput("");
     }
     if (next === "share") setShowCode(false);
-    if (next === "widget") setWidgetMessage("");
     setSheet(next);
   };
   const changeSeed = (next: string) => {
+    if (!devEnabledRef.current) return;
     setSandbox(true);
     const nextSimulation = createSimulation(parts, next, mode, {
       needTimeline,
@@ -828,6 +810,7 @@ export default function App() {
     setGrowing(false);
     setRerollBusy(true);
     const captured = { parts, seed, mode, needTimeline, groomingTimeline };
+    const session = devSession.current;
     try {
       const result = await findSeedVariation({
         current: createSimulation(parts, seed, mode, {
@@ -843,6 +826,8 @@ export default function App() {
       });
       const current = latest.current.document;
       if (
+        !devEnabledRef.current ||
+        session !== devSession.current ||
         current.parts !== captured.parts ||
         current.seed !== captured.seed ||
         current.mode !== captured.mode ||
@@ -862,12 +847,31 @@ export default function App() {
     }
   };
   const openLab = () => {
+    if (!devEnabledRef.current) return;
     setSandbox(true);
     setView("live");
-    setTimeOpen(true);
-    setLabOpen(true);
+    setGrooming(false);
     setGrowing(false);
     setSheet(null);
+  };
+  const toggleDevelopment = () => {
+    const enabled = !devEnabledRef.current;
+    devEnabledRef.current = enabled;
+    devSession.current++;
+    setDevEnabled(enabled);
+    setSeedInput(seed);
+    setGrowing(false);
+    setNeedPreview(null);
+    setSheet(null);
+    if (!enabled) {
+      setSandbox(false);
+      setMotion(true);
+      setView(lifeRef.current ? "live" : "draw");
+      setGrooming(false);
+      setAction("idle");
+      setTarget(null);
+      setTime(0);
+    }
   };
   const groomStroke = (from: Point, to: Point) => {
     const stroke = (playing ? livingSimulation : simulation)?.groomingStrokeAt(
@@ -906,9 +910,10 @@ export default function App() {
     setNotice("Stroke recorded. Scrub forward to see its influence.");
   };
   const seekDevelopmentalDay = () => {
+    if (!devEnabledRef.current) return;
     const value = Number(dayInput);
     if (!Number.isFinite(value)) return;
-    setGrowing(false);
+    openLab();
     setAge(
       simulation.hatchAt +
         Math.max(0, Math.min(MAX_SIMULATION_DAYS, Math.round(value * 24) / 24)),
@@ -970,14 +975,12 @@ export default function App() {
           }
       : null;
   const sheetTitles: Record<Exclude<Sheet, null>, string> = {
-    development: "Development Tools",
     confirm: "Replace living pet?",
     info: PART_LABELS[kind],
     color: "Color",
     more: "More",
     share: "Share a little life",
     import: "Welcome a pet",
-    widget: "A little window",
     name: "A name",
     about: "About Infipet",
     feelings: "A little check-in",
@@ -994,25 +997,25 @@ export default function App() {
       <SafeAreaView style={styles.root}>
         <StatusBar style="light" />
         <ScrollView
-          contentContainerStyle={styles.page}
-          aria-hidden={sheet !== null}
-          accessibilityElementsHidden={sheet !== null}
-          importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
+          style={{ marginLeft: layout.playerOffset }}
+          contentContainerStyle={[
+            styles.page,
+            { paddingTop: layout.desktop ? 40 : 52 },
+          ]}
+          aria-hidden={sheet !== null || (devEnabled && !layout.desktop)}
+          accessibilityElementsHidden={
+            sheet !== null || (devEnabled && !layout.desktop)
+          }
+          importantForAccessibility={
+            sheet || (devEnabled && !layout.desktop)
+              ? "no-hide-descendants"
+              : "auto"
+          }
           keyboardShouldPersistTaps="handled"
         >
-          <View style={[styles.workbench, wideLab && styles.wideWorkbench]}>
+          <View style={styles.workbench}>
             <View style={styles.creatureColumn}>
-              <View
-                style={[
-                  styles.header,
-                  {
-                    width:
-                      labOpen && view === "live" && !wideLab
-                        ? controlsWidth
-                        : size + 24,
-                  },
-                ]}
-              >
+              <View style={[styles.header, { width: size + 24 }]}>
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="Rename pet"
@@ -1048,22 +1051,6 @@ export default function App() {
                   </>
                 )}
               </View>
-              {view === "live" && sandbox && (
-                <View
-                  style={[
-                    styles.between,
-                    { width: size + 24, marginBottom: 10 },
-                  ]}
-                >
-                  <Text style={s.bright}>Development Tools</Text>
-                  <Button
-                    label="Open Development Tools"
-                    onPress={() => open("development")}
-                  >
-                    Tools
-                  </Button>
-                </View>
-              )}
               <View style={[styles.device, { width: size + 24 }]}>
                 <View style={styles.nav}>
                   {(
@@ -1093,8 +1080,6 @@ export default function App() {
                           : item.value === "draw"
                             ? (setSandbox(true),
                               setView("draw"),
-                              setLabOpen(false),
-                              setTimeOpen(false),
                               setNeedPreview(null))
                             : live()
                       }
@@ -1192,55 +1177,7 @@ export default function App() {
                       />
                     </>
                   ) : (
-                    <>
-                      {(
-                        [
-                          { value: "idle", icon: "idle", label: "Rest" },
-                          {
-                            value: "move",
-                            icon: "move",
-                            label: "Go exploring",
-                          },
-                          { value: "play", icon: "play", label: "Play ball" },
-                          { value: "greet", icon: "greet", label: "Say hello" },
-                        ] as const
-                      ).map((a) => (
-                        <IconButton
-                          key={a.value}
-                          icon={a.icon}
-                          label={a.label}
-                          selected={action === a.value}
-                          disabled={
-                            a.value === "idle"
-                              ? !frame.pixels.length
-                              : a.value === "move"
-                                ? !frame.capabilities.canMove
-                                : a.value === "play"
-                                  ? !frame.capabilities.canPlay
-                                  : !frame.capabilities.canGreet
-                          }
-                          onPress={() => act(a.value)}
-                        />
-                      ))}
-                      <IconButton
-                        icon="groom"
-                        label="Groom your pet"
-                        selected={grooming}
-                        disabled={!frame.pixels.length || frame.stage === "egg"}
-                        onPress={() => {
-                          setGrooming(!grooming);
-                          if (!grooming)
-                            setNotice(
-                              "Stroke toward a tip or back toward its root. Changes develop over days.",
-                            );
-                          setAction("idle");
-                          setTime(0);
-                          setMotion(false);
-                          setGrowing(false);
-                          setTarget(null);
-                        }}
-                      />
-                    </>
+                    <Text style={s.muted}>Development preview</Text>
                   )}
                 </View>
                 {view === "draw" ? (
@@ -1313,48 +1250,6 @@ export default function App() {
                       }}
                       onStroke={groomStroke}
                     />
-                    {view === "live" && grooming && !playing && (
-                      <View style={styles.wrap}>
-                        <Text style={s.muted}>
-                          Groom · {groomingTimeline.length}{" "}
-                          {groomingTimeline.length === 1 ? "stroke" : "strokes"}
-                        </Text>
-                        <Button
-                          label="Undo grooming stroke"
-                          disabled={!groomUndo.length}
-                          onPress={() => {
-                            const previous = groomUndo.at(-1);
-                            if (!previous) return;
-                            setGroomRedo((h) => [
-                              ...h.slice(-39),
-                              groomingTimeline,
-                            ]);
-                            setGroomUndo((h) => h.slice(0, -1));
-                            setGroomingTimeline(previous);
-                            setWritable(true);
-                          }}
-                        >
-                          Undo
-                        </Button>
-                        <Button
-                          label="Redo grooming stroke"
-                          disabled={!groomRedo.length}
-                          onPress={() => {
-                            const next = groomRedo.at(-1);
-                            if (!next) return;
-                            setGroomUndo((h) => [
-                              ...h.slice(-39),
-                              groomingTimeline,
-                            ]);
-                            setGroomRedo((h) => h.slice(0, -1));
-                            setGroomingTimeline(next);
-                            setWritable(true);
-                          }}
-                        >
-                          Redo
-                        </Button>
-                      </View>
-                    )}
                   </View>
                 ) : (
                   <View
@@ -1466,51 +1361,191 @@ export default function App() {
                 )}
               </View>
             </View>
-            <View
+          </View>
+          {!!saveError && (
+            <Text
+              accessibilityRole="alert"
               style={[
-                styles.controlsColumn,
-                {
-                  width: controlsWidth,
-                  display:
-                    view === "live" && (timeOpen || labOpen) ? "flex" : "none",
-                },
+                s.text,
+                { width: size + 24, color: T.warning, marginTop: 12 },
               ]}
             >
-              {view === "live" && timeOpen && (
-                <View style={[styles.drawer, { width: controlsWidth }]}>
+              {saveError}
+            </Text>
+          )}
+          {!!notice && (
+            <Text
+              accessibilityLiveRegion="polite"
+              style={[s.muted, { width: size + 24, marginTop: 12 }]}
+            >
+              {notice}
+            </Text>
+          )}
+        </ScrollView>
+        <DevelopmentPanel
+          enabled={devEnabled}
+          onToggle={toggleDevelopment}
+          layout={layout}
+          obscured={sheet !== null}
+        >
+          {devEnabled && (
+            <>
+              <Text style={s.muted}>
+                Preview tools use the drawing draft. Your living pet keeps its
+                original drawing, seed and care history.
+              </Text>
+              <View style={styles.row}>
+                <TextInput
+                  accessibilityLabel="Growth seed"
+                  value={seedInput}
+                  onChangeText={(v) => setSeedInput(clean(v))}
+                  maxLength={128}
+                  style={[s.input, { flex: 1 }]}
+                  autoCorrect={false}
+                />
+                <Button
+                  label="Apply seed"
+                  disabled={!seedInput.trim() || rerollBusy}
+                  onPress={() => changeSeed(seedInput.trim())}
+                >
+                  Set
+                </Button>
+                <Button
+                  label="Randomize seed"
+                  disabled={rerollBusy}
+                  onPress={() => void reroll()}
+                >
+                  {rerollBusy ? "..." : "Reroll"}
+                </Button>
+              </View>
+              <Button
+                label="Open growth timeline and diagnostics"
+                onPress={openLab}
+              >
+                Preview drawing
+              </Button>
+              <View style={styles.wrap}>
+                <>
+                  {(
+                    [
+                      { value: "idle", icon: "idle", label: "Rest" },
+                      {
+                        value: "move",
+                        icon: "move",
+                        label: "Go exploring",
+                      },
+                      { value: "play", icon: "play", label: "Play ball" },
+                      { value: "greet", icon: "greet", label: "Say hello" },
+                    ] as const
+                  ).map((a) => (
+                    <IconButton
+                      key={a.value}
+                      icon={a.icon}
+                      label={a.label}
+                      selected={!playing && action === a.value}
+                      disabled={
+                        a.value === "idle"
+                          ? !previewFrame!.pixels.length
+                          : a.value === "move"
+                            ? !previewFrame!.capabilities.canMove
+                            : a.value === "play"
+                              ? !previewFrame!.capabilities.canPlay
+                              : !previewFrame!.capabilities.canGreet
+                      }
+                      onPress={() => act(a.value, true)}
+                    />
+                  ))}
+                  <IconButton
+                    icon="groom"
+                    label="Groom your pet"
+                    selected={grooming}
+                    disabled={
+                      !previewFrame!.pixels.length ||
+                      previewFrame!.stage === "egg"
+                    }
+                    onPress={() => {
+                      openLab();
+                      setGrooming(!grooming);
+                      if (!grooming)
+                        setNotice(
+                          "Stroke toward a tip or back toward its root. Changes develop over days.",
+                        );
+                      setAction("idle");
+                      setTime(0);
+                      setMotion(false);
+                      setGrowing(false);
+                      setTarget(null);
+                    }}
+                  />
+                </>
+              </View>
+              {view === "live" && grooming && !playing && (
+                <View style={styles.wrap}>
+                  <Text style={s.muted}>
+                    Groom · {groomingTimeline.length}{" "}
+                    {groomingTimeline.length === 1 ? "stroke" : "strokes"}
+                  </Text>
+                  <Button
+                    label="Undo grooming stroke"
+                    disabled={!groomUndo.length}
+                    onPress={() => {
+                      const previous = groomUndo.at(-1);
+                      if (!previous) return;
+                      setGroomRedo((h) => [...h.slice(-39), groomingTimeline]);
+                      setGroomUndo((h) => h.slice(0, -1));
+                      setGroomingTimeline(previous);
+                      setWritable(true);
+                    }}
+                  >
+                    Undo
+                  </Button>
+                  <Button
+                    label="Redo grooming stroke"
+                    disabled={!groomRedo.length}
+                    onPress={() => {
+                      const next = groomRedo.at(-1);
+                      if (!next) return;
+                      setGroomUndo((h) => [...h.slice(-39), groomingTimeline]);
+                      setGroomRedo((h) => h.slice(0, -1));
+                      setGroomingTimeline(next);
+                      setWritable(true);
+                    }}
+                  >
+                    Redo
+                  </Button>
+                </View>
+              )}
+              {devEnabled && (
+                <View style={styles.drawer}>
                   <View style={styles.between}>
                     <Text style={s.bright}>Growth preview</Text>
-                    {labOpen ? (
-                      <View style={styles.row}>
-                        <Text style={s.muted}>Age (days)</Text>
-                        <TextInput
-                          accessibilityLabel="Preview developmental day"
-                          value={dayInput}
-                          onChangeText={setDayInput}
-                          keyboardType="decimal-pad"
-                          selectTextOnFocus
-                          style={[s.input, { width: 68, paddingVertical: 2 }]}
-                          onSubmitEditing={seekDevelopmentalDay}
-                          onBlur={seekDevelopmentalDay}
-                        />
-                      </View>
-                    ) : (
-                      <Text style={s.muted}>Day {age.toFixed(1)}</Text>
-                    )}
+                    <View style={styles.row}>
+                      <Text style={s.muted}>Age (days)</Text>
+                      <TextInput
+                        accessibilityLabel="Preview developmental day"
+                        value={dayInput}
+                        onChangeText={setDayInput}
+                        keyboardType="decimal-pad"
+                        selectTextOnFocus
+                        style={[s.input, { width: 68, paddingVertical: 2 }]}
+                        onSubmitEditing={seekDevelopmentalDay}
+                        onBlur={seekDevelopmentalDay}
+                      />
+                    </View>
                   </View>
                   <Slider
                     accessibilityLabel="Growth timeline"
                     minimumValue={0}
                     maximumValue={timelineEnd}
-                    step={labOpen ? 1 / 24 : 0.1}
+                    step={1 / 24}
                     value={age}
-                    onSlidingStart={() => setGrowing(false)}
+                    onSlidingStart={openLab}
                     onValueChange={(v) => {
-                      setGrowing(false);
+                      openLab();
                       setAge(
-                        timelineEnd - v < (labOpen ? 1 / 24 : 0.1) + 0.000001
+                        timelineEnd - v < 1 / 24 + 0.000001
                           ? timelineEnd
-                          : labOpen && v >= simulation.hatchAt
+                          : v >= simulation.hatchAt
                             ? simulation.hatchAt +
                               Math.round((v - simulation.hatchAt) * 24) / 24
                             : v,
@@ -1521,7 +1556,7 @@ export default function App() {
                     maximumTrackTintColor={T.line}
                     thumbTintColor={T.bright}
                   />
-                  {(!labOpen || wideLab) && (
+                  {devEnabled && (
                     <View style={styles.wrap}>
                       {simulation.milestones.map((m) => (
                         <Button
@@ -1529,7 +1564,7 @@ export default function App() {
                           label={`View ${m.stage}`}
                           selected={Math.abs(age - m.age) < 0.1}
                           onPress={() => {
-                            setGrowing(false);
+                            openLab();
                             setAge(m.age);
                           }}
                         >
@@ -1538,10 +1573,11 @@ export default function App() {
                       ))}
                     </View>
                   )}
-                  <View style={styles.row}>
+                  <View style={styles.wrap}>
                     <Button
                       label={growing ? "Pause growth" : "Play growth"}
                       onPress={() => {
+                        openLab();
                         setGrowing(!growing);
                       }}
                     >
@@ -1575,69 +1611,74 @@ export default function App() {
                   </View>
                 </View>
               )}
-              <View style={{ display: labOpen ? "flex" : "none", gap: 10 }}>
-                <View style={styles.between}>
-                  <Text
-                    numberOfLines={1}
-                    style={[s.muted, { flex: 1, marginRight: 8 }]}
-                  >
-                    Seed {seed}
-                  </Text>
+
+              <NeedsLab
+                embedded
+                key={labIdentity}
+                resetKey={labIdentity}
+                timeline={needTimeline}
+                age={age}
+                hatchAt={simulation.hatchAt}
+                wellbeing={previewFrame!.wellbeing}
+                development={previewFrame!.evolution}
+                onChange={(next) => {
+                  openLab();
+                  setNeedTimeline(next);
+                  setNeedPreview(null);
+                  setWritable(true);
+                }}
+                onPreview={setNeedPreview}
+                onPause={() => setGrowing(false)}
+                onSeek={(next) => {
+                  openLab();
+                  setAge(next);
+                }}
+                onClose={() => {
+                  setNeedPreview(null);
+                  if (lifeRef.current) live();
+                  else setView("draw");
+                }}
+              />
+              <Button label="Home Screen widget" onPress={() => void widget()}>
+                Publish Home Screen widget
+              </Button>
+              {!!widgetMessage && (
+                <Text accessibilityLiveRegion="polite" style={s.muted}>
+                  {widgetMessage}
+                </Text>
+              )}
+              <Button label="New empty drawing" onPress={() => start()}>
+                New empty drawing
+              </Button>
+              <Text style={s.bright}>Testing presets · 12 drawings</Text>
+              <Text style={s.muted}>
+                Loads an editable draft with a fixed seed. Begin life commits
+                it.
+              </Text>
+              <View style={styles.wrap}>
+                {STARTER_PRESETS.map((preset) => (
                   <Button
-                    label="Reroll under the same conditions"
-                    disabled={rerollBusy}
-                    onPress={() => void reroll()}
+                    key={preset.id}
+                    label={`Load ${preset.name} preset`}
+                    style={styles.presetChoice}
+                    onPress={() => start(preset.id)}
                   >
-                    {rerollBusy ? "Comparing..." : "Reroll"}
+                    <View style={styles.presetContent}>
+                      <PetPixels
+                        pixels={presetThumbnails.get(preset.id)!}
+                        size={72}
+                        gridSize={DRAW_SIZE}
+                      />
+                      <Text style={[s.text, styles.presetName]}>
+                        {preset.name}
+                      </Text>
+                    </View>
                   </Button>
-                </View>
-                <NeedsLab
-                  key={labIdentity}
-                  resetKey={labIdentity}
-                  timeline={needTimeline}
-                  age={age}
-                  hatchAt={simulation.hatchAt}
-                  wellbeing={frame.wellbeing}
-                  development={frame.evolution}
-                  onChange={(next) => {
-                    setNeedTimeline(next);
-                    setNeedPreview(null);
-                    setWritable(true);
-                  }}
-                  onPreview={setNeedPreview}
-                  onPause={() => setGrowing(false)}
-                  onSeek={(next) => {
-                    setGrowing(false);
-                    setAge(next);
-                  }}
-                  onClose={() => {
-                    setLabOpen(false);
-                    setNeedPreview(null);
-                  }}
-                />
+                ))}
               </View>
-            </View>
-          </View>
-          {!!saveError && (
-            <Text
-              accessibilityRole="alert"
-              style={[
-                s.text,
-                { width: size + 24, color: T.warning, marginTop: 12 },
-              ]}
-            >
-              {saveError}
-            </Text>
+            </>
           )}
-          {!!notice && (
-            <Text
-              accessibilityLiveRegion="polite"
-              style={[s.muted, { width: size + 24, marginTop: 12 }]}
-            >
-              {notice}
-            </Text>
-          )}
-        </ScrollView>
+        </DevelopmentPanel>
         <Modal
           visible={sheet !== null}
           transparent
@@ -1711,12 +1752,6 @@ export default function App() {
                         Name
                       </Button>
                     </View>
-                    <Button
-                      label="Open Development Tools"
-                      onPress={() => open("development")}
-                    >
-                      Development Tools
-                    </Button>
                     <Button label="About" onPress={() => open("about")}>
                       About
                     </Button>
@@ -1745,79 +1780,6 @@ export default function App() {
                     >
                       Replace pet
                     </Button>
-                  </>
-                )}
-                {sheet === "development" && (
-                  <>
-                    <Text style={s.muted}>
-                      Preview tools use the drawing draft. Your living pet keeps
-                      its original drawing, seed and care history.
-                    </Text>
-                    <View style={styles.row}>
-                      <TextInput
-                        accessibilityLabel="Growth seed"
-                        value={seedInput}
-                        onChangeText={(v) => setSeedInput(clean(v))}
-                        maxLength={128}
-                        style={[s.input, { flex: 1 }]}
-                        autoCorrect={false}
-                      />
-                      <Button
-                        label="Apply seed"
-                        disabled={!seedInput.trim() || rerollBusy}
-                        onPress={() => changeSeed(seedInput.trim())}
-                      >
-                        Set
-                      </Button>
-                      <Button
-                        label="Randomize seed"
-                        disabled={rerollBusy}
-                        onPress={() => void reroll()}
-                      >
-                        {rerollBusy ? "..." : "Reroll"}
-                      </Button>
-                    </View>
-                    <Button
-                      label="Open growth timeline and diagnostics"
-                      onPress={openLab}
-                    >
-                      Growth timeline & care experiments
-                    </Button>
-                    <Button
-                      label="Home Screen widget"
-                      onPress={() => open("widget")}
-                    >
-                      Home Screen widget
-                    </Button>
-                    <Button label="New empty drawing" onPress={() => start()}>
-                      New empty drawing
-                    </Button>
-                    <Text style={s.bright}>Testing presets · 12 drawings</Text>
-                    <Text style={s.muted}>
-                      Loads an editable draft with a fixed seed. Begin life
-                      commits it.
-                    </Text>
-                    <View style={styles.wrap}>
-                      {STARTER_PRESETS.map((preset) => (
-                        <Button
-                          key={preset.id}
-                          label={`Load ${preset.name} preset`}
-                          style={styles.presetChoice}
-                          onPress={() => start(preset.id)}
-                        >
-                          <View style={styles.presetContent}>
-                            <PetPixels
-                              pixels={presetThumbnails.get(preset.id)!}
-                              size={72}
-                              gridSize={DRAW_SIZE}
-                            />
-                            <Text style={[s.text, styles.presetName]}>
-                              {preset.name}
-                            </Text>
-                          </View>
-                        </Button>
-                      ))}
-                    </View>
                   </>
                 )}
                 {sheet === "name" && (
@@ -1934,35 +1896,6 @@ export default function App() {
                     </Button>
                   </>
                 )}
-                {sheet === "widget" && (
-                  <>
-                    <View style={{ alignItems: "center" }}>
-                      <PetPixels
-                        pixels={frame.pixels}
-                        size={200}
-                        gridSize={WORLD_SIZE}
-                      />
-                    </View>
-                    <Text style={s.muted}>
-                      This moment, close by. The lab clock stays paused while
-                      you are away.
-                    </Text>
-                    <Button
-                      label="Publish iOS widget"
-                      onPress={() => void widget()}
-                    >
-                      Send to Home Screen
-                    </Button>
-                    {!!widgetMessage && (
-                      <Text accessibilityLiveRegion="polite" style={s.text}>
-                        {widgetMessage}
-                      </Text>
-                    )}
-                    <Text style={s.muted}>
-                      Requires a signed iOS development build.
-                    </Text>
-                  </>
-                )}
                 {sheet === "about" && (
                   <>
                     <Text style={s.text}>
@@ -2013,9 +1946,7 @@ const styles = StyleSheet.create({
     paddingBottom: 22,
   },
   workbench: { alignItems: "center" },
-  wideWorkbench: { flexDirection: "row", alignItems: "flex-start", gap: 20 },
   creatureColumn: { alignItems: "center" },
-  controlsColumn: { gap: 12 },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -2061,6 +1992,8 @@ const styles = StyleSheet.create({
   presetContent: { alignItems: "center", gap: 6 },
   presetName: { fontSize: 15, textAlign: "center" },
   between: {
+    flexWrap: "wrap",
+    gap: 8,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

@@ -202,7 +202,7 @@ test("[GAME-001/A1/A2] actual player UI does not demand taxonomy, and keeps lab 
   assert.ok(app.includes('createSimulation(life.parts, life.seed, life.mode'));
   assert.ok(app.includes('careGame: life.game'));
   assert.ok(app.includes('previewFrame = useMemo('));
-  assert.match(app, /playing\s*\? null\s*:/);
+  assert.match(app, /playing(?:\s*&& !devEnabled)?\s*\? null\s*:/);
   assert.ok(app.includes('onCommand={(command) => void careCommand(command)}'));
   assert.ok(app.includes('setSandbox(true)'));
   assert.doesNotMatch(storage,/multiRemove|removeItem/);

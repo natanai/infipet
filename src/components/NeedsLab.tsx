@@ -28,6 +28,7 @@ export type NeedsLabProps = {
   onPause: () => void;
   onClose: () => void;
   resetKey?: number;
+  embedded?: boolean;
 };
 
 const clone = (timeline: NeedKeyframe[]) =>
@@ -202,16 +203,18 @@ export function NeedsLab(props: NeedsLabProps) {
     >
       <View style={[s.row, { justifyContent: "space-between" }]}>
         <Text style={s.bright}>NEEDS LAB</Text>
-        <Command
-          label="Close Needs Lab"
-          style={{ paddingVertical: 5 }}
-          onPress={() => {
-            cancelPreview();
-            onClose();
-          }}
-        >
-          [CLOSE]
-        </Command>
+        {!props.embedded && (
+          <Command
+            label="Close Needs Lab"
+            style={{ paddingVertical: 5 }}
+            onPress={() => {
+              cancelPreview();
+              onClose();
+            }}
+          >
+            [CLOSE]
+          </Command>
+        )}
       </View>
       {incubating && (
         <Text style={[s.text, { color: T.warning }]}>
