@@ -13,7 +13,7 @@ import { cpus,platform,arch } from "node:os";
 import { createSimulation } from "../src/simulation";
 import { createGame, advanceGame, commandGame, HOUR,
   deriveCareTimeline, deriveDevelopmentContext } from "../src/gameplay";
-import { getLivingTimelineCacheStats } from "../src/integration/living-timeline";
+import { getLivingTimelineCacheStats, getLivingTimelinePhaseStats } from "../src/integration/living-timeline";
 import type { PetPart } from "../src/simulation/model";
 
 const start=1_800_000_000_000;
@@ -47,7 +47,9 @@ for(const shape of ["sparse","complex","dense"] as const){
   const warm=create(game,true);
   warm.frameAt(2/24,{time:0,action:"idle"});
   const results:{coldMs:number;reuseMs:number;compileColdMs:number;
-    compileReuseMs:number;reconstructs:number;imports:number}[]=[];
+    compileReuseMs:number;reconstructs:number;imports:number;
+    evidenceMs:number;remodelingMs:number;prefixMs:number;
+    transferMs:number;timelineMs:number}[]=[];
   for(let i=1;i<=8;i++){
     game=advanceGame(game,start+2*HOUR+i*1000,"active");
     const age=(game.clock.nowMs-game.clock.startedAtMs)/(24*HOUR);
@@ -55,9 +57,10 @@ for(const shape of ["sparse","complex","dense"] as const){
       const startCompile=performance.now();
       const sim=create(game,reuse);
       const compileMs=performance.now()-startCompile;
+      const phases=reuse?getLivingTimelinePhaseStats():null;
       const frame=sim.frameAt(age,{time:0,action:"idle"});
       return {ms:performance.now()-startCompile,compileMs,
-        frame,stats:sim.getMaterialRuntimeStats!()};
+        phases,frame,stats:sim.getMaterialRuntimeStats!()};
     };
     // Alternate order to reduce one-sided JIT/GC bias.
     const first=i%2===0 ? run(true):run(false);
@@ -71,7 +74,12 @@ for(const shape of ["sparse","complex","dense"] as const){
       compileColdMs:independent.compileMs,
       compileReuseMs:faster.compileMs,
       reconstructs:independent.stats.cold,
-      imports:faster.stats.imported});
+      imports:faster.stats.imported,
+      evidenceMs:faster.phases?.evidenceMs??0,
+      remodelingMs:faster.phases?.remodelingMs??0,
+      prefixMs:faster.phases?.prefixMs??0,
+      transferMs:faster.phases?.transferMs??0,
+      timelineMs:faster.phases?.timelineMs??0});
   }
   const sorted=(key:keyof typeof results[number])=>
     results.map(x=>x[key]).sort((a,b)=>a-b);
@@ -84,6 +92,11 @@ for(const shape of ["sparse","complex","dense"] as const){
     speedup:+(median("coldMs")/median("reuseMs")).toFixed(2),
     coldCompilationMedianMs:median("compileColdMs"),
     reuseCompilationMedianMs:median("compileReuseMs"),
+    cachePhasesMedianMs:{
+      evidence:median("evidenceMs"),remodeling:median("remodelingMs"),
+      prefix:median("prefixMs"),transfer:median("transferMs"),
+      timeline:median("timelineMs"),
+    },
     coldReconstructionCount:results.reduce((n,r)=>n+r.reconstructs,0),
     importedCanonicalStates:results.reduce((n,r)=>n+r.imports,0),
     coldRangeMs:[sorted("coldMs")[0],sorted("coldMs").at(-1)],
