@@ -96,13 +96,10 @@ function canonical(points:readonly InkPoint[]):InkPoint[] {
   }
   const result=sorted([...unique.values()]);
   if(result.length) {
-    const w=result.reduce((v,p)=>Math.max(v,p.x),-Infinity)-result[0].x;
-    // Exact minX is independent of y-first sort.
     const xs=result.map(p=>p.x),ys=result.map(p=>p.y);
     if(Math.max(...xs)-Math.min(...xs)+1>EVALUATION_LIMITS.maxWidth||
        Math.max(...ys)-Math.min(...ys)+1>EVALUATION_LIMITS.maxHeight)
       throw new RangeError("drawing bounds exceed evaluator limits");
-    void w;
   }
   return result;
 }
@@ -178,8 +175,8 @@ function thin(points:readonly InkPoint[]):InkPoint[] {
       const remove:string[]=[];
       for(const p of points){
         if(!active.has(key(p)))continue;
-        const n=look(p.x,p.y),total=n.reduce((a,b)=>a+b,0);
-        const crossing=n.reduce((a,b,i)=>a+(!b&&n[(i+1)%8]?1:0),0);
+        const n=look(p.x,p.y),total=n.reduce<number>((a,b)=>a+b,0);
+        const crossing=n.reduce<number>((a,b,i)=>a+(!b&&n[(i+1)%8]?1:0),0);
         if(total<2||total>6||crossing!==1)continue;
         const [N,,E,,S,,W]=n;
         if(phase===0?(N*E*S===0&&E*S*W===0):(N*E*W===0&&N*S*W===0))
@@ -199,7 +196,7 @@ function topology(points:readonly InkPoint[]) {
     const n=[
       [0,-1],[1,-1],[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1]
     ].map(([dx,dy])=>set.has((p.x+dx)+","+(p.y+dy))?1:0);
-    const cn=n.reduce((a,b,i)=>a+(!b&&n[(i+1)%8]?1:0),0);
+    const cn=n.reduce<number>((a,b,i)=>a+(!b&&n[(i+1)%8]?1:0),0);
     if(cn===1)endpoints++;
     if(cn>=3)junctionPoints.push(p);
   }
