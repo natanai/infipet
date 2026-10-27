@@ -95,6 +95,14 @@ try{
       };
       requestAnimationFrame(loop);
     }));
+    // App commits GameState every 1s but intentionally persists the save
+    // every 5s. Do not mistake a shorter localStorage read for a stopped
+    // biological clock: wait for the actual persisted checkpoint separately
+    // from the 180-frame rendering observation.
+    await page.waitForFunction(previous=>{
+      const life=JSON.parse(localStorage.getItem("infipet.pet")||"null")?.life;
+      return life && life.game.clock.nowMs>previous;
+    },before,{timeout:20000});
     const after=await page.evaluate(()=>
       JSON.parse(localStorage.getItem("infipet.pet")).life.game.clock.nowMs);
     const metrics=await cdp.send("Performance.getMetrics");
