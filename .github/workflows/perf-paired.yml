@@ -8,6 +8,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: perf-paired-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   paired:
     runs-on: ubuntu-latest
