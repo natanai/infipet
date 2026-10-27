@@ -893,7 +893,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -941,7 +941,7 @@
       "dependsOn": [
         "DEV-006"
       ],
-      "status": "todo",
+      "status": "blocked",
       "acceptance": [
         {
           "id": "A1",
@@ -961,9 +961,31 @@
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "tests"
+        "tests/alg-evaluation-trajectory-metrics.ts",
+        "tests/retro-trajectory-score.test.ts"
       ],
-      "algorithmId": "evaluation"
+      "algorithmId": "evaluation",
+      "interfaceContract": {
+        "role": "Independent reference benchmark and falsification only; never generator input.",
+        "inputs": [
+          "Explicit generated pixel positions per hour",
+          "immutable externally curated reference milestone pixels",
+          "optional authoritative MaterialGraph per age"
+        ],
+        "outputs": [
+          "Stage overlap/shape/topology numeric scores",
+          "Material ancestry audit",
+          "Whole-lifetime aggregate, minimum stage, and pass/fail/unresolved"
+        ],
+        "limits": {
+          "resolution": 32,
+          "maxUniqueCells": 4096,
+          "maxSpan": 128,
+          "maxStages": 16
+        },
+        "dependencyBlocker": "DEV-006 must pass and merge, followed by focused acceptance against its actual developmental output.",
+        "independence": "No target sprites, names, or thresholds are used by production genome, generator, operators or physics."
+      }
     },
     {
       "id": "EVAL-003",
@@ -1112,7 +1134,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -1573,7 +1595,8 @@
     "tests/alg-environment-material.test.ts",
     "tests/alg-integration-runtime.test.ts",
     "tests/alg-development-chaos.test.ts",
-    "tests/alg-integration-unified-development.test.ts"
+    "tests/alg-integration-unified-development.test.ts",
+    "tests/retro-trajectory-score.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
