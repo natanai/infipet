@@ -231,7 +231,7 @@ export function createIterativeChronologyState(
       id: site.id, tissueId: site.tissueId, tipCellId: site.rootCellId,
       parentSiteId: null, activationHour: 0, direction: unit(site.direction),
       depth: 0, extensions: 0, forks: 0, lateralCells: 0,
-      orbit: seedChaos(birth.fingerprint + "|" + site.id), status: "dormant",
+      orbit: seedChaos((birth.iterativeSeedFingerprint ?? birth.fingerprint) + "|" + site.id), status: "dormant",
     }));
   return {
     version: 1, fingerprint: birth.fingerprint,
@@ -329,7 +329,7 @@ export function stepIterativeChronology(
         tipCellId: record.rootCellId, parentSiteId: null,
         activationHour: n + 1, direction: unit(record.direction),
         depth: 0, extensions: 0, forks: 0, lateralCells: 0,
-        orbit: seedChaos(birth.fingerprint + "|" + record.id),
+        orbit: seedChaos((birth.iterativeSeedFingerprint ?? birth.fingerprint) + "|" + record.id),
         status: "invalidated",
       });
       known.add(record.id); // persistent tombstone; no later resurrection
@@ -342,7 +342,7 @@ export function stepIterativeChronology(
       activationHour: n + 1, direction: unit(record.direction),
       depth, extensions: 0, forks: 0,
       lateralCells: 0,
-      orbit: seedChaos(birth.fingerprint + "|" + record.id),
+      orbit: seedChaos((birth.iterativeSeedFingerprint ?? birth.fingerprint) + "|" + record.id),
       status: "dormant",
     });
     known.add(record.id);
@@ -460,7 +460,7 @@ export function stepIterativeChronology(
             parentSiteId: s.id, activationHour: n + 1,
             direction, depth: s.depth + 1, extensions: 0,
             forks: 0, lateralCells: 0,
-            orbit: seedChaos(birth.fingerprint + "|" + anchorId),
+            orbit: seedChaos((birth.iterativeSeedFingerprint ?? birth.fingerprint) + "|" + anchorId),
             status: "dormant",
           });
           changes.push({ atHour: n + 1, siteId: anchorId,

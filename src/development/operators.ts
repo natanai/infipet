@@ -41,6 +41,8 @@ export type MaterialDevelopmentProgram = Readonly<{
   version: 1;
   source: MaterialGraph;
   genomeFingerprint: string;
+  /** Original birth-program seed for iterative chaos when later speculative waypoints extend the schedule. Default: fingerprint. */
+  iterativeSeedFingerprint?: string;
   signals: DevelopmentGeneticSignals;
   operators: readonly MaterialOperator[];
   /** Hash contains only the actual drawing, seed genotype and operator schedule. */
