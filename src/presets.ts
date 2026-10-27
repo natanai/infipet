@@ -1,6 +1,11 @@
 import type { PartKind, PetPart } from "./simulation";
 
-export type StarterPreset = { id: string; name: string; parts: PetPart[] };
+export type StarterPreset = {
+  id: string;
+  name: string;
+  seed: string;
+  parts: PetPart[];
+};
 /** Temporary source-level name for existing creation-flow consumers. */
 export type HouseholdPreset = StarterPreset;
 const WHITE = "#FFFFFF",
@@ -355,14 +360,279 @@ function wisp() {
   return parts;
 }
 
-/** Frozen authored sources; clonePreset creates independently editable copies. */
+// Six more original drawings cover non-animal and unusual material layouts.
+function coral() {
+  const { parts, add } = drawing();
+  add(
+    "body",
+    "body",
+    14,
+    13,
+    ["aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa"],
+    "#DA8E9F",
+    null,
+  );
+  add(
+    "branch-left",
+    "arm",
+    8,
+    8,
+    [
+      "aa......",
+      "aa......",
+      ".aa.....",
+      "..aa....",
+      "...aa...",
+      "....aa..",
+      ".....aaa",
+    ],
+    "#DA8E9F",
+  );
+  add(
+    "branch-right",
+    "arm",
+    16,
+    5,
+    [
+      "......aa",
+      ".....aa.",
+      "....aa..",
+      "...aa...",
+      "..aa....",
+      ".aa.....",
+      "aa......",
+      "aa......",
+      "aa......",
+    ],
+    "#DA8E9F",
+  );
+  add(
+    "bud",
+    "hand",
+    6,
+    6,
+    [".aaa.", "aaaaa", ".aaa."],
+    "#E8B56C",
+    "branch-left",
+  );
+  return parts;
+}
+function stilt() {
+  const { parts, add } = drawing();
+  add(
+    "body",
+    "body",
+    12,
+    12,
+    [".aaaaaa.", "aaaaaaaa", "aaaaaaaa", ".aaaaaa."],
+    "#18D7E8",
+    null,
+  );
+  add(
+    "head",
+    "head",
+    13,
+    7,
+    ["aaaaaa", "a....a", "aaaaaa", "..aa..", "..aa.."],
+    "#18D7E8",
+  );
+  add(
+    "leg-left",
+    "leg",
+    12,
+    16,
+    ["aa", "aa", "aa", "aa", "aa", "aa", "aa"],
+    "#DDDDDD",
+  );
+  add(
+    "leg-right",
+    "leg",
+    18,
+    16,
+    ["aa", "aa", "aa", "aa", "aa", "aa", "aa"],
+    "#DDDDDD",
+  );
+  add("foot-left", "foot", 10, 23, ["aaaa"], "#18D7E8", "leg-left");
+  add("foot-right", "foot", 18, 23, ["aaaa"], "#18D7E8", "leg-right");
+  return parts;
+}
+function kite() {
+  const { parts, add } = drawing();
+  add(
+    "body",
+    "body",
+    14,
+    12,
+    ["aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa"],
+    "#AAAAAA",
+    null,
+  );
+  add(
+    "wing-left",
+    "wing",
+    4,
+    7,
+    [
+      "a..........",
+      "aaa........",
+      "aaaaa......",
+      ".aaaaaa....",
+      "..aaaaaaa..",
+      "...aaaaaaaa",
+      "....aaaaaaa",
+      "......aaaaa",
+      "........aaa",
+    ],
+    "#A378C8",
+  );
+  add(
+    "wing-right",
+    "wing",
+    17,
+    7,
+    [
+      "..........a",
+      "........aaa",
+      "......aaaaa",
+      "....aaaaaa.",
+      "..aaaaaaa..",
+      "aaaaaaaa...",
+      "aaaaaaa....",
+      "aaaaa......",
+      "aaa........",
+    ],
+    "#A378C8",
+  );
+  add("eye-left", "eye", 14, 13, ["a"], BLACK);
+  add("eye-right", "eye", 17, 13, ["a"], BLACK);
+  add(
+    "tail",
+    "tail",
+    15,
+    18,
+    ["aa..", ".aa.", "..aa", ".aa.", "aa.."],
+    "#E8B56C",
+  );
+  return parts;
+}
+function lantern() {
+  const { parts, add } = drawing();
+  add(
+    "body",
+    "body",
+    8,
+    8,
+    [
+      "..aaaaaaaaaaaa..",
+      ".aa..........aa.",
+      "aa............aa",
+      "aa............aa",
+      "aa............aa",
+      "aa............aa",
+      "aa............aa",
+      "aa............aa",
+      "aa............aa",
+      ".aa..........aa.",
+      "..aaaaaaaaaaaa..",
+    ],
+    "#E8B56C",
+    null,
+  );
+  add(
+    "handle",
+    "horn",
+    13,
+    4,
+    ["aaaaaa", "a....a", "a....a", "a....a"],
+    "#AAAAAA",
+  );
+  add("tail", "tail", 14, 19, ["aaaa", ".aa.", ".aa.", "aaaa"], "#E8B56C");
+  return parts;
+}
+function drift() {
+  const { parts, add } = drawing();
+  add(
+    "body",
+    "body",
+    13,
+    14,
+    ["..a..", ".aaa.", "aaaaa", ".aaa.", "..a.."],
+    "#86AC6B",
+    null,
+  );
+  add(
+    "thread",
+    "tail",
+    17,
+    17,
+    ["a....", ".a...", "..a..", "...a.", "....a"],
+    "#86AC6B",
+  );
+  add("eye", "eye", 14, 15, ["a"], BLACK);
+  add("spark-left", "decoration", 7, 9, ["a"], "#E8B56C", null);
+  add("spark-right", "decoration", 23, 8, ["a"], "#E8B56C", null);
+  return parts;
+}
+function crown() {
+  const { parts, add } = drawing();
+  add(
+    "body",
+    "body",
+    11,
+    14,
+    [".aaaaaaaa.", "aaaaaaaaaa", "aa......aa", "aaaaaaaaaa", ".aaaaaaaa."],
+    "#A378C8",
+    null,
+  );
+  add(
+    "horn-left",
+    "horn",
+    10,
+    8,
+    ["a....", "aa...", ".aa..", "..aa.", "...aa", "....a"],
+    "#18D7E8",
+  );
+  add(
+    "horn-right",
+    "horn",
+    17,
+    8,
+    ["....a", "...aa", "..aa.", ".aa..", "aa...", "a...."],
+    "#18D7E8",
+  );
+  add(
+    "crest",
+    "hair",
+    14,
+    9,
+    ["aaaa", ".aa.", ".aa.", ".aa.", ".aa."],
+    "#DA8E9F",
+  );
+  add("leg-left", "leg", 11, 19, ["aa", "aa", "aa"], "#A378C8");
+  add("leg-right", "leg", 19, 19, ["aa", "aa", "aa"], "#A378C8");
+  return parts;
+}
+
+/** Developer demonstrations, never species templates or developmental destinations.
+ * Fixed seeds are individual birth identities, not promises of a particular outcome. */
 export const STARTER_PRESETS: readonly StarterPreset[] = [
-  { id: "bean", name: "Bean", parts: bean() },
-  { id: "sprout", name: "Sprout", parts: sprout() },
-  { id: "canine-cub", name: "Cub", parts: canineCub() },
-  { id: "ribbon", name: "Ribbon", parts: ribbon() },
-  { id: "beetle", name: "Beetle", parts: beetle() },
-  { id: "wisp", name: "Wisp", parts: wisp() },
+  { id: "bean", name: "Bean", seed: "BEAN-87320104", parts: bean() },
+  { id: "sprout", name: "Sprout", seed: "SPROUT-39481726", parts: sprout() },
+  { id: "canine-cub", name: "Cub", seed: "CUB-72018439", parts: canineCub() },
+  { id: "ribbon", name: "Ribbon", seed: "RIBBON-51820476", parts: ribbon() },
+  { id: "beetle", name: "Beetle", seed: "BEETLE-26091384", parts: beetle() },
+  { id: "wisp", name: "Wisp", seed: "WISP-63817205", parts: wisp() },
+  { id: "coral", name: "Coral", seed: "CORAL-28174690", parts: coral() },
+  { id: "stilt", name: "Stilt", seed: "STILT-48193062", parts: stilt() },
+  { id: "kite", name: "Kite", seed: "KITE-93716284", parts: kite() },
+  {
+    id: "lantern",
+    name: "Lantern",
+    seed: "LANTERN-16284039",
+    parts: lantern(),
+  },
+  { id: "drift", name: "Drift", seed: "DRIFT-59271048", parts: drift() },
+  { id: "crown", name: "Crown", seed: "CROWN-74920163", parts: crown() },
 ];
 for (const preset of STARTER_PRESETS) {
   for (const part of preset.parts) {

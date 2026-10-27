@@ -2,6 +2,14 @@ name: Integration Web Export
 on:
   pull_request:
     paths:
+      - "App.tsx"
+      - "src/components/**"
+      - "src/presets.ts"
+      - "src/palette.ts"
+      - "scripts/offline-web.mjs"
+      - "tests/player-interface.browser.mjs"
+      - "package.json"
+      - "pnpm-lock.yaml"
       - "src/integration/**"
       - "src/simulation/**"
       - "tests/alg-integration-unified-development.test.ts"
@@ -28,5 +36,9 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Export deployable web bundle
         run: pnpm build:web
+      - name: Install browser for player-flow verification
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Verify player interface and offline return
+        run: pnpm test:ui
       - name: Benchmark 32x32 ink through 720h and 8192h
         run: node --max-old-space-size=768 --import tsx scripts/benchmark-unified.ts

@@ -32,9 +32,27 @@ The current application, all production `src/` modules and bundled runtime catal
 
 The drawing-to-growth promise is the central goal; historically faithful virtual-pet characters are only a secondary research benchmark.
 
+## Player interface
+
+Fresh sessions open to an empty drawing pad. All 15 part brushes are visible in a five-column palette; pencil, eraser, color, undo, redo, mirror and clear stay beside the canvas. **Begin life** commits a drawing. **Pet** returns to that same saved organism. Replacing a living pet, including by importing a file, requires confirmation.
+
+**More** groups export/import/name, Development Tools, and About. Development Tools holds seed controls, growth timeline, care experiments/diagnostics, the experimental iOS widget, and exactly 12 original editable presets with fixed seeds. Presets load drafts only. They do not define species or future stages.
+
+The web export caches its app shell after the first successful online visit. Once the cache is ready, a refresh without network access reopens the local saved pet; clearing browser site data clears both the shell and the local save. Export a pet file for a portable copy.
+
+Executable browser flow tests run against the actual exported app:
+
+```sh
+pnpm build:web
+pnpm exec playwright install chromium
+pnpm test:ui
+```
+
+Set `INFIPET_BASE_URL=/infipet` for both build and test to exercise the GitHub Pages path. Optional `UI_EVIDENCE_DIR` captures one desktop and one narrow layout, solely as interface evidence. These images do not verify biological correctness.
+
 ## Seeded retro references (experimental)
 
-The 36 historic drawings in **Retro drawings** now each contain a stable alphanumeric *candidate* seed, loaded alongside their editable bitmap. Numbers, letters and mixed-character seed strings are supported by the shared procedural genome. Changing the seed or changing the drawing changes what the same engine can produce; the program does **not** select a target historical sprite based on a retro reference name.
+The 36 historical reference drawings and their candidate seeds remain bundled as independent research fixtures. Their UI gallery has been removed from player creation. Numbers, letters and mixed-character seed strings are supported by the shared procedural genome; the program does **not** select a target historical sprite based on a retro reference name.
 
 For a historically faithful evolution route to be **proven**, the same initial drawing and seed **plus the same chronological care history** must reproduce all milestones with demonstrated shape similarity, without importing any reference target into the growth engine. The independent [P1 benchmark](tests/retro-reference-score.test.ts) measures the actual generated sprite silhouettes against an original-ROM-derived route and prints scores; it is a diagnostic, **not a successful parity test**. The care vector presently exercised by that test is hypothetical rather than an authenticated hardware command trace. The original game's exact evolution paths have **not** been reproduced or verified; the reference seeds are not calibrated matches.
 

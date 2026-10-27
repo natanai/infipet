@@ -9,9 +9,10 @@
     "ios": "expo start --go --ios",
     "typecheck": "tsc --noEmit",
     "test": "node scripts/roadmap.mjs --verify-done",
-    "build:web": "expo export --platform web",
+    "build:web": "expo export --platform web && node scripts/offline-web.mjs",
     "build:ios": "expo export --platform ios --output-dir dist-ios",
-    "format": "prettier --write App.tsx index.ts app.config.ts src tests"
+    "format": "prettier --write App.tsx index.ts app.config.ts src tests",
+    "test:ui": "node --test tests/player-interface.browser.mjs"
   },
   "dependencies": {
     "@expo/ui": "~57.0.26",
@@ -34,6 +35,7 @@
   "devDependencies": {
     "@types/node": "^22.19.0",
     "@types/react": "~19.2.2",
+    "playwright": "1.62.1",
     "prettier": "^3.9.10",
     "tsx": "^4.20.0",
     "typescript": "~6.0.3"
