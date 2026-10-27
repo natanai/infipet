@@ -47,7 +47,9 @@ import {
   compileRuntimeBiology, compileRuntimeMaterialProgram, compileRuntimeCareMaterial,
   type RuntimeBiology,
 } from "../integration";
-import { materialDevelopmentAt, type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
+import { type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
+import { createCareOperatorChronology } from "../environment";
+import { createUnifiedMaterialTimeline } from "../integration/unified-runtime";
 import { inferFunctionalMaterial, type MaterialMovementBinding } from "../integration/functional-material";
 import {
   compileSurfaceExpression,
@@ -732,11 +734,27 @@ export function createSimulation(
     compilations++;
     setLRU(blueprints, cacheKey, blueprint, 8);
   } else setLRU(blueprints, cacheKey, blueprint, 8);
+  const verified = options.verifyMaterialProgram?.(blueprint.material, inherited);
+  if (verified && (verified.program.genomeFingerprint !== blueprint.material.genomeFingerprint ||
+      verified.program.source.sourceFingerprint !== blueprint.material.source.sourceFingerprint ||
+      JSON.stringify(verified.program.source.sourceCells) !==
+        JSON.stringify(blueprint.material.source.sourceCells)))
+    throw new TypeError("Verification must preserve actual birth material and genome");
+  const physicalProgram = verified?.program ?? blueprint.material;
   const { tissues, genes } = blueprint,
     careMaterial = options.careGame
       ? compileRuntimeCareMaterial(blueprint.atlas, inherited,
           blueprint.biology, options.careGame)
       : undefined,
+    unified = createUnifiedMaterialTimeline({
+      program: physicalProgram, genome: inherited,
+      ...(verified?.remodelingProgram ? { remodelingProgram: verified.remodelingProgram } : {}),
+      ...(careMaterial ? {
+        care: createCareOperatorChronology(physicalProgram,
+          careMaterial.history, inherited.genotype),
+        history: careMaterial.history,
+      } : {}),
+    }),
     surfaceGenes = compileSurfaceExpression(inherited),
     hatchAt = liveContext
       ? Math.max(0, liveContext.hatchAtHours) / 24
@@ -748,12 +766,9 @@ export function createSimulation(
     programFingerprint = String(hash(JSON.stringify([
       fingerprint,
       blueprint.material.fingerprint,
-      // Material snapshots depend on the recorded, immutable life up to now.
-      options.careGame ? [
-        options.careGame.clock.nowMs,
-        options.careGame.commandHistory,
-        options.careGame.careSamples,
-      ] : null,
+      // A developmental PROGRAM is fixed at birth. Saved commands change
+      // chronological expression, not the permanent program fingerprint;
+      // including future care here would retroactively alter old frames.
       lineage?.fingerprint ?? null,
       liveContext?.stageEndHours ?? null,
       hatchAt,
@@ -764,16 +779,13 @@ export function createSimulation(
     frames = new Map<string, PetFrame>(),
     materialSnapshots = new Map<number, MaterialGraph>();
   const materialAt = (chronologicalHour: number): MaterialGraph => {
-    // A material time is always derived from the *same* permanent birth graph.
-    // Caching changes cost, never chronological output or inherited identity.
-    // The actual game records physiological history at chronological-hour
-    // boundaries, so freeze geometric material snapshots to that same clock.
-    const hour = Math.floor(Math.max(0, chronologicalHour));
+    // Actual shared CARE + DEV-002/003/004 anatomy. Recorded care is finite:
+    // beyond the observed horizon hold the graph, never invent future feeding.
+    const hour = Math.min(unified.maxHour,
+      Math.max(0, chronologicalHour));
     const hit = materialSnapshots.get(hour);
     if (hit) return hit;
-    const graph = careMaterial
-      ? careMaterial.materialAt(Math.min(hour, careMaterial.history.maxHour))
-      : materialDevelopmentAt(blueprint!.material, hour);
+    const graph = unified.at(hour).graph;
     setLRU(materialSnapshots, hour, graph, 8);
     return graph;
   };
@@ -1139,6 +1151,10 @@ export function createSimulation(
         spine: r.spine,
       }));
       const growthGraph = materialAt(careAge * 24);
+      // Pre-raster world-space quadrilaterals form an exact independent
+      // coverage oracle when an explicit verification program is supplied.
+      // Never included in normal gameplay frames or save data.
+      const verificationQuads: {partId:string;cellId:string;quad:Point[]}[] = [];
       const materialRig = inferFunctionalMaterial(growthGraph, state.regions, nodes);
       const rig = buildFunctionalGraph(materialRig.nodes, state.preferred),
         pose = poseFunctionalGraph(rig, {
@@ -1149,9 +1165,7 @@ export function createSimulation(
         });
       movementMode = pose.movementMode;
       family = pose.controllerFamily;
-      physicalMovementCapable =
-        ["quadruped", "biped", "crawler"].includes(family) &&
-        rig.limbs.filter(limb => limb.readiness >= 0.9).length >= 2;
+      physicalMovementCapable = pose.locomotionSupported;
       groundY = pose.groundY;
       diagnostics = {
         ...pose.diagnostics,
@@ -1351,6 +1365,55 @@ export function createSimulation(
         if (part.attachment) part.attachment = move(part.attachment);
         part.bounds = bounds(part.pixels);
       }
+      // When DEV-004 resorbs or relocates original ink, the old rest-pose
+      // raster is no longer anatomical truth. Reconstruct only the affected
+      // source-bearing regions from their ACTIVE authored cells. Regions with
+      // unchanged ink retain the existing procedural morphology and face.
+      const liveAuthored = new Map(growthGraph.cells
+        .filter(cell => cell.provenance === "authored")
+        .map(cell => [cell.id, cell]));
+      const sourceTissues = new Map(growthGraph.tissues.map(t => [t.id,t]));
+      let remodeledAuthoredCells = 0;
+      for (const region of state.regions) {
+        if (!region.source) continue;
+        const originalInk = growthGraph.sourceCells.filter(cell =>
+          sourceTissues.get(cell.tissueId)?.sourcePartId === region.source!.id &&
+          (!region.sourceClip ||
+            (cell[region.sourceClip.axis] >= region.sourceClip.min &&
+             cell[region.sourceClip.axis] < region.sourceClip.max)));
+        if (!originalInk.length) continue;
+        const changed = originalInk.filter(cell => {
+          const active = liveAuthored.get(cell.id);
+          return !active || active.x !== cell.x || active.y !== cell.y;
+        });
+        if (!changed.length) continue;
+        remodeledAuthoredCells += changed.length;
+        const transform = transformFor(region);
+        const sourceQuads = originalInk.flatMap(original => {
+          const active = liveAuthored.get(original.id);
+          return active ? [{
+            cell: { ...active, materialCellId: active.id,
+              materialSourceIds: active.sourceIds,
+              materialParentCellIds: active.parentCellIds,
+              materialOperationId: active.operationId },
+            quad: cellCorners(active).map(point => mapSourcePoint(region,point)),
+            center: mapSourcePoint(region,active),
+          }] : [];
+        });
+        const worldPose = transform
+          ? (point:Point) => poseAuthoredMaterial(region,point,transform)
+          : undefined;
+        if (options.verifyMaterialProgram)
+          verificationQuads.push(...sourceQuads.map(quad=>({
+            partId:region.id, cellId:quad.cell.id,
+            quad:worldPose ? quad.quad.map(worldPose) : quad.quad,
+          })));
+        const cells = rasterCellQuads(sourceQuads,worldPose);
+        const part = parts.find(p => p.id === region.id);
+        if (!part) continue;
+        part.pixels = uniquePixels(cells);
+        part.bounds = bounds(part.pixels);
+      }
       // Transport NEW source-derived physical cells through each original
       // region's deformation and locomotion pose. Existing source pixels stay
       // owned and painted by the existing renderer; no second creature layer.
@@ -1358,6 +1421,8 @@ export function createSimulation(
       const locomotorBindings = new Map(materialRig.bindings.map(binding =>
         [binding.tissueId, binding]));
       const newMaterialByTissue = new Map<string, MaterialCell[]>();
+      const activeMaterialById = new Map(growthGraph.cells.map(cell => [cell.id, cell]));
+      const unmappedGeneratedTissues: string[] = [];
       for (const cell of generated) {
         const group = newMaterialByTissue.get(cell.tissueId) ?? [];
         group.push(cell);
@@ -1370,26 +1435,45 @@ export function createSimulation(
           region.source?.id === tissue.sourcePartId &&
           (!region.sourceClip || cells.some(cell =>
             cell[region.sourceClip!.axis] >= region.sourceClip!.min &&
-            cell[region.sourceClip!.axis] < region.sourceClip!.max)));
-        if (!carrier) continue;
+            cell[region.sourceClip!.axis] < region.sourceClip!.max))) ??
+          // Some developed regions no longer carry a direct original patch;
+          // retain ancestry-based carrier lookup before reporting a failure.
+          state.regions.find(region =>
+            region.sourceIds.includes(tissue.sourcePartId));
+        if (!carrier) {
+          unmappedGeneratedTissues.push(tissue.id);
+          continue;
+        }
         const transport = transformFor(carrier);
         const functionalBinding = locomotorBindings.get(tissue.id);
         const linkedTransform = functionalBinding
           ? pose.transforms[functionalBinding.rigId] : undefined;
-        const pixels = rasterCellQuads(cells
-          .filter(cell => !carrier.sourceClip ||
-            (cell[carrier.sourceClip.axis] >= carrier.sourceClip.min &&
-              cell[carrier.sourceClip.axis] < carrier.sourceClip.max))
-          .map(cell => ({
-            cell,
+        // A developed child tissue is one physical span. Historical region
+        // source clips are NOT permission to discard daughter cells crossing
+        // a partition after true branching, translation, or articulation.
+        const grownQuads = cells.map(cell => ({
+            cell: { ...cell, materialCellId: cell.id,
+              materialSourceIds: cell.sourceIds,
+              materialParentCellIds: cell.parentCellIds,
+              materialOperationId: cell.operationId },
             quad: cellCorners(cell).map(point => mapSourcePoint(carrier, point)),
             center: mapSourcePoint(carrier, cell),
-          })), linkedTransform && functionalBinding
-            ? point => poseLinkedMaterial(point, functionalBinding, linkedTransform)
-            : transport
-              ? point => poseAuthoredMaterial(carrier, point, transport)
-              : undefined);
-        if (!pixels.length) continue;
+          }));
+        const grownPose = linkedTransform && functionalBinding
+          ? (point:Point) => poseLinkedMaterial(point, functionalBinding, linkedTransform)
+          : transport
+            ? (point:Point) => poseAuthoredMaterial(carrier, point, transport)
+            : undefined;
+        if(options.verifyMaterialProgram)
+          verificationQuads.push(...grownQuads.map(quad=>({
+            partId:"material-growth/"+tissue.id, cellId:quad.cell.id,
+            quad:grownPose ? quad.quad.map(grownPose) : quad.quad,
+          })));
+        const pixels = rasterCellQuads(grownQuads,grownPose);
+        if (!pixels.length) {
+          unmappedGeneratedTissues.push(tissue.id);
+          continue;
+        }
         const painted = uniquePixels(pixels.map(pixel => ({
           ...pixel,
           // Draw new material above its carrier without mistaking it for
@@ -1398,17 +1482,46 @@ export function createSimulation(
         })));
         const materialBounds = bounds(painted);
         const original = parts.find(part => part.id === carrier.id);
+        const physicalParentId = tissue.parentId
+          ? "material-growth/" + tissue.parentId : null;
+        // Retain actual material-parent hierarchy rather than attaching every
+        // daughter branch directly to the source carrier.
+        const displayedParentId = physicalParentId &&
+          parts.some(part => part.id === physicalParentId)
+          ? physicalParentId : carrier.id;
+        const activeAttachment = growthGraph.links.find(link =>
+          link.kind === "attachment" && link.fromTissueId === tissue.id &&
+          link.fromCellId && activeMaterialById.has(link.fromCellId) &&
+          link.toCellId && activeMaterialById.has(link.toCellId));
+        const linkedRoot = activeAttachment?.fromCellId
+          ? activeMaterialById.get(activeAttachment.fromCellId) : undefined;
+        const furthest = linkedRoot
+          ? [...cells].sort((a, b) =>
+              (b.x - linkedRoot.x) ** 2 + (b.y - linkedRoot.y) ** 2 -
+              ((a.x - linkedRoot.x) ** 2 + (a.y - linkedRoot.y) ** 2) ||
+              compareText(a.id, b.id))[0]
+          : undefined;
+        const transportMaterialPoint = (p: Point) =>
+          linkedTransform && functionalBinding
+            ? poseLinkedMaterial(p, functionalBinding, linkedTransform)
+            : transport ? poseAuthoredMaterial(carrier, p, transport) : p;
+        const jointAnchor = linkedRoot
+          ? transportMaterialPoint(mapSourcePoint(carrier, linkedRoot))
+          : original?.anchor ?? carrier.anchor;
+        const materialTip = furthest
+          ? transportMaterialPoint(mapSourcePoint(carrier, furthest))
+          : original?.tip ?? carrier.tip;
         parts.push({
           id: "material-growth/" + tissue.id,
           kind: "decoration", name: "Growing material",
-          parentId: carrier.id, sourcePartIds: [tissue.sourcePartId],
+          parentId: displayedParentId, sourcePartIds: [tissue.sourcePartId],
           role: "material-growth", readiness: 0.25,
-          provenance: "grown", relationship: "joint",
+          provenance: "grown", relationship: tissue.relationship,
           layer: (carrier.layer ?? 100) + 0.25,
           pixels: painted,
-          anchor: original ? { ...original.anchor } : { ...carrier.anchor },
-          tip: original ? { ...original.tip } : { ...carrier.tip },
-          attachment: original ? { ...original.anchor } : { ...carrier.anchor },
+          anchor: { ...jointAnchor },
+          tip: { ...materialTip },
+          attachment: { ...jointAnchor },
           attached: true, scale: 1, growth: { x: 1, y: 1 },
           rotation: original?.rotation ?? carrier.angle,
           planted: original?.planted ?? false,
@@ -1423,6 +1536,9 @@ export function createSimulation(
           generatedCells: generated.length,
           graphEvents: growthGraph.events.length,
           visibleGrowthParts: parts.filter(part => part.role === "material-growth").length,
+          unmappedGeneratedTissues,
+          remodeledAuthoredCells,
+          ...(options.verifyMaterialProgram ? { renderedCellQuads: verificationQuads } : {}),
         },
       };
       // Carry authored negative space with bright features drawn inside hollow outlines.

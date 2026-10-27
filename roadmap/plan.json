@@ -1016,6 +1016,95 @@
       }
     },
     {
+      "id": "INT-001",
+      "phase": 4,
+      "area": "Runtime integration",
+      "title": "Unified chronological development and live anatomical integration",
+      "dependsOn": [
+        "DEV-003",
+        "DEV-004",
+        "CARE-002",
+        "MOT-001"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Existing original material operators, iterative growth, and remodeling apply stateful, ordered transitions to one evolving source-valid MaterialGraph, with exact conflicts and deterministic replay.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Actual frameAt renders chronology-correct branched, relocated, reabsorbed and remodeled authored and generated material with traceable pixel geometry, cavities and correct attachments.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Real recorded care causes physical counterfactuals at fixed genome; developed linked anatomical material controls physical locomotion and exact reconstruction.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-integration-unified-development.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-integration-unified-development.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/integration/chronological-material.ts",
+        "src/integration/unified-runtime.ts",
+        "src/integration/functional-material.ts",
+        "src/simulation/growth.ts"
+      ],
+      "algorithmId": "integration",
+      "interfaceContract": {
+        "exports": [
+          "createUnifiedMaterialTimeline",
+          "chaosWeightedCareHours",
+          "cumulativeChaosCareExpression",
+          "evaluateChronologicalMaterial"
+        ],
+        "inputs": [
+          "SourceAtlas original cells and material program",
+          "permanent seeded InheritedGenome",
+          "care chronicle compiled from saved GameState",
+          "persistent module-specific original/iterative/remodel ledgers"
+        ],
+        "outputs": [
+          "one active shared MaterialGraph",
+          "checkpointed deterministic replay",
+          "visibly remodeled authored and generated anatomy",
+          "locomotor topology derived from active material"
+        ],
+        "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
+        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "invariants": [
+          "Material graph and module state share a single birth fingerprint/genotype",
+          "No cumulative from-birth snapshots overlaid",
+          "Physical units stamped at deterministic thresholds, never arbitrary frame-query cutoff",
+          "Suppression ledgers can advance without partially committing matter",
+          "Future care and remodeling cannot rewrite previous states",
+          "Cache checkpoints pure-equivalent to from-birth replay"
+        ],
+        "limits": {
+          "maxHours": 8192,
+          "maxCheckpoints": 16,
+          "checkpointIntervalHours": 24,
+          "materialCellsAddedMax": 3072,
+          "world": 64
+        },
+        "remainingVerification": [],
+        "acceptanceEvidence": {
+          "A1": "Real original-material, remodeling and iterative transactions; fractional ordering, earned quantum threshold, source ancestry and deterministic replay tested in alg-integration-unified-development.test.ts",
+          "A2": "Real frameAt resorption, lattice relocation, deep daughter ancestry and exact independently derived quadrilateral pixel-ownership oracle; rejects protected-void occupancy",
+          "A3": "Two genuine saved GameState feeding histories differ only in accepted care; identical rendered frames before intervention, demonstrably different material-growth pixels afterward, stable permanent genotype and JSON save/replay",
+          "webExport": ".github/workflows/integration-web.yml runs pnpm build:web on pull requests",
+          "performance": "scripts/benchmark-unified.ts independently measures 32x32 authored ink, first/repeated frameAt at hours 720 and 8192, full chronology seek, reverse seek, RSS, heap, 64x64 domain and checkpoint cap; CI enforces finite conservative ceilings"
+        },
+        "blockerIssue": null
+      }
+    },
+    {
       "id": "GAME-001",
       "phase": 4,
       "area": "Player",
@@ -1310,7 +1399,8 @@
       "taskIds": [
         "GAME-001",
         "PERF-001",
-        "MOT-001"
+        "MOT-001",
+        "INT-001"
       ],
       "readyWhen": [
         "OBS-001"
@@ -1332,7 +1422,7 @@
     "tests/alg-environment-material.test.ts",
     "tests/alg-integration-runtime.test.ts",
     "tests/alg-development-chaos.test.ts",
-    "tests/alg-environment-operator-chronology.test.ts"
+    "tests/alg-integration-unified-development.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",

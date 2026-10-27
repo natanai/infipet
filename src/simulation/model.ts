@@ -1,9 +1,17 @@
 import type { NeedKeyframe, WellbeingState } from "../needs";
 import type { GameState } from "../gameplay";
+import type { MaterialDevelopmentProgram, LifetimeRemodelingProgram } from "../development";
+import type { InheritedGenome } from "./genome";
 import type { GroomStroke } from "./grooming";
 import type { LiveDevelopmentContext, LineageState } from "../lineage/types";
 /** Shared authored pixels and deterministic development API. */
-export type Pixel = { x: number; y: number; color: string; z?: number };
+export type Pixel = { x: number; y: number; color: string; z?: number;
+  /** Live physical cell ancestry; absent on procedural/surface-only pixels. */
+  materialCellId?: string;
+  materialSourceIds?: readonly string[];
+  materialParentCellIds?: readonly string[];
+  materialOperationId?: string | null;
+};
 export type Point = { x: number; y: number };
 export const PART_KINDS = [
   "body",
@@ -208,6 +216,13 @@ export type FrameOptions = {
   target?: Point;
 };
 export type SimulationOptions = {
+  /** Integration-verification seam: transform the compiled program, never source/genome.
+   * Only an explicitly supplied callback can select a different real transaction
+   * program. Normal save files and gameplay do not provide this option. */
+  verifyMaterialProgram?: (base: MaterialDevelopmentProgram, genome: InheritedGenome) => Readonly<{
+    program: MaterialDevelopmentProgram;
+    remodelingProgram?: LifetimeRemodelingProgram;
+  }>;
   /** Recorded canonical game history, supplying material-operator care effects. */
   careGame?: GameState;
   needTimeline?: readonly NeedKeyframe[];

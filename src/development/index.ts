@@ -36,3 +36,62 @@ export type {
   MaterialExpressionRecord, MaterialOperatorChronologyState,
   MaterialOperatorDecision, MaterialOperatorReason, MaterialOperatorTransaction,
 } from "./operator-chronology";
+
+/** Merged DEV-003 / DEV-004 public exports, awaiting an incremental transition port. */
+export {
+  ITERATIVE_LIMITS,
+  createIterativeGrowth,
+  iterativeGrowthAt,
+  allocateGrowthCredits,
+  assessIterativePlacement,
+} from "./iterative-growth";
+export type {
+  LightExposure,
+  IterativeExposure,
+  IterativeGrowthFrame,
+  IterativeGrowthProgram,
+  IterativeGrowthSite,
+  IterativeGrowthLedger,
+  GrowthSuppression,
+} from "./iterative-growth";
+export {
+  REMODEL_LIMITS,
+  compileLifetimeRemodeling,
+  lifetimeRemodelingAt,
+  mechanicalCapabilities,
+  mechanicalRegions,
+  auditRemodelLegibility,
+} from "./lifetime-remodeling";
+export type {
+  LifetimeRemodelingProgram,
+  LifetimeRemodelingFrame,
+  RemodelOperation,
+  RemodelTransition,
+  RemodelDeferral,
+  MechanicalCapability,
+  MechanicalRegion,
+} from "./lifetime-remodeling";
+
+/** Composable, lifetime-bounded incremental operators (NOT cumulative snapshots). */
+export { materialOperatorPotential } from "./operators";
+export {
+  ITERATIVE_CHRONOLOGY_MAX_HOURS,
+  createIterativeChronologyState,
+  stepIterativeChronology,
+  replayIterativeChronology,
+} from "./iterative-chronology";
+export type {
+  PersistentGrowthSite, GrowthSiteChange,
+  IterativeChronologyState, IterativeChronologyStep,
+} from "./iterative-chronology";
+export {
+  remodelingProposalsBetween,
+  applyRemodelingProposal,
+  applyRemodelingInterval,
+  EMPTY_REMODELING_CHRONOLOGY,
+  remodelingMechanicalState,
+} from "./remodel-transactions";
+export type {
+  RemodelingProposal, RemodelingAttempt, RemodelingHinge,
+  RemodelingChronology, RemodelingTransaction, RemodelingInterval,
+} from "./remodel-transactions";
