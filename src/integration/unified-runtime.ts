@@ -42,8 +42,6 @@ export const UNIFIED_CHECKPOINT_LIMIT = 16;
 export const UNIFIED_CHECKPOINT_INTERVAL = 24;
 const EPS = 1e-9;
 const cap = (v: number) => Math.max(0, Math.min(1, v));
-const roundHour = (v: number) =>
-  Math.abs(v - Math.round(v)) < 1e-11 ? Math.round(v) : v;
 export type UnifiedMaterialState = Readonly<{
   graph: MaterialGraph;
   atHour: number;
@@ -185,14 +183,14 @@ function advance(
   history:EnvironmentalHistory|null,
   onCheckpoint?:(state:UnifiedMaterialState)=>void,
 ):UnifiedMaterialState {
-  if (!Number.isFinite(hour)||hour<current.atHour-EPS ||
+  if (!Number.isFinite(hour)||hour<current.atHour ||
       hour>UNIFIED_MAX_HOUR ||(care&&hour>care.maxHour) ||
       (history&&hour>history.maxHour))
     throw new RangeError("Requested anatomy extends beyond chronological evidence/domain");
   let state=current;
   // Each outer step is bounded by the next integer resource interval, the
   // next fractional remodeling operation, or the requested query cutoff.
-  while(state.atHour < hour-EPS) {
+  while(state.atHour < hour) {
     const start=state.atHour;
     const completion=Math.floor(start+EPS)+1;
     const remodeling=remodelingProposalsBetween(remod,start,
@@ -201,8 +199,7 @@ function advance(
     const upper=Math.min(hour,completion,firstRemodel);
     const threshold=nextPhysicalThreshold(program,care,state,upper);
     let next=threshold!==null?Math.min(upper,threshold):upper;
-    if(next-start<EPS) next=upper;
-    if(!(next>start))throw new RangeError("Nonadvancing integrated material clock");
+        if(!(next>start))throw new RangeError("Nonadvancing integrated material clock");
     const progress=Object.fromEntries(program.operators.map(op=>[
       op.id,(state.expressedRateHours[op.id]??0)+
         chaosWeightedCareHours(op,start,next,care),
@@ -212,9 +209,9 @@ function advance(
     // commit anatomical work. Otherwise retain the unconsumed operator
     // cursor while updating the pure care integral; the next real event
     // receives the entire contiguous interval and cannot be double-counted.
-    const atThreshold=threshold!==null && Math.abs(next-threshold)<EPS;
-    const atRemodel=remodeling.some(p=>Math.abs(p.atHour-next)<EPS);
-    const atInteger=Math.abs(next-completion)<EPS;
+    const atThreshold=threshold!==null && next===threshold;
+    const atRemodel=remodeling.some(p=>p.atHour===next);
+    const atInteger=next===completion;
     if(!atThreshold && !atRemodel && !atInteger) {
       state={
         ...state,atHour:next,expressedRateHours:progress,
@@ -234,18 +231,18 @@ function advance(
     let remodelingState=state.remodeling;
     // At the exact proposed T, material threshold commits first. Equal-time
     // remodeling proposals are already stable by operation ID and ordinal.
-    for(const p of remodeling.filter(p=>Math.abs(p.atHour-next)<EPS)) {
+    for(const p of remodeling.filter(p=>p.atHour===next)) {
       const applied=applyRemodelingProposal(graph,remod,p,remodelingState);
       graph=applied.graph;remodelingState=applied.chronology;
     }
     let iterative=state.iterative;
-    if(Math.abs(next-completion)<EPS && completion<=hour) {
+    if(next===completion) {
       const result=stepIterativeChronology(program,graph,iterative,
         recordedIterativeResources(history,completion-1));
       graph=result.graph;iterative=result.state;
     }
     state={
-      graph, atHour:roundHour(next),
+      graph, atHour:next,
       material:material.state,iterative,remodeling:remodelingState,
       care:care&&state.care ? care.advance(state.care,next).next : null,
       expressedRateHours:progress,
