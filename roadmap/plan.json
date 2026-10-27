@@ -962,7 +962,8 @@
       },
       "implementationPaths": [
         "tests/alg-evaluation-trajectory-metrics.ts",
-        "tests/retro-trajectory-score.test.ts"
+        "tests/retro-trajectory-score.test.ts",
+        "tests/alg-evaluation-material-proof.ts"
       ],
       "algorithmId": "evaluation",
       "interfaceContract": {
@@ -984,7 +985,10 @@
           "maxStages": 16
         },
         "dependencyBlocker": "DEV-006 must pass and merge, followed by focused acceptance against its actual developmental output.",
-        "independence": "No target sprites, names, or thresholds are used by production genome, generator, operators or physics."
+        "independence": "No target sprites, names, or thresholds are used by production genome, generator, operators or physics.",
+        "physicalWitness": "Independent event-ledger inventory replay: creation, operation, parent and source matching; removal, resurrection, protected void, invalid links and temporal cutoffs",
+        "renderedWitness": "Pixels must map to active same-age material IDs plus matching cell ancestry and declared transported material quads and camera transform. Incomplete cosmetic/overlay attribution is unresolved, never pass.",
+        "provenanceLimit": "Internally consistent event and screen witnesses cannot replace independent replay of hidden seed, care, and operator history. Final acceptance waits for DEV-006 and verified authoritative graph frames."
       }
     },
     {
