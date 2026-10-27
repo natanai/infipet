@@ -21,7 +21,7 @@ import { createEnvironmentalHistory,createCareOperatorChronology } from "../src/
 import { createGame,advanceGame,commandGame,HOUR,
   deriveCareTimeline,deriveDevelopmentContext } from "../src/gameplay";
 import { getLivingTimelineCacheStats,createReusedLivingTimeline } from "../src/integration/living-timeline";
-import { createUnifiedMaterialTimeline } from "../src/integration/unified-runtime";
+
 import type { PetPart } from "../src/simulation/model";
 type SourceShape = "sparse"|"complex"|"dense";
 const named = (shape:SourceShape): PetPart[] => {
