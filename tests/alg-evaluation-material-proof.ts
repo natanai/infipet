@@ -83,6 +83,12 @@ export function auditPhysicalEvidence(graph?:MaterialGraph,cutoffHour=Infinity):
   if(active.size!==graph.cells.length)errors.push("duplicate-material-cell-id");
   if(tissues.size!==graph.tissues.length)errors.push("duplicate-tissue-id");
   if(!graph.sourceFingerprint)errors.push("missing-birth-fingerprint");
+  for(const tissue of graph.tissues){
+    if(tissue.sourceCellIds.some(id=>!sources.has(id)))
+      errors.push(error("tissue-with-unknown-birth-cell",tissue.id));
+    if(tissue.parentId&&!tissues.has(tissue.parentId))
+      errors.push(error("tissue-with-missing-parent",tissue.id));
+  }
   const birth=new Map<string,{roots:readonly string[];born:number}>();
   for(const c of graph.sourceCells){
     if(c.provenance!=="authored"||!sameRoots(c.sourceIds,[c.id])||
@@ -172,6 +178,21 @@ export function auditPhysicalEvidence(graph?:MaterialGraph,cutoffHour=Infinity):
       else if(!c.operationId||
          !(co.eventId===c.operationId||co.eventId.startsWith(c.operationId+"/unit/")))
         errors.push(error("generated-without-matching-operation",c.id));
+      // A fabricated yet correctly labeled deposition cannot jump arbitrarily
+      // far from its physical parent. Defer this spatial check when subsequent
+      // remodeling makes creation-time positions unknowable from one snapshot.
+      if(co&&["elongate","branch","bud","expand","extend"].includes(co.kind)){
+        const lateReposition=graph.events.some(e=>e.atHour>=co.atHour &&
+          e.id!==co.eventId &&
+          ["remodel","translate","rotate","reattach","articulate"].includes(e.kind));
+        if(!lateReposition){
+          const parents=c.parentCellIds.map(id=>active.get(id)).filter(
+            (v):v is MaterialCell=>v!==undefined);
+          if(parents.length&&parents.every(parent=>
+             Math.max(Math.abs(parent.x-c.x),Math.abs(parent.y-c.y))>1))
+            errors.push(error("generated-nonadjacent-to-physical-parent",c.id));
+        }
+      }
     }else if(c.provenance==="authored"){
       if(!sources.has(c.id)||c.operationId!==null||c.parentCellIds.length||
          !sameRoots(c.sourceIds,[c.id]))
