@@ -734,15 +734,23 @@ export function createSimulation(
     compilations++;
     setLRU(blueprints, cacheKey, blueprint, 8);
   } else setLRU(blueprints, cacheKey, blueprint, 8);
+  const verified = options.verifyMaterialProgram?.(blueprint.material, inherited);
+  if (verified && (verified.program.genomeFingerprint !== blueprint.material.genomeFingerprint ||
+      verified.program.source.sourceFingerprint !== blueprint.material.source.sourceFingerprint ||
+      JSON.stringify(verified.program.source.sourceCells) !==
+        JSON.stringify(blueprint.material.source.sourceCells)))
+    throw new TypeError("Verification must preserve actual birth material and genome");
+  const physicalProgram = verified?.program ?? blueprint.material;
   const { tissues, genes } = blueprint,
     careMaterial = options.careGame
       ? compileRuntimeCareMaterial(blueprint.atlas, inherited,
           blueprint.biology, options.careGame)
       : undefined,
     unified = createUnifiedMaterialTimeline({
-      program: blueprint.material, genome: inherited,
+      program: physicalProgram, genome: inherited,
+      ...(verified?.remodelingProgram ? { remodelingProgram: verified.remodelingProgram } : {}),
       ...(careMaterial ? {
-        care: createCareOperatorChronology(blueprint.material,
+        care: createCareOperatorChronology(physicalProgram,
           careMaterial.history, inherited.genotype),
         history: careMaterial.history,
       } : {}),
@@ -1383,7 +1391,10 @@ export function createSimulation(
         const cells = rasterCellQuads(originalInk.flatMap(original => {
           const active = liveAuthored.get(original.id);
           return active ? [{
-            cell: active,
+            cell: { ...active, materialCellId: active.id,
+              materialSourceIds: active.sourceIds,
+              materialParentCellIds: active.parentCellIds,
+              materialOperationId: active.operationId },
             quad: cellCorners(active).map(point => mapSourcePoint(region,point)),
             center: mapSourcePoint(region,active),
           }] : [];
@@ -1433,7 +1444,10 @@ export function createSimulation(
         // source clips are NOT permission to discard daughter cells crossing
         // a partition after true branching, translation, or articulation.
         const pixels = rasterCellQuads(cells.map(cell => ({
-            cell,
+            cell: { ...cell, materialCellId: cell.id,
+              materialSourceIds: cell.sourceIds,
+              materialParentCellIds: cell.parentCellIds,
+              materialOperationId: cell.operationId },
             quad: cellCorners(cell).map(point => mapSourcePoint(carrier, point)),
             center: mapSourcePoint(carrier, cell),
           })), linkedTransform && functionalBinding
