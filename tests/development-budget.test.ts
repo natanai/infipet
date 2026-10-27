@@ -185,7 +185,7 @@ test("[PERF-001/A1] ordinary living 1-second ticks reuse full chronological iden
       createSimulation(source,seed,"infant",{
         needTimeline:deriveCareTimeline(game),
         liveContext:deriveDevelopmentContext(game),careGame:game,
-        ...(forceCold?{verifyMaterialProgram:(program:ReturnType<typeof programFor>["program"])=>({program})}:{}),
+        ...(forceCold?{reuseLivingMaterial:false}:{}),
       });
     let game=advanceGame(createGame(seed,"infant",start),start+2*HOUR,"active");
     let sim=create(game);
@@ -220,7 +220,7 @@ test("[PERF-001/A1] accepted/refused/fractional/training and hourly samples inva
     source,seed,"infant",{
       needTimeline:deriveCareTimeline(game),
       liveContext:deriveDevelopmentContext(game),careGame:game,
-      ...(uncached?{verifyMaterialProgram:(program:ReturnType<typeof programFor>["program"])=>({program})}:{}),
+      ...(uncached?{reuseLivingMaterial:false}:{}),
     });
   const base=advanceGame(createGame(seed,"infant",start),start+2*HOUR,"active");
   let previous=make(base);
