@@ -144,27 +144,36 @@ test("[INT-001/A1] exact ties respect interval completion, remodeling, then next
   assert.deepEqual(frame.graph.sourceCells, fixture().sourceCells);
 });
 
-test("[INT-001/A1] conflicts defer atomically with a stable unchanged material state", () => {
-  const collision: ChronologicalProposal<State> = {
-    id: "collide", kind: "remodel-transition", atHour: 1,
+test("[INT-001/A1] same-time remodeling collisions defer atomically in lexical order", () => {
+  const occupy: ChronologicalProposal<State> = {
+    id: "a-occupy", kind: "remodel-transition", atHour: 1,
     apply(graph, context) {
-      if (graph.cells.some(c => c.x === 11 && c.y === 11))
-        return { accepted: false, reason: "occupied", graph, context };
-      return { accepted: true, graph: { ...graph, cells: [...graph.cells,
-        { ...source("collider", 11, 11), provenance: "generated",
-          sourceIds: ["ink/2"], parentCellIds: ["ink/2"], operationId: "collide" }] },
-        context };
+      const child:MaterialCell={...source("first",11,10),
+        provenance:"generated",sourceIds:["ink/2"],
+        parentCellIds:["ink/2"],operationId:"a-occupy"};
+      return {accepted:true,graph:{...graph,cells:[...graph.cells,child]},
+        context};
     },
   };
-  const events = [credit(0, 1, "resources"), grow(1), collision];
-  const frame = evaluateChronologicalMaterial(fixture(), originalState,
-    events, 1);
-  assert.equal(frame.graph.cells.length, 4);
-  const deferred = frame.outcomes.find(o => o.id === "collide")!;
-  assert.equal(deferred.accepted, false);
-  assert.equal(deferred.reason, "occupied");
-  assert.deepEqual(deferred.delta.createdCellIds, []);
-  assert.deepEqual(validateChronologicalGraph(fixture(), frame.graph), []);
+  const collision:ChronologicalProposal<State>={
+    id:"z-collide",kind:"remodel-transition",atHour:1,
+    apply(graph,context) {
+      if(graph.cells.some(c=>c.x===11&&c.y===10))
+        return {accepted:false,reason:"occupied",graph,context:{
+          ...context,resourceCredits:context.resourceCredits,
+        }};
+      throw new Error("Expected occupied material at the same timestamp");
+    },
+  };
+  const frame=evaluateChronologicalMaterial(fixture(),originalState,
+    [collision,occupy],1);
+  assert.equal(frame.graph.cells.length,4);
+  assert.deepEqual(frame.outcomes.map(o=>o.id),["a-occupy","z-collide"]);
+  const deferred=frame.outcomes[1];
+  assert.equal(deferred.accepted,false);
+  assert.equal(deferred.reason,"occupied");
+  assert.deepEqual(deferred.delta.createdCellIds,[]);
+  assert.deepEqual(validateChronologicalGraph(fixture(),frame.graph),[]);
 });
 
 test("[INT-001/A3] chronological care prefix changes geometry, never genotype or earlier material", () => {
@@ -504,7 +513,7 @@ test("[INT-001/A1] actual fractional remodeling moves a persistent iterative tip
       maturation:{...base.signals.channels.maturation,plasticity:1}}}};
   const remodel=compileLifetimeRemodeling(program,genome,[{
     id:"fractional-move",kind:"translate",tissueId:tip.tissueId,
-    direction:{x:0,y:1},atHour:0,durationHours:1,units:2,strength:1,
+    direction:{x:0,y:1},atHour:0,durationHours:0.5,units:1,strength:1,
   }]);
   const t=createUnifiedMaterialTimeline({program,genome,remodelingProgram:remodel});
   const justBefore=t.at(0.5-1e-12);
