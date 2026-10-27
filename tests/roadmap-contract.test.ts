@@ -29,6 +29,11 @@ test("[SYS-001/A2] a completed task cannot lack evidence and task-level runner v
   const invented = structuredClone(plan);
   const todo = invented.tasks.find((t: {status:string}) => t.status === "todo");
   assert.ok(todo);
+  // A todo task may already have an existing focused test (e.g., a partial
+  // PERF-001 implementation). Explicitly construct missing evidence rather
+  // than assuming the first pending task is missing its file.
+  todo.verification.testPath = "tests/absent-roadmap-contract-evidence.test.ts";
+  todo.verification.command = "pnpm exec tsx --test " + todo.verification.testPath;
   todo.status = "done";
   assert.ok(validateRoadmap(invented).some(x => x.includes("completed task has no focused test file")));
   const command = spawnSync(process.execPath, ["scripts/roadmap.mjs", "--check"], { encoding:"utf8" });
