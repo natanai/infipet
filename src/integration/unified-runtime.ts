@@ -1,4 +1,8 @@
 /**
+ * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY continuous/hourly authoritative physical chronology. Product specification now requires at most 365 physical-development checks at exact elapsed 24h intervals. This runtime is not yet migrated; INT-002 will implement the cutover, maintaining exact care and provenance.
+ * Historical tests and algorithms remain until the disjoint daily migration lands.
+ */
+/**
  * INT-001: one source-preserving anatomical timeline built from the real
  * composable DEV-002 / CARE-002 / DEV-003 / DEV-004 transactions.
  *

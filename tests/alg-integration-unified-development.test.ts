@@ -1,3 +1,7 @@
+/**
+ * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY hourly/fractional physical-event regression corpus retained to document the earlier engine. Under the approved anatomicalDevelopment contract in roadmap/plan.json, only daily boundaries 1..365 may change physical anatomy; INT-002 must replace obsolete live acceptance claims.
+ * Historical tests and algorithms remain until the disjoint daily migration lands.
+ */
 import {
   createUnifiedMaterialTimeline, chaosWeightedCareHours,
   cumulativeChaosCareExpression, recordedIterativeResources,
