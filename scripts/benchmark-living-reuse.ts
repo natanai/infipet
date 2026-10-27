@@ -91,3 +91,54 @@ for(const shape of ["sparse","complex","dense"] as const){
     rssMiB:+(memory.rss/MB).toFixed(2),heapMiB:+(memory.heapUsed/MB).toFixed(2),
     cache:getLivingTimelineCacheStats()});
 }
+
+/**
+ * A second real native saved-life scenario: the pet returns after 96 hours
+ * away. The native game preserves an absent pet's return grace, so the pet is
+ * still alive. This is intentionally labelled "absence return", NOT routine
+ * healthy care or a claimed generic mobile benchmark.
+ */
+for(const shape of ["sparse","complex","dense"] as const){
+  const seed="benchmark/life-after-absence/"+shape,source=drawing(shape);
+  const create=(game:ReturnType<typeof createGame>,reuse:boolean)=>
+    createSimulation(source,seed,"infant",{
+      careGame:game,needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),reuseLivingMaterial:reuse,
+    });
+  let game=advanceGame(createGame(seed,"infant",start),start+96*HOUR,"absent");
+  assert.equal(game.dead,false,"native absent return must preserve living-pet grace");
+  const original=create(game,true);
+  original.frameAt(96/24,{time:0,action:"idle"});
+  const paired:{cold:number;warm:number;imports:number;fromBirth:number}[]=[];
+  for(let i=1;i<=8;i++){
+    game=advanceGame(game,start+96*HOUR+i*1000,"active");
+    assert.equal(game.dead,false);
+    const age=(game.clock.nowMs-game.clock.startedAtMs)/(24*HOUR);
+    const measure=(reuse:boolean)=>{
+      const t=performance.now();
+      const sim=create(game,reuse);
+      const frame=sim.frameAt(age,{time:0,action:"idle"});
+      return {ms:performance.now()-t,frame,stats:sim.getMaterialRuntimeStats!()};
+    };
+    const run1=i%2===0?measure(true):measure(false);
+    const run2=i%2===0?measure(false):measure(true);
+    const reused=i%2===0?run1:run2,cold=i%2===0?run2:run1;
+    assert.deepEqual(reused.frame.pixels,cold.frame.pixels);
+    assert.ok(reused.stats.imported>0);
+    assert.equal(reused.stats.cold,0);
+    assert.ok(cold.stats.cold>0);
+    paired.push({cold:cold.ms,warm:reused.ms,
+      imports:reused.stats.imported,fromBirth:cold.stats.cold});
+  }
+  const values=(key:"cold"|"warm")=>paired.map(p=>p[key]).sort((a,b)=>a-b);
+  const a=values("cold"),v=values("warm");
+  const baseline=(a[3]+a[4])/2,optimized=(v[3]+v[4])/2;
+  output({kind:"paired-absence-return",shape,horizonHours:96,
+    n:paired.length,inkCells:source[0].pixels.length,
+    coldMedianMs:+baseline.toFixed(3),reuseMedianMs:+optimized.toFixed(3),
+    speedup:+(baseline/optimized).toFixed(3),
+    coldRangeMs:[a[0],a.at(-1)],reuseRangeMs:[v[0],v.at(-1)],
+    coldReconstructionCount:paired.reduce((n,p)=>n+p.fromBirth,0),
+    importedCanonicalStates:paired.reduce((n,p)=>n+p.imports,0),
+    cache:getLivingTimelineCacheStats()});
+}
