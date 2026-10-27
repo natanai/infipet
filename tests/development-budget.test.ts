@@ -187,13 +187,13 @@ test("[PERF-001/A1] ordinary living 1-second ticks reuse full chronological iden
         liveContext:deriveDevelopmentContext(game),careGame:game,
         ...(forceCold?{reuseLivingMaterial:false}:{}),
       });
-    let game=advanceGame(createGame(seed,"infant",start),start+2*HOUR,"active");
+    let game=advanceGame(createGame(seed,"infant",start),start+4*HOUR,"active");
     let sim=create(game);
     const hour=()=> (game.clock.nowMs-game.clock.startedAtMs)/HOUR;
     sim.frameAt(hour()/24,{time:0,action:"idle"});
     let transfers=0;
     for(let i=1;i<=24;i++){
-      game=advanceGame(game,start+2*HOUR+i*1000,"active");
+      game=advanceGame(game,start+4*HOUR+i*1000,"active");
       sim=create(game);
       const fresh=create(game,true);
       const biologicalAge=hour()/24;
@@ -222,17 +222,17 @@ test("[PERF-001/A1] accepted/refused/fractional/training and hourly samples inva
       liveContext:deriveDevelopmentContext(game),careGame:game,
       ...(uncached?{reuseLivingMaterial:false}:{}),
     });
-  const base=advanceGame(createGame(seed,"infant",start),start+2*HOUR,"active");
+  const base=advanceGame(createGame(seed,"infant",start),start+4*HOUR,"active");
   let previous=make(base);
-  previous.frameAt(2/24,{time:0,action:"idle"});
+  previous.frameAt(4/24,{time:0,action:"idle"});
   const sequence=[
-    commandGame(base,{type:"choose",choice:"high"},start+2*HOUR+1400,"refused/choose"),
+    commandGame(base,{type:"choose",choice:"high"},start+4*HOUR+1400,"refused/choose"),
   ];
   sequence.push(commandGame(sequence.at(-1)!,{type:"feed",food:"meal"},
-    start+2*HOUR+1700,"accepted/feed/fractional"));
+    start+4*HOUR+1700,"accepted/feed/fractional"));
   sequence.push(commandGame(sequence.at(-1)!,{type:"start-game",game:"training"},
-    start+2*HOUR+2100,"accepted/training"));
-  sequence.push(advanceGame(sequence.at(-1)!,start+3*HOUR+300,"active"));
+    start+4*HOUR+2100,"accepted/training"));
+  sequence.push(advanceGame(sequence.at(-1)!,start+5*HOUR+300,"active"));
   assert.equal(sequence[0].commandHistory.at(-1)?.accepted,false);
   assert.ok(sequence[1].commandHistory.at(-1)?.accepted);
   assert.ok(sequence[2].commandHistory.at(-1)?.accepted);
@@ -350,4 +350,34 @@ test("[PERF-001/A1] newborn and pre-hour App ticks never transfer hour-zero as a
     assert.equal(cached.getMaterialRuntimeStats!().imported,0,
       "hour zero is birth, not an importable integer growth checkpoint");
   }
+});
+
+test("[PERF-001/A1] measured young-life bypass avoids transfer and preserves older cache state",()=>{
+  const seed="perf/young/bypass",source=named("dense");
+  const make=(game:ReturnType<typeof createGame>,reuse=true)=>
+    createSimulation(source,seed,"infant",{
+      careGame:game,needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),reuseLivingMaterial:reuse,
+    });
+  const born=createGame(seed,"infant",start);
+  const early=advanceGame(born,start+2*HOUR,"active");
+  const before=getLivingTimelineCacheStats();
+  const cold=make(early),reference=make(early,false);
+  assert.equal(cold.getMaterialRuntimeStats!().imported,0);
+  assert.deepEqual(cold.frameAt(2/24,{time:0,action:"idle"}).pixels,
+    reference.frameAt(2/24,{time:0,action:"idle"}).pixels);
+  assert.equal(getLivingTimelineCacheStats().entries,before.entries,
+    "cheap-life policy must not populate or evict a costly cache entry");
+  const older=advanceGame(early,start+4*HOUR,"active");
+  const previous=make(older);previous.frameAt(4/24,{time:0,action:"idle"});
+  const priorCount=getLivingTimelineCacheStats().entries;
+  const young=make(early);young.frameAt(2/24,{time:0,action:"idle"});
+  assert.equal(getLivingTimelineCacheStats().entries,priorCount,
+    "a reverse short-lived query must not erase a cached older checkpoint");
+  const next=advanceGame(older,start+4*HOUR+1000,"active");
+  const restored=make(next),independent=make(next,false);
+  const age=(4*HOUR+1000)/(24*HOUR);
+  assert.deepEqual(restored.frameAt(age,{time:0,action:"idle"}).pixels,
+    independent.frameAt(age,{time:0,action:"idle"}).pixels);
+  assert.ok(restored.getMaterialRuntimeStats!().imported>0);
 });
