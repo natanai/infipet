@@ -279,3 +279,42 @@ for(const scenario of [
     fromBirth:summary(cold),reused:summary(warm),
     note:"Linux Node 16 independent seeds; p95 is sample order statistic, not device latency"});
 }
+
+/** A literal birth-age cohort, separately from the 2h cheap-life scenario. */
+for(const shape of ["sparse","complex","dense"] as const){
+  const seed="benchmark/newborn-age/"+shape,source=drawing(shape);
+  const make=(game:ReturnType<typeof createGame>,reuse:boolean)=>
+    createSimulation(source,seed,"infant",{
+      careGame:game,needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),reuseLivingMaterial:reuse,
+    });
+  let game=createGame(seed,"infant",start);
+  const cold:number[]=[],fast:number[]=[];
+  for(let i=1;i<=32;i++){
+    game=advanceGame(game,start+i*1000,"active");
+    const age=(game.clock.nowMs-game.clock.startedAtMs)/(24*HOUR);
+    const sampled=(reuse:boolean)=>{
+      const t=performance.now();
+      const sim=make(game,reuse);
+      const frame=sim.frameAt(age,{time:0,action:"idle"});
+      return {elapsed:performance.now()-t,frame,stats:sim.getMaterialRuntimeStats!()};
+    };
+    const a=i%2===0?sampled(true):sampled(false);
+    const b=i%2===0?sampled(false):sampled(true);
+    const used=i%2===0?a:b,independent=i%2===0?b:a;
+    assert.deepEqual(used.frame.pixels,independent.frame.pixels);
+    assert.equal(used.stats.imported,0,"newborn cannot import an hour-zero checkpoint");
+    assert.equal(independent.stats.imported,0);
+    fast.push(used.elapsed);cold.push(independent.elapsed);
+  }
+  const summary=(v:number[])=>{
+    const arr=[...v].sort((a,b)=>a-b),n=arr.length;
+    return {medianMs:+((arr[n/2-1]+arr[n/2])/2).toFixed(3),
+      empiricalP95Ms:+arr[Math.ceil(n*.95)-1].toFixed(3),
+      minMaxMs:[+arr[0].toFixed(3),+arr[n-1].toFixed(3)]};
+  };
+  output({kind:"paired-newborn",shape,inkCells:source[0].pixels.length,
+    n:32,baseline:summary(cold),optimized:summary(fast),
+    importedCanonicalStates:0,chronology:"newborn 1..32 second native clock advances",
+    note:"paired Linux Node empirical 95th percentile, not real-device p95"});
+}
