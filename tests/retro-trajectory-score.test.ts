@@ -47,8 +47,8 @@ function input(
   material?:MaterialGraph,
 ){
   return {
-    actual:{id:"generated",atHour,pixels:actual,graph:material},
-    ref:{id:"research-target",atHour,pixels:target,metadata:{label:"not-an-input-to-the-generator"}},
+    actual:{id:"generated-"+atHour,atHour,pixels:actual,graph:material},
+    ref:{id:"research-target-"+atHour,atHour,pixels:target,metadata:{label:"not-an-input-to-the-generator"}},
   };
 }
 
