@@ -32,6 +32,7 @@
  *   seed/command-history witnesses belong to EVAL-003.
  */
 import type { MaterialGraph } from "../src/development";
+import { isIndependentlyReplayedProductionSample } from "./alg-evaluation-production-witness";
 import {
   auditPhysicalEvidence, auditRenderedOwnership,
   type PhysicalEvidence, type RenderEvidence,
@@ -277,6 +278,9 @@ export function evaluateTrajectory(
     const frame=byHour.get(reference.atHour);
     const physical=auditPhysicalEvidence(frame?.graph,reference.atHour);
     const rendering=auditRenderedOwnership(frame?.pixels??[],frame?.graph,frame?.renderWitness);
+    const independentlyReplayed=!!frame&&isIndependentlyReplayedProductionSample(frame);
+    const physicalReplayed=independentlyReplayed&&physical.status!=="invalid"&&
+      physical.errors.every(e=>e==="operation-execution-not-independently-replayed");
     if(!frame)return {
       id:reference.id,atHour:reference.atHour,status:"unresolved" as const,
       shapeScore:null,silhouetteIoU:null,structuralScore:null,
@@ -297,6 +301,9 @@ export function evaluateTrajectory(
     if(physical.status==="invalid")reasons.push("material-ancestry-invalid");
     if(rendering.status==="unavailable")reasons.push("rendered-material-provenance-unavailable");
     if(rendering.status==="invalid")reasons.push("rendered-material-provenance-invalid");
+    if(!independentlyReplayed)reasons.push("independent-production-replay-unavailable");
+    if(!physicalReplayed&&physical.status==="unavailable")
+      reasons.push("physical-execution-evidence-insufficient");
     if(expectedSourceFingerprint&&physical.sourceFingerprint!==expectedSourceFingerprint)
       reasons.push("unexpected-birth-source");
     const numericalPass=score.shapeScore>=TRAJECTORY_GATE.minStageScore&&
@@ -307,7 +314,7 @@ export function evaluateTrajectory(
       physical.status==="invalid"||rendering.status==="invalid"||
       (expectedSourceFingerprint&&physical.sourceFingerprint!==expectedSourceFingerprint)||
       !numericalPass?"fail" as const:
-      physical.status==="unavailable"||rendering.status==="unavailable"
+      !physicalReplayed||rendering.status==="unavailable"
         ?"unresolved" as const:"pass" as const;
     return {id:reference.id,atHour:reference.atHour,status,
       shapeScore:score.shapeScore,silhouetteIoU:iou,structuralScore:score.structuralScore,
