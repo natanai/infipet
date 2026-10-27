@@ -249,7 +249,7 @@ function measure(g:MaterialGraph):Metric {
     links:g.links.length,degree:g.links.length*2,
     sites:g.sites.filter(s=>live.has(s.rootCellId)).length,
     branches:g.tissues.filter(t=>t.parentId!==null&&
-      !g.source.tissues).length, // overwritten with source-independent term below
+      !new Set(g.sourceCells.map(c=>c.tissueId)).has(t.id)).length,
     generated:g.cells.filter(c=>c.provenance==="generated").length,
     authored:g.cells.filter(c=>c.provenance==="authored").length,
     relocatedOriginal:g.cells.filter(c=>c.provenance==="authored" &&
