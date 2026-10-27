@@ -1243,6 +1243,50 @@
         "testPath": "tests/player-interface.browser.mjs",
         "scope": "Real browser draw-first, all 15 one-action parts, birth once, Pet identity, explicit replacement, import/export, refresh and offline reopen; desktop/narrow screenshots are interface evidence only."
       }
+    },
+    {
+      "id": "UI-002",
+      "phase": 4,
+      "area": "Player Interface",
+      "title": "Match the author-mode development dock and corner-toggle presentation",
+      "algorithmId": "interface",
+      "dependsOn": [
+        "UI-001"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "The left dock follows pre-programmed reference desktop widths/gaps and narrow overlay geometry; disabling it restores the full player area at every supported width",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-interface-development-panel.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-interface-development-panel.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "App.tsx",
+        "src/components/DevelopmentPanel.tsx",
+        "src/interface/development-layout.ts",
+        "src/components/NeedsLab.tsx"
+      ],
+      "playerFlowVerification": {
+        "command": "pnpm build:web && pnpm test:ui",
+        "testPath": "tests/player-interface.browser.mjs",
+        "scope": "Corner toggle via mouse, keyboard and touch; controls/presets/diagnostics stay in one left dock; mode-off exits experiments to the same saved pet or editable drawing; refresh starts with developer UI hidden."
+      },
+      "presentationReference": {
+        "repository": "natanai/pre-programmed",
+        "commit": "9540a59bf32b073f18a20b64a6bf3a9f1285ead4",
+        "paths": [
+          "src/components/AuthorSettings.tsx",
+          "src/styles.css",
+          "src/author/authorDesktopSuite.css"
+        ]
+      }
     }
   ],
   "algorithms": [
@@ -1498,13 +1542,16 @@
         "src/presets.ts",
         "tests/alg-interface-",
         "tests/player-interface.browser.mjs",
-        "scripts/offline-web.mjs"
+        "scripts/offline-web.mjs",
+        "src/components/DevelopmentPanel.tsx",
+        "src/interface/"
       ],
       "sharedPaths": [
         "App.tsx (player presentation only; integration retains simulation authority)"
       ],
       "taskIds": [
-        "UI-001"
+        "UI-001",
+        "UI-002"
       ],
       "readyWhen": [
         "GAME-001"

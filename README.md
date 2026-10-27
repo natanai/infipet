@@ -36,7 +36,7 @@ The drawing-to-growth promise is the central goal; historically faithful virtual
 
 Fresh sessions open to an empty drawing pad. All 15 part brushes are visible in a five-column palette; pencil, eraser, color, undo, redo, mirror and clear stay beside the canvas. **Begin life** commits a drawing. **Pet** returns to that same saved organism. Replacing a living pet, including by importing a file, requires confirmation.
 
-**More** groups export/import/name, Development Tools, and About. Development Tools holds seed controls, growth timeline, care experiments/diagnostics, the experimental iOS widget, and exactly 12 original editable presets with fixed seeds. Presets load drafts only. They do not define species or future stages.
+**More** groups export/import/name and About. The small square at the top right toggles Development Tools, matching pre-programmed's author mode. When checked, every developer control lives in one independently scrolling left dock: seed controls, timeline, preview actions, care experiments/diagnostics, the experimental iOS widget, and exactly 12 fixed-seed editable presets. The dock uses a full-height overlay on narrow screens, with the corner toggle always available. Unchecking it hides all experiments and returns to the same saved pet, or the drawing pad if no pet has begun. Reloads start with developer tools off. Presets load drafts only; they do not define species or future stages.
 
 The web export caches its app shell after the first successful online visit. Once the cache is ready, a refresh without network access reopens the local saved pet; clearing browser site data clears both the shell and the local save. Export a pet file for a portable copy.
 

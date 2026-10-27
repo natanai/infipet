@@ -86,9 +86,13 @@ async function saved(page, predicate) {
   return stored(page);
 }
 async function openTools(page) {
-  await button(page, "Open more menu").click();
-  await button(page, "Open Development Tools").click();
+  const toggle = button(page, "Enable development tools");
+  if (await toggle.count()) await toggle.click();
+  await page
+    .getByRole("complementary", { name: "Development tools panel" })
+    .waitFor();
 }
+
 const errors = [];
 try {
   for (const viewport of [
@@ -170,6 +174,177 @@ try {
           fullPage: true,
         });
       }
+      await context.close();
+    });
+  }
+  for (const viewport of [
+    { width: 1280, height: 1000 },
+    { width: 390, height: 844 },
+    { width: 320, height: 740 },
+  ]) {
+    await test(`author-style corner toggle and isolated left tools at ${viewport.width}px`, async () => {
+      const context = await browser.newContext({
+        viewport,
+        hasTouch: viewport.width < 500,
+        isMobile: viewport.width < 500,
+      });
+      const page = await context.newPage();
+      page.on("pageerror", (error) => errors.push(error.message));
+      await page.goto(url);
+      const off = button(page, "Enable development tools");
+      await off.waitFor();
+      assert.equal(await off.getAttribute("aria-pressed"), "false");
+      const toggleBox = await off.boundingBox();
+      assert.ok(
+        Math.abs(viewport.width - toggleBox.x - toggleBox.width - 8) < 1,
+      );
+      assert.ok(Math.abs(toggleBox.y - 6) < 1);
+      assert.ok(
+        Math.abs(toggleBox.width - (viewport.width >= 1000 ? 27.2 : 44)) < 1,
+      );
+      assert.equal(
+        await page
+          .getByRole("complementary", { name: "Development tools panel" })
+          .count(),
+        0,
+      );
+      await button(page, "Open more menu").click();
+      assert.equal(
+        await button(page, "Open Development Tools").count(),
+        0,
+        "developer entry removed from More",
+      );
+      await button(page, "Close panel").click();
+      await button(page, "Close panel").waitFor({ state: "hidden" });
+      if (viewport.width < 500) await off.tap();
+      else await off.click();
+      const panel = page.getByRole("complementary", {
+        name: "Development tools panel",
+      });
+      await panel.waitFor();
+      assert.equal(
+        await button(page, "Preview player experience").getAttribute(
+          "aria-pressed",
+        ),
+        "true",
+      );
+      const bounds = await panel.boundingBox();
+      assert.equal(bounds.x, 0);
+      assert.equal(bounds.y, 0);
+      assert.equal(Math.round(bounds.height), viewport.height);
+      assert.equal(
+        Math.round(bounds.width),
+        viewport.width >= 1000
+          ? Math.round(viewport.width * 0.28)
+          : viewport.width,
+      );
+      assert.equal(
+        await button(page, "Close panel").count(),
+        0,
+        "tools live in the dock, not a modal",
+      );
+      for (const label of [
+        "Apply seed",
+        "Randomize seed",
+        "Open growth timeline and diagnostics",
+        "Inspect development and need influences",
+        "Home Screen widget",
+        "New empty drawing",
+        "Rest",
+        "Go exploring",
+        "Play ball",
+        "Say hello",
+        "Groom your pet",
+      ])
+        assert.equal(
+          await panel.getByRole("button", { name: label, exact: true }).count(),
+          1,
+          `${label} is inside the dock`,
+        );
+      assert.equal(
+        await panel.getByRole("button", { name: /^Load .* preset$/ }).count(),
+        12,
+      );
+      assert.equal(
+        await panel.getByLabel("Growth timeline", { exact: true }).count(),
+        1,
+      );
+      assert.equal(
+        await panel
+          .getByRole("textbox", { name: "Growth seed", exact: true })
+          .count(),
+        1,
+      );
+      if (viewport.width >= 1000) {
+        const canvas = await page
+          .getByLabel("Draw your whole pet here", { exact: true })
+          .boundingBox();
+        assert.ok(
+          canvas.x >= bounds.width,
+          "drawing remains alongside the left dock",
+        );
+      }
+      // Presets stay in the panel; switching it off returns to drawing without birthing anything.
+      await panel
+        .getByRole("button", { name: "Load Bean preset", exact: true })
+        .click();
+      const draft = await saved(page, (doc) => doc.seed === "BEAN-87320104");
+      assert.equal(draft.life, undefined);
+      await panel
+        .getByRole("textbox", { name: "Growth seed", exact: true })
+        .fill("CHECKBOX-PREVIEW");
+      await panel
+        .getByRole("button", { name: "Apply seed", exact: true })
+        .click();
+      await saved(page, (doc) => doc.seed === "CHECKBOX-PREVIEW");
+      if (process.env.UI_EVIDENCE_DIR && viewport.width !== 320) {
+        await mkdir(process.env.UI_EVIDENCE_DIR, { recursive: true });
+        // Scroll the independent dock back to its top before collecting interface evidence.
+        await panel
+          .getByRole("textbox", { name: "Growth seed", exact: true })
+          .scrollIntoViewIfNeeded();
+        await page.screenshot({
+          path: path.join(
+            process.env.UI_EVIDENCE_DIR,
+            viewport.width > 500
+              ? "development-desktop.png"
+              : "development-narrow.png",
+          ),
+          fullPage: true,
+        });
+      }
+      const on = button(page, "Preview player experience");
+      if (viewport.width < 500) await on.tap();
+      else {
+        await on.focus();
+        await page.keyboard.press("Space");
+      }
+      await page
+        .getByLabel("Draw your whole pet here", { exact: true })
+        .waitFor();
+      assert.equal(await panel.count(), 0);
+      assert.equal(
+        await page.getByLabel("Growth timeline", { exact: true }).count(),
+        0,
+      );
+      assert.equal(
+        await button(page, "Enable development tools").getAttribute(
+          "aria-pressed",
+        ),
+        "false",
+      );
+      const final = await saved(page, (doc) => doc.seed === "CHECKBOX-PREVIEW");
+      assert.deepEqual(final.parts, draft.parts);
+      assert.equal(final.life, undefined);
+      await page.reload();
+      await button(page, "Enable development tools").waitFor();
+      assert.equal(
+        await page
+          .getByRole("complementary", { name: "Development tools panel" })
+          .count(),
+        0,
+        "a reload starts in player mode",
+      );
       await context.close();
     });
   }
@@ -255,7 +430,19 @@ try {
     await button(page, "Open growth timeline and diagnostics").click();
     await page.getByLabel("Growth timeline", { exact: true }).waitFor();
     assert.deepEqual(livingIdentity(await stored(page)), identity);
-    await button(page, "Return to your pet").click();
+    await button(page, "Preview player experience").click();
+    assert.equal(
+      await page
+        .getByRole("complementary", { name: "Development tools panel" })
+        .count(),
+      0,
+    );
+    await button(page, "Meal").waitFor();
+    assert.deepEqual(livingIdentity(await stored(page)), identity);
+    assert.deepEqual(
+      (await stored(page)).life.game.commandHistory,
+      cared.life.game.commandHistory,
+    );
     await page.reload();
     await button(page, "Meal").waitFor();
     assert.deepEqual(livingIdentity(await stored(page)), identity);
