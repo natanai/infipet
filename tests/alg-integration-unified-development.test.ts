@@ -584,7 +584,7 @@ function tracedSimulation(ink: ReturnType<typeof drawing>, seed: string,
         channels:{...base.signals.channels,
           maturation:{...base.signals.channels.maturation,plasticity:1},
           growth:{...base.signals.channels.growth,rate:0.9}}};
-      physical={...base,source,signals,
+      physical={...base,source,signals:opts.care?base.signals:signals,
         operators:opts.care?[{
           id:"int-001/care-elongation",tissueId:root.tissueId,siteId:id,
           kind:"elongate",atHour:0,durationHours:30,strength:1,
