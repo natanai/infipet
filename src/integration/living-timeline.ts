@@ -47,6 +47,13 @@ type Entry = {
 };
 const lives=new Map<string,Entry>();
 let transfers=0,rejections=0, coldStarts=0;
+let lastPhases:Readonly<{
+  ageHours:number; evidenceMs:number; remodelingMs:number;
+  prefixMs:number; transferMs:number; timelineMs:number; totalMs:number;
+  reused:boolean; transferred:boolean;
+}>|null=null;
+/** Observational clock times never feed biological decisions. */
+export function getLivingTimelinePhaseStats(){return lastPhases;}
 export function getLivingTimelineCacheStats(){
   return Object.freeze({entries:lives.size,limit:MAX_LIVES,
     transfers,rejections,coldStarts});
@@ -91,7 +98,9 @@ export function createReusedLivingTimeline(args:Readonly<{
   care:CareOperatorChronology;
 }>):UnifiedMaterialTimeline {
   const {birthKey,genomeIdentity,program,genome,game,history,care}=args;
+  const startPhase=performance.now();
   const evidence=evidenceOf(game,history);
+  const afterEvidence=performance.now();
   // Verify the actual permanent remodeling schedule, not merely seed/hour.
   // The same program is otherwise compiled by createUnifiedMaterialTimeline.
   const remodelingProgram=compileLifetimeRemodeling(program,genome);
@@ -100,8 +109,10 @@ export function createReusedLivingTimeline(args:Readonly<{
     remodelingProgram.genomeFingerprint,remodelingProgram.signals,
     remodelingProgram.birth.sourceFingerprint,remodelingProgram.operations,
   ]);
+  const afterRemodeling=performance.now();
   const prior=lives.get(birthKey);
   let states:ReturnType<UnifiedMaterialTimeline["exportCanonicalStates"]>=[];
+  let transferBegan=performance.now(),transferredAt=transferBegan;
   if(prior &&
      prior.program===program &&
      prior.genomeIdentity===genomeIdentity &&
@@ -116,6 +127,7 @@ export function createReusedLivingTimeline(args:Readonly<{
     const newEvidenceAppended =
       evidence.samples.length!==prior.evidence.samples.length ||
       evidence.commands.length!==prior.evidence.commands.length;
+    transferBegan=performance.now();
     states=prior.timeline.exportCanonicalStates(cutoff).filter(s=>
       // With no new record, the byte-identical historical prefix is a
       // complete witness of equal EnvironmentPressure on [0, old.maxHour].
@@ -131,6 +143,7 @@ export function createReusedLivingTimeline(args:Readonly<{
     if(prior)rejections++;
     coldStarts++;
   }
+  transferredAt=performance.now();
   let timeline:UnifiedMaterialTimeline;
   try {
     timeline=createUnifiedMaterialTimeline({
@@ -153,5 +166,17 @@ export function createReusedLivingTimeline(args:Readonly<{
   lives.set(birthKey,{program,genomeIdentity,remodelingIdentity,
     evidence,history,timeline});
   while(lives.size>MAX_LIVES)lives.delete(lives.keys().next().value!);
+  const endPhase=performance.now();
+  lastPhases=Object.freeze({
+    ageHours:evidence.maxHour,
+    evidenceMs:afterEvidence-startPhase,
+    remodelingMs:afterRemodeling-afterEvidence,
+    prefixMs:transferBegan-afterRemodeling,
+    transferMs:transferredAt-transferBegan,
+    timelineMs:endPhase-transferredAt,
+    totalMs:endPhase-startPhase,
+    reused:!!prior,
+    transferred:timeline.evaluationStats().imported>0,
+  });
   return timeline;
 }
