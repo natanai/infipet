@@ -755,7 +755,15 @@ test("[INT-001/A3] real saved feeding changes player-visible physical pixels onl
   const low=tracedSimulation(ink,seed,{careGame:sparse,care:true});
   assert.deepEqual(well.program.source,low.program.source);
   assert.equal(well.genome.fingerprint,low.genome.fingerprint);
-  assert.deepEqual(well.simulation.frameAt(0),low.simulation.frameAt(0));
+  // First accepted feeding intervention is no earlier than hour 1.
+  // Later history must not rewrite the same organism's older image, physical
+  // state, program identity, or its immutable genotype.
+  for(const hour of [0,0.25,0.5,0.99]) {
+    const a=well.simulation.frameAt(hour/24,{time:0,action:"idle"});
+    const b=low.simulation.frameAt(hour/24,{time:0,action:"idle"});
+    assert.deepEqual(a,b,"future care cannot affect earlier rendered frame "+hour);
+    assert.deepEqual(a.pixels,b.pixels);
+  }
   const wellHistory=createEnvironmentalHistory(fed);
   const lowHistory=createEnvironmentalHistory(sparse);
   const careWell=createCareOperatorChronology(well.program,wellHistory,well.genome.genotype);
