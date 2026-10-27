@@ -192,7 +192,7 @@ test("[PERF-001/A1] ordinary living 1-second ticks reuse full chronological iden
     const hour=()=> (game.clock.nowMs-game.clock.startedAtMs)/HOUR;
     sim.frameAt(hour()/24,{time:0,action:"idle"});
     let transfers=0;
-    for(let i=1;i<=6;i++){
+    for(let i=1;i<=24;i++){
       game=advanceGame(game,start+2*HOUR+i*1000,"active");
       sim=create(game);
       const fresh=create(game,true);
@@ -211,7 +211,7 @@ test("[PERF-001/A1] ordinary living 1-second ticks reuse full chronological iden
       assert.equal(fresh.getMaterialRuntimeStats!().imported,0);
       assert.ok(getLivingTimelineCacheStats().entries<=getLivingTimelineCacheStats().limit);
     }
-    assert.ok(transfers>=6);
+    assert.ok(transfers>=24);
   }
 });
 test("[PERF-001/A1] accepted/refused/fractional/training and hourly samples invalidate only the causal suffix",()=>{
