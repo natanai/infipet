@@ -267,21 +267,11 @@ export function auditRenderedOwnership(
  if(!Number.isFinite(camera.scale)||camera.scale<=0||
     !Number.isFinite(camera.offset.x)||!Number.isFinite(camera.offset.y))
    errors.push("invalid-projection-camera");
- const transform=(p:Point)=>({
-   x:p.x*camera.scale+camera.offset.x,
-   y:p.y*camera.scale+camera.offset.y,
- });
- const projected=new Map<string,Point[][]>();
- for(const item of witness.projections){
-   if(!cellById.has(item.cellId))errors.push(error("projected-nonlive-cell",item.cellId));
-   if(item.quad.length!==4||item.quad.some(p=>
-      !Number.isFinite(p.x)||!Number.isFinite(p.y)))
-     errors.push(error("invalid-projection-quad",item.cellId));
-   else{
-     const q=item.quad.map(transform);
-     projected.set(item.cellId,[...(projected.get(item.cellId)??[]),q]);
-   }
- }
+ // The live renderer rasterizes the posed quad on the WORLD integer lattice,
+ // THEN rounds the world pixels through the camera. Directly testing a
+ // projected screen point inside a scaled quad is mathematically wrong:
+ // rounding can move it outside a very thin screen-space polygon.
+ const projected=new Map<string,Set<string>>();
  const cross=(a:Point,b:Point,p:Point)=>
    (b.x-a.x)*(p.y-a.y)-(b.y-a.y)*(p.x-a.x);
  const inside=(a:Point,b:Point,c:Point,p:Point)=>{
@@ -289,12 +279,39 @@ export function auditRenderedOwnership(
    const sides=[cross(a,b,p),cross(b,c,p),cross(c,a,p)];
    return sides.every(x=>x>=-1e-7)||sides.every(x=>x<=1e-7);
  };
- const covered=(q:readonly Point[],p:Point)=>
-   inside(q[0],q[1],q[2],p)||inside(q[0],q[2],q[3],p)||
-   // Subpixel cells legitimately rasterize as their transported center.
-   (Math.abs(cross(q[0],q[1],q[2]))<1e-9&&
-      Math.round(q.reduce((s,c)=>s+c.x,0)/4)===p.x&&
-      Math.round(q.reduce((s,c)=>s+c.y,0)/4)===p.y);
+ const screen=(p:Point)=>({
+   x:Math.round(p.x*camera.scale+camera.offset.x),
+   y:Math.round(p.y*camera.scale+camera.offset.y),
+ });
+ for(const item of witness.projections){
+   if(!cellById.has(item.cellId))errors.push(error("projected-nonlive-cell",item.cellId));
+   if(item.quad.length!==4||item.quad.some(p=>
+      !Number.isFinite(p.x)||!Number.isFinite(p.y))){
+     errors.push(error("invalid-projection-quad",item.cellId));
+     continue;
+   }
+   const quads=projected.get(item.cellId)??new Set<string>();
+   const q=item.quad, xs=q.map(p=>p.x),ys=q.map(p=>p.y);
+   const minX=Math.max(-256,Math.ceil(Math.min(...xs)-1e-8));
+   const maxX=Math.min(256,Math.floor(Math.max(...xs)+1e-8));
+   const minY=Math.max(-256,Math.ceil(Math.min(...ys)-1e-8));
+   const maxY=Math.min(256,Math.floor(Math.max(...ys)+1e-8));
+   let filled=false;
+   for(let y=minY;y<=maxY;y++)for(let x=minX;x<=maxX;x++){
+     const p={x,y};
+     if(!inside(q[0],q[1],q[2],p)&&!inside(q[0],q[2],q[3],p))
+       continue;
+     quads.add(key(screen(p)));filled=true;
+   }
+   // Production's subpixel fallback uses projected CENTER only when the
+   // world quad contained no integer point. Preserve that causal contract.
+   if(!filled){
+     const center={x:q.reduce((v,p)=>v+p.x,0)/4,
+       y:q.reduce((v,p)=>v+p.y,0)/4};
+     quads.add(key(screen(center)));
+   }
+   projected.set(item.cellId,quads);
+ }
  let identified=0,projectedPixels=0;
  for(const p of pixels){
    const id=p.materialCellId;
