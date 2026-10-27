@@ -1156,9 +1156,7 @@ export function createSimulation(
         });
       movementMode = pose.movementMode;
       family = pose.controllerFamily;
-      physicalMovementCapable =
-        ["quadruped", "biped", "crawler"].includes(family) &&
-        rig.limbs.filter(limb => limb.readiness >= 0.9).length >= 2;
+      physicalMovementCapable = pose.locomotionSupported;
       groundY = pose.groundY;
       diagnostics = {
         ...pose.diagnostics,
@@ -1431,11 +1429,10 @@ export function createSimulation(
         const functionalBinding = locomotorBindings.get(tissue.id);
         const linkedTransform = functionalBinding
           ? pose.transforms[functionalBinding.rigId] : undefined;
-        const pixels = rasterCellQuads(cells
-          .filter(cell => !carrier.sourceClip ||
-            (cell[carrier.sourceClip.axis] >= carrier.sourceClip.min &&
-              cell[carrier.sourceClip.axis] < carrier.sourceClip.max))
-          .map(cell => ({
+        // A developed child tissue is one physical span. Historical region
+        // source clips are NOT permission to discard daughter cells crossing
+        // a partition after true branching, translation, or articulation.
+        const pixels = rasterCellQuads(cells.map(cell => ({
             cell,
             quad: cellCorners(cell).map(point => mapSourcePoint(carrier, point)),
             center: mapSourcePoint(carrier, cell),
