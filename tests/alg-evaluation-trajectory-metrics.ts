@@ -22,6 +22,9 @@
  *   angle=0.5*atan2(2 covXY,covXX-covYY), modulo pi. If eigenvalue
  *   difference <=1e-10*max(1,sum) orientation=null, tie unresolved.
  * - All intermediate arithmetic IEEE 754 double. Ratios clamp to [0,1].
+ *   Composite scores are rounded once to 12 decimal places, half-up via
+ *   floor(x*1e12+0.5)/1e12 on nonnegative numbers (including exact 1);
+ *   this eliminates accumulated weighting roundoff, not threshold failures.
  *   Sorting is by numeric y then x or by supplied chronological hour.
  *   Nonfinite values and duplicate stage timestamps are rejected.
  * - A reported "pass" is ONLY evidence of declared numerical geometry and
@@ -81,6 +84,7 @@ export type TrajectoryEvaluation = Readonly<{
 }>;
 
 const clamp01 = (n:number) => Math.max(0,Math.min(1,n));
+const round12 = (n:number) => Math.floor(clamp01(n)*1e12+0.5)/1e12;
 const key = (p:InkPoint) => p.x+","+p.y;
 const neighbors8 = [[-1,-1],[0,-1],[1,-1],[-1,0],[1,0],[-1,1],[0,1],[1,1]] as const;
 const neighbors4 = [[0,-1],[1,0],[0,1],[-1,0]] as const;
@@ -242,7 +246,7 @@ function scoreShape(a:ShapeMetrics,b:ShapeMetrics,iou:number){
   const shapeScore=0.36*iou+0.10*occupancy+0.08*proportions+
     0.10*componentScore+0.10*holeScore+0.06*orientation+
     0.08*elongation+0.12*branching;
-  return {shapeScore,structuralScore,
+  return {shapeScore:round12(shapeScore),structuralScore:round12(structuralScore),
     scores:{occupancy,proportions,components:componentScore,holes:holeScore,
       orientation,elongation,branching}};
 }
@@ -354,7 +358,7 @@ export function evaluateTrajectory(
   const scores=stages.map(s=>s.shapeScore).filter((x):x is number=>x!==null);
   const min=scores.length?Math.min(...scores):null,
     mean=scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:null;
-  const aggregate=mean===null||min===null?null:(mean+min)/2;
+  const aggregate=mean===null||min===null?null:round12((mean+min)/2);
   const reasons:string[]=[];
   if(ordered.length<TRAJECTORY_GATE.minStages)reasons.push("insufficient-milestones");
   if(actual.length!==references.length||actual.some(a=>!references.some(r=>r.atHour===a.atHour)))
