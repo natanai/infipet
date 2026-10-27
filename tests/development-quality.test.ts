@@ -406,7 +406,7 @@ test("[DEV-006/A2] independent counterexamples catch material erasure, duplicate
   const {program}=capture(target,"audit-counterexample");
   const born=program.source;
   const source=born.sourceCells[0]!;
-  const bad=(g:MaterialGraph,diagnostic?:RegExp)=>assert.throws(()=>audit(g,born,0),diagnostic);
+  const bad=(g:MaterialGraph,diagnostic:RegExp)=>assert.throws(()=>audit(g,born,0),diagnostic);
   bad({...born,sourceCells:born.sourceCells.slice(1)},/permanent original ink/);
   bad({...born,cells:[...born.cells,{...source}]},/duplicated material identity/);
   const point=born.protectedVoids[0];
