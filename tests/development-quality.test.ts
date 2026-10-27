@@ -29,6 +29,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createSimulation } from "../src/simulation";
 import { createUnifiedMaterialTimeline } from "../src/integration/unified-runtime";
+import { compileLifetimeRemodeling, type RemodelOperation } from "../src/development/lifetime-remodeling";
+import { remodelingProposalsBetween, applyRemodelingProposal } from "../src/development/remodel-transactions";
 import { createCareOperatorChronology, createEnvironmentalHistory } from "../src/environment";
 import { createGame, advanceGame, commandGame, HOUR } from "../src/gameplay";
 import type { MaterialCell, MaterialGraph, MaterialDevelopmentProgram } from "../src/development";
@@ -448,6 +450,13 @@ test("[DEV-006/A2] bounded arbitrary-ink cohort audits causality and quantifies 
         const snap=sequence[i];
         assert.equal(snap.atHour,hours[i]);
         audit(snap.graph,born,hours[i]);
+        // A typed suppressed/deferred material quantum is not an accepted
+        // creation event. The final status for a unit decides its audit witness.
+        const decisions=new Map(snap.material.decisions.map(d=>[d.id,d]));
+        const eventIds=new Set(snap.graph.events.map(e=>e.id));
+        for(const [id,decision] of decisions)
+          assert.equal(eventIds.has(id),decision.status==="accepted",
+            "suppressed material cannot cause phantom anatomy: "+id);
         frames++;
         if(i>0) {
           const before=sequence[i-1].graph.events;
@@ -601,4 +610,60 @@ test("[DEV-006/A2] later recorded feeding and an optional later inspiration do n
     assert.deepEqual(changedTimeline.at(hour).graph,unfedTimeline.at(hour).graph,
       "future-only inspiration must not rewrite earlier physical operations");
   }
+});
+
+test("[DEV-006/A2] native translate and resorb transactions retain authored identities after real remodeling",()=>{
+  const shape:Shape={id:"real-remodel",parts:[
+    part("original-physical",["###","###","###"],{kind:"body"})]};
+  const {program,genome}=capture(shape,"DEV-006-physical-source-remodel");
+  const original=program.source;
+  const tissue=original.tissues[0]!;
+  const op=(id:string,kind:RemodelOperation["kind"]):RemodelOperation=>({
+    id,kind,tissueId:tissue.id,atHour:0.25,durationHours:12,
+    units:12,strength:1,direction:{x:1,y:0},
+  });
+  const remod=compileLifetimeRemodeling(program,genome,[
+    op("chronological-translate","translate"),
+    op("chronological-resorb","resorb"),
+  ]);
+  const next=remodelingProposalsBetween(remod,0,24);
+  const moving=next.find(p=>p.operation.kind==="translate");
+  const resorbing=next.find(p=>p.operation.kind==="resorb");
+  assert.ok(moving&&resorbing,
+    "real seeded genotype must authorize at least one material change");
+  const move=applyRemodelingProposal(original,remod,moving);
+  assert.equal(move.attempt.status,"accepted",move.attempt.reason??"");
+  const moved=move.graph;
+  const previous=new Map(original.cells.map(c=>[c.id,c]));
+  const relocated=moved.cells.filter(c=>c.provenance==="authored"&&
+    (previous.get(c.id)?.x!==c.x||previous.get(c.id)?.y!==c.y));
+  assert.ok(relocated.length>0,"must actually move an authored physical cell");
+  for(const c of relocated){
+    const source=original.sourceCells.find(o=>o.id===c.id)!;
+    assert.ok(source,"relocation must preserve source-cell identity");
+    assert.deepEqual(c.sourceIds,[source.id]);
+    assert.equal(c.operationId,null);
+    assert.equal(c.x,source.x+1);
+    assert.equal(c.y,source.y);
+  }
+  audit(moved,original,moving.atHour);
+  const absorbed=applyRemodelingProposal(moved,remod,resorbing,move.chronology);
+  if(absorbed.attempt.status==="accepted"){
+    const removed=absorbed.transition!.removedCellIds;
+    assert.ok(removed.length>0);
+    assert.ok(removed.every(id=>original.sourceCells.some(c=>c.id===id) ||
+      moved.events.some(e=>e.createdCellIds.includes(id))));
+    audit(absorbed.graph,original,resorbing.atHour);
+    assert.deepEqual(absorbed.graph.sourceCells,original.sourceCells);
+    assert.ok(removed.every(id=>absorbed.graph.events.some(e=>e.removedCellIds.includes(id))));
+  }else{
+    assert.strictEqual(absorbed.graph,moved,
+      "physically constrained resorption must not mutate surviving matter");
+    assert.ok(absorbed.deferral);
+  }
+  console.log("DEV-006 REMODEL "+JSON.stringify({
+    relocatedOriginalCells:relocated.length,
+    resorptionStatus:absorbed.attempt.status,
+    survivingOriginalSourceWitnesses:absorbed.graph.sourceCells.length,
+  }));
 });
