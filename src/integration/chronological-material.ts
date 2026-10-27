@@ -9,8 +9,8 @@
  * Time: nonnegative IEEE754 hours since hatching, never slider age/days.
  * Iterative interval [n,n+1) commits at n+1. Exact ties commit:
  *   0 canonical original-material interval completion,
- *   1 iterative-growth interval completion,
- *   2 fractional remodeling transition,
+ *   1 fractional remodeling transition,
+ *   2 iterative-growth interval completion,
  *   3 recorded care boundary (which can affect only following intervals).
  * Within one kind, lexical event ID decides, no insertion-order dependency.
  * A failed transition is atomic: no cells, links, sites, spent resources or
@@ -78,8 +78,8 @@ export type ChronologicalFrame<Context> = Readonly<{
 
 const priorities: Record<ChronologicalKind, number> = {
   "material-interval": 0,
-  "iterative-interval": 1,
-  "remodel-transition": 2,
+  "iterative-interval": 2,
+  "remodel-transition": 1,
   "care-boundary": 3,
 };
 export function compareChronologicalEvents(
@@ -244,8 +244,11 @@ export function evaluateChronologicalMaterial<Context>(
       throw new TypeError("Material proposal mutated its input state: " + proposal.id);
     const change = delta(previously, next.graph);
     if (!next.accepted) {
-      if (next.graph !== previously || next.context !== context)
-        throw new TypeError("Rejected proposal committed partial state: " + proposal.id);
+      if (next.graph !== previously)
+        throw new TypeError("Rejected proposal committed partial anatomy: " + proposal.id);
+      // Persistent suppression and deferral ledgers legitimately advance.
+      // Their immutable context can change without material being committed.
+      context = next.context;
       outcomes.push({ id: proposal.id, atHour: proposal.atHour,
         kind: proposal.kind, accepted: false,
         reason: next.reason ?? "deferred", delta: change });
@@ -264,10 +267,10 @@ export function evaluateChronologicalMaterial<Context>(
   return { graph, context, outcomes, lastHour: requestedHour };
 }
 
-/** Explicit upstream interface gap; do not substitute independent snapshots. */
-export const CHRONOLOGICAL_UPSTREAM_BLOCKERS = Object.freeze([
-  "DEV-002/CARE-002: cumulative care-adjusted material operators lack stateful transition deltas",
-  "DEV-003: iterativeGrowthAt recreates growth sites and chaotic orbit from its birth program instead of stepping an active graph",
-  "DEV-004: lifetimeRemodelingAt recreates material from its own birth and lacks an atomic transition on the live graph",
-  "DEV-003: no explicit post-512-hour lifetime policy for the existing >512-hour pet lifecycle",
+/** Historical from-birth functions remain noncomposable. The actual live
+ * timeline now uses the merged incremental contracts in unified-runtime.ts. */
+export const CHRONOLOGICAL_LEGACY_WARNINGS = Object.freeze([
+  "Do not replay cumulative careMaterialOperatorsAt on already-grown material",
+  "Do not use iterativeGrowthAt, whose legacy replay horizon is 512 hours",
+  "Do not use lifetimeRemodelingAt as an overlay of an unrelated birth snapshot",
 ]);
