@@ -61,7 +61,9 @@ export type UnifiedMaterialTimeline = Readonly<{
   /** Independent from-birth evaluation; does not read/write any checkpoint. */
   replay: (hour: number) => UnifiedMaterialState;
   checkpointCount: () => number;
-  /** A bounded copy of completed canonical hours; never fractional query states. */
+  /** Checkpoints PLUS a distinct most-recent integer-hour state. */
+  retainedStateCount: () => number;
+  /** A provenanced immutable completed canonical hour, never a fractional state. */
   exportCanonicalStates: (throughHour?: number) => readonly UnifiedMaterialState[];
   /** Observation only: zero cold advances on a successful history-prefix reuse. */
   evaluationStats: () => Readonly<{cold: number; resumed: number; imported: number}>;
@@ -392,6 +394,8 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
   }
   return {version:1,program,maxHour,birth,at,replay,
     checkpointCount:()=>checkpoints.size,
+    retainedStateCount:()=>checkpoints.size+
+      Number(!!hotHour&&!checkpoints.has(hotHour.atHour)),
     exportCanonicalStates:(throughHour=maxHour)=> {
       // Material graphs and iterative ledgers become large in late life.
       // Transfer only the newest completed hour that is causally safe.
