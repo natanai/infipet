@@ -22,7 +22,8 @@ type Authenticated = Readonly<{ snapshot: string; programFingerprint: string; se
 const authenticated = new WeakMap<object, Authenticated>();
 
 function snapshot(sample: StageSample): string {
-  return JSON.stringify([sample.atHour,sample.graph,sample.pixels,sample.renderWitness]);
+  return JSON.stringify([sample.atHour,sample.graph,sample.pixels,
+    sample.renderWitness,sample.renderScope]);
 }
 /** Integrity-checked runtime-only brand. Caller-set flags, IDs or clone copies do not qualify. */
 export function isIndependentlyReplayedProductionSample(sample: StageSample): boolean {
@@ -50,6 +51,7 @@ const copy=(parts:readonly PetPart[]):PetPart[]=>parts.map(p=>({
 /** Numbers are hours since hatching. Production frame age is hour/24 days. */
 export function buildProductionTrajectoryWitness(
   authored:readonly PetPart[],seed:string,hours:readonly number[],
+  options: Readonly<{renderScope?:"physical-material"|"composited-screen"}> = {},
 ):ProductionWitness{
   if(!seed||!hours.length||hours.length>16||
      hours.some(h=>!Number.isFinite(h)||h<0))
@@ -105,11 +107,12 @@ export function buildProductionTrajectoryWitness(
     }:undefined;
     // Frame pixels are the composited *visible* screen. Part annotation alone
     // is not enough: an occluded cell does not become visible by fiat.
-    const pixels:Pixel[]=diag?.physicalMaterial
-      ? frame.pixels.filter(p=>p.materialCellId).map(p=>({...p}))
-      : frame.pixels.map(p=>({...p}));
+    const pixels:Pixel[]=frame.pixels
+      .filter(p=>options.renderScope==="composited-screen"||!diag?.physicalMaterial||
+        !!p.materialCellId).map(p=>({...p}));
     const sampled:StageSample={id:"production-"+hour,atHour:hour,
-      pixels,graph:a,...(renderWitness?{renderWitness}:{})};
+      pixels,renderScope:options.renderScope??"physical-material",
+      graph:a,...(renderWitness?{renderWitness}:{})};
     const physicalResult=auditPhysicalEvidence(a,hour);
     const renderResult=auditRenderedOwnership(pixels,a,renderWitness);
     const frameIsTraceable=physicalResult.status!=="invalid"&&
@@ -125,7 +128,7 @@ export function buildProductionTrajectoryWitness(
       ...physicalResult.errors,...renderResult.errors,
     ].join(","));
     samples.push(sampled);
-    materialPixels+=pixels.length;
+    materialPixels+=pixels.filter(p=>p.materialCellId).length;
     annotatedPixels+=frame.parts.flatMap(p=>p.pixels.filter(cell=>cell.materialCellId)).length;
     generatedCells+=a.cells.filter(c=>c.provenance==="generated").length;
     graphEvents+=a.events.length;
