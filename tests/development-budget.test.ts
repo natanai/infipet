@@ -381,3 +381,86 @@ test("[PERF-001/A1] measured young-life bypass avoids transfer and preserves old
     independent.frameAt(age,{time:0,action:"idle"}).pixels);
   assert.ok(restored.getMaterialRuntimeStats!().imported>0);
 });
+
+test("[PERF-001/A1] adversarial checkpoint mutation, unbranded injection and cross-source identity are refused",()=>{
+  const {program,genome}=programFor("complex","perf/sealed/provenance");
+  const first=createUnifiedMaterialTimeline({program,genome});
+  first.at(12.5);
+  const states=first.exportCanonicalStates();
+  assert.equal(states.length,1);
+  const state=states[0];
+  assert.equal(state.atHour,12);
+  assert.ok(Object.isFrozen(state));
+  assert.ok(Object.isFrozen(state.graph));
+  assert.ok(Object.isFrozen(state.graph.cells));
+  assert.ok(Object.isFrozen(state.graph.cells[0]));
+  const identity=JSON.stringify(state);
+  assert.throws(()=>{
+    (state.graph.cells[0] as {x:number}).x=12345;
+  },TypeError,"immutable transferred cells must resist caller mutation");
+  assert.equal(JSON.stringify(state),identity);
+  const imported=createUnifiedMaterialTimeline({program,genome,canonicalStates:states});
+  assert.equal(imported.evaluationStats().imported,1);
+  assert.deepEqual(imported.at(13.125),imported.replay(13.125));
+  const forged=structuredClone(state);
+  (forged.graph.cells[0] as {x:number}).x+=1;
+  assert.throws(()=>createUnifiedMaterialTimeline({program,genome,
+    canonicalStates:[forged]}),/incompatible or fractional/);
+  const other=programFor("sparse","perf/sealed/provenance");
+  assert.throws(()=>createUnifiedMaterialTimeline({program:other.program,
+    genome:other.genome,canonicalStates:states}),/incompatible or fractional/);
+  assert.deepEqual(first.at(13),first.replay(13),
+    "transferring immutable material must not change the original pet");
+});
+
+test("[PERF-001/A1] adversarial sample, command, timestamp, save identity and evidence prefix edits fail closed",()=>{
+  const seed="perf/prefix/collision",source=named("complex");
+  const make=(game:ReturnType<typeof createGame>,withCache=true)=>
+    createSimulation(source,seed,"infant",{
+      careGame:game,needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),reuseLivingMaterial:withCache,
+    });
+  const input=createGame(seed,"infant",start);
+  const fed=commandGame(advanceGame(input,start+4*HOUR,"active"),
+    {type:"feed",food:"snack"},start+4*HOUR+190000,"id/one");
+  const served=commandGame(fed,{type:"start-game",game:"training"},
+    start+4*HOUR+210000,"id/two");
+  const baseline=advanceGame(served,start+6*HOUR,"active");
+  const makeWarm=()=>{
+    const sim=make(baseline);
+    sim.frameAt(6/24,{time:0,action:"idle"});
+  };
+  const corruptions:Array<(game:typeof baseline)=>void>=[
+    s=>{s.careSamples[0].values[0]=1-s.careSamples[0].values[0];},
+    s=>{s.careSamples[0].hour+=1;},
+    s=>{s.commandHistory[0]={...s.commandHistory[0],id:"id/collision"};},
+    s=>{s.commandHistory[0]={...s.commandHistory[0],
+      atMs:s.commandHistory[0].atMs+1000};},
+    s=>{s.commandHistory[0]={...s.commandHistory[0],accepted:false};},
+    s=>{s.commandHistory[0]={...s.commandHistory[0],
+      command:{type:"feed",food:"meal"}};},
+    s=>{s.clock.startedAtMs-=1000;},
+  ];
+  for(const corrupt of corruptions){
+    makeWarm();
+    const edit=structuredClone(baseline);
+    corrupt(edit);
+    const cached=make(edit),independent=make(edit,false);
+    assert.equal(cached.getMaterialRuntimeStats!().imported,0,
+      "content/history/origin edits must not inherit foreign physical checkpoints");
+    const age=(edit.clock.nowMs-edit.clock.startedAtMs)/(24*HOUR);
+    assert.deepEqual(cached.frameAt(age,{time:0,action:"idle"}).pixels,
+      independent.frameAt(age,{time:0,action:"idle"}).pixels);
+  }
+  makeWarm();
+  const altered=structuredClone(baseline);
+  altered.commandHistory.reverse();
+  assert.throws(()=>make(altered),/Invalid or unordered care command record/);
+  makeWarm();
+  const otherSave=structuredClone(baseline);
+  otherSave.clock.hatchAtMs+=1000;
+  const cached=make(otherSave),independent=make(otherSave,false);
+  assert.equal(cached.getMaterialRuntimeStats!().imported,0);
+  assert.deepEqual(cached.frameAt(6/24,{time:0,action:"idle"}).pixels,
+    independent.frameAt(6/24,{time:0,action:"idle"}).pixels);
+});
