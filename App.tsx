@@ -247,6 +247,8 @@ export default function App() {
   const [sandbox, setSandbox] = useState(false);
   const [settling, setSettling] = useState(false);
   const commandPending = useRef(false);
+  const pendingReturnLife = useRef<LivingPet | undefined>(undefined);
+  const returnGeneration = useRef(0);
   const deathSeen = useRef<string | null>(null);
   const legacyLife=!!life&&life.anatomicalClock!=="daily-365-v1";
   const playing = view === "live" && (!devEnabled || !sandbox) && !!life && !legacyLife;
@@ -418,9 +420,11 @@ export default function App() {
         void loadOriginalPetBackup().then(raw=>{if(active)setOriginalSavedPet(raw);});
         setHydrated(true);
       })
-      .catch(() => {
+      .catch(async () => {
+        const original=await loadOriginalPetBackup().catch(()=>null);
         if (active) {
-          setSaveError("Storage unavailable. Export your pet to keep a copy.");
+          setOriginalSavedPet(original);
+          setSaveError(original?"This saved pet could not be opened. Its original file is preserved in More → Export.":"Storage unavailable. Export your pet to keep a copy.");
           setHydrated(true);
         }
       });
@@ -483,23 +487,57 @@ export default function App() {
     return () => clearInterval(timer);
   }, [growing, writable]);
   useEffect(() => {
+    let disposed=false;
     const sub = AppState.addEventListener("change", (state) => {
       const nextPresence = state === "active" ? "active" : "absent";
-      const current = lifeRef.current;
-      if (current && current.anatomicalClock==="daily-365-v1" && presence.current !== nextPresence) {
-        commitLife({
-          ...advancePlayerLife(current, Date.now(), presence.current),
-        });
+      const previousPresence=presence.current;
+      const current=pendingReturnLife.current??lifeRef.current;
+      if(nextPresence==="absent"){
+        // Cancel a pending UI commit, retaining its chronological life for the
+        // next return. A partly caught-up graph never replaces the saved pet.
+        returnGeneration.current++;
+        if(pendingReturnLife.current)
+          pendingReturnLife.current=advancePlayerLife(pendingReturnLife.current,Date.now(),"absent");
+        else if(current?.anatomicalClock==="daily-365-v1"&&previousPresence==="active")
+          commitLife(advancePlayerLife(current,Date.now(),"active"));
+        presence.current="absent";
+        setGrowing(false);setMotion(false);
+        if(latest.current.writable)void persist("Could not save. Export a copy from More.");
+        return;
       }
-      presence.current = nextPresence;
-      if (state !== "active") {
-        setGrowing(false);
-        setMotion(false);
-        if (latest.current.writable)
-          void persist("Could not save. Export a copy from More.");
-      } else setMotion(true);
+      if(!current||current.anatomicalClock!=="daily-365-v1"){
+        presence.current="active";setMotion(true);return;
+      }
+      if(previousPresence==="active"&&!pendingReturnLife.current)return;
+      const generation=++returnGeneration.current;
+      pendingReturnLife.current=advancePlayerLife(current,Date.now(),"absent");
+      // Rendering continues with the previously complete state. Commands and
+      // ordinary ticks resume only after every missed physical check is ready.
+      presence.current="absent";commandPending.current=true;
+      setSettling(true);setMotion(false);
+      void (async()=>{
+        try{
+          for(;;){
+            const ready=await prepareReturnedLife(pendingReturnLife.current!);
+            if(disposed||generation!==returnGeneration.current)return;
+            const next=advancePlayerLife(ready,Date.now(),"absent");
+            const due=Math.min(365,Math.floor(Math.max(0,next.game.clock.nowMs-next.game.clock.hatchAtMs)/86400000));
+            const completed=(ready.anatomicalCheckpoint as {state?:{completedChecks?:number}}|undefined)?.state?.completedChecks??0;
+            pendingReturnLife.current=next;
+            if(completed<due)continue;
+            pendingReturnLife.current=undefined;
+            commitLife(next);presence.current="active";
+            commandPending.current=false;setSettling(false);setMotion(true);
+            if(latest.current.writable)void persist();
+            return;
+          }
+        }catch(error){
+          if(!disposed&&generation===returnGeneration.current)
+            setSaveError(error instanceof Error?error.message:"Could not reopen your pet. Export a copy from More.");
+        }
+      })();
     });
-    return () => sub.remove();
+    return () => { disposed=true;returnGeneration.current++;sub.remove(); };
   }, []);
   useEffect(() => {
     if (!motion || view !== "live") return;
@@ -718,7 +756,7 @@ export default function App() {
   };
   const careCommand = async (command: GameCommand) => {
     const current = lifeRef.current;
-    if (!current || commandPending.current) return;
+    if (!current || commandPending.current || presence.current!=="active") return;
     commandPending.current = true;
     setSettling(true);
     const now = Date.now();

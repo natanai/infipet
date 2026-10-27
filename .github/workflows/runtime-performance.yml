@@ -1,17 +1,12 @@
-name: Runtime performance evidence
+name: Daily runtime performance evidence
 on:
-  pull_request:
-    paths:
-      - 'scripts/profile-runtime.ts'
-      - 'tests/alg-runtime-performance-invariants.test.ts'
-      - '.github/workflows/runtime-performance.yml'
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   profile:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -22,7 +17,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Run bounded authoritative runtime profiling
-        run: pnpm exec tsx scripts/profile-runtime.ts
-        env:
-          NODE_OPTIONS: --expose-gc --max-old-space-size=1536
+      - name: Verify isolated daily-runtime budgets
+        run: node scripts/roadmap.mjs --task=PERF-001 --run
+      - name: Measure warm scenarios against fresh chronological cold references
+        run: node --expose-gc --max-old-space-size=768 --import tsx scripts/daily-benchmark.ts

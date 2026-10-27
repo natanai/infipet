@@ -1,8 +1,8 @@
 # Infipet active game instructions
 
-## Approved real-time anatomical clock — mandatory migration contract
+## Real-time anatomical clock — mandatory production contract
 
-**Authoritative machine-readable definition:** `roadmap/plan.json#anatomicalDevelopment`. This is the **approved target**, not a claim that current production code has already been migrated. Historical hourly implementation tests are evidence of prior behavior, not specification authority.
+**Authoritative machine-readable definition:** `roadmap/plan.json#anatomicalDevelopment`. The production path is `createSimulation` → `createDailyMaterialTimeline` → `applyDailyMaterialStep`. Historical hourly tests cover shared numerical primitives, never the live anatomical schedule.
 
 - For a hatched/born living pet, let `T₀ = game.clock.hatchAtMs` (persisted safe-integer epoch milliseconds), and `Δ = 86,400,000 ms`. Exactly **365 anatomical check opportunities**, at `Tₖ = T₀ + kΔ`, integer `1 ≤ k ≤ 365`. Check 0 is original ink, not growth. Egg incubation precedes the hatch anchor.
 - Physical material graph **must be unchanged** on every open interval `[Tₖ, Tₖ₊₁)`; animations, expression, pose and physiological updates are not material transactions. Never change cells, tissues, source/provenance, attachments or geometry on an arbitrary frame, hourly resource tick or fractional care-command time.
@@ -10,10 +10,10 @@
 - Each daily physical step is deterministic and source-conserving: immutable authored ink, once-fixed genome/seed, explicit permissible growth/remodeling/resorption operations, numerical bounds, and actual care determine zero or more accepted material transactions. Null growth is legitimate. No stage sprites or forced novelty.
 - Catch up missed days with all due check indices in chronological order, at most 365 *lifetime* checks; loading, clock rewinding, app reloads, previews and repeated frame queries must never double-apply a check. Cached snapshots and fresh-from-birth replay must agree in full physical event and identity inventory.
 - The 365th check is the **last** physical development opportunity. After it, the same physical anatomy persists indefinitely while alive; care, need states, gameplay, locomotion and non-anatomical visuals may continue.
-- The existing **30-day forced lifespan** and **8,192-hour hourly physical-growth horizon** are legacy constraints **to remove/supersede**. Natural or care-related death may still end a creature's remaining checks early; healthy saved lives must be able to span 365 days or longer. Do not merely increase an hourly loop from 8,192 to 8,760.
+- The former **30-day forced lifespan** and **8,192-hour hourly physical-growth horizon** have been retired. Natural or care-related death may still end a creature's remaining checks early; healthy saved lives must be able to span 365 days or longer. Do not merely increase an hourly loop from 8,192 to 8,760.
 - Times are 24 elapsed hours, not a midnight reset; DST, time-zone changes, and local-only clocks are addressed explicitly. Local offline time cannot be fully protected from device-clock manipulation without trusted external time.
-- **In-progress implementation:** New tasks DEV-007 (Development: pure daily material operators), CARE-004 (Environment: daily care-window forcing) and GAME-002 (Gameplay: lifespan/real clock) can proceed **independently** from verified main. INT-002 owns their later live-runtime composition, and EVAL-004/PERF-001 requalify after it. Do not tell a worker to wait for another agent. Only issue assignments with satisfied dependencies.
-- Ownership is strict: Development writes `src/development/`, Environment writes `src/environment/`, Gameplay writes `src/gameplay/index.ts`; leave `src/integration/`, `src/simulation/growth.ts`, `App.tsx` and evaluation to their respective future owners. Follow the named typed interfaces in `anatomicalDevelopment.sharedContract`.
+- Daily APIs and mathematical contracts live in `src/development/daily-step.ts` and `src/environment/daily-care.ts`. The integration timeline is the only player physical authority. Shared primitives interpret one dimensionless tick as one opportunity; do not multiply it into 24 physical steps.
+- Preserve bounded, history-verified checkpoints, exact fresh replay and source-derived functional rendering. Catch up missed checks in short UI work slices before committing a completed state. Follow the typed interfaces in `anatomicalDevelopment.sharedContract`.
 
 ## Single-creature evolution semantics — mandatory for every agent
 
@@ -31,7 +31,7 @@
 - Separate independent preview/Lab state from a committed living pet. Preserve replay-deterministic time, seed, drawing, chronological care events, gameplay outcomes and ordinary reload saves.
 - Do not add bulk generated audits, downloaded phylogeny files, retrospective screenshots, or run logs to `main`. Tests should cover current gameplay and growth behavior.
 - Run typecheck, focused regressions and web export before publishing. Automated passes are not proof of visually convincing growth; review unfamiliar player drawings over complete lifetimes.
-- This is an experimental prototype; do not introduce migration/backups or support for previous save versions without a request. Archived full history: `archive/pre-minimal-2026-10-25`.
+- Earlier saved lives remain unchanged and read-only with exact-byte recoverable backups, as requested by the daily migration contract. Never fabricate their past daily transactions or silently restart their birth. A new daily life requires the existing explicit replacement action. Archived full history: `archive/pre-minimal-2026-10-25`.
 
 ## Mathematical verification and deterministic chaotic dynamics — mandatory
 
@@ -49,7 +49,7 @@ Infipet should obtain vast morphological diversity from a **small, inspectable c
 - Historical retro drawings are immutable **test references**, never runtime goals. Their bundled alphanumeric seeds are reproducible **unvalidated candidates**, not magic shortcuts to a named form.
 - Gameplay morphology must be generated solely from authored ink, the seed-inherited genome, the phylogenetic prior, chronological care/training/battle, and clock. Never reference retro character names, IDs, target pixel masks, or stage sprite tables inside the morphology renderer or its gene compiler.
 - Original-device evolution requires a **witness**: source drawing, particular seed, replayable player care commands or explicit history, stage timings, and independently measured resemblance at every checkpoint. No stage lookup or sprite interpolation counts as an algorithmic success. Treat ROM-derived P1 count predicates as constraints, not proof of live command replay.
-- Growth within a pet is ontogeny; the OpenTree animal ancestry graph constrains possible developmental specializations. Plant ancestry is not implemented: do not label a guessed shape as belonging to a plant clade without a real bundled provenance-backed plant subtree.
+- Growth within a pet is ontogeny. Bundled provenance-backed animal, plant and fungal reference graphs constrain possibilities. A guessed drawing affinity never establishes scientific ancestry.
 
 ## Canonical implementation checklist (required for every agent)
 
@@ -59,9 +59,9 @@ Infipet should obtain vast morphological diversity from a **small, inspectable c
 - Set status to `done` only after all its acceptance claims are asserted, the focused test passes and prerequisites are complete. The roadmap validator rejects unevidenced completion and cyclic/missing dependencies. CI executes validation and all focused tests.
 - Update the JSON task in the **same commit** as implementation and its tests; keep task IDs stable, and use `in_progress` or `blocked` when unfinished. Avoid accumulating large report assets.
 
-## Algorithm ownership and prototype-phase verification reset
+## Algorithm ownership and verification
 
-- The `algorithms` array in `roadmap/plan.json` defines agent-owned write scopes, interface contracts, task IDs and readiness gates. Assign one algorithm owner per agent. Do not edit another owner's files without arranging a handoff; `App.tsx`, `src/simulation/growth.ts`, and `src/lineage/index.ts` are integration-owned shared surfaces.
+- The `algorithms` array in `roadmap/plan.json` defines agent-owned write scopes, interface contracts, task IDs and readiness gates. If delegating, assign one write owner per agent and arrange handoffs; `App.tsx`, `src/simulation/growth.ts`, and `src/lineage/index.ts` are integration-owned shared surfaces.
 - Keep CI focused: roadmap integrity, TypeScript typecheck and the currently registered algorithm acceptance tests. Web publishing and browser qualification are separate. Previously retired prototype tests remain available in history; do not treat old hourly benchmarks as proof of the new 365-check runtime.
 - New development gets exactly one narrow contract test per task or coherent algorithm behavior. Name it `tests/alg-<algorithm-id>-<feature>.test.ts`, register it in the JSON plan, and only add it to the lightweight `pnpm test` baseline when the behavior becomes a stable invariant. Do not invent general scans or generate screenshots.
 

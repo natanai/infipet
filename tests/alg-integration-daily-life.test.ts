@@ -32,6 +32,10 @@ test("[INT-002/A1] production API preserves one daily anatomy, immediate care, f
     assert.deepEqual(state.checks.map(c=>c.checkIndex),Array.from({length:day},(_,i)=>i+1));
     assert.deepEqual(state.checks.map(c=>c.atMs),Array.from({length:day},(_,i)=>T+(i+1)*DAY));
   }
+  for(const k of [1,365]){
+    assert.equal(live.materialStateAt(k-0.25/DAY).completedChecks,k-1,"sub-ms UI queries cannot round into a future check");
+    assert.equal(live.materialStateAt(k).completedChecks,k);
+  }
   assert.deepEqual(live.materialStateAt(366),live.materialStateAt(365));
   assert.deepEqual(geometry(live.frameAt(366)),geometry(live.frameAt(365)));
   assert.ok(live.frameAt(366,{time:2}).wellbeing);
@@ -113,4 +117,20 @@ test("[INT-002/A2] portable checkpoint SHA-256 agrees with independent native cr
   const {createHash}=await import("node:crypto");
   for(const text of ["","abc","漢字 and 🐾",String.fromCharCode(0xd800),"a".repeat(10000),JSON.stringify({T,source:fixtures.fantasy})])
     assert.equal(checkpointDigest(text),createHash("sha256").update(text).digest("hex"));
+});
+
+test("[INT-002/A2] source-owned grooming poses existing hair without any between-check anatomical transaction",()=>{
+  const body:PetPart={id:"body",kind:"body",name:"body",parentId:null,position:{x:0,y:0},pixels:[{x:16,y:25,color:"#607840"}]};
+  const hair:PetPart={id:"hair",kind:"hair",name:"hair",parentId:"body",position:{x:0,y:0},pixels:Array.from({length:20},(_,i)=>({x:16,y:5+i,color:"#708040"}))};
+  const parts=[body,hair],game=advanceGame(createGame("BRUSH-POSE","infant",T),T+4*DAY,"absent");
+  const original=sim(parts,game),from=original.frameAt(3.5).parts.find(p=>p.kind==="hair")!.pixels[10];
+  const stroke=original.groomingStrokeAt(3.5,from,{x:from.x+12,y:from.y});
+  assert.ok(stroke,"the brush must hit actual owned material");assert.equal(stroke.tick,84);
+  const brushed=createSimulation(parts,game.seed,"infant",{careGame:game,groomingTimeline:[stroke]});
+  assert.deepEqual(brushed.materialStateAt(3.75),original.materialStateAt(3.75),"brushing has no authority to create, remove or relocate physical cells");
+  const a=original.frameAt(3.75),b=brushed.frameAt(3.75);
+  const quads=(f:typeof a)=>(f.interaction.diagnostics as {physicalMaterial:{renderedCellQuads:unknown}}).physicalMaterial.renderedCellQuads;
+  assert.notDeepEqual(quads(a),quads(b),"the bounded cosmetic hair pose responds to real brushing");
+  assert.deepEqual(brushed.materialStateAt(4),original.materialStateAt(4),"grooming cannot become an unrecorded anatomical growth input");
+  assert.equal(original.groomingStrokeAt(3.5,{x:60,y:60},{x:61,y:62}),null);
 });

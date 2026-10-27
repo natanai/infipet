@@ -1,6 +1,5 @@
 /**
- * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY hourly physical stepper, retained temporarily for backward comparison. Approved physical-development contract is 365 checks at hatchAtMs+k*86400000 only; this module must be replaced/adapted by DEV-007 and INT-002, not extended to 8760 hourly mutations.
- * Historical tests and algorithms remain until the disjoint daily migration lands.
+ * Shared single-tick numerical primitive. The daily production transaction interprets one tick as one daily opportunity, commits at T_k, and never runs 24 hourly physical steps. The stand-alone hour-named API and its long-domain tests are legacy numerical coverage, not a player-life schedule.
  */
 /**
  * Composable DEV-003 hourly transaction for the ONE authoritative organism.

@@ -95,7 +95,7 @@ export function createDailyMaterialTimeline(options:Options):DailyMaterialTimeli
     if(!Number.isFinite(hour)||hour<0||hour>maxHour)
       throw new RangeError("Anatomy query exceeds recorded elapsed life");
     // Convert elapsed hours without reconstructing/rounding epoch timestamps.
-    return Math.min(FINAL_ANATOMICAL_CHECK,Math.floor(Math.round(hour*3600000)/86400000));
+    return Math.min(FINAL_ANATOMICAL_CHECK,Math.floor(hour/24));
   }
   function advance(state:DailyMaterialState,k:number,retain:boolean){
     let s=state;

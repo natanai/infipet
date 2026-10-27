@@ -1,8 +1,9 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 
-// Package only the exported app shell. Pet documents stay in AsyncStorage;
+// Package only the exported app shell. Pet documents stay in local saved-life storage;
 // no pet, care, seed or development state is stored in the service-worker cache.
 const root = path.resolve("dist");
 const base =
@@ -10,6 +11,12 @@ const base =
     /\/+/g,
     "/",
   );
+// Public deployment identity has no player data. Read the checked-out commit,
+// including workflow_run deployments, rather than the triggering default SHA.
+await writeFile(path.join(root,"release.json"),JSON.stringify({
+  commit:execFileSync("git",["rev-parse","HEAD"],{encoding:"utf8"}).trim(),
+  anatomicalClock:"daily-365-v1",finalCheck:365,
+})+"\n");
 const files = [];
 async function visit(dir) {
   for (const entry of await readdir(path.join(root, dir), {

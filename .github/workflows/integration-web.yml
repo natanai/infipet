@@ -3,17 +3,12 @@ on:
   pull_request:
     paths:
       - "App.tsx"
-      - "src/components/**"
-      - "src/presets.ts"
-      - "src/palette.ts"
-      - "scripts/offline-web.mjs"
+      - "src/**"
+      - "scripts/**"
       - "tests/player-interface.browser.mjs"
       - "package.json"
       - "pnpm-lock.yaml"
-      - "src/integration/**"
-      - "scripts/benchmark-browser-runtime.mjs"
-      - "src/simulation/**"
-      - "tests/alg-integration-unified-development.test.ts"
+      - "app.config.ts"
       - ".github/workflows/integration-web.yml"
   workflow_dispatch:
 permissions:
@@ -24,7 +19,9 @@ concurrency:
 jobs:
   build-web:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    env:
+      INFIPET_BASE_URL: /infipet
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -35,13 +32,11 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Export deployable web bundle
+      - name: Export deployable app under the Pages path
         run: pnpm build:web
-      - name: Install browser for player-flow verification
+      - name: Install browser for real player flows
         run: pnpm exec playwright install --with-deps chromium
-      - name: Verify player interface and offline return
+      - name: Verify daily boundaries, saved-year reopening, recovery and offline return
         run: pnpm test:ui
-      - name: Profile actual player one-second ticks in headless desktop/mobile-viewport Chromium
+      - name: Measure actual saved-life browser responsiveness
         run: node scripts/benchmark-browser-runtime.mjs
-      - name: Benchmark 32x32 ink through 720h and 8192h
-        run: node --max-old-space-size=768 --import tsx scripts/benchmark-unified.ts

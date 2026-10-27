@@ -40,7 +40,11 @@ export function validateDailyCareWindow(w:DailyCareWindowV1):void {
   if(!w||w.version!==1 ||w.checkIndex<1 ||
       w.startMs!==dailyCheckTime(w.hatchAtMs,w.checkIndex-1)||
       w.endMs!==dailyCheckTime(w.hatchAtMs,w.checkIndex)||
-      !w.forcing||Object.values(w.forcing).some(v=>!Number.isFinite(v)||v<0||v>1)||
+      !w.forcing||Array.isArray(w.forcing)||
+      !["nutrition","rest","activity","threat","security","observedFraction"].every(key=>{
+        const value=(w.forcing as Record<string,number>)[key];
+        return Number.isFinite(value)&&value>=0&&value<=1;
+      })||Object.keys(w.forcing).length!==6||
       ![w.acceptedCommands,w.rejectedCommands,w.observations,w.activeMs,w.absentMs,w.unknownMs]
         .every(v=>Number.isSafeInteger(v)&&v>=0)||
       w.activeMs+w.absentMs+w.unknownMs!==DAILY_INTERVAL_MS ||

@@ -61,13 +61,13 @@ export function classifySource(atlas: SourceAtlas): LineagePlacement {
 }
 
 /**
- * A legacy bridge for the existing stage-oriented rendering program.
+ * A diagnostic compatibility bridge for stage metadata.
  * Life stages do NOT advance along descendant taxa, and neither care nor a
  * random draw rewrites scientific ancestry. Developmental inspiration
  * candidates are separately available through compileRuntimeBiology().
  *
- * This deliberately adds NO physical growth operator. Agent 4 and Agent 5
- * will connect their real material/exposure contracts after they are merged.
+ * This deliberately adds NO physical growth operator. The production daily
+ * material timeline independently owns physical execution and care forcing.
  */
 export function compileLineage(
   atlas: SourceAtlas,

@@ -24,6 +24,7 @@ import {
   createGroomingSimulation,
   GROOMING_RULES,
   type GroomStroke,
+  type GroomingBinding,
 } from "./grooming";
 import {
   compileSources,
@@ -772,6 +773,14 @@ export function createSimulation(
     structural = new Map<number, ResolvedDevelopment>(),
     frames = new Map<string, PetFrame>(),
     materialSnapshots = new Map<number, MaterialGraph>();
+  // UI ages are days represented by IEEE754 Numbers. Correct only conversion
+  // roundoff near an integer millisecond; never round a genuine sub-ms query
+  // across a check. Persisted physical events still use exact epoch integers.
+  const physicalHour=(age:number)=>{
+    const ms=Math.max(0,(age-hatchAt)*86400000),nearest=Math.round(ms);
+    const error=8*Number.EPSILON*Math.max(1,Math.abs(age),Math.abs(hatchAt))*86400000;
+    return Math.min(unified.maxHour,(Math.abs(ms-nearest)<=error?nearest:ms)/3600000);
+  };
   const materialAt = (chronologicalHour: number): MaterialGraph => {
     // Actual shared CARE + DEV-002/003/004 anatomy. Recorded care is finite:
     // beyond the observed horizon hold the graph, never invent future feeding.
@@ -1009,7 +1018,7 @@ export function createSimulation(
     };
     result.sourceFingerprint = String(hash(signature));
     result.programFingerprint = programFingerprint;
-    const physical=unified.at(Math.min(unified.maxHour,Math.max(0,Math.round((age-hatchAt)*86400000)/3600000)));
+    const physical=unified.at(physicalHour(age));
     let metadata=dailyStateMetadata.get(physical);
     if(!metadata){
       const active=new Set(physical.graph.cells.map(c=>c.tissueId));
@@ -1036,8 +1045,7 @@ export function createSimulation(
     const age=Number.isFinite(rawAge)?clamp(rawAge,0,MAX_SIMULATION_DAYS):maxAge;
     const careAge=Math.max(0,age-hatchAt),time=Math.max(0,opts.time??0),action=opts.action??"idle";
     const egg=mode==="egg"&&age<hatchAt;
-    const elapsedMs=Math.round(careAge*86400000);
-    const physical=unified.at(Math.min(unified.maxHour,elapsedMs/3600000));
+    const physical=unified.at(physicalHour(age));
     const graph=physical.graph;
     const wellbeing=needs.stateAt(careAge);
     const pace=clamp(genes.pace*(0.6+0.5*wellbeing.development.recovery),0.15,3);
@@ -1071,6 +1079,16 @@ export function createSimulation(
     const {byId,tissueSource,groups,original,regions,functional,rig}=geometry;
     const pose=poseFunctionalGraph(rig,{time,action,pace,amplitude});
     const bindings=new Map(functional.bindings.map(b=>[b.tissueId,b]));
+    // Brushing poses existing authored hair; it never lengthens it or changes
+    // material inventory. The existing bounded relaxation law controls bend.
+    const groomBindings:GroomingBinding[]=regions.filter(r=>r.kind==="hair").map(r=>({
+      id:r.id,kind:r.kind,parentId:r.parentId,sourceIds:r.sourceIds,
+      materialAnchor:r.source!.pivot,growthAxis:{x:r.tip.x-r.anchor.x,y:r.tip.y-r.anchor.y},
+      influenceRadius:Math.max(1,Math.hypot(r.rx,r.ry)),
+      geneticOpportunity:{length:0,bend:1},
+    }));
+    const groom=groomingSimulation.stateAt(careAge,groomBindings);
+
     const regionsBySource=new Map(regions.map(r=>[r.source!.id,r]));
     const quads:{partId:string;cellId:string;quad:Point[]}[]=[];
     const parts:PartFrame[]=graph.tissues.flatMap(t=>{
@@ -1081,8 +1099,14 @@ export function createSimulation(
       const source=tissueSource.get(t.sourcePartId),region=regionsBySource.get(t.sourcePartId);
       const binding=bindings.get(t.id);
       const transform=pose.transforms[binding?.rigId??(original.has(t.id)?t.id:region?.id??"")];
-      const transport=(p:Point):Point=>time===0&&action==="idle"||!transform?{...p}:
-        binding?poseLinkedMaterial(p,binding,transform):transformLocomotionPoint(p,transform);
+      const transport=(p:Point):Point=>{
+        let point=p;
+        const bend=source?.kind==="hair"?groom.byRegion[region?.id??t.id]?.bendRadians??0:0;
+        if(bend&&region){const dx=p.x-region.anchor.x,dy=p.y-region.anchor.y,c=Math.cos(bend),s=Math.sin(bend);
+          point={x:region.anchor.x+dx*c-dy*s,y:region.anchor.y+dx*s+dy*c};}
+        return time===0&&action==="idle"||!transform?{...point}:
+          binding?poseLinkedMaterial(point,binding,transform):transformLocomotionPoint(point,transform);
+      };
       const partId=authored?t.id:"material-growth/"+t.id;
       const material=cells.map(cell=>({cell:{x:cell.x,y:cell.y,color:cell.color,...(cell.z===undefined?{}:{z:cell.z}),materialCellId:cell.id,
           materialSourceIds:cell.sourceIds,materialParentCellIds:cell.parentCellIds,
@@ -1101,6 +1125,7 @@ export function createSimulation(
     const pixels=composite(parts);
     const diagnostics={...pose.diagnostics,camera:{scale:1,offset:{x:0,y:0}},worldPosition:pose.worldPosition,
       worldCameraX:pose.cameraWorldX,materialLocomotionEvidence:functional.evidence,
+      groomingPose:{appliedStrokes:groom.input.appliedStrokes,regions:groom.byRegion},
       physicalMaterial:{version:graph.version,sourceFingerprint:graph.sourceFingerprint,
         generatedCells:graph.cells.filter(c=>c.provenance==="generated").length,
         graphEvents:graph.events.length,completedChecks:physical.completedChecks,mature:physical.completedChecks===365,
@@ -1144,8 +1169,7 @@ export function createSimulation(
     developmentAt,
     frameAt,
     exportAnatomicalCheckpoint:()=>unified.exportSavedCheckpoint(),
-    materialStateAt:(age:number)=>unified.at(Math.min(unified.maxHour,
-      Math.max(0,Math.round((age-hatchAt)*86400000)/3600000))),
+    materialStateAt:(age:number)=>unified.at(physicalHour(age)),
     getMaterialRuntimeStats: () => unified.evaluationStats(),
     getRenderCacheStats: () =>
       Object.freeze({
@@ -1166,131 +1190,19 @@ export function createSimulation(
         return null;
       const frame = frameAt(age, { time: 0, action: "idle" });
       if (frame.stage === "egg") return null;
-      const current = structure(liveClock.toMorphology(frame.developmentalAge)),
-        birth = frame.developmentalAge === 0;
-      const rig = buildFunctionalGraph(
-        rigNodes(current.regions),
-        current.preferred,
-      );
-      const pose = poseFunctionalGraph(rig, {
-        time: 0,
-        action: "idle",
-        pace: frame.motionPace,
-        amplitude: frame.motionAmplitude,
-      });
-      const camera = (
-        frame.interaction.diagnostics as
-          { camera?: { scale: number; offset: Point } } | undefined
-      )?.camera;
-      const view = (p: Point) =>
-        birth
-          ? p
-          : {
-              x: p.x * (camera?.scale ?? 1) + (camera?.offset.x ?? 0),
-              y: p.y * (camera?.scale ?? 1) + (camera?.offset.y ?? 0),
-            };
-      const generatedHit = frame.parts
-        .filter(
-          (p) =>
-            !p.sourcePartId &&
-            p.pixels.some(
-              (cell) => (cell.x - from.x) ** 2 + (cell.y - from.y) ** 2 <= 9,
-            ),
-        )
-        .sort((a, b) => (b.layer ?? 0) - (a.layer ?? 0))[0];
-      let best:
-        | {
-            distance: number;
-            sourceId: string;
-            anchor: Point;
-            project: (point: Point) => Point;
-          }
-        | undefined;
-      for (const region of current.regions) {
-        if (
-          !region.source ||
-          ["eye", "mouth", "decoration"].includes(region.kind)
-        )
-          continue;
-        const part = frame.parts.find((p) => p.id === region.id);
-        if (!part?.pixels.length) continue;
-        const transform =
-          ["hair"].includes(region.kind) && region.parentId
-            ? (pose.transforms[region.parentId] ?? pose.transforms[region.id])
-            : pose.transforms[region.id];
-        const materialPoint = (point: Point) => {
-          const mapped = mapSourcePoint(region, point);
-          return birth || !transform
-            ? mapped
-            : poseAuthoredMaterial(region, mapped, transform);
-        };
-        const anchor = view(
-          materialPoint(region.anchorSourcePoint ?? region.source.pivot),
-        );
-        const correction = {
-          x: part.anchor.x - Math.round(anchor.x),
-          y: part.anchor.y - Math.round(anchor.y),
-        };
-        const project = (point: Point) => {
-          const p = view(materialPoint(point));
-          return { x: p.x + correction.x, y: p.y + correction.y };
-        };
-        for (const cell of region.source.cells) {
-          const clip = region.sourceClip;
-          if (
-            clip &&
-            (cell[clip.axis] < clip.min || cell[clip.axis] >= clip.max)
-          )
-            continue;
-          const display = project(cell),
-            distance = (display.x - from.x) ** 2 + (display.y - from.y) ** 2;
-          if (
-            (distance <= 9 ||
-              generatedHit?.sourcePartIds?.includes(region.source.id)) &&
-            (!best || distance < best.distance - 1e-9)
-          )
-            best = {
-              distance,
-              sourceId: region.source.id,
-              anchor: { x: cell.x, y: cell.y },
-              project,
-            };
-        }
-      }
-      if (!best) return null;
-      const p = best.project(best.anchor),
-        xx = best.project({ x: best.anchor.x + 0.5, y: best.anchor.y }),
-        yy = best.project({ x: best.anchor.x, y: best.anchor.y + 0.5 });
-      const ax = (xx.x - p.x) * 2,
-        ay = (xx.y - p.y) * 2,
-        bx = (yy.x - p.x) * 2,
-        by = (yy.y - p.y) * 2,
-        det = ax * by - ay * bx;
-      if (Math.abs(det) < 1e-7) return null;
-      const dx = to.x - from.x,
-        dy = to.y - from.y;
-      const direction = {
-        x: (by * dx - bx * dy) / det,
-        y: (ax * dy - ay * dx) / det,
-      };
-      const length = Math.hypot(direction.x, direction.y);
-      if (length < 1e-7) return null;
-      const touched = tissues.find((t) => t.id === best!.sourceId);
-      const parent = touched?.parentId
-        ? tissues.find((t) => t.id === touched.parentId)
-        : undefined;
-      const sourceId =
-        (touched?.kind === "foot" && parent?.kind === "leg") ||
-        (touched?.kind === "hand" && parent?.kind === "arm")
-          ? parent.id
-          : best.sourceId;
-      return {
-        tick: Math.round(frame.developmentalAge * 24),
-        sourceId,
-        materialAnchor: best.anchor,
-        direction: { x: direction.x / length, y: direction.y / length },
-        strength: clamp(Math.hypot(dx, dy) / 12, 0.1, 1),
-      };
+      const physical=unified.at(physicalHour(age)),byId=new Map(physical.graph.cells.map(c=>[c.id,c]));
+      const allowed=new Set(frame.parts.filter(p=>!["eye","mouth","decoration"].includes(p.kind)).map(p=>p.id));
+      const nearest=frame.parts.filter(p=>allowed.has(p.id)).flatMap(p=>p.pixels)
+        .filter(p=>p.materialCellId&&((p.x-from.x)**2+(p.y-from.y)**2<=9))
+        .sort((a,b)=>(a.x-from.x)**2+(a.y-from.y)**2-((b.x-from.x)**2+(b.y-from.y)**2)||compareText(a.materialCellId!,b.materialCellId!))[0];
+      const cell=nearest?.materialCellId?byId.get(nearest.materialCellId):undefined;
+      const root=cell?.sourceIds.map(id=>physical.graph.sourceCells.find(c=>c.id===id)).find(Boolean);
+      const sourceId=root&&physical.graph.tissues.find(t=>t.id===root.tissueId)?.sourcePartId;
+      if(!root||!sourceId)return null;
+      const dx=to.x-from.x,dy=to.y-from.y,length=Math.hypot(dx,dy);
+      return {tick:Math.floor(frame.developmentalAge*24),sourceId,
+        materialAnchor:{x:root.x,y:root.y},direction:{x:dx/length,y:dy/length},
+        strength:clamp(length/12,0.1,1)};
     },
   };
 }

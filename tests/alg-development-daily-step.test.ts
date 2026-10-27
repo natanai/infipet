@@ -64,6 +64,9 @@ test("[DEV-007/A2] exact first/final boundaries, duplicate rejection and no post
   assert.throws(()=>applyDailyMaterialStep(program,genome,s,window(1)),/Duplicate/);
   assert.throws(()=>applyDailyMaterialStep(program,genome,s,{...window(2),endMs:T+2*DAY-1}),/DailyCare/);
   assert.throws(()=>applyDailyMaterialStep(program,genome,s,{...window(2),checkIndex:2.1}),/clock/);
+  for(const forcing of [{}, {...window(2).forcing,nutrition:NaN}, {...window(2).forcing,unrecorded:1}])
+    assert.throws(()=>applyDailyMaterialStep(program,genome,s,{...window(2),forcing} as DailyCareWindowV1),/DailyCare/);
+
   for(let k=2;k<=365;k++)s=applyDailyMaterialStep(program,genome,s,window(k,0));
   assert.equal(s.checks[364].atMs,dailyCheckTime(T,365));
   assert.throws(()=>applyDailyMaterialStep(program,genome,s,window(366)),/clock/);

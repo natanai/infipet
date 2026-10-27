@@ -1508,8 +1508,8 @@ export function validateGameState(value: unknown): GameState {
     }
   }
   const validated=copyGame(s);
-  validated.careSamples=validated.careSamples.map(o=>Object.freeze({...o,values:Object.freeze([...o.values]) as unknown as number[]}));
+  validated.careSamples=validated.careSamples.map(o=>Object.isFrozen(o)&&Object.isFrozen(o.values)?o:Object.freeze({...o,values:Object.freeze([...o.values]) as unknown as number[]}));
   validated.commandHistory=validated.commandHistory.map(immutableRecord);
-  if(validated.careObservations)validated.careObservations=validated.careObservations.map(o=>Object.freeze({...o,values:Object.freeze([...o.values])}));
+  if(validated.careObservations)validated.careObservations=validated.careObservations.map(o=>Object.isFrozen(o)&&Object.isFrozen(o.values)?o:Object.freeze({...o,values:Object.freeze([...o.values])}));
   return validated;
 }

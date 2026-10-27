@@ -1,7 +1,6 @@
 import {createDailyMaterialTimeline} from "../src/integration/daily-runtime";
 /**
- * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY hourly/fractional physical-event regression corpus retained to document the earlier engine. Under the approved anatomicalDevelopment contract in roadmap/plan.json, only daily boundaries 1..365 may change physical anatomy; INT-002 must replace obsolete live acceptance claims.
- * Historical tests and algorithms remain until the disjoint daily migration lands.
+ * Legacy numerical reference corpus for fractional/hourly shared primitives. Current player-clock assertions use alg-integration-daily-life.test.ts. Production renderer checks in this file query the actual daily engine; stand-alone legacy schedulers never define player opportunities.
  */
 import {
   createUnifiedMaterialTimeline, chaosWeightedCareHours,

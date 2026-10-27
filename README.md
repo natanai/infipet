@@ -1,78 +1,86 @@
 # Infipet
 
-**Single-pet lifecycle:** Each creation yields one continuously identifiable creature. Its original drawing, once-assigned hidden seed and permanent developmental potential interact with care and chronological time to produce dramatic transformations of that *same* pet. The tree of life is a biological possibility map for these evolution-like stages, not a breeding system or a claim of literal species change. Infipet has no reproduction, offspring, parent-child inheritance or multi-generational gameplay.
+Draw anything on the 32 × 32 canvas, begin its life, and return to the same pet. Feeding, cleaning, medicine, sleep, discipline, games, training and battles affect its physiology immediately. Permanent anatomical development uses the drawing's physical material, fixed genetic potential, hidden seed, bounded nonlinear dynamics and actual chronological care.
 
-Draw **anything** on the 32 × 32 pixel canvas, begin its life, and care for your own evolving virtual pet. This is an experimental Tamagotchi-style game: feeding, cleaning, sleeping, illness, games, training, battles, aging, and persistent saves are implemented. Convincing natural growth from arbitrary drawings is still being developed.
+**Play:** https://natanai.github.io/infipet/
 
-**Play:** https://natanai.github.io/infipet/ (published by GitHub Actions)
+Each life is one continuously identifiable organism. The scientific tree of life supplies reference constraints and possibilities; it does not assign a species to an arbitrary drawing or imply that an individual changes ancestry. There is no breeding, reproduction or population evolution. Reference sprites never enter runtime development or rendering.
 
-## Anatomical development: one check every 24 real hours (approved target)
+## The daily anatomical clock
 
-**The canonical product contract is [`roadmap/plan.json`](roadmap/plan.json), field `anatomicalDevelopment`. This specification is approved but its implementation is still in progress. The live application and existing historical tests may still exercise the previous hourly implementation until the daily migration tasks pass and merge.**
+The canonical contract is [roadmap/plan.json](roadmap/plan.json), especially `anatomicalDevelopment`. The production `createSimulation` / `frameAt` path uses the daily material engine.
 
-- One physical-development opportunity occurs at each elapsed **24-hour anniversary of the saved hatch/birth timestamp**, not at midnight: check `k` is at `hatchAtMs + k × 86,400,000`, for `k = 1…365`. Egg incubation does not consume a growth check. The first possible physical change is after 24 hours.
-- **No physical anatomy may change between checks.** Every check uses the prior material graph, unchanged original drawing and permanent genome, seeded chaos, mechanically valid operators, and *actually recorded* care in the immediately preceding half-open 24-hour window. A check can legitimately produce no physical change.
-- After **check 365**, physical anatomy is permanently mature; no new cells, branches, resorption, physical relocation or attachment changes. Care, physiology, animation, movement, sleeping, play, health, and non-anatomical appearance remain active.
-- Returning after time away replays every due day in chronological order, without inventing care actions while the app was closed or allowing a future intervention to rewrite the past. Reloads and developer previews do not award extra checks.
-- A **30-day forced lifespan is incompatible** with 365 possible checks. The existing `GAME_RULES.lifespanMs = 30 × DAY` is a *legacy implementation limit to remove*; natural/care-driven death can still end an individual's opportunities early, but a healthy pet must be capable of living at least 365 elapsed days and beyond anatomical maturity.
-- Saved elapsed time uses 24-hour durations rather than local calendar days (so daylight-saving transitions do not create extra or missing checks). The birth clock, history, and physical states must be exactly replayable. An offline-only clock cannot guarantee anti-cheat security without an external trusted time source.
+- Check `k` occurs at the saved `hatchAtMs + k × 86,400,000`, for integer `k = 1…365`. Check 0 is the actual original drawing. Incubation precedes the hatch anchor. These are elapsed durations, independent of midnight, time zone and DST.
+- The authoritative graph is identical between checks. Animation, functional locomotion, expression and physiology can change continuously; their renderer cannot create anatomical cells or attachments.
+- A check consumes actual recorded evidence on `[T(k−1), T(k))`. An event exactly at the endpoint belongs to the next window. Unknown data remains unknown, rejected commands remain rejected, and a receipt alone does not prove a physiological effect. Null development is legitimate.
+- Missed checks run in chronological order. Cached and persisted states are bound to the exact source, genome and consumed history; invalid or incompatible caches reconstruct safely. At most four checkpoints plus the latest state are retained per timeline, and the shared living cache retains at most three timelines.
+- After check 365, anatomy is permanently mature. The same graph is reused indefinitely. There is no artificial 30-day or 365-day death deadline; genuine untreated physiological conditions can still cause death.
 
-**Old 512-, 720-, and 8,192-hour continuous-growth benchmarks are historical evidence only, not the new design requirement.** The old hourly source algorithms and retro checkpoints at 1/49/121 hours must be migrated or explicitly treated as historical research, not asserted as expected daily anatomical changes. The roadmap tracks independent DEV-007, CARE-004 and GAME-002 work followed by integrated cutover and new qualification. It is incorrect to claim the 365-check model is already live.
+The pure API and governing equations are documented in [daily-step.ts](src/development/daily-step.ts). Shared geometric primitives use dimensionless opportunity ticks inside that transaction; one tick is one daily opportunity, never 24 hidden hourly growth steps. Every creation, removal and relocation is committed with its check index and absolute timestamp. Creation archives permit independent identity-set reconstruction even after a descendant has been removed.
 
-## Run locally
+[daily-care.ts](src/environment/daily-care.ts) integrates actual post-event observations by zero-order hold over exact integer-millisecond durations. Observations are recorded at physiological timer boundaries, actual commands and presence transitions, rather than arbitrary render cutoffs. One-second updates and batched updates therefore produce identical evidence. Hourly compatibility samples remain available for physiological diagnostics; they do not schedule anatomy. Detailed developmental observations stop at maturity.
 
-Requires Node.js 22 and pnpm 10.
+Absolute birth/event timestamps persist. Invalid times, backward chronology, duplicate opportunities and future evidence are rejected. Offline device time is deterministic but cannot provide server-authoritative protection against deliberate clock manipulation.
+
+## Saves and earlier lives
+
+Normal play saves automatically. **More → Export → Save pet file** provides a portable JSON copy; **More → Import → Open pet file** opens it without pasting a large history into a text field. Small saves use AsyncStorage. Large web saves use a single atomically replaced IndexedDB payload with a small storage pointer. Offline shell caching contains no pet data.
+
+Earlier lives cannot have exact material continuity reconstructed from the former contour renderer. Their original document and timestamps remain unchanged and read-only. Before opening one, storage preserves its exact bytes under a content-addressed recovery key; **Download original saved pet** exposes that copy. The existing explicit **Begin life** replacement action starts a new daily life from the drawing with a new real birth timestamp and empty history. No historical daily checks or player care are fabricated. Unreadable saved files are also backed up before a load error; failure to preserve a backup prevents replacement. Optional malformed anatomical checkpoints do not invalidate the underlying saved life.
+
+Web refresh and mounted-tab return process missed checks in short work slices before committing the completed state. Interrupted catch-up leaves the previous complete save usable. Export before clearing browser site data; clearing it removes both the local life and cached application shell.
+
+## Player interface
+
+Fresh sessions open an empty drawing pad with 15 one-tap part brushes, pencil, eraser, color, undo, redo, mirror and clear. **Begin life** commits the drawing; **Pet** returns to it. Replacing a living pet, including import, uses the existing confirmation.
+
+The small top-right square toggles Development Tools. All experiments remain in one independently scrolling left dock: seeds, timeline, care previews, diagnostics, widget experiments and 12 editable presets. On narrow screens the dock overlays the player area; the toggle stays available. Brushing can pose existing source-derived hair through the bounded relaxation model; it cannot lengthen hair or change material inventory between checks. Developer previews have independent synthetic care and never alter the saved life. Reloads start with tools off. Presets are drafts, not species templates.
+
+## Development and verification
+
+Requires Node.js 22+ and pnpm 10.
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm web
-```
-
-Open http://localhost:8081, or run `./Start-Infipet.ps1` in Windows PowerShell.
-
-```sh
 pnpm typecheck
 pnpm test
 pnpm build:web
-pnpm build:ios
 ```
 
-The web deployment runs automatically from `main`. For local web exports, assets use the root path. GitHub Pages builds use `INFIPET_BASE_URL=/infipet`.
+Open http://localhost:8081 or use `./Start-Infipet.ps1` on Windows. GitHub Pages builds and browser tests both use `INFIPET_BASE_URL=/infipet`. Publishing follows successful verification of the same main commit and qualifies the exported player flows before deployment.
 
-## What is preserved
-
-The current application, all production `src/` modules and bundled runtime catalogs, fonts, native configuration, lockfile, and a focused set of regression tests. Large research datasets, generated audits, obsolete test logs, legacy reports, and developer-only analysis tools have been removed from `main`. Previous versions remain recoverable from [the pre-minimal archive](https://github.com/natanai/infipet/tree/archive/pre-minimal-2026-10-25); the original large import also remains on [the pre-cleanup archive](https://github.com/natanai/infipet/tree/archive/pre-cleanup-2026-10-25).
-
-The drawing-to-growth promise is the central goal; historically faithful virtual-pet characters are only a secondary research benchmark.
-
-## Player interface
-
-Fresh sessions open to an empty drawing pad. All 15 part brushes are visible in a five-column palette; pencil, eraser, color, undo, redo, mirror and clear stay beside the canvas. **Begin life** commits a drawing. **Pet** returns to that same saved organism. Replacing a living pet, including by importing a file, requires confirmation.
-
-**More** groups export/import/name and About. The small square at the top right toggles Development Tools, matching pre-programmed's author mode. When checked, every developer control lives in one independently scrolling left dock: seed controls, timeline, preview actions, care experiments/diagnostics, the experimental iOS widget, and exactly 12 fixed-seed editable presets. The dock uses a full-height overlay on narrow screens, with the corner toggle always available. Unchecking it hides all experiments and returns to the same saved pet, or the drawing pad if no pet has begun. Reloads start with developer tools off. Presets load drafts only; they do not define species or future stages.
-
-The web export caches its app shell after the first successful online visit. Once the cache is ready, a refresh without network access reopens the local saved pet; clearing browser site data clears both the shell and the local save. Export a pet file for a portable copy.
-
-Executable browser flow tests run against the actual exported app:
+The only roadmap is [roadmap/plan.json](roadmap/plan.json). Inspect a task with `node scripts/roadmap.mjs --task=INT-002`; run its focused test with `--run`. Completed tasks automatically register their acceptance tests. The performance test runs separately after functional tests to avoid worker contention.
 
 ```sh
-pnpm build:web
+INFIPET_BASE_URL=/infipet pnpm build:web
 pnpm exec playwright install chromium
-pnpm test:ui
+INFIPET_BASE_URL=/infipet pnpm test:ui
+node --expose-gc --import tsx scripts/daily-benchmark.ts
+INFIPET_BASE_URL=/infipet node scripts/benchmark-browser-runtime.mjs
 ```
 
-Set `INFIPET_BASE_URL=/infipet` for both build and test to exercise the GitHub Pages path. Optional `UI_EVIDENCE_DIR` captures one desktop and one narrow layout, solely as interface evidence. These images do not verify biological correctness.
+Independent acceptance covers exact cell identities, archived creations/removals, physical parents and source ancestry, attachments, protected voids, daily timestamps, care causality, numerical reference metrics, rendered ownership and fresh/cached replay equality. Negative cases falsify early, duplicate, fabricated and postmaturity checks, invalid boundary timestamps, future care, false ancestry, missing ownership and cache divergence. A correct-looking silhouette is insufficient. Cohorts include single pixels, disconnected marks, holes, thin/asymmetric structures, dense 1024-cell drawings, plant-like and speculative forms. Screenshots are interface evidence only.
 
-## Seeded retro references (experimental)
+## Performance contract
 
-The 36 historical reference drawings and their candidate seeds remain bundled as independent research fixtures. Their UI gallery has been removed from player creation. Numbers, letters and mixed-character seed strings are supported by the shared procedural genome; the program does **not** select a target historical sprite based on a retro reference name.
+The measured reference environment is Linux x64 Node 22+; headless Chromium browser measurements are separately labeled. Native-phone hardware has **not** been measured. The gates below apply to isolated Node runs, not to a phone performance claim.
 
-For a historically faithful evolution route to be **proven**, the same initial drawing and seed **plus the same chronological care history** must reproduce all milestones with demonstrated shape similarity, without importing any reference target into the growth engine. The **historical, pre-daily-migration** independent [P1 benchmark](tests/retro-reference-score.test.ts) measures the actual generated sprite silhouettes against an original-ROM-derived route and prints scores; it is a diagnostic, **not a successful parity test**. The care vector presently exercised by that test is hypothetical rather than an authenticated hardware command trace. The original game's exact evolution paths have **not** been reproduced or verified; the reference seeds are not calibrated matches.
+| Scenario | Reference budget |
+| --- | ---: |
+| Ordinary one-second update, including same-day accepted/rejected care, p95 | 33.33 ms |
+| First daily boundary | 150 ms |
+| Full cold reconstruction of all 365 opportunities | 8,000 ms |
+| Valid saved mature checkpoint reopening | 1,500 ms |
+| Serialized checkpoint state | 8 MiB |
+| Isolated process RSS safety ceiling | 768 MiB |
 
-The currently bundled OpenTree lineage is **animal-only**, and the live simulation already responds to care and training using general biological priors. Provenance-backed plant ancestry, robust shape classification across all kingdoms, denser hereditary variation, and original-device care-gate parity remain substantial engine-development work. Reference sprites must remain independent evaluation fixtures, never a renderer lookup table.
+The cohort includes sparse, unusual, solid 32 × 32 and 15-brush maximum-complexity drawings, with an actual cared-for 366-day history. Tests measure birth, the first boundary, seven-day/months-long returns, days 364/365/366, full replay, corrupted-cache recovery and memory. Each warm result is compared with a separately reconstructed cold physical state. Ordinary frames execute zero physical checks; mature saved reopening executes zero historical checks. Browser qualification measures actual saved-life reopening, event-loop frame gaps, long tasks and care interaction in the exported app. CPU throttling and narrow viewports are emulations, not real-device results.
 
-## Current algorithm development plan
+The previous hourly/8,192-hour performance contract has been retired. Old profiler entry points forward to the daily benchmark; useful low-level numeric tests are explicitly labeled legacy primitive coverage. They do not authorize fractional/hourly anatomical transactions in play.
 
-The **only active roadmap** is [roadmap/plan.json](roadmap/plan.json). It stores task dependencies, acceptance assertions, verification commands and independent algorithm owner scopes. List work with `node scripts/roadmap.mjs --list`, inspect one task with `--task=OBS-002`, run its dedicated test once implemented with `--task=OBS-002 --run`.
+## Scientific references and limits
 
-CI validates the canonical roadmap and TypeScript types and runs the registered focused numeric/regression tests for completed tasks. Web export and browser/player-flow qualification run in their corresponding workflows; see `.github/workflows/`. Historical hourly chronology and long-horizon performance test outcomes remain valid **as evidence about the prior implementation**, not acceptance criteria for the new daily anatomy contract. Do not claim a prior passing test proves daily checks until its oracle has been updated.
+Provenance-backed animal, plant and fungal reference possibilities are bundled; drawing affinities remain uncertain heuristics, not established ancestry. The 36 historical retro drawings and candidate seeds are independent research fixtures. Historical 1/49/121-hour trajectories remain research references, not proof of the daily anatomical clock. Original-device sprite parity and authenticated hardware care traces have not been established. Witness evaluation distinguishes structural execution, numerical comparison failure, honest constrained null effects and unresolved evidence.
+
+Large generated reports, datasets and screenshots are excluded from main. Prior implementation evidence remains in git history and the [pre-minimal archive](https://github.com/natanai/infipet/tree/archive/pre-minimal-2026-10-25).

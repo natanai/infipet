@@ -541,6 +541,14 @@ try {
     await page.goto("about:blank");await page.clock.setFixedTime(new Date(anchor+DAY));await page.goto(url);await button(page,"Meal").waitFor();
     const first=await saved(page,doc=>doc.life.anatomicalCheckpoint?.state.completedChecks===1);
     assert.equal(first.life.anatomicalCheckpoint.state.checks[0].atMs,anchor+DAY);
+    // A mounted tab returns through the same sliced catch-up path as reopening.
+    await page.evaluate(()=>{Object.defineProperty(document,"visibilityState",{configurable:true,get:()=>"hidden"});document.dispatchEvent(new Event("visibilitychange"));});
+    await page.clock.setFixedTime(new Date(anchor+7*DAY));
+    await page.evaluate(()=>{Object.defineProperty(document,"visibilityState",{configurable:true,get:()=>"visible"});document.dispatchEvent(new Event("visibilitychange"));});
+    const mounted=await saved(page,doc=>doc.life.anatomicalCheckpoint?.state.completedChecks===7);
+    assert.deepEqual(mounted.life.anatomicalCheckpoint.state.checks.map(c=>c.checkIndex),[1,2,3,4,5,6,7]);
+    assert.deepEqual(livingIdentity(mounted),identity);
+
     await page.goto("about:blank");await page.clock.setFixedTime(new Date(anchor+365*DAY));await page.goto(url);await button(page,"Meal").waitFor();
     const grown=await saved(page,doc=>doc.life.anatomicalCheckpoint?.state.completedChecks===365);
     const mature=JSON.stringify(grown.life.anatomicalCheckpoint.state);
