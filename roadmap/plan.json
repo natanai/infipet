@@ -729,7 +729,7 @@
         "DEV-004",
         "DEV-005"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -751,7 +751,32 @@
       "implementationPaths": [
         "src/simulation"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "purpose": "Verify physical material continuity and structural diversity of one authored organism across independently generated cohort shapes and permanent seeds",
+        "inputDomain": "20 deterministic arbitrary-ink shapes; 2 seeds per shape; fractional chronology through 72 h, two 720 h histories and one 2880 h midlife history",
+        "exports": [
+          "tests/development-quality.test.ts numerical physical cohort report"
+        ],
+        "metrics": [
+          "exact painted pixels and source-part identity",
+          "8-connected occupancy components",
+          "4-connected protected cavities",
+          "occupied bounding extents and aspect",
+          "attachment/fusion degree",
+          "growth site and branch counts",
+          "original-cell ancestry",
+          "physical geometry and topology distinct from pigmentation"
+        ],
+        "invariants": [
+          "every live generated cell has valid original-source ancestry, physical parent and a chronological creation witness",
+          "source ink metadata is immutable even when physical positions change",
+          "rejected operations create no cells or phantom relationships",
+          "out-of-order query and independent replay preserve earlier graphs",
+          "future care and future inspiration operations do not alter past anatomy"
+        ],
+        "result": "20/20 exact birth draws; 0 observed birth mismatches; 20 distinct birth structures, 39 distinct h72 structures, 38/40 physically changed lifetimes, 2 honest null effects; 120-day witness retains provenance"
+      }
     },
     {
       "id": "CARE-001",
@@ -961,34 +986,23 @@
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
+        "tests/alg-evaluation-material-proof.ts",
         "tests/alg-evaluation-trajectory-metrics.ts",
-        "tests/retro-trajectory-score.test.ts",
-        "tests/alg-evaluation-material-proof.ts"
+        "tests/retro-trajectory-score.test.ts"
       ],
       "algorithmId": "evaluation",
       "interfaceContract": {
-        "role": "Independent reference benchmark and falsification only; never generator input.",
+        "role": "Target-independent numerical and physical resemblance falsification",
         "inputs": [
-          "Explicit generated pixel positions per hour",
-          "immutable externally curated reference milestone pixels",
-          "optional authoritative MaterialGraph per age"
+          "Externally supplied fixed reference milestones",
+          "Real generated frames, physical snapshots, replayable immutable genotype/program/history"
         ],
         "outputs": [
-          "Stage overlap/shape/topology numeric scores",
-          "Material ancestry audit",
-          "Whole-lifetime aggregate, minimum stage, and pass/fail/unresolved"
+          "stage silhouette and structural metrics",
+          "causal provenance and rendering checks",
+          "pass/fail/unresolved aggregate"
         ],
-        "limits": {
-          "resolution": 32,
-          "maxUniqueCells": 4096,
-          "maxSpan": 128,
-          "maxStages": 16
-        },
-        "dependencyBlocker": "DEV-006 must pass and merge, followed by focused acceptance against its actual developmental output.",
-        "independence": "No target sprites, names, or thresholds are used by production genome, generator, operators or physics.",
-        "physicalWitness": "Independent event-ledger inventory replay: creation, operation, parent and source matching; removal, resurrection, protected void, invalid links and temporal cutoffs",
-        "renderedWitness": "Pixels must map to active same-age material IDs plus matching cell ancestry and declared transported material quads and camera transform. Incomplete cosmetic/overlay attribution is unresolved, never pass.",
-        "provenanceLimit": "Internally consistent event and screen witnesses cannot replace independent replay of hidden seed, care, and operator history. Final acceptance waits for DEV-006 and verified authoritative graph frames."
+        "dependencyBlocker": "Connect independently replayed production graph and verified material image per age before declaring task done"
       }
     },
     {
@@ -1600,6 +1614,7 @@
     "tests/alg-integration-runtime.test.ts",
     "tests/alg-development-chaos.test.ts",
     "tests/alg-integration-unified-development.test.ts",
+    "tests/alg-runtime-performance-invariants.test.ts",
     "tests/retro-trajectory-score.test.ts"
   ],
   "singleCreatureLifecycle": {
