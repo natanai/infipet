@@ -99,3 +99,28 @@ test("[SYS-002/A4] completed tasks automatically register their focused tests wi
   assert.deepEqual(result.stdout.trim().split("\n"),expected);
   assert.ok(expected.length >= 4, "completed tasks must never erase the initial focused baseline");
 });
+
+test("[SYS-001/A1] approved 365-day clock is exact and distinct from legacy hourly/30-day behavior", () => {
+  const clock=plan.anatomicalDevelopment;
+  const dayMs=24*60*60*1000;
+  assert.equal(clock.schemaVersion,1);
+  assert.equal(clock.intervalMilliseconds,dayMs);
+  assert.equal(clock.firstCheckIndex,1);
+  assert.equal(clock.finalCheckIndex,365);
+  assert.match(clock.authority,/migration in progress/i);
+  assert.match(clock.legacyStatus,/historical/i);
+  assert.match(clock.lifePolicy,/30.day/i);
+  assert.match(clock.anatomicalState,/A_365/);
+  assert.match(clock.careWindows,/half-open|\[T_/);
+  const birthMs=1800000000000;
+  const checks=Array.from({length:365},(_,i)=>birthMs+(i+1)*dayMs);
+  assert.equal(checks[0]-birthMs,dayMs);
+  assert.equal(checks[364]-birthMs,365*dayMs);
+  assert.ok(checks.every((t,i)=>i===0||t-checks[i-1]===dayMs));
+  const scheduled=["DEV-007","CARE-004","GAME-002","INT-002","EVAL-004"];
+  for(const id of scheduled) assert.ok(plan.tasks.some((task:{id:string;status:string})=>
+    task.id===id&&task.status!=="done"),"daily migration must not be falsely completed: "+id);
+  const integration=plan.tasks.find((task:{id:string})=>task.id==="INT-002");
+  for(const id of ["DEV-007","CARE-004","GAME-002"])
+    assert.ok(integration?.dependsOn.includes(id),"live integration requires "+id);
+});
