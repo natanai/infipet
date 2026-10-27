@@ -204,6 +204,11 @@ function advance(
       (history&&hour>history.maxHour))
     throw new RangeError("Requested anatomy extends beyond chronological evidence/domain");
   let state=current;
+  // A permanent operator cannot accrue expression outside its exact support.
+  // Beyond the greatest support end, every weighted increment is IDENTICALLY
+  // zero; retain the existing accumulated floating-point value unchanged.
+  const lastSupportEnd=Math.max(0,...program.operators.map(op=>
+    op.atHour+op.durationHours));
   // Each outer step is bounded by the next integer resource interval, the
   // next fractional remodeling operation, or the requested query cutoff.
   while(state.atHour < hour) {
@@ -213,13 +218,16 @@ function advance(
       Math.min(hour,completion));
     const firstRemodel=remodeling[0]?.atHour ?? Infinity;
     const upper=Math.min(hour,completion,firstRemodel);
-    const threshold=nextPhysicalThreshold(program,care,state,upper);
+    const outsideAllSupports=start>=lastSupportEnd;
+    const threshold=outsideAllSupports?null:
+      nextPhysicalThreshold(program,care,state,upper);
     let next=threshold!==null?Math.min(upper,threshold):upper;
         if(!(next>start))throw new RangeError("Nonadvancing integrated material clock");
-    const progress=Object.fromEntries(program.operators.map(op=>[
-      op.id,(state.expressedRateHours[op.id]??0)+
-        chaosWeightedCareHours(op,start,next,care),
-    ]));
+    const progress=outsideAllSupports?state.expressedRateHours:
+      Object.fromEntries(program.operators.map(op=>[
+        op.id,(state.expressedRateHours[op.id]??0)+
+          chaosWeightedCareHours(op,start,next,care),
+      ]));
     // A mere frame request is not a physical event. Only quantized material
     // thresholds, remodeling events, and integer resource completions may
     // commit anatomical work. Otherwise retain the unconsumed operator
@@ -235,12 +243,6 @@ function advance(
       };
       continue;
     }
-    const expressions:MaterialExpressionInterval = {
-      fromHour:state.material.nextHour,toHour:next,
-      expressions:program.operators.map(op=>({
-        operatorId:op.id,cumulative:cap(progress[op.id]/op.durationHours),
-      })),
-    };
     // Once EVERY permanent material operator has irreversibly settled,
     // no later care or chaotic rate may add an operator decision. Preserve
     // the exact immutable records/decisions and advance the ledger cutoff
@@ -253,7 +255,12 @@ function advance(
           state:{...state.material,nextHour:next},
         }
       : stepMaterialOperatorChronology(
-          state.graph,program,state.material,expressions);
+          state.graph,program,state.material,{
+            fromHour:state.material.nextHour,toHour:next,
+            expressions:program.operators.map(op=>({
+              operatorId:op.id,cumulative:cap(progress[op.id]/op.durationHours),
+            })),
+          });
     let graph=material.graph;
     let remodelingState=state.remodeling;
     // At the exact proposed T, material threshold commits first. Equal-time
