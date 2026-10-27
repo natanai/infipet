@@ -136,15 +136,19 @@ export function auditPhysicalEvidence(graph?:MaterialGraph,cutoffHour=Infinity):
         errors.push(error("creation-operation-mismatch",id));
       if(now){
         if(!now.parentCellIds.length)errors.push(error("generated-without-parent",id));
+        const predecessorSources=new Set<string>();
         for(const parentId of now.parentCellIds){
           const parent=preEvent.get(parentId);
           if(!parent)errors.push(error("parent-not-alive-at-creation",id));
-          else if(!sameRoots(parent.roots,now.sourceIds))
-            errors.push(error("parent-source-mismatch",id));
+          else for(const root of parent.roots)predecessorSources.add(root);
           if(parentId===id)errors.push(error("self-parent",id));
           if(parent?.born!==undefined&&parent.born>e.atHour)
             errors.push(error("parent-from-future",id));
         }
+        // Fusion is permitted to combine source roots of *multiple* parents.
+        // For one parent this reduces to strict source-root identity.
+        if(predecessorSources.size && !sameRoots([...predecessorSources],now.sourceIds))
+          errors.push(error("parent-source-mismatch",id));
       }
       creators.set(id,{eventId:e.id,kind:e.kind,atHour:e.atHour,roots:ancestry,
         parents:now?.parentCellIds??[]});
