@@ -217,12 +217,20 @@ test("[EVAL-002/A1] fake chronological material creation and resurrection cannot
   ]},"recreated-or-resurrected-material");
 
   const plausible={...born,cells:[...born.cells,generated],events:[event()]};
-  const verified=auditPhysicalEvidence(plausible,3);
-  assert.equal(verified.status,"verified",
-    "an honest parent/event/ancestry ledger can be independently reconciled");
+  const reconciled=auditPhysicalEvidence(plausible,3);
+  assert.equal(reconciled.status,"unavailable",
+    "even a convincing event ledger cannot prove that an operation truly ran");
+  assert.ok(reconciled.errors.includes("operation-execution-not-independently-replayed"));
   const actual=observedMaterial(plausible);
   assert.equal(auditRenderedOwnership(actual.pixels,plausible,actual.renderWitness).status,
-    "verified");
+    "verified","the image can be traceable despite unverified chronological execution");
+  const sameImage=evaluateTrajectory([
+    {id:"claimed-0",atHour:3,graph:plausible,...actual},
+    {id:"claimed-1",atHour:4,graph:plausible,...actual},
+  ],[{id:"reference-0",atHour:3,pixels:actual.pixels},
+    {id:"reference-1",atHour:4,pixels:actual.pixels}]);
+  assert.equal(sameImage.status,"unresolved",
+    "a forged event can never pass on internal ledger consistency alone");
   assert.equal(auditPhysicalEvidence(plausible,2).status,"invalid",
     "future material cannot appear in an earlier chronological checkpoint");
 });
