@@ -1053,7 +1053,7 @@
         "EVAL-002",
         "CARE-003"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1074,28 +1074,92 @@
       },
       "implementationPaths": [
         "tests/alg-evaluation-production-witness.ts",
+        "tests/alg-evaluation-material-proof.ts",
         "tests/alg-evaluation-recorded-care-search.ts",
         "tests/retro-witness-search.test.ts"
       ],
       "algorithmId": "evaluation",
       "interfaceContract": {
-        "purpose": "Bounded deterministic source seed and canonical command-history search over actual individual chronological development",
+        "purpose": "Finite deterministic permanent-seed and authentic gameplay-care searches for one individual's replayable life; references never influence simulation",
         "inputs": [
-          "birth drawing, immutable seed, birth timestamp, native GameState command/advance steps",
-          "immutable external milestones used solely by EVAL-002 after full independent replay"
+          "immutable player-authored PetPart drawing; true infant seed and absolute birth clock",
+          "real ordered advanceGame and commandGame operations with command receipts/acceptance",
+          "recorded physiology/care samples and canonical stage commitments",
+          "external reference milestone pixels consumed only after actual runtime replay"
         ],
         "outputs": [
-          "versioned complete replayable source/seed/commands/care physiology/stages/witness hashes",
-          "score every age with unchanged EVAL-002 numerical and physical conditions",
-          "best-candidate with explicit unresolved/no-parity outcomes"
+          "versioned JSON witness with original ink, seed, game rules version, timestamped accepted/rejected commands, sampled care and developmental context",
+          "serialized source and stage graph/render SHA-256 evidence, exact independently generated replay",
+          "unchanged EVAL-002 stage and aggregate pass/fail/unresolved scores",
+          "bounded best-candidate search result, reproducible tie-break, explicit unfinished deaths and rejected parity"
         ],
         "limits": {
-          "candidates": 4,
-          "hours": 128,
-          "referenceStages": 8,
-          "commandRecords": 256
+          "maxCandidates": 4,
+          "maxHours": 128,
+          "maxStages": 8,
+          "maxCommands": 256,
+          "maxBirthCells": 4096,
+          "order": "seed-major; strategy-major; stable index ties"
         },
-        "verification": "tests/retro-witness-search.test.ts"
+        "deterministic": "fixed search seed, native accepted/rejected commands and explicit millisecond timestamps; no RNG, wall clock or manual stage scores",
+        "verification": "tests/retro-witness-search.test.ts",
+        "demonstrated": {
+          "focused": "7/7 passed",
+          "fullSuiteBeforeDone": "171/171 passed",
+          "typecheck": "passed",
+          "webBuild": "passed",
+          "searchBudget": 4,
+          "examined": 4,
+          "completeCandidates": 2,
+          "incompleteCandidates": 2,
+          "bestSeed": "eval003/retro-path-v1/0",
+          "bestStrategy": "maintain",
+          "bestActualCommands": 40,
+          "accepted": 40,
+          "rejected": 0,
+          "physiologicalSamples": 115,
+          "realCommitmentHours": [
+            0,
+            1,
+            49,
+            121
+          ],
+          "evaluationHours": [
+            0.5,
+            1,
+            49,
+            121
+          ],
+          "candidateAggregates": [
+            0.480149548398,
+            0.456884477084,
+            null,
+            null
+          ],
+          "bestStageIoU": [
+            1,
+            0.06896551724137931,
+            0.021739130434782608,
+            0.0970873786407767
+          ],
+          "bestStageScores": [
+            1,
+            0.405473106312,
+            0.3833037921,
+            0.519204320371
+          ],
+          "bestAggregate": 0.480149548398,
+          "bestWeakest": 0.3833037921,
+          "physicalFullScreenVerifiedStages": 0,
+          "outcome": "unresolved: no verified complete physical numerical historical trajectory, two terminal candidate histories ended before final milestone"
+        },
+        "limitations": [
+          "EVAL-002 full-screen material ownership remains unresolved for unattributed cosmetic pixels",
+          "special birth renderer does not emit fully attributable physical projections",
+          "SHA-256 is an integrity digest, not external original-device behavioral attestation",
+          "recorded care comes from real built-in physiology, not reconstructed historical button presses",
+          "reference silhouette data cannot enter developmental operators, genotype, or renderer"
+        ]
       }
     },
     {
