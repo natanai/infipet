@@ -50,6 +50,7 @@ import {
 import { type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
 import { createCareOperatorChronology } from "../environment";
 import { createUnifiedMaterialTimeline } from "../integration/unified-runtime";
+import { createReusedLivingTimeline } from "../integration/living-timeline";
 import { inferFunctionalMaterial, type MaterialMovementBinding } from "../integration/functional-material";
 import {
   compileSurfaceExpression,
@@ -746,15 +747,23 @@ export function createSimulation(
       ? compileRuntimeCareMaterial(blueprint.atlas, inherited,
           blueprint.biology, options.careGame)
       : undefined,
-    unified = createUnifiedMaterialTimeline({
-      program: physicalProgram, genome: inherited,
-      ...(verified?.remodelingProgram ? { remodelingProgram: verified.remodelingProgram } : {}),
-      ...(careMaterial ? {
-        care: createCareOperatorChronology(physicalProgram,
-          careMaterial.history, inherited.genotype),
-        history: careMaterial.history,
-      } : {}),
-    }),
+    unified = careMaterial && options.careGame && !verified
+      ? createReusedLivingTimeline({
+          birthKey:cacheKey,genomeIdentity:genomeCacheKey(inherited),
+          program:physicalProgram,genome:inherited,
+          game:options.careGame,history:careMaterial.history,
+          care:createCareOperatorChronology(physicalProgram,
+            careMaterial.history,inherited.genotype),
+        })
+      : createUnifiedMaterialTimeline({
+          program: physicalProgram, genome: inherited,
+          ...(verified?.remodelingProgram ? { remodelingProgram: verified.remodelingProgram } : {}),
+          ...(careMaterial ? {
+            care: createCareOperatorChronology(physicalProgram,
+              careMaterial.history, inherited.genotype),
+            history: careMaterial.history,
+          } : {}),
+        }),
     surfaceGenes = compileSurfaceExpression(inherited),
     hatchAt = liveContext
       ? Math.max(0, liveContext.hatchAtHours) / 24
@@ -1944,6 +1953,7 @@ export function createSimulation(
       ),
     developmentAt,
     frameAt,
+    getMaterialRuntimeStats: () => unified.evaluationStats(),
     getRenderCacheStats: () =>
       Object.freeze({
         age: posedAge,
