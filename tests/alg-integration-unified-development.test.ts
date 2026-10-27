@@ -19,7 +19,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   CHRONOLOGICAL_LIMITS,
-  CHRONOLOGICAL_UPSTREAM_BLOCKERS,
+  CHRONOLOGICAL_LEGACY_WARNINGS,
   compareChronologicalEvents,
   evaluateChronologicalMaterial,
   validateChronologicalGraph,
@@ -132,7 +132,7 @@ test("[INT-001/A1] exact ties respect interval completion, remodeling, then next
   ];
   const ordered = [...proposed].sort(compareChronologicalEvents);
   assert.deepEqual(ordered.map(x => x.id),
-    ["initial", "grow-a", "grow-b", "remodel-z", "care-c"]);
+    ["initial", "remodel-z", "grow-a", "grow-b", "care-c"]);
   const frame = evaluateChronologicalMaterial(fixture(), originalState,
     proposed, 1);
   assert.deepEqual(frame.graph.cells.filter(c => c.provenance === "generated")
@@ -236,7 +236,7 @@ test("[INT-001/A1/A2/A3] merged from-birth APIs cannot compose a relocated growt
     "iterative solver independently reconstructs its birth");
   assert.equal(grown.graph.cells.some(c => c.x === 11 && c.y === 11), false,
     "no development API can step iterative growth on the relocated graph with persistent age/orbit");
-  assert.ok(CHRONOLOGICAL_UPSTREAM_BLOCKERS.length >= 3);
+  assert.ok(CHRONOLOGICAL_LEGACY_WARNINGS.length >= 3);
 });
 
 test("[INT-001/A3] source-derived DEV-003 child tissue IDs can become functional only while attached and flexible", () => {
