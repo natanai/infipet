@@ -95,3 +95,13 @@ export type {
   RemodelingProposal, RemodelingAttempt, RemodelingHinge,
   RemodelingChronology, RemodelingTransaction, RemodelingInterval,
 } from "./remodel-transactions";
+
+/** DEV-005: speculative hints compile to real unified material transactions. */
+export {
+  SPECULATIVE_LIMITS, SPECULATIVE_OPERATOR_MAP,
+  compileSpeculativeMaterialComposition, speculativePhysicalOutcomes,
+} from "./speculative-material";
+export type {
+  SpeculativeOperatorBinding, SpeculativeCompileSuppression,
+  SpeculativeMaterialComposition, SpeculativePhysicalOutcome,
+} from "./speculative-material";
