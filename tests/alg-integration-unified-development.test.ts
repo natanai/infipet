@@ -464,7 +464,7 @@ test("[INT-001/A3] saved traditional-care histories reconstruct the exact same l
 });
 
 test("[INT-001/A3] genuine saved care changes physiological expression without changing genome or birth",()=>{
-  const seed="INT-CARE-CONTRAST-12";
+  const seed="CARE-GEOMETRY-527";
   const {program,genome}=realProgram(["####","####","####"],seed,"elongate",30);
   const birth=11*HOUR;
   let fed=createGame(seed,"infant",birth);
@@ -485,6 +485,10 @@ test("[INT-001/A3] genuine saved care changes physiological expression without c
       fed=commandGame(fed,{type:"feed",food:"meal"},at,"meal-"+i);
     if(i%8===0&&!unfed.sleeping&&unfed.meters.hunger<4)
       unfed=commandGame(unfed,{type:"feed",food:"meal"},at,"sparse-meal-"+i);
+    if(fed.health.sickness)
+      fed=commandGame(fed,{type:"medicine"},at,"medicine-well-"+i);
+    if(unfed.health.sickness)
+      unfed=commandGame(unfed,{type:"medicine"},at,"medicine-low-"+i);
   }
   assert.equal(fed.dead,false);
   assert.equal(unfed.dead,false);
