@@ -277,10 +277,89 @@ function physicalPositions(g:MaterialGraph):string {
  * Historical removed parent cells retain their creation EVENT and sourceIds;
  * generated material cannot spontaneously appear without a creation event.
  */
+/**
+ * Independent chronological MATERIAL ID conservation.
+ *
+ * B = IDs of birth.cells (active birth inventory); H = all historical IDs.
+ * For event e_k in recorded chronological order:
+ *   R_k subset A_{k-1} and C_k intersection H_{k-1} = empty
+ *   A_k = (A_{k-1} \\ R_k) union C_k; H_k = H_{k-1} union C_k.
+ * Return A_final and demand A_final == IDs of graph.cells as SETS (not counts).
+ *
+ * Historical sourceCells is an immutable provenance register, not the live
+ * material inventory. A resorbed birth source remains in sourceCells, but
+ * does not remain in A_final. Birth physical IDs never have a second life.
+ *
+ * Timestamp domain: finite IEEE754 hours 0 <= t <= queried cutoff.
+ * Append order must be nondecreasing by t; at equal times the shared
+ * chronological order is material thresholds (0), remodeling (1), and
+ * completed iterative growth (2). Equal-class order is the committed event
+ * sequence, checked for stability by the independent fresh/reverse replay
+ * tests below; it is never re-sorted here (which would hide a bad history).
+ */
+function auditInventory(
+  graph:MaterialGraph,birth:MaterialGraph,cutoff:number,
+):Readonly<{active:ReadonlySet<string>;created:number;removed:number}> {
+  assert.ok(Number.isFinite(cutoff)&&cutoff>=0,
+    "inventory requires finite nonnegative chronological cutoff");
+  const birthIds=birth.cells.map(cell=>cell.id);
+  assert.equal(new Set(birthIds).size,birthIds.length,
+    "duplicate physical cell at birth");
+  const active=new Set(birthIds),ever=new Set(birthIds);
+  const seenEvents=new Set<string>();
+  let previousTime=0,previousTie=-1,created=0,removed=0;
+  const tiePriority=(id:string):number=>
+    id.startsWith("operator/")?0:
+      id.startsWith("iterative-composed/")?2:1;
+  for(const event of graph.events) {
+    assert.ok(Number.isFinite(event.atHour)&&event.atHour>=0&&
+      event.atHour<=cutoff,
+      "inventory event exceeds query cutoff: "+event.id);
+    assert.ok(event.atHour>=previousTime,
+      "nonchronological material event at "+event.id);
+    const priority=tiePriority(event.id);
+    if(event.atHour===previousTime)
+      assert.ok(priority>=previousTie,
+        "incorrect equal-time operator precedence: "+event.id);
+    previousTime=event.atHour;previousTie=priority;
+    assert.ok(!seenEvents.has(event.id),
+      "duplicate historical material event: "+event.id);
+    seenEvents.add(event.id);
+    const deleted=new Set(event.removedCellIds);
+    const added=new Set(event.createdCellIds);
+    assert.equal(deleted.size,event.removedCellIds.length,
+      "duplicate removal within an event: "+event.id);
+    assert.equal(added.size,event.createdCellIds.length,
+      "duplicate creation within an event: "+event.id);
+    for(const id of deleted) {
+      assert.ok(active.has(id),
+        "removal of nonexistent or already removed material: "+id);
+      assert.ok(!added.has(id),
+        "same-event destruction and ID reuse: "+id);
+      active.delete(id);removed++;
+    }
+    for(const id of added) {
+      assert.ok(!ever.has(id),
+        "creation reused a prior material ID: "+id);
+      assert.ok(!active.has(id),"duplicate live creation: "+id);
+      ever.add(id);active.add(id);created++;
+    }
+  }
+  const liveIds=graph.cells.map(c=>c.id);
+  assert.equal(new Set(liveIds).size,liveIds.length,
+    "duplicated material identity");
+  assert.deepEqual([...active].sort(),[...liveIds].sort(),
+    "unaccounted active material: birth + events.created - events.removed must equal graph.cells IDs");
+  assert.equal(active.size,birthIds.length+created-removed,
+    "material inventory count cross-check");
+  return {active,created,removed};
+}
+
 function audit(g:MaterialGraph,birth:MaterialGraph,cutoff:number):void {
   assert.deepEqual(g.sourceCells,birth.sourceCells,"permanent original ink witness");
   assert.deepEqual(g.protectedVoids,birth.protectedVoids);
   assert.equal(g.sourceFingerprint,birth.sourceFingerprint);
+  auditInventory(g,birth,cutoff);
   const source=new Map(birth.sourceCells.map(c=>[c.id,c]));
   const active=new Map(g.cells.map(c=>[c.id,c]));
   assert.equal(active.size,g.cells.length,"duplicated material identity");
@@ -416,8 +495,11 @@ test("[DEV-006/A2] independent counterexamples catch material erasure, duplicate
   const [x,y]=point.split(",").map(Number);
   bad({...born,cells:[...born.cells,{...source,x,y,
     id:"phantom/void",provenance:"generated",
-    sourceIds:[source.id],parentCellIds:["does-not-exist"],
-    operationId:"invented"}]},/protected cavity/);
+    sourceIds:[source.id],parentCellIds:[source.id],
+    operationId:"invented"}],events:[{
+      id:"invented",kind:"bud",atHour:0,
+      createdCellIds:["phantom/void"],removedCellIds:[],
+      sourceCellIds:[source.id]}]},/protected cavity/);
   const generated:MaterialCell={...source,id:"phantom/child",x:12,y:12,
     provenance:"generated",sourceIds:[source.id],
     parentCellIds:["unborn/parent"],operationId:"imaginary"};
