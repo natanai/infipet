@@ -209,10 +209,10 @@ for(const hour of [24,720] as const)for(const shape of ["sparse","complex","dens
     before.push(reference.ms);after.push(cached.ms);
     imported+=cached.stats.imported;cold+=reference.stats.cold;
   }
-  const sort=a=>[...a].sort((x,y)=>x-y);
+  const sort=(a:number[])=>[...a].sort((x,y)=>x-y);
   const u=sort(before),v=sort(after),n=u.length;
   if(n===0)continue;
-  const med=a=>+(n%2?a[(n-1)/2]:(a[n/2-1]+a[n/2])/2).toFixed(3);
+  const med=(a:number[])=>+(n%2?a[(n-1)/2]:(a[n/2-1]+a[n/2])/2).toFixed(3);
   output({kind:"paired-age",hour,shape,inkCells:source[0].pixels.length,
     n,medianColdMs:med(u),medianReuseMs:med(v),
     empiricalP95ColdMs:+u[Math.ceil(n*.95)-1].toFixed(3),
