@@ -362,7 +362,7 @@ test("[INT-001/A3] chaos-weighted exact care exposure uses unstrengthened expres
   const {program,genome,operator}=realProgram(["###"],"INT-CHAOS-44","elongate",4);
   const op:MaterialOperator={...operator,strength:0.65,
     chaos:{version:CHAOS_VERSION,initial:seedChaos("INT-CHAOS-44"),
-      rateAmplitude:0.65,turnAmplitude:0}};
+      rateAmplitude:0.35,turnAmplitude:0}};
   const p:ActualMaterialProgram={...program,operators:[op],fingerprint:program.fingerprint+"/chaos"};
   const sensitivity=genome.genotype.channels.sensitivity.nutrition;
   const q1=1-0.6*sensitivity;
