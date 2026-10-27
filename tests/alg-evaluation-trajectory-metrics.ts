@@ -48,7 +48,14 @@ export type StageSample = Readonly<{
   id: string; atHour: number; pixels: readonly RenderedInkPoint[];
   graph?: MaterialGraph; renderWitness?: RenderWitness;
 }>;
-export type ReferenceMilestone = Readonly<{ id: string; atHour: number; pixels: readonly InkPoint[]; metadata?: Readonly<Record<string, unknown>> }>;
+export type ReferenceMilestone = Readonly<{
+  id: string; atHour: number; pixels: readonly InkPoint[];
+  /** Optional independently supported physical facts; no guessed topology. */
+  physicalRequirements?: Readonly<{
+    components?: number; holes?: number; minAttachmentLinks?: number;
+  }>;
+  metadata?: Readonly<Record<string, unknown>>;
+}>;
 export type EvaluationLimits = Readonly<{ resolution: 32; maxCells: 4096; maxWidth: 128; maxHeight: 128; maxStages: 16 }>;
 export const EVALUATION_LIMITS: EvaluationLimits = {
   resolution: 32, maxCells: 4096, maxWidth: 128, maxHeight: 128, maxStages: 16,
@@ -74,6 +81,8 @@ export type StageEvaluation = Readonly<{
     orientation: number; elongation: number; branching: number;
   }> | null;
   observed: ShapeMetrics | null; reference: ShapeMetrics | null;
+  /** Measured directly on unposed occupied material cells. */
+  materialShape: ShapeMetrics | null;
   physical: PhysicalEvidence;
   rendering: RenderEvidence;
   mismatches: readonly string[]; reasons: readonly string[];
@@ -276,15 +285,18 @@ export function evaluateTrajectory(
   const ordered=[...references].sort((a,b)=>a.atHour-b.atHour||a.id.localeCompare(b.id));
   const stages=ordered.map(reference=>{
     const frame=byHour.get(reference.atHour);
-    const physical=auditPhysicalEvidence(frame?.graph,reference.atHour);
+    const physicalLedger=auditPhysicalEvidence(frame?.graph,reference.atHour);
     const rendering=auditRenderedOwnership(frame?.pixels??[],frame?.graph,frame?.renderWitness);
     const independentlyReplayed=!!frame&&isIndependentlyReplayedProductionSample(frame);
-    const physicalReplayed=independentlyReplayed&&physical.status!=="invalid"&&
-      physical.errors.every(e=>e==="operation-execution-not-independently-replayed");
+    const physicalReplayed=independentlyReplayed&&physicalLedger.status!=="invalid"&&
+      physicalLedger.errors.every(e=>e==="operation-execution-not-independently-replayed");
+    const physical: PhysicalEvidence=physicalReplayed
+      ? {...physicalLedger,status:"verified",errors:[]}:physicalLedger;
+    const materialShape=frame?.graph?describeShape(frame.graph.cells):null;
     if(!frame)return {
       id:reference.id,atHour:reference.atHour,status:"unresolved" as const,
       shapeScore:null,silhouetteIoU:null,structuralScore:null,
-      scores:null,observed:null,reference:null,physical,rendering,
+      scores:null,observed:null,reference:null,materialShape,physical,rendering,
       mismatches:[],reasons:["missing-generated-milestone"],
     };
     const observed=describeShape(frame.pixels),target=describeShape(reference.pixels);
@@ -297,6 +309,26 @@ export function evaluateTrajectory(
     if(observed.skeletonJunctions!==target.skeletonJunctions||
        observed.skeletonEndpoints!==target.skeletonEndpoints)mismatches.push("branching-endpoints");
     if(score.structuralScore<TRAJECTORY_GATE.minStructuralScore)mismatches.push("structural-threshold");
+    const requirements=reference.physicalRequirements;
+    if(requirements){
+      if(requirements.components!==undefined&&
+        (!Number.isSafeInteger(requirements.components)||requirements.components<0) ||
+        requirements.holes!==undefined&&
+        (!Number.isSafeInteger(requirements.holes)||requirements.holes<0) ||
+        requirements.minAttachmentLinks!==undefined&&
+        (!Number.isSafeInteger(requirements.minAttachmentLinks)||requirements.minAttachmentLinks<0))
+        throw new RangeError("Invalid externally established physical topology requirements");
+      if(requirements.components!==undefined&&materialShape&&
+         materialShape.components!==requirements.components)
+        mismatches.push("physical-components");
+      if(requirements.holes!==undefined&&materialShape&&
+         materialShape.holes!==requirements.holes)
+        mismatches.push("physical-holes");
+      if(requirements.minAttachmentLinks!==undefined&&frame?.graph&&
+         frame.graph.links.filter(l=>l.kind==="attachment").length<
+           requirements.minAttachmentLinks)
+        mismatches.push("physical-attachments");
+    }
     if(physical.status==="unavailable")reasons.push("material-ancestry-unavailable");
     if(physical.status==="invalid")reasons.push("material-ancestry-invalid");
     if(rendering.status==="unavailable")reasons.push("rendered-material-provenance-unavailable");
@@ -313,12 +345,12 @@ export function evaluateTrajectory(
     const status=!observed.occupied||!target.occupied?"unresolved" as const:
       physical.status==="invalid"||rendering.status==="invalid"||
       (expectedSourceFingerprint&&physical.sourceFingerprint!==expectedSourceFingerprint)||
-      !numericalPass?"fail" as const:
+      (!numericalPass||mismatches.some(m=>m.startsWith("physical-")))?"fail" as const:
       !physicalReplayed||rendering.status==="unavailable"
         ?"unresolved" as const:"pass" as const;
     return {id:reference.id,atHour:reference.atHour,status,
       shapeScore:score.shapeScore,silhouetteIoU:iou,structuralScore:score.structuralScore,
-      scores:score.scores,observed,reference:target,physical,rendering,mismatches,reasons};
+      scores:score.scores,observed,reference:target,materialShape,physical,rendering,mismatches,reasons};
   });
   const scores=stages.map(s=>s.shapeScore).filter((x):x is number=>x!==null);
   const min=scores.length?Math.min(...scores):null,
