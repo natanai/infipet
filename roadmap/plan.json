@@ -729,7 +729,7 @@
         "DEV-004",
         "DEV-005"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -751,7 +751,32 @@
       "implementationPaths": [
         "src/simulation"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "purpose": "Verify physical material continuity and structural diversity of one authored organism across independently generated cohort shapes and permanent seeds",
+        "inputDomain": "20 deterministic arbitrary-ink shapes; 2 seeds per shape; fractional chronology through 72 h, two 720 h histories and one 2880 h midlife history",
+        "exports": [
+          "tests/development-quality.test.ts numerical physical cohort report"
+        ],
+        "metrics": [
+          "exact painted pixels and source-part identity",
+          "8-connected occupancy components",
+          "4-connected protected cavities",
+          "occupied bounding extents and aspect",
+          "attachment/fusion degree",
+          "growth site and branch counts",
+          "original-cell ancestry",
+          "physical geometry and topology distinct from pigmentation"
+        ],
+        "invariants": [
+          "every live generated cell has valid original-source ancestry, physical parent and a chronological creation witness",
+          "source ink metadata is immutable even when physical positions change",
+          "rejected operations create no cells or phantom relationships",
+          "out-of-order query and independent replay preserve earlier graphs",
+          "future care and future inspiration operations do not alter past anatomy"
+        ],
+        "result": "20/20 exact birth draws; 0 observed birth mismatches; 20 distinct birth structures, 39 distinct h72 structures, 38/40 physically changed lifetimes, 2 honest null effects; 120-day witness retains provenance"
+      }
     },
     {
       "id": "CARE-001",
