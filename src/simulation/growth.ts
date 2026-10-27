@@ -1151,6 +1151,10 @@ export function createSimulation(
         spine: r.spine,
       }));
       const growthGraph = materialAt(careAge * 24);
+      // Pre-raster world-space quadrilaterals form an exact independent
+      // coverage oracle when an explicit verification program is supplied.
+      // Never included in normal gameplay frames or save data.
+      const verificationQuads: {partId:string;cellId:string;quad:Point[]}[] = [];
       const materialRig = inferFunctionalMaterial(growthGraph, state.regions, nodes);
       const rig = buildFunctionalGraph(materialRig.nodes, state.preferred),
         pose = poseFunctionalGraph(rig, {
@@ -1385,7 +1389,7 @@ export function createSimulation(
         if (!changed.length) continue;
         remodeledAuthoredCells += changed.length;
         const transform = transformFor(region);
-        const cells = rasterCellQuads(originalInk.flatMap(original => {
+        const sourceQuads = originalInk.flatMap(original => {
           const active = liveAuthored.get(original.id);
           return active ? [{
             cell: { ...active, materialCellId: active.id,
@@ -1395,9 +1399,16 @@ export function createSimulation(
             quad: cellCorners(active).map(point => mapSourcePoint(region,point)),
             center: mapSourcePoint(region,active),
           }] : [];
-        }), transform
-          ? point => poseAuthoredMaterial(region,point,transform)
-          : undefined);
+        });
+        const worldPose = transform
+          ? (point:Point) => poseAuthoredMaterial(region,point,transform)
+          : undefined;
+        if (options.verifyMaterialProgram)
+          verificationQuads.push(...sourceQuads.map(quad=>({
+            partId:region.id, cellId:quad.cell.id,
+            quad:worldPose ? quad.quad.map(worldPose) : quad.quad,
+          })));
+        const cells = rasterCellQuads(sourceQuads,worldPose);
         const part = parts.find(p => p.id === region.id);
         if (!part) continue;
         part.pixels = uniquePixels(cells);
@@ -1440,18 +1451,25 @@ export function createSimulation(
         // A developed child tissue is one physical span. Historical region
         // source clips are NOT permission to discard daughter cells crossing
         // a partition after true branching, translation, or articulation.
-        const pixels = rasterCellQuads(cells.map(cell => ({
+        const grownQuads = cells.map(cell => ({
             cell: { ...cell, materialCellId: cell.id,
               materialSourceIds: cell.sourceIds,
               materialParentCellIds: cell.parentCellIds,
               materialOperationId: cell.operationId },
             quad: cellCorners(cell).map(point => mapSourcePoint(carrier, point)),
             center: mapSourcePoint(carrier, cell),
-          })), linkedTransform && functionalBinding
-            ? point => poseLinkedMaterial(point, functionalBinding, linkedTransform)
-            : transport
-              ? point => poseAuthoredMaterial(carrier, point, transport)
-              : undefined);
+          }));
+        const grownPose = linkedTransform && functionalBinding
+          ? (point:Point) => poseLinkedMaterial(point, functionalBinding, linkedTransform)
+          : transport
+            ? (point:Point) => poseAuthoredMaterial(carrier, point, transport)
+            : undefined;
+        if(options.verifyMaterialProgram)
+          verificationQuads.push(...grownQuads.map(quad=>({
+            partId:"material-growth/"+tissue.id, cellId:quad.cell.id,
+            quad:grownPose ? quad.quad.map(grownPose) : quad.quad,
+          })));
+        const pixels = rasterCellQuads(grownQuads,grownPose);
         if (!pixels.length) {
           unmappedGeneratedTissues.push(tissue.id);
           continue;
@@ -1520,6 +1538,7 @@ export function createSimulation(
           visibleGrowthParts: parts.filter(part => part.role === "material-growth").length,
           unmappedGeneratedTissues,
           remodeledAuthoredCells,
+          ...(options.verifyMaterialProgram ? { renderedCellQuads: verificationQuads } : {}),
         },
       };
       // Carry authored negative space with bright features drawn inside hollow outlines.
