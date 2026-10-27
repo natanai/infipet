@@ -37,6 +37,8 @@ jobs:
         run: pnpm exec tsx scripts/profile-runtime.ts > "$RUNNER_TEMP/perf-after.jsonl"
         env:
           NODE_OPTIONS: --expose-gc --max-old-space-size=1536
+      - name: Verify official PERF-001 acceptance oracle
+        run: node scripts/roadmap.mjs --task=PERF-001 --run
       - name: Compare ordinary living-pet tick reuse with exact cold replay
         run: pnpm exec tsx scripts/benchmark-living-reuse.ts
       - name: Print bounded paired measurements without keeping artifacts
