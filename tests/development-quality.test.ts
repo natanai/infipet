@@ -29,6 +29,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createSimulation } from "../src/simulation";
 import { createUnifiedMaterialTimeline } from "../src/integration/unified-runtime";
+import { createCareOperatorChronology, createEnvironmentalHistory } from "../src/environment";
+import { createGame, advanceGame, commandGame, HOUR } from "../src/gameplay";
 import type { MaterialCell, MaterialGraph, MaterialDevelopmentProgram } from "../src/development";
 import type { InheritedGenome } from "../src/simulation/genome";
 import type { PetPart, Pixel, PartKind } from "../src/simulation/model";
@@ -167,7 +169,7 @@ function capture(shape:Shape,seed:string) {
   if(!retained)throw Error("Expected actual canonical material program");
   const {program,genome}=retained as {
     program:MaterialDevelopmentProgram;genome:InheritedGenome};
-  return {sim,program,timeline:createUnifiedMaterialTimeline({program,genome})};
+  return {sim,program,genome,timeline:createUnifiedMaterialTimeline({program,genome})};
 }
 function expectedSources(parts:readonly PetPart[]) {
   return parts.flatMap(p=>p.pixels.map(c=>({
@@ -389,7 +391,7 @@ test("[DEV-006/A1] independent painter-order metamorphisms and zero-material bou
   const reference=expectedBirth(overlap.parts);
   assert.deepEqual(expectedBirth([...overlap.parts].reverse()),reference);
   const swapped=overlap.parts.map(p=>({...p,pixels:p.pixels.map(c=>({...c}))}));
-  const top=swapped.find(p=>p.id==="front")!;
+  const top=swapped.find(p=>p.id==="under")!;
   top.layer=100;
   assert.notDeepEqual(expectedBirth(swapped),reference,
     "independent painter must notice changed upper pigment");
@@ -404,22 +406,25 @@ test("[DEV-006/A2] independent counterexamples catch material erasure, duplicate
   const {program}=capture(target,"audit-counterexample");
   const born=program.source;
   const source=born.sourceCells[0]!;
-  const bad=(g:MaterialGraph)=>assert.throws(()=>audit(g,born,0));
-  bad({...born,sourceCells:born.sourceCells.slice(1)});
-  bad({...born,cells:[...born.cells,{...source}]});
+  const bad=(g:MaterialGraph,diagnostic?:RegExp)=>assert.throws(()=>audit(g,born,0),diagnostic);
+  bad({...born,sourceCells:born.sourceCells.slice(1)},/permanent original ink/);
+  bad({...born,cells:[...born.cells,{...source}]},/duplicated material identity/);
   const point=born.protectedVoids[0];
   assert.ok(point,"enclosed source must retain protected empty space");
   const [x,y]=point.split(",").map(Number);
   bad({...born,cells:[...born.cells,{...source,x,y,
     id:"phantom/void",provenance:"generated",
     sourceIds:[source.id],parentCellIds:["does-not-exist"],
-    operationId:"invented"}]});
+    operationId:"invented"}]},/protected cavity/);
   const generated:MaterialCell={...source,id:"phantom/child",x:12,y:12,
     provenance:"generated",sourceIds:[source.id],
     parentCellIds:["unborn/parent"],operationId:"imaginary"};
-  bad({...born,cells:[...born.cells,generated]});
+  bad({...born,cells:[...born.cells,generated],
+    events:[{id:"imaginary",kind:"bud",atHour:0,
+      createdCellIds:[generated.id],removedCellIds:[],
+      sourceCellIds:[source.id]}]},/invented parent/);
   bad({...born,events:[{id:"future",kind:"bud",atHour:1,
-    createdCellIds:[],removedCellIds:[],sourceCellIds:[source.id]}]});
+    createdCellIds:[],removedCellIds:[],sourceCellIds:[source.id]}]},/future event/);
 });
 test("[DEV-006/A2] bounded arbitrary-ink cohort audits causality and quantifies structural diversity",()=>{
   const withinSource:number[]=[];
@@ -517,4 +522,83 @@ test("[DEV-006/A2] pigment-only mutations do not count as an anatomical differen
   assert.deepEqual(measure(a.program.source),measure(b.program.source));
   assert.equal(physicalPositions(a.program.source),physicalPositions(b.program.source));
   assert.notDeepEqual(expectedBirth([original]),expectedBirth([changed]));
+});
+
+test("[DEV-006/A2] source provenance survives whole-month and midlife chronology without retroactive rewriting",()=>{
+  const shapes=[
+    curated.find(s=>s.id==="hollow-volume")!,
+    curated.find(s=>s.id==="forked-plant")!,
+  ];
+  let audited=0,positive=0,nulls=0;
+  for(const shape of shapes){
+    const {program,timeline}=capture(shape,"source-lifetime-720");
+    const times=[0,12.5,72,240,720];
+    const states=times.map(t=>timeline.at(t));
+    const birth=states[0].graph;
+    for(let i=0;i<states.length;i++) {
+      audit(states[i].graph,birth,times[i]);
+      if(i>0)assert.deepEqual(states[i].graph.events.slice(
+        0,states[i-1].graph.events.length),states[i-1].graph.events,
+        "past physical operations must be immutable at later life");
+      audited++;
+    }
+    if(physicalPositions(states[0].graph)===
+       physicalPositions(states[states.length-1].graph))nulls++;
+    else positive++;
+    assert.deepEqual(timeline.replay(720).graph,states[states.length-1].graph);
+    assert.deepEqual(timeline.at(12.5).graph,states[1].graph);
+  }
+  const midlife=capture(curated.find(s=>s.id==="vertical-filament")!,
+    "source-midlife-2880");
+  const at120Days=midlife.timeline.at(2880);
+  audit(at120Days.graph,midlife.program.source,2880);
+  assert.deepEqual(midlife.timeline.replay(2880).graph,at120Days.graph);
+  audited++;
+  console.log("DEV-006 LIFETIME "+JSON.stringify({
+    longestHour:2880,days:120,independentlyAuditedStates:audited,
+    physicalChangesAtMonth:positive,constrainedMonthNulls:nulls,
+    midlifeGeneratedCells:measure(at120Days.graph).generated,
+    midlifeRecordedEvents:at120Days.graph.events.length}));
+});
+
+test("[DEV-006/A2] later recorded feeding and an optional later inspiration do not alter earlier material",()=>{
+  const shape=curated.find(s=>s.id==="forked-plant")!;
+  const seed="DEV-006-care-causality";
+  const {program,genome,timeline:unfedTimeline}=capture(shape,seed);
+  const birth=HOUR*13;
+  const before=createGame(seed,"infant",birth);
+  const unfed=advanceGame(before,birth+8*HOUR);
+  let fed=advanceGame(before,birth+6*HOUR);
+  fed=commandGame(fed,{type:"feed",food:"meal"},
+    birth+6*HOUR,"after-hour-six");
+  fed=advanceGame(fed,birth+8*HOUR);
+  const historyA=createEnvironmentalHistory(unfed);
+  const historyB=createEnvironmentalHistory(fed);
+  const makeCare=(history:typeof historyA)=>createUnifiedMaterialTimeline({
+    program,genome,history,
+    care:createCareOperatorChronology(program,history,genome.genotype),
+  });
+  const a=makeCare(historyA),b=makeCare(historyB);
+  for(const hour of [0,0.5,1,3,5.5]) {
+    const original=a.at(hour).graph,changed=b.at(hour).graph;
+    audit(changed,program.source,hour);
+    assert.deepEqual(changed,original,
+      "feeding at h=6 must not influence anatomy at h="+hour);
+  }
+  // Explicitly compile a future-only material inspiration, never a new
+  // species/seed. Runtime's stable iterative orbit key remains the same,
+  // so pre-inspiration anatomy is an identical, causal event prefix.
+  const later={...program,iterativeSeedFingerprint:
+      program.iterativeSeedFingerprint??program.fingerprint,
+    fingerprint:program.fingerprint+"/future-inspiration",
+    operators:[...program.operators,{
+      id:"speculative/future-only",kind:"reinforce" as const,
+      tissueId:program.source.tissues[0]!.id,atHour:80,
+      durationHours:20,strength:1,
+    }]};
+  const changedTimeline=createUnifiedMaterialTimeline({program:later,genome});
+  for(const hour of [0,0.5,1,8,24]){
+    assert.deepEqual(changedTimeline.at(hour).graph,unfedTimeline.at(hour).graph,
+      "future-only inspiration must not rewrite earlier physical operations");
+  }
 });
