@@ -920,7 +920,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1278,7 +1278,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -1353,7 +1353,7 @@
         "EVAL-001",
         "INT-002"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -1379,7 +1379,13 @@
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "oldBenchmarks": "Prior dense 720h and 8192h continuous-growth measurements are legacy profiler results, NOT present product requirements",
-        "acceptance": "After INT-002, measure due daily checks, a year-long late return, unchanged-between-check display and cached mature-pet play"
+        "acceptance": "After INT-002, measure due daily checks, a year-long late return, unchanged-between-check display and cached mature-pet play",
+        "resume": {
+          "localImplementation": "scripts/daily-benchmark.ts uses a real cared-for 366-day GameState and sparse, unusual, dense 1024-cell and 15-brush 1024-cell mosaic inputs. The local replacement development-budget.test.ts tests all required ages, per-second accepted/rejected care, first-boundary processing, exact paired cold replay, finite inventories, sparse zero-award ledger compression, saved reopen and invalid-cache reconstruction. roadmap.mjs runs performance separately after functional tests to avoid worker contention.",
+          "isolatedReference": "Both focused PERF acceptance tests passed (58.1s total) on Linux x64 Node v24.22.1. Worst ordinary p95 across scenarios: sparse 6.53ms, unusual 8.51ms, dense 9.41ms, mosaic 25.21ms. Measured full-year cold reconstruction/reopen: sparse 345/219ms, unusual 725/186ms, dense 3223/198ms, mosaic 2690/258ms. State JSON sizes 462835, 535631, 867731, 1599557 bytes. No native-phone measurements were made.",
+          "budgets": "Local measured-reference gates: ordinary p95 1000/30ms, first boundary 150ms, fresh 365 checks 8000ms, saved reopen 1500ms, state 8MiB, isolated RSS safety ceiling 768MiB. Keep these explicitly environment-specific; do not weaken merely to pass or claim phone qualification.",
+          "next": "Finish current-runtime browser responsiveness/large real saved-life reopening and byte/storage tests. Replace active hourly scripts and CI benchmark jobs (benchmark-unified, profile-runtime, benchmark-living-reuse and old paired workflow) with the daily benchmark; label retained low-level hourly numerical helpers historical. Document measured budgets, sparse ledgers and hardware limits. Re-run final isolated benchmarks after remaining code changes."
+        }
       }
     },
     {
@@ -1590,7 +1596,7 @@
         "CARE-004",
         "GAME-002"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -1617,7 +1623,16 @@
       "algorithmId": "integration",
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
-        "readiness": "not assignable until its existing prerequisite tasks are done; no worker should wait in chat"
+        "readiness": "not assignable until its existing prerequisite tasks are done; no worker should wait in chat",
+        "resume": {
+          "blocker": "Execution environment became unavailable before the local runtime work could be committed/pushed. DO NOT mark complete or merge the release.",
+          "recoverWorkspace": "/workspace/scratch/81345452132b/infipet; local branch completion/daily-lifetime; last committed local HEAD b4e0bef2. Inspect git status and preserve the uncommitted working tree before recreating anything.",
+          "remoteCheckpoint": "PR #35 at 2da0a2d20a778765fddecb511cd0cc9b7ac76ba5 contains the verified DEV-007/CARE-004/GAME-002 foundations. Its Verify Infipet run 40574738548 passed. Production on main is NOT cut over.",
+          "localImplementation": "New daily-runtime.ts composes applyDailyMaterialStep, exact care windows, bounded immutable history-verified caches and persisted checkpoints. checkpoint-integrity.ts implements SHA-256 and was compared with node:crypto. growth.ts replaces contour-generated anatomy with rasterized active physical cells and source-derived locomotion. living-physiology.ts and canonical need-event caches reuse unchanged physiology. Optional large web saves use storage-web.ts IndexedDB payloads. player-lifecycle.ts adds sliced catch-up. App and pet-format accept checkpoint metadata and recoverable old-save backups.",
+          "requiredCorrection": "The local prepareRawPet currently automatically labels legacy saves as daily and replays their elapsed past under the new rules. Reconsider this before release: the assignment explicitly forbids fabricated historical daily checks. If exact old biological continuity cannot be established, preserve the exact original file and original main save; show a read-only legacy explanation and require the existing explicit Begin life/replacement action to start a NEW daily life from its original drawing with a genuinely new birth time. Do not advance or silently rewrite that legacy life, and do not pretend its past daily transactions happened.",
+          "verification": "Earlier focused daily integration had 5 passing tests including persisted mature reuse with zero steps and corrupted/wrong-history reconstruction. Seven existing browser player flows passed. A new daily boundary/365/366/corrupt-cache/backup browser case passed its functional assertions; an injected test init script then caused an about:blank sessionStorage error. Guards were added but need a clean rerun. A healthy year-long IndexedDB/offline browser test and scripts/create-year-life-fixture.ts were added and NOT yet run.",
+          "next": "Retrieve pending test logs if available, finish the legacy policy correction, typecheck, rebuild dist with expo export --platform web --max-workers 2 then offline-web.mjs, run all browser cases and all registered tests. Existing extracted Chromium binary was invalid; a fresh decompression to /tmp/infipet-chromium worked with CHROMIUM_EXECUTABLE_PATH."
+        }
       }
     },
     {
@@ -1629,7 +1644,7 @@
         "INT-002",
         "EVAL-003"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -1655,7 +1670,12 @@
       "algorithmId": "evaluation",
       "interfaceContract": {
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
-        "readiness": "not assignable until daily runtime is merged"
+        "readiness": "not assignable until daily runtime is merged",
+        "resume": {
+          "localImplementation": "tests/alg-evaluation-daily-life.test.ts and daily-proof.ts independently falsify absolute daily times with BigInt, inventory/ownership and cold replay. The production witness helper now uses the daily timeline. Daily witness search supports 8760h and bounded actual physiological command strategies; historical 1/49/121h queries stay research-only.",
+          "verification": "The three new daily evaluation tests passed before later renderer optimizations. A later combined run exposed undefined diagnostic quad cell IDs after stripping redundant raw cell metadata. growth.ts was corrected to use q.cell.materialCellId; the final rerun result was not retrieved before environment loss. Rerun rather than claiming completion.",
+          "next": "Preserve the existing independent numeric metrics and pass/fail/unresolved semantics. Re-run the required early/duplicate/fabricated/fractional/future-care/postmaturity/false-ancestry/missing-ownership/cache-divergence negative cases, legacy research tests and full regression gate. Update active temporal documentation and task status only when green."
+        }
       }
     }
   ],
