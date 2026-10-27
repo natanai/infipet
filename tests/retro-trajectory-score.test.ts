@@ -389,4 +389,41 @@ test("[EVAL-002/A2] externally established retro stages report every age, metada
   assert.notEqual(missing.status,"pass",
     "missing one milestone cannot be covered up by a strong final frame");
   assert.ok(missing.reasons.includes("milestone-coverage-mismatch"));
+
+  // Real history-independent production generator, same authored birth ink
+  // and fixed seed. Historical targets enter ONLY here, after all stages are
+  // physically generated and independently replayed. This is not a ROM-care
+  // replay witness and is never asserted to be historical-device parity.
+  const physicalRun=buildProductionTrajectoryWitness(starting,birthSeed,milestones);
+  const scored=evaluateTrajectory(physicalRun.samples,targets,
+    physicalRun.sourceFingerprint);
+  assert.deepEqual(scored.stages.map(s=>s.atHour),[...milestones]);
+  assert.equal(scored.scope,"numerical-resemblance-not-hardware-parity");
+  assert.ok(scored.stages.every(s=>s.shapeScore!==null &&
+    s.silhouetteIoU!==null && s.structuralScore!==null));
+  assert.ok(scored.stages.every(s=>s.status==="fail"||
+    s.status==="unresolved"||s.rendering.status==="verified"));
+  assert.ok(scored.stages.every(s=>s.status!=="pass"||
+    isIndependentlyReplayedProductionSample(
+      physicalRun.samples.find(sample=>sample.atHour===s.atHour)!)));
+  const report={
+    referenceRoute:route.characters.slice(0,4),
+    generatedProgramFingerprint:physicalRun.programFingerprint,
+    generatedGenomeFingerprint:physicalRun.genomeFingerprint,
+    verifiedStages:physicalRun.counts.genuinelyVerifiedStages,
+    materialPixels:physicalRun.counts.materialPixels,
+    generatedCellsAcrossAges:physicalRun.counts.generatedCells,
+    eventsAcrossAges:physicalRun.counts.graphEvents,
+    stages:scored.stages.map(s=>({
+      atHour:s.atHour,status:s.status,
+      silhouetteIoU:s.silhouetteIoU,score:s.shapeScore,
+      structuralScore:s.structuralScore,
+      mismatches:s.mismatches,reasons:s.reasons,
+      physical:s.physical.status,rendered:s.rendering.status,
+    })),
+    aggregate:scored.aggregateScore,
+    weakest:scored.weakestStageScore,status:scored.status,
+    limitations:physicalRun.limitations,
+  };
+  console.info("EVAL-002 authentic independent research trajectory:",JSON.stringify(report));
 });
