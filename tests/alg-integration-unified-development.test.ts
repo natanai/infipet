@@ -14,6 +14,8 @@ import {
 } from "../src/environment";
 import { materialInputs, drawing } from "./alg-development-fixtures";
 import { createSimulation } from "../src/simulation";
+import { HOUR, createGame, advanceGame, commandGame } from "../src/gameplay";
+import { createEnvironmentalHistory } from "../src/environment";
 import { seedChaos, CHAOS_VERSION } from "../src/development/chaos";
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -430,4 +432,59 @@ test("[INT-001/A2] live frame consumes unified physical chronology without chang
   const after=simulation.frameAt(0.2,{time:1,action:"idle"});
   assert.deepEqual(after,grown,"repeated visible frames are replay deterministic");
   assert.deepEqual(simulation.frameAt(0),atBirth);
+});
+
+test("[INT-001/A3] saved traditional-care histories reconstruct the exact same live anatomical pixels",()=>{
+  const seed="INT-SAVE-REPLAY-2026";
+  const ink=drawing(["...###...","..#####..","...###...","....#....","....#...."]);
+  const birth=5*HOUR;
+  let game=createGame(seed,"infant",birth);
+  game=advanceGame(game,birth+HOUR);
+  game=commandGame(game,{type:"feed",food:"meal"},birth+HOUR,"save-feed");
+  game=advanceGame(game,birth+2*HOUR);
+  const restored=JSON.parse(JSON.stringify(game));
+  const a=createSimulation(ink,seed,"infant",{careGame:game});
+  const b=createSimulation(ink,seed,"infant",{careGame:restored});
+  for(const h of [0,0.5,1,1.5,2,1,0]) {
+    assert.deepEqual(a.frameAt(h/24,{time:1,action:"move"}),
+      b.frameAt(h/24,{time:1,action:"move"}));
+  }
+  assert.equal(a.program.genomeIdentity,b.program.genomeIdentity);
+  assert.deepEqual(a.frameAt(2/24,{time:0}),
+    a.frameAt(2/24,{time:0}));
+});
+
+test("[INT-001/A3] genuine saved care changes physiological expression without changing genome or birth",()=>{
+  const seed="INT-CARE-CONTRAST-12";
+  const {program,genome}=realProgram(["####","####","####"],seed,"elongate",12);
+  const birth=11*HOUR;
+  let fed=createGame(seed,"infant",birth);
+  let unfed=createGame(seed,"infant",birth);
+  for(let i=1;i<=12;i++) {
+    const at=birth+i*HOUR;
+    fed=advanceGame(fed,at);
+    unfed=advanceGame(unfed,at);
+    if(i%3===0)
+      fed=commandGame(fed,{type:"feed",food:"meal"},at,"meal-"+i);
+  }
+  const historyA=createEnvironmentalHistory(fed);
+  const historyB=createEnvironmentalHistory(unfed);
+  const careA=createCareOperatorChronology(program,historyA,genome.genotype);
+  const careB=createCareOperatorChronology(program,historyB,genome.genotype);
+  const expressedA=chaosWeightedCareHours(program.operators[0],0,12,careA);
+  const expressedB=chaosWeightedCareHours(program.operators[0],0,12,careB);
+  assert.ok(Math.abs(expressedA-expressedB)>1e-6,
+    "actual accepted feeding history must affect expression in this fixture");
+  const a=createUnifiedMaterialTimeline({program,genome,care:careA,history:historyA});
+  const b=createUnifiedMaterialTimeline({program,genome,care:careB,history:historyB});
+  assert.deepEqual(a.at(0).graph,b.at(0).graph);
+  assert.deepEqual(a.at(0).iterative,b.at(0).iterative);
+  assert.deepEqual(a.at(0).material,b.at(0).material);
+  assert.deepEqual(a.at(12),a.replay(12));
+  assert.deepEqual(b.at(12),b.replay(12));
+  assert.deepEqual(a.at(3),a.replay(3));
+  assert.deepEqual(b.at(3),b.replay(3));
+  assert.deepEqual(a.at(0).graph.sourceCells,b.at(12).graph.sourceCells);
+  assert.ok(a.at(12).graph.events.every(e=>e.atHour<=12));
+  assert.ok(b.at(12).graph.events.every(e=>e.atHour<=12));
 });
