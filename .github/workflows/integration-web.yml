@@ -1,0 +1,30 @@
+name: Integration Web Export
+on:
+  pull_request:
+    paths:
+      - "src/integration/**"
+      - "src/simulation/**"
+      - "tests/alg-integration-unified-development.test.ts"
+      - ".github/workflows/integration-web.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: integration-web-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build-web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Export deployable web bundle
+        run: pnpm build:web
