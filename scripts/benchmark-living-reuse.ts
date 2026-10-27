@@ -217,8 +217,8 @@ for(const hour of [24,720] as const)for(const shape of ["sparse","complex","dens
     n,medianColdMs:med(u),medianReuseMs:med(v),
     empiricalP95ColdMs:+u[Math.ceil(n*.95)-1].toFixed(3),
     empiricalP95ReuseMs:+v[Math.ceil(n*.95)-1].toFixed(3),
-    minMaxColdMs:[+u[0].toFixed(3),+u.at(-1).toFixed(3)],
-    minMaxReuseMs:[+v[0].toFixed(3),+v.at(-1).toFixed(3)],
+    minMaxColdMs:[+u[0].toFixed(3),+u[u.length-1].toFixed(3)],
+    minMaxReuseMs:[+v[0].toFixed(3),+v[v.length-1].toFixed(3)],
     coldReconstructionCount:cold,importedCanonicalStates:imported,
     note:n<20?"insufficient trials for a meaningful p95":"empirical Linux Node trial p95; not device p95"});
 }
