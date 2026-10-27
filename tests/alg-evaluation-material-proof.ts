@@ -323,11 +323,11 @@ export function auditRenderedOwnership(
       !p.materialParentCellIds||!identical(p.materialParentCellIds,cell.parentCellIds)||
       p.materialOperationId!==cell.operationId)
      errors.push(error("rendered-ancestry-mismatch",id));
-   const quads=projected.get(id);
-   if(!quads?.length)errors.push(error("rendered-without-material-projection",id));
-   else if(!quads.some(q=>covered(q,p)))
-     errors.push(error("rendered-outside-projected-material",id));
-   else projectedPixels++;
+   const footprint=projected.get(id);
+    if(!footprint?.size)errors.push(error("rendered-without-material-projection",id));
+    else if(!footprint.has(key(p)))
+      errors.push(error("rendered-outside-projected-material",id));
+    else projectedPixels++;
  }
  if(errors.length)return {status:"invalid",identifiedPixels:identified,
    totalPixels:pixels.length,projectedPixels,errors};
