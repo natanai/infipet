@@ -168,7 +168,13 @@ export function auditPhysicalEvidence(graph?:MaterialGraph,cutoffHour=Infinity):
     if(!tissues.has(c.tissueId))errors.push(error("unknown-tissue",c.id));
     if(!Number.isSafeInteger(c.x)||!Number.isSafeInteger(c.y)||c.x<0||c.y<0||
        c.x>=64||c.y>=64)errors.push(error("invalid-cell-position",c.id));
-    if(graph.protectedVoids.includes(key(c)))errors.push(error("protected-void-filled",c.id));
+    // Author-drawn eyes, mouths and free-floating marks can legitimately
+    // occupy another source patch's originally empty interior. That original
+    // authored paint is NOT a generated deposit. Only new physical matter
+    // may be prohibited by a protected cavity without a specific causal
+    // opening transaction.
+    if(c.provenance==="generated"&&graph.protectedVoids.includes(key(c)))
+      errors.push(error("protected-void-filled",c.id));
     if(!c.sourceIds.length||c.sourceIds.some(id=>!sources.has(id)))
       errors.push(error("orphan-source-ancestry",c.id));
     if(new Set(c.sourceIds).size!==c.sourceIds.length)
