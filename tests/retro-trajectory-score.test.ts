@@ -318,7 +318,21 @@ test("[EVAL-002/A1/A2] actual unmodified production growth and projected visible
   assert.deepEqual(measured.stages.map(s=>s.status),
     references.map(()=>"pass"));
   assert.ok(measured.stages.every(s=>s.silhouetteIoU===1 &&
-    s.shapeScore===1 && s.rendering.status==="verified"));
+    s.shapeScore===1 && s.rendering.status==="verified" &&
+    s.physical.status==="verified" && s.materialShape!==null));
+  const topologyControl=references.map((r,i)=>i===0?{
+    ...r,physicalRequirements:{
+      components:(measured.stages[i].materialShape?.components??0)+1,
+      holes:measured.stages[i].materialShape?.holes??0,
+    },
+  }:r);
+  const physicalMismatch=evaluateTrajectory(trulyVerified,topologyControl,
+    witness.sourceFingerprint);
+  assert.equal(physicalMismatch.stages[0].silhouetteIoU,1);
+  assert.equal(physicalMismatch.stages[0].status,"fail");
+  assert.ok(physicalMismatch.stages[0].mismatches.includes("physical-components"),
+    "perfectly matching image cannot excuse independently contradicted material connectivity");
+  assert.equal(physicalMismatch.status,"fail");
   // Decoupled reference target: rewrite target *metadata* or shape and keep
   // replayed material untouched. A foreign perfect image cannot be promoted.
   const invalidPixels=trulyVerified[0].pixels.map(p=>({...p,materialCellId:"different-pet"}));
