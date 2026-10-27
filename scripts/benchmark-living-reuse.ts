@@ -69,7 +69,10 @@ for(const shape of ["sparse","complex","dense"] as const){
     const independent=i%2===0?second:first;
     assert.deepEqual(faster.frame.pixels,independent.frame.pixels);
     assert.equal(independent.stats.imported,0);
-    assert.ok(faster.stats.imported>0);
+    assert.equal(faster.stats.imported,0,
+      "young-life fast policy intentionally bypasses cache import");
+    assert.ok(faster.stats.cold>0,
+      "young-life evaluation still executes real from-birth chronology");
     results.push({coldMs:independent.ms,reuseMs:faster.ms,
       compileColdMs:independent.compileMs,
       compileReuseMs:faster.compileMs,
@@ -99,6 +102,7 @@ for(const shape of ["sparse","complex","dense"] as const){
     },
     coldReconstructionCount:results.reduce((n,r)=>n+r.reconstructs,0),
     importedCanonicalStates:results.reduce((n,r)=>n+r.imports,0),
+    lowCostBypassedEvaluations:results.filter(r=>r.imports===0).length,
     coldRangeMs:[sorted("coldMs")[0],sorted("coldMs").at(-1)],
     reuseRangeMs:[sorted("reuseMs")[0],sorted("reuseMs").at(-1)],
     rssMiB:+(memory.rss/MB).toFixed(2),heapMiB:+(memory.heapUsed/MB).toFixed(2),
