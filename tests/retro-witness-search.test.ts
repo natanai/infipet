@@ -245,6 +245,12 @@ test("[EVAL-003/A2] bounded actual historical reference search publishes exact n
   });
   assert.equal(search.examined,4);
   assert.equal(search.candidates.length,4);
+  assert.deepEqual(search.candidates.map(c=>[c.seed,c.strategy]),[
+    ["eval003/retro-path-v1/0","maintain"],
+    ["eval003/retro-path-v1/0","meals"],
+    ["eval003/retro-path-v1/1","maintain"],
+    ["eval003/retro-path-v1/1","meals"],
+  ],"report may not reorder seeded candidates when some die before final stage");
   assert.ok(search.best,"bounded search must preserve a complete exact replayable best witness");
   assert.deepEqual(search.best.witness.care.stageCommitments.map(s=>s.atHour),
     [0,1,49,121],"developmental gates come from genuine gameplay chronology");
