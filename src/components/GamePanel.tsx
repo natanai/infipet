@@ -43,18 +43,6 @@ function Meter({ label, value }: { label: string; value: number }) {
     </Text>
   );
 }
-function lineageLabel(value: unknown): string | null {
-  if (!value || typeof value !== "object") return null;
-  const record = value as Record<string, unknown>;
-  if (typeof record.name === "string") return record.name;
-  const placement = record.placement;
-  if (!placement || typeof placement !== "object") return null;
-  const id = (placement as Record<string, unknown>).profileId;
-  return typeof id === "string"
-    ? id.replace(/^animal[./-]/, "").replace(/[-_]/g, " ")
-    : null;
-}
-
 /** Actual care actions; the evolution Lab has no authority over this state. */
 export function GamePanel({
   game,
@@ -62,17 +50,15 @@ export function GamePanel({
   unsaved,
   onCommand,
   onNewPet,
-  lineage,
 }: {
   game: GameState;
   disabled: boolean;
   unsaved: boolean;
   onCommand: (command: GameCommand) => void;
   onNewPet: () => void;
-  lineage?: unknown;
 }) {
   const [tab, setTab] = useState<"care" | "games" | "status">("care");
-  const blocked = disabled || unsaved || game.dead || game.stage === "egg";
+  const blocked = disabled || game.dead || game.stage === "egg";
   const action = (
     label: string,
     command: GameCommand,
@@ -86,7 +72,6 @@ export function GamePanel({
     />
   );
   const activity = game.activity;
-  const affinity = lineageLabel(lineage);
   const clockMinute =
     (((Math.floor(game.clock.nowMs / 60000) + game.clock.utcOffsetMinutes) %
       1440) +
@@ -153,7 +138,7 @@ export function GamePanel({
       )}
       {unsaved && (
         <Text style={[s.text, { color: T.warning }]}>
-          Saving progress needs another try. Care controls resume once saved.
+          Not saved yet. You can keep caring for your pet; export a copy from More.
         </Text>
       )}
       {game.dead ? (
@@ -238,13 +223,6 @@ export function GamePanel({
               <Text style={s.text}>
                 Battles {game.stats.wins}/{game.stats.battles} won · overfeeds{" "}
                 {game.stats.overfeeds}
-              </Text>
-              {affinity && (
-                <Text style={s.muted}>Animal affinity: {affinity}</Text>
-              )}
-              <Text style={s.muted}>
-                Continuous growth follows your drawing, seed and care. Animal
-                affinity is a game interpretation.
               </Text>
               {game.history
                 .slice(-4)

@@ -66,14 +66,12 @@ import { GamePanel } from "./src/components/GamePanel";
 import { RetroGallery } from "./src/components/RetroGallery";
 import { RETRO_PRESETS, cloneRetroPreset } from "./src/retro";
 import {
-  advanceGame,
-  commandGame,
-  createGame,
-  deriveCareTimeline,
-  deriveDevelopmentContext,
-  type GameCommand,
+  deriveCareTimeline, deriveDevelopmentContext, type GameCommand,
 } from "./src/gameplay";
-import { LINEAGE_RECIPE_VERSION, type LivingPet } from "./src/pet-format";
+import type { LivingPet } from "./src/pet-format";
+import {
+  birthPlayerLife, advancePlayerLife, commandPlayerLife,
+} from "./src/integration/player-lifecycle";
 import {
   findSeedVariation,
   preserveDevelopmentalAge,
@@ -273,29 +271,24 @@ export default function App() {
       Math.ceil(Math.max(0, age - simulation.hatchAt) / DEFAULT_PREVIEW_DAYS) *
         DEFAULT_PREVIEW_DAYS,
     );
+  // The lab's independent preview must never replace or needlessly render
+  // the actual living pet during normal play.
   const previewFrame = useMemo(
-    () =>
+    () => playing ? null :
       simulation.frameAt(age, { time, action, ...(target ? { target } : {}) }),
-    [simulation, age, time, action, target],
+    [playing, simulation, age, time, action, target],
   );
-  const liveRecipe = life
-    ? JSON.stringify({
-        care: deriveCareTimeline(life.game),
-        context: deriveDevelopmentContext(life.game),
-        grooming: life.groomingTimeline,
-      })
-    : "";
+  // Build only from the native saved-life evidence. Each accepted care command
+  // invalidates this memo immediately; time is not approximated or bucketed.
   const livingSimulation = useMemo(() => {
-    if (!life || !liveRecipe) return null;
-    const recipe = JSON.parse(liveRecipe);
+    if (!life) return null;
     return createSimulation(life.parts, life.seed, life.mode, {
-      needTimeline: recipe.care,
-      groomingTimeline: recipe.grooming,
-      liveContext: recipe.context,
-      // Actual timestamped care and sampled physiology drive material growth.
+      needTimeline: deriveCareTimeline(life.game),
+      groomingTimeline: life.groomingTimeline,
+      liveContext: deriveDevelopmentContext(life.game),
       careGame: life.game,
     });
-  }, [life?.parts, life?.seed, life?.mode, life?.game, liveRecipe]);
+  }, [life?.parts, life?.seed, life?.mode, life?.game, life?.groomingTimeline]);
   const liveAge = life
     ? Math.max(
         0,
@@ -319,7 +312,7 @@ export default function App() {
       life?.game.dead,
     ],
   );
-  const frame = playing && livingFrame ? livingFrame : previewFrame;
+  const frame = playing ? livingFrame! : previewFrame!;
   const pixels = useMemo(() => drawingPixels(parts), [parts]);
   const document: PetDocument = {
     version: 8,
@@ -339,6 +332,20 @@ export default function App() {
   };
   const latest = useRef({ document, writable });
   latest.current = { document, writable };
+  // Serial writes may complete after a newer care update. Only the most
+  // recently requested write can clear or set the unsaved warning.
+  const saveRequest = useRef(0);
+  const persist = async (message = "Progress is unsaved. Export a copy from More."): Promise<boolean> => {
+    const request = ++saveRequest.current;
+    try {
+      await savePet(latest.current.document);
+      if (request === saveRequest.current) setSaveError("");
+      return true;
+    } catch {
+      if (request === saveRequest.current) setSaveError(message);
+      return false;
+    }
+  };
   const commitLife = (next: LivingPet | undefined) => {
     lifeRef.current = next;
     setLife(next);
@@ -377,8 +384,7 @@ export default function App() {
           setGroomingTimeline(doc.groomingTimeline ?? []);
           if (doc.life) {
             const resumed = {
-              ...doc.life,
-              game: advanceGame(doc.life.game, Date.now(), "absent"),
+              ...advancePlayerLife(doc.life, Date.now(), "absent"),
             };
             commitLife(resumed);
             setView("live");
@@ -402,9 +408,7 @@ export default function App() {
   useEffect(() => {
     if (!hydrated || !writable) return;
     const timer = setTimeout(() => {
-      void savePet(latest.current.document)
-        .then(() => setSaveError(""))
-        .catch(() => setSaveError("Could not save. Export a copy from More."));
+      void persist("Could not save. Export a copy from More.");
     }, 350);
     return () => clearTimeout(timer);
   }, [
@@ -431,7 +435,7 @@ export default function App() {
         return;
       const next = {
         ...current,
-        game: advanceGame(current.game, Date.now(), "active"),
+        ...advancePlayerLife(current, Date.now(), "active"),
       };
       commitLife(next);
       if (
@@ -439,9 +443,7 @@ export default function App() {
         latest.current.writable
       ) {
         checkpoint = Date.now();
-        void savePet(latest.current.document)
-          .then(() => setSaveError(""))
-          .catch(() => setSaveError("Progress is unsaved. Retrying..."));
+        void persist("Progress is unsaved. Retrying...");
       }
     };
     const timer = setInterval(tick, 1000);
@@ -453,9 +455,7 @@ export default function App() {
   useEffect(() => {
     if (!growing || !writable) return;
     const timer = setInterval(() => {
-      void savePet(latest.current.document).catch(() =>
-        setSaveError("Could not save. Export a copy from More."),
-      );
+      void persist("Could not save. Export a copy from More.");
     }, 2500);
     return () => clearInterval(timer);
   }, [growing, writable]);
@@ -465,8 +465,7 @@ export default function App() {
       const current = lifeRef.current;
       if (current && presence.current !== nextPresence) {
         commitLife({
-          ...current,
-          game: advanceGame(current.game, Date.now(), presence.current),
+          ...advancePlayerLife(current, Date.now(), presence.current),
         });
       }
       presence.current = nextPresence;
@@ -474,9 +473,7 @@ export default function App() {
         setGrowing(false);
         setMotion(false);
         if (latest.current.writable)
-          void savePet(latest.current.document).catch(() =>
-            setSaveError("Could not save. Export a copy from More."),
-          );
+          void persist("Could not save. Export a copy from More.");
       } else setMotion(true);
     });
     return () => sub.remove();
@@ -670,17 +667,8 @@ export default function App() {
   const beginLife = async () => {
     if (!pixels.length || commandPending.current) return;
     commandPending.current = true;
-    const next: LivingPet = {
-      lineageVersion: LINEAGE_RECIPE_VERSION,
-      parts: copy(parts),
-      mode,
-      seed,
-      name: name.trim() || "Little one",
-      game: createGame(seed, mode, Date.now(), {
-        utcOffsetMinutes: -new Date().getTimezoneOffset(),
-      }),
-      groomingTimeline: [],
-    };
+    const next = birthPlayerLife({ parts, mode, seed, name },
+      Date.now(), -new Date().getTimezoneOffset());
     commitLife(next);
     setWritable(true);
     latest.current.writable = true;
@@ -695,8 +683,7 @@ export default function App() {
     setGrooming(false);
     setSettling(true);
     try {
-      await savePet(latest.current.document);
-      setSaveError("");
+      await persist();
     } catch {
       setSaveError("Progress is unsaved. Retrying...");
     } finally {
@@ -713,12 +700,10 @@ export default function App() {
     const id = `command:${now}:${current.game.history.length}:${current.game.receipts.length}`;
     try {
       const next = {
-        ...current,
-        game: commandGame(current.game, command, now, id),
+        ...commandPlayerLife(current, command, now, id),
       };
       commitLife(next);
-      await savePet(latest.current.document);
-      setSaveError("");
+      await persist();
     } catch (error) {
       setSaveError(
         error instanceof Error
@@ -738,7 +723,9 @@ export default function App() {
     setTime(0);
     setTarget(null);
     if (next === "play") {
-      const resting = simulation.frameAt(age);
+      const resting = playing && livingSimulation
+        ? livingSimulation.frameAt(liveAge)
+        : simulation.frameAt(age);
       const part =
         resting.parts.find(
           (p) => p.id === resting.capabilities.effectorIds[0],
@@ -751,8 +738,7 @@ export default function App() {
     commitLife(
       doc.life
         ? {
-            ...doc.life,
-            game: advanceGame(doc.life.game, Date.now(), "absent"),
+            ...advancePlayerLife(doc.life, Date.now(), "absent"),
           }
         : undefined,
     );
@@ -884,9 +870,7 @@ export default function App() {
           },
         ]),
       });
-      void savePet(latest.current.document).catch(() =>
-        setSaveError("Progress is unsaved. Retrying..."),
-      );
+      void persist("Progress is unsaved. Retrying...");
       return;
     }
     const next = normalizeGroomTimeline([
@@ -1366,7 +1350,6 @@ export default function App() {
                     disabled={settling}
                     unsaved={!!saveError}
                     onCommand={(command) => void careCommand(command)}
-                    lineage={frame.evolution?.lineage}
                     onNewPet={() => {
                       setSandbox(true);
                       setView("draw");

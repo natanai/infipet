@@ -1148,7 +1148,7 @@
         "OBS-002",
         "CARE-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1163,13 +1163,16 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/player-surface.test.ts",
-        "command": "pnpm exec tsx --test tests/player-surface.test.ts",
+        "testPath": "tests/alg-integration-player-surface.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-integration-player-surface.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
         "App.tsx",
-        "src"
+        "src/components/GamePanel.tsx",
+        "src/pet-format.ts",
+        "src/storage.ts",
+        "src/integration/player-lifecycle.ts"
       ],
       "algorithmId": "integration"
     },
