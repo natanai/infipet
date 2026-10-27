@@ -1,3 +1,7 @@
+/**
+ * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY forced 30-day maximum lifespan. GAME-002 must remove the artificial 30-day death rule to allow a healthy living pet to reach 365 daily anatomical checks, while retaining legitimate care-related death. Gameplay may still update physiology at finer time resolution.
+ * Historical tests and algorithms remain until the disjoint daily migration lands.
+ */
 /** Infipet's deterministic, serializable pocket-pet game. No renderer or wall-clock reads. */
 import type { NeedKeyframe, NeedId } from "../needs";
 import { selectV1Branch } from "./reference-profiles";
