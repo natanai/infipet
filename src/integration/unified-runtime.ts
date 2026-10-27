@@ -207,6 +207,21 @@ function advance(
       op.id,(state.expressedRateHours[op.id]??0)+
         chaosWeightedCareHours(op,start,next,care),
     ]));
+    // A mere frame request is not a physical event. Only quantized material
+    // thresholds, remodeling events, and integer resource completions may
+    // commit anatomical work. Otherwise retain the unconsumed operator
+    // cursor while updating the pure care integral; the next real event
+    // receives the entire contiguous interval and cannot be double-counted.
+    const atThreshold=threshold!==null && Math.abs(next-threshold)<EPS;
+    const atRemodel=remodeling.some(p=>Math.abs(p.atHour-next)<EPS);
+    const atInteger=Math.abs(next-completion)<EPS;
+    if(!atThreshold && !atRemodel && !atInteger) {
+      state={
+        ...state,atHour:next,expressedRateHours:progress,
+        care:care&&state.care?care.advance(state.care,next).next:null,
+      };
+      continue;
+    }
     const expressions:MaterialExpressionInterval = {
       fromHour:state.material.nextHour,toHour:next,
       expressions:program.operators.map(op=>({
