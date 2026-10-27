@@ -223,7 +223,17 @@ export function auditPhysicalEvidence(graph?:MaterialGraph,cutoffHour=Infinity):
        active.get(site.rootCellId)?.tissueId!==site.tissueId)
       errors.push(error("invalid-active-site",site.id));
   }
-  return {status:errors.length?"invalid":"verified",
+  // Event records and cell metadata can be self-consistent yet forged
+  // together. Until DEV-006 supplies an independently replayable immutable
+  // program + care prefix, this audit MUST NOT call created/remodeled matter
+  // "verified" merely because an event record claims to have created it.
+  // A clean ledger is necessary evidence, not sufficient proof of execution.
+  const claimsPhysicalEvents=graph.events.length>0;
+  const auditStatus=errors.length?"invalid":
+    claimsPhysicalEvents?"unavailable":"verified";
+  if(!errors.length&&claimsPhysicalEvents)
+    errors.push("operation-execution-not-independently-replayed");
+  return {status:auditStatus,
     sourceFingerprint:graph.sourceFingerprint,
     sourceAncestrySignature:signature(graph),authoredCells:graph.sourceCells.length,
     generatedCells:graph.cells.filter(c=>c.provenance==="generated").length,
