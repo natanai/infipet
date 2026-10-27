@@ -508,7 +508,7 @@ test("[DEV-006/A2] independent counterexamples catch material erasure, duplicate
       createdCellIds:[generated.id],removedCellIds:[],
       sourceCellIds:[source.id]}]},/invented parent/);
   bad({...born,events:[{id:"future",kind:"bud",atHour:1,
-    createdCellIds:[],removedCellIds:[],sourceCellIds:[source.id]}]},/future event/);
+    createdCellIds:[],removedCellIds:[],sourceCellIds:[source.id]}]},/inventory event exceeds query cutoff/);
 });
 test("[DEV-006/A2] event-ledger counterexamples reject every invented or silently missing material ID",()=>{
   const sourceShape:Shape={id:"event-inventory",parts:[
