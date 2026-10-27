@@ -754,8 +754,14 @@ export function createSimulation(
           return {history:createEnvironmentalHistory(options.careGame!)};
         })()
       : undefined,
+    // Benchmarked 2h lives are cheaper to replay from birth than to
+    // authenticate/transfer a whole graph. Skip the extra cache machinery
+    // strictly before the first 3 chronological hours; ordinary authoritative
+    // replay and its checkpoints remain intact. This policy does not touch
+    // any existing older-life cached entry, so later updates can still reuse it.
     unified = careMaterial && options.careGame && !verified &&
-      options.reuseLivingMaterial!==false
+      options.reuseLivingMaterial!==false &&
+      (options.careGame.clock.nowMs-options.careGame.clock.hatchAtMs) >= 3*60*60*1000
       ? createReusedLivingTimeline({
           birthKey:cacheKey,genomeIdentity:genomeCacheKey(inherited),
           program:physicalProgram,genome:inherited,
