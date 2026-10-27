@@ -11,6 +11,8 @@ import { rasterCellQuads, cellCorners } from "../src/simulation/material-raster"
 import { RETRO_PRESETS, cloneRetroPreset } from "../src/retro";
 import { drawingPixels } from "../src/drawing";
 import { createSimulation } from "../src/simulation";
+import { buildProductionTrajectoryWitness,
+  isIndependentlyReplayedProductionSample } from "./alg-evaluation-production-witness";
 import { listNativeP1HistoryRoutes } from "../src/gameplay/native-p1";
 
 const rows=(shape:readonly string[]):InkPoint[]=>shape.flatMap((row,y)=>
@@ -125,7 +127,8 @@ test("[EVAL-002/A1] independent shape scores follow exact mathematical identity,
   assert.equal(result.stages.length,2);
   assert.equal(result.stages[0].silhouetteIoU,1);
   assert.equal(result.stages[0].shapeScore,1);
-  assert.equal(result.stages[0].status,"pass");
+  assert.equal(result.stages[0].status,"unresolved",
+    "a caller-generated graph, even with honest-looking ink, is not independently replayed");
   assert.equal(result.stages[1].observed?.holes,0);
   assert.equal(result.stages[1].reference?.holes,1);
   assert.ok(result.stages[1].mismatches.includes("enclosed-voids"));
@@ -269,8 +272,9 @@ test("[EVAL-002/A2] perfectly matching foreign render and valid graph cannot cer
     {id:"real0",atHour:0,graph:a,...valid},
     {id:"real24",atHour:24,graph:a,...valid},
   ],validReferences);
-  assert.equal(genuine.status,"pass");
-  assert.deepEqual(genuine.stages.map(s=>s.status),["pass","pass"]);
+  assert.equal(genuine.status,"unresolved",
+    "source-only shape fixtures are not a verified production runtime witness");
+  assert.deepEqual(genuine.stages.map(s=>s.status),["unresolved","unresolved"]);
 
   const forgedColorOnly=valid.pixels.map(p=>({
     x:p.x,y:p.y,color:"#ffffff",
@@ -279,6 +283,61 @@ test("[EVAL-002/A2] perfectly matching foreign render and valid graph cannot cer
     "unavailable","cosmetic-only material must not prove physical likeness");
   const shifted=valid.pixels.map(p=>({...p,x:p.x+20}));
   assert.equal(auditRenderedOwnership(shifted,a,valid.renderWitness).status,"invalid");
+});
+
+test("[EVAL-002/A1/A2] actual unmodified production growth and projected visible pixels must match independent replay",()=>{
+  const drawing=[{
+    id:"real-ink",kind:"body" as const,name:"author drawing",parentId:null,
+    position:{x:0,y:0},pixels:rows([".....","..###","..###","..###","....."])
+      .map(p=>({...p,color:"#3a78ae"})),
+  }];
+  const hours=[0.5,1,2,4,8,24,48,72];
+  const witness=buildProductionTrajectoryWitness(drawing,"INT-LIVE-PIXEL-2026",hours);
+  assert.equal(witness.counts.stages,hours.length);
+  const trulyVerified=witness.samples.filter(isIndependentlyReplayedProductionSample);
+  assert.ok(trulyVerified.length>=2,
+    "genuine material+visible output must have at least two replay-verifiable stages; "+witness.limitations.join("; "));
+  assert.ok(witness.counts.materialPixels>0);
+  assert.ok(witness.counts.graphEvents>=0);
+  for(const s of trulyVerified){
+    assert.equal(auditPhysicalEvidence(s.graph,s.atHour).status==="invalid",false);
+    assert.equal(auditRenderedOwnership(s.pixels,s.graph,s.renderWitness).status,"verified");
+    assert.ok(s.pixels.length>0,"only rendered material, never cosmetic substitute");
+  }
+  // Positive CONTROL target is a separate immutable copy of an actual
+  // generated physical layer, not a historical sprite/parity claim.
+  // Scoring it proves ability to validate genuine production ownership,
+  // not that reference art influenced the material generator.
+  const references=trulyVerified.map(s=>({
+    id:"independent-control-"+s.atHour,atHour:s.atHour,
+    pixels:s.pixels.map(p=>({x:p.x,y:p.y})),
+    metadata:{researchOnly:true},
+  }));
+  const measured=evaluateTrajectory(trulyVerified,references,witness.sourceFingerprint);
+  assert.equal(measured.status,"pass");
+  assert.deepEqual(measured.stages.map(s=>s.status),
+    references.map(()=>"pass"));
+  assert.ok(measured.stages.every(s=>s.silhouetteIoU===1 &&
+    s.shapeScore===1 && s.rendering.status==="verified"));
+  // Decoupled reference target: rewrite target *metadata* or shape and keep
+  // replayed material untouched. A foreign perfect image cannot be promoted.
+  const invalidPixels=trulyVerified[0].pixels.map(p=>({...p,materialCellId:"different-pet"}));
+  const adversarial={...trulyVerified[0],pixels:invalidPixels};
+  const fraud=evaluateTrajectory([adversarial,...trulyVerified.slice(1)],references);
+  assert.notEqual(fraud.status,"pass");
+  assert.equal(fraud.stages[0].status,"fail");
+  assert.ok(fraud.stages[0].rendering.errors.some(e=>
+    e.includes("rendered-nonlive-material")));
+  const unauthorized={...trulyVerified[0]};
+  assert.equal(isIndependentlyReplayedProductionSample(unauthorized),false,
+    "replay authority cannot be copied by object cloning");
+  const changedFuture=trulyVerified.map(s=>({...s,
+    graph:s.graph?{...s.graph,events:[...s.graph.events,
+      {id:"retroactive",kind:"elongate",atHour:0,createdCellIds:[],
+        removedCellIds:[],sourceCellIds:[]}]}:undefined,
+  }));
+  assert.equal(evaluateTrajectory(changedFuture,references).status,"fail",
+    "an earlier event added after observation may not rewrite past anatomy");
 });
 
 test("[EVAL-002/A2] externally established retro stages report every age, metadata cannot change generated organism",()=>{
