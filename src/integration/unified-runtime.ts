@@ -371,9 +371,11 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
       // Filtering BEFORE copying prevents copying invalidated future states.
       let latest:UnifiedMaterialState|null=null;
       for(const state of checkpoints.values())
-        if(state.atHour<=throughHour &&
+        if(state.atHour>0 && state.atHour<=throughHour &&
            (!latest||state.atHour>latest.atHour))latest=state;
-      if(hotHour&&hotHour.atHour<=throughHour &&
+      // Hour zero is birth, not an incremental checkpoint. In particular,
+      // a normal newly hatched 1-second update must not try importing it.
+      if(hotHour&&hotHour.atHour>0&&hotHour.atHour<=throughHour &&
          (!latest||hotHour.atHour>latest.atHour))latest=hotHour;
       return latest?[clone(latest)]:[];
     },
