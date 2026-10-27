@@ -46,6 +46,8 @@ export type {
 export type InkPoint = Readonly<{ x: number; y: number }>;
 export type StageSample = Readonly<{
   id: string; atHour: number; pixels: readonly RenderedInkPoint[];
+  /** Physical-material pixels only or complete composed screen, explicitly. */
+  renderScope?: "physical-material" | "composited-screen";
   graph?: MaterialGraph; renderWitness?: RenderWitness;
 }>;
 export type ReferenceMilestone = Readonly<{
@@ -73,6 +75,7 @@ export type ShapeMetrics = Readonly<{
 }>;
 export type StageEvaluation = Readonly<{
   id: string; atHour: number;
+  renderScope: "physical-material" | "composited-screen";
   status: "pass" | "fail" | "unresolved";
   shapeScore: number | null; silhouetteIoU: number | null;
   structuralScore: number | null;
@@ -294,7 +297,8 @@ export function evaluateTrajectory(
       ? {...physicalLedger,status:"verified",errors:[]}:physicalLedger;
     const materialShape=frame?.graph?describeShape(frame.graph.cells):null;
     if(!frame)return {
-      id:reference.id,atHour:reference.atHour,status:"unresolved" as const,
+      id:reference.id,atHour:reference.atHour,
+      renderScope:frame?.renderScope??"composited-screen",status:"unresolved" as const,
       shapeScore:null,silhouetteIoU:null,structuralScore:null,
       scores:null,observed:null,reference:null,materialShape,physical,rendering,
       mismatches:[],reasons:["missing-generated-milestone"],
@@ -348,7 +352,8 @@ export function evaluateTrajectory(
       (!numericalPass||mismatches.some(m=>m.startsWith("physical-")))?"fail" as const:
       !physicalReplayed||rendering.status==="unavailable"
         ?"unresolved" as const:"pass" as const;
-    return {id:reference.id,atHour:reference.atHour,status,
+    return {id:reference.id,atHour:reference.atHour,
+      renderScope:frame.renderScope??"composited-screen",status,
       shapeScore:score.shapeScore,silhouetteIoU:iou,structuralScore:score.structuralScore,
       scores:score.scores,observed,reference:target,materialShape,physical,rendering,mismatches,reasons};
   });
