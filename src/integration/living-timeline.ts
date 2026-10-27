@@ -30,7 +30,7 @@ import {
 const MAX_LIVES=3;
 /** Profiling is optional: older native JS runtimes may lack performance.now. */
 const diagnosticNow=()=>typeof performance!=="undefined" &&
-  typeof performance.now==="function" ? diagnosticNow() : 0;
+  typeof performance.now==="function" ? performance.now() : 0;
 type Evidence = Readonly<{
   maxHour: number;
   seed: string;
