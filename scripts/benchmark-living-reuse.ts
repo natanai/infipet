@@ -222,3 +222,56 @@ for(const hour of [24,720] as const)for(const shape of ["sparse","complex","dens
     coldReconstructionCount:cold,importedCanonicalStates:imported,
     note:n<20?"insufficient trials for a meaningful p95":"empirical Linux Node trial p95; not device p95"});
 }
+
+/** Compare actual accepted / rejected / training commits and fractional care. */
+for(const scenario of [
+  {label:"accepted-feeding",command:{type:"feed",food:"snack"} as const},
+  {label:"rejected-command",command:{type:"choose",choice:"high"} as const},
+  {label:"training",command:{type:"start-game",game:"training"} as const},
+  {label:"fractional-feeding",command:{type:"feed",food:"meal"} as const},
+]){
+  const cold:number[]=[],warm:number[]=[],commands:number[]=[];
+  let rejected=0,accepted=0;
+  for(let n=0;n<16;n++){
+    const seed="benchmark/care-commit/"+scenario.label+"/"+n;
+    const source=drawing(n%2?"dense":"complex");
+    const create=(game:ReturnType<typeof createGame>,reuse:boolean)=>
+      createSimulation(source,seed,"infant",{
+        careGame:game,needTimeline:deriveCareTimeline(game),
+        liveContext:deriveDevelopmentContext(game),reuseLivingMaterial:reuse,
+      });
+    const base=advanceGame(createGame(seed,"infant",start),
+      start+6*HOUR,"active");
+    create(base,true).frameAt(6/24,{time:0,action:"idle"});
+    const at=start+6*HOUR+(scenario.label==="fractional-feeding"?123457:1000);
+    const commandStart=performance.now();
+    const after=commandGame(base,scenario.command,at,
+      "benchmark/care-"+scenario.label);
+    commands.push(performance.now()-commandStart);
+    if(after.commandHistory.at(-1)?.accepted)accepted++;else rejected++;
+    const age=(after.clock.nowMs-after.clock.startedAtMs)/(24*HOUR);
+    const sample=(reuse:boolean)=>{
+      const t=performance.now();
+      const sim=create(after,reuse);
+      const frame=sim.frameAt(age,{time:0,action:"idle"});
+      return {ms:performance.now()-t,frame,stats:sim.getMaterialRuntimeStats!()};
+    };
+    const a=n%2===0?sample(true):sample(false);
+    const b=n%2===0?sample(false):sample(true);
+    const reused=n%2===0?a:b,reference=n%2===0?b:a;
+    assert.deepEqual(reused.frame.pixels,reference.frame.pixels);
+    assert.ok(reused.stats.imported>0);
+    assert.ok(reference.stats.cold>0);
+    cold.push(reference.ms);warm.push(reused.ms);
+  }
+  const summary=(samples:number[])=>{
+    const s=[...samples].sort((a,b)=>a-b);
+    return {medianMs:+((s[7]+s[8])/2).toFixed(3),
+      empiricalP95Ms:+s[Math.ceil(s.length*.95)-1].toFixed(3),
+      rangeMs:[+s[0].toFixed(3),+s[s.length-1].toFixed(3)]};
+  };
+  output({kind:"paired-care-command",scenario:scenario.label,n:16,
+    accepted,rejected,commandExecution:summary(commands),
+    fromBirth:summary(cold),reused:summary(warm),
+    note:"Linux Node 16 independent seeds; p95 is sample order statistic, not device latency"});
+}
