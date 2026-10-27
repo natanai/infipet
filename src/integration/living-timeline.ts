@@ -103,8 +103,7 @@ export function createReusedLivingTimeline(args:Readonly<{
     const cutoff=earliestAdded(prior,evidence,history);
     // Pressure equality defends against future-dependent implementations
     // accidentally introduced into EnvironmentalHistory in future releases.
-    states=prior.timeline.exportCanonicalStates().filter(s=>
-      s.atHour<=cutoff &&
+    states=prior.timeline.exportCanonicalStates(cutoff).filter(s=>
       JSON.stringify(prior.history.atHour(s.atHour))===
         JSON.stringify(history.atHour(s.atHour)) &&
       JSON.stringify(prior.history.atHour(s.atHour-1))===
