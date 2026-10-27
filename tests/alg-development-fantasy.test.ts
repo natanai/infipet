@@ -110,11 +110,15 @@ test("[DEV-005/A1] multiple inspirations yield real source-connected material an
   assert.ok(created.length>=2);
   assert.equal(graph.sourceFingerprint,birth.sourceFingerprint);
   assert.deepEqual(graph.sourceCells,birth.sourceCells);
-  assert.ok(created.every(id=>graph.cells.some(c=>c.id===id)));
-  assert.ok(graph.cells.length>=birth.cells.length+created.length,
-    "no second material accounting ledger");
+  const removed=new Set(graph.events.flatMap(e=>e.removedCellIds));
+  assert.ok(created.every(id=>graph.cells.some(c=>c.id===id) || removed.has(id)),
+    "created cells survive actively or have recorded subsequent resorption");
+  assert.equal(graph.cells.length,
+    birth.cells.length +
+    graph.events.reduce((n,e)=>n+e.createdCellIds.length-e.removedCellIds.length,0),
+    "one shared material creation/removal conservation ledger");
   const sources=new Set(birth.sourceCells.map(c=>c.id));
-  for(const id of created){
+  for(const id of created.filter(id=>!removed.has(id))){
     const cell=graph.cells.find(c=>c.id===id)!;
     assert.equal(cell.provenance,"generated");
     assert.ok(cell.operationId);
