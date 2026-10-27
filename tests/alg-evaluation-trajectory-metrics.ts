@@ -340,11 +340,13 @@ export function evaluateTrajectory(
       reasons.push("unexpected-birth-source");
     const numericalPass=score.shapeScore>=TRAJECTORY_GATE.minStageScore&&
       iou>=TRAJECTORY_GATE.minIoU&&score.structuralScore>=TRAJECTORY_GATE.minStructuralScore;
-    const status= !observed.occupied||!target.occupied||
-      physical.status==="unavailable"?"unresolved" as const:
+    // Negative evidence is conclusive even without topology. Missing
+    // material only prevents declaring an otherwise good match supported.
+    const status=!observed.occupied||!target.occupied?"unresolved" as const:
       physical.status==="invalid"||
       (expectedSourceFingerprint&&physical.sourceFingerprint!==expectedSourceFingerprint)||
-      !numericalPass?"fail" as const:"pass" as const;
+      !numericalPass?"fail" as const:
+      physical.status==="unavailable"?"unresolved" as const:"pass" as const;
     return {id:reference.id,atHour:reference.atHour,status,
       shapeScore:score.shapeScore,silhouetteIoU:iou,structuralScore:score.structuralScore,
       scores:score.scores,observed,reference:target,physical,mismatches,reasons};
@@ -367,8 +369,9 @@ export function evaluateTrajectory(
     reasons.push("aggregate-threshold-failed");
   const unresolved=reasons.some(s=>["insufficient-milestones",
     "milestone-coverage-mismatch","unresolved-stage-evidence"].includes(s));
-  const status=unresolved?"unresolved":
-    reasons.length?"fail":"pass";
+  const conclusiveFailure=reasons.some(s=>["failed-stage",
+    "aggregate-threshold-failed","material-origin-changed-over-lifetime"].includes(s));
+  const status=conclusiveFailure?"fail":unresolved?"unresolved":"pass";
   return {version:"retro-trajectory-evaluation-v1",status,
     scope:"numerical-resemblance-not-hardware-parity",
     thresholds:TRAJECTORY_GATE,stages,aggregateScore:aggregate,
