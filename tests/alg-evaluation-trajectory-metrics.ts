@@ -32,9 +32,21 @@
  *   seed/command-history witnesses belong to EVAL-003.
  */
 import type { MaterialGraph } from "../src/development";
+import {
+  auditPhysicalEvidence, auditRenderedOwnership,
+  type PhysicalEvidence, type RenderEvidence,
+  type RenderedInkPoint, type RenderWitness,
+} from "./alg-evaluation-material-proof";
+export { auditPhysicalEvidence, auditRenderedOwnership } from "./alg-evaluation-material-proof";
+export type {
+  PhysicalEvidence, RenderEvidence, RenderedInkPoint, RenderWitness,
+} from "./alg-evaluation-material-proof";
 
 export type InkPoint = Readonly<{ x: number; y: number }>;
-export type StageSample = Readonly<{ id: string; atHour: number; pixels: readonly InkPoint[]; graph?: MaterialGraph }>;
+export type StageSample = Readonly<{
+  id: string; atHour: number; pixels: readonly RenderedInkPoint[];
+  graph?: MaterialGraph; renderWitness?: RenderWitness;
+}>;
 export type ReferenceMilestone = Readonly<{ id: string; atHour: number; pixels: readonly InkPoint[]; metadata?: Readonly<Record<string, unknown>> }>;
 export type EvaluationLimits = Readonly<{ resolution: 32; maxCells: 4096; maxWidth: 128; maxHeight: 128; maxStages: 16 }>;
 export const EVALUATION_LIMITS: EvaluationLimits = {
@@ -51,14 +63,6 @@ export type ShapeMetrics = Readonly<{
   components: number; holes: number; orientationRadians: number | null;
   axialAnisotropy: number; skeletonEndpoints: number; skeletonJunctions: number;
 }>;
-export type PhysicalEvidence = Readonly<{
-  status: "verified" | "invalid" | "unavailable";
-  sourceFingerprint: string | null;
-  sourceAncestrySignature: string | null;
-  authoredCells: number; generatedCells: number;
-  attachmentLinks: number; fusionLinks: number; tissues: number;
-  representedOriginals: number; errors: readonly string[];
-}>;
 export type StageEvaluation = Readonly<{
   id: string; atHour: number;
   status: "pass" | "fail" | "unresolved";
@@ -70,6 +74,7 @@ export type StageEvaluation = Readonly<{
   }> | null;
   observed: ShapeMetrics | null; reference: ShapeMetrics | null;
   physical: PhysicalEvidence;
+  rendering: RenderEvidence;
   mismatches: readonly string[]; reasons: readonly string[];
 }>;
 export type TrajectoryEvaluation = Readonly<{
@@ -250,57 +255,6 @@ function scoreShape(a:ShapeMetrics,b:ShapeMetrics,iou:number){
     scores:{occupancy,proportions,components:componentScore,holes:holeScore,
       orientation,elongation,branching}};
 }
-const ancestryKey=(graph:MaterialGraph)=>graph.sourceCells.map(c=>
-  c.id+"@"+c.tissueId+"@"+c.x+","+c.y+"="+c.sourceIds.slice().sort().join("/"))
-  .sort().join("|");
-export function auditPhysicalEvidence(graph?:MaterialGraph):PhysicalEvidence{
-  if(!graph)return {status:"unavailable",sourceFingerprint:null,
-    sourceAncestrySignature:null,authoredCells:0,generatedCells:0,
-    attachmentLinks:0,fusionLinks:0,tissues:0,representedOriginals:0,
-    errors:["material-graph-unavailable"]};
-  const errors:string[]=[];
-  const source=new Map(graph.sourceCells.map(c=>[c.id,c]));
-  const active=new Map(graph.cells.map(c=>[c.id,c]));
-  const tissues=new Set(graph.tissues.map(t=>t.id));
-  if(source.size!==graph.sourceCells.length)errors.push("duplicate-source-cell-id");
-  if(active.size!==graph.cells.length)errors.push("duplicate-material-cell-id");
-  if(tissues.size!==graph.tissues.length)errors.push("duplicate-tissue-id");
-  if(!graph.sourceFingerprint)errors.push("missing-birth-fingerprint");
-  for(const c of graph.sourceCells){
-    if(c.provenance!=="authored"||c.sourceIds.length!==1||c.sourceIds[0]!==c.id)
-      errors.push("invalid-authored-source:"+c.id);
-  }
-  const represented=new Set<string>();
-  for(const c of graph.cells){
-    if(!tissues.has(c.tissueId))errors.push("unknown-tissue:"+c.id);
-    if(!Number.isSafeInteger(c.x)||!Number.isSafeInteger(c.y))
-      errors.push("invalid-cell-position:"+c.id);
-    if(!c.sourceIds.length||c.sourceIds.some(id=>!source.has(id)))
-      errors.push("orphan-source-ancestry:"+c.id);
-    if(c.provenance==="generated"&&!c.operationId)
-      errors.push("generated-without-operation:"+c.id);
-    if(c.parentCellIds.some(id=>!active.has(id)&&!source.has(id)))
-      errors.push("unknown-parent-cell:"+c.id);
-    for(const id of c.sourceIds)if(source.has(id))represented.add(id);
-  }
-  for(const link of graph.links){
-    if(!tissues.has(link.fromTissueId)||!tissues.has(link.toTissueId)||
-      (link.fromCellId!==null&&!active.has(link.fromCellId))||
-      (link.toCellId!==null&&!active.has(link.toCellId)))
-      errors.push("invalid-material-link:"+link.id);
-  }
-  return {
-    status:errors.length?"invalid":"verified",
-    sourceFingerprint:graph.sourceFingerprint,
-    sourceAncestrySignature:ancestryKey(graph),
-    authoredCells:graph.sourceCells.length,
-    generatedCells:graph.cells.filter(c=>c.provenance==="generated").length,
-    attachmentLinks:graph.links.filter(l=>l.kind==="attachment").length,
-    fusionLinks:graph.links.filter(l=>l.kind==="fusion").length,
-    tissues:graph.tissues.length,representedOriginals:represented.size,
-    errors,
-  };
-}
 export function evaluateTrajectory(
   actual:readonly StageSample[],references:readonly ReferenceMilestone[],
   expectedSourceFingerprint?:string,
@@ -321,11 +275,12 @@ export function evaluateTrajectory(
   const ordered=[...references].sort((a,b)=>a.atHour-b.atHour||a.id.localeCompare(b.id));
   const stages=ordered.map(reference=>{
     const frame=byHour.get(reference.atHour);
-    const physical=auditPhysicalEvidence(frame?.graph);
+    const physical=auditPhysicalEvidence(frame?.graph,reference.atHour);
+    const rendering=auditRenderedOwnership(frame?.pixels??[],frame?.graph,frame?.renderWitness);
     if(!frame)return {
       id:reference.id,atHour:reference.atHour,status:"unresolved" as const,
       shapeScore:null,silhouetteIoU:null,structuralScore:null,
-      scores:null,observed:null,reference:null,physical,
+      scores:null,observed:null,reference:null,physical,rendering,
       mismatches:[],reasons:["missing-generated-milestone"],
     };
     const observed=describeShape(frame.pixels),target=describeShape(reference.pixels);
@@ -340,6 +295,8 @@ export function evaluateTrajectory(
     if(score.structuralScore<TRAJECTORY_GATE.minStructuralScore)mismatches.push("structural-threshold");
     if(physical.status==="unavailable")reasons.push("material-ancestry-unavailable");
     if(physical.status==="invalid")reasons.push("material-ancestry-invalid");
+    if(rendering.status==="unavailable")reasons.push("rendered-material-provenance-unavailable");
+    if(rendering.status==="invalid")reasons.push("rendered-material-provenance-invalid");
     if(expectedSourceFingerprint&&physical.sourceFingerprint!==expectedSourceFingerprint)
       reasons.push("unexpected-birth-source");
     const numericalPass=score.shapeScore>=TRAJECTORY_GATE.minStageScore&&
@@ -347,13 +304,14 @@ export function evaluateTrajectory(
     // Negative evidence is conclusive even without topology. Missing
     // material only prevents declaring an otherwise good match supported.
     const status=!observed.occupied||!target.occupied?"unresolved" as const:
-      physical.status==="invalid"||
+      physical.status==="invalid"||rendering.status==="invalid"||
       (expectedSourceFingerprint&&physical.sourceFingerprint!==expectedSourceFingerprint)||
       !numericalPass?"fail" as const:
-      physical.status==="unavailable"?"unresolved" as const:"pass" as const;
+      physical.status==="unavailable"||rendering.status==="unavailable"
+        ?"unresolved" as const:"pass" as const;
     return {id:reference.id,atHour:reference.atHour,status,
       shapeScore:score.shapeScore,silhouetteIoU:iou,structuralScore:score.structuralScore,
-      scores:score.scores,observed,reference:target,physical,mismatches,reasons};
+      scores:score.scores,observed,reference:target,physical,rendering,mismatches,reasons};
   });
   const scores=stages.map(s=>s.shapeScore).filter((x):x is number=>x!==null);
   const min=scores.length?Math.min(...scores):null,
@@ -368,13 +326,25 @@ export function evaluateTrajectory(
   if(new Set(origins.map(p=>p.sourceFingerprint)).size>1||
      new Set(origins.map(p=>p.sourceAncestrySignature)).size>1)
     reasons.push("material-origin-changed-over-lifetime");
+  // All earlier event evidence must be a byte-identical chronological prefix
+  // of every later snapshot: no revised past, omitted event or retroactive
+  // creation can masquerade as the same physical lifetime.
+  const chron=[...actual].filter(s=>s.graph).sort((a,b)=>a.atHour-b.atHour);
+  for(let i=1;i<chron.length;i++){
+    const earlier=chron[i-1].graph!,later=chron[i].graph!;
+    if(earlier.events.length>later.events.length||
+       earlier.events.some((e,k)=>JSON.stringify(e)!==JSON.stringify(later.events[k]))){
+      reasons.push("chronological-event-prefix-changed");break;
+    }
+  }
   if(stages.some(s=>s.status==="fail"))reasons.push("failed-stage");
   if(aggregate!==null&&aggregate<TRAJECTORY_GATE.minAggregateScore)
     reasons.push("aggregate-threshold-failed");
   const unresolved=reasons.some(s=>["insufficient-milestones",
     "milestone-coverage-mismatch","unresolved-stage-evidence"].includes(s));
   const conclusiveFailure=reasons.some(s=>["failed-stage",
-    "aggregate-threshold-failed","material-origin-changed-over-lifetime"].includes(s));
+    "aggregate-threshold-failed","material-origin-changed-over-lifetime",
+    "chronological-event-prefix-changed"].includes(s));
   const status=conclusiveFailure?"fail":unresolved?"unresolved":"pass";
   return {version:"retro-trajectory-evaluation-v1",status,
     scope:"numerical-resemblance-not-hardware-parity",
