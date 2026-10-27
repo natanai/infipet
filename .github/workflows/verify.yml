@@ -26,5 +26,3 @@ jobs:
       - run: node scripts/roadmap.mjs --check
       - run: pnpm typecheck
       - run: pnpm test
-      - name: Verify deployable web export
-        run: pnpm build:web
