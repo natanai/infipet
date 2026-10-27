@@ -18,7 +18,9 @@ import { compileMaterialDevelopment, materialOperatorChaosRate,
 import { createUnifiedMaterialTimeline, chaosWeightedCareHours,
   UNIFIED_CHECKPOINT_LIMIT } from "../src/integration/unified-runtime";
 import { createEnvironmentalHistory,createCareOperatorChronology } from "../src/environment";
-import { createGame,advanceGame,commandGame,HOUR } from "../src/gameplay";
+import { createGame,advanceGame,commandGame,HOUR,
+  deriveCareTimeline,deriveDevelopmentContext } from "../src/gameplay";
+import { getLivingTimelineCacheStats } from "../src/integration/living-timeline";
 import type { PetPart } from "../src/simulation/model";
 type SourceShape = "sparse"|"complex"|"dense";
 const named = (shape:SourceShape): PetPart[] => {
@@ -173,4 +175,118 @@ test("[PERF-001/A2] 32x32 worst-case dense chronology has bounded space/time and
   // Loose runaway safeguards on shared runners; NOT mobile or UI budgets.
   assert.ok(elapsed<120_000,"exceeded hard 120s CI timeout safety budget");
   assert.ok(rssMiB<768,"exceeded conservative 768 MiB CI RSS safety budget");
+});
+
+test("[PERF-001/A1] ordinary living 1-second ticks reuse full chronological identity without cold material replay",()=>{
+  for(const shape of ["sparse","complex","dense"] as const){
+    const source=named(shape),seed="perf/living/tick/"+shape;
+    const create=(game:ReturnType<typeof createGame>,forceCold=false)=>
+      createSimulation(source,seed,"infant",{
+        needTimeline:deriveCareTimeline(game),
+        liveContext:deriveDevelopmentContext(game),careGame:game,
+        ...(forceCold?{verifyMaterialProgram:(program:ReturnType<typeof programFor>["program"])=>({program})}:{}),
+      });
+    let game=advanceGame(createGame(seed,"infant",start),start+2*HOUR,"active");
+    let sim=create(game);
+    const hour=()=> (game.clock.nowMs-game.clock.startedAtMs)/HOUR;
+    sim.frameAt(hour()/24,{time:0,action:"idle"});
+    let transfers=0;
+    for(let i=1;i<=6;i++){
+      game=advanceGame(game,start+2*HOUR+i*1000,"active");
+      sim=create(game);
+      const fresh=create(game,true);
+      const biologicalAge=hour()/24;
+      const resumed=sim.frameAt(biologicalAge,{time:0,action:"idle"});
+      const independent=fresh.frameAt(biologicalAge,{time:0,action:"idle"});
+      assert.deepEqual(resumed.pixels,independent.pixels);
+      assert.deepEqual(resumed.parts.map(p=>[p.id,p.pixels]),
+        independent.parts.map(p=>[p.id,p.pixels]));
+      assert.deepEqual(resumed.wellbeing,independent.wellbeing);
+      const stats=sim.getMaterialRuntimeStats!();
+      assert.ok(stats.imported>0,"same saved material prefix must import an integer-hour checkpoint");
+      assert.equal(stats.cold,0,"no from-birth material replay on an ordinary tick");
+      assert.ok(stats.resumed>0);
+      transfers+=stats.imported;
+      assert.equal(fresh.getMaterialRuntimeStats!().imported,0);
+      assert.ok(getLivingTimelineCacheStats().entries<=getLivingTimelineCacheStats().limit);
+    }
+    assert.ok(transfers>=6);
+  }
+});
+test("[PERF-001/A1] accepted/refused/fractional/training and hourly samples invalidate only the causal suffix",()=>{
+  const source=named("complex"),seed="perf/care-prefix-changes";
+  const make=(game:ReturnType<typeof createGame>,uncached=false)=>createSimulation(
+    source,seed,"infant",{
+      needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),careGame:game,
+      ...(uncached?{verifyMaterialProgram:(program:ReturnType<typeof programFor>["program"])=>({program})}:{}),
+    });
+  const base=advanceGame(createGame(seed,"infant",start),start+2*HOUR,"active");
+  let previous=make(base);
+  previous.frameAt(2/24,{time:0,action:"idle"});
+  const sequence=[
+    commandGame(base,{type:"choose",choice:"high"},start+2*HOUR+1400,"refused/choose"),
+  ];
+  sequence.push(commandGame(sequence.at(-1)!,{type:"feed",food:"meal"},
+    start+2*HOUR+1700,"accepted/feed/fractional"));
+  sequence.push(commandGame(sequence.at(-1)!,{type:"start-game",game:"training"},
+    start+2*HOUR+2100,"accepted/training"));
+  sequence.push(advanceGame(sequence.at(-1)!,start+3*HOUR+300,"active"));
+  assert.equal(sequence[0].commandHistory.at(-1)?.accepted,false);
+  assert.ok(sequence[1].commandHistory.at(-1)?.accepted);
+  assert.ok(sequence[2].commandHistory.at(-1)?.accepted);
+  assert.ok(sequence[3].careSamples.length>base.careSamples.length);
+  for(const game of sequence){
+    const cached=make(game),independent=make(game,true);
+    const age=(game.clock.nowMs-game.clock.startedAtMs)/(24*HOUR);
+    const a=cached.frameAt(age,{time:1,action:"idle"});
+    const b=independent.frameAt(age,{time:1,action:"idle"});
+    assert.deepEqual(a.pixels,b.pixels);
+    assert.deepEqual(a.parts.map(p=>[p.id,p.pixels]),b.parts.map(p=>[p.id,p.pixels]));
+    assert.deepEqual(a.wellbeing,b.wellbeing);
+    assert.deepEqual(cached.developmentAt(age).commitments,
+      independent.developmentAt(age).commitments);
+    assert.ok(cached.getMaterialRuntimeStats!().imported>0,
+      "old completed chronology before appended fractional care is valid");
+    // Reverse history cannot inherit future geometry.
+    assert.deepEqual(cached.frameAt(1/24,{time:0,action:"idle"}).pixels,
+      independent.frameAt(1/24,{time:0,action:"idle"}).pixels);
+  }
+});
+test("[PERF-001/A1] retroactive edits, source/seed swaps, restoration and cache budget",()=>{
+  const source=named("sparse"),seed="perf/invalidation/seed";
+  const make=(sourceArg:PetPart[],s:string,game:ReturnType<typeof createGame>)=>
+    createSimulation(sourceArg,s,"infant",{
+      careGame:game,needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),
+    });
+  const past=advanceGame(createGame(seed,"infant",start),start+3*HOUR,"active");
+  let old=make(source,seed,past);old.frameAt(3/24);
+  const restored=JSON.parse(JSON.stringify(past)) as typeof past;
+  const fromSave=make(source,seed,restored);
+  fromSave.frameAt(3/24);
+  assert.ok(fromSave.getMaterialRuntimeStats!().imported>0);
+  const altered=JSON.parse(JSON.stringify(past)) as typeof past;
+  altered.careSamples[0].values[0]=altered.careSamples[0].values[0]===0?1:0;
+  const rejectedBefore=getLivingTimelineCacheStats().rejections;
+  const changed=make(source,seed,altered);
+  changed.frameAt(3/24);
+  assert.equal(changed.getMaterialRuntimeStats!().imported,0);
+  assert.ok(getLivingTimelineCacheStats().rejections>rejectedBefore);
+  const modifiedSource=source.map(p=>({...p,pixels:[...p.pixels,
+    {x:31,y:31,color:"#92a6bb"}]}));
+  const differentInk=make(modifiedSource,seed,past);
+  differentInk.frameAt(3/24);
+  assert.equal(differentInk.getMaterialRuntimeStats!().imported,0);
+  const differentSeed="perf/invalidation/other-seed";
+  const differentPet=make(source,differentSeed,
+    advanceGame(createGame(differentSeed,"infant",start),start+3*HOUR,"active"));
+  differentPet.frameAt(3/24);
+  assert.equal(differentPet.getMaterialRuntimeStats!().imported,0);
+  assert.ok(getLivingTimelineCacheStats().entries<=3);
+  const after=make(source,seed,past);
+  after.frameAt(3/24);
+  // Old history may have been evicted, but no future or different pet can
+  // retroactively mutate its original graph/frame.
+  assert.deepEqual(old.frameAt(3/24).pixels,after.frameAt(3/24).pixels);
 });
