@@ -1,4 +1,8 @@
 /**
+ * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY continuous-hour performance qualification, retained temporarily as reproducible evidence about the pre-daily engine. Its 720h/8192h cases and loose resource gates do NOT establish readiness for the approved 365-check daily anatomy schedule; PERF-001 must be requalified after INT-002.
+ * Historical tests and algorithms remain until the disjoint daily migration lands.
+ */
+/**
  * PERF-001 official focused acceptance preparation.
  *
  * Deterministic properties are independent of wall time and heap noise.
