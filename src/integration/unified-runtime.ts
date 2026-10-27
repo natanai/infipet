@@ -349,12 +349,15 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
       while(checkpoints.size>UNIFIED_CHECKPOINT_LIMIT)
         checkpoints.delete(checkpoints.keys().next().value!);
     };
+    // Record provenance BEFORE advancing to the canonical floor. Without
+    // this distinction a cold 0->N run would be misreported as a resume.
+    const fromImportedOrLocalCheckpoint=initial.atHour>0;
     if(initial.atHour<boundary)
       initial=advance(initial,boundary,program,remod,care,history,checkpoint);
     if(initial.atHour===boundary) hotHour=initial;
     const result=advance(initial,hour,program,remod,care,history,checkpoint);
     if(hour>0) {
-      if(initial.atHour>0) resumed++;
+      if(fromImportedOrLocalCheckpoint) resumed++;
       else cold++;
     }
     return result;
