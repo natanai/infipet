@@ -279,6 +279,28 @@ function advance(
   }
   return state;
 }
+/**
+ * Runtime-only credentials for physically immutable canonical snapshots.
+ * Weak keys do not retain evicted creatures. Unbranded/modified snapshots
+ * cannot be injected into another timeline, even when public fingerprints
+ * happen to be equal. All material and care chronology remains authoritative.
+ */
+const canonicalAttestations=new WeakMap<UnifiedMaterialState,Readonly<{
+  program:MaterialDevelopmentProgram; hour:number;
+}>>();
+function sealedCheckpoint<T>(value:T):T {
+  if(value&&typeof value==="object"&&!Object.isFrozen(value)){
+    for(const child of Object.values(value))sealedCheckpoint(child);
+    Object.freeze(value);
+  }
+  return value;
+}
+function copyCheckpoint<T>(value:T):T {
+  return Array.isArray(value) ? value.map(copyCheckpoint) as T
+    : value&&typeof value==="object"
+      ? Object.fromEntries(Object.entries(value).map(([k,v])=>[k,copyCheckpoint(v)])) as T
+      : value;
+}
 export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMaterialTimeline {
   const {program,genome}=options;
   if(program.genomeFingerprint!==genome.genotype.fingerprint)
@@ -299,17 +321,17 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
   // integer boundary, not a previous request's arbitrary cutoff.
   let hotHour:UnifiedMaterialState|null=null;
   let cold=0, resumed=0;
-  // Defensive deep copies prohibit any graph/cursor alias between timelines.
-  // A transfer never carries fractional states or unbounded old checkpoints.
-  const clone=<T>(value:T):T => Array.isArray(value)
-    ? value.map(clone) as T
-    : value && typeof value==="object"
-      ? Object.fromEntries(Object.entries(value).map(([key,v])=>[key,clone(v)])) as T
-      : value;
+  // Canonical completed states are transferred by immutable reference.
+  // The sealed graph cannot be changed by any saved life, including its
+  // original owner; only a newly committed physical transaction creates
+  // a different graph.
   let imported=0;
   for(const candidate of (options.canonicalStates??[]).slice(0,UNIFIED_CHECKPOINT_LIMIT)){
     const h=candidate.atHour;
-    if(!Number.isSafeInteger(h) || h<=0 || h>maxHour ||
+    const attestation=canonicalAttestations.get(candidate);
+    if(!attestation || attestation.program!==program ||
+       attestation.hour!==h || !Object.isFrozen(candidate) ||
+       !Number.isSafeInteger(h) || h<=0 || h>maxHour ||
        candidate.iterative.nextHour!==h ||
        candidate.graph.sourceFingerprint!==program.source.sourceFingerprint ||
        candidate.material.programFingerprint!==program.fingerprint ||
@@ -322,11 +344,10 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
         (candidate.care.throughHour!==h ||
          candidate.care.programFingerprint!==program.fingerprint ||
          candidate.care.genotypeFingerprint!==program.genomeFingerprint)) ||
-       JSON.stringify(candidate.graph.sourceCells)!==JSON.stringify(program.source.sourceCells) ||
        candidate.graph.events.some(event=>event.atHour>h))
       throw new TypeError("Cannot import an incompatible or fractional material checkpoint");
     if(checkpoints.has(h))throw new TypeError("Duplicate imported canonical hour");
-    checkpoints.set(h,clone(candidate));
+    checkpoints.set(h,candidate);
     imported++;
   }
   if(imported) hotHour=checkpoints.get(Math.max(...checkpoints.keys()))!;
@@ -377,7 +398,19 @@ export function createUnifiedMaterialTimeline(options:LiveOptions):UnifiedMateri
       // a normal newly hatched 1-second update must not try importing it.
       if(hotHour&&hotHour.atHour>0&&hotHour.atHour<=throughHour &&
          (!latest||hotHour.atHour>latest.atHour))latest=hotHour;
-      return latest?[clone(latest)]:[];
+      if(!latest)return [];
+      // Only the first transfer ever needs a copy. Reimported, already
+      // attested states stay deeply immutable and can be reused by reference
+      // across arbitrarily many 1s clock ticks without repeated allocations.
+      let immutable=latest;
+      if(!canonicalAttestations.has(latest)){
+        immutable=sealedCheckpoint(copyCheckpoint(latest));
+        canonicalAttestations.set(immutable,{program,hour:immutable.atHour});
+        if(hotHour===latest)hotHour=immutable;
+        if(checkpoints.get(latest.atHour)===latest)
+          checkpoints.set(latest.atHour,immutable);
+      }
+      return [immutable];
     },
     evaluationStats:()=>Object.freeze({cold,resumed,imported})};
 }
