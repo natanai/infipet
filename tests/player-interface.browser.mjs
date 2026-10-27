@@ -572,7 +572,7 @@ try {
     await page.getByText("This earlier saved pet is preserved.",{exact:false}).waitFor();
     assert.equal(await button(page,"Meal").count(),0,"earlier life is read-only, never a fabricated daily chronology");
     assert.equal(await page.evaluate(()=>localStorage.getItem("infipet.pet")),original,"original main bytes are unchanged");
-    await openTools(page);await button(page,"Disable development tools").click();
+    await openTools(page);await button(page,"Preview player experience").click();
     assert.equal(await page.getByLabel("Draw your whole pet here",{exact:true}).isVisible(),true,
       "leaving developer tools returns a preserved earlier life to its original drawing");
 
