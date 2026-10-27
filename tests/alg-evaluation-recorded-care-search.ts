@@ -339,15 +339,23 @@ export function searchRecordedCareWitness(args:Readonly<{
     searchStatus:allPass?"verified-numerical-candidate":"unresolved",
     exhausted:!allPass&&planned.length===args.budget,
     requestedStages:hours,best,
-    candidates:[
-      ...evaluated.map(c=>({seed:c.specification.permanentSeed,
-        strategy:c.specification.strategy,status:c.result.status,
-        aggregate:c.result.aggregateScore,weakest:c.result.weakestStageScore,
-        verifiedStages:c.physicallyVerifiedStages})),
-      ...incomplete.map(c=>({seed:c.seed,strategy:c.strategy,
+    // Report in the ORIGINAL seed-major candidate order, including
+    // incomplete/dead lives in their original slots. Filtering successful
+    // histories and appending failures would silently change search order.
+    candidates:planned.map(spec=>{
+      const candidate=evaluated.find(c=>c.specification.index===spec.index);
+      return candidate?{
+        seed:spec.permanentSeed,strategy:spec.strategy,
+        status:candidate.result.status,
+        aggregate:candidate.result.aggregateScore,
+        weakest:candidate.result.weakestStageScore,
+        verifiedStages:candidate.physicallyVerifiedStages,
+      }:{
+        seed:spec.permanentSeed,strategy:spec.strategy,
         status:"unresolved" as const,aggregate:null,weakest:null,
-        verifiedStages:0})),
-    ],
+        verifiedStages:0,
+      };
+    }),
     reason:allPass?"Every stage meets the predeclared numerical gate and material verification":
       "No complete physically verified numerical witness in bounded candidate search; not original-device parity",
     incompleteCandidates:incomplete,
