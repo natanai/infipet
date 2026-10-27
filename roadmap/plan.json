@@ -673,7 +673,7 @@
         "DEV-004",
         "PHY-003"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -688,14 +688,36 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/fantasy-development.test.ts",
-        "command": "pnpm exec tsx --test tests/fantasy-development.test.ts",
+        "testPath": "tests/alg-development-fantasy.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-fantasy.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/development/speculative-material.ts",
+        "src/development/index.ts",
+        "tests/alg-development-fantasy.test.ts"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "interfaceContract": {
+        "purpose": "Compile scientific or explicitly fictional waypoint hints into the existing shared MaterialOperator schedule; preserve original organism and immutable birth genotype.",
+        "inputs": [
+          "MaterialDevelopmentProgram",
+          "InheritedGenome",
+          "PhylogenyView with evidence and optional explicitly fictional overlays",
+          "LifetimeDevelopmentalTrajectory"
+        ],
+        "outputs": [
+          "Composed MaterialDevelopmentProgram for the existing unified chronology",
+          "Inspectable source/site, inspiration and exact operator-provenance bindings",
+          "Typed compile-time suppression and physical event/decision outcome join"
+        ],
+        "exports": [
+          "compileSpeculativeMaterialComposition",
+          "speculativePhysicalOutcomes",
+          "SPECULATIVE_OPERATOR_MAP"
+        ],
+        "runtimeIntegration": "Use existing SimulationOptions.verifyMaterialProgram verification seam or createUnifiedMaterialTimeline with returned .program; not automatically enabled in gameplay."
+      }
     },
     {
       "id": "DEV-006",
