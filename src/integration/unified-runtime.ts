@@ -192,7 +192,7 @@ function advance(
   // next fractional remodeling operation, or the requested query cutoff.
   while(state.atHour < hour) {
     const start=state.atHour;
-    const completion=Math.floor(start+EPS)+1;
+    const completion=Math.floor(start)+1;
     const remodeling=remodelingProposalsBetween(remod,start,
       Math.min(hour,completion));
     const firstRemodel=remodeling[0]?.atHour ?? Infinity;
