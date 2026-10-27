@@ -45,6 +45,12 @@ const frame720=benchmark("first-live-frame-720h",()=>sim.frameAt(720/24,{time:0,
 assert.ok(frame720.result.pixels.length>0,"720h rendered creature cannot disappear");
 const repeat720=benchmark("different-pose-frame-720h",()=>sim.frameAt(720/24,{time:1,action:"idle"}));
 assert.ok(repeat720.result.parts.length>0);
+const frame8192=benchmark("first-live-frame-8192h",()=>sim.frameAt(8192/24,{time:0,action:"idle"}));
+assert.ok(Math.abs(frame8192.result.developmentalAge-8192/24)<1e-9,
+  "rendered terminal age must not silently clamp to an earlier hour");
+assert.ok(frame8192.result.parts.some(part=>part.pixels.length>0));
+const repeat8192=benchmark("different-pose-frame-8192h",()=>sim.frameAt(8192/24,{time:1,action:"idle"}));
+assert.ok(repeat8192.result.pixels.length>0);
 const timeline=createUnifiedMaterialTimeline({program:program!,genome:inherited!});
 const terminal=benchmark("first-authoritative-timeline-8192h",()=>timeline.at(8192));
 assert.equal(terminal.result.atHour,8192);
@@ -61,6 +67,8 @@ assert.deepEqual(earlier.result.graph.sourceCells,program!.source.sourceCells);
 // Loose absolute failsafes until measured CI throughput is known; reported
 // measurements support subsequent, tighter browser-specific performance budgets.
 assert.ok(frame720.elapsedMs<120000,"720h first live render exceeded 120s");
+assert.ok(frame8192.elapsedMs<420000,"8192h first LIVE frame exceeded 420s");
+assert.ok(repeat8192.elapsedMs<30000,"8192h repeated pose exceeded 30s");
 assert.ok(terminal.elapsedMs<420000,"8192h terminal seek exceeded 420s");
 assert.ok(terminalRepeat.elapsedMs<30000,"repeated 8192h seek exceeded 30s");
 process.stdout.write("INT-001-PERFORMANCE-ACCEPTED\n");
