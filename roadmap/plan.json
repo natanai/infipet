@@ -966,7 +966,7 @@
       "dependsOn": [
         "DEV-006"
       ],
-      "status": "blocked",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -987,22 +987,61 @@
       },
       "implementationPaths": [
         "tests/alg-evaluation-material-proof.ts",
+        "tests/alg-evaluation-production-witness.ts",
         "tests/alg-evaluation-trajectory-metrics.ts",
         "tests/retro-trajectory-score.test.ts"
       ],
       "algorithmId": "evaluation",
       "interfaceContract": {
-        "role": "Target-independent numerical and physical resemblance falsification",
+        "purpose": "Independent numerical trajectory evaluation with optional causal live material verification for one saved organism; no offspring or reference-driven growth",
+        "producer": "createSimulation(...verifyMaterialProgram) captures unmodified genotype/program; fresh createUnifiedMaterialTimeline replay compared to real frameAt diagnostics, visible source IDs and projected quads",
         "inputs": [
-          "Externally supplied fixed reference milestones",
-          "Real generated frames, physical snapshots, replayable immutable genotype/program/history"
+          "immutable drawing, original seed, explicitly requested ages and (currently) no externally injected care history",
+          "fixed external reference milestones with optional mathematical physical topology requirements"
         ],
         "outputs": [
-          "stage silhouette and structural metrics",
-          "causal provenance and rendering checks",
-          "pass/fail/unresolved aggregate"
+          "per-stage raw/full and material-only silhouette, occupancy, holes, components, axes and branching",
+          "independent chronological inventory/event/ancestry and material projection evidence",
+          "pass/fail/unresolved status for every stage and guarded aggregate"
         ],
-        "dependencyBlocker": "Connect independently replayed production graph and verified material image per age before declaring task done"
+        "thresholds": {
+          "minStageScore": 0.8,
+          "minIoU": 0.65,
+          "minStructuralScore": 0.78,
+          "minAggregateScore": 0.82,
+          "minStages": 2
+        },
+        "verifiedTests": "tests/retro-trajectory-score.test.ts",
+        "validatedResults": {
+          "focusedTests": "6 of 6",
+          "fullTests": "171 of 171",
+          "typecheck": "passed",
+          "webBuild": "passed",
+          "retroResearchRoute": "p1.babytchi->p1.marutchi->p1.tamatchi->p1.mametchi",
+          "externallySuppliedRouteOutcome": "fail; one unresolved exact-birth stage, three measured failing later stages",
+          "retroFullScreenIoU": [
+            1,
+            0,
+            0.13043478260869565,
+            0
+          ],
+          "retroStageShapeScores": [
+            1,
+            0.448740476558,
+            0.462617008935,
+            0.341038568427
+          ],
+          "aggregate": 0.452068790954,
+          "verifiedWholeScreenRetroStages": 0,
+          "independentlyVerifiedPositiveControls": "at least two real generated material-layer stages with same-age replay and projected pixel provenance"
+        },
+        "constraints": [
+          "A plain graph's event ledger is not itself execution proof",
+          "the exact birth paint path lacks full material quad diagnostics",
+          "historical sprites are test data only",
+          "unattributed composited cosmetic pixels prevent positive full-screen physical verification",
+          "reference route is not a retro-game parity or full care-history witness"
+        ]
       }
     },
     {
@@ -1614,8 +1653,7 @@
     "tests/alg-integration-runtime.test.ts",
     "tests/alg-development-chaos.test.ts",
     "tests/alg-integration-unified-development.test.ts",
-    "tests/alg-runtime-performance-invariants.test.ts",
-    "tests/retro-trajectory-score.test.ts"
+    "tests/alg-runtime-performance-invariants.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",

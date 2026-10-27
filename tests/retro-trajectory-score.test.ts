@@ -295,6 +295,13 @@ test("[EVAL-002/A1/A2] actual unmodified production growth and projected visible
   const witness=buildProductionTrajectoryWitness(drawing,"INT-LIVE-PIXEL-2026",hours);
   assert.equal(witness.counts.stages,hours.length);
   const trulyVerified=witness.samples.filter(isIndependentlyReplayedProductionSample);
+  console.info("EVAL-002 real production material coverage:",JSON.stringify({
+    checkedHours:hours,verifiedStages:trulyVerified.length,
+    annotatedVisiblePhysicalPixels:witness.counts.materialPixels,
+    materialCreationEvents:witness.counts.graphEvents,
+    activeGeneratedCellsSummed:witness.counts.generatedCells,
+    limitations:witness.limitations,
+  }));
   assert.ok(trulyVerified.length>=2,
     "genuine material+visible output must have at least two replay-verifiable stages; "+witness.limitations.join("; "));
   assert.ok(witness.counts.materialPixels>0);
