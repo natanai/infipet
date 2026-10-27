@@ -24,17 +24,15 @@ function serial<T>(operation: () => Promise<T>): Promise<T> {
   return result;
 }
 
+/** Metadata is not permission to erase a pet. Old or unreadable documents
+ * stay untouched until the player explicitly replaces them; validation rejects
+ * unsupported formats rather than silently starting a different creature. */
 async function ensureRevision(): Promise<void> {
-  if ((await AsyncStorage.getItem(REVISION_KEY)) === PROTOTYPE_REVISION) return;
-  const keys = (await AsyncStorage.getAllKeys()).filter((key) =>
-    key.startsWith("infipet."),
-  );
-  if (keys.length) await AsyncStorage.multiRemove(keys);
-  // Mark a reset complete only after every owned old key was removed.
-  await AsyncStorage.setItem(REVISION_KEY, PROTOTYPE_REVISION);
+  if ((await AsyncStorage.getItem(REVISION_KEY)) !== PROTOTYPE_REVISION)
+    await AsyncStorage.setItem(REVISION_KEY, PROTOTYPE_REVISION);
 }
 
-/** Each prototype revision starts fresh; current-revision failures are untouched. */
+/** A version mismatch must never clear existing pet bytes. */
 export function loadEditablePet(): Promise<PetDocument | null> {
   return serial(async () => {
     await ensureRevision();
