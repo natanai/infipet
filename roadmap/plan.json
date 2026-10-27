@@ -1053,7 +1053,7 @@
         "EVAL-002",
         "CARE-003"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -1073,9 +1073,30 @@
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "tests"
+        "tests/alg-evaluation-production-witness.ts",
+        "tests/alg-evaluation-recorded-care-search.ts",
+        "tests/retro-witness-search.test.ts"
       ],
-      "algorithmId": "evaluation"
+      "algorithmId": "evaluation",
+      "interfaceContract": {
+        "purpose": "Bounded deterministic source seed and canonical command-history search over actual individual chronological development",
+        "inputs": [
+          "birth drawing, immutable seed, birth timestamp, native GameState command/advance steps",
+          "immutable external milestones used solely by EVAL-002 after full independent replay"
+        ],
+        "outputs": [
+          "versioned complete replayable source/seed/commands/care physiology/stages/witness hashes",
+          "score every age with unchanged EVAL-002 numerical and physical conditions",
+          "best-candidate with explicit unresolved/no-parity outcomes"
+        ],
+        "limits": {
+          "candidates": 4,
+          "hours": 128,
+          "referenceStages": 8,
+          "commandRecords": 256
+        },
+        "verification": "tests/retro-witness-search.test.ts"
+      }
     },
     {
       "id": "MOT-001",
