@@ -747,7 +747,8 @@ export function createSimulation(
       ? compileRuntimeCareMaterial(blueprint.atlas, inherited,
           blueprint.biology, options.careGame)
       : undefined,
-    unified = careMaterial && options.careGame && !verified
+    unified = careMaterial && options.careGame && !verified &&
+      options.reuseLivingMaterial!==false
       ? createReusedLivingTimeline({
           birthKey:cacheKey,genomeIdentity:genomeCacheKey(inherited),
           program:physicalProgram,genome:inherited,
