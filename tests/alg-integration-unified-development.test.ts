@@ -613,6 +613,61 @@ function annotatedPixels(frame: ReturnType<ReturnType<typeof createSimulation>["
       sources:pixel.materialSourceIds,parents:pixel.materialParentCellIds,
     })));
 }
+
+/** Independent polygon-coverage oracle. It consumes projected WORLD quads
+ * before the renderer's rasterizer (not a frame snapshot or pixel output),
+ * computes integer-lattice triangle containment, then applies the one
+ * common view transform and last-painter ownership. */
+function oracleVisibleMaterial(frame:ReturnType<ReturnType<typeof createSimulation>["frameAt"]>) {
+  const diagnostics=(frame.interaction.diagnostics as any);
+  const quads=diagnostics.physicalMaterial?.renderedCellQuads as
+    {partId:string;cellId:string;quad:{x:number;y:number}[]}[];
+  const camera=diagnostics.camera as {
+    scale:number;offset:{x:number;y:number};
+  };
+  assert.ok(quads?.length>0 && camera);
+  const cross=(a:{x:number;y:number},b:{x:number;y:number},p:{x:number;y:number})=>
+    (b.x-a.x)*(p.y-a.y)-(b.y-a.y)*(p.x-a.x);
+  const inside=(a:{x:number;y:number},b:{x:number;y:number},c:{x:number;y:number},
+    p:{x:number;y:number})=>{
+    if(Math.abs(cross(a,b,c))<1e-9)return false;
+    const ab=cross(a,b,p),bc=cross(b,c,p),ca=cross(c,a,p);
+    return (ab>=-1e-7&&bc>=-1e-7&&ca>=-1e-7)||
+      (ab<=1e-7&&bc<=1e-7&&ca<=1e-7);
+  };
+  const expected=new Map<string,Map<string,string>>();
+  for(const entry of quads){
+    const [a,b,c,d]=entry.quad;
+    let filled=false;
+    const xs=entry.quad.map(p=>p.x),ys=entry.quad.map(p=>p.y);
+    const owned=expected.get(entry.partId)??new Map<string,string>();
+    const claim=(x:number,y:number)=>{
+      const vx=Math.round(x*camera.scale+camera.offset.x);
+      const vy=Math.round(y*camera.scale+camera.offset.y);
+      if(vx>=0&&vx<64&&vy>=0&&vy<64)owned.set(vx+","+vy,entry.cellId);
+    };
+    for(let y=Math.ceil(Math.min(...ys)-1e-8);
+      y<=Math.floor(Math.max(...ys)+1e-8);y++)
+      for(let x=Math.ceil(Math.min(...xs)-1e-8);
+        x<=Math.floor(Math.max(...xs)+1e-8);x++){
+        if(inside(a,b,c,{x,y})||inside(a,c,d,{x,y})){
+          claim(x,y);filled=true;
+        }
+      }
+    assert.ok(filled,"the test's chosen 1-cell-wide source quads must cover lattice points");
+    expected.set(entry.partId,owned);
+  }
+  for(const [partId,owned] of expected){
+    const actual=frame.parts.find(part=>part.id===partId);
+    assert.ok(actual,"each physical projected quad must have a rendered part");
+    const drawn=new Map(actual!.pixels
+      .filter(pixel=>pixel.materialCellId)
+      .map(pixel=>[pixel.x+","+pixel.y,pixel.materialCellId!]));
+    assert.deepEqual([...drawn].sort(),[...owned].sort(),
+      "exact projected pixel coordinate AND causal owner must equal independent polygon oracle: "+partId);
+  }
+}
+
 test("[INT-001/A2] actual frameAt raster preserves every relocated source ID, resorption and daughter ancestry",()=>{
   const ink=drawing([".....","..###","..###","..###","....."],"body");
   const {simulation,program,genome,remodeling}=tracedSimulation(ink,
@@ -643,6 +698,7 @@ test("[INT-001/A2] actual frameAt raster preserves every relocated source ID, re
   }));
   for(const {hour,frame,graph} of frames) {
     const pixels=annotatedPixels(frame);
+    oracleVisibleMaterial(frame);
     const active=new Map(graph.cells.map(cell=>[cell.id,cell]));
     assert.ok(pixels.length>0,"frameAt must expose actual cell-owned visible pixels at "+hour);
     assert.ok(!pixels.some(p=>removed.some(c=>c.id===p.id)),
