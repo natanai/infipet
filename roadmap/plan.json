@@ -863,7 +863,7 @@
       "dependsOn": [
         "CARE-002"
       ],
-      "status": "todo",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -878,14 +878,27 @@
       ],
       "verification": {
         "kind": "node-test",
-        "testPath": "tests/care-counterfactuals.test.ts",
-        "command": "pnpm exec tsx --test tests/care-counterfactuals.test.ts",
+        "testPath": "tests/alg-environment-care-counterfactual.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-care-counterfactual.test.ts",
         "artifactPolicy": "no-images-or-snapshots"
       },
       "implementationPaths": [
-        "src/simulation"
+        "src/environment"
       ],
-      "algorithmId": "environment"
+      "algorithmId": "environment",
+      "interfaceContract": {
+        "inputs": [
+          "One immutable player drawing and permanent source-derived genotype/chaos program per paired comparison",
+          "Real accepted/rejected traditional-care GameState commands and sampled histories",
+          "Fixed nonintervention strategies and explicit chronological intervention window"
+        ],
+        "outputs": [
+          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
+          "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
+          "Verified chronology, source ancestry, reproducibility and save/replay properties"
+        ],
+        "invariant": "Only physical material graph cells/tissues/links and source-derived topology constitute anatomical effects; pure physiology, coloration, pose and legitimate physical nulls are separately labeled. No task rewrites live development or expands AllNeeds."
+      }
     },
     {
       "id": "EVAL-001",
