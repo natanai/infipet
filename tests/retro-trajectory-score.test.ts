@@ -193,6 +193,11 @@ test("[EVAL-002/A1] fake chronological material creation and resurrection cannot
     "event-clock-out-of-order-or-future");
   bad({...born,cells:[...born.cells,generated],events:[event("growth-claimed",3,"conjure")]},
     "unsupported-creation-operator");
+  // A plausible operation ID, event, and ancestry still cannot authorize
+  // matter appearing physically disconnected from its live source.
+  const remote={...generated,x:31,y:31};
+  bad({...born,cells:[...born.cells,remote],events:[event()]},
+    "generated-nonadjacent-to-physical-parent");
   bad({...born,cells:[...born.cells,generated],events:[
     {id:"remove-before",kind:"resorb",atHour:2,createdCellIds:[],
       removedCellIds:[source.id],sourceCellIds:[source.id]},
@@ -228,7 +233,8 @@ test("[EVAL-002/A2] perfectly matching foreign render and valid graph cannot cer
     sourceCells:graph([{x:8,y:8},{x:9,y:8}],"organism-B").sourceCells.map(c=>
       ({...c,id:"B/"+c.id,sourceIds:["B/"+c.id]})),
   } as MaterialGraph;
-  const bActive:MaterialGraph={...b,cells:b.sourceCells};
+  const bActive:MaterialGraph={...b,cells:b.sourceCells,
+    tissues:b.tissues.map(t=>({...t,sourceCellIds:b.sourceCells.map(c=>c.id)}))};
   assert.equal(auditPhysicalEvidence(a).status,"verified");
   assert.equal(auditPhysicalEvidence(bActive).status,"verified");
   const renderedB=observedMaterial(bActive);
