@@ -893,7 +893,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1112,7 +1112,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -1208,6 +1208,41 @@
         "src/simulation"
       ],
       "algorithmId": "integration"
+    },
+    {
+      "id": "UI-001",
+      "phase": 4,
+      "area": "Player Interface",
+      "title": "Provide curated fixed-seed developer drawings behind the player interface",
+      "dependsOn": [
+        "GAME-001"
+      ],
+      "status": "done",
+      "algorithmId": "interface",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Exactly 12 original editable presets have fixed IDs/seeds, approved existing colors, bounded pixels, acyclic valid part relationships and native living-pet save round trips",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-interface-presets.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-interface-presets.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/presets.ts",
+        "src/palette.ts",
+        "src/components/PartPalette.tsx",
+        "App.tsx"
+      ],
+      "playerFlowVerification": {
+        "command": "pnpm build:web && pnpm test:ui",
+        "testPath": "tests/player-interface.browser.mjs",
+        "scope": "Real browser draw-first, all 15 one-action parts, birth once, Pet identity, explicit replacement, import/export, refresh and offline reopen; desktop/narrow screenshots are interface evidence only."
+      }
     }
   ],
   "algorithms": [
@@ -1442,6 +1477,37 @@
       ],
       "readyWhen": [
         "OBS-001"
+      ]
+    },
+    {
+      "id": "interface",
+      "name": "Player Interface (Agent 10)",
+      "purpose": "Own navigation, drawing tools, presentation and developer preset UI; consume existing authoritative simulation APIs without changing algorithms.",
+      "inputs": [
+        "authored drawing",
+        "saved living pet",
+        "existing simulation interfaces"
+      ],
+      "outputs": [
+        "draw-first player interface",
+        "editable fixed-seed developer presets"
+      ],
+      "ownedPaths": [
+        "src/components/PartPalette.tsx",
+        "src/palette.ts",
+        "src/presets.ts",
+        "tests/alg-interface-",
+        "tests/player-interface.browser.mjs",
+        "scripts/offline-web.mjs"
+      ],
+      "sharedPaths": [
+        "App.tsx (player presentation only; integration retains simulation authority)"
+      ],
+      "taskIds": [
+        "UI-001"
+      ],
+      "readyWhen": [
+        "GAME-001"
       ]
     }
   ],

@@ -18,8 +18,6 @@ import { useFonts } from "expo-font";
 import Svg, { Line, Rect } from "react-native-svg";
 import {
   createSimulation,
-  createStarterAnatomy,
-  PART_KINDS,
   PART_LABELS,
   DRAW_SIZE,
   WORLD_SIZE,
@@ -51,7 +49,8 @@ import { PetPixels } from "./src/components/PetPixels";
 import { PixelIcon } from "./src/components/PixelIcon";
 import { PartInfo } from "./src/components/PartInfo";
 import Slider from "./src/components/TimelineSlider";
-import { SeedSort } from "./src/components/SeedSort";
+import { PartPalette } from "./src/components/PartPalette";
+import { PRESET_COLORS } from "./src/palette";
 import { publishWidget } from "./src/widget";
 import {
   NEEDS_CATALOG_VERSION,
@@ -63,14 +62,16 @@ import {
 import { NeedsLab } from "./src/components/NeedsLab";
 import { FeelingsSheet } from "./src/components/FeelingsSheet";
 import { GamePanel } from "./src/components/GamePanel";
-import { RetroGallery } from "./src/components/RetroGallery";
-import { RETRO_PRESETS, cloneRetroPreset } from "./src/retro";
 import {
-  deriveCareTimeline, deriveDevelopmentContext, type GameCommand,
+  deriveCareTimeline,
+  deriveDevelopmentContext,
+  type GameCommand,
 } from "./src/gameplay";
 import type { LivingPet } from "./src/pet-format";
 import {
-  birthPlayerLife, advancePlayerLife, commandPlayerLife,
+  birthPlayerLife,
+  advancePlayerLife,
+  commandPlayerLife,
 } from "./src/integration/player-lifecycle";
 import {
   findSeedVariation,
@@ -78,20 +79,17 @@ import {
 } from "./src/seed-variation";
 
 type Sheet =
-  | "create"
-  | "parts"
+  | "development"
+  | "confirm"
   | "info"
-  | "tools"
   | "color"
   | "more"
-  | "seed"
   | "share"
   | "import"
   | "widget"
   | "name"
   | "about"
   | "feelings"
-  | "retro"
   | null;
 type SourceSnapshot = { parts: PetPart[]; mode: SourceMode };
 const copy = (parts: PetPart[]) =>
@@ -129,6 +127,7 @@ function Button({
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ selected, disabled }}
+      aria-pressed={selected}
       disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [
@@ -190,7 +189,8 @@ export default function App() {
   const [parts, setParts] = useState<PetPart[]>([]);
   const [mode, setMode] = useState<SourceMode>("infant");
   const [name, setName] = useState("Little one");
-  const [seed, setSeed] = useState("87320104");
+  const [nameInput, setNameInput] = useState(name);
+  const [seed, setSeed] = useState(newSeed);
   const [seedInput, setSeedInput] = useState(seed);
   const [bornAt, setBornAt] = useState(Date.now);
   const [age, setAge] = useState(0);
@@ -202,6 +202,10 @@ export default function App() {
   const [history, setHistory] = useState<SourceSnapshot[]>([]);
   const [redo, setRedo] = useState<SourceSnapshot[]>([]);
   const [sheet, setSheet] = useState<Sheet>(null);
+  const [confirmation, setConfirmation] = useState<{
+    message: string;
+    accept: () => void;
+  } | null>(null);
   const [timeOpen, setTimeOpen] = useState(false);
   const [time, setTime] = useState(0);
   const [action, setAction] = useState<PetAction>("idle");
@@ -246,8 +250,11 @@ export default function App() {
         ? Math.max(260, height - 220)
         : labOpen && view === "live"
           ? Math.max(250, height - 650)
-          : Math.max(260, height - (view === "live" && timeOpen ? 430 : 250)),
-      wideLab ? 440 : 520,
+          : Math.max(
+              160,
+              height - (view === "draw" ? 420 : timeOpen ? 430 : 250),
+            ),
+      view === "draw" ? 400 : wideLab ? 440 : 520,
     ),
   );
   const controlsWidth = wideLab
@@ -274,8 +281,14 @@ export default function App() {
   // The lab's independent preview must never replace or needlessly render
   // the actual living pet during normal play.
   const previewFrame = useMemo(
-    () => playing ? null :
-      simulation.frameAt(age, { time, action, ...(target ? { target } : {}) }),
+    () =>
+      playing
+        ? null
+        : simulation.frameAt(age, {
+            time,
+            action,
+            ...(target ? { target } : {}),
+          }),
     [playing, simulation, age, time, action, target],
   );
   // Build only from the native saved-life evidence. Each accepted care command
@@ -335,7 +348,9 @@ export default function App() {
   // Serial writes may complete after a newer care update. Only the most
   // recently requested write can clear or set the unsaved warning.
   const saveRequest = useRef(0);
-  const persist = async (message = "Progress is unsaved. Export a copy from More."): Promise<boolean> => {
+  const persist = async (
+    message = "Progress is unsaved. Export a copy from More.",
+  ): Promise<boolean> => {
     const request = ++saveRequest.current;
     try {
       await savePet(latest.current.document);
@@ -391,14 +406,13 @@ export default function App() {
             setSandbox(false);
           }
           setWritable(true);
-        } else setSheet("create");
+        } else setWritable(true);
         setHydrated(true);
       })
       .catch(() => {
         if (active) {
           setSaveError("Storage unavailable. Export your pet to keep a copy.");
           setHydrated(true);
-          setSheet("create");
         }
       });
     return () => {
@@ -526,7 +540,7 @@ export default function App() {
     deathSeen.current = identity;
     setSandbox(true);
     setView("draw");
-    setSheet("create");
+    setSheet(null);
   }, [life?.game.dead, life?.game.clock.startedAtMs, life?.seed]);
   useEffect(() => {
     if (Platform.OS !== "web" || !sheet) return;
@@ -615,14 +629,8 @@ export default function App() {
     setView("draw");
     setSheet(null);
   };
-  const start = (
-    next: SourceMode,
-    presetId?: string,
-    seedOverride?: string,
-  ) => {
-    const retro = RETRO_PRESETS.find((item) => item.id === presetId);
-    const preset =
-      retro ?? STARTER_PRESETS.find((item) => item.id === presetId);
+  const start = (presetId?: string) => {
+    const preset = STARTER_PRESETS.find((item) => item.id === presetId);
     setNeedTimeline([]);
     setGroomingTimeline([]);
     setGrooming(false);
@@ -632,21 +640,13 @@ export default function App() {
     setNeedPreview(null);
     setLabIdentity((value) => value + 1);
     setLabOpen(false);
-    setMode(next);
-    setParts(
-      preset
-        ? retro
-          ? cloneRetroPreset(retro.id)
-          : clonePreset(preset.id)
-        : next === "egg"
-          ? createStarterAnatomy("egg")
-          : [],
-    );
-    setKind(next === "egg" ? "egg" : "body");
+    setMode("infant");
+    setParts(preset ? clonePreset(preset.id) : []);
+    setKind("body");
     setTool("paint");
     setHistory([]);
     setRedo([]);
-    const nextSeed = seedOverride ?? retro?.seed ?? newSeed();
+    const nextSeed = preset?.seed ?? newSeed();
     setSeed(nextSeed);
     setSeedInput(nextSeed);
     setName(preset?.name ?? "Little one");
@@ -657,18 +657,37 @@ export default function App() {
     setSheet(null);
     setSandbox(true);
   };
+  const confirmReplacement = (message: string, accept: () => void) => {
+    setConfirmation({ message, accept });
+    setSheet("confirm");
+  };
   const live = () => {
+    if (!lifeRef.current) return;
     setView("live");
     setSandbox(false);
     setLabOpen(false);
     setTimeOpen(false);
     setMotion(true);
+    setGrooming(false);
+    setNeedPreview(null);
+    setGrowing(false);
   };
-  const beginLife = async () => {
+  const beginLife = async (confirmed = false) => {
     if (!pixels.length || commandPending.current) return;
+    const current = lifeRef.current;
+    if (current && !current.game.dead && !confirmed) {
+      confirmReplacement(
+        `Replace ${current.name}? Its current life and care history will be replaced. Export a copy from More to keep it.`,
+        () => void beginLife(true),
+      );
+      return;
+    }
     commandPending.current = true;
-    const next = birthPlayerLife({ parts, mode, seed, name },
-      Date.now(), -new Date().getTimezoneOffset());
+    const next = birthPlayerLife(
+      { parts, mode, seed, name },
+      Date.now(),
+      -new Date().getTimezoneOffset(),
+    );
     commitLife(next);
     setWritable(true);
     latest.current.writable = true;
@@ -723,9 +742,10 @@ export default function App() {
     setTime(0);
     setTarget(null);
     if (next === "play") {
-      const resting = playing && livingSimulation
-        ? livingSimulation.frameAt(liveAge)
-        : simulation.frameAt(age);
+      const resting =
+        playing && livingSimulation
+          ? livingSimulation.frameAt(liveAge)
+          : simulation.frameAt(age);
       const part =
         resting.parts.find(
           (p) => p.id === resting.capabilities.effectorIds[0],
@@ -769,7 +789,8 @@ export default function App() {
     setSheet(null);
   };
   const open = (next: Sheet) => {
-    if (next === "seed") setSeedInput(seed);
+    if (next === "name") setNameInput(playing && life ? life.name : name);
+    if (next === "development") setSeedInput(seed);
     if (next === "import") {
       setImportError("");
       setImportInput("");
@@ -949,20 +970,17 @@ export default function App() {
           }
       : null;
   const sheetTitles: Record<Exclude<Sheet, null>, string> = {
-    create: "A little beginning",
-    parts: "What are you drawing?",
+    development: "Development Tools",
+    confirm: "Replace living pet?",
     info: PART_LABELS[kind],
-    tools: "Drawing tools",
     color: "Color",
     more: "More",
-    seed: "Another possible life",
     share: "Share a little life",
     import: "Welcome a pet",
     widget: "A little window",
     name: "A name",
     about: "About Infipet",
     feelings: "A little check-in",
-    retro: "Retro drawings",
   };
 
   if ((!fontLoaded && !fontError) || !hydrated)
@@ -977,6 +995,9 @@ export default function App() {
         <StatusBar style="light" />
         <ScrollView
           contentContainerStyle={styles.page}
+          aria-hidden={sheet !== null}
+          accessibilityElementsHidden={sheet !== null}
+          importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
           keyboardShouldPersistTaps="handled"
         >
           <View style={[styles.workbench, wideLab && styles.wideWorkbench]}>
@@ -1007,10 +1028,10 @@ export default function App() {
                   <Text numberOfLines={1} style={s.muted}>
                     {view === "draw"
                       ? life && !life.game.dead
-                        ? "Lab drawing · your pet lives on"
+                        ? "Drawing draft · your pet lives on"
                         : mode === "egg"
                           ? "An egg, drawn by you"
-                          : "An infant, drawn by you"
+                          : "Draw anything. Bring it to life."
                       : playing && life
                         ? `${title(life.game.stage)} · day ${liveAge.toFixed(1)}${life.game.sleeping ? " · asleep" : ""}`
                         : `Lab · ${title(frame.stage)} · day ${age.toFixed(1)}`}
@@ -1024,51 +1045,103 @@ export default function App() {
                       disabled={frame.stage === "egg"}
                       onPress={() => open("feelings")}
                     />
-                    <IconButton
-                      icon="time"
-                      label="Open growth timeline"
-                      selected={timeOpen}
-                      onPress={() => {
-                        setSandbox(true);
-                        setTimeOpen(!timeOpen);
-                      }}
-                    />
                   </>
                 )}
               </View>
-              {!playing && (
-                <View style={{ width: size + 24, gap: 8, marginBottom: 10 }}>
+              {view === "live" && sandbox && (
+                <View
+                  style={[
+                    styles.between,
+                    { width: size + 24, marginBottom: 10 },
+                  ]}
+                >
+                  <Text style={s.bright}>Development Tools</Text>
                   <Button
-                    label={
-                      life ? "Begin new life from this drawing" : "Begin life"
-                    }
-                    disabled={!pixels.length || settling}
-                    onPress={() => void beginLife()}
+                    label="Open Development Tools"
+                    onPress={() => open("development")}
                   >
-                    {life ? "Begin new life from drawing" : "Begin life"}
+                    Tools
                   </Button>
-                  {life && !life.game.dead && (
-                    <Text style={s.muted}>
-                      Your living pet keeps its drawing and seed. Beginning a
-                      new life replaces it.
-                    </Text>
-                  )}
                 </View>
               )}
               <View style={[styles.device, { width: size + 24 }]}>
+                <View style={styles.nav}>
+                  {(
+                    [
+                      { value: "draw", icon: "draw", label: "Draw" },
+                      { value: "live", icon: "live", label: "Pet" },
+                      { value: "more", icon: "more", label: "More" },
+                    ] as const
+                  ).map((item) => (
+                    <Button
+                      key={item.value}
+                      label={
+                        item.value === "more"
+                          ? "Open more menu"
+                          : item.value === "live"
+                            ? "Return to your pet"
+                            : "Draw your pet"
+                      }
+                      selected={
+                        view === item.value &&
+                        (item.value !== "live" || playing)
+                      }
+                      disabled={item.value === "live" && !life}
+                      onPress={() =>
+                        item.value === "more"
+                          ? open("more")
+                          : item.value === "draw"
+                            ? (setSandbox(true),
+                              setView("draw"),
+                              setLabOpen(false),
+                              setTimeOpen(false),
+                              setNeedPreview(null))
+                            : live()
+                      }
+                      style={{ flex: 1 }}
+                    >
+                      <PixelIcon
+                        name={item.icon}
+                        color={
+                          view === item.value &&
+                          (item.value !== "live" || playing)
+                            ? T.bg
+                            : T.text
+                        }
+                      />
+                      <Text
+                        style={[
+                          s.text,
+                          view === item.value &&
+                            (item.value !== "live" || playing) && {
+                              color: T.bg,
+                            },
+                        ]}
+                      >
+                        {item.label}
+                      </Text>
+                    </Button>
+                  ))}
+                </View>
                 <View style={[styles.toolbar, { width: size }]}>
                   {view === "draw" ? (
                     <>
                       <Button
-                        label="Choose drawing part"
-                        onPress={() => open("parts")}
+                        label="Use pencil"
+                        selected={tool === "paint"}
+                        onPress={() => setTool("paint")}
                         style={{ flex: 1 }}
-                      >{`${PART_LABELS[kind]} v`}</Button>
-                      <IconButton
-                        icon="info"
-                        label={`Learn about ${PART_LABELS[kind].toLowerCase()}`}
-                        onPress={() => open("info")}
-                      />
+                      >
+                        Pencil
+                      </Button>
+                      <Button
+                        label="Use eraser"
+                        selected={tool === "erase"}
+                        onPress={() => setTool("erase")}
+                        style={{ flex: 1 }}
+                      >
+                        Eraser
+                      </Button>
                       <Button
                         label="Choose brush color"
                         onPress={() => open("color")}
@@ -1084,25 +1157,9 @@ export default function App() {
                         />
                       </Button>
                       <IconButton
-                        icon={tool === "erase" ? "erase" : "draw"}
-                        label={tool === "erase" ? "Use pencil" : "Use eraser"}
-                        selected={tool === "erase"}
-                        onPress={() =>
-                          setTool(tool === "paint" ? "erase" : "paint")
-                        }
-                      />
-                      {width >= 360 && (
-                        <IconButton
-                          icon="undo"
-                          label="Undo drawing"
-                          disabled={!history.length}
-                          onPress={undo}
-                        />
-                      )}
-                      <IconButton
-                        icon="more"
-                        label="More drawing tools"
-                        onPress={() => open("tools")}
+                        icon="info"
+                        label={`Learn about ${PART_LABELS[kind].toLowerCase()}`}
+                        onPress={() => open("info")}
                       />
                     </>
                   ) : playing ? (
@@ -1187,14 +1244,64 @@ export default function App() {
                   )}
                 </View>
                 {view === "draw" ? (
-                  <DrawingCanvas
-                    pixels={pixels}
-                    size={size}
-                    tool={tool}
-                    onStart={begin}
-                    onPaint={paint}
-                    onEnd={finish}
-                  />
+                  <View style={{ gap: 10 }}>
+                    <DrawingCanvas
+                      pixels={pixels}
+                      size={size}
+                      tool={tool}
+                      onStart={begin}
+                      onPaint={paint}
+                      onEnd={finish}
+                    />
+                    <PartPalette
+                      value={kind}
+                      onChange={(next) => {
+                        setKind(next);
+                        setTool("paint");
+                      }}
+                    />
+                    <View style={styles.row}>
+                      <Button
+                        label="Undo drawing"
+                        disabled={!history.length}
+                        onPress={undo}
+                        style={{ flex: 1 }}
+                      >
+                        Undo
+                      </Button>
+                      <Button
+                        label="Redo drawing"
+                        disabled={!redo.length}
+                        onPress={redoStroke}
+                        style={{ flex: 1 }}
+                      >
+                        Redo
+                      </Button>
+                      <Button
+                        label="Mirror drawing"
+                        selected={mirror}
+                        onPress={() => setMirror(!mirror)}
+                        style={{ flex: 1 }}
+                      >
+                        Mirror
+                      </Button>
+                      <Button
+                        label="Clear drawing"
+                        disabled={!pixels.length}
+                        onPress={() => replace([])}
+                        style={{ flex: 1 }}
+                      >
+                        Clear
+                      </Button>
+                    </View>
+                    <Button
+                      label="Begin life"
+                      disabled={!pixels.length || settling}
+                      onPress={() => void beginLife()}
+                    >
+                      Begin life
+                    </Button>
+                  </View>
                 ) : grooming ? (
                   <View>
                     <GroomCanvas
@@ -1353,49 +1460,10 @@ export default function App() {
                     onNewPet={() => {
                       setSandbox(true);
                       setView("draw");
-                      open("create");
+                      start();
                     }}
                   />
                 )}
-                <View style={styles.nav}>
-                  {(
-                    [
-                      { value: "draw", icon: "draw", label: "Draw" },
-                      { value: "live", icon: "live", label: "Live" },
-                      { value: "more", icon: "more", label: "More" },
-                    ] as const
-                  ).map((item) => (
-                    <Button
-                      key={item.value}
-                      label={
-                        item.value === "more"
-                          ? "Open more menu"
-                          : item.value === "live"
-                            ? "Watch your pet"
-                            : "Draw your pet"
-                      }
-                      selected={view === item.value}
-                      onPress={() =>
-                        item.value === "more"
-                          ? open("more")
-                          : item.value === "draw"
-                            ? (setSandbox(true), setView("draw"))
-                            : live()
-                      }
-                      style={{ flex: 1 }}
-                    >
-                      <PixelIcon
-                        name={item.icon}
-                        color={view === item.value ? T.bg : T.text}
-                      />
-                      <Text
-                        style={[s.text, view === item.value && { color: T.bg }]}
-                      >
-                        {item.label}
-                      </Text>
-                    </Button>
-                  ))}
-                </View>
               </View>
             </View>
             <View
@@ -1411,7 +1479,7 @@ export default function App() {
               {view === "live" && timeOpen && (
                 <View style={[styles.drawer, { width: controlsWidth }]}>
                   <View style={styles.between}>
-                    <Text style={s.bright}>Time</Text>
+                    <Text style={s.bright}>Growth preview</Text>
                     {labOpen ? (
                       <View style={styles.row}>
                         <Text style={s.muted}>Age (days)</Text>
@@ -1593,88 +1661,6 @@ export default function App() {
                 contentContainerStyle={styles.sheetContent}
                 keyboardShouldPersistTaps="handled"
               >
-                {sheet === "create" && (
-                  <>
-                    {life?.game.dead && (
-                      <Text style={[s.text, { color: T.warning }]}>
-                        {life.name}'s life has ended. {life.game.message} Create
-                        a new beginning when you are ready.
-                      </Text>
-                    )}
-                    <Text style={s.muted}>
-                      Draw a beginning. Discover who it becomes.
-                    </Text>
-                    <Button
-                      label="Draw an infant"
-                      onPress={() => start("infant")}
-                    >
-                      <PixelIcon name="draw" />
-                      <Text style={s.text}>Draw an infant</Text>
-                    </Button>
-                    <Button label="Design an egg" onPress={() => start("egg")}>
-                      <PixelIcon name="live" />
-                      <Text style={s.text}>Design an egg</Text>
-                    </Button>
-                    <Text style={s.muted}>
-                      Or begin with a little companion.
-                    </Text>
-                    <View style={styles.wrap}>
-                      {STARTER_PRESETS.map((preset) => (
-                        <Button
-                          key={preset.id}
-                          label={`Start with a ${preset.name.toLowerCase()}`}
-                          style={styles.presetChoice}
-                          onPress={() => start("infant", preset.id)}
-                        >
-                          <View style={styles.presetContent}>
-                            <PetPixels
-                              pixels={presetThumbnails.get(preset.id)!}
-                              size={72}
-                              gridSize={DRAW_SIZE}
-                            />
-                            <Text style={[s.text, styles.presetName]}>
-                              {preset.name}
-                            </Text>
-                          </View>
-                        </Button>
-                      ))}
-                    </View>
-                    <Button
-                      label="Explore retro reference drawings"
-                      onPress={() => open("retro")}
-                    >
-                      Retro reference drawings
-                    </Button>
-                  </>
-                )}
-                {sheet === "retro" && (
-                  <RetroGallery
-                    onSelect={(id) => start("infant", id)}
-                  />
-                )}
-                                {sheet === "parts" && (
-                  <>
-                    <View style={styles.wrap}>
-                      {PART_KINDS.map((k) => (
-                        <Button
-                          key={k}
-                          label={`Draw ${PART_LABELS[k].toLowerCase()}`}
-                          selected={kind === k}
-                          onPress={() => {
-                            setKind(k);
-                            setTool("paint");
-                            setSheet(null);
-                          }}
-                        >
-                          {PART_LABELS[k]}
-                        </Button>
-                      ))}
-                    </View>
-                    <Text style={s.muted}>
-                      Labels are hints. Any drawing can live.
-                    </Text>
-                  </>
-                )}
                 {sheet === "info" && <PartInfo kind={kind} />}
                 {sheet === "feelings" && (
                   <FeelingsSheet wellbeing={frame.wellbeing} />
@@ -1689,20 +1675,7 @@ export default function App() {
                       }}
                     />
                     <View style={styles.wrap}>
-                      {[
-                        "#000000",
-                        "#444444",
-                        "#777777",
-                        "#AAAAAA",
-                        "#DDDDDD",
-                        "#FFFFFF",
-                        "#18D7E8",
-                        "#FF2B1C",
-                        "#A378C8",
-                        "#86AC6B",
-                        "#E8B56C",
-                        "#DA8E9F",
-                      ].map((c) => (
+                      {PRESET_COLORS.map((c) => (
                         <Pressable
                           key={c}
                           accessibilityRole="button"
@@ -1724,91 +1697,61 @@ export default function App() {
                     </View>
                   </>
                 )}
-                {sheet === "tools" && (
-                  <>
-                    <View style={styles.wrap}>
-                      <Button
-                        label="Undo drawing"
-                        disabled={!history.length}
-                        onPress={() => {
-                          undo();
-                          setSheet(null);
-                        }}
-                      >
-                        Undo
-                      </Button>
-                      <Button
-                        label="Mirror drawing"
-                        selected={mirror}
-                        onPress={() => setMirror(!mirror)}
-                      >
-                        Mirror
-                      </Button>
-                      <Button
-                        label="Redo drawing"
-                        disabled={!redo.length}
-                        onPress={redoStroke}
-                      >
-                        Redo
-                      </Button>
-                      <Button label="Clear drawing" onPress={() => replace([])}>
-                        Clear
-                      </Button>
-                      <Button label="New pet" onPress={() => open("create")}>
-                        New pet
-                      </Button>
-                    </View>
-                    <Text style={s.muted}>A little inspiration</Text>
-                    <View style={styles.wrap}>
-                      {(["biped", "crawler", "winged", "egg"] as const).map(
-                        (p) => (
-                          <Button
-                            key={p}
-                            label={`Use ${p} example`}
-                            onPress={() => {
-                              setMode(p === "egg" ? "egg" : "infant");
-                              setKind(p === "egg" ? "egg" : "body");
-                              replace(createStarterAnatomy(p));
-                            }}
-                          >
-                            {p === "biped" ? "Bunny" : title(p)}
-                          </Button>
-                        ),
-                      )}
-                    </View>
-                  </>
-                )}
                 {sheet === "more" && (
                   <>
-                    <Button label="Needs Lab" onPress={openLab}>
-                      Needs Lab
-                    </Button>
-                    {(
-                      [
-                        { sheet: "retro", label: "Retro drawings" },
-                        { sheet: "create", label: "New pet" },
-                        { sheet: "name", label: "Name" },
-                        { sheet: "seed", label: "Seed & possibilities" },
-                        { sheet: "share", label: "Share" },
-                        { sheet: "import", label: "Import" },
-                        { sheet: "widget", label: "Home Screen widget" },
-                        { sheet: "about", label: "About" },
-                      ] as const
-                    ).map((item) => (
-                      <Button
-                        key={item.sheet}
-                        label={item.label}
-                        onPress={() => open(item.sheet)}
-                      >
-                        {item.label}
+                    <Text style={s.muted}>Your pet</Text>
+                    <View style={styles.wrap}>
+                      <Button label="Export pet" onPress={() => open("share")}>
+                        Export
                       </Button>
-                    ))}
+                      <Button label="Import pet" onPress={() => open("import")}>
+                        Import
+                      </Button>
+                      <Button label="Name" onPress={() => open("name")}>
+                        Name
+                      </Button>
+                    </View>
+                    <Button
+                      label="Open Development Tools"
+                      onPress={() => open("development")}
+                    >
+                      Development Tools
+                    </Button>
+                    <Button label="About" onPress={() => open("about")}>
+                      About
+                    </Button>
                   </>
                 )}
-                {sheet === "seed" && (
+                {sheet === "confirm" && confirmation && (
+                  <>
+                    <Text style={s.text}>{confirmation.message}</Text>
+                    <Button
+                      label="Keep current pet"
+                      onPress={() => {
+                        setConfirmation(null);
+                        setSheet(null);
+                      }}
+                    >
+                      Keep current pet
+                    </Button>
+                    <Button
+                      label="Confirm replacement"
+                      onPress={() => {
+                        const accept = confirmation.accept;
+                        setConfirmation(null);
+                        setSheet(null);
+                        accept();
+                      }}
+                    >
+                      Replace pet
+                    </Button>
+                  </>
+                )}
+                {sheet === "development" && (
                   <>
                     <Text style={s.muted}>
-                      Same drawing. Another possible life.
+                      Preview tools use the drawing draft. Your living pet keeps
+                      its original drawing, seed and care history.
                     </Text>
                     <View style={styles.row}>
                       <TextInput
@@ -1834,15 +1777,55 @@ export default function App() {
                         {rerollBusy ? "..." : "Reroll"}
                       </Button>
                     </View>
-                    <SeedSort seed={seed} />
+                    <Button
+                      label="Open growth timeline and diagnostics"
+                      onPress={openLab}
+                    >
+                      Growth timeline & care experiments
+                    </Button>
+                    <Button
+                      label="Home Screen widget"
+                      onPress={() => open("widget")}
+                    >
+                      Home Screen widget
+                    </Button>
+                    <Button label="New empty drawing" onPress={() => start()}>
+                      New empty drawing
+                    </Button>
+                    <Text style={s.bright}>Testing presets · 12 drawings</Text>
+                    <Text style={s.muted}>
+                      Loads an editable draft with a fixed seed. Begin life
+                      commits it.
+                    </Text>
+                    <View style={styles.wrap}>
+                      {STARTER_PRESETS.map((preset) => (
+                        <Button
+                          key={preset.id}
+                          label={`Load ${preset.name} preset`}
+                          style={styles.presetChoice}
+                          onPress={() => start(preset.id)}
+                        >
+                          <View style={styles.presetContent}>
+                            <PetPixels
+                              pixels={presetThumbnails.get(preset.id)!}
+                              size={72}
+                              gridSize={DRAW_SIZE}
+                            />
+                            <Text style={[s.text, styles.presetName]}>
+                              {preset.name}
+                            </Text>
+                          </View>
+                        </Button>
+                      ))}
+                    </View>
                   </>
                 )}
                 {sheet === "name" && (
                   <>
                     <TextInput
                       accessibilityLabel="Pet name"
-                      value={name}
-                      onChangeText={(v) => setName(clean(v))}
+                      value={nameInput}
+                      onChangeText={(v) => setNameInput(clean(v))}
                       maxLength={60}
                       style={s.input}
                       autoCorrect={false}
@@ -1859,8 +1842,9 @@ export default function App() {
                         )
                           commitLife({
                             ...current,
-                            name: name.trim() || "Little one",
+                            name: nameInput.trim() || "Little one",
                           });
+                        else setName(nameInput.trim() || "Little one");
                         setSheet(null);
                       }}
                     >
@@ -1929,7 +1913,14 @@ export default function App() {
                       disabled={!importInput.trim()}
                       onPress={() => {
                         try {
-                          restore(decodePet(importInput));
+                          const imported = decodePet(importInput);
+                          const current = lifeRef.current;
+                          if (current && !current.game.dead)
+                            confirmReplacement(
+                              `Importing replaces ${current.name} and its care history. Export a copy first to keep it.`,
+                              () => restore(imported),
+                            );
+                          else restore(imported);
                         } catch (e) {
                           setImportError(
                             e instanceof Error
@@ -1990,12 +1981,11 @@ export default function App() {
                       are game models.
                     </Text>
                     <Text style={s.muted}>
-                      Prototype pets reset between revisions.
+                      Export your pet to keep a portable copy.
                     </Text>
                     <Text style={s.muted}>
-                      Terminal font and sorting style: pre-programmed.art. DOS
-                      font by VileR, CC BY-SA 4.0. Font credits:
-                      assets/fonts/FONT-LICENSE.md.
+                      Terminal font: pre-programmed.art. DOS font by VileR, CC
+                      BY-SA 4.0. Font credits: assets/fonts/FONT-LICENSE.md.
                     </Text>
                   </>
                 )}
