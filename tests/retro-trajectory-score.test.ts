@@ -3,9 +3,11 @@ import assert from "node:assert/strict";
 import {
   EVALUATION_LIMITS, TRAJECTORY_GATE,
   auditPhysicalEvidence, describeShape, evaluateTrajectory,
-  normalizedMask, silhouetteIoU, type InkPoint,
+  normalizedMask, silhouetteIoU, auditRenderedOwnership,
+  type InkPoint, type RenderedInkPoint, type RenderWitness,
 } from "./alg-evaluation-trajectory-metrics";
 import type { MaterialCell, MaterialGraph } from "../src/development";
+import { rasterCellQuads, cellCorners } from "../src/simulation/material-raster";
 import { RETRO_PRESETS, cloneRetroPreset } from "../src/retro";
 import { drawingPixels } from "../src/drawing";
 import { createSimulation } from "../src/simulation";
@@ -42,12 +44,30 @@ function graph(sourcePoints:readonly InkPoint[],fingerprint="drawing-one",
     sites:[],links:[],events:[],protectedVoids:[],
   };
 }
+/** Use the real rasterization primitive for a known physical source,
+ * but audit its metadata and footprint INDEPENDENTLY of that primitive. */
+function observedMaterial(graph:MaterialGraph,dx=0,dy=0){
+  const quads=graph.cells.map(cell=>({
+    cell:{...cell,materialCellId:cell.id,
+      materialSourceIds:cell.sourceIds,
+      materialParentCellIds:cell.parentCellIds,
+      materialOperationId:cell.operationId},
+    quad:cellCorners(cell),center:cell,
+  }));
+  const screen=rasterCellQuads(quads,point=>({x:point.x+dx,y:point.y+dy}));
+  const renderWitness:RenderWitness={projections:graph.cells.map(cell=>({
+    cellId:cell.id,quad:cellCorners(cell),
+  })),camera:{scale:1,offset:{x:dx,y:dy}}};
+  return {pixels:screen as readonly RenderedInkPoint[],renderWitness};
+}
 function input(
   atHour:number,actual:readonly InkPoint[],target:readonly InkPoint[],
   material?:MaterialGraph,
 ){
+  const owned=material?observedMaterial(material):undefined;
   return {
-    actual:{id:"generated-"+atHour,atHour,pixels:actual,graph:material},
+    actual:{id:"generated-"+atHour,atHour,
+      pixels:owned?.pixels??actual,graph:material,renderWitness:owned?.renderWitness},
     ref:{id:"research-target-"+atHour,atHour,pixels:target,metadata:{label:"not-an-input-to-the-generator"}},
   };
 }
@@ -147,6 +167,104 @@ test("[EVAL-002/A1] identical appearance with contradictory material origins can
     i===1?{...c,sourceIds:["ghost-id"]}:c)};
   assert.equal(auditPhysicalEvidence(forged).status,"invalid");
   assert.ok(auditPhysicalEvidence(forged).errors.some(e=>e.includes("orphan-source-ancestry")));
+});
+
+test("[EVAL-002/A1] fake chronological material creation and resurrection cannot pass",()=>{
+  const born=graph([{x:6,y:5}],"seeded-source");
+  const source=born.sourceCells[0];
+  const generated:MaterialCell={
+    ...source,id:"growth/claimed",x:7,y:5,
+    provenance:"generated",sourceIds:[source.id],
+    parentCellIds:[source.id],operationId:"growth-claimed",
+  };
+  const event=(id="growth-claimed",atHour=3,kind="elongate")=>({
+    id,atHour,kind,createdCellIds:[generated.id],removedCellIds:[],
+    sourceCellIds:[source.id],
+  });
+  const bad=(g:MaterialGraph,fragment:string)=>{
+    const audit=auditPhysicalEvidence(g,5);
+    assert.equal(audit.status,"invalid",JSON.stringify(audit));
+    assert.ok(audit.errors.some(e=>e.includes(fragment)),JSON.stringify(audit.errors));
+  };
+  bad({...born,cells:[...born.cells,generated]},"generated-without-chronological-event");
+  bad({...born,cells:[...born.cells,generated],events:[event("unrelated",3)]},
+    "creation-operation-mismatch");
+  bad({...born,cells:[...born.cells,generated],events:[event("growth-claimed",6)]},
+    "event-clock-out-of-order-or-future");
+  bad({...born,cells:[...born.cells,generated],events:[event("growth-claimed",3,"conjure")]},
+    "unsupported-creation-operator");
+  bad({...born,cells:[...born.cells,generated],events:[
+    {id:"remove-before",kind:"resorb",atHour:2,createdCellIds:[],
+      removedCellIds:[source.id],sourceCellIds:[source.id]},
+    event(),
+  ]},"parent-not-alive-at-creation");
+  bad({...born,events:[{id:"remove-ghost",kind:"resorb",atHour:2,
+    createdCellIds:[],removedCellIds:["never-existed"],sourceCellIds:[source.id]}]},
+    "removed-nonlive-material");
+  bad({...born,cells:[...born.cells,generated],events:[
+    event(),{id:"remove-new",kind:"resorb",atHour:4,createdCellIds:[],
+      removedCellIds:[generated.id],sourceCellIds:[source.id]},
+  ]},"event-ledger-active-inventory-mismatch");
+  bad({...born,cells:[...born.cells,generated],events:[
+    event(),{id:"remove-new",kind:"resorb",atHour:4,createdCellIds:[],
+      removedCellIds:[generated.id],sourceCellIds:[source.id]},
+    {...event("repeat",5),createdCellIds:[generated.id]},
+  ]},"recreated-or-resurrected-material");
+
+  const plausible={...born,cells:[...born.cells,generated],events:[event()]};
+  const verified=auditPhysicalEvidence(plausible,3);
+  assert.equal(verified.status,"verified",
+    "an honest parent/event/ancestry ledger can be independently reconciled");
+  const actual=observedMaterial(plausible);
+  assert.equal(auditRenderedOwnership(actual.pixels,plausible,actual.renderWitness).status,
+    "verified");
+  assert.equal(auditPhysicalEvidence(plausible,2).status,"invalid",
+    "future material cannot appear in an earlier chronological checkpoint");
+});
+
+test("[EVAL-002/A2] perfectly matching foreign render and valid graph cannot certify ownership",()=>{
+  const a=graph([{x:8,y:8},{x:9,y:8}],"organism-A");
+  const b:MaterialGraph={...graph([{x:8,y:8},{x:9,y:8}],"organism-B"),
+    sourceCells:graph([{x:8,y:8},{x:9,y:8}],"organism-B").sourceCells.map(c=>
+      ({...c,id:"B/"+c.id,sourceIds:["B/"+c.id]})),
+  } as MaterialGraph;
+  const bActive:MaterialGraph={...b,cells:b.sourceCells};
+  assert.equal(auditPhysicalEvidence(a).status,"verified");
+  assert.equal(auditPhysicalEvidence(bActive).status,"verified");
+  const renderedB=observedMaterial(bActive);
+  const stageA={id:"A",atHour:0,pixels:renderedB.pixels,graph:a,
+    renderWitness:observedMaterial(a).renderWitness};
+  const stageA2={...stageA,id:"A2",atHour:24};
+  const refs=[
+    {id:"B0",atHour:0,pixels:renderedB.pixels},
+    {id:"B24",atHour:24,pixels:renderedB.pixels},
+  ];
+  const fraud=evaluateTrajectory([stageA,stageA2],refs);
+  assert.deepEqual(fraud.stages.map(s=>s.silhouetteIoU),[1,1]);
+  assert.deepEqual(fraud.stages.map(s=>s.status),["fail","fail"]);
+  assert.ok(fraud.stages.every(s=>s.rendering.errors.some(e=>
+    e.includes("rendered-nonlive-material"))));
+  assert.equal(fraud.status,"fail");
+
+  // A pose and camera transform are NOT supposed to use raw cell coordinates.
+  const valid=observedMaterial(a,5,7);
+  assert.equal(auditRenderedOwnership(valid.pixels,a,valid.renderWitness).status,"verified");
+  const validReferences=[{id:"pose-0",atHour:0,pixels:valid.pixels},
+    {id:"pose-24",atHour:24,pixels:valid.pixels}];
+  const genuine=evaluateTrajectory([
+    {id:"real0",atHour:0,graph:a,...valid},
+    {id:"real24",atHour:24,graph:a,...valid},
+  ],validReferences);
+  assert.equal(genuine.status,"pass");
+  assert.deepEqual(genuine.stages.map(s=>s.status),["pass","pass"]);
+
+  const forgedColorOnly=valid.pixels.map(p=>({
+    x:p.x,y:p.y,color:"#ffffff",
+  }));
+  assert.equal(auditRenderedOwnership(forgedColorOnly,a,valid.renderWitness).status,
+    "unavailable","cosmetic-only material must not prove physical likeness");
+  const shifted=valid.pixels.map(p=>({...p,x:p.x+20}));
+  assert.equal(auditRenderedOwnership(shifted,a,valid.renderWitness).status,"invalid");
 });
 
 test("[EVAL-002/A2] externally established retro stages report every age, metadata cannot change generated organism",()=>{
