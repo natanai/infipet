@@ -93,6 +93,7 @@ export type SearchReport=Readonly<{
     verifiedStages:number;
   }>[];
   reason:string;
+  incompleteCandidates:readonly Readonly<{seed:string;strategy:StrategyId;reason:string}>[];
 }>;
 const digest=(value:unknown)=>
   createHash("sha256").update(JSON.stringify(value)).digest("hex");
@@ -290,16 +291,30 @@ export function searchRecordedCareWitness(args:Readonly<{
   boundStages(hours);boundSource(args.source);
   assert(references.length<=EVALUATION_LIMITS.maxStages,"reference overflow");
   const planned=enumerateCandidates(args.searchSeed,args.seeds,args.strategies,args.budget);
-  const complete=planned.length===args.seeds*args.strategies.length;
   const evaluated:SearchCandidate[]=[];
+  const incomplete:{seed:string;strategy:StrategyId;reason:string}[]=[];
   for(const candidate of planned){
     const steps=strategySteps(candidate.strategy,args.birthAtMs,hours.at(-1)!);
-    const built=createRecordedCareWitness({
+    let built:ReturnType<typeof createRecordedCareWitness>;
+    try{
+      built=createRecordedCareWitness({
       source:args.source,seed:candidate.permanentSeed,
       birthAtMs:args.birthAtMs,steps,stages:hours,
       searchSeed:args.searchSeed,enumerationIndex:candidate.index,
       strategy:candidate.strategy,
-    });
+      });
+    }catch(error){
+      // A real pet can die before the last checkpoint. This is a genuine
+      // insufficient chronological witness, not license to fabricate later
+      // care samples or abort the entire bounded population of candidates.
+      if(!(error instanceof TypeError)&&!(error instanceof RangeError))
+        throw error;
+      if(!String(error.message).includes("insufficient chronological care evidence"))
+        throw error;
+      incomplete.push({seed:candidate.permanentSeed,strategy:candidate.strategy,
+        reason:"native life ended before required last milestone"});
+      continue;
+    }
     // The seed/care candidate is complete BEFORE any reference image is read.
     // The exact same evaluator is used for unrelated controls and retro art.
     const scores=evaluateTrajectory(built.production.samples,references,
@@ -320,15 +335,21 @@ export function searchRecordedCareWitness(args:Readonly<{
     best.physicallyVerifiedStages===hours.length;
   return {
     version:"infipet-witness-search-v1",searchSeed:args.searchSeed,
-    budget:args.budget,examined:evaluated.length,
+    budget:args.budget,examined:planned.length,
     searchStatus:allPass?"verified-numerical-candidate":"unresolved",
-    exhausted:!allPass&&(!complete||evaluated.length===args.budget),
+    exhausted:!allPass&&planned.length===args.budget,
     requestedStages:hours,best,
-    candidates:evaluated.map(c=>({seed:c.specification.permanentSeed,
-      strategy:c.specification.strategy,status:c.result.status,
-      aggregate:c.result.aggregateScore,weakest:c.result.weakestStageScore,
-      verifiedStages:c.physicallyVerifiedStages})),
+    candidates:[
+      ...evaluated.map(c=>({seed:c.specification.permanentSeed,
+        strategy:c.specification.strategy,status:c.result.status,
+        aggregate:c.result.aggregateScore,weakest:c.result.weakestStageScore,
+        verifiedStages:c.physicallyVerifiedStages})),
+      ...incomplete.map(c=>({seed:c.seed,strategy:c.strategy,
+        status:"unresolved" as const,aggregate:null,weakest:null,
+        verifiedStages:0})),
+    ],
     reason:allPass?"Every stage meets the predeclared numerical gate and material verification":
       "No complete physically verified numerical witness in bounded candidate search; not original-device parity",
+    incompleteCandidates:incomplete,
   };
 }
