@@ -3,7 +3,7 @@ import {
   cumulativeChaosCareExpression, recordedIterativeResources,
 } from "../src/integration/unified-runtime";
 import {
-  compileMaterialDevelopment, materialOperatorPotential,
+  compileMaterialDevelopment, compileLifetimeRemodeling, materialOperatorPotential,
   materialOperatorChaosRate, materialSourceAncestry,
   type MaterialDevelopmentProgram as ActualMaterialProgram,
   type MaterialOperator,
@@ -487,4 +487,42 @@ test("[INT-001/A3] genuine saved care changes physiological expression without c
   assert.deepEqual(a.at(0).graph.sourceCells,b.at(12).graph.sourceCells);
   assert.ok(a.at(12).graph.events.every(e=>e.atHour<=12));
   assert.ok(b.at(12).graph.events.every(e=>e.atHour<=12));
+});
+
+test("[INT-001/A1] actual fractional remodeling moves a persistent iterative tip before its hourly growth",()=>{
+  const {program:base,genome}=realProgram(["###"],"INT-RELOC-TIP-55","elongate",4);
+  const tip=[...base.source.cells].sort((a,b)=>b.x-a.x)[0];
+  const siteId=tip.tissueId+"/relocated-tip";
+  const source={...base.source,
+    sites:[{id:siteId,tissueId:tip.tissueId,
+      rootCellId:tip.id,direction:{x:1,y:0}}],
+    tissues:base.source.tissues.map(t=>({...t,
+      growthSiteIds:t.id===tip.tissueId?[siteId]:[]}))};
+  const program:ActualMaterialProgram={...base,source,operators:[],
+    fingerprint:base.fingerprint+"/real-relocate",
+    signals:{...base.signals,channels:{...base.signals.channels,
+      maturation:{...base.signals.channels.maturation,plasticity:1}}}};
+  const remodel=compileLifetimeRemodeling(program,genome,[{
+    id:"fractional-move",kind:"translate",tissueId:tip.tissueId,
+    direction:{x:0,y:1},atHour:0,durationHours:1,units:2,strength:1,
+  }]);
+  const t=createUnifiedMaterialTimeline({program,genome,remodelingProgram:remodel});
+  const justBefore=t.at(0.5-1e-12);
+  assert.deepEqual(justBefore.graph.cells.find(c=>c.id===tip.id),
+    source.cells.find(c=>c.id===tip.id));
+  const half=t.at(0.5);
+  assert.equal(half.graph.cells.find(c=>c.id===tip.id)?.y,tip.y+1);
+  assert.equal(half.graph.cells.length,source.cells.length);
+  const atOne=t.at(1);
+  const first=atOne.graph.cells.find(c=>c.provenance==="generated" &&
+    c.x===tip.x+1&&c.y===tip.y+1);
+  assert.ok(first,"newly completed material follows the relocated, same-ID live tip");
+  assert.deepEqual(first!.sourceIds,tip.sourceIds);
+  assert.deepEqual(first!.parentCellIds,[tip.id]);
+  const remodEvent=atOne.graph.events.find(e=>e.id==="fractional-move/unit/1");
+  assert.equal(remodEvent?.atHour,0.5);
+  assert.equal(atOne.graph.events.filter(e=>e.atHour>1).length,0);
+  assert.deepEqual(atOne,t.replay(1));
+  assert.deepEqual(t.at(0.5),half);
+  assert.deepEqual(t.at(0),t.birth());
 });
