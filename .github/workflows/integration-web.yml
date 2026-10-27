@@ -11,6 +11,7 @@ on:
       - "package.json"
       - "pnpm-lock.yaml"
       - "src/integration/**"
+      - "scripts/benchmark-browser-runtime.mjs"
       - "src/simulation/**"
       - "tests/alg-integration-unified-development.test.ts"
       - ".github/workflows/integration-web.yml"
@@ -40,5 +41,7 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
       - name: Verify player interface and offline return
         run: pnpm test:ui
+      - name: Profile actual player one-second ticks in headless desktop/mobile-viewport Chromium
+        run: node scripts/benchmark-browser-runtime.mjs
       - name: Benchmark 32x32 ink through 720h and 8192h
         run: node --max-old-space-size=768 --import tsx scripts/benchmark-unified.ts
