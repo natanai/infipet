@@ -12,6 +12,7 @@ import { cpus, totalmem, freemem, platform, arch } from "node:os";
 import { readFileSync } from "node:fs";
 import { createSimulation, getBlueprintCacheStats } from "../src/simulation";
 import { compileMaterialDevelopment } from "../src/development";
+import { compileGenome } from "../src/simulation/genome";
 import { createUnifiedMaterialTimeline } from "../src/integration/unified-runtime";
 import { compileRuntimeCareMaterial, compileRuntimeBiology } from "../src/integration";
 import { createEnvironmentalHistory, createCareOperatorChronology } from "../src/environment";
@@ -155,13 +156,16 @@ assert.ok(accepted.commandHistory.some(r=>r.id==="feed-1"&&r.accepted));
 const tick=measured("game.clock.tick.no-command","living",()=>advanceGame(
   accepted,startedAt+HOUR+2000,"active"));
 assert.equal(tick.commandHistory.length,accepted.commandHistory.length);
-const bio=compileRuntimeBiology(describeSource(compileSources(source,42)),denseGenome!);
+const livingGenome=compileGenome(seed,"infant");
+const livingAtlas=describeSource(compileSources(source,42));
+const bio=compileRuntimeBiology(livingAtlas,livingGenome);
+const livingProgram=compileMaterialDevelopment(livingAtlas,livingGenome);
 const history=measured("care.compile-history","living",()=>createEnvironmentalHistory(tick));
 measured("care.pressure.1h","living",()=>history.atHour(1));
 measured("care.compose-operator-program","living",()=>compileRuntimeCareMaterial(
-  describeSource(compileSources(source,42)),denseGenome!,bio,tick));
-if(denseProgram) measured("care.build-operator-chronology","living",()=>createCareOperatorChronology(
-  denseProgram!,history,denseGenome!.genotype));
+  livingAtlas,livingGenome,bio,tick));
+measured("care.build-operator-chronology","living",()=>createCareOperatorChronology(
+  livingProgram,history,livingGenome.genotype));
 const evaluateLife=(game:typeof initial,label:string)=>{
   const sim=measured(label+".compile-new-simulation","living",()=>createSimulation(
     source,seed,"infant",{needTimeline:deriveCareTimeline(game),
