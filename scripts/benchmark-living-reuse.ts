@@ -33,7 +33,7 @@ const output=(value:unknown)=>process.stdout.write(JSON.stringify(value)+"\n");
 output({kind:"env",node:process.version,platform:platform(),arch:arch(),
   cpu:cpus()[0]?.model??"unknown",runner:process.env.RUNNER_NAME??"local",
   sourceSize:32,worldSize:64,chronologicalHorizonHours:3,
-  iterationsPerShape:8});
+  ordinaryIterationsPerShape:32,advancedAges:[24,96,720]});
 const MB=1048576;
 for(const shape of ["sparse","complex","dense"] as const){
   const seed="benchmark/live-reuse/"+shape,source=drawing(shape);
@@ -50,17 +50,18 @@ for(const shape of ["sparse","complex","dense"] as const){
     compileReuseMs:number;reconstructs:number;imports:number;
     evidenceMs:number;remodelingMs:number;prefixMs:number;
     transferMs:number;timelineMs:number}[]=[];
-  for(let i=1;i<=8;i++){
+  for(let i=1;i<=32;i++){
     game=advanceGame(game,start+2*HOUR+i*1000,"active");
     const age=(game.clock.nowMs-game.clock.startedAtMs)/(24*HOUR);
     const run=(reuse:boolean)=>{
       const startCompile=performance.now();
       const sim=create(game,reuse);
       const compileMs=performance.now()-startCompile;
-      const phases=reuse?getLivingTimelinePhaseStats():null;
+      const stats=sim.getMaterialRuntimeStats!();
+      const phases=reuse&&stats.imported>0?getLivingTimelinePhaseStats():null;
       const frame=sim.frameAt(age,{time:0,action:"idle"});
       return {ms:performance.now()-startCompile,compileMs,
-        phases,frame,stats:sim.getMaterialRuntimeStats!()};
+        phases,frame,stats};
     };
     // Alternate order to reduce one-sided JIT/GC bias.
     const first=i%2===0 ? run(true):run(false);
@@ -87,7 +88,8 @@ for(const shape of ["sparse","complex","dense"] as const){
   const sorted=(key:keyof typeof results[number])=>
     results.map(x=>x[key]).sort((a,b)=>a-b);
   const median=(key:keyof typeof results[number])=>{
-    const s=sorted(key);return +((s[3]+s[4])/2).toFixed(3);
+    const s=sorted(key);return +((s[Math.floor((s.length-1)/2)]+
+      s[Math.floor(s.length/2)])/2).toFixed(3);
   };
   const memory=process.memoryUsage();
   output({kind:"paired",shape,inkCells:source[0].pixels.length,n:results.length,
@@ -105,6 +107,8 @@ for(const shape of ["sparse","complex","dense"] as const){
     lowCostBypassedEvaluations:results.filter(r=>r.imports===0).length,
     coldRangeMs:[sorted("coldMs")[0],sorted("coldMs").at(-1)],
     reuseRangeMs:[sorted("reuseMs")[0],sorted("reuseMs").at(-1)],
+    coldEmpiricalP95Ms:+sorted("coldMs")[Math.ceil(results.length*.95)-1].toFixed(3),
+    reuseEmpiricalP95Ms:+sorted("reuseMs")[Math.ceil(results.length*.95)-1].toFixed(3),
     rssMiB:+(memory.rss/MB).toFixed(2),heapMiB:+(memory.heapUsed/MB).toFixed(2),
     cache:getLivingTimelineCacheStats()});
 }
@@ -127,7 +131,7 @@ for(const shape of ["sparse","complex","dense"] as const){
   const original=create(game,true);
   original.frameAt(96/24,{time:0,action:"idle"});
   const paired:{cold:number;warm:number;imports:number;fromBirth:number}[]=[];
-  for(let i=1;i<=8;i++){
+  for(let i=1;i<=32;i++){
     game=advanceGame(game,start+96*HOUR+i*1000,"active");
     assert.equal(game.dead,false);
     const age=(game.clock.nowMs-game.clock.startedAtMs)/(24*HOUR);
@@ -149,13 +153,72 @@ for(const shape of ["sparse","complex","dense"] as const){
   }
   const values=(key:"cold"|"warm")=>paired.map(p=>p[key]).sort((a,b)=>a-b);
   const a=values("cold"),v=values("warm");
-  const baseline=(a[3]+a[4])/2,optimized=(v[3]+v[4])/2;
+  const mid=a.length/2;
+  const baseline=(a[mid-1]+a[mid])/2,optimized=(v[mid-1]+v[mid])/2;
   output({kind:"paired-absence-return",shape,horizonHours:96,
     n:paired.length,inkCells:source[0].pixels.length,
     coldMedianMs:+baseline.toFixed(3),reuseMedianMs:+optimized.toFixed(3),
     speedup:+(baseline/optimized).toFixed(3),
     coldRangeMs:[a[0],a.at(-1)],reuseRangeMs:[v[0],v.at(-1)],
+    coldEmpiricalP95Ms:+a[Math.ceil(a.length*.95)-1].toFixed(3),
+    reuseEmpiricalP95Ms:+v[Math.ceil(v.length*.95)-1].toFixed(3),
     coldReconstructionCount:paired.reduce((n,p)=>n+p.fromBirth,0),
     importedCanonicalStates:paired.reduce((n,p)=>n+p.imports,0),
     cache:getLivingTimelineCacheStats()});
+}
+
+/**
+ * Additional ordinary life ages. A game at 720 hours is within its native
+ * saved historical horizon and in absent-return grace, not a fabricated
+ * living event beyond native lifespan. Cold 8192h retrospective (without
+ * pretending native game lives 8192h) remains in profile-runtime.ts.
+ */
+for(const hour of [24,720] as const)for(const shape of ["sparse","complex","dense"] as const){
+  const rounds=hour===720?8:32;
+  const seed="benchmark/age/"+hour+"/"+shape,source=drawing(shape);
+  const make=(game:ReturnType<typeof createGame>,reuse:boolean)=>
+    createSimulation(source,seed,"infant",{
+      careGame:game,needTimeline:deriveCareTimeline(game),
+      liveContext:deriveDevelopmentContext(game),reuseLivingMaterial:reuse,
+    });
+  let game=advanceGame(createGame(seed,"infant",start),start+hour*HOUR,"absent");
+  if(game.dead){
+    output({kind:"unsupported-native-lifetime",hour,shape,reason:"GameState no longer living"});
+    continue;
+  }
+  const first=make(game,true);
+  first.frameAt(hour/24,{time:0,action:"idle"});
+  const before:number[]=[],after:number[]=[];
+  let imported=0,cold=0;
+  for(let i=1;i<=rounds;i++){
+    game=advanceGame(game,start+hour*HOUR+i*1000,"active");
+    if(game.dead)break;
+    const age=(game.clock.nowMs-game.clock.startedAtMs)/(24*HOUR);
+    const sample=(reuse:boolean)=>{
+      const t=performance.now();
+      const sim=make(game,reuse);
+      const frame=sim.frameAt(age,{time:0,action:"idle"});
+      return {ms:performance.now()-t,frame,stats:sim.getMaterialRuntimeStats!()};
+    };
+    const firstRun=i%2?sample(false):sample(true);
+    const lastRun=i%2?sample(true):sample(false);
+    const cached=i%2?lastRun:firstRun,reference=i%2?firstRun:lastRun;
+    assert.deepEqual(cached.frame.pixels,reference.frame.pixels);
+    assert.ok(cached.stats.imported>0);
+    assert.ok(reference.stats.cold>0);
+    before.push(reference.ms);after.push(cached.ms);
+    imported+=cached.stats.imported;cold+=reference.stats.cold;
+  }
+  const sort=a=>[...a].sort((x,y)=>x-y);
+  const u=sort(before),v=sort(after),n=u.length;
+  if(n===0)continue;
+  const med=a=>+(n%2?a[(n-1)/2]:(a[n/2-1]+a[n/2])/2).toFixed(3);
+  output({kind:"paired-age",hour,shape,inkCells:source[0].pixels.length,
+    n,medianColdMs:med(u),medianReuseMs:med(v),
+    empiricalP95ColdMs:+u[Math.ceil(n*.95)-1].toFixed(3),
+    empiricalP95ReuseMs:+v[Math.ceil(n*.95)-1].toFixed(3),
+    minMaxColdMs:[+u[0].toFixed(3),+u.at(-1).toFixed(3)],
+    minMaxReuseMs:[+v[0].toFixed(3),+v.at(-1).toFixed(3)],
+    coldReconstructionCount:cold,importedCanonicalStates:imported,
+    note:n<20?"insufficient trials for a meaningful p95":"empirical Linux Node trial p95; not device p95"});
 }
