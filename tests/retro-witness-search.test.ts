@@ -135,7 +135,7 @@ test("[EVAL-003/A2] witness mutations of seed, birth ink, command, timestamp, re
   // Removing a command from the history while keeping recorded physiology
   // necessarily changes the source-of-truth game and invalidates stored hashes.
   tamper(bad=>bad.chronologicalSteps.splice(1,1));
-  const invalidLater=fresh(w);invalidLater.chronologicalSteps[0].atMs+=5*HOUR;
+  const invalidLater:any=fresh(w);invalidLater.chronologicalSteps[0].atMs+=5*HOUR;
   assert.throws(()=>replayRecordedCareWitness(invalidLater),/mismatch|rejected/);
 });
 
