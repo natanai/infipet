@@ -1,4 +1,7 @@
-# Incremental traditional-care operator expression — contract v1
+# Incremental traditional-care operator expression — legacy adapter contract v1
+
+> **Temporal model migration (approved 2026-10-27):** The interface below is the **legacy fine-grained care exposure integrator**, not authority to commit physical anatomy hourly. The approved player-facing model is `roadmap/plan.json#anatomicalDevelopment`: a source-preserving physical check only at elapsed 24-hour boundaries, exactly 365 possible checks, with unchanged anatomy between and after check 365. The upcoming CARE-004 adapter must integrate exact chronological signals within each daily window `[T_(k-1), T_k)`, and the Development/Integration owners must apply anatomical operations **only at T_k**. Keeping environmental sampling or mathematical subinterval integration fine-grained does **not** permit fractional/hourly growth. The former 8,192-hour anatomical horizon and 30-day forced lifespan are superseded. This existing module's large numerical limits describe its historical integration domain and do not define a pet's physical-growth lifespan. Implementation migration is pending; do not claim daily operation is live yet.
+
 
 **Owners:** `src/environment/operator-chronology.ts`; clients: Development (incremental graph transitions) and live runtime. This module is pure and does **not** apply material operators, create cells or update game rules.
 
@@ -41,9 +44,9 @@ This is an **exact integral of an explicitly discretized zero-order-hold game re
 2. Recomputes the expected cumulative credit at `cursor.throughHour` to validate historical consistency, including after save/reload or when fresh future events extend the saved history.
 3. Returns **only the interval deltas** and an immutable `next` cursor. At `to === cursor.throughHour`, every delta is exactly zero; there is nothing to apply again.
 
-Development must feed each `progressDelta` (not the cumulative `progressAtEnd`) into its own *incremental* structural transition API, maintaining its authoritative single `MaterialGraph` and previous cursor. An already-applied delta must not be replayed merely because runtime reconstructs the same historical view. The cursor is not an anatomical mutation log: structural events and cell ancestry remain Development's responsibility.
+**Legacy consumption description:** Development formerly fed each `progressDelta` (not cumulative `progressAtEnd`) into an incremental structural transition, maintaining its authoritative single `MaterialGraph` and previous cursor. **Under the approved daily model**, accumulated care may be summarized within a window, but physical operators must commit only at the authorized daily boundary. Do not use this old example to authorize intermediate material transactions. An already-applied delta must not be replayed merely because runtime reconstructs the same historical view. The cursor is not an anatomical mutation log: structural events and cell ancestry remain Development's responsibility.
 
-Consumer sketch:
+Legacy consumer sketch (not a valid player-facing physical schedule after the 365-check migration):
 
 ```ts
 const chronology = createCareOperatorChronology(program, history, genome.genotype);
