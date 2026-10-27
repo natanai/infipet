@@ -510,6 +510,61 @@ test("[DEV-006/A2] independent counterexamples catch material erasure, duplicate
   bad({...born,events:[{id:"future",kind:"bud",atHour:1,
     createdCellIds:[],removedCellIds:[],sourceCellIds:[source.id]}]},/future event/);
 });
+test("[DEV-006/A2] event-ledger counterexamples reject every invented or silently missing material ID",()=>{
+  const sourceShape:Shape={id:"event-inventory",parts:[
+    part("baseline",["####","####"],{kind:"body"})]};
+  const {program,timeline}=capture(sourceShape,"event-ledger-fixture");
+  const born=program.source,first=born.cells[0]!;
+  const event=(id:string,atHour:number,creates:readonly string[]=[],
+    removes:readonly string[]=[]):MaterialGraph["events"][number]=>({
+    id,atHour,kind:"resorb",
+    createdCellIds:creates,removedCellIds:removes,sourceCellIds:[first.id],
+  });
+  const invalid=(g:MaterialGraph,cutoff:number,why:RegExp)=>
+    assert.throws(()=>audit(g,born,cutoff),why);
+  // The immutable birth registry remains identical in ALL these cases.
+  invalid({...born,cells:born.cells.filter(c=>c.id!==first.id)},0,
+    /unaccounted active material/);
+  const adult=timeline.at(72).graph;
+  const liveChild=adult.cells.find(c=>c.provenance==="generated");
+  assert.ok(liveChild,"must audit actual native growth, not a mock renderer cell");
+  invalid({...adult,cells:adult.cells.filter(c=>c.id!==liveChild.id)},72,
+    /unaccounted active material/);
+  invalid({...born,events:[event("ghost-removal",0.25,[],["nonexistent"])]},1,
+    /removal of nonexistent/);
+  const removedOnce={...born,
+    cells:born.cells.filter(c=>c.id!==first.id),
+    events:[event("removed-once",0.25,[],[first.id])]};
+  assert.deepEqual([...auditInventory(removedOnce,born,0.25).active].sort(),
+    removedOnce.cells.map(c=>c.id).sort());
+  invalid({...removedOnce,
+    events:[...removedOnce.events,event("removed-twice",0.5,[],[first.id])]},
+    1,/removal of nonexistent or already removed/);
+  invalid({...born,events:[event("duplicate-birth",0.25,[first.id])]},1,
+    /creation reused a prior material ID/);
+  invalid({...born,events:[
+    event("destroy",0.25,[],[first.id]),
+    event("reanimate",0.5,[first.id]),
+  ]},1,/creation reused a prior material ID/);
+  const phantom:MaterialCell={...first,id:"unrecorded/phantom",
+    x:40,y:40,provenance:"generated",parentCellIds:[first.id],
+    sourceIds:[first.id],operationId:"unrecorded"};
+  invalid({...born,cells:[...born.cells,phantom]},1,
+    /unaccounted active material/);
+  invalid({...born,cells:[...born.cells,phantom],
+    events:[event("future-creation",1.25,[phantom.id])]},1,
+    /inventory event exceeds query cutoff/);
+  invalid({...born,events:[event("late",2),event("earlier",1)]},2,
+    /nonchronological material event/);
+  invalid({...born,events:[
+    event("iterative-composed/first",1),
+    event("operator/late",1),
+  ]},1,/incorrect equal-time operator precedence/);
+  // Distinct ID sets matter: the same count with a substituted cell is wrong.
+  invalid({...born,cells:[...born.cells.filter(c=>c.id!==first.id),
+    {...first,id:"renamed-material"}]},0,/unaccounted active material/);
+});
+
 test("[DEV-006/A2] bounded arbitrary-ink cohort audits causality and quantifies structural diversity",()=>{
   const withinSource:number[]=[];
   const signatureAtBirth=new Set<string>();
@@ -715,6 +770,11 @@ test("[DEV-006/A2] native translate and resorb transactions retain authored iden
     "real seeded genotype must authorize at least one material change");
   const move=applyRemodelingProposal(original,remod,moving);
   assert.equal(move.attempt.status,"accepted",move.attempt.reason??"");
+  assert.ok(!Number.isInteger(moving.atHour),
+    "must exercise real fractional-time remodeling");
+  assert.deepEqual([...auditInventory(move.graph,original,moving.atHour).active].sort(),
+    original.cells.map(c=>c.id).sort(),
+    "relocation conserves original physical IDs without creation or removal");
   const moved=move.graph;
   const previous=new Map(original.cells.map(c=>[c.id,c]));
   const relocated=moved.cells.filter(c=>c.provenance==="authored"&&
@@ -738,6 +798,18 @@ test("[DEV-006/A2] native translate and resorb transactions retain authored iden
     audit(absorbed.graph,original,resorbing.atHour);
     assert.deepEqual(absorbed.graph.sourceCells,original.sourceCells);
     assert.ok(removed.every(id=>absorbed.graph.events.some(e=>e.removedCellIds.includes(id))));
+    assert.ok(removed.every(id=>!absorbed.graph.cells.some(c=>c.id===id)),
+      "native resorption removes the real cell from active material");
+    assert.ok(removed.some(id=>original.sourceCells.some(c=>c.id===id)),
+      "native resorption must exercise actual authored cell, not just generated pigment");
+    assert.ok(removed.every(id=>original.sourceCells.some(c=>c.id===id)),
+      "this fixture deliberately resorbs original authored matter only");
+    const proof=auditInventory(absorbed.graph,original,resorbing.atHour);
+    assert.equal(proof.removed,removed.length);
+    assert.equal(proof.created,0);
+    assert.equal(proof.active.size,original.cells.length-removed.length);
+    assert.deepEqual(absorbed.graph.sourceCells,original.sourceCells,
+      "resorption retains permanent historical ink identity");
   }else{
     assert.strictEqual(absorbed.graph,moved,
       "physically constrained resorption must not mutate surviving matter");
@@ -746,6 +818,7 @@ test("[DEV-006/A2] native translate and resorb transactions retain authored iden
   console.log("DEV-006 REMODEL "+JSON.stringify({
     relocatedOriginalCells:relocated.length,
     resorptionStatus:absorbed.attempt.status,
+    recordedRemovals:absorbed.transition?.removedCellIds.length??0,
     survivingOriginalSourceWitnesses:absorbed.graph.sourceCells.length,
   }));
 });
