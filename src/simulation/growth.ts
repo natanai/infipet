@@ -766,12 +766,9 @@ export function createSimulation(
     programFingerprint = String(hash(JSON.stringify([
       fingerprint,
       blueprint.material.fingerprint,
-      // Material snapshots depend on the recorded, immutable life up to now.
-      options.careGame ? [
-        options.careGame.clock.nowMs,
-        options.careGame.commandHistory,
-        options.careGame.careSamples,
-      ] : null,
+      // A developmental PROGRAM is fixed at birth. Saved commands change
+      // chronological expression, not the permanent program fingerprint;
+      // including future care here would retroactively alter old frames.
       lineage?.fingerprint ?? null,
       liveContext?.stageEndHours ?? null,
       hatchAt,
