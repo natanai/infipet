@@ -1,0 +1,62 @@
+name: PERF paired main versus PR runtime
+on:
+  pull_request:
+    paths:
+      - "src/integration/unified-runtime.ts"
+      - "tests/development-budget.test.ts"
+      - ".github/workflows/perf-paired.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  paired:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || 'main' }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Measure untouched base runtime under identical runner
+        run: pnpm exec tsx scripts/profile-runtime.ts > "$RUNNER_TEMP/perf-before.jsonl"
+        env:
+          NODE_OPTIONS: --expose-gc --max-old-space-size=1536
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          clean: true
+      - run: pnpm install --frozen-lockfile
+      - name: Measure optimized runtime under identical runner
+        run: pnpm exec tsx scripts/profile-runtime.ts > "$RUNNER_TEMP/perf-after.jsonl"
+        env:
+          NODE_OPTIONS: --expose-gc --max-old-space-size=1536
+      - name: Print bounded paired measurements without keeping artifacts
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFileSync} from "node:fs";
+          const input = name => readFileSync(process.env.RUNNER_TEMP+"/perf-"+name+".jsonl","utf8")
+            .trim().split("\n").filter(line=>line.startsWith("{"))
+            .map(line=>JSON.parse(line));
+          const before=input("before"),after=input("after");
+          const selected=(data)=>data.filter(m=>m.kind==="measure" &&
+            (/^(compile.actual-simulation|frame.first.(0h|24h|720h|8192h)|frame.pose.8192h.1|timeline.from-checkpoint.8192h|timeline.warm.8192h|timeline.reverse.720h|timeline.sequential.24-through-48h|living-after-ordinary-tick|living-repeat-reconstruction-1)/.test(m.label)));
+          const b=selected(before),a=selected(after);
+          for(const earlier of b){
+            const later=a.find(m=>m.shape===earlier.shape&&m.label===earlier.label);
+            if(!later)throw Error("Missing paired metric: "+earlier.label);
+            console.log(JSON.stringify({shape:earlier.shape,label:earlier.label,
+              beforeMs:earlier.ms,afterMs:later.ms,
+              ratio:Number((later.ms/Math.max(1e-6,earlier.ms)).toFixed(3))}));
+          }
+          for(const kind of ["environment","summary"]){
+            console.log(JSON.stringify({kind,base:before.find(m=>m.kind===kind),
+              optimized:after.find(m=>m.kind===kind)}));
+          }
+          NODE
