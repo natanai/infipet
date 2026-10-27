@@ -88,10 +88,16 @@ export function buildProductionTrajectoryWitness(
       {physicalMaterial?:{sourceFingerprint:string;generatedCells:number;graphEvents:number;
         renderedCellQuads?:readonly RuntimeQuad[]};
         camera?:{scale:number;offset:{x:number;y:number}}}|undefined);
-    if(diag?.physicalMaterial?.sourceFingerprint!==a.sourceFingerprint||
-       diag?.physicalMaterial?.generatedCells!==a.cells.filter(c=>c.provenance==="generated").length||
-       diag?.physicalMaterial?.graphEvents!==a.events.length)
-      throw new TypeError("Renderer's same-age graph identity and event diagnostics diverge");
+    // The exact birth-paint bypass intentionally returns authored pixels
+    // without physical quads. Keep that stage measurable but unresolved: it
+    // cannot be falsely certified by provenance added after rendering.
+    if(diag?.physicalMaterial){
+      if(diag.physicalMaterial.sourceFingerprint!==a.sourceFingerprint||
+         diag.physicalMaterial.generatedCells!==a.cells.filter(c=>c.provenance==="generated").length||
+         diag.physicalMaterial.graphEvents!==a.events.length)
+        throw new TypeError("Renderer's same-age graph diagnostics diverge at hour "+hour);
+    }else if(hour!==0)
+      throw new TypeError("Nonbirth frame lacks authoritative material diagnostics at hour "+hour);
     const quads=diag?.physicalMaterial?.renderedCellQuads??[];
     const renderWitness:RenderWitness|undefined=quads.length?{
       projections:quads.map(q=>({cellId:q.cellId,quad:q.quad.map(p=>({...p}))})),
@@ -99,8 +105,9 @@ export function buildProductionTrajectoryWitness(
     }:undefined;
     // Frame pixels are the composited *visible* screen. Part annotation alone
     // is not enough: an occluded cell does not become visible by fiat.
-    const pixels:Pixel[]=frame.pixels.filter(p=>p.materialCellId)
-      .map(p=>({...p}));
+    const pixels:Pixel[]=diag?.physicalMaterial
+      ? frame.pixels.filter(p=>p.materialCellId).map(p=>({...p}))
+      : frame.pixels.map(p=>({...p}));
     const sampled:StageSample={id:"production-"+hour,atHour:hour,
       pixels,graph:a,...(renderWitness?{renderWitness}:{})};
     const physicalResult=auditPhysicalEvidence(a,hour);
