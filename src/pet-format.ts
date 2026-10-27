@@ -26,6 +26,9 @@ export const LINEAGE_RECIPE_VERSION = `${datasetVersion}|${profileVersion}|${LIN
 /** The living pet is independent of the editable laboratory recipe. */
 export type LivingPet = {
   lineageVersion: string;
+  anatomicalClock?:"daily-365-v1";
+  /** Optional acceleration only; a malformed cache cannot invalidate the life. */
+  anatomicalCheckpoint?:unknown;
   parts: PetPart[];
   mode: "infant" | "egg";
   seed: string;
@@ -429,6 +432,8 @@ function validatedPet(value: unknown): PetDocument {
       !isRecord(saved) ||
       !hasOnlyKeys(saved, [
         "lineageVersion",
+        "anatomicalClock",
+        "anatomicalCheckpoint",
         "parts",
         "mode",
         "seed",
@@ -447,6 +452,9 @@ function validatedPet(value: unknown): PetDocument {
     try {
       life = {
         lineageVersion: LINEAGE_RECIPE_VERSION,
+        ...(saved.anatomicalClock===undefined?{}:saved.anatomicalClock==="daily-365-v1"?
+          {anatomicalClock:"daily-365-v1" as const}:invalid("unsupported anatomical clock")),
+        ...(saved.anatomicalCheckpoint===undefined?{}:{anatomicalCheckpoint:saved.anatomicalCheckpoint}),
         parts: validatedParts(saved.parts),
         mode: saved.mode,
         seed: boundedText(saved.seed, "The living seed", 128),
@@ -483,6 +491,10 @@ function validatedPet(value: unknown): PetDocument {
 }
 
 function utf8Bytes(text: string): number {
+  // Native encoding avoids a multi-megabyte JavaScript character loop when
+  // saving a fully recorded year. Hermes without TextEncoder uses the same
+  // Unicode-code-point count below.
+  if (typeof TextEncoder !== "undefined") return new TextEncoder().encode(text).byteLength;
   let bytes = 0;
   for (const character of text) {
     const point = character.codePointAt(0)!;
@@ -504,7 +516,7 @@ export function encodePet(pet: PetDocument): string {
   return raw;
 }
 
-/** Read the current disposable prototype format; old codes are rejected. */
+/** Read a validated document. Unsupported versions are preserved by storage. */
 export function decodePet(raw: string): PetDocument {
   if (typeof raw !== "string") invalid("the file must contain JSON text.");
   enforceSize(raw);

@@ -3,7 +3,7 @@
  *
  * Only THIS constructor can grant an opaque evaluation witness. It calls
  * createSimulation on user ink/seed, intercepts the actual unmodified compiled
- * program + permanent genome, separately constructs a fresh unified timeline,
+ * program + permanent genome, separately constructs a fresh daily timeline,
  * and independently replays every age from immutable birth. Frames come from
  * the real renderer, NEVER from a recreated template or an invented graph.
  *
@@ -11,7 +11,7 @@
  * later to the pure scoring library.
  */
 import { createSimulation } from "../src/simulation";
-import { createUnifiedMaterialTimeline } from "../src/integration/unified-runtime";
+import { createDailyMaterialTimeline } from "../src/integration/daily-runtime";
 import type { PetPart, Pixel } from "../src/simulation/model";
 import type { MaterialDevelopmentProgram } from "../src/development";
 import type { InheritedGenome } from "../src/simulation/genome";
@@ -92,9 +92,9 @@ export function buildProductionTrajectoryWitness(
   const history=careGame?createEnvironmentalHistory(careGame):undefined;
   const care=history?createCareOperatorChronology(physical,history,inherited.genotype):undefined;
   const chronology={program:physical,genome:inherited,
-    ...(history&&care?{history,care}:{})};
-  const primary=createUnifiedMaterialTimeline(chronology);
-  const independent=createUnifiedMaterialTimeline(chronology);
+    ...(careGame?{game:careGame}:{})};
+  const primary=createDailyMaterialTimeline(chronology);
+  const independent=createDailyMaterialTimeline(chronology);
   const birth=primary.birth().graph;
   if(!identical(birth,independent.replay(0).graph)||
      !identical(birth,physical.source))
@@ -114,9 +114,9 @@ export function buildProductionTrajectoryWitness(
       {physicalMaterial?:{sourceFingerprint:string;generatedCells:number;graphEvents:number;
         renderedCellQuads?:readonly RuntimeQuad[]};
         camera?:{scale:number;offset:{x:number;y:number}}}|undefined);
-    // The exact birth-paint bypass intentionally returns authored pixels
-    // without physical quads. Keep that stage measurable but unresolved: it
-    // cannot be falsely certified by provenance added after rendering.
+    // The daily renderer owns authored cells at check zero as well as all
+    // later generated material. Every certification still requires actual
+    // pre-camera quads and independently audited rendered ownership.
     if(diag?.physicalMaterial){
       if(diag.physicalMaterial.sourceFingerprint!==a.sourceFingerprint||
          diag.physicalMaterial.generatedCells!==a.cells.filter(c=>c.provenance==="generated").length||

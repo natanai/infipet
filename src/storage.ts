@@ -13,8 +13,56 @@ export {
   type PetDocument,
 } from "./pet-format";
 
+import {supportsLargeWebSaves,writeLargeWebSave,readLargeWebSave,largeSavePointer,pointedLargeSave} from "./storage-web";
+import {checkpointDigest} from "./integration/checkpoint-integrity";
+
 const REVISION_KEY = "infipet.revision";
 const PET_KEY = "infipet.pet";
+async function readPayload(key:string):Promise<string|null>{
+  const raw=await AsyncStorage.getItem(key);
+  return raw&&pointedLargeSave(raw,key)?readLargeWebSave(key):raw;
+}
+async function writePayload(key:string,raw:string):Promise<void>{
+  if(raw.length>1_500_000&&supportsLargeWebSaves()){
+    await writeLargeWebSave(key,raw);
+    await AsyncStorage.setItem(key,largeSavePointer(key));return;
+  }
+  try{await AsyncStorage.setItem(key,raw);}
+  catch(error){
+    if(!supportsLargeWebSaves())throw error;
+    await writeLargeWebSave(key,raw);await AsyncStorage.setItem(key,largeSavePointer(key));
+  }
+}
+const ORIGINAL_INDEX_KEY="infipet.before-daily-v1";
+/** Back up exact original bytes before permitting a migrated save to replace
+ * them. Backup failure rejects the migration and leaves the original intact. */
+async function archiveOriginal(raw:string):Promise<void>{
+  const key=ORIGINAL_INDEX_KEY+"/"+checkpointDigest(raw);
+  if(await readPayload(key)===null)await writePayload(key,raw);
+  await AsyncStorage.setItem(ORIGINAL_INDEX_KEY,key);
+}
+async function prepareRawPet(raw:string,preserveUnreadable=false):Promise<PetDocument>{
+  let doc:PetDocument;
+  try{doc=decodePet(raw);}catch(error){
+    // A load failure must not make an older main save disposable. Invalid
+    // pasted imports, in contrast, cannot overwrite the recovery index.
+    if(preserveUnreadable)await archiveOriginal(raw);
+    throw error;
+  }
+  if(doc.life&&doc.life.anatomicalClock!=="daily-365-v1")await archiveOriginal(raw);
+  // Never fabricate pre-migration daily operations or reset an old birth.
+  // App opens this older life read-only until explicit new-life creation.
+  return doc;
+}
+/** Used by file imports as well as reopening. A legacy document stays unchanged,
+ * and is returned only after its recoverable original has been durably written. */
+export function preparePetForDaily(raw:string):Promise<PetDocument>{
+  return serial(()=>prepareRawPet(raw));
+}
+export function loadOriginalPetBackup():Promise<string|null>{
+  return serial(async()=>{const key=await AsyncStorage.getItem(ORIGINAL_INDEX_KEY);
+    return key?readPayload(key):null;});
+}
 let operations: Promise<unknown> = Promise.resolve();
 
 /** Serialize reset/read/save so a delayed reset cannot erase a fresh save. */
@@ -36,16 +84,18 @@ async function ensureRevision(): Promise<void> {
 export function loadEditablePet(): Promise<PetDocument | null> {
   return serial(async () => {
     await ensureRevision();
-    const raw = await AsyncStorage.getItem(PET_KEY);
-    return raw === null ? null : decodePet(raw);
+    const raw = await readPayload(PET_KEY);
+    return raw === null ? null : prepareRawPet(raw,true);
   });
 }
 
 /** Validate first, then save source, care history, and replay metadata atomically. */
 export async function savePet(pet: PetDocument): Promise<void> {
+  if(pet.life&&pet.life.anatomicalClock!=="daily-365-v1")
+    throw new Error("This earlier life is preserved. Begin a new daily life to continue in this version.");
   const raw = encodePet(pet);
   return serial(async () => {
     await ensureRevision();
-    await AsyncStorage.setItem(PET_KEY, raw);
+    await writePayload(PET_KEY, raw);
   });
 }

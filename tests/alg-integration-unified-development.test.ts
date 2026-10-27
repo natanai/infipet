@@ -1,3 +1,4 @@
+import {createDailyMaterialTimeline} from "../src/integration/daily-runtime";
 /**
  * TEMPORAL MIGRATION NOTICE (2026-10-27): LEGACY hourly/fractional physical-event regression corpus retained to document the earlier engine. Under the approved anatomicalDevelopment contract in roadmap/plan.json, only daily boundaries 1..365 may change physical anatomy; INT-002 must replace obsolete live acceptance claims.
  * Historical tests and algorithms remain until the disjoint daily migration lands.
@@ -677,8 +678,8 @@ test("[INT-001/A2] actual frameAt raster preserves every relocated source ID, re
   const {simulation,program,genome,remodeling}=tracedSimulation(ink,
     "INT-LIVE-PIXEL-2026",{remodel:true});
   assert.ok(remodeling);
-  const timeline=createUnifiedMaterialTimeline({program,genome,remodelingProgram:remodeling});
-  const t0=timeline.at(0),r=timeline.at(0.25),shift=timeline.at(0.5),late=timeline.at(8);
+  const timeline=createDailyMaterialTimeline({program,genome,remodelingProgram:remodeling});
+  const t0=timeline.at(0),r=timeline.at(24),shift=timeline.at(24),late=timeline.at(8*24);
   const removed=t0.graph.cells.filter(c=>!r.graph.cells.some(a=>a.id===c.id));
   assert.equal(removed.length,1,"one real DEV-004 structural resorption");
   assert.equal(r.remodeling.attempts.find(a=>a.id==="verify-resorb/unit/1")?.status,
@@ -696,9 +697,9 @@ test("[INT-001/A2] actual frameAt raster preserves every relocated source ID, re
   assert.ok(generated.some(c=>c.parentCellIds.some(parent=>
     generated.some(other=>other.id===parent))),
     "chronologically deeper child must descend from a generated parent");
-  const frames=[0.5,1,2,4,8].map(hour=>({
-    hour, frame:simulation.frameAt(hour/24,{action:"idle",time:0}),
-    graph:timeline.at(hour).graph,
+  const frames=[1,2,4,8].map(hour=>({
+    hour, frame:simulation.frameAt(hour,{action:"idle",time:0}),
+    graph:timeline.at(hour*24).graph,
   }));
   for(const {hour,frame,graph} of frames) {
     const pixels=annotatedPixels(frame);
@@ -724,12 +725,12 @@ test("[INT-001/A2] actual frameAt raster preserves every relocated source ID, re
     if(hour>=4)
       assert.ok(pixels.some(p=>generated.some(c=>c.id===p.id)),
         "frameAt must render real generated cells rather than merely report them");
-    assert.deepEqual(simulation.frameAt(hour/24,{action:"idle",time:0}),frame);
+    assert.deepEqual(simulation.frameAt(hour,{action:"idle",time:0}),frame);
   }
   const last=frames[frames.length-1].frame;
   const seen=new Set(annotatedPixels(last).map(p=>p.id));
   assert.ok(generated.some(c=>seen.has(c.id)));
-  assert.deepEqual(late,timeline.replay(8));
+  assert.deepEqual(late,timeline.replay(8*24));
 });
 
 test("[INT-001/A3] real saved feeding changes player-visible physical pixels only after causal care",()=>{

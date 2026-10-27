@@ -120,11 +120,17 @@ function main() {
       console.log(tests.join("\n"));
       return;
     }
-    const result = spawnSync(process.execPath, ["--import","tsx","--test",...tests], {
-      cwd:root,stdio:"inherit",shell:process.platform==="win32",
-    });
-    if (result.error) { console.error(result.error.message); process.exitCode = 1; }
-    else process.exitCode = result.status ?? 1;
+    // Wall-clock performance evidence must run without competing functional
+    // workers. Every registered test still runs; dry-run remains the flat gate.
+    const perf=tests.filter(p=>p==="tests/development-budget.test.ts");
+    const functional=tests.filter(p=>!perf.includes(p));
+    for(const group of [functional,perf]){
+      if(!group.length)continue;
+      const result=spawnSync(process.execPath,["--import","tsx","--test",...group],{
+        cwd:root,stdio:"inherit",shell:process.platform==="win32"});
+      if(result.error){console.error(result.error.message);process.exitCode=1;break;}
+      if(result.status){process.exitCode=result.status;break;}
+    }
     return;
   }
   if (argv.includes("--list")) {

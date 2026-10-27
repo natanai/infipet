@@ -324,7 +324,10 @@ test("[CARE-003/A2] rendered anatomical ownership maps to the same real graph, n
   const f1=a.frameAt(hour/24,{time:0,action:"idle"});
   const f2=b.frameAt(hour/24,{time:0,action:"idle"});
   const materialParts=(frame:typeof f1)=>frame.parts.filter(p=>p.role==="material-growth");
-  const aGraph=trial.first.at(hour).graph,bGraph=trial.second.at(hour).graph;
+  const aGraph=a.materialStateAt(hour/24).graph,bGraph=b.materialStateAt(hour/24).graph;
+  for(const [frame,graph] of [[f1,aGraph],[f2,bGraph]] as const)
+    for(const pixel of frame.pixels)assert.ok(graph.cells.some(c=>c.id===pixel.materialCellId),
+      "daily rendered material must belong to the same authoritative graph");
   assert.ok(materialParts(f1).every(p=>(p.sourcePartIds?.length ?? 0)>0));
   assert.ok(materialParts(f2).every(p=>(p.sourcePartIds?.length ?? 0)>0));
   if(physicalDifference(aGraph,bGraph).structural) {

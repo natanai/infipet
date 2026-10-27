@@ -27,11 +27,9 @@ test("[SYS-001/A1] canonical roadmap rejects duplicate IDs, missing dependencies
 
 test("[SYS-001/A2] a completed task cannot lack evidence and task-level runner validates", () => {
   const invented = structuredClone(plan);
-  const todo = invented.tasks.find((t: {status:string}) => t.status === "todo");
-  assert.ok(todo);
-  // A todo task may already have an existing focused test (e.g., a partial
-  // PERF-001 implementation). Explicitly construct missing evidence rather
-  // than assuming the first pending task is missing its file.
+  const todo = invented.tasks[0];
+  // Construct missing evidence independently of how many tasks remain. A
+  // completely implemented roadmap must still reject an unevidenced claim.
   todo.verification.testPath = "tests/absent-roadmap-contract-evidence.test.ts";
   todo.verification.command = "pnpm exec tsx --test " + todo.verification.testPath;
   todo.status = "done";

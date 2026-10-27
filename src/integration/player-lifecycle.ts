@@ -40,6 +40,7 @@ export function birthPlayerLife(
   }));
   return {
     lineageVersion: LINEAGE_RECIPE_VERSION,
+    anatomicalClock:"daily-365-v1",
     parts,
     mode: source.mode,
     seed: source.seed,
@@ -55,7 +56,7 @@ export function advancePlayerLife(
   atMs: number,
   presence: "active" | "absent",
 ): LivingPet {
-  if (atMs <= pet.game.clock.nowMs) return pet;
+  if (pet.anatomicalClock!=="daily-365-v1" || atMs <= pet.game.clock.nowMs) return pet;
   return {...pet,game:advanceGame(pet.game,atMs,presence)};
 }
 
@@ -63,15 +64,36 @@ export function advancePlayerLife(
 export function commandPlayerLife(
   pet: LivingPet, command: GameCommand, atMs: number, id: string,
 ): LivingPet {
+  if(pet.anatomicalClock!=="daily-365-v1")throw new Error("Earlier saved life is read-only");
   return {...pet,game:commandGame(pet.game,command,atMs,id)};
 }
 
 /** The ONLY live render path: recorded care + same source + same seed. */
 export function createPlayerLifeSimulation(pet: LivingPet) {
+  if(pet.anatomicalClock!=="daily-365-v1")throw new Error("Earlier saved life cannot fabricate daily history");
   return createSimulation(pet.parts,pet.seed,pet.mode,{
-    needTimeline: deriveCareTimeline(pet.game),
     groomingTimeline: normalizeGroomTimeline(pet.groomingTimeline),
     liveContext: deriveDevelopmentContext(pet.game),
     careGame: pet.game,
+    anatomicalCheckpoint:pet.anatomicalCheckpoint,
   });
+}
+
+/** Prime chronological catch-up in short main-thread slices before rendering a
+ * returned life. This executes EVERY due check, then the normal player renderer
+ * reuses those exact states. No scheduler modifies gameplay timestamps. */
+export async function prepareReturnedLife(pet:LivingPet):Promise<LivingPet>{
+  const simulation=createPlayerLifeSimulation(pet);
+  const hatchDays=(pet.game.clock.hatchAtMs-pet.game.clock.startedAtMs)/86400000;
+  const due=Math.min(365,Math.floor(Math.max(0,pet.game.clock.nowMs-pet.game.clock.hatchAtMs)/86400000));
+  let slice=typeof performance!=="undefined"?performance.now():0;
+  const completed=simulation.exportAnatomicalCheckpoint()?.state.completedChecks??0;
+  for(let day=completed+1;day<=due;day++){
+    simulation.materialStateAt(hatchDays+day);
+    if(typeof performance!=="undefined"&&performance.now()-slice>=12&&day<due){
+      await new Promise<void>(resolve=>setTimeout(resolve,0));slice=performance.now();
+    }
+  }
+  const anatomicalCheckpoint=simulation.exportAnatomicalCheckpoint();
+  return anatomicalCheckpoint?{...pet,anatomicalCheckpoint}:pet;
 }

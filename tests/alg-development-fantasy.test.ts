@@ -335,7 +335,7 @@ test("[DEV-005/A1] ordinary material renderer owns a speculative generated pixel
       },
     });
     assert.ok(compiled);
-    const frame=simulation.frameAt(36/24,{time:0,action:"idle"});
+    const frame=simulation.frameAt(36,{time:0,action:"idle"});
     const annotated=frame.parts.flatMap(part=>part.pixels)
       .filter(p=>typeof p.materialCellId==="string");
     const own=annotated.filter(p=>
@@ -349,7 +349,7 @@ test("[DEV-005/A1] ordinary material renderer owns a speculative generated pixel
           compiled!.program.source.sourceCells.some(c=>c.id===src))));
       assert.ok(own.every(p=>typeof p.materialCellId==="string" &&
         Number.isInteger(p.x)&&Number.isInteger(p.y)));
-      assert.deepEqual(simulation.frameAt(36/24,{time:0,action:"idle"}),frame);
+      assert.deepEqual(simulation.frameAt(36,{time:0,action:"idle"}),frame);
       found=true;
     }
   }

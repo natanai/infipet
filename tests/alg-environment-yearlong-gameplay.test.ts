@@ -62,3 +62,21 @@ test("[GAME-002/A2] elapsed clock, fractional evidence, absence, backward time a
   assert.equal(offsetChanged.clock.hatchAtMs,hatch,"DST affects sleep schedule, never the birth anchor");
   assert.equal(Math.floor((hatch+DAY-hatch)/DAY),1);
 });
+
+
+test("[GAME-002/A2] one-second rendering and hourly batching have identical real care evidence and bounded archives",()=>{
+  let coarse=createGame("PARTITION-INDEPENDENT","infant",T);
+  for(let hour=1;hour<=24;hour++)coarse=care(advanceGame(coarse,T+hour*HOUR));
+  let fine=createGame("PARTITION-INDEPENDENT","infant",T);
+  for(let second=1;second<=86400;second++){
+    fine=advanceGame(fine,T+second*1000);
+    if(second%3600===0)fine=care(fine);
+  }
+  assert.deepEqual(fine,coarse,"frame frequency is not a biological or care input");
+  assert.ok(fine.careObservations!.length<100,"one-second play cannot create 86400 archival observations per day");
+  const once=advanceGame(createGame("PRESENCE-PARTITION","infant",T),T+HOUR/4);
+  const split=advanceGame(advanceGame(createGame("PRESENCE-PARTITION","infant",T),T+12345),T+HOUR/4);
+  assert.deepEqual(once,split);
+  assert.deepEqual(advanceGame(once,T+HOUR,"absent"),
+    advanceGame(advanceGame(split,T+HOUR/2,"absent"),T+HOUR,"absent"));
+});

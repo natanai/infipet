@@ -206,6 +206,6 @@ test("[GAME-001/A1/A2] actual player UI does not demand taxonomy, and keeps lab 
   assert.ok(app.includes('onCommand={(command) => void careCommand(command)}'));
   assert.ok(app.includes('setSandbox(true)'));
   assert.doesNotMatch(storage,/multiRemove|removeItem/);
-  assert.ok(storage.includes('AsyncStorage.setItem(PET_KEY, raw)'));
+  assert.ok(storage.includes('writePayload(PET_KEY, raw)'));
   assert.equal(GAME_RULES.id,"infipet-classic-v3");
 });

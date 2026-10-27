@@ -22,7 +22,7 @@
  * State is serializable, immutable and birth-bound. Domain k=1..365; numeric
  * arithmetic uses bounded IEEE754 Numbers, exact safe-integer epoch ms, exact
  * integer torus arithmetic and lattice coordinates in [0,63]^2. The primitive
- * shared 3072-added-cell/64-operator/512-site limits remain hard constraints.
+ * shared 3072-added-cell/64-operator/4096-site limits remain hard constraints.
  * The prior state is NEVER mutated; duplicate/out-of-sequence/mature steps
  * throw. Unknown care supplies no fabricated resource or directional light.
  */
@@ -174,8 +174,13 @@ export function applyDailyMaterialStep(
     createdCellIds:events.flatMap(e=>e.createdCellIds),removedCellIds:events.flatMap(e=>e.removedCellIds),
     relocatedCellIds:graph.cells.filter(c=>{const b=old.get(c.id);return b&&(b.x!==c.x||b.y!==c.y);}).map(c=>c.id),
     acceptedEvents:events.map(e=>e.id),nullEffect:graph===prior.graph};
+  // Sparse daily allocation archive: omitted sites received/spent ZERO.
+  // Their permanent IDs/orbits remain in sites, so the full competition is
+  // independently reconstructible without 365 copies of thousands of zeros.
+  const compactLedger={...iterative.ledger,bySite:iterative.ledger.bySite.filter(s=>s.allocated>0||s.spent>0)};
+  const compactIterative={...iterative.state,ledger:[...prior.iterative.ledger,compactLedger]};
   const next:DailyMaterialState={...prior,completedChecks:k,graph,material:material.state,
-    iterative:iterative.state,remodeling,checks:[...prior.checks,record]};
+    iterative:compactIterative,remodeling,checks:[...prior.checks,record]};
   verifyDailyMaterialInventory(next.graph,prior.hatchAtMs,k);
   return seal(next);
 }

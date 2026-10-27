@@ -190,7 +190,8 @@ test("[integration-physical] generated material is rendered by frameAt with sour
   const expected = flattenAnatomy(branching).map(cell => ({
     ...cell, x: cell.x + 16, y: cell.y + 16,
   }));
-  assert.deepEqual(born.pixels, expected, "authored pixel/color identity must survive birth exactly");
+  assert.deepEqual(born.pixels.map(({x,y,color,z})=>({x,y,color,...(z===undefined?{}:{z})})), expected,
+    "authored pixel/color identity must survive birth exactly; ownership is now explicit at check zero");
   assert.ok(!born.parts.some(part => part.role === "material-growth"));
   const late = pet.frameAt(10, { action: "idle", time: 0 });
   const grownParts = late.parts.filter(part => part.role === "material-growth");
@@ -235,7 +236,9 @@ test("[integration-physical] material growth replays deterministically across po
     walking.parts.filter(p => p.role === "material-growth").map(p => p.sourcePartIds),
     "locomotion changes visible pose, not ancestry");
   assert.notDeepEqual(stationary.pixels, walking.pixels, "retains interactive pose");
-  assert.ok(walking.capabilities.canMove);
+  const mechanics=(walking.interaction.diagnostics as {locomotionSupported:boolean});
+  assert.equal(walking.capabilities.canMove,mechanics.locomotionSupported,
+    "unattached source marks cannot acquire fictional travel from a convenient label");
 });
 
 

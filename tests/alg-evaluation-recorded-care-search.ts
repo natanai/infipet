@@ -6,8 +6,8 @@
  * target pixels are NEVER passed to creation/replay; they are used only by the
  * predeclared EVAL-002 evaluator AFTER a candidate's life has been simulated.
  *
- * Limits: <=4 candidates; <=128 chronological hours; <=8 requested stages;
- * <=256 attempted commands; <=4096 authored cells (enforced by EVAL-002).
+ * Daily limits: <=4 candidates; <=8760 chronological hours; <=8 requested stages;
+ * <=65536 attempted commands; <=4096 authored cells (enforced by EVAL-002).
  * Search seed is explicit; candidate index order is i=floor(index/strategyN),
  * j=index%strategyN, giving seed-major enumeration. Stable ties choose lower
  * enumeration index. All times are safe integer milliseconds. No RNG or clock.
@@ -34,7 +34,7 @@ import {
 
 export const WITNESS_VERSION="infipet-recorded-care-witness-v1" as const;
 export const SEARCH_LIMITS=Object.freeze({
-  maxCandidates:4,maxHours:128,maxStages:8,maxCommands:256,
+  maxCandidates:4,maxHours:365*24,maxStages:8,maxCommands:65536,
   maxSourceCells:4096,
 });
 export type RecordedStep=Readonly<
@@ -107,7 +107,7 @@ function boundStages(stages:readonly number[]){
     "need 2..8 milestone hours");
   assert(stages.every((h,i)=>Number.isFinite(h)&&h>=0&&
     h<=SEARCH_LIMITS.maxHours&&(i===0||h>stages[i-1])),
-    "stages must be distinct increasing finite hours <=128");
+    "stages must be distinct increasing finite hours within 365 elapsed days");
   assert(stages.every(h=>Number.isSafeInteger(h*HOUR)),
     "stage millisecond not safely representable");
 }
@@ -169,7 +169,7 @@ export function strategySteps(
 export function executeSteps(
   seed:string,birthAtMs:number,steps:readonly RecordedStep[],utcOffsetMinutes=0,
 ):GameState{
-  assert(steps.length<=SEARCH_LIMITS.maxCommands+1,"too many steps");
+  assert(steps.length<=SEARCH_LIMITS.maxCommands+SEARCH_LIMITS.maxHours+1,"too many steps");
   assert(Number.isSafeInteger(birthAtMs)&&birthAtMs>=0,"invalid birth timestamp");
   let s=createGame(seed,"infant",birthAtMs,{utcOffsetMinutes});
   const seen=new Set<string>();
@@ -285,6 +285,7 @@ export function searchRecordedCareWitness(args:Readonly<{
   source:readonly PetPart[];birthAtMs:number;searchSeed:string;
   references:readonly ReferenceMilestone[];
   seeds:number;strategies:readonly StrategyId[];budget:number;
+  daily?:boolean;
 }>):SearchReport{
   const references=[...args.references].sort((a,b)=>a.atHour-b.atHour);
   const hours=references.map(x=>x.atHour);
@@ -294,7 +295,8 @@ export function searchRecordedCareWitness(args:Readonly<{
   const evaluated:SearchCandidate[]=[];
   const incomplete:{seed:string;strategy:StrategyId;reason:string}[]=[];
   for(const candidate of planned){
-    const steps=strategySteps(candidate.strategy,args.birthAtMs,hours.at(-1)!);
+    const steps=args.daily?dailyStrategySteps(candidate.permanentSeed,candidate.strategy,args.birthAtMs,hours.at(-1)!):
+      strategySteps(candidate.strategy,args.birthAtMs,hours.at(-1)!);
     let built:ReturnType<typeof createRecordedCareWitness>;
     try{
       built=createRecordedCareWitness({
@@ -360,4 +362,46 @@ export function searchRecordedCareWitness(args:Readonly<{
       "No complete physically verified numerical witness in bounded candidate search; not original-device parity",
     incompleteCandidates:incomplete,
   };
+}
+
+/** Daily qualification strategies observe actual physiology before deciding
+ * commands. Each resulting script is then executed AGAIN by the witness
+ * interpreter. No reference shape, latent channel or desired result is read. */
+export function dailyStrategySteps(seed:string,strategy:StrategyId,birthAtMs:number,terminalHour:number):readonly RecordedStep[]{
+  if(!Number.isInteger(terminalHour)||terminalHour<24||terminalHour>365*24||terminalHour%24!==0)
+    throw new RangeError("Daily witness requires exact daily boundaries");
+  if(strategy==="observe")return [{kind:"advance",atMs:birthAtMs+terminalHour*HOUR,presence:"absent"}];
+  if(strategy==="fractional")return [
+    {kind:"command",atMs:birthAtMs+HOUR/4,id:"rejected-choice",command:{type:"choose",choice:"high"}},
+    {kind:"command",atMs:birthAtMs+HOUR/2,id:"fractional-clean",command:{type:"clean"}},
+    {kind:"advance",atMs:birthAtMs+terminalHour*HOUR,presence:"absent"}];
+  let s=createGame(seed,"infant",birthAtMs);const steps:RecordedStep[]=[];
+  const command=(value:GameCommand)=>{
+    const step={kind:"command" as const,atMs:s.clock.nowMs,id:"daily/"+s.commandHistory.length,command:value};
+    steps.push(step);s=commandGame(s,value,step.atMs,step.id);
+  };
+  for(let hour=1;hour<=terminalHour&&!s.dead;hour++){
+    const atMs=birthAtMs+hour*HOUR;
+    steps.push({kind:"advance",atMs,presence:"active"});s=advanceGame(s,atMs);
+    if(s.dead)break;
+    if(s.sleeping){if(s.lightsOn)command({type:"lights",on:false});continue;}
+    if(s.attention.discipline)command({type:"discipline"});
+    if(strategy==="maintain"||hour%6===0)
+      while(s.meters.hunger<4)command({type:"feed",food:"meal"});
+    if(strategy==="maintain"){
+      for(const [meter,food] of [["happiness","snack"],["strength","protein"]] as const)
+        while(s.meters[meter]<4)command({type:"feed",food});
+      if(s.waste)command({type:"clean"});
+      while(s.health.sickness||s.health.injury)command({type:"medicine"});
+    }
+  }
+  if(s.commandHistory.length>SEARCH_LIMITS.maxCommands)throw new RangeError("Daily command budget exceeded");
+  return steps;
+}
+/** The current daily qualification entrypoint explicitly rejects historical
+ * 1/49/121h anatomical milestones. Those remain research queries only. */
+export function searchDailyRecordedCareWitness(args:Parameters<typeof searchRecordedCareWitness>[0]):SearchReport{
+  if(args.references.some(r=>!Number.isInteger(r.atHour)||r.atHour<0||r.atHour%24!==0||r.atHour>365*24))
+    throw new RangeError("Daily qualification requires real daily milestone timestamps");
+  return searchRecordedCareWitness({...args,daily:true});
 }

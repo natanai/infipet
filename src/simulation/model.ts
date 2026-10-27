@@ -1,3 +1,5 @@
+import type {PersistedDailyCheckpoint} from "../integration/daily-runtime";
+import type {DailyMaterialState} from "../development/daily-step";
 import type { NeedKeyframe, WellbeingState } from "../needs";
 import type { GameState } from "../gameplay";
 import type { MaterialDevelopmentProgram, LifetimeRemodelingProgram } from "../development";
@@ -153,7 +155,10 @@ export type DevelopmentOperator = {
     | "fuse"
     | "resorb"
     | "curl"
-    | "mature";
+    | "mature"
+    | "expand"
+    | "remodel"
+    | "reinforce";
   start: number;
   end: number;
   strength: number;
@@ -225,6 +230,7 @@ export type SimulationOptions = {
   }>;
   /** Recorded canonical game history, supplying material-operator care effects. */
   careGame?: GameState;
+  anatomicalCheckpoint?:unknown;
   /** Test/profiler oracle: force independent from-birth material replay. */
   reuseLivingMaterial?: boolean;
   needTimeline?: readonly NeedKeyframe[];
@@ -243,11 +249,15 @@ export type PetSimulation = {
   stateAt(age: number): WellbeingState;
   developmentAt(age: number): DevelopmentState;
   frameAt(age: number, options?: FrameOptions): PetFrame;
+  /** Exact authoritative anatomy, independent of pose or physiology. */
+  materialStateAt(age:number):DailyMaterialState;
+  exportAnatomicalCheckpoint():PersistedDailyCheckpoint|undefined;
   /** Backend-only chronology instrumentation; never part of creature state. */
   getMaterialRuntimeStats?(): Readonly<{
     cold: number;
     resumed: number;
     imported: number;
+    steps: number;
   }>;
   /** Bind an idle display gesture to authored material; does not change the simulation. */
   groomingStrokeAt(age: number, from: Point, to: Point): GroomStroke | null;
