@@ -271,7 +271,12 @@ export function compileLifetimeRemodeling(
       operations.push({
         id:"remodel/"+index+"/reshape/"+stage,kind:"reshape",
         tissueId:tissue.id,direction:axis,
-        atHour:start+slot,durationHours:32,units:12,strength:1,
+        // Allometric regional inertia: (reference scale 8 lattice units)
+        // expression = min(1, 8/sqrt(A_source)).
+        // Wide dense ink has fewer opportunities than a 3x3 authored body.
+        // Shape outcomes remain source/seed/care dependent, not species targets.
+        atHour:start+slot,durationHours:32,units:12,
+        strength:Math.min(1,8/Math.sqrt(Math.max(1,tissue.sourceCellIds.length))),
       });
     }
   }
