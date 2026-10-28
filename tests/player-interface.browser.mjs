@@ -621,17 +621,32 @@ try {
     const fixture=path.join(tmpdir(),"infipet-games-juvenile.json");
     execFileSync(process.execPath,["--import","tsx","scripts/create-year-life-fixture.ts",fixture,"168"],{stdio:"pipe"});
     const juvenile=JSON.parse(await readFile(fixture,"utf8"));
-    // Open import before shifting the active pet's simulated clock forward.
-    // Otherwise the prior life performs 168 days of catch-up while Playwright
-    // is trying to click the modal, repeatedly detaching its controls.
-    await button(page,"Open more menu").click();await button(page,"Import pet").click();
-    const choosing=page.waitForEvent("filechooser");await button(page,"Open pet file").click();
-    await page.clock.setFixedTime(new Date(juvenile.life.game.clock.nowMs));
-    await(await choosing).setFiles(fixture);await button(page,"Confirm replacement").click();
-    await button(page,"Play and training").click();await button(page,"CPU battle").click();
-    await page.getByText(/^(Victory|Defeat) against /).waitFor();
-    await page.getByText(/ · (Victory|Defeat)$/).waitFor();
-    await button(page,"Back to pet").click();await context.close();
+    // Import the mature fixture in a second isolated browser life. Shifting
+    // the first pet's mounted clock 168 days while its import dialog is open
+    // triggers expensive, legitimate daily catch-up and repeatedly detaches
+    // the confirm button. A new life at the fixture's current time exercises
+    // exactly the same actual replacement UI without that unrelated workload.
+    const juvenileContext=await browser.newContext(),juvenilePage=await juvenileContext.newPage();
+    juvenilePage.on("pageerror",error=>errors.push(error.message));
+    await juvenilePage.clock.install({time:new Date(juvenile.life.game.clock.nowMs)});
+    await juvenilePage.goto(url);
+    const juvenileCanvas=juvenilePage.getByLabel("Draw your whole pet here",{exact:true});
+    const juvenileBox=await juvenileCanvas.boundingBox();
+    await juvenilePage.mouse.click(juvenileBox.x+juvenileBox.width/2,
+      juvenileBox.y+juvenileBox.height/2);
+    await button(juvenilePage,"Begin life").click();
+    await button(juvenilePage,"Open more menu").click();
+    await button(juvenilePage,"Import pet").click();
+    const choosing=juvenilePage.waitForEvent("filechooser");
+    await button(juvenilePage,"Open pet file").click();
+    await(await choosing).setFiles(fixture);
+    await button(juvenilePage,"Confirm replacement").click();
+    await button(juvenilePage,"Play and training").click();
+    await button(juvenilePage,"CPU battle").click();
+    await juvenilePage.getByText(/^(Victory|Defeat) against /).waitFor();
+    await juvenilePage.getByText(/ · (Victory|Defeat)$/).waitFor();
+    await button(juvenilePage,"Back to pet").click();
+    await juvenileContext.close();await context.close();
   });
   await test("daily boundaries, mature checkpoint reopening, damaged-cache recovery and original-save preservation",async()=>{
     const context=await browser.newContext();const page=await context.newPage();
