@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {proposeCoherentReshape} from "../src/development/coordinated-metamorphosis";
 import {proposeTissueReflow} from "../src/development/tissue-reflow";
+import {STARTER_PRESETS} from "../src/presets";
+import {createSimulation} from "../src/simulation";
 import type {MaterialCell} from "../src/development/material-graph";
 import {compileMaterialDevelopment} from "../src/development/operators";
 import {compileLifetimeRemodeling} from "../src/development/lifetime-remodeling";
@@ -216,4 +218,34 @@ test("[MORPH-004/REFLOW] chronological transaction proves source relocation rout
  assert.throws(()=>verifyDailyMaterialInventory(bad,TIME,k,program.source,
    {material:program.operators,remodeling:remodeling.operations}),
    /route|reflow|migration/i);
+});
+
+test("[MORPH-004/PLAYER] actual published starter seed shows auditable reflow and chronological continuity",()=>{
+ const preset=STARTER_PRESETS.find(p=>p.id==="pippo")!;
+ const sim=createSimulation(preset.parts,preset.seed,"infant",{
+   previewCare:{kind:"synthetic-needs-lab-v1",nutrition:0.9,timeline:[]},
+   reuseLivingMaterial:false,
+ });
+ const stages=[0,75,180,365].map(day=>({day,graph:sim.materialStateAt(day).graph}));
+ const source=stages[0].graph.sourceCells;
+ const final=stages.at(-1)!.graph;
+ assert.deepEqual(final.sourceCells,source,
+   "the authored organism and its source ancestry cannot change");
+ const reflow=final.events.filter(e=>e.kind==="redistribute");
+ const moved=reflow.flatMap(e=>e.physical?.relocations??[]);
+ const vacated=new Set(moved.map(m=>m.from.x+","+m.from.y));
+ const filled=new Set(moved.map(m=>m.to.x+","+m.to.y));
+ console.info("MORPH-004 published starter mass transport",
+   JSON.stringify({events:reflow.length,moved:moved.length,
+     vacated:vacated.size,occupiedNew:filled.size,
+     checks:stages.map(s=>s.day),cells:stages.map(s=>s.graph.cells.length)}));
+ assert.ok(reflow.length>0,
+   "seeded public starter should have actual material migration, not only linear growth");
+ assert.ok(moved.length>0&&moved.every(m=>(m.path?.length??0)>=3));
+ assert.ok(stages.every((s,i)=>i===0||
+   s.graph.events.length>=stages[i-1].graph.events.length),
+   "new daily events never remove previous history");
+ const originalIds=new Set(source.map(c=>c.id));
+ assert.ok(final.cells.some(c=>originalIds.has(c.id)),
+   "retain real permanent authored material through maturity");
 });
