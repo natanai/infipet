@@ -1,3 +1,4 @@
+import "./alg-interface-morphology-workbench.test";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { STARTER_PRESETS, clonePreset } from "../src/presets";
