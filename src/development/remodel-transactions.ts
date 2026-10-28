@@ -1,3 +1,4 @@
+import {journalMaterialEvent} from "./material-journal";
 /**
  * Composable DEV-004 remodeling transactions. This module never replays birth
  * anatomy or chooses the global order of heterogeneous development events.
@@ -507,11 +508,11 @@ export function applyRemodelingProposal(
       ...(beforeRigidity===undefined?{}:
         {rigidityBefore:beforeRigidity,rigidityAfter:afterRigidity}),
     };
-    next={...next,events:[...next.events,{
+    const event=journalMaterialEvent(graph,next,{
       id,kind:op.kind,atHour,createdCells:created,createdCellIds:transition.createdCellIds,
-      removedCellIds:transition.removedCellIds,
-      sourceCellIds:transition.sourceCellIds,
-    }]};
+      removedCellIds:transition.removedCellIds,sourceCellIds:transition.sourceCellIds,
+    },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})});
+    next={...next,events:[...next.events,event]};
   }
   const beforeSites=new Map(graph.sites.map(site=>[site.id,site]));
   const beforeCells=new Map(graph.cells.map(cell=>[cell.id,cell]));

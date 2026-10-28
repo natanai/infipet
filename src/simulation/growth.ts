@@ -49,6 +49,7 @@ import {
   type RuntimeBiology,
 } from "../integration";
 import { type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
+import {careGamePresentation} from "../integration/care-game-pose";
 import {recordedNeedsSimulation} from "../integration/living-physiology";
 import {createDailyMaterialTimeline,createReusedDailyMaterialTimeline} from "../integration/daily-runtime";
 import { inferFunctionalMaterial, type MaterialMovementBinding } from "../integration/functional-material";
@@ -1078,6 +1079,13 @@ export function createSimulation(
     }
     const {byId,tissueSource,groups,original,regions,functional,rig}=geometry;
     const pose=poseFunctionalGraph(rig,{time,action,pace,amplitude});
+    const presentedGame=options.careGame&&options.careGame.commandHistory.at(-1)?.atMs!<=options.careGame.clock.startedAtMs+age*86400000?options.careGame:undefined;
+    const carePose=careGamePresentation(presentedGame,time);
+    const express=(p:Point):Point=>{
+      if(carePose.kind==="idle")return p;
+      const x=p.x-rig.center.x,y=p.y-rig.center.y,c=Math.cos(carePose.rotation),s=Math.sin(carePose.rotation);
+      return {x:rig.center.x+x*c-y*s+carePose.offset.x,y:rig.center.y+x*s+y*c+carePose.offset.y};
+    };
     const bindings=new Map(functional.bindings.map(b=>[b.tissueId,b]));
     // Brushing poses existing authored hair; it never lengthens it or changes
     // material inventory. The existing bounded relaxation law controls bend.
@@ -1104,8 +1112,8 @@ export function createSimulation(
         const bend=source?.kind==="hair"?groom.byRegion[region?.id??t.id]?.bendRadians??0:0;
         if(bend&&region){const dx=p.x-region.anchor.x,dy=p.y-region.anchor.y,c=Math.cos(bend),s=Math.sin(bend);
           point={x:region.anchor.x+dx*c-dy*s,y:region.anchor.y+dx*s+dy*c};}
-        return time===0&&action==="idle"||!transform?{...point}:
-          binding?poseLinkedMaterial(point,binding,transform):transformLocomotionPoint(point,transform);
+        return express(time===0&&action==="idle"||!transform?{...point}:
+          binding?poseLinkedMaterial(point,binding,transform):transformLocomotionPoint(point,transform));
       };
       const partId=authored?t.id:"material-growth/"+t.id;
       const material=cells.map(cell=>({cell:{x:cell.x,y:cell.y,color:cell.color,...(cell.z===undefined?{}:{z:cell.z}),materialCellId:cell.id,
@@ -1123,7 +1131,7 @@ export function createSimulation(
       });
     });
     const pixels=composite(parts);
-    const diagnostics={...pose.diagnostics,camera:{scale:1,offset:{x:0,y:0}},worldPosition:pose.worldPosition,
+    const diagnostics={...pose.diagnostics,careGame:carePose,camera:{scale:1,offset:{x:0,y:0}},worldPosition:pose.worldPosition,
       worldCameraX:pose.cameraWorldX,materialLocomotionEvidence:functional.evidence,
       groomingPose:{appliedStrokes:groom.input.appliedStrokes,regions:groom.byRegion},
       physicalMaterial:{version:graph.version,sourceFingerprint:graph.sourceFingerprint,

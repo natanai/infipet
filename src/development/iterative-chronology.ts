@@ -1,3 +1,4 @@
+import {journalMaterialEvent} from "./material-journal";
 /**
  * Shared single-tick numerical primitive. The daily production transaction interprets one tick as one daily opportunity, commits at T_k, and never runs 24 hourly physical steps. The stand-alone hour-named API and its long-domain tests are legacy numerical coverage, not a player-life schedule.
  */
@@ -417,6 +418,7 @@ export function stepIterativeChronology(
     s.status = share ? "active" : "dormant";
     let spent = 0;
     for (let slot = 0; slot < share; slot++) {
+      const beforePhysical:MaterialGraph={...graph,cells:[...cells],tissues:[...tissues],sites:[...sites],links:[...links],events:[...events]};
       const tip = byId.get(s.tipCellId);
       if (!tip) { s.status = "invalidated"; break; }
       const axis = steer(s);
@@ -492,6 +494,10 @@ export function stepIterativeChronology(
         }
       }
       if (!made) { s.status = "blocked"; break; }
+      const event=events[events.length-1];
+      const recorded=journalMaterialEvent(beforePhysical,{...graph,cells,tissues,sites,links,events},event,"iterative",{
+        id:event.id,kind:event.kind,tissueId:made.tissueId});
+      events[events.length-1]=recorded;createdEvents[createdEvents.length-1]=recorded;
       spent++;
     }
     spending.set(s.id, spent);

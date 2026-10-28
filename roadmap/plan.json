@@ -1705,6 +1705,108 @@
         "evidence": "Independent BigInt clock expectation, material inventory/ancestry/ownership and full cold reconstruction pass. Negative cases detect 23h growth, duplicate check1, fabricated absence checks, fractional boundary epoch, future care, post365 transactions, false rendered ancestry, missing ownership and cached/fresh divergence. Existing independent metric and recorded-command witness research remains registered.",
         "legacyReferences": "Former 1h/49h/121h references remain labeled historical research. Daily witness searches require actual 24h-multiple milestones and chronological physiological commands; no target shapes enter runtime compilation."
       }
+    },
+    {
+      "id": "GAME-003",
+      "phase": 6,
+      "area": "Independent audit correction",
+      "title": "Playable existing care games with source-owned procedural cues",
+      "dependsOn": [
+        "GAME-001",
+        "INT-002"
+      ],
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Every existing care game has player-visible rules, choices or preparation, reproducible outcomes and physiological consequences",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Actual player frames express cues and results through owned material poses, with no anatomy change; save/reopen and existing UI remain usable",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-integration-care-games.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-integration-care-games.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/integration",
+        "tests/alg-integration-care-games.test.ts"
+      ],
+      "algorithmId": "integration"
+    },
+    {
+      "id": "DEV-008",
+      "phase": 6,
+      "area": "Independent audit correction",
+      "title": "Independently reconstruct physical positions, tissue identity and attachments from transactions",
+      "dependsOn": [
+        "DEV-007"
+      ],
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Reproduce the unrecorded relocation counterexample; independently reject missing/forged movement and persistent-property changes",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Authentic physical operators journal complete chronological spatial/topological evidence through all 365 checks and saved restoration",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-spatial-conservation.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-spatial-conservation.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development",
+        "tests/alg-development-spatial-conservation.test.ts"
+      ],
+      "algorithmId": "development"
+    },
+    {
+      "id": "CARE-005",
+      "phase": 6,
+      "area": "Independent audit correction",
+      "title": "Bounded ongoing physiological response after anatomical maturity",
+      "dependsOn": [
+        "GAME-002",
+        "CARE-004",
+        "INT-002"
+      ],
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Reproduce stale derived physiology after actual accepted mature care; reconcile meters, timelines, needs and player frames at days364/365/366/400 and much later",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Keep anatomy frozen, causal physiological state bounded and deterministic across save/reopen, active/absent histories and query partitions",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-environment-mature-physiology.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-mature-physiology.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/gameplay",
+        "tests/alg-environment-mature-physiology.test.ts"
+      ],
+      "algorithmId": "environment"
     }
   ],
   "algorithms": [
@@ -1851,7 +1953,8 @@
         "DEV-004",
         "DEV-005",
         "DEV-006",
-        "DEV-007"
+        "DEV-007",
+        "DEV-008"
       ],
       "readyWhen": [
         "OBS-001"
@@ -1880,7 +1983,8 @@
         "CARE-002",
         "CARE-003",
         "CARE-004",
-        "GAME-002"
+        "GAME-002",
+        "CARE-005"
       ],
       "readyWhen": [
         "SYS-001"
@@ -1940,7 +2044,8 @@
         "PERF-001",
         "MOT-001",
         "INT-001",
-        "INT-002"
+        "INT-002",
+        "GAME-003"
       ],
       "readyWhen": [
         "OBS-001"
@@ -2079,5 +2184,10 @@
         ]
       }
     }
+  },
+  "qualification": {
+    "status": "in_progress",
+    "baseCommit": "369520373ec32106b622c58f3159b71078689a65",
+    "reason": "Independent audit: unjournaled surviving-cell relocation and stale postmaturity derived physiology. Existing care games also require procedural player feedback. No final qualification until the three focused correction tasks and release gates pass."
   }
 }

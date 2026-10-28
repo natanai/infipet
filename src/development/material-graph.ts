@@ -42,6 +42,21 @@ export type MaterialLink = Readonly<{
   fromCellId: string | null;
   toCellId: string | null;
 }>;
+export type MaterialPosition=Readonly<{x:number;y:number;z?:number}>;
+export type MaterialChange<T>=Readonly<{id:string;before:T|null;after:T|null}>;
+export type MaterialStructure=Readonly<{
+  tissues:readonly MaterialTissue[];sites:readonly MaterialSite[];
+  links:readonly MaterialLink[];protectedVoids:readonly string[];
+}>;
+export type MaterialPhysicalJournal=Readonly<{
+  version:1;system:"material"|"remodeling"|"iterative";
+  operation:Readonly<{id:string;kind:string;tissueId:string;direction?:Readonly<Point>;sourceSiteId?:string}>;
+  relocations:readonly Readonly<{cellId:string;from:MaterialPosition;to:MaterialPosition;
+    operationId:string;checkIndex?:number;atMs?:number}>[];
+  tissues:readonly MaterialChange<MaterialTissue>[];
+  sites:readonly MaterialChange<MaterialSite>[];
+  links:readonly MaterialChange<MaterialLink>[];
+}>;
 export type MaterialEvent = Readonly<{
   id: string;
   kind: string;
@@ -51,6 +66,7 @@ export type MaterialEvent = Readonly<{
   sourceCellIds: readonly string[];
   /** Daily runtime archives creation metadata even after later resorption. */
   createdCells?: readonly MaterialCell[];
+  physical?:MaterialPhysicalJournal;
   checkIndex?: number;
   atMs?: number;
   careDigest?: string;
@@ -58,6 +74,8 @@ export type MaterialEvent = Readonly<{
 }>;
 export type MaterialGraph = Readonly<{
   version: 1;
+  /** Original physical topology, never inferred from the final graph. */
+  birth?:MaterialStructure;
   sourceFingerprint: string;
   sourceCells: readonly MaterialCell[];
   cells: readonly MaterialCell[];
@@ -228,6 +246,7 @@ export function createMaterialGraph(atlas: SourceAtlas): MaterialGraph {
   return {
     version: 1, sourceFingerprint: atlas.geometryHash,
     sourceCells, cells: [...sourceCells], tissues, sites, links,
+    birth:{tissues:[...tissues],sites:[...sites],links:[...links],protectedVoids:[...protectedVoids].sort()},
     protectedVoids: [...protectedVoids].sort(),
     events: [],
   };

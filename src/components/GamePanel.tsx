@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { GAME_RULES, type GameCommand, type GameState } from "../gameplay";
+import {careGamePresentation} from "../integration/care-game-pose";
 import { T, terminal as s } from "../theme";
 
 function Action({
@@ -146,6 +147,7 @@ export function GamePanel({
       ) : activity ? (
         <View style={styles.activity}>
           <Text style={s.bright}>{activity.prompt}</Text>
+          <Text accessibilityLiveRegion="polite" style={s.text}>{careGamePresentation(game,0).cue}</Text>
           {"targets" in activity && (
             <>
               <Text style={s.muted}>
@@ -204,8 +206,10 @@ export function GamePanel({
                 )}
               </View>
               <Text style={s.muted}>
-                Battles unlock at juvenile. Care, training and battle results
-                shape later growth.
+                Training: match the high or low target. Direction: follow your pet's lean.
+                Numbers: guess the next number from 1–9. Win three of five rounds.
+                Restore strength and train before CPU battles; battles cost energy
+                and can cause injury. Battles unlock at juvenile.
               </Text>
             </View>
           )}
