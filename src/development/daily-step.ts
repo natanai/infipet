@@ -76,7 +76,7 @@ export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:numbe
   const basis=original??graph.birth,prior=physicalProofs.get(graph),key=authorization?JSON.stringify(authorization):"";
   if(prior&&prior.basis===basis&&prior.hatch===hatchAtMs&&prior.lastCheck<=throughCheck&&prior.authorization===key)return;
   const proof=reconstructDailyPhysicalState(graph,hatchAtMs,throughCheck,original,authorization);
-  if(basis&&deeplyFrozen(graph))physicalProofs.set(graph,{basis,hatch:hatchAtMs,lastCheck:proof.lastCheck,authorization:key});
+  if(basis&&deeplyFrozen(graph)&&(!original||deeplyFrozen(original)))physicalProofs.set(graph,{basis,hatch:hatchAtMs,lastCheck:proof.lastCheck,authorization:key});
 }
 
 export function createDailyMaterialState(program:MaterialDevelopmentProgram,hatchAtMs:number):DailyMaterialState {

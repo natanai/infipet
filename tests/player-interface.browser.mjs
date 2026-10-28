@@ -550,6 +550,8 @@ try {
     }
     const fixture=path.join(tmpdir(),"infipet-games-juvenile.json");
     execFileSync(process.execPath,["--import","tsx","scripts/create-year-life-fixture.ts",fixture,"168"],{stdio:"pipe"});
+    const juvenile=JSON.parse(await readFile(fixture,"utf8"));
+    await page.clock.setFixedTime(new Date(juvenile.life.game.clock.nowMs));
     await button(page,"Open more menu").click();await button(page,"Import pet").click();
     const choosing=page.waitForEvent("filechooser");await button(page,"Open pet file").click();
     await(await choosing).setFiles(fixture);await button(page,"Confirm replacement").click();
@@ -668,7 +670,7 @@ try {
     assert.deepEqual(opened.life.anatomicalCheckpoint.state.graph,expected.life.anatomicalCheckpoint.state.graph);
     assert.deepEqual(opened.life.game.commandHistory,expected.life.game.commandHistory);
     await button(page,"Close panel").click();
-    await page.clock.runFor(90*60000);await button(page,"Snack").click();
+    await page.clock.setFixedTime(new Date(expected.life.game.clock.nowMs+90*60000));await button(page,"Snack").click();
     await button(page,"Open more menu").click();await button(page,"Export pet").click();
     const careDownload=page.waitForEvent("download");await button(page,"Download pet file").click();
     const cared=JSON.parse(await readFile(await(await careDownload).path(),"utf8"));

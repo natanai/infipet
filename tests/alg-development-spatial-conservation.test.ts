@@ -449,3 +449,49 @@ test("[DEV-008/A1] internally consistent forged movement still cannot enter prot
     /occupied material/,
   );
 });
+
+test("[DEV-008/A2] restored cache cannot hide spatial forgery behind a recomputed digest; old journals reconstruct safely", async () => {
+  const { createSimulation } = await import("../src/simulation");
+  const { createGame, advanceGame } = await import("../src/gameplay");
+  const { checkpointDigest } =
+    await import("../src/integration/checkpoint-integrity");
+  const game = advanceGame(
+    createGame("RESTORE-SPATIAL", "infant", T),
+    T + 366 * D,
+    "absent",
+  );
+  const simulation = createSimulation(
+    fixtures.branching,
+    game.seed,
+    game.mode,
+    { careGame: game, reuseLivingMaterial: false },
+  );
+  const expected = simulation.materialStateAt(365),
+    checkpoint = clone(simulation.exportAnatomicalCheckpoint()!);
+  assert.ok(checkpoint.state.graph.events.length);
+  for (const mutate of [
+    (g: any) => {
+      g.cells[0].x++;
+    },
+    (g: any) => {
+      delete g.birth;
+      g.events.forEach((e: any) => delete e.physical);
+    },
+  ]) {
+    const invalid = clone(checkpoint);
+    mutate(invalid.state.graph);
+    const rehashed={...invalid,stateDigest:checkpointDigest(JSON.stringify(invalid.state))};
+    const restored = createSimulation(
+      fixtures.branching,
+      game.seed,
+      game.mode,
+      {
+        careGame: game,
+        reuseLivingMaterial: false,
+        anatomicalCheckpoint: rehashed,
+      },
+    );
+    assert.equal(restored.getMaterialRuntimeStats!().imported, 0);
+    assert.deepEqual(restored.materialStateAt(365), expected);
+  }
+});

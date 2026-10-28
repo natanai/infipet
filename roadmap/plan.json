@@ -1777,7 +1777,7 @@
       "algorithmId": "development",
       "qualification": {
         "counterexample": "Verified on 3695203: surviving original cell ink/original/18,16 moved x18 to19 with zero events passed the old inventory audit. New independent spatial reconstruction rejects it and an identical-silhouette identity swap.",
-        "evidence": "Five focused tests: unrecorded physical properties, authentic translate, all365 checks plus JSON restoration, authentic reattachment, forged journals entering voids/occupied tissue. Existing six production daily integration tests pass.",
+        "evidence": "Six focused tests: unrecorded physical properties, authentic translate, all365 checks plus JSON restoration, authentic reattachment, forged journals entering voids/occupied tissue. Rehashed forged-position and pre-journal caches safely reconstruct; existing six production daily integration tests pass.",
         "contract": "Cell color/z/tissue/ancestry immutable. Per-operation journals contain relocation before/after, operationID, check/time and complete topology deltas. Independent reconstruction starts with canonical source topology and checks permanent operator authorization and mechanical state after each event."
       }
     },
@@ -1824,8 +1824,8 @@
         "retention": {
           "physiologicalEvents": 128,
           "postmaturityCommandReceipts": 128,
-          "day400SaveBytes": 2836790,
-          "day1460SaveBytes": 2837435
+          "day400SaveBytes": 2836803,
+          "day1460SaveBytes": 2837447
         },
         "limits": "Complete original first-year evidence retained; older postmaturity diagnostic queries outside the rolling window explicitly unavailable. Expired postmaturity arbitrary idempotency keys are not retained; application IDs use a monotonic lifetime sequence. Missing old physiological intervals remain explicitly unknown."
       }

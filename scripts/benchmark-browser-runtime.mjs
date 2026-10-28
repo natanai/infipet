@@ -122,7 +122,7 @@ try{
     for(let i=0;i<4;i++){
       await btn("Clean").waitFor({state:"visible"});
       const start=performance.now();await btn("Clean").click();
-      await waitSaved(doc=>doc.life.game.commandHistory.length>before.life.game.commandHistory.length+i);
+      await waitSaved(doc=>(doc.life.game.commandSequence??doc.life.game.commandHistory.length)>(before.life.game.commandSequence??before.life.game.commandHistory.length)+i);
       careMs.push(performance.now()-start);
     }
     const after=await readSaved();

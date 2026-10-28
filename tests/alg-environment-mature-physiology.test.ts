@@ -43,7 +43,10 @@ test("[CARE-005/A1] actual care at days 364,365,366,400,1460 reaches meters, exa
   let mature: unknown;
   const byteSizes: number[] = [];
   for (const day of [364, 365, 366, 400, 1460]) {
-    let s = advanceGame(lives.get(day * 24)!, T + day * DAY + 1.5 * HOUR);
+    let s = advanceGame(
+      lives.get(day * 24)!,
+      T + day * DAY + 1.5 * HOUR + 12345,
+    );
     assert.equal(s.dead, false);
     assert.equal(s.grace, null);
     assert.equal(s.sleeping, false);
@@ -73,7 +76,10 @@ test("[CARE-005/A1] actual care at days 364,365,366,400,1460 reaches meters, exa
       priorInput,
       "old sampling cap left this unchanged at day366",
     );
-    assert.equal(input.model.events.at(-1)!.atMs, day * DAY + 1.5 * HOUR);
+    assert.equal(
+      input.model.events.at(-1)!.atMs,
+      day * DAY + 1.5 * HOUR + 12345,
+    );
     assert.equal(
       after.needs.relaxation.fulfillment,
       1,
