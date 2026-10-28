@@ -74,7 +74,7 @@ test("[AUD-001/A3] forged relocation, source tissue identity, unauthorized topol
   assert.throws(()=>verifyDailyMaterialInventory(badLinks,HATCH,365),
     /physical state|reconstruction/);
   const badLedger=copy(g) as any;
-  const closing=badLedger.events.find(e=>e.dailyPhysical)!;
+  const closing=badLedger.events.find((e:any)=>e.dailyPhysical)!;
   closing.dailyPhysical!.relocations.push({
     cellId:badLedger.sourceCells[0].id,from:{x:9,y:9},to:{x:60,y:60},
     operationId:"not-an-accepted-operation",checkIndex:closing.checkIndex!,
