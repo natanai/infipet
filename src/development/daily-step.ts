@@ -33,7 +33,8 @@ import {initializeMaterialOperatorChronology,stepMaterialOperatorChronology,mate
   type MaterialOperatorChronologyState} from "./operator-chronology";
 import {createIterativeChronologyState,stepIterativeChronology,type IterativeChronologyState} from "./iterative-chronology";
 import {applyRemodelingProposal,remodelingProposalsBetween,EMPTY_REMODELING_CHRONOLOGY,type RemodelingChronology} from "./remodel-transactions";
-import type {MaterialGraph,MaterialCell,MaterialEvent} from "./material-graph";
+import type {MaterialGraph,MaterialCell,MaterialEvent,MaterialChange} from "./material-graph";
+import {auditDailyPhysicalHistory} from "./physical-audit";
 import {dailyCheckTime,validateDailyCareWindow,DAILY_HOURS,FINAL_ANATOMICAL_CHECK,type DailyCareWindowV1} from "./daily-contract";
 export * from "./daily-contract";
 
@@ -65,58 +66,25 @@ function seal<T>(value:T):T {
 /** Independent inventory reconstruction. Does NOT trust cell counts, operator
  * receipts or the graph's currently live list as the creation oracle. */
 export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:number,throughCheck:number):void {
-  dailyCheckTime(hatchAtMs,throughCheck);
-  const source=new Map(graph.sourceCells.map(c=>[c.id,c]));
-  const active=new Set(source.keys()),ever=new Set(source.keys());
-  const archive=new Map<string,MaterialCell>(source);
-  const events=new Set<string>();let previous=0;
-  if(source.size!==graph.sourceCells.length)throw new TypeError("Duplicate original material");
-  for(const event of graph.events){
-    const k=event.checkIndex;
-    if(k===undefined||!Number.isInteger(k)||k<1||k>throughCheck||k>FINAL_ANATOMICAL_CHECK||
-        event.atHour!==k*DAILY_HOURS||event.atMs!==dailyCheckTime(hatchAtMs,k)||k<previous)
-      throw new RangeError("Material transaction is outside its daily opportunity");
-    if(events.has(event.id))throw new TypeError("Duplicate material transaction");
-    events.add(event.id);previous=k;
-    const made=event.createdCells??[];
-    if(!equal(made.map(c=>c.id),event.createdCellIds))throw new TypeError("Missing physical creation ownership");
-    for(const cell of made){
-      if(ever.has(cell.id)||cell.provenance!=="generated"||!cell.operationId||
-          !cell.parentCellIds.length||cell.parentCellIds.some(id=>!active.has(id))||
-          !cell.sourceIds.length||cell.sourceIds.some(id=>!source.has(id)))
-        throw new TypeError("Reused identity or invalid physical parent/source ancestry");
-      const inherited=[...new Set(cell.parentCellIds.flatMap(id=>archive.get(id)!.sourceIds))].sort();
-      if(!equal([...cell.sourceIds].sort(),inherited))throw new TypeError("Creation changed material ancestry");
-      active.add(cell.id);ever.add(cell.id);archive.set(cell.id,cell);
-    }
-    for(const id of event.removedCellIds){
-      if(!active.has(id))throw new TypeError("Removal lacks active physical inventory");
-      active.delete(id);
-    }
+  auditDailyPhysicalHistory(graph,hatchAtMs,throughCheck);
+}
+function changed<T extends {id:string}>(before:readonly T[],after:readonly T[]):MaterialChange<T>[] {
+  const a=new Map(before.map(v=>[v.id,v])),b=new Map(after.map(v=>[v.id,v]));
+  const result:MaterialChange<T>[]=[];
+  for(const id of new Set([...a.keys(),...b.keys()])){
+    const old=a.get(id)??null,next=b.get(id)??null;
+    if(!equal(old,next))result.push({before:old,after:next});
   }
-  const actual=new Set(graph.cells.map(c=>c.id));
-  if(actual.size!==graph.cells.length||actual.size!==active.size||[...active].some(id=>!actual.has(id)))
-    throw new TypeError("Actual material inventory disagrees with creation/removal transactions");
-  const tissues=new Set(graph.tissues.map(t=>t.id));
-  for(const cell of graph.cells){
-    const original=archive.get(cell.id);
-    if(!original||!equal(cell.sourceIds,original.sourceIds)||!equal(cell.parentCellIds,original.parentCellIds)||
-        cell.operationId!==original.operationId||cell.provenance!==original.provenance||
-        !tissues.has(cell.tissueId)||![cell.x,cell.y].every(v=>Number.isInteger(v)&&v>=0&&v<64))
-      throw new TypeError("Active material lost its original creation ancestry");
-  }
-  for(const link of graph.links)
-    if(!tissues.has(link.fromTissueId)||!tissues.has(link.toTissueId)||
-        (link.fromCellId!==null&&!active.has(link.fromCellId))||
-        (link.toCellId!==null&&!active.has(link.toCellId)))
-      throw new TypeError("Attachment lacks active physical endpoints");
+  return result;
 }
 export function createDailyMaterialState(program:MaterialDevelopmentProgram,hatchAtMs:number):DailyMaterialState {
   dailyCheckTime(hatchAtMs,FINAL_ANATOMICAL_CHECK);
   if(program.source.events.length)throw new TypeError("Daily birth must be original authored material");
   const state:DailyMaterialState={version:1,clock:"daily-365-v1",hatchAtMs,
     programFingerprint:program.fingerprint,genomeFingerprint:program.genomeFingerprint,
-    completedChecks:0,graph:program.source,material:initializeMaterialOperatorChronology(program),
+    completedChecks:0,graph:{...program.source,birthStructure:{
+      tissues:program.source.tissues,sites:program.source.sites,links:program.source.links}},
+    material:initializeMaterialOperatorChronology(program),
     iterative:createIterativeChronologyState(program),remodeling:EMPTY_REMODELING_CHRONOLOGY,checks:[]};
   verifyDailyMaterialInventory(state.graph,hatchAtMs,0);
   return seal(state);
@@ -168,12 +136,40 @@ export function applyDailyMaterialStep(
   if(added.some(e=>e.atHour!==k))throw new RangeError("Primitive attempted a between-check physical mutation");
   const events:MaterialEvent[]=added.map(e=>({...e,atHour:k*DAILY_HOURS,atMs:window.endMs,
     checkIndex:k,careDigest:window.provenanceDigest,genomeFingerprint:program.genomeFingerprint}));
-  graph=events.length?{...graph,events:[...prior.graph.events,...events]}:prior.graph;
-  const old=new Map(prior.graph.cells.map(c=>[c.id,c]));
+  const original=new Map<string,MaterialCell>([
+    ...prior.graph.cells.map(c=>[c.id,c] as const),
+    ...events.flatMap(e=>(e.createdCells??[]).map(c=>[c.id,c] as const)),
+  ]);
+  const operations=[...program.operators,...remodelingProgram.operations]
+    .sort((a,b)=>b.id.length-a.id.length);
+  const relocations=graph.cells.flatMap(c=>{
+    const before=original.get(c.id);
+    if(!before||before.x===c.x&&before.y===c.y)return [];
+    const owner=events.find(e=>(e.kind==="remodel"||e.kind==="translate")&&
+      operations.some(op=>op.tissueId===c.tissueId&&e.id.startsWith(op.id+"/")));
+    if(!owner)throw new TypeError("Primitive relocated material without a named operation");
+    return [{cellId:c.id,from:{x:before.x,y:before.y},to:{x:c.x,y:c.y},
+      operationId:owner.id,checkIndex:k}];
+  });
+  // Physical topology changes are transactions too; immutable before-images
+  // are reconstructed from the previous check, not trusted from the final graph.
+  const physical=events.length?{
+    authorizedEvents:events.map(e=>e.id),relocations,
+    tissues:changed(prior.graph.tissues,graph.tissues),
+    sites:changed(prior.graph.sites,graph.sites),
+    links:changed(prior.graph.links,graph.links),
+  }:null;
+  const closing:MaterialEvent[]=physical?[{
+    id:"daily-physical/"+k,kind:"daily-physical",atHour:k*DAILY_HOURS,
+    atMs:window.endMs,checkIndex:k,careDigest:window.provenanceDigest,
+    genomeFingerprint:program.genomeFingerprint,sourceCellIds:[],
+    createdCellIds:[],removedCellIds:[],createdCells:[],dailyPhysical:physical,
+  }]:[];
+  graph=events.length?{...graph,events:[...prior.graph.events,...events,...closing]}:prior.graph;
   const record:DailyCheckRecord={checkIndex:k,atMs:window.endMs,careDigest:window.provenanceDigest,
     createdCellIds:events.flatMap(e=>e.createdCellIds),removedCellIds:events.flatMap(e=>e.removedCellIds),
-    relocatedCellIds:graph.cells.filter(c=>{const b=old.get(c.id);return b&&(b.x!==c.x||b.y!==c.y);}).map(c=>c.id),
-    acceptedEvents:events.map(e=>e.id),nullEffect:graph===prior.graph};
+    relocatedCellIds:relocations.filter(m=>prior.graph.cells.some(c=>c.id===m.cellId)).map(m=>m.cellId),
+    acceptedEvents:[...events,...closing].map(e=>e.id),nullEffect:graph===prior.graph};
   // Sparse daily allocation archive: omitted sites received/spent ZERO.
   // Their permanent IDs/orbits remain in sites, so the full competition is
   // independently reconstructible without 365 copies of thousands of zeros.
