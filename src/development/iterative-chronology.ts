@@ -149,7 +149,8 @@ function validateGraph(
   graph: MaterialGraph, birth: MaterialDevelopmentProgram, completionHour = 0,
 ) {
   if (graph.version !== 1 || graph.sourceFingerprint !== birth.source.sourceFingerprint ||
-      JSON.stringify(graph.sourceCells) !== JSON.stringify(birth.source.sourceCells))
+      (graph.sourceCells!==birth.source.sourceCells&&
+       JSON.stringify(graph.sourceCells) !== JSON.stringify(birth.source.sourceCells)))
     throw new TypeError("Chronological material cannot exchange or rewrite original ink");
   const cells = new Map<string, MaterialCell>();
   const tissueIds = new Set(graph.tissues.map(t => t.id));

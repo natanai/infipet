@@ -57,7 +57,9 @@ export type DailyMaterialState=Readonly<{
   remodeling:RemodelingChronology;
   checks:readonly DailyCheckRecord[];
 }>;
-const equal=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
+// Reference identity proves equality for this serializable data contract;
+// independently allocated/reloaded values still receive full value comparison.
+const equal=(a:unknown,b:unknown)=>a===b||JSON.stringify(a)===JSON.stringify(b);
 const cap=(v:number)=>Math.max(0,Math.min(1,v));
 function seal<T>(value:T):T {
   if(value&&typeof value==="object"&&!Object.isFrozen(value)){

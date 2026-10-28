@@ -1,6 +1,7 @@
 import {journalMaterialEvent} from "./material-journal";
 import {proposeCoherentReshape} from "./coordinated-metamorphosis";
 import {proposeTissueReflow} from "./tissue-reflow";
+import {isLatticeConnected} from "./lattice-connectivity";
 /**
  * Composable DEV-004 remodeling transactions. This module never replays birth
  * anatomy or chooses the global order of heterogeneous development events.
@@ -102,13 +103,7 @@ function stepFor(p: Point): Point {
   return x || y ? {x,y} : {x:0,y:-1};
 }
 function connected(group: readonly MaterialCell[]): boolean {
-  if (!group.length) return false;
-  const seen = new Set([group[0].id]), queue=[group[0]];
-  for(let i=0;i<queue.length;i++)
-    for(const c of group) if(!seen.has(c.id) && near(c,queue[i])) {
-      seen.add(c.id);queue.push(c);
-    }
-  return seen.size === group.length;
+  return isLatticeConnected(group);
 }
 function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): number {
   const c=p.signals.channels;
@@ -182,7 +177,12 @@ export function remodelingProposalsBetween(
  */
 function checkGraph(g:MaterialGraph):string|null {
   if(g.version!==1 || !g.sourceFingerprint) return "invalid-material-graph";
-  const sources=new Set(g.sourceCells.map(c=>c.id));
+  // First-match semantics exactly match the original source-array find(),
+  // including authored overlays. Build once instead of scanning every source
+  // for every live cell at every atomic transaction.
+  const sourceById=new Map<string,MaterialCell>();
+  for(const c of g.sourceCells)if(!sourceById.has(c.id))sourceById.set(c.id,c);
+  const sources=new Set(sourceById.keys()),voids=new Set(g.protectedVoids);
   const active=new Map(g.cells.map(c=>[c.id,c]));
   if(active.size!==g.cells.length) return "duplicate-material-identity";
   const tissue=new Map(g.tissues.map(t=>[t.id,t]));
@@ -198,15 +198,17 @@ function checkGraph(g:MaterialGraph):string|null {
     // An authored overlay (e.g. marks inside an authored ring) is part of
     // birth, not deposited matter. Match the independent spatial auditor:
     // only that SAME original identity at that SAME position is exempt.
-    const original=g.sourceCells.find(source=>source.id===c.id);
-    if(g.protectedVoids.includes(pointKey(c)) &&
-       (!original||pointKey(original)!==pointKey(c))) return "existing-protected-void";
+    const k=pointKey(c);
+    if(voids.has(k)){
+      const original=sourceById.get(c.id);
+      if(!original||pointKey(original)!==k)return "existing-protected-void";
+    }
     if(c.provenance==="generated") {
       generated++;
       if(!c.operationId||!events.has(c.id)||!c.parentCellIds.length)
         return "missing-generating-operation";
     }
-    const k=pointKey(c), prior=positions.get(k);
+    const prior=positions.get(k);
     if(prior && (c.provenance==="generated" ||
       prior.provenance==="generated")) return "existing-material-overlap";
     positions.set(k,c);
@@ -323,7 +325,8 @@ export function applyRemodelingProposal(
   else if(priorIds.has(id)||graph.events.some(e=>e.id===id))
     reason="duplicate-remodel-proposal";
   else if(graph.sourceFingerprint!==program.birth.sourceFingerprint ||
-          JSON.stringify(graph.sourceCells)!==JSON.stringify(program.birth.sourceCells))
+          (graph.sourceCells!==program.birth.sourceCells&&
+           JSON.stringify(graph.sourceCells)!==JSON.stringify(program.birth.sourceCells)))
     reason="foreign-source-material";
   else if(graph.events.some(e=>e.atHour>atHour))
     reason="future-anatomy-in-transaction";

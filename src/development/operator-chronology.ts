@@ -1,4 +1,5 @@
 import {journalMaterialEvent} from "./material-journal";
+import {isLatticeConnected} from "./lattice-connectivity";
 /**
  * DEV-002 incremental transactions on the ONE authoritative material graph.
  *
@@ -137,7 +138,8 @@ function validateProgram(program: MaterialDevelopmentProgram):void {
 /** Fail closed on source/genome substitution; old cell/linked event IDs remain causal. */
 function validateGraph(g:MaterialGraph,program:MaterialDevelopmentProgram,cutoff:number):void {
   if(g.version!==1 || g.sourceFingerprint!==program.source.sourceFingerprint ||
-     JSON.stringify(g.sourceCells)!==JSON.stringify(program.source.sourceCells))
+     (g.sourceCells!==program.source.sourceCells&&
+      JSON.stringify(g.sourceCells)!==JSON.stringify(program.source.sourceCells)))
     throw new TypeError("Original drawn material identity was changed");
   const active=new Map(g.cells.map(c=>[c.id,c]));
   const sources=new Set(g.sourceCells.map(c=>c.id));
@@ -256,13 +258,7 @@ function canDeposit(g:MaterialGraph,p:Point,tissueId:string,provisional:readonly
   return null;
 }
 function contiguous(cells:readonly MaterialCell[]):boolean {
-  if(!cells.length)return false;
-  const visited=new Set([cells[0].id]),queue=[cells[0]];
-  for(let i=0;i<queue.length;i++) for(const c of cells)
-    if(!visited.has(c.id)&&touching(c,queue[i])) {
-      visited.add(c.id);queue.push(c);
-    }
-  return visited.size===cells.length;
+  return isLatticeConnected(cells);
 }
 function liveSite(g:MaterialGraph,op:MaterialOperator) {
   const site = op.siteId ? g.sites.find(s=>s.id===op.siteId&&s.tissueId===op.tissueId)

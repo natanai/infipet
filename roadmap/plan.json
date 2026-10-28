@@ -2195,8 +2195,99 @@
           "freshYearMaxMs": 6798.62318000001,
           "savedReopenMaxMs": 469.1378160000022,
           "rssMaxMiB": 634.109375,
-          "existingBudgetsChanged": false
+          "existingBudgetsChanged": false,
+          "followUpTask": "PERF-002"
         }
+      }
+    },
+    {
+      "id": "PERF-002",
+      "phase": 4,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "Exact indexed remodeling validation without changing biological outcomes",
+      "dependsOn": [
+        "PERF-001",
+        "MORPH-005",
+        "DEV-008"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Bounded lattice connectivity equals an independent all-pairs component oracle over exhaustive local occupancies, world edges, authored co-location, permutations and generated connected/disconnected inputs.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Indexed source and protected-void checks preserve permitted authored overlays and continue rejecting fabricated material, disconnected tissue, unknown ancestry and silent protected-space relocations without partial transactions.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Canonical daily replay and full independent spatial reconstruction retain original material, exact movement, event order, topology and deterministic state; existing 8-second and all other performance budgets remain unchanged and pass.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-lattice-connectivity.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-lattice-connectivity.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/lattice-connectivity.ts",
+        "src/development/remodel-transactions.ts",
+        "tests/alg-development-lattice-connectivity.test.ts",
+        "src/development/operator-chronology.ts",
+        "src/development/iterative-chronology.ts",
+        "src/development/daily-step.ts"
+      ],
+      "interfaceContract": {
+        "inputs": [
+          "validated current physical integer cells",
+          "immutable original source cells",
+          "existing protected-void and attachment constraints"
+        ],
+        "outputs": [
+          "exact eight-neighbor reachability",
+          "unchanged atomic transaction decisions and inventories"
+        ],
+        "mustNot": [
+          "change any growth rate or genotype",
+          "skip any material or chronological check",
+          "reduce the 365 daily opportunities",
+          "relax a performance threshold",
+          "change the independent auditor to share the optimized reachability implementation"
+        ],
+        "regression": {
+          "workflowRun": 40749259300,
+          "denseColdYearMs": 8101.766574000008,
+          "budgetMs": 8000,
+          "functionalTestsPassed": 234
+        }
+      },
+      "evidenceSummary": {
+        "sourceCommitBefore": "06b48831672896f17c95aa9a8a8babe912e392a3",
+        "regressionWorkflowRun": 40749259300,
+        "regressionDenseColdMs": 8101.766574000008,
+        "independentContractTestsPassed": 3,
+        "focusedExistingRegressionsPassed": 28,
+        "isolatedPerformanceTestsPassed": 2,
+        "typecheck": "passed",
+        "webExport": "passed",
+        "pairedProfile": {
+          "beforeMs": 7574.4190849999995,
+          "afterMs": 4570.244393999999,
+          "fullCanonical365DayStateUnchanged": true,
+          "physicalCells": 1212,
+          "physicalEvents": 186
+        },
+        "isolatedDenseColdMs": 3731.8217779999977,
+        "coldBudgetMs": 8000,
+        "budgetsChanged": false,
+        "independentSpatialAuditorChanged": false,
+        "limits": "Reference measurements are Linux Node24; native-phone performance remains unmeasured. Full publication still requires successful production verification."
       }
     }
   ],
@@ -2348,7 +2439,8 @@
         "DEV-008",
         "MORPH-002",
         "MORPH-004",
-        "MORPH-005"
+        "MORPH-005",
+        "PERF-002"
       ],
       "readyWhen": [
         "OBS-001"
