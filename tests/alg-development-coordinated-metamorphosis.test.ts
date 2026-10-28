@@ -125,3 +125,20 @@ test("[MORPH-004/A4] real compiled lifetime includes coherent non-tip remodeling
  assert.ok(outcomes.some(o=>o.events>0&&o.moved>=2&&o.moved===o.newCells),
    "default daily biology must exhibit real bulk movement in a source/genotype-eligible witness");
 });
+
+test("[MORPH-004/A4] independently derived source-area inertia bounds dense region opportunities",()=>{
+ const areas=[9,64,256,1024];
+ for(const area of areas){
+  const side=Math.sqrt(area);
+  const {atlas,genome}=materialInputs(drawing(
+    Array.from({length:side},()=>"#".repeat(side))),"AREA-INERTIA-"+area);
+  const program=compileMaterialDevelopment(atlas,genome);
+  const ops=compileLifetimeRemodeling(program,genome).operations
+    .filter(op=>op.kind==="reshape");
+  assert.ok(ops.length>0);
+  const expected=Math.min(1,8/Math.sqrt(area));
+  for(const op of ops)
+   assert.equal(op.strength,expected,
+    "physical source area, not creature label or target silhouette, governs volume inertia");
+ }
+});
