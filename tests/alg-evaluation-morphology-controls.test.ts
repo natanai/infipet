@@ -30,24 +30,38 @@ const box=(width:number,height:number,x=20,y=20):Point[]=>Array.from({length:wid
 function add(graph:MaterialGraph,day:number,added:readonly Point[]):MaterialGraph{
   const seen=new Set(graph.cells.map(at)),points=added.filter(p=>!seen.has(at(p)));
   if(!points.length)return graph;
-  const root=graph.sourceCells[0];
   const operation="synthetic/"+day;
-  const createdCells:MaterialCell[]=points.map((p,i)=>({
-    id:operation+"/"+i,tissueId:"source",x:p.x,y:p.y,color:root.color,
-    provenance:"generated",sourceIds:[root.id],parentCellIds:[root.id],operationId:operation,
-  }));
+  const pending=[...points],available=[...graph.cells];
+  const createdCells:MaterialCell[]=[];
+  while(pending.length){
+    const index=pending.findIndex(p=>available.some(parent=>
+      Math.max(Math.abs(p.x-parent.x),Math.abs(p.y-parent.y))<=1));
+    if(index<0)throw new Error("Fixture lacks physically contiguous new material");
+    const [p]=pending.splice(index,1);
+    const parent=[...available].filter(c=>
+      Math.max(Math.abs(p.x-c.x),Math.abs(p.y-c.y))<=1)
+      .sort((a,b)=>a.id.localeCompare(b.id))[0];
+    const cell:MaterialCell={
+      id:operation+"/"+createdCells.length,tissueId:"source",x:p.x,y:p.y,
+      color:parent.color,provenance:"generated",sourceIds:[...parent.sourceIds],
+      parentCellIds:[parent.id],operationId:operation,
+    };
+    createdCells.push(cell);available.push(cell);
+  }
+  const root=graph.sourceCells[0];
   const event:MaterialEvent={id:operation,kind:"synthetic-witness",atHour:day*24,checkIndex:day,
-    atMs:day*86400000,sourceCellIds:[root.id],createdCellIds:createdCells.map(c=>c.id),
+    atMs:day*86400000,sourceCellIds:[...new Set(createdCells.flatMap(c=>c.sourceIds))].sort(),createdCellIds:createdCells.map(c=>c.id),
     removedCellIds:[],createdCells,careDigest:"synthetic/"+day,genomeFingerprint:"synthetic"};
   return {...graph,cells:[...graph.cells,...createdCells],events:[...graph.events,event]};
 }
 function tendril(graph:MaterialGraph):MaterialGraph{
-  return add(graph,30,Array.from({length:20},(_,i)=>({x:26+i,y:21})));
+  const anchor=[...graph.cells].sort((a,b)=>b.x-a.x||a.y-b.y)[0];
+  return add(graph,30,Array.from({length:20},(_,i)=>({x:anchor.x+1+i,y:anchor.y})));
 }
 function volume(graph:MaterialGraph,seed=0,care=0,day=30):MaterialGraph{
   const side=5+seed+care;
-  const x=Math.max(...graph.cells.map(p=>p.x))+1;
-  return add(graph,day,box(side,side,x,20));
+  const anchor=[...graph.cells].sort((a,b)=>b.x-a.x||a.y-b.y)[0];
+  return add(graph,day,box(side,side,anchor.x+1,anchor.y));
 }
 const stable=(g:MaterialGraph)=>JSON.stringify(g);
 

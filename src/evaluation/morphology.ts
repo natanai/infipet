@@ -230,52 +230,111 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
   const errors:string[]=[];
   try{validate(graph.sourceCells);validate(graph.cells);}catch(e){
     return {valid:false,errors:[String(e)]};}
-  const source=new Map(graph.sourceCells.map(c=>[c.id,c]));
-  let state=new Map(graph.sourceCells.map(c=>[c.id,c]));
-  const birthIds=new Set(source.keys());
-  for(const c of graph.sourceCells)if(c.provenance!=="authored"||
-    c.sourceIds.length!==1||c.sourceIds[0]!==c.id||c.operationId!==null)
-    errors.push("invalid-authored-origin:"+c.id);
+  let active=new Map(graph.sourceCells.map(c=>[c.id,c]));
+  const sourceIds=new Set(active.keys()),createdEver=new Set(sourceIds);
+  const same=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
+  const sources=new Map(graph.sourceCells.map(c=>[c.id,c]));
+  const birth=graph.birth;
+  const tissues=new Map((birth?.tissues??[]).map(t=>[t.id,t]));
+  const links=new Map((birth?.links??[]).map(l=>[l.id,l]));
+  const sites=new Map((birth?.sites??[]).map(t=>[t.id,t]));
+  const applyChanges=<T extends {id:string}>(records:Map<string,T>,changes:readonly {
+    id:string;before:T|null;after:T|null}[],kind:string)=>{
+    for(const change of changes){
+      const prior=records.get(change.id)??null;
+      if(!same(prior,change.before)||change.after?.id!==change.id&&change.after!==null)
+        errors.push("unauthorized-"+kind+":"+change.id);
+      if(change.after)records.set(change.id,change.after);else records.delete(change.id);
+    }
+  };
+  for(const cell of graph.sourceCells)
+    if(cell.provenance!=="authored"||cell.sourceIds.length!==1||
+      cell.sourceIds[0]!==cell.id||cell.operationId!==null)
+      errors.push("invalid-authored-origin:"+cell.id);
   let lastCheck=0;
-  const createdEver=new Set(birthIds);
   for(const event of graph.events){
     const check=event.checkIndex;
     if(check===undefined||!Number.isSafeInteger(check)||check<1||check>365||
-      check<lastCheck||event.atHour!==check*24)
+      check<lastCheck||event.atHour!==check*24||
+      (event.atMs!==undefined&&!Number.isSafeInteger(event.atMs)))
       errors.push("invalid-daily-chronology:"+event.id);
     lastCheck=check??lastCheck;
-    const archive=new Map((event.createdCells??[]).map(c=>[c.id,c]));
-    for(const id of event.removedCellIds){
-      if(!state.delete(id))errors.push("unrecorded-removal:"+id);
-    }
-    for(const movement of event.physical?.relocations??[]){
-      const prior=state.get(movement.cellId);
-      if(!prior||prior.x!==movement.from.x||prior.y!==movement.from.y||
-        movement.operationId!==event.physical?.operation.id||
-        movement.checkIndex!==event.checkIndex)
-        errors.push("invalid-relocation:"+movement.cellId);
-      else state.set(prior.id,{...prior,x:movement.to.x,y:movement.to.y,
-        ...(movement.to.z===undefined?{}:{z:movement.to.z})});
-    }
+    const before=new Map(active);
+    const creationIds=new Set(event.createdCellIds);
+    if(creationIds.size!==event.createdCellIds.length||
+      new Set(event.removedCellIds).size!==event.removedCellIds.length)
+      errors.push("duplicate-event-identity:"+event.id);
+    const archived=event.createdCells??[];
+    const archive=new Map(archived.map(c=>[c.id,c]));
+    if(!same(archived.map(c=>c.id),event.createdCellIds)||
+      archive.size!==archived.length)
+      errors.push("creation-archive-mismatch:"+event.id);
+    // Creation FIRST, before relocation and deletion, as physical receipts
+    // are sequenced. New cells must touch a live parent at creation time.
     for(const id of event.createdCellIds){
       const cell=archive.get(id);
-      if(!cell||state.has(id)||createdEver.has(id)||cell.provenance!=="generated"||
+      const parents=cell?.parentCellIds.map(p=>active.get(p));
+      const inherited=[...new Set((parents??[]).flatMap(p=>p?.sourceIds??[]))].sort();
+      if(!cell||active.has(id)||createdEver.has(id)||
+        cell.provenance!=="generated"||
         !cell.operationId||!cell.sourceIds.length||
-        cell.sourceIds.some(sourceId=>!birthIds.has(sourceId))||
-        !cell.parentCellIds.length||cell.parentCellIds.some(parent=>!createdEver.has(parent)))
+        (cell.operationId!==event.id&&cell.operationId!==event.physical?.operation.id)||
+        cell.sourceIds.some(sourceId=>!sourceIds.has(sourceId))||
+        !cell.parentCellIds.length||parents?.some(p=>!p)||
+        !same([...cell.sourceIds].sort(),inherited)||
+        !parents?.some(p=>p&&Math.max(Math.abs(cell.x-p.x),Math.abs(cell.y-p.y))<=1)||
+        !Number.isSafeInteger(cell.x)||!Number.isSafeInteger(cell.y)||
+        cell.x<0||cell.x>=64||cell.y<0||cell.y>=64)
         errors.push("invalid-material-creation:"+id);
-      if(cell)state.set(id,cell);
+      if(cell)active.set(id,cell);
       createdEver.add(id);
     }
-    if(archive.size!==event.createdCellIds.length)errors.push("creation-archive-mismatch:"+event.id);
+    const relocations=event.physical?.relocations??[];
+    if(new Set(relocations.map(r=>r.cellId)).size!==relocations.length)
+      errors.push("duplicated-relocation:"+event.id);
+    for(const movement of relocations){
+      const prior=before.get(movement.cellId);
+      const dest=movement.to;
+      if(!prior||!same(movement.from,{
+        x:prior.x,y:prior.y,...(prior.z===undefined?{}:{z:prior.z})})||
+        movement.operationId!==event.physical?.operation.id||
+        movement.checkIndex!==event.checkIndex||
+        (movement.atMs!==undefined&&movement.atMs!==event.atMs)||
+        !Number.isSafeInteger(dest.x)||!Number.isSafeInteger(dest.y)||
+        dest.x<0||dest.x>=64||dest.y<0||dest.y>=64||
+        dest.z!==prior.z||
+        Math.max(Math.abs(dest.x-prior.x),Math.abs(dest.y-prior.y))!==1)
+        errors.push("invalid-relocation:"+movement.cellId);
+      else active.set(prior.id,{...prior,x:dest.x,y:dest.y});
+    }
+    for(const id of event.removedCellIds){
+      if(!active.has(id)||relocations.some(r=>r.cellId===id))
+        errors.push("unrecorded-removal:"+id);
+      active.delete(id);
+    }
+    if(event.physical){
+      applyChanges(tissues,event.physical.tissues,"tissue");
+      applyChanges(sites,event.physical.sites,"site");
+      applyChanges(links,event.physical.links,"link");
+    }
   }
   const live=new Map(graph.cells.map(c=>[c.id,c]));
-  if(state.size!==live.size)errors.push("physical-inventory-count");
-  for(const [id,c] of live){
-    const reconstructed=state.get(id);
-    if(!reconstructed||JSON.stringify(reconstructed)!==JSON.stringify(c))
-      errors.push("unauthorized-final-material:"+id);
-    if(c.sourceIds.some(s=>!birthIds.has(s)))errors.push("unknown-ancestry:"+id);
+  if(active.size!==live.size)errors.push("physical-inventory-count");
+  for(const [id,cell] of live){
+    if(!same(active.get(id),cell))errors.push("unauthorized-final-material:"+id);
+    if(cell.sourceIds.some(sourceId=>!sources.has(sourceId)))
+      errors.push("unknown-ancestry:"+id);
+  }
+  if(birth){
+    for(const [name,expected,current] of [
+      ["tissues",tissues,graph.tissues],["sites",sites,graph.sites],["links",links,graph.links],
+    ] as const){
+      if(expected.size!==current.length)errors.push("structural-count:"+name);
+      for(const entity of current)if(!same(expected.get(entity.id),entity))
+        errors.push("unauthorized-"+name+":"+entity.id);
+    }
+    if(!same([...birth.protectedVoids].sort(),[...graph.protectedVoids].sort()))
+      errors.push("unauthorized-protected-void-change");
   }
   return {valid:errors.length===0,errors};
 }

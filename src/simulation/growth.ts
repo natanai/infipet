@@ -675,6 +675,8 @@ export function createSimulation(
   mode: SourceMode = "infant",
   options: SimulationOptions & {previewCare?:PreviewCareInputs} = {},
 ): PetSimulation {
+  if (options.careGame && options.previewCare)
+    throw new TypeError("Synthetic Needs Lab care cannot enter a real saved life");
   const liveContext = options.liveContext
     ? {
         hatchAtHours: options.liveContext.hatchAtHours,
