@@ -29,7 +29,7 @@ function connected(cells:readonly MaterialCell[]):boolean{
  const lookup=new Set(cells.map(pos)),seen=new Set([pos(cells[0])]),q=[cells[0]];
  for(let i=0;i<q.length;i++)for(const d of steps){
   const p={x:q[i].x+d.x,y:q[i].y+d.y},key=pos(p);
-  if(lookup.has(key)&&!seen.has(key)){seen.add(key);q.push(p as MaterialCell);}
+  if(lookup.has(key)&&!seen.has(key)){seen.add(key);q.push(p);}
  }
  return seen.size===lookup.size;
 }
@@ -44,7 +44,7 @@ function route(tissue:ReadonlySet<string>,from:Point,to:Point):Point[]|null{
    if(prev.has(k)||!(tissue.has(k)||k===end))continue;
    prev.set(k,pos(p));
    if(k===end){
-    const rev:Point[]=[to];let cur=pos(p);
+    const rev:Point[]=[to];let cur:string|null=pos(p);
     while(cur!==null){const [x,y]=cur.split(",").map(Number);rev.push({x,y});cur=prev.get(cur)??null;}
     rev.reverse();return rev.length<=25?rev:null;
    }
