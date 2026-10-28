@@ -82,3 +82,31 @@ test("[AUD-001/A3] forged relocation, source tissue identity, unauthorized topol
   assert.throws(()=>verifyDailyMaterialInventory(badLedger,HATCH,365),
     /relocation|ownership/);
 });
+
+test("[AUD-001/A2] an explicitly authorized coherent whole-tissue translation replays, but forged before-images fail",()=>{
+  const {atlas,genome}=materialInputs(fixtures.blob,"RELOCATION-POSITIVE");
+  const birth=createDailyMaterialState(compileMaterialDevelopment(atlas,genome),HATCH).graph;
+  const shifted=copy(birth) as any;
+  const direction=Math.max(...birth.cells.map(c=>c.x))<63?1:-1;
+  const moved=birth.cells.map(c=>({...c,x:c.x+direction}));
+  assert.ok(moved.every(c=>c.x>=0&&c.x<64&&!birth.protectedVoids.includes(c.x+","+c.y)));
+  const op="audited/translate/1";
+  const raw={id:op,kind:"translate",atHour:24,atMs:HATCH+DAY,checkIndex:1,
+    sourceCellIds:birth.sourceCells.map(c=>c.id),
+    createdCellIds:[],createdCells:[],removedCellIds:[]};
+  const ledger={id:"daily-physical/1",kind:"daily-physical",atHour:24,
+    atMs:HATCH+DAY,checkIndex:1,sourceCellIds:[],
+    createdCellIds:[],createdCells:[],removedCellIds:[],
+    dailyPhysical:{authorizedEvents:[op],
+      relocations:birth.cells.map(c=>({
+        cellId:c.id,from:{x:c.x,y:c.y},to:{x:c.x+direction,y:c.y},
+        operationId:op,checkIndex:1,
+      })),
+      tissues:[],sites:[],links:[]}};
+  shifted.cells=moved;shifted.events=[raw,ledger];
+  shifted.birthStructure={tissues:birth.tissues,sites:birth.sites,links:birth.links};
+  assert.doesNotThrow(()=>verifyDailyMaterialInventory(shifted,HATCH,1));
+  const lied=copy(shifted) as any;
+  lied.events[1].dailyPhysical.relocations[0].from.x+=1;
+  assert.throws(()=>verifyDailyMaterialInventory(lied,HATCH,1),/relocation/);
+});
