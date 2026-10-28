@@ -49,7 +49,12 @@ export function proposeCoherentReshape(graph:MaterialGraph,tissueId:string,
    foreign.add((other.x+dx)+","+(other.y+dy));
  const center={x:source.reduce((n,c)=>n+c.x,0)/source.length,
   y:source.reduce((n,c)=>n+c.y,0)/source.length};
+ const multiplicity=new Map<string,number>();
+ for(const cell of graph.cells)multiplicity.set(key(cell),(multiplicity.get(key(cell))??0)+1);
  const candidates=group.flatMap(c=>{
+  // A daughter cannot replace just one layer of overlapping authored ink.
+  // That would overlap another surviving identity at the vacated position.
+  if(multiplicity.get(key(c))!==1)return [];
   const target={x:c.x+d.x,y:c.y+d.y};
   if(!inside(target.x,target.y)||occupied.has(key(target))||voids.has(key(target))||foreign.has(key(target)))return [];
   const inner=positions.has((c.x-d.x)+","+(c.y-d.y));

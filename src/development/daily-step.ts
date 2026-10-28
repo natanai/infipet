@@ -35,6 +35,7 @@ import {initializeMaterialOperatorChronology,stepMaterialOperatorChronology,mate
 import {createIterativeChronologyState,stepIterativeChronology,type IterativeChronologyState} from "./iterative-chronology";
 import {applyRemodelingProposal,remodelingProposalsBetween,EMPTY_REMODELING_CHRONOLOGY,type RemodelingChronology} from "./remodel-transactions";
 import type {MaterialGraph,MaterialCell,MaterialEvent} from "./material-graph";
+import {REGIONAL_GROWTH_VERSION} from "./regional-regulation";
 import {dailyCheckTime,validateDailyCareWindow,DAILY_HOURS,FINAL_ANATOMICAL_CHECK,type DailyCareWindowV1} from "./daily-contract";
 export * from "./daily-contract";
 
@@ -47,6 +48,8 @@ export type DailyCheckRecord=Readonly<{
 }>;
 export type DailyMaterialState=Readonly<{
   version:1;clock:"daily-365-v1";hatchAtMs:number;
+  /** Derived-cache identity, kept separate from the permanent birth orbit. */
+  algorithmVersion:typeof REGIONAL_GROWTH_VERSION;
   programFingerprint:string;genomeFingerprint:string;completedChecks:number;
   graph:MaterialGraph;
   material:MaterialOperatorChronologyState;
@@ -71,11 +74,11 @@ function deeplyFrozen(value:unknown,seen=new Set<object>()):boolean{
   if(!Object.isFrozen(value))return false;seen.add(value);
   return Object.values(value).every(v=>deeplyFrozen(v,seen));
 }
-export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:number,throughCheck:number,original?:MaterialGraph,authorization?:PhysicalOperatorAuthorization):void {
+export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:number,throughCheck:number,original?:MaterialGraph,authorization?:PhysicalOperatorAuthorization,previousGraph?:MaterialGraph):void {
   dailyCheckTime(hatchAtMs,throughCheck);
   const basis=original??graph.birth,prior=physicalProofs.get(graph),key=authorization?JSON.stringify(authorization):"";
   if(prior&&prior.basis===basis&&prior.hatch===hatchAtMs&&prior.lastCheck<=throughCheck&&prior.authorization===key)return;
-  const proof=reconstructDailyPhysicalState(graph,hatchAtMs,throughCheck,original,authorization);
+  const proof=reconstructDailyPhysicalState(graph,hatchAtMs,throughCheck,original,authorization,previousGraph);
   if(basis&&deeplyFrozen(graph)&&(!original||deeplyFrozen(original)))physicalProofs.set(graph,{basis,hatch:hatchAtMs,lastCheck:proof.lastCheck,authorization:key});
 }
 
@@ -85,6 +88,7 @@ export function createDailyMaterialState(program:MaterialDevelopmentProgram,hatc
   const origin={tissues:program.source.tissues,sites:program.source.sites,links:program.source.links,protectedVoids:program.source.protectedVoids};
   const birthGraph=equal(program.source.birth,origin)?program.source:{...program.source,birth:origin};
   const state:DailyMaterialState={version:1,clock:"daily-365-v1",hatchAtMs,
+    algorithmVersion:REGIONAL_GROWTH_VERSION,
     programFingerprint:program.fingerprint,genomeFingerprint:program.genomeFingerprint,
     completedChecks:0,graph:birthGraph,material:initializeMaterialOperatorChronology(program),
     iterative:createIterativeChronologyState(program),remodeling:EMPTY_REMODELING_CHRONOLOGY,checks:[]};
@@ -98,7 +102,7 @@ export function applyDailyMaterialStep(
 ):DailyMaterialState {
   validateDailyCareWindow(window);
   const k=window.checkIndex,n=k-1,f=window.forcing;
-  if(prior.version!==1||prior.clock!=="daily-365-v1"||prior.hatchAtMs!==window.hatchAtMs||
+  if(prior.version!==1||prior.clock!=="daily-365-v1"||prior.algorithmVersion!==REGIONAL_GROWTH_VERSION||prior.hatchAtMs!==window.hatchAtMs||
       prior.completedChecks!==n||prior.checks.length!==n||
       prior.material.nextHour!==n||prior.iterative.nextHour!==n||
       prior.programFingerprint!==program.fingerprint||prior.genomeFingerprint!==program.genomeFingerprint||
@@ -134,7 +138,8 @@ export function applyDailyMaterialStep(
     const applied=applyRemodelingProposal(graph,remodelingProgram,proposal,remodeling,k);
     graph=applied.graph;remodeling=applied.chronology;
   }
-  const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources,light:null},{enablePhysicalFields:true});
+  const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources,light:null},
+    {enablePhysicalFields:true,care:f});
   graph=iterative.graph;
   const added=graph.events.slice(prior.graph.events.length);
   if(added.some(e=>e.atHour!==k))throw new RangeError("Primitive attempted a between-check physical mutation");
@@ -155,6 +160,6 @@ export function applyDailyMaterialStep(
   const next:DailyMaterialState={...prior,completedChecks:k,graph,material:material.state,
     iterative:compactIterative,remodeling,checks:[...prior.checks,record]};
   seal(next);
-  verifyDailyMaterialInventory(next.graph,prior.hatchAtMs,k,program.source,authorization);
+  verifyDailyMaterialInventory(next.graph,prior.hatchAtMs,k,program.source,authorization,prior.graph);
   return next;
 }

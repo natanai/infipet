@@ -63,6 +63,8 @@ import type { MaterialDevelopmentProgram } from "./operators";
 import { REMODEL_LIMITS } from "./lifetime-remodeling";
 import {chooseMorphologicalField,rankMorphologicalField,
   morphologicalVolumeCapacity} from "./morphological-fields";
+import {regionalGrowthDemand,regionalGrowthTensor,selectRegionalGrammar,
+  type RegionalCare} from "./regional-regulation";
 
 /** Inclusive supported age. No modulo clock, implicit maturity reset, or clamp. */
 export const ITERATIVE_CHRONOLOGY_MAX_HOURS = REMODEL_LIMITS.maxAgeHours;
@@ -267,7 +269,7 @@ export function stepIterativeChronology(
   /** The exact 365-opportunity daily engine explicitly opts into expanded
    * physical field families. Omitted means legacy hourly numerical semantics,
    * which continue to have independently established oracles. */
-  policy: Readonly<{enablePhysicalFields:boolean}>={enablePhysicalFields:false},
+  policy: Readonly<{enablePhysicalFields:boolean;care?:RegionalCare}>={enablePhysicalFields:false},
 ): IterativeChronologyStep {
   if (state.version !== 1 ||
       state.fingerprint !== birth.fingerprint ||
@@ -363,6 +365,15 @@ export function stepIterativeChronology(
     s.activationHour <= n && byId.has(s.tipCellId))
     .sort((a, b) => compareText(a.id, b.id));
   const available = Math.floor(ITERATIVE_LIMITS.creditsPerHour * exposure.resources);
+  const sourceMass=new Map(tissues.map(t=>[t.id,Math.max(1,t.sourceCellIds.length)]));
+  const liveMass=new Map<string,number>(),siteCount=new Map<string,number>();
+  for(const cell of cells)liveMass.set(cell.tissueId,(liveMass.get(cell.tissueId)??0)+1);
+  for(const s of active)siteCount.set(s.tissueId,(siteCount.get(s.tissueId)??0)+1);
+  const capacities=new Map(policy.enablePhysicalFields?tissues.map(t=>[t.id,morphologicalVolumeCapacity(
+    sourceMass.get(t.id)!,birth.signals.channels.growth.expansion,
+    birth.signals.channels.support.membrane)] as const):[]);
+  const tensors=new Map(policy.enablePhysicalFields?tissues.map(t=>[t.id,regionalGrowthTensor(birth.signals.channels,
+    seedChaos((birth.iterativeSeedFingerprint??birth.fingerprint)+"|regional-polarity|"+t.id))] as const):[]);
   const weights = active.map(s => {
     const align = exposure.light && exposure.light.intensity > 0
       ? Math.max(0, dot(unit(s.direction), unit(exposure.light))) *
@@ -370,7 +381,9 @@ export function stepIterativeChronology(
     return { id: s.id, weight:
       (0.5 + birth.signals.channels.growth.rate) *
       (0.8 + 0.4 * s.orbit.x / (CHAOS_MODULUS - 1)) *
-      (1 + 0.75 * align) / (1 + 0.25 * s.depth) };
+      (1 + 0.75 * align) / (1 + 0.25 * s.depth) *
+      (policy.enablePhysicalFields?regionalGrowthDemand(sourceMass.get(s.tissueId)!,
+        liveMass.get(s.tissueId)!,siteCount.get(s.tissueId)!,capacities.get(s.tissueId)!):1) };
   });
   const allocation = allocateGrowthCredits(available, weights);
   const awarded = new Map(allocation.bySite.map(a => [a.siteId, a.allocated]));
@@ -430,11 +443,19 @@ export function stepIterativeChronology(
       if (!tip) { s.status = "invalidated"; break; }
       const axis = steer(s);
       let made: MaterialCell | null = null;
-      const fork = s.depth < ITERATIVE_LIMITS.depth &&
+      const canFork = s.depth < ITERATIVE_LIMITS.depth &&
         s.forks < ITERATIVE_LIMITS.forksPerSite &&
         s.extensions >= 2 + s.forks * 3 &&
         birth.signals.channels.branching.initiation >= 0.2 &&
         lives.length < ITERATIVE_LIMITS.sites;
+      let orbit=s.orbit;
+      for(let step=0;step<slot;step++)orbit=stepChaos(orbit);
+      const grammar=policy.enablePhysicalFields?selectRegionalGrammar(
+        birth.signals.channels,orbit,policy.care??{
+          rest:exposure.resources,activity:exposure.resources,security:exposure.resources,
+        },canFork):null;
+      if(policy.enablePhysicalFields&&grammar===null){s.status="dormant";break;}
+      const fork=canFork&&(!policy.enablePhysicalFields||grammar==="branch");
       if (fork) {
         const sign = s.orbit.y % 2 ? -1 : 1;
         const angle = 0.6 + 0.6 * birth.signals.channels.branching.divergence;
@@ -480,6 +501,9 @@ export function stepIterativeChronology(
           s.forks++;
           break;
         }
+        // A rejected branch is an honest null for its selected grammar.
+        // It cannot silently become an axial extension to manufacture change.
+        if(policy.enablePhysicalFields&&!made){s.status="blocked";break;}
       }
       // Physical whole-region growth, not repeated tip extrusion. Select
       // from REAL current tissue material and a permanent seeded chaotic orbit.
@@ -491,15 +515,12 @@ export function stepIterativeChronology(
       const expansion=birth.signals.channels.growth.expansion;
       const membrane=birth.signals.channels.support.membrane;
       let selectedField=false;
-      if(policy.enablePhysicalFields && !made && expansion>=0.12 && s.extensions>=1){
-        let orbit=s.orbit;
-        for(let step=0;step<slot;step++)orbit=stepChaos(orbit);
-        if(orbit.x/(CHAOS_MODULUS-1)<expansion){
-          const mode=chooseMorphologicalField(expansion,membrane,orbit);
-          if(mode){
+      if(policy.enablePhysicalFields && !made && grammar==="surface"){
+        const mode=chooseMorphologicalField(expansion,membrane,orbit);
+        if(mode){
             selectedField=true;
             // Source-derived growth capacity with increasing mass inertia:
-            // extra=min(192,ceil(A*(4+8e+4m)/(1+(A/64)^2))),
+            // extra=min(384,ceil(A*(4+8e+4m)/(1+(A/128)^2))),
             // A=permanent original tissue cell count, e=expansion, m=membrane.
             // Small source creatures can develop large proportional changes;
             // broad preexisting bodies are not forced to reproduce their full
@@ -513,7 +534,7 @@ export function stepIterativeChronology(
                 attempted:{x:tip.x,y:tip.y},reason:"genetic-volume-cap"});
             }else{
               for(const candidate of rankMorphologicalField(
-                cells,s.tissueId,mode,orbit,4)){
+                cells,s.tissueId,mode,orbit,24,tensors.get(s.tissueId))){
                 const parent=byId.get(candidate.parentId);
                 if(!parent)continue;
                 const destination=candidate.destination;
@@ -523,7 +544,6 @@ export function stepIterativeChronology(
                 if(made){s.lateralCells++;break;}
               }
             }
-          }
         }
       }
       const canSpread = !made && !selectedField && s.depth > 0 && s.extensions >= 2 &&

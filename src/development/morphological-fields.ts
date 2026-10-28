@@ -24,6 +24,14 @@
  *
  * Complexity O(8N) candidate proposals, bounded by 64x64 world and existing
  * <=3072 added-cell rule. Exactly ONE output proposal per spent credit.
+ *
+ * Daily regional tensor mode additionally requires >=2 neighboring cells
+ * once a region has >=3 cells. Rotate (p-c) into permanent unit axis (u,v),
+ * L=width+height, a=stretch in [1/16,16], P=(u/(L*sqrt(a)))^2+
+ * (v/(L/sqrt(a)))^2. U=(n-1)/4 - j*P + .25*|u or v|/(L+1),
+ * j=1 for thickening, 2 for surface, 3 for axial surface fields. The last
+ * term applies only to width/height respectively. Same bounded chaotic
+ * coherence breaks ties. No selected field creates material by itself.
  */
 import type {Point} from "../simulation/model";
 import type {MaterialCell} from "./material-graph";
@@ -79,8 +87,11 @@ export function chooseMorphologicalField(
 }
 /** Source-rooted whole-tissue carrying capacity; no species outcome.
  * A=permanent original source IDs in the current tissue (safe positive int).
- * Allometric expression mass=A+min(192,ceil(A*(4+8e+4m)/(1+(A/64)^2))).
- * Bounded by A+192, exact and deterministic at floating IEEE754 precision.
+ * Allometric expression mass=A+min(384,ceil(A*(4+8e+4m)/(1+(A/128)^2))).
+ * Bounded by A+384, exact and deterministic at floating IEEE754 precision.
+ * Area inertia acts on a 128-cell regional scale. Broad unlabeled ink must
+ * have actual transverse capacity too; dividing by a 64-cell scale previously
+ * suppressed it merely because it was authored as one continuous region.
  * Existing global budget and occupancy can still reject every deposit. */
 export function morphologicalVolumeCapacity(
  authoredArea:number,expansion:number,membrane:number,
@@ -89,18 +100,23 @@ export function morphologicalVolumeCapacity(
     !Number.isFinite(expansion)||expansion<0||expansion>1||
     !Number.isFinite(membrane)||membrane<0||membrane>1)
    throw new RangeError("Invalid allometric material budget inputs");
- const inertia=1+(authoredArea/64)**2;
- return authoredArea+Math.min(192,
+ const inertia=1+(authoredArea/128)**2;
+ return authoredArea+Math.min(384,
    Math.ceil(authoredArea*(4+8*expansion+4*membrane)/inertia));
 }
 
 export function rankMorphologicalField(
  live:readonly MaterialCell[],tissueId:string,mode:MorphologicalField,
  orbit:ChaosState,limit=24,
+ tensor?:Readonly<{axis:Readonly<Point>;stretch:number}>,
 ):readonly MorphologicalProposal[]{
  if(!Number.isSafeInteger(limit)||limit<1||limit>64)
    throw new RangeError("Field proposal cap must be within 1..64");
  validOrbit(orbit);
+ if(tensor&&(![tensor.axis.x,tensor.axis.y,tensor.stretch].every(Number.isFinite)||
+    Math.abs(Math.hypot(tensor.axis.x,tensor.axis.y)-1)>1e-8||
+    tensor.stretch<1/16||tensor.stretch>16))
+  throw new RangeError("Invalid regional field tensor");
  if(!["thicken","width","height","surface"].includes(mode))
    throw new RangeError("Unknown morphological field");
  const cells=live.filter(c=>c.tissueId===tissueId);
@@ -125,8 +141,20 @@ export function rankMorphologicalField(
  for(const {x,y,parents} of parentByCandidate.values()){
    const dx=x-cx,dy=y-cy,n=parents.length;
    // Thickening specifically fills intra-tissue concavities, never a new tip.
-   if(mode==="thicken"&&n<2)continue;
-   const score=mode==="thicken"?
+   if((mode==="thicken"||tensor&&cells.length>=3)&&n<2)continue;
+   const u=tensor?dx*tensor.axis.x+dy*tensor.axis.y:dx,
+    v=tensor?-dx*tensor.axis.y+dy*tensor.axis.x:dy;
+   // A quadratic material-pressure field fills supported fronts before
+   // pursuing their distant tips. Anisotropy persists for the individual
+   // region instead of washing out as width/height are resampled each day.
+   const stretch=tensor?.stretch??1;
+   const pressure=(u/((width+height)*Math.sqrt(stretch)))**2+
+    (v/((width+height)/Math.sqrt(stretch)))**2;
+   const score=tensor?
+      (n-1)/4-pressure*(mode==="thicken"?1:
+       mode==="surface"?2:3)+
+      (mode==="width"?Math.abs(u)/(width+height+1)*.25:
+       mode==="height"?Math.abs(v)/(width+height+1)*.25:0):mode==="thicken"?
       (n-1)/7-Math.hypot(dx,dy)/(2*world):
      mode==="width"?
       Math.abs(dx)/(width/2+1)-Math.abs(dy)/(height+1):
