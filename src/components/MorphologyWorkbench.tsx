@@ -2,12 +2,15 @@ import React,{useEffect,useState} from "react";
 import {Pressable,Text,View} from "react-native";
 import Slider from "@react-native-community/slider";
 import {T,terminal as s} from "../theme";
+import {PetPixels} from "./PetPixels";
+import type {Pixel} from "../simulation";
 import {DEFAULT_MORPH_TUNING,MORPH_KINDS,MORPH_OPERATOR_HELP,
  type MorphologyTuning,type MorphologyShapeMetrics,
 } from "../interface/morphology-tuning";
 
 type Compare=Readonly<{age:number;seed:string;original:MorphologyShapeMetrics;
- experimental:MorphologyShapeMetrics;recipe:string}>;
+ experimental:MorphologyShapeMetrics;originalPixels:Pixel[];experimentalPixels:Pixel[];
+ recipe:string}>;
 const textStyle={...s.muted,fontSize:13,lineHeight:17};
 const labelStyle={...s.text,fontSize:15,lineHeight:18};
 const btn={borderWidth:1,borderColor:T.line,paddingVertical:9,paddingHorizontal:9,
@@ -85,6 +88,17 @@ export function MorphologyWorkbench({
     {!!error&&<Text style={[textStyle,{color:T.warning}]}>{error}</Text>}
     {report&&<>
       <Text style={s.bright}>PHYSICAL COMPARISON · DAY {report.age.toFixed(2)}</Text>
+      <View style={{flexDirection:"row",gap:6,justifyContent:"center"}}>
+       <View style={{alignItems:"center",gap:3}}>
+        <Text style={textStyle}>Original program</Text>
+        <PetPixels pixels={report.originalPixels} size={118} gridSize={64}/>
+       </View>
+       <View style={{alignItems:"center",gap:3}}>
+        <Text style={textStyle}>Adjusted program</Text>
+        <PetPixels pixels={report.experimentalPixels} size={118} gridSize={64}/>
+       </View>
+      </View>
+      <Text style={textStyle}>These are the actual unposed material-cell maps at the selected day, not an evolution target or hand-approved image. The measurements below help interpret what changed.</Text>
       <View style={{flexDirection:"row",gap:8}}>
         <Text style={[textStyle,{flex:1}]}>Metric</Text>
         <Text style={[textStyle,{flex:1,textAlign:"right"}]}>Original</Text>
