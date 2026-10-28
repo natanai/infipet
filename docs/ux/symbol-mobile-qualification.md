@@ -1,10 +1,10 @@
 # Player symbols and Mobile Safari qualification
 
-Status: **implementation in PR #37; not real-iPhone qualified**. This does not modify the canonical [roadmap](../../roadmap/plan.json). PR #37 is stacked on #36 and must be integrated after that work, not overwrite it.
+Status: PR #36 and PR #37 were merged into main. The first real-iPhone feedback identified redundant drawing tabs and unintelligible anatomical icons. This document records the follow-up legibility correction and retains outstanding hardware qualification. This does not modify the canonical [roadmap](../../roadmap/plan.json).
 
 ## Production ownership
 - Physical organism, lineage, seed, material inventory, care effects and daily anatomical opportunities are exclusively owned by the existing simulation and native gameplay. **No render callback creates anatomy or care rewards.**
-- A player sees original 12-unit pixel symbols, with full accessible button names and optional visible labels (More > Show symbol labels). Confirmation, errors and replacement remain explicit text.
+- Player care rails retain retro 12-unit symbols with full accessible names; the optional More > Show care labels toggle annotates those care rails. Drawing tools, all 15 anatomy materials, game-specific choices, outcomes and developer operations have visible text **by default**. Accessibility names are never a substitute for visible, comprehensible labels on an authoring control. Confirmations, errors and replacement remain explicit text.
 - The developer toggle remains the pre-programmed-style top-right control and mobile left-panel overlay. No ordinary tools are moved into developer mode.
 
 ## Layout and gesture contract
@@ -18,7 +18,7 @@ For draw: maxDeviceWidth=480, heightReserve=420, maxCanvasSide=400. For live: 56
 
 Drawing has logical 32×32 cells; live/groom uses 64×64 world coordinates. On gesture begin we capture (size, pageX-locationX, pageY-locationY, tool). Until release/cancellation, every point is mapped to **that** basis, not the latest prop size. Off-canvas drawing points remain discontinuities. Gesture completion commits via the existing stroke implementation only once.
 
-Test invariants: deviceWidth does not depend on viewportHeight; canvasSide ≤ inside; increasing available height cannot decrease canvasSide; original 15 one-tap selectors, 5 columns × 3 rows, each at least 44×44 CSS px; no page-wide horizontal overflow.
+Test invariants: deviceWidth does not depend on viewportHeight; canvasSide ≤ inside; increasing available height cannot decrease canvasSide; original 15 one-tap selectors, 3 columns × 5 rows with always-visible part names, each at least 44×44 CSS px; no page-wide horizontal overflow.
 
 ## Current 16-flow ledger
 
@@ -50,4 +50,10 @@ The PR does **not** claim a successful catch, physical feeding animation, naviga
 4. UI input acknowledgement latency and long-session memory on target phone are measured, not inferred from Chromium. Newcomer usability: match symbols to actions without coaching.
 5. After #36 merges, verify the exact main commit, merge only on passing checks and operator review; deployed release identity must match merged main.
 
-No real Safari hardware result is implied by the browser checks in this PR.
+The screenshot-driven legibility correction is grounded in real iPhone Safari feedback, but visual human usability after this correction still needs a new phone check. Chromium geometry/interaction evidence does not certify real Safari behavior.
+
+## October 27 phone readability correction
+- Remove the in-device Draw / Pet / More tab strip. The top identity row now provides one contextual navigation action (Pet or Draw, only after birth) and a text More action. Before birth no disabled Pet tab consumes space. The drawing workspace has only one row of text-labeled Pencil, Erase, Color and Help controls.
+- Original material categories remain independently selectable (no inferred or invented anatomy), but appear as 15 always-labeled three-column selectors. Labels are primary; 16px material glyphs are auxiliary.
+- Undo, Redo, Mirror and Clear are written out, rather than represented by nonstandard graphics. Developer motion preview actions and contextual care-game decisions similarly remain readable, while the habitat care rails retain symbol-first navigation.
+- Automated exported-browser checks now enforce these visible names at phone widths, not merely accessibility metadata or button counts. Real Safari tap and scroll confirmation remains necessary.
