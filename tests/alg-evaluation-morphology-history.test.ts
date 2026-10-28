@@ -83,6 +83,7 @@ test("[MORPH-001/A3] reference oracles falsify visual-only matter, topology, and
   assert.equal(r.occupiedArea,8);
   assert.equal(r.perimeter,16);
   assert.equal(r.cavities,1);
+  assert.equal(morphologyMetrics([{x:0,y:0},{x:1,y:0},{x:2,y:0}]).branchLengthProxy,2);
   const diagonal=morphologyMetrics([{x:0,y:0},{x:1,y:1}]);
   assert.equal(diagonal.components,2);
   assert.equal(morphologyDelta(square,square).pixelJaccard,1);
@@ -128,6 +129,8 @@ test("[MORPH-001/A5] current live physical output is numeric and material-backed
       const current=morphologyMetrics(first.pixels,after,zero);
       const diff=morphologyDelta(before.pixels,first.pixels,zero,after);
       assert.ok(Number.isFinite(current.perimeter));
+      assert.ok(Number.isFinite(current.branchLengthProxy));
+      assert.ok(Number.isFinite(current.physical?.tissueConcentration));
       assert.ok(Number.isFinite(diff.regionFractionL1));
       assert.equal(birth.physical?.generated,0);
       assert.ok(current.physical!.unrootedCells===0);
