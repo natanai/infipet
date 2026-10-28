@@ -43,7 +43,7 @@ export function PartPalette({
           aria-expanded={expanded}
           onPress={() => setExpanded(v => !v)}
           style={[styles.part, styles.current]}>
-          <PixelIcon name={value as PixelIconName} size={27} color={T.bright}/>
+          <PixelIcon name={value === "decoration" ? "details" : value as PixelIconName} size={27} color={T.bright}/>
         </Pressable>
         <Pressable
           accessibilityRole="button"
@@ -68,7 +68,7 @@ export function PartPalette({
                 aria-pressed={selected}
                 onPress={() => {onChange(kind);setExpanded(false);}}
                 style={[styles.part, styles.gridPart, selected && styles.selected]}>
-                <PixelIcon name={kind as PixelIconName} size={23} color={iconColor(selected)}/>
+                <PixelIcon name={kind === "decoration" ? "details" : kind as PixelIconName} size={23} color={iconColor(selected)}/>
               </Pressable>
             );
           })}
