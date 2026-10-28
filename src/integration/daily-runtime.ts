@@ -13,6 +13,7 @@ import type {GameState} from "../gameplay";
 import type {InheritedGenome} from "../simulation/genome";
 import {checkpointDigest} from "./checkpoint-integrity";
 import {needValueAt,type NeedKeyframe} from "../needs";
+import {REGIONAL_GROWTH_VERSION} from "../development/regional-regulation";
 export const DAILY_CHECKPOINT_LIMIT=4;
 export const DAILY_LIVING_CACHE_LIMIT=3;
 type Options=Readonly<{
@@ -113,7 +114,7 @@ export function createDailyMaterialTimeline(options:Options):DailyMaterialTimeli
       if(candidate.version!==1||candidate.origin!==checkpointDigest(options.birthKey??program.fingerprint)||
           candidate.stateDigest!==checkpointDigest(JSON.stringify(s))||
           candidate.historyDigest!==evidenceDigest(game,through)||
-          s.clock!=="daily-365-v1"||s.version!==1||s.hatchAtMs!==hatch||
+          s.clock!=="daily-365-v1"||s.version!==1||s.algorithmVersion!==REGIONAL_GROWTH_VERSION||s.hatchAtMs!==hatch||
           s.programFingerprint!==program.fingerprint||s.genomeFingerprint!==program.genomeFingerprint||
           s.completedChecks<1||s.completedChecks>Math.min(365,Math.floor(maxHour/24))||
           s.checks.length!==s.completedChecks||s.material.nextHour!==s.completedChecks||
@@ -131,7 +132,7 @@ export function createDailyMaterialTimeline(options:Options):DailyMaterialTimeli
   }
   if(options.canonical??restored){
     const s=(options.canonical??restored)!;
-    if(credentials.get(s)!==program||!Object.isFrozen(s)||s.hatchAtMs!==hatch||
+    if(credentials.get(s)!==program||!Object.isFrozen(s)||s.algorithmVersion!==REGIONAL_GROWTH_VERSION||s.hatchAtMs!==hatch||
         s.completedChecks>Math.min(365,Math.floor(maxHour/24)))
       throw new TypeError("Incompatible daily checkpoint credential");
     latest=s;checkpoints.set(s.completedChecks,s);imported=1;

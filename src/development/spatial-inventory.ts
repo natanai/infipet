@@ -196,12 +196,31 @@ function mechanical(
     )
       throw new Error("Parent tissue lacks attachment evidence");
 }
+type Reconstructed=Readonly<{
+ cells:Map<string,MaterialCell>;tissues:Map<string,MaterialTissue>;
+ sites:Map<string,MaterialSite>;links:Map<string,MaterialLink>;lastCheck:number;
+}>;
+type VerifiedPrefix=Reconstructed&Readonly<{
+ original:object|undefined;hatch:number;authorization:string;
+ ever:ReadonlySet<string>;events:ReadonlySet<string>;
+}>;
+// Only independently reconstructed, deeply frozen journals qualify. Private
+// maps never escape this module. Continuing a proven prefix verifies EVERY
+// new transaction with exactly the same mechanical and ancestry algorithm;
+// JSON restoration, changed histories and mutable graphs use full replay.
+const verifiedPrefixes=new WeakMap<MaterialGraph,VerifiedPrefix>();
+function immutable(value:unknown,seen=new Set<object>()):boolean{
+ if(!value||typeof value!=="object"||seen.has(value))return true;
+ if(!Object.isFrozen(value))return false;
+ seen.add(value);return Object.values(value).every(v=>immutable(v,seen));
+}
 export function reconstructDailyPhysicalState(
   graph: MaterialGraph,
   hatchAtMs: number,
   throughCheck: number,
   original?: MaterialGraph,
   authorization?: PhysicalOperatorAuthorization,
+  previousGraph?:MaterialGraph,
 ) {
   dailyCheckTime(hatchAtMs, throughCheck);
   const birth: MaterialStructure | undefined = original
@@ -223,17 +242,24 @@ export function reconstructDailyPhysicalState(
     throw new Error("Missing or changed original physical topology");
   if (!same(graph.protectedVoids, birth.protectedVoids))
     throw new Error("Unrecorded protected-void mutation");
+  const authorizationKey=authorization?JSON.stringify(authorization):"";
+  const candidate=previousGraph?verifiedPrefixes.get(previousGraph):undefined;
+  const prefix=candidate&&candidate.original===(original??graph.birth)&&
+    candidate.hatch===hatchAtMs&&candidate.authorization===authorizationKey&&
+    candidate.lastCheck<=throughCheck&&previousGraph!.sourceCells===graph.sourceCells&&
+    previousGraph!.birth===graph.birth&&previousGraph!.events.length<=graph.events.length&&
+    previousGraph!.events.every((e,i)=>e===graph.events[i])?candidate:undefined;
   const source = unique(graph.sourceCells, "source identity"),
-    active = new Map(source),
-    ever = new Set(source.keys());
-  const tissues = unique(birth.tissues, "birth tissue"),
-    sites = unique(birth.sites, "birth site"),
-    links = unique(birth.links, "birth attachment"),
+    active = new Map(prefix?.cells??source),
+    ever = new Set(prefix?.ever??source.keys());
+  const tissues = prefix?new Map(prefix.tissues):unique(birth.tissues, "birth tissue"),
+    sites = prefix?new Map(prefix.sites):unique(birth.sites, "birth site"),
+    links = prefix?new Map(prefix.links):unique(birth.links, "birth attachment"),
     voids = new Set(birth.protectedVoids);
-  const events = new Set<string>();
-  let previous = 0;
+  const events = new Set<string>(prefix?.events);
+  let previous = prefix?.lastCheck??0;
   mechanical(active, tissues, sites, links, voids, source);
-  for (const e of graph.events) {
+  for (const e of graph.events.slice(prefix?previousGraph!.events.length:0)) {
     const k = e.checkIndex,
       p = e.physical;
     if (
@@ -587,5 +613,10 @@ export function reconstructDailyPhysicalState(
         throw new Error("Unrecorded physical topology mutation");
     }
   }
+  if(immutable(graph)&&(!original||immutable(original)))verifiedPrefixes.set(graph,{
+    cells:new Map(active),tissues:new Map(tissues),sites:new Map(sites),links:new Map(links),
+    lastCheck:previous,original:original??graph.birth,hatch:hatchAtMs,
+    authorization:authorizationKey,ever:new Set(ever),events:new Set(events),
+  });
   return { cells: active, tissues, sites, links, lastCheck: previous };
 }

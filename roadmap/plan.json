@@ -924,7 +924,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1282,7 +1282,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -2073,6 +2073,131 @@
         ],
         "trackedIssue": "https://github.com/natanai/infipet/issues/46"
       }
+    },
+    {
+      "id": "MORPH-005",
+      "phase": 4,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "General regional growth competition and starter-to-freehand lifetime expressiveness",
+      "dependsOn": [
+        "DEV-008",
+        "INT-002",
+        "CARE-004"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Independent numeric oracles establish regional demand, normalized grammar competition, bounded permanent anisotropy, and retained eligibility of axial, branch, surface, and legitimate zero-potential null expression.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Every public starter at its immutable shipped seed and the same ink flattened into unlabeled freehand input exhibits substantial nonterminal, broad physical growth over a full 365-check lifetime without preset-specific runtime inputs.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Thirty independent unfamiliar drawings, three immutable seeds and three causal care strategies produce varied thickness, proportions, regional allocation and topology over complete daily trajectories, with explicit constrained/null cases and measured seed/care effects.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A4",
+          "requirement": "Repeated reshape identities, authored overlays in protected cavities, future-care prefix, source ancestry, exact daily opportunity, zero-resource nulls, mature invariance, replay and conservation reject adversarial counterexamples without relaxing any physical check.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-regional-variety.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-regional-variety.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/regional-regulation.ts",
+        "src/development/iterative-chronology.ts",
+        "src/development/morphological-fields.ts",
+        "src/development/remodel-transactions.ts",
+        "src/development/coordinated-metamorphosis.ts",
+        "src/development/daily-step.ts",
+        "tests/alg-development-regional-variety.test.ts",
+        "src/development/spatial-inventory.ts",
+        "tests/alg-development-morphology-operators.test.ts",
+        "src/integration/daily-runtime.ts"
+      ],
+      "interfaceContract": {
+        "inputs": [
+          "original ink",
+          "permanent genotype and regional polarity",
+          "recorded daily care",
+          "persistent exact torus orbits"
+        ],
+        "outputs": [
+          "competing real regional transactions",
+          "independently measured birth-relative morphological breadth"
+        ],
+        "mustNot": [
+          "change starter drawings or seeds",
+          "change renderer or daily schedule",
+          "bypass physical or phylogenetic constraints",
+          "inject named outcomes or turn rejected operators into tendril fallback"
+        ]
+      },
+      "evidenceSummary": {
+        "clock": "daily-365-v1",
+        "checkpointDays": [
+          0,
+          1,
+          7,
+          30,
+          90,
+          180,
+          270,
+          365
+        ],
+        "starterCases": 12,
+        "freehandStarterCases": 12,
+        "starterAreaRatioRange": [
+          1.7653061224489797,
+          5.953488372093023
+        ],
+        "freehandAreaRatioRange": [
+          2.703056768558952,
+          5.098265895953757
+        ],
+        "starterBroadDepositionFractionRange": [
+          0.44370860927152317,
+          0.784741144414169
+        ],
+        "unfamiliarCohort": {
+          "lives": 270,
+          "broad": 247,
+          "nulls": 0,
+          "seedSensitive": 30,
+          "careSensitive": 30,
+          "topology": 251,
+          "proportions": 207,
+          "remodeled": 114,
+          "thickened": 270,
+          "regional": 269
+        },
+        "forcing": "Explicit synthetic Needs Lab trajectories for cohort; separate authentic recorded-care/save/replay witness. Not a claim of identical franchise sprites, unlimited diversity, or every possible drawing.",
+        "conservation": "Every complete cohort life independently reconstructs from birth; no renderer or producer geometry used as the reconstruction oracle.",
+        "performance": {
+          "environment": "Linux Node reference; native-phone performance not measured",
+          "registeredFunctionalTests": 229,
+          "regionalVarietyTests": 5,
+          "isolatedPerformanceTests": 2,
+          "typecheck": "passed",
+          "webExport": "passed",
+          "ordinaryP95MaxMs": 26.57092100000591,
+          "freshYearMaxMs": 6798.62318000001,
+          "savedReopenMaxMs": 469.1378160000022,
+          "rssMaxMiB": 634.109375,
+          "existingBudgetsChanged": false
+        }
+      }
     }
   ],
   "algorithms": [
@@ -2222,7 +2347,8 @@
         "DEV-007",
         "DEV-008",
         "MORPH-002",
-        "MORPH-004"
+        "MORPH-004",
+        "MORPH-005"
       ],
       "readyWhen": [
         "OBS-001"

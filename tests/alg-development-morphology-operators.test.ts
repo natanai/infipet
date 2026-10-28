@@ -166,15 +166,15 @@ test("[MORPH-002/A2] coherent surfaces permit same-tissue contact without relaxi
 test("[MORPH-002/A3] independent allometric expression bounds dense growth without disabling small-source volume",()=>{
   // These exact expectations follow solely from the declared equation, NOT
   // from a renderer snapshot, seed-specific creature or production validator.
-  assert.equal(morphologicalVolumeCapacity(9,0.5,0.5),98);
-  assert.equal(morphologicalVolumeCapacity(1024,0.5,0.5),1064);
-  assert.ok(morphologicalVolumeCapacity(9,0.5,0.5)-9>
-    morphologicalVolumeCapacity(1024,0.5,0.5)-1024,
-    "source mass inertia should not erase small organism growth capacity");
+  assert.equal(morphologicalVolumeCapacity(9,0.5,0.5),99);
+  assert.equal(morphologicalVolumeCapacity(1024,0.5,0.5),1182);
+  assert.ok((morphologicalVolumeCapacity(9,0.5,0.5)-9)/9>
+    (morphologicalVolumeCapacity(1024,0.5,0.5)-1024)/1024,
+    "source mass inertia bounds relative growth while retaining broad freehand capacity");
   for(const source of [1,4,9,64,128,512,1024,4096])
     for(const e of [0,0.1,0.5,1])for(const m of [0,0.5,1]){
       const cap=morphologicalVolumeCapacity(source,e,m);
-      assert.ok(Number.isSafeInteger(cap)&&cap>=source&&cap<=source+192);
+      assert.ok(Number.isSafeInteger(cap)&&cap>=source&&cap<=source+384);
     }
   for(const bad of [0,-1,4097,0.5,Infinity,NaN])
     assert.throws(()=>morphologicalVolumeCapacity(bad,0.5,0.5),/allometric/);

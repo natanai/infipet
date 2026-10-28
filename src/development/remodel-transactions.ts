@@ -195,7 +195,12 @@ function checkGraph(g:MaterialGraph):string|null {
     if(!tissue.has(c.tissueId)) return "unknown-active-tissue";
     if(!c.sourceIds.length||c.sourceIds.some(s=>!sources.has(s)))
       return "missing-source-ancestry";
-    if(g.protectedVoids.includes(pointKey(c))) return "existing-protected-void";
+    // An authored overlay (e.g. marks inside an authored ring) is part of
+    // birth, not deposited matter. Match the independent spatial auditor:
+    // only that SAME original identity at that SAME position is exempt.
+    const original=g.sourceCells.find(source=>source.id===c.id);
+    if(g.protectedVoids.includes(pointKey(c)) &&
+       (!original||pointKey(original)!==pointKey(c))) return "existing-protected-void";
     if(c.provenance==="generated") {
       generated++;
       if(!c.operationId||!events.has(c.id)||!c.parentCellIds.length)
@@ -420,7 +425,7 @@ export function applyRemodelingProposal(
         next={...graph,cells:proposed.cells};
       }
     } else if(op.kind==="reshape") {
-      const proposed=proposeCoherentReshape(graph,op.tissueId,op.direction!,op.id,
+      const proposed=proposeCoherentReshape(graph,op.tissueId,op.direction!,id,
         Math.min(8,Math.max(1,Math.ceil(Math.sqrt(group.length)))));
       if(!proposed)reason="no-supported-regional-front";
       else {
