@@ -61,6 +61,8 @@ import {
 } from "./iterative-growth";
 import type { MaterialDevelopmentProgram } from "./operators";
 import { REMODEL_LIMITS } from "./lifetime-remodeling";
+import {chooseMorphologicalField,rankMorphologicalField,
+  morphologicalVolumeCapacity} from "./morphological-fields";
 
 /** Inclusive supported age. No modulo clock, implicit maturity reset, or clamp. */
 export const ITERATIVE_CHRONOLOGY_MAX_HOURS = REMODEL_LIMITS.maxAgeHours;
@@ -262,6 +264,10 @@ export function stepIterativeChronology(
   graph: MaterialGraph,
   state: IterativeChronologyState,
   exposure: IterativeExposure,
+  /** The exact 365-opportunity daily engine explicitly opts into expanded
+   * physical field families. Omitted means legacy hourly numerical semantics,
+   * which continue to have independently established oracles. */
+  policy: Readonly<{enablePhysicalFields:boolean}>={enablePhysicalFields:false},
 ): IterativeChronologyStep {
   if (state.version !== 1 ||
       state.fingerprint !== birth.fingerprint ||
@@ -379,13 +385,14 @@ export function stepIterativeChronology(
     return unit({ x: raw.x + strength * light.x, y: raw.y + strength * light.y });
   };
   const place = (tip: MaterialCell, tissueId: string, axis: Point,
-    siteId: string, slot: number, kind: GrowthSuppression["kind"]): MaterialCell | null => {
+    siteId: string, slot: number, kind: GrowthSuppression["kind"],
+    coherentSurface=false,at?:Point): MaterialCell | null => {
     const direction = unit(axis);
-    const destination = { x: tip.x + Math.round(direction.x),
+    const destination = at ?? { x: tip.x + Math.round(direction.x),
       y: tip.y + Math.round(direction.y) };
     const reason = assessIterativePlacement(
       occupied, voids, tip, tissueId, destination,
-      Math.max(0, cells.length - graph.sourceCells.length), roots,
+      Math.max(0, cells.length - graph.sourceCells.length), roots, coherentSurface,
     );
     if (reason) {
       suppressions.push({ hour: n, siteId, kind, attempted: destination, reason });
@@ -474,7 +481,52 @@ export function stepIterativeChronology(
           break;
         }
       }
-      const canSpread = !made && s.depth > 0 && s.extensions >= 2 &&
+      // Physical whole-region growth, not repeated tip extrusion. Select
+      // from REAL current tissue material and a permanent seeded chaotic orbit.
+      // Each accepted candidate is a one-credit, one-cell "expand" event with
+      // its own live immediate parent and full material journal. A proposal
+      // cannot create a new tissue, cross a protected void, or invent an organ.
+      // The within-tissue contact rule differs from a free-standing branch:
+      // touching several of one's own live cells is physically desirable.
+      const expansion=birth.signals.channels.growth.expansion;
+      const membrane=birth.signals.channels.support.membrane;
+      let selectedField=false;
+      if(policy.enablePhysicalFields && !made && expansion>=0.12 && s.extensions>=1){
+        let orbit=s.orbit;
+        for(let step=0;step<slot;step++)orbit=stepChaos(orbit);
+        if(orbit.x/(CHAOS_MODULUS-1)<expansion){
+          const mode=chooseMorphologicalField(expansion,membrane,orbit);
+          if(mode){
+            selectedField=true;
+            // Source-derived growth capacity with increasing mass inertia:
+            // extra=min(192,ceil(A*(4+8e+4m)/(1+(A/64)^2))),
+            // A=permanent original tissue cell count, e=expansion, m=membrane.
+            // Small source creatures can develop large proportional changes;
+            // broad preexisting bodies are not forced to reproduce their full
+            // 1024-cell surface scan hundreds of times each year.
+            // This is bounded allometry, not a species- or target-shape rule.
+            const area=Math.max(1,tissuesById.get(s.tissueId)?.sourceCellIds.length??0);
+            const capacity=morphologicalVolumeCapacity(area,expansion,membrane);
+            const currentArea=cells.filter(c=>c.tissueId===s.tissueId).length;
+            if(currentArea>=capacity){
+              suppressions.push({hour:n,siteId:s.id,kind:"expand",
+                attempted:{x:tip.x,y:tip.y},reason:"genetic-volume-cap"});
+            }else{
+              for(const candidate of rankMorphologicalField(
+                cells,s.tissueId,mode,orbit,4)){
+                const parent=byId.get(candidate.parentId);
+                if(!parent)continue;
+                const destination=candidate.destination;
+                made=place(parent,s.tissueId,
+                  {x:destination.x-parent.x,y:destination.y-parent.y},
+                  s.id,slot,"expand",true,destination);
+                if(made){s.lateralCells++;break;}
+              }
+            }
+          }
+        }
+      }
+      const canSpread = !made && !selectedField && s.depth > 0 && s.extensions >= 2 &&
         birth.signals.channels.support.membrane *
         birth.signals.channels.appendages.extension >= 0.01 &&
         s.lateralCells < s.extensions * 2 &&
@@ -487,7 +539,7 @@ export function stepIterativeChronology(
           if (made) { s.lateralCells++; break; }
         }
       }
-      if (!made) {
+      if (!made && !selectedField) {
         made = place(tip, s.tissueId, axis, s.id, slot, "elongate");
         if (made) {
           s.tipCellId = made.id; s.direction = axis; s.extensions++;

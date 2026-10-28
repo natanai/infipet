@@ -99,7 +99,7 @@ export type IterativeGrowthSite = Readonly<{
 export type GrowthSuppressionReason =
   | "outside-world" | "protected-void" | "occupied" | "material-cap"
   | "unrelated-source-proximity" | "independent-branch-proximity"
-  | "self-overcrowding";
+  | "self-overcrowding" | "genetic-volume-cap";
 export type GrowthSuppression = Readonly<{
   hour: number;
   siteId: string;
@@ -164,6 +164,8 @@ export function assessIterativePlacement(
   destination: Readonly<Point>,
   addedCells: number,
   tissueRoots: ReadonlyMap<string, string>,
+  /** Verified same-tissue surface deposition may touch multiple OWN cells. */
+  coherentSurface=false,
 ): GrowthSuppressionReason | null {
   const { x, y } = destination;
   if (!Number.isInteger(x) || !Number.isInteger(y) ||
@@ -184,7 +186,7 @@ export function assessIterativePlacement(
       // The new child also receives an explicit MaterialLink.
       if (neighbor.id !== tip.id || tip.tissueId === tissueId)
         return "independent-branch-proximity";
-    } else if (neighbor.id !== tip.id &&
+    } else if (!coherentSurface && neighbor.id !== tip.id &&
         !tip.parentCellIds.includes(neighbor.id) &&
         !(neighbor.provenance === "authored" && tip.provenance === "authored"))
       return "self-overcrowding";
