@@ -261,7 +261,7 @@ export default function App() {
   const returnGeneration = useRef(0);
   const deathSeen = useRef<string | null>(null);
   const legacyLife=!!life&&life.anatomicalClock!=="daily-365-v1";
-  const playing = view === "live" && (!devEnabled || !sandbox) && !!life && !legacyLife;
+  const playing = view === "live" && !sandbox && !!life && !legacyLife;
   const layout = developmentLayout(width, devEnabled);
   const { deviceWidth, canvasSide: size } = playerGeometry(width, height, layout.playerOffset, view);
   const simulation = useMemo(
@@ -271,13 +271,13 @@ export default function App() {
         groomingTimeline,
         // Never use experimental overrides for actual gameplay, persistence,
         // or the ordinary player presentation. Source and genome stay fixed.
-        ...(devEnabled&&!tuningIsDefault(morphTune)?{
+        ...((devEnabled||sandbox)&&!tuningIsDefault(morphTune)?{
           verifyMaterialProgram:(base:Parameters<typeof tuneMaterialProgram>[0])=>({
             program:tuneMaterialProgram(base,morphTune),
           }),
         }:{}),
       }),
-    [parts, seed, mode, needTimeline, needPreview, groomingTimeline,devEnabled,morphTune],
+    [parts, seed, mode, needTimeline, needPreview, groomingTimeline,devEnabled,sandbox,morphTune],
   );
   const timelineEnd =
     simulation.hatchAt +
@@ -708,7 +708,7 @@ export default function App() {
     const nextSeed = preset?.seed ?? newSeed();
     setSeed(nextSeed);
     setSeedInput(nextSeed);
-    setName(preset?.name ?? "Little one");
+    setName("Little one");
     setBornAt(Date.now());
     resetPreview();
     setView("draw");
@@ -961,10 +961,12 @@ export default function App() {
     setDevEnabled(enabled);
     setSeedInput(seed);
     setGrowing(false);
-    setNeedPreview(null);
     setSheet(null);
-    if (!enabled) {
-      setSandbox(false);
+    if (!enabled && !sandbox) {
+      // Closing diagnostic chrome without an active experiment returns to
+      // the ordinary player experience. A sandbox experiment, however,
+      // remains visibly intact until the player explicitly returns to pet.
+      setNeedPreview(null);
       setMotion(true);
       setView(lifeRef.current?.anatomicalClock==="daily-365-v1" ? "live" : "draw");
       setGrooming(false);
@@ -1110,7 +1112,7 @@ export default function App() {
           style={{ flex: 1, marginLeft: layout.playerOffset }}
           contentContainerStyle={[
             styles.page,
-            { paddingTop: layout.desktop ? 40 : 52, paddingBottom: layout.desktop ? 22 : 16 },
+            { paddingTop: layout.desktop ? 40 : 8, paddingBottom: layout.desktop ? 22 : 16 },
           ]}
           aria-hidden={sheet !== null || (devEnabled && !layout.desktop)}
           accessibilityElementsHidden={
@@ -1125,7 +1127,7 @@ export default function App() {
         >
           <View style={styles.workbench}>
             <View style={styles.creatureColumn}>
-              <View style={[styles.header, { width: deviceWidth }]}>
+              <View style={[styles.header, { width: deviceWidth, paddingRight: layout.desktop ? 0 : 52 }]}>
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="Rename pet"
@@ -1141,19 +1143,34 @@ export default function App() {
                   </Text>}
                 </Pressable>
                 {life && <Button
-                  label={view === "draw" ? "Return to your pet" : "Draw your pet"}
-                  onPress={() => view === "draw" ? live() :
-                    (setSandbox(true), setView("draw"), setNeedPreview(null))}
-                  style={{ paddingHorizontal: 6 }}
-                >{view === "draw" ? "Pet" : "Draw"}</Button>}
-                {view === "live" && <IconButton
+                  label={view === "draw" || sandbox ? "Return to your pet" : "Draw your pet"}
+                  onPress={() => {
+                    if (view === "draw" || sandbox) live();
+                    else {setSandbox(true);setView("draw");setNeedPreview(null);}
+                  }}
+                  style={styles.symbolButton}>
+                  <PixelIcon name={view === "draw" || sandbox ? "live" : "draw"} size={24} color={T.bright}/>
+                </Button>}
+                {!life && view === "live" && sandbox && <Button
+                  label="Return to drawing"
+                  onPress={()=>{
+                    setView("draw");
+                    setNeedPreview(null);
+                    setGrowing(false);
+                    setGrooming(false);
+                  }}
+                  style={styles.symbolButton}>
+                  <PixelIcon name="draw" size={24} color={T.bright}/>
+                </Button>}
+                {playing && frame.stage !== "egg" && <IconButton
                   icon="feel"
                   label="Check how your pet feels"
-                  disabled={frame.stage === "egg"}
                   onPress={() => open("feelings")}
                 />}
                 <Button label="Open more menu" onPress={() => open("more")}
-                  style={{ paddingHorizontal: 6 }}>More</Button>
+                  style={styles.symbolButton}>
+                  <PixelIcon name="more" size={24} color={T.bright} />
+                </Button>
               </View>
               {legacyLife&&<View style={{maxWidth:deviceWidth,padding:10}}>
                 <Text style={s.muted}>This earlier saved pet is preserved. Its past anatomy cannot be carried into daily growth. Save the original file in More → Export, or begin a new life from its drawing.</Text>
@@ -1163,32 +1180,33 @@ export default function App() {
                   {view === "draw" ? (
                     <>
                       <Button label="Use pencil" selected={tool === "paint"}
-                        onPress={() => setTool("paint")}
-                        style={{ flex: 1, paddingHorizontal: 2 }}>Pencil</Button>
+                        onPress={() => setTool("paint")} style={styles.symbolButton}>
+                        <PixelIcon name="draw" size={24} color={tool === "paint" ? T.bg : T.bright} />
+                      </Button>
                       <Button label="Use eraser" selected={tool === "erase"}
-                        onPress={() => setTool("erase")}
-                        style={{ flex: 1, paddingHorizontal: 2 }}>Erase</Button>
+                        onPress={() => setTool("erase")} style={styles.symbolButton}>
+                        <PixelIcon name="erase" size={24} color={tool === "erase" ? T.bg : T.bright} />
+                      </Button>
                       <Button label="Choose brush color" onPress={() => open("color")}
-                        style={{ flex: 1, paddingHorizontal: 2 }}>
-                        <View style={{ width: 11, height: 11, backgroundColor: color,
-                          borderColor: T.text, borderWidth: 1 }} />
-                        <Text style={[s.text, { fontSize: 13 }]}>Color</Text>
+                        style={styles.symbolButton}>
+                        <View style={{ width: 23, height: 23, backgroundColor: color,
+                          borderColor: T.bright, borderWidth: 1 }} />
                       </Button>
                       <Button label={`Learn about ${PART_LABELS[kind].toLowerCase()}`}
-                        onPress={() => open("info")}
-                        style={{ flex: 1, paddingHorizontal: 2 }}>Help</Button>
+                        onPress={() => open("info")} style={styles.symbolButton}>
+                        <PixelIcon name="info" size={24} color={T.bright} />
+                      </Button>
                     </>
-                  ) : playing ? (
+                  ) : playing && !life?.game.sleeping && frame.capabilities.canMove ? (
                     <IconButton
                       icon="move"
                       label="Watch your pet explore"
                       selected={action === "move"}
-                      disabled={!!life?.game.sleeping || !frame.capabilities.canMove}
                       onPress={() => act(action === "move" ? "idle" : "move")}
                     />
-                  ) : (
-                    <Text style={s.muted}>Development preview</Text>
-                  )}
+                  ) : view === "live" && sandbox ? (
+                    <Text style={[s.muted,{fontSize:13}]}>PREVIEW · DAY {Math.floor(age)}</Text>
+                  ) : null}
                 </View>
                 {playing && life && <CareRail
                   side="top" game={life.game} disabled={settling} menu={careMenu}
@@ -1208,32 +1226,24 @@ export default function App() {
                         {starterGalleryOpen?"[-]":"[+]"} Choose a starter
                       </Button>
                       {starterGalleryOpen&&<>
-                        <Text style={[s.muted,{fontSize:14,lineHeight:18}]}>
-                          Twelve original editable starting drawings, using only
-                          the default palette. Choose one, customize it, or
-                          draw your own. Their forms suggest possibilities,
-                          not guaranteed evolution outcomes.
+                        <Text style={[s.muted,{fontSize:13,lineHeight:17}]}>
+                          Original example drawings, not named species. Select one
+                          to edit, or draw your own.
                         </Text>
-                        <View style={styles.wrap}>
-                        {STARTER_PRESETS.map(preset=><Button
+                        <View style={styles.starterGrid}>
+                        {STARTER_PRESETS.map((preset,index)=><Button
                           key={preset.id}
-                          label={`Load ${preset.name} starter creature into drawing editor`}
+                          label={`Load starter drawing ${index+1}`}
                           style={styles.presetChoice}
                           onPress={()=>{
                             const load=()=>start(preset.id);
                             if(pixels.length)confirmReplacement(
-                              `Replace the editable drawing with ${preset.name}? Your current living pet will not be changed until you choose Begin life.`,
+                              "Replace the editable drawing with this starter shape? Your living pet is not replaced until you confirm Begin life.",
                               load);
                             else load();
                           }}>
-                          <View style={styles.presetContent}>
-                            <PetPixels pixels={presetThumbnails.get(preset.id)!}
-                              size={80} gridSize={DRAW_SIZE}/>
-                            <Text style={[s.bright,styles.presetName]}>{preset.name}</Text>
-                            <Text style={[s.muted,{fontSize:12,lineHeight:16,textAlign:"center"}]}>
-                              {preset.description}
-                            </Text>
-                          </View>
+                          <PetPixels pixels={presetThumbnails.get(preset.id)!}
+                            size={62} gridSize={DRAW_SIZE}/>
                         </Button>)}
                         </View>
                       </>}
@@ -1258,23 +1268,23 @@ export default function App() {
                         label="Undo drawing"
                         disabled={!history.length}
                         onPress={undo}
-                        style={{ flex: 1 }}
+                        style={styles.symbolButton}
                       >
-                        Undo
+                        <PixelIcon name="undo" size={24} color={T.bright} />
                       </Button>
                       <Button
                         label="Redo drawing"
                         disabled={!redo.length}
                         onPress={redoStroke}
-                        style={{ flex: 1 }}
+                        style={styles.symbolButton}
                       >
-                        Redo
+                        <PixelIcon name="redo" size={24} color={T.bright} />
                       </Button>
                       <Button
                         label="Mirror drawing"
                         selected={mirror}
                         onPress={() => setMirror(!mirror)}
-                        style={{ flex: 1 }}
+                        style={styles.compactTextButton}
                       >
                         Mirror
                       </Button>
@@ -1282,7 +1292,7 @@ export default function App() {
                         label="Clear drawing"
                         disabled={!pixels.length}
                         onPress={() => replace([])}
-                        style={{ flex: 1 }}
+                        style={styles.compactTextButton}
                       >
                         Clear
                       </Button>
@@ -1685,6 +1695,7 @@ export default function App() {
               )}
 
               <MorphologyWorkbench
+                age={age}
                 value={morphTune}
                 onApply={next=>{openLab();setGrowing(false);setMorphTune(next);}}
                 onCompare={()=>{
@@ -2046,16 +2057,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: T.line,
     backgroundColor: "#090909",
-    padding: 11,
-    gap: 10,
+    padding: 10,
+    gap: 6,
     borderRadius: 14,
   },
   toolbar: {
     flexDirection: "row",
     gap: 5,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
+  // Fixed accessible tap targets without giant full-width labeled tiles.
+  symbolButton: { width: 44, minWidth: 44, height: 44, minHeight: 44,
+    paddingHorizontal: 0, paddingVertical: 0 },
+  compactTextButton: { flex: 1, minHeight: 44, paddingHorizontal: 2, paddingVertical: 2 },
   button: {
     minHeight: 44,
     minWidth: 44,
@@ -2077,9 +2092,8 @@ const styles = StyleSheet.create({
   row: { flexDirection: "row", gap: 6, alignItems: "center" },
   mobileBirthBar: {flexDirection:"row",paddingHorizontal:12,paddingTop:6,paddingBottom:6,backgroundColor:T.bg,borderTopWidth:1,borderColor:T.line},
   wrap: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  presetChoice: { width: "47%", flexGrow: 1, paddingVertical: 8 },
-  presetContent: { alignItems: "center", gap: 6 },
-  presetName: { fontSize: 15, textAlign: "center" },
+  starterGrid: { flexDirection: "row", flexWrap: "wrap", gap: 4, justifyContent: "center" },
+  presetChoice: { width: "23%", flexGrow: 1, minHeight: 72, paddingHorizontal: 1, paddingVertical: 2 },
   between: {
     flexWrap: "wrap",
     gap: 8,

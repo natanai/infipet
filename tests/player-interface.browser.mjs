@@ -114,19 +114,19 @@ try {
       const birth=await button(page,"Begin life").boundingBox();
       assert.ok(birth&&birth.height>=44&&birth.y+birth.height<=viewport.height+1,
         "mobile birth command is visible above browser content edge without scrolling");
-      for(const name of parts){
-        const control=button(page,`Draw ${name.toLowerCase()}`);
-        const b=await control.boundingBox();
-        assert.ok(b.width>=44&&b.height>=44,`44px touch target: ${name}`);
-        assert.equal(await control.getByText(name,{exact:true}).isVisible(),true,
-          `visible material label: ${name}`);
+      // The default anatomy UI has only three controls, without a huge
+      // fifteen-name grid occupying most of a mobile viewport.
+      for(const label of ["Previous body part","Choose body part","Next body part"]){
+        const b=await button(page,label).boundingBox();
+        assert.ok(b&&b.width>=44&&b.height>=44,`44px touch target: ${label}`);
       }
+      assert.equal(await button(page,"Draw body").count(),0,"full grid is collapsed initially");
       const xOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+1);
       assert.equal(xOverflow,false,"no page-wide horizontal scrolling");
       if(viewport.width===390){
         const before=await page.locator("#infipet-device").boundingBox();
         const canvas=await page.getByLabel("Draw your whole pet here",{exact:true}).boundingBox();
-        assert.ok(canvas.width<before.width-24,"square adapts without squeezing device");
+        assert.ok(canvas.width<=before.width-24,"canvas uses available width without squeezing device");
         await page.setViewportSize({width:390,height:500});
         const after=await page.locator("#infipet-device").boundingBox();
         assert.equal(Math.round(before.width),Math.round(after.width),
@@ -165,42 +165,40 @@ try {
       assert.equal(await button(page, "Return to your pet").count(), 0,
         "do not show a redundant disabled Pet tab before birth");
       assert.equal(await button(page, "Open more menu").count(), 1);
-      for (const [tool, visible] of [
-        ["Use pencil", "Pencil"], ["Use eraser", "Erase"],
-        ["Choose brush color", "Color"], ["Learn about body", "Help"],
-      ]) {
-        const control = button(page, tool);
-        assert.equal(await control.isVisible(), true);
-        assert.equal(await control.getByText(visible, { exact: true }).isVisible(), true,
-          `drawing tool ${visible} must be visibly named`);
+      for (const tool of ["Use pencil","Use eraser","Choose brush color","Learn about body"]){
+        const control=button(page,tool);
+        assert.equal(await control.isVisible(),true);
+        assert.equal(await control.locator("svg").count(),tool==="Choose brush color"?0:1,
+          "use legible pixel glyphs instead of text-dominated buttons");
       }
+      assert.equal(await button(page,"Watch your pet explore").count(),0,
+        "unsupported locomotion must not leave a permanently disabled walk icon");
       assert.equal(await button(page, "Begin life").isDisabled(), true);
+      // Current selected anatomical symbol and two navigation arrows.
+      for(const label of ["Previous body part","Choose body part","Next body part"])
+        assert.ok(await button(page,label).isVisible());
+      assert.equal(await button(page,"Draw head").count(),0);
+      await button(page,"Choose body part").click();
       for (const name of parts) {
-        const part = button(page, `Draw ${name.toLowerCase()}`);
-        assert.equal(await part.isVisible(), true);
-        assert.equal(await part.getByText(name, {exact: true}).isVisible(),true,
-          `body-part material ${name} must have a visible name`);
-        const fontSize=await part.getByText(name,{exact:true})
-          .evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
-        assert.ok(fontSize>=16,`material ${name} is actually readable, not 13px subtext`);
-        if (viewport.width < 500) await part.tap();
-        else await part.click();
-        assert.equal(await part.getAttribute("aria-pressed"), "true");
-        assert.equal(await button(page, "Close panel").count(), 0);
+        const part=button(page,`Draw ${name.toLowerCase()}`);
+        assert.equal(await part.isVisible(),true);
+        const box=await part.boundingBox();
+        assert.ok(box.width>=44&&box.height>=44,`usable symbol target: ${name}`);
+        assert.equal(await part.getByText(name,{exact:true}).count(),0,
+          "anatomical buttons have accessible names without printed labels");
       }
-      // Three readable columns and five rows, with no clipped part buttons or overflow.
-      const bounds = await Promise.all(
-        parts.map((name) =>
-          button(page, `Draw ${name.toLowerCase()}`).boundingBox(),
-        ),
-      );
-      assert.equal(new Set(bounds.map((b) => Math.round(b.y))).size, 5);
-      assert.equal(new Set(bounds.map((b) => Math.round(b.x))).size, 3);
-      assert.ok(
-        bounds.every((b) => b.x >= 0 && b.x + b.width <= viewport.width),
-      );
+      const bounds=await Promise.all(parts.map(name=>
+        button(page,`Draw ${name.toLowerCase()}`).boundingBox()));
+      assert.equal(new Set(bounds.map(b=>Math.round(b.y))).size,3,
+        "expanded palette uses three compact rows of 5 symbols");
+      assert.equal(new Set(bounds.map(b=>Math.round(b.x))).size,5);
+      assert.ok(bounds.every(b=>b.x>=0&&b.x+b.width<=viewport.width));
+      await button(page,"Draw body").click();
+      assert.equal(await button(page,"Choose body part").getByText("Body",{exact:true}).count(),1,
+        "the selected material is named once to clarify an ambiguous glyph");
+      assert.equal(await button(page,"Draw head").count(),0,
+        "choosing a symbol automatically closes the optional grid");
       const c = await canvas.boundingBox();
-      await button(page, "Draw body").click();
       if (viewport.width < 500)
         await canvas.tap({
           position: { x: c.width * 0.45, y: c.height * 0.5 },
@@ -210,7 +208,7 @@ try {
         doc.parts.some((p) => p.kind === "body" && p.pixels.length),
       );
       const first = (await stored(page)).parts;
-      await button(page, "Draw head").click();
+      await button(page, "Next body part").click();
       if (viewport.width < 500)
         await canvas.tap({ position: { x: c.width * 0.5, y: c.height * 0.4 } });
       else await page.mouse.click(c.x + c.width * 0.5, c.y + c.height * 0.4);
@@ -378,10 +376,13 @@ try {
         await on.focus();
         await page.keyboard.press("Space");
       }
-      await page
-        .getByLabel("Draw your whole pet here", { exact: true })
-        .waitFor();
+      await page.getByText(/PREVIEW · DAY/).waitFor();
       assert.equal(await panel.count(), 0);
+      assert.equal(await button(page,"Return to drawing").count(),1,
+        "a nameless experimental organism has an explicit return to the editor");
+      if(viewport.width<500)await button(page,"Return to drawing").tap();
+      else await button(page,"Return to drawing").click();
+      await page.getByLabel("Draw your whole pet here",{exact:true}).waitFor();
       assert.equal(await button(page,"Show or hide starter creature gallery").count(),1,
         "public starter gallery remains available without developer tools");
       assert.equal(
@@ -438,25 +439,25 @@ try {
     await button(page,"Draw your pet").click();
     await button(page,"Show or hide starter creature gallery").click();
     assert.equal(await page.getByRole("button",
-      { name: /^Load .* starter creature into drawing editor$/ }).count(),12);
-    for (const [presetName, presetSeed] of [
-      ["Pippo", "STARTER-PIPPO-2026"],
-      ["Brumby", "STARTER-BRUMBY-2026"],
-      ["Glim", "STARTER-GLIM-2026"],
-      ["Thimbleaf", "STARTER-THIMBLEAF-2026"],
-      ["Vellune", "STARTER-VELLUNE-2026"],
-      ["Craggle", "STARTER-CRAGGLE-2026"],
-      ["Nibblet", "STARTER-NIBBLET-2026"],
-      ["Orbini", "STARTER-ORBINI-2026"],
-      ["Spoori", "STARTER-SPOORI-2026"],
-      ["Tukkin", "STARTER-TUKKIN-2026"],
-      ["Flinta", "STARTER-FLINTA-2026"],
-      ["Vespri", "STARTER-VESPRI-2026"],
+      { name: /^Load starter drawing (?:[1-9]|1[0-2])$/ }).count(),12);
+    for (const [presetNumber, presetSeed] of [
+      [1, "STARTER-PIPPO-2026"],
+      [2, "STARTER-BRUMBY-2026"],
+      [3, "STARTER-GLIM-2026"],
+      [4, "STARTER-THIMBLEAF-2026"],
+      [5, "STARTER-VELLUNE-2026"],
+      [6, "STARTER-CRAGGLE-2026"],
+      [7, "STARTER-NIBBLET-2026"],
+      [8, "STARTER-ORBINI-2026"],
+      [9, "STARTER-SPOORI-2026"],
+      [10, "STARTER-TUKKIN-2026"],
+      [11, "STARTER-FLINTA-2026"],
+      [12, "STARTER-VESPRI-2026"],
     ]) {
       // Loading a draft closes the gallery to restore the handheld canvas.
-      if(await button(page,`Load ${presetName} starter creature into drawing editor`).count()===0)
+      if(await button(page,`Load starter drawing ${presetNumber}`).count()===0)
         await button(page,"Show or hide starter creature gallery").click();
-      await button(page, `Load ${presetName} starter creature into drawing editor`).click();
+      await button(page, `Load starter drawing ${presetNumber}`).click();
       await button(page,"Confirm replacement").click();
       await page.waitForFunction(
         (seed) =>
@@ -466,11 +467,11 @@ try {
       assert.deepEqual(
         livingIdentity(await stored(page)),
         identity,
-        `${presetName} does not replace the living organism`,
+        `starter ${presetNumber} does not replace the living organism`,
       );
     }
     await button(page,"Show or hide starter creature gallery").click();
-    await button(page,"Load Spoori starter creature into drawing editor").click();
+    await button(page,"Load starter drawing 9").click();
     await button(page,"Confirm replacement").click();
     const draft = await saved(page, (doc) => doc.seed === "STARTER-SPOORI-2026");
     assert.deepEqual(
@@ -504,6 +505,10 @@ try {
         .count(),
       0,
     );
+    await page.getByText(/PREVIEW · DAY/).waitFor();
+    assert.equal(await button(page,"Meal").count(),0,
+      "preview does not expose care controls for the living organism");
+    await button(page,"Return to your pet").click();
     await button(page, "Meal").waitFor();
     assert.deepEqual(livingIdentity(await stored(page)), identity);
     assert.deepEqual(
@@ -754,15 +759,14 @@ try {
     await page.getByLabel("Draw your whole pet here",{exact:true}).waitFor();
     assert.equal(await button(page,"Show or hide starter creature gallery").count(),1);
     await button(page,"Show or hide starter creature gallery").click();
-    for(const creature of ["Pippo","Thimbleaf","Vellune","Craggle","Orbini","Vespri"]){
-      const starter=button(page,`Load ${creature} starter creature into drawing editor`);
-      assert.equal(await starter.count(),1,"public player can find "+creature);
-    }
-    await button(page,"Load Pippo starter creature into drawing editor").click();
+    assert.equal(await page.getByRole("button",{name:/^Load starter drawing (?:[1-9]|1[0-2])$/}).count(),12);
+    assert.equal(await page.getByText("Pippo",{exact:true}).count(),0,
+      "starter thumbnails never impose character names");
+    await button(page,"Load starter drawing 1").click();
     assert.equal(await button(page,"Begin life").isDisabled(),false);
     await button(page,"Begin life").click();
     await button(page,"Meal").waitFor();
-    const pet=await saved(page,doc=>doc?.life?.name==="Pippo");
+    const pet=await saved(page,doc=>doc?.life?.name==="Little one");
     const identity=livingIdentity(pet);
     await openTools(page);
     await button(page,"Expand morphology workbench").click();
@@ -777,6 +781,36 @@ try {
       "developer preview did not modify original player source, seed or birth");
     assert.equal("operatorMultipliers" in preserved,false,
       "experimental tuning is not persisted as a pet property");
+    await context.close();
+  });
+  await test("mobile morphology sliders survive hiding dev tools and never rewrite a living pet",async()=>{
+    const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
+    const page=await context.newPage();page.on("pageerror",e=>errors.push(e.message));
+    await page.goto(url);
+    await button(page,"Show or hide starter creature gallery").tap();
+    await button(page,"Load starter drawing 1").tap();
+    await button(page,"Begin life").tap();
+    await button(page,"Meal").waitFor();
+    const born=await saved(page,doc=>!!doc.life);
+    const identity=livingIdentity(born);
+    await button(page,"Enable development tools").tap();
+    await button(page,"View adult").click();
+    await button(page,"Expand morphology workbench").click();
+    const slider=page.getByLabel("expand operator expression",{exact:true});
+    const bounds=await slider.boundingBox();assert.ok(bounds?.width>70);
+    await slider.tap({position:{x:bounds.width*0.82,y:bounds.height/2}});
+    // Sliding commits to sandbox at the pointer release, with no extra
+    // "Apply" step or silent transition to the real saved organism.
+    await button(page,"Preview player experience").tap();
+    await page.getByText(/PREVIEW · DAY/).waitFor();
+    assert.equal(await button(page,"Return to your pet").count(),1);
+    assert.equal(await button(page,"Meal").count(),0,
+      "care actions must not target the experimental creature");
+    assert.deepEqual(livingIdentity(await stored(page)),identity);
+    await button(page,"Return to your pet").tap();
+    await button(page,"Meal").waitFor();
+    assert.equal(await page.getByText(/PREVIEW · DAY/).count(),0);
+    assert.deepEqual(livingIdentity(await stored(page)),identity);
     await context.close();
   });
   assert.deepEqual(errors, [], "no application runtime errors");

@@ -14,11 +14,11 @@ deviceWidth = min(maxDeviceWidth, max(0, available - 24));
 inside = max(0, deviceWidth - 24);
 canvasSide = floor(max(0, min(inside, max(160, viewportHeight - heightReserve), maxCanvasSide)));
 ```
-For draw: maxDeviceWidth=480, heightReserve=420, maxCanvasSide=400. For live: 560, 280, 520. All dimensions are CSS pixels. The square scales independently from the device rail; under tiny heights the page scrolls instead of forcing all buttons to shrink. Mobile (<1000px) drawing birth is a separate bottom action in SafeAreaView, so it remains reachable under a short visible viewport. The root uses dynamic viewport minimum height on web and does **not** disable browser zoom.
+For draw: maxDeviceWidth=480, heightReserve=295, maxCanvasSide=400. For live: 560, 280, 520. All dimensions are CSS pixels. The square scales independently from the device rail; under tiny heights the page scrolls instead of forcing all buttons to shrink. Mobile (<1000px) drawing birth is a separate bottom action in SafeAreaView, so it remains reachable under a short visible viewport. The root uses dynamic viewport minimum height on web and does **not** disable browser zoom.
 
 Drawing has logical 32×32 cells; live/groom uses 64×64 world coordinates. On gesture begin we capture (size, pageX-locationX, pageY-locationY, tool). Until release/cancellation, every point is mapped to **that** basis, not the latest prop size. Off-canvas drawing points remain discontinuities. Gesture completion commits via the existing stroke implementation only once.
 
-Test invariants: deviceWidth does not depend on viewportHeight; canvasSide ≤ inside; increasing available height cannot decrease canvasSide; original 15 one-tap selectors, 3 columns × 5 rows with always-visible part names, each at least 44×44 CSS px; no page-wide horizontal overflow.
+Test invariants: deviceWidth does not depend on viewportHeight; canvasSide ≤ inside; increasing available height cannot decrease canvasSide; three visible 44px anatomical controls, and an optional five-column × three-row symbol picker with accessible part names, each at least 44×44 CSS px; no page-wide horizontal overflow.
 
 ## Current 16-flow ledger
 
@@ -53,7 +53,7 @@ The PR does **not** claim a successful catch, physical feeding animation, naviga
 The screenshot-driven legibility correction is grounded in real iPhone Safari feedback, but visual human usability after this correction still needs a new phone check. Chromium geometry/interaction evidence does not certify real Safari behavior.
 
 ## October 27 phone readability correction
-- Remove the in-device Draw / Pet / More tab strip. The top identity row now provides one contextual navigation action (Pet or Draw, only after birth) and a text More action. Before birth no disabled Pet tab consumes space. The drawing workspace has only one row of text-labeled Pencil, Erase, Color and Help controls.
-- Original material categories remain independently selectable (no inferred or invented anatomy), but appear as 15 always-labeled three-column selectors. The former 15 tiny material glyphs are removed; readable 16px text is the complete material selector.
-- Undo, Redo, Mirror and Clear are written out, rather than represented by nonstandard graphics. Developer motion preview actions and contextual care-game decisions similarly remain readable, while the habitat care rails retain symbol-first navigation.
-- Automated exported-browser checks now enforce these visible names at phone widths, not merely accessibility metadata or button counts. Real Safari tap and scroll confirmation remains necessary.
+- Remove the in-device Draw / Pet / More tab strip. The top identity row now provides one contextual pixel-symbol navigation action (Pet or Draw, only after birth) and a pixel-symbol More action. Before birth no disabled Pet tab consumes space. The drawing workspace has only one row of text-labeled Pencil, Erase, Color and Help controls.
+- Original material categories remain independently selectable (no inferred or invented anatomy). The main player draws with three 44px controls: previous symbol, current symbol (expand picker), and next symbol. A 15-icon, five-column picker can open temporarily and closes on selection. The currently selected material shows its readable name beside its icon; the expanded choices are pictograms with full screen-reader labels and contextual Help. The earlier 16px text is the complete material selector.
+- Pencil, Eraser, Undo, and Redo use distinct existing pixel symbols; Mirror and Clear retain text where their tiny symbols may be ambiguous. Developer motion preview actions and contextual care-game decisions similarly remain readable, while the habitat care rails retain symbol-first navigation.
+- Automated exported-browser checks now enforce the actual icon-only player interface, full accessible names, 44px tap targets, and a collapsed anatomy picker on supported phone widths. The regression suite also requires experimental morphology to remain visible after developer-panel closure, without changing the saved pet. Real Safari tap and scroll confirmation remains necessary.
