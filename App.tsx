@@ -240,6 +240,9 @@ export default function App() {
   const [groomUndo, setGroomUndo] = useState<GroomStroke[][]>([]);
   const [groomRedo, setGroomRedo] = useState<GroomStroke[][]>([]);
   const [needPreview, setNeedPreview] = useState<NeedKeyframe[] | null>(null);
+  // Developer-only synthetic inputs; never persisted to a saved living pet.
+  const [previewNutrition, setPreviewNutrition] = useState(0.75);
+  const [comparePreview, setComparePreview] = useState(false);
   const [timeExtent, setTimeExtent] = useState(240);
   const [labIdentity, setLabIdentity] = useState(0);
   const [rerollBusy, setRerollBusy] = useState(false);
@@ -264,9 +267,32 @@ export default function App() {
       createSimulation(parts, seed, mode, {
         needTimeline: needPreview ?? needTimeline,
         groomingTimeline,
+        previewCare: {
+          kind: "synthetic-needs-lab-v1",
+          timeline: needPreview ?? needTimeline,
+          nutrition: previewNutrition,
+        },
       }),
-    [parts, seed, mode, needTimeline, needPreview, groomingTimeline],
+    [parts, seed, mode, needTimeline, needPreview, groomingTimeline, previewNutrition],
   );
+  const baselinePreview = useMemo(
+    () => devEnabled && comparePreview
+      ? createSimulation(parts, seed, mode, {
+          previewCare:{ kind:"synthetic-needs-lab-v1",timeline:[],nutrition:0.75 },
+        })
+      : null,
+    [devEnabled,comparePreview,parts,seed,mode],
+  );
+  const previewComparison = useMemo(() => {
+    if (!baselinePreview || playing) return null;
+    const day = Math.max(0, Math.min(365, Math.floor(age - simulation.hatchAt)));
+    const current = simulation.materialStateAt(simulation.hatchAt + day);
+    const baseline = baselinePreview.materialStateAt(baselinePreview.hatchAt + day);
+    const positions=(cells:readonly {x:number;y:number}[])=>new Set(cells.map(c=>c.x+","+c.y));
+    const a=positions(current.graph.cells),b=positions(baseline.graph.cells);
+    const changed=[...new Set([...a,...b])].filter(k=>a.has(k)!==b.has(k)).length;
+    return {day,changed,current:a.size,baseline:b.size};
+  },[baselinePreview,playing,simulation,age]);
   const timelineEnd =
     simulation.hatchAt +
     Math.max(
@@ -1632,6 +1658,42 @@ export default function App() {
                 </View>
               )}
 
+              {devEnabled && (
+                <View style={styles.drawer}>
+                  <Text style={s.bright}>Synthetic daily care preview</Text>
+                  <Text style={s.muted}>
+                    These settings only supply daily forcing to the real material engine,
+                    never recorded care. In Needs Lab, Rest, Physical fitness, Security
+                    and Safety control their matching preview signals.
+                  </Text>
+                  <View style={styles.between}>
+                    <Text style={s.muted}>Nutrition (synthetic)</Text>
+                    <Text style={s.bright}>{Math.round(previewNutrition*100)}%</Text>
+                  </View>
+                  <Slider
+                    accessibilityLabel="Synthetic nutrition used by daily development"
+                    minimumValue={0} maximumValue={1} step={0.05}
+                    value={previewNutrition}
+                    onSlidingStart={() => setGrowing(false)}
+                    onValueChange={v => {openLab();setPreviewNutrition(v);}}
+                    minimumTrackTintColor={T.text} maximumTrackTintColor={T.line}
+                    thumbTintColor={T.bright} style={{height:32}}
+                  />
+                  <Button
+                    label="Compare this synthetic history with default daily care"
+                    selected={comparePreview}
+                    onPress={()=>setComparePreview(!comparePreview)}
+                  >{comparePreview?"Hide comparison":"Compare baseline"}</Button>
+                  {!!previewComparison && (
+                    <Text style={s.muted} accessibilityLiveRegion="polite">
+                      Day {previewComparison.day}: {previewComparison.current} preview sites;
+                      {previewComparison.baseline} baseline sites;
+                      {previewComparison.changed} physical positions differ.
+                      Zero difference is a valid null outcome, not a claim of failed integration.
+                    </Text>
+                  )}
+                </View>
+              )}
               <NeedsLab
                 embedded
                 key={labIdentity}
