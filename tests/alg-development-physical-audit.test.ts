@@ -24,7 +24,7 @@ function witness(){
   return {program,genome,state};
 }
 function altered(g:MaterialGraph):MaterialGraph{
-  const forged=copy(g);
+  const forged=copy(g) as any;
   const cell=forged.cells[0];
   const x=cell.x<63?cell.x+1:cell.x-1;
   forged.cells[0]={...cell,x};
@@ -63,17 +63,17 @@ test("[AUD-001/A3] forged relocation, source tissue identity, unauthorized topol
   const badPosition=altered(g);
   assert.throws(()=>verifyDailyMaterialInventory(badPosition,HATCH,365),
     /physical state|reconstruction/);
-  const badTissue=copy(g);
+  const badTissue=copy(g) as any;
   badTissue.cells[0]={...badTissue.cells[0],tissueId:"unknown/fiction"};
   assert.throws(()=>verifyDailyMaterialInventory(badTissue,HATCH,365),
     /physical state|reconstruction/);
-  const badLinks=copy(g);
+  const badLinks=copy(g) as any;
   badLinks.links.push({id:"forged",fromTissueId:badLinks.tissues[0].id,
     toTissueId:badLinks.tissues[0].id,kind:"attachment",
     fromCellId:badLinks.cells[0].id,toCellId:badLinks.cells[0].id});
   assert.throws(()=>verifyDailyMaterialInventory(badLinks,HATCH,365),
     /physical state|reconstruction/);
-  const badLedger=copy(g);
+  const badLedger=copy(g) as any;
   const closing=badLedger.events.find(e=>e.dailyPhysical)!;
   closing.dailyPhysical!.relocations.push({
     cellId:badLedger.sourceCells[0].id,from:{x:9,y:9},to:{x:60,y:60},
