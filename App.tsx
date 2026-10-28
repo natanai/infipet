@@ -1151,6 +1151,17 @@ export default function App() {
                   style={styles.symbolButton}>
                   <PixelIcon name={view === "draw" || sandbox ? "live" : "draw"} size={24} color={T.bright}/>
                 </Button>}
+                {!life && view === "live" && sandbox && <Button
+                  label="Return to drawing"
+                  onPress={()=>{
+                    setView("draw");
+                    setNeedPreview(null);
+                    setGrowing(false);
+                    setGrooming(false);
+                  }}
+                  style={styles.symbolButton}>
+                  <PixelIcon name="draw" size={24} color={T.bright}/>
+                </Button>}
                 {playing && frame.stage !== "egg" && <IconButton
                   icon="feel"
                   label="Check how your pet feels"
