@@ -708,7 +708,7 @@ export default function App() {
     const nextSeed = preset?.seed ?? newSeed();
     setSeed(nextSeed);
     setSeedInput(nextSeed);
-    setName(preset?.name ?? "Little one");
+    setName("Little one");
     setBornAt(Date.now());
     resetPreview();
     setView("draw");
@@ -1212,32 +1212,24 @@ export default function App() {
                         {starterGalleryOpen?"[-]":"[+]"} Choose a starter
                       </Button>
                       {starterGalleryOpen&&<>
-                        <Text style={[s.muted,{fontSize:14,lineHeight:18}]}>
-                          Twelve original editable starting drawings, using only
-                          the default palette. Choose one, customize it, or
-                          draw your own. Their forms suggest possibilities,
-                          not guaranteed evolution outcomes.
+                        <Text style={[s.muted,{fontSize:13,lineHeight:17}]}>
+                          Original example drawings, not named species. Select one
+                          to edit, or draw your own.
                         </Text>
-                        <View style={styles.wrap}>
-                        {STARTER_PRESETS.map(preset=><Button
+                        <View style={styles.starterGrid}>
+                        {STARTER_PRESETS.map((preset,index)=><Button
                           key={preset.id}
-                          label={`Load ${preset.name} starter creature into drawing editor`}
+                          label={`Load starter drawing ${index+1}`}
                           style={styles.presetChoice}
                           onPress={()=>{
                             const load=()=>start(preset.id);
                             if(pixels.length)confirmReplacement(
-                              `Replace the editable drawing with ${preset.name}? Your current living pet will not be changed until you choose Begin life.`,
+                              "Replace the editable drawing with this starter shape? Your living pet is not replaced until you confirm Begin life.",
                               load);
                             else load();
                           }}>
-                          <View style={styles.presetContent}>
-                            <PetPixels pixels={presetThumbnails.get(preset.id)!}
-                              size={80} gridSize={DRAW_SIZE}/>
-                            <Text style={[s.bright,styles.presetName]}>{preset.name}</Text>
-                            <Text style={[s.muted,{fontSize:12,lineHeight:16,textAlign:"center"}]}>
-                              {preset.description}
-                            </Text>
-                          </View>
+                          <PetPixels pixels={presetThumbnails.get(preset.id)!}
+                            size={62} gridSize={DRAW_SIZE}/>
                         </Button>)}
                         </View>
                       </>}
@@ -2085,9 +2077,8 @@ const styles = StyleSheet.create({
   row: { flexDirection: "row", gap: 6, alignItems: "center" },
   mobileBirthBar: {flexDirection:"row",paddingHorizontal:12,paddingTop:6,paddingBottom:6,backgroundColor:T.bg,borderTopWidth:1,borderColor:T.line},
   wrap: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  presetChoice: { width: "47%", flexGrow: 1, paddingVertical: 8 },
-  presetContent: { alignItems: "center", gap: 6 },
-  presetName: { fontSize: 15, textAlign: "center" },
+  starterGrid: { flexDirection: "row", flexWrap: "wrap", gap: 4, justifyContent: "center" },
+  presetChoice: { width: "23%", flexGrow: 1, minHeight: 72, paddingHorizontal: 1, paddingVertical: 2 },
   between: {
     flexWrap: "wrap",
     gap: 8,
