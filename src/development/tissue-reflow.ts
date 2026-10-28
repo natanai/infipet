@@ -26,7 +26,7 @@ const near=(a:Point,b:Point)=>Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))===1;
 const steps=dirs.concat([{x:1,y:1},{x:1,y:-1},{x:-1,y:1},{x:-1,y:-1}]);
 function connected(cells:readonly MaterialCell[]):boolean{
  if(!cells.length)return false;
- const lookup=new Set(cells.map(pos)),seen=new Set([pos(cells[0])]),q=[cells[0]];
+ const lookup=new Set(cells.map(pos)),seen=new Set([pos(cells[0])]),q:Point[]=[cells[0]];
  for(let i=0;i<q.length;i++)for(const d of steps){
   const p={x:q[i].x+d.x,y:q[i].y+d.y},key=pos(p);
   if(lookup.has(key)&&!seen.has(key)){seen.add(key);q.push(p);}
