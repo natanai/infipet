@@ -239,10 +239,11 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
   let lastCheck=0;
   const createdEver=new Set(birthIds);
   for(const event of graph.events){
-    if(!Number.isSafeInteger(event.checkIndex)||event.checkIndex<1||event.checkIndex>365||
-      event.checkIndex<lastCheck||event.atHour!==event.checkIndex*24)
+    const check=event.checkIndex;
+    if(check===undefined||!Number.isSafeInteger(check)||check<1||check>365||
+      check<lastCheck||event.atHour!==check*24)
       errors.push("invalid-daily-chronology:"+event.id);
-    lastCheck=event.checkIndex??lastCheck;
+    lastCheck=check??lastCheck;
     const archive=new Map((event.createdCells??[]).map(c=>[c.id,c]));
     for(const id of event.removedCellIds){
       if(!state.delete(id))errors.push("unrecorded-removal:"+id);

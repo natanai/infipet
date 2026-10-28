@@ -81,7 +81,7 @@ test("[MORPH-003/A2] forged attractive morphology, fabricated provenance and sil
   assert.equal(qualifyPhysicalChange(initial,forged,"eligible").status,"fail");
   const fake=JSON.parse(JSON.stringify(adult)) as MaterialGraph;
   const target=fake.cells.find(c=>c.provenance==="generated")!;
-  (target as {sourceIds:string[]}).sourceIds=["not-my-art"];
+  (target as unknown as {sourceIds:string[]}).sourceIds=["not-my-art"];
   assert.equal(provePhysicalMaterial(fake).valid,false);
   const shifted=JSON.parse(JSON.stringify(adult)) as MaterialGraph;
   (shifted.cells[0] as {x:number}).x++;
