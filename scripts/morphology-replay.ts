@@ -44,7 +44,9 @@ const output:{
 for(const item of cases)for(const seed of seeds)for(const care of careProfiles){
   const actualSeed=seed+"|"+item.id;
   const limit=mode==="daily"?365:240;
-  // Compare nearest available integer daily check against real fractional progress.\n  // Legacy stage landmarks 30/75/120 are separately documented, not mapped to these checkpoints.\n  const times=mode==="daily"?[0,91,182,274,365]:[0,60,120,180,240];
+  // Compare nearest available integer daily check against real fractional progress.
+  // Legacy stage landmarks 30/75/120 are separately documented, not mapped to these checkpoints.
+  const times=mode==="daily"?[0,91,182,274,365]:[0,60,120,180,240];
   const game=careGame(actualSeed,care,limit);
   const options={
     needTimeline:needTimeline(care),
