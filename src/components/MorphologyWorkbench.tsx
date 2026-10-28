@@ -1,0 +1,111 @@
+import React,{useEffect,useState} from "react";
+import {Pressable,Text,View} from "react-native";
+import Slider from "@react-native-community/slider";
+import {T,terminal as s} from "../theme";
+import {DEFAULT_MORPH_TUNING,MORPH_KINDS,MORPH_OPERATOR_HELP,
+ type MorphologyTuning,type MorphologyShapeMetrics,
+} from "../interface/morphology-tuning";
+
+type Compare=Readonly<{age:number;seed:string;original:MorphologyShapeMetrics;
+ experimental:MorphologyShapeMetrics;recipe:string}>;
+const textStyle={...s.muted,fontSize:13,lineHeight:17};
+const labelStyle={...s.text,fontSize:15,lineHeight:18};
+const btn={borderWidth:1,borderColor:T.line,paddingVertical:9,paddingHorizontal:9,
+ backgroundColor:T.bg,justifyContent:"center" as const,alignItems:"center" as const};
+const cap=(n:number)=>Math.max(0,Math.min(2,Math.round(n*20)/20));
+export function MorphologyWorkbench({
+ value,onApply,onCompare,
+}:{
+ value:Readonly<MorphologyTuning>;
+ onApply:(next:MorphologyTuning)=>void;
+ onCompare:()=>Compare;
+}){
+ const [open,setOpen]=useState(false);
+ const [draft,setDraft]=useState<MorphologyTuning>({...value});
+ const [report,setReport]=useState<Compare|null>(null);
+ const [error,setError]=useState("");
+ useEffect(()=>{setDraft({...value});setReport(null);},[value]);
+ const change=(kind:keyof MorphologyTuning,next:number)=>{
+   setDraft(v=>({...v,[kind]:cap(next)}));setReport(null);
+ };
+ const dirty=MORPH_KINDS.some(k=>draft[k]!==value[k]);
+ return (
+  <View style={{borderWidth:1,borderColor:T.line,padding:8,gap:7}}>
+   <Pressable accessibilityRole="button"
+     accessibilityLabel="Expand morphology workbench"
+     accessibilityState={{expanded:open}}
+     onPress={()=>setOpen(v=>!v)}
+     style={[btn,{alignItems:"flex-start"}]}>
+     <Text style={s.bright}>{open?"[-]":"[+]"} MORPHOLOGY WORKBENCH</Text>
+   </Pressable>
+   {open&&<>
+    <Text style={textStyle}>
+     Developer-only counterfactual: adjust existing material operator expression
+     (0–200% of inherited baseline). The permanent genome, chaotic seed, source
+     drawing, clock and saved life are unchanged. A zero-potential operator
+     cannot be invented by a slider.
+    </Text>
+    <Text style={textStyle}>
+     These eight controls affect scheduled physical operators. Iterative
+     branching, growth-field choices, care exposure and rig motion have
+     separate algorithms; these controls do not claim to tune them.
+    </Text>
+    {MORPH_KINDS.map(kind=><View key={kind} style={{gap:2}}>
+     <View style={{flexDirection:"row",justifyContent:"space-between",gap:4}}>
+      <Text style={labelStyle}>{kind.toUpperCase()}</Text>
+      <Text style={labelStyle}>{Math.round(draft[kind]*100)}%</Text>
+     </View>
+     <Text style={textStyle}>{MORPH_OPERATOR_HELP[kind]}</Text>
+     <Slider accessibilityLabel={kind+" operator expression"}
+       accessibilityHint="Only adjusts the experimental development preview, not your real pet"
+       minimumValue={0} maximumValue={2} step={0.05} value={draft[kind]}
+       onValueChange={n=>change(kind,n)}
+       minimumTrackTintColor={T.text} maximumTrackTintColor={T.line}
+       thumbTintColor={T.bright} style={{width:"100%",height:28}}/>
+    </View>)}
+    <View style={{flexDirection:"row",flexWrap:"wrap",gap:6}}>
+     <Pressable accessibilityRole="button" accessibilityLabel="Apply experimental morphology settings"
+       disabled={!dirty} onPress={()=>{onApply({...draft});setReport(null);setError("");}}
+       style={[btn,{flex:1,opacity:dirty?1:0.45}]}>
+       <Text style={s.text}>Apply preview</Text>
+     </Pressable>
+     <Pressable accessibilityRole="button" accessibilityLabel="Reset experimental morphology settings"
+       onPress={()=>{const v={...DEFAULT_MORPH_TUNING};setDraft(v);onApply(v);
+         setReport(null);setError("");}} style={[btn,{flex:1}]}>
+       <Text style={s.text}>Reset all</Text>
+     </Pressable>
+    </View>
+    <Pressable accessibilityRole="button" accessibilityLabel="Compare original and experimental physical morphology"
+     disabled={dirty} onPress={()=>{try{setReport(onCompare());setError("");}
+      catch(err){setReport(null);setError(err instanceof Error?err.message:"Comparison failed");}}}
+     style={[btn,{opacity:dirty?0.45:1}]}>
+     <Text style={s.bright}>Compare physical anatomy at this day</Text>
+    </Pressable>
+    {dirty&&<Text style={textStyle}>Apply sliders before measuring. Slider motion itself does not replay a whole life.</Text>}
+    {!!error&&<Text style={[textStyle,{color:T.warning}]}>{error}</Text>}
+    {report&&<>
+      <Text style={s.bright}>PHYSICAL COMPARISON · DAY {report.age.toFixed(2)}</Text>
+      <View style={{flexDirection:"row",gap:8}}>
+        <Text style={[textStyle,{flex:1}]}>Metric</Text>
+        <Text style={[textStyle,{flex:1,textAlign:"right"}]}>Original</Text>
+        <Text style={[textStyle,{flex:1,textAlign:"right"}]}>Adjusted</Text>
+      </View>
+      {([
+       ["Cells","cells"],["Authored relocations","relocated"],["Resorbed source","removed"],
+       ["Interior cells","internalCells"],["Thin cells %","thinFraction"],["Solidity","solidity"],
+       ["Width","width"],["Height","height"],["Tissues","tissues"],["Links","links"],
+      ] as const).map(([label,key])=><View key={key} style={{flexDirection:"row",gap:8}}>
+        <Text style={[textStyle,{flex:1}]}>{label}</Text>
+        <Text style={[textStyle,{flex:1,textAlign:"right"}]}>{key==="thinFraction"||key==="solidity"?
+          (report.original[key]*100).toFixed(1)+"%":report.original[key]}</Text>
+        <Text style={[textStyle,{flex:1,textAlign:"right"}]}>{key==="thinFraction"||key==="solidity"?
+          (report.experimental[key]*100).toFixed(1)+"%":report.experimental[key]}</Text>
+      </View>)}
+      <Text style={textStyle}>A large silhouette or many cells do not prove meaningful anatomy. Compare thickness, material redistribution, and topology together. These descriptive numbers are not pass/fail judgments.</Text>
+      <Text selectable style={[textStyle,{fontSize:12}]}>{report.recipe}</Text>
+      <Text style={textStyle}>Select the JSON recipe to copy it into an agent review.</Text>
+    </>}
+   </>}
+  </View>
+ );
+}
