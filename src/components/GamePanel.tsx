@@ -109,7 +109,7 @@ export function GamePanel({
 }) {
   const blocked = disabled || game.dead || game.stage === "egg";
   const action = (label: string, icon: PixelIconName, command: GameCommand, extraDisabled = false) => (
-    <Action key={label} label={label} icon={icon} showLabel={showLabels} onPress={() => onCommand(command)} disabled={blocked || extraDisabled} />
+    <Action key={label} label={label} icon={icon} showLabel onPress={() => onCommand(command)} disabled={blocked || extraDisabled} />
   );
   const activity = game.activity;
   const call = game.attention.care ?? game.attention.sleep;
@@ -133,7 +133,7 @@ export function GamePanel({
           {outcome.result==="effective" ? "✓" : outcome.result==="partial" ? "◒" :
             outcome.result==="refused" || outcome.result==="missed" ? "×" : "·"}
         </Text>
-        {showLabels && <Text style={[s.muted,{flexShrink:1}]}>{outcome.description}</Text>}
+        <Text style={[s.muted,{flexShrink:1}]}>{outcome.description}</Text>
       </View>}
       {(call || needsTreatment || game.waste > 0 || game.attention.discipline) && (
         <View style={styles.indicators} accessibilityRole="alert">
@@ -180,7 +180,7 @@ export function GamePanel({
               </View>
             </>
           )}
-          <Action label="Back to pet" icon="undo" onPress={() => onCommand({type:"cancel"})} showLabel={showLabels} />
+          <Action label="Back to pet" icon="undo" onPress={() => onCommand({type:"cancel"})} showLabel />
         </View>
       ) : menu === "food" ? (
         <View style={styles.choices} accessibilityLabel="Choose food">
@@ -204,7 +204,7 @@ export function GamePanel({
             </Text>
           ) : <Text style={s.muted}>No active care call.</Text>}
           <View style={styles.choices}>
-            {game.attention.sleep && <Action label="Lights off" icon="rest" disabled={disabled} onPress={() => onCommand({type:"lights",on:false})} showLabel={showLabels} />}
+            {game.attention.sleep && <Action label="Lights off" icon="rest" disabled={disabled} onPress={() => onCommand({type:"lights",on:false})} showLabel />}
             {game.attention.discipline && action("Discipline","attention",{type:"discipline"})}
             {needsFood && action("Meal","food",{type:"feed",food:"meal"})}
             {needsTreatment && action("Medicine","health",{type:"medicine"})}

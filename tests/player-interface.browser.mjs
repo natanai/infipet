@@ -115,8 +115,11 @@ try {
       assert.ok(birth&&birth.height>=44&&birth.y+birth.height<=viewport.height+1,
         "mobile birth command is visible above browser content edge without scrolling");
       for(const name of parts){
-        const b=await button(page,`Draw ${name.toLowerCase()}`).boundingBox();
+        const control=button(page,`Draw ${name.toLowerCase()}`);
+        const b=await control.boundingBox();
         assert.ok(b.width>=44&&b.height>=44,`44px touch target: ${name}`);
+        assert.equal(await control.getByText(name,{exact:true}).isVisible(),true,
+          `visible material label: ${name}`);
       }
       const xOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+1);
       assert.equal(xOverflow,false,"no page-wide horizontal scrolling");
@@ -159,24 +162,40 @@ try {
         0,
         "fresh start has no modal",
       );
-      assert.equal(await button(page, "Return to your pet").isDisabled(), true);
+      assert.equal(await button(page, "Return to your pet").count(), 0,
+        "do not show a redundant disabled Pet tab before birth");
+      assert.equal(await button(page, "Open more menu").count(), 1);
+      for (const [tool, visible] of [
+        ["Use pencil", "Pencil"], ["Use eraser", "Erase"],
+        ["Choose brush color", "Color"], ["Learn about body", "Help"],
+      ]) {
+        const control = button(page, tool);
+        assert.equal(await control.isVisible(), true);
+        assert.equal(await control.getByText(visible, { exact: true }).isVisible(), true,
+          `drawing tool ${visible} must be visibly named`);
+      }
       assert.equal(await button(page, "Begin life").isDisabled(), true);
       for (const name of parts) {
         const part = button(page, `Draw ${name.toLowerCase()}`);
         assert.equal(await part.isVisible(), true);
+        assert.equal(await part.getByText(name, {exact: true}).isVisible(),true,
+          `body-part material ${name} must have a visible name`);
+        const fontSize=await part.getByText(name,{exact:true})
+          .evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+        assert.ok(fontSize>=16,`material ${name} is actually readable, not 13px subtext`);
         if (viewport.width < 500) await part.tap();
         else await part.click();
         assert.equal(await part.getAttribute("aria-pressed"), "true");
         assert.equal(await button(page, "Close panel").count(), 0);
       }
-      // Five columns and three rows, with no clipped part labels or page overflow.
+      // Three readable columns and five rows, with no clipped part buttons or overflow.
       const bounds = await Promise.all(
         parts.map((name) =>
           button(page, `Draw ${name.toLowerCase()}`).boundingBox(),
         ),
       );
-      assert.equal(new Set(bounds.map((b) => Math.round(b.y))).size, 3);
-      assert.equal(new Set(bounds.map((b) => Math.round(b.x))).size, 5);
+      assert.equal(new Set(bounds.map((b) => Math.round(b.y))).size, 5);
+      assert.equal(new Set(bounds.map((b) => Math.round(b.x))).size, 3);
       assert.ok(
         bounds.every((b) => b.x >= 0 && b.x + b.width <= viewport.width),
       );

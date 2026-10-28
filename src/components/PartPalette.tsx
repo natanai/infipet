@@ -1,20 +1,19 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { PART_KINDS, PART_LABELS, type PartKind } from "../simulation";
-import { PixelIcon, type PixelIconName } from "./PixelIcon";
 import { T, terminal as s } from "../theme";
 
-/** Every authored material category remains a visible, single-tap 5 x 3 choice.
- * Glyph names never replace complete accessible names.
+/**
+ * Drawing is an authoring task, not a symbol-guessing game.
+ * Every material kind has its visible name on every device; icons are
+ * intentionally absent because the 15 tiny glyphs are not self-explanatory.
  */
 export function PartPalette({
   value,
   onChange,
-  showLabels = false,
 }: {
   value: PartKind;
   onChange: (kind: PartKind) => void;
-  showLabels?: boolean;
 }) {
   return (
     <View accessibilityLabel="Drawing body parts" style={styles.palette}>
@@ -35,16 +34,12 @@ export function PartPalette({
                 pressed && { borderColor: T.bright },
               ]}
             >
-              <PixelIcon
-                name={(kind === "decoration" ? "details" : kind) as PixelIconName}
-                size={24}
-                color={selected ? T.bg : T.text}
-              />
-              {showLabels && (
-                <Text style={[s.text, styles.label, selected && { color: T.bg }]}>
-                  {PART_LABELS[kind]}
-                </Text>
-              )}
+              <Text
+                numberOfLines={1}
+                style={[s.text, styles.label, selected && { color: T.bg }]}
+              >
+                {PART_LABELS[kind]}
+              </Text>
             </Pressable>
           </View>
         );
@@ -54,16 +49,16 @@ export function PartPalette({
 }
 const styles = StyleSheet.create({
   palette: { flexDirection: "row", flexWrap: "wrap", margin: -2 },
-  cell: { width: "20%", padding: 2 },
+  cell: { width: "33.333333%", padding: 2 },
   part: {
-    minHeight: 44,
+    minHeight: 52,
     borderWidth: 1,
     borderColor: T.line,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 3,
     paddingVertical: 5,
-    gap: 2,
   },
   selected: { backgroundColor: T.bright, borderColor: T.bright },
-  label: { fontSize: 13, textAlign: "center", flexShrink: 1 },
+  label: { fontSize: 16, textAlign: "center", flexShrink: 1 },
 });
