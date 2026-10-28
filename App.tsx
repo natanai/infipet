@@ -1110,7 +1110,7 @@ export default function App() {
           style={{ flex: 1, marginLeft: layout.playerOffset }}
           contentContainerStyle={[
             styles.page,
-            { paddingTop: layout.desktop ? 40 : 52, paddingBottom: layout.desktop ? 22 : 16 },
+            { paddingTop: layout.desktop ? 40 : 8, paddingBottom: layout.desktop ? 22 : 16 },
           ]}
           aria-hidden={sheet !== null || (devEnabled && !layout.desktop)}
           accessibilityElementsHidden={
@@ -1125,7 +1125,7 @@ export default function App() {
         >
           <View style={styles.workbench}>
             <View style={styles.creatureColumn}>
-              <View style={[styles.header, { width: deviceWidth }]}>
+              <View style={[styles.header, { width: deviceWidth, paddingRight: layout.desktop ? 0 : 52 }]}>
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="Rename pet"
@@ -1153,7 +1153,9 @@ export default function App() {
                   onPress={() => open("feelings")}
                 />}
                 <Button label="Open more menu" onPress={() => open("more")}
-                  style={{ paddingHorizontal: 6 }}>More</Button>
+                  style={styles.symbolButton}>
+                  <PixelIcon name="more" size={24} color={T.bright} />
+                </Button>
               </View>
               {legacyLife&&<View style={{maxWidth:deviceWidth,padding:10}}>
                 <Text style={s.muted}>This earlier saved pet is preserved. Its past anatomy cannot be carried into daily growth. Save the original file in More → Export, or begin a new life from its drawing.</Text>
@@ -1163,20 +1165,22 @@ export default function App() {
                   {view === "draw" ? (
                     <>
                       <Button label="Use pencil" selected={tool === "paint"}
-                        onPress={() => setTool("paint")}
-                        style={{ flex: 1, paddingHorizontal: 2 }}>Pencil</Button>
+                        onPress={() => setTool("paint")} style={styles.symbolButton}>
+                        <PixelIcon name="draw" size={24} color={tool === "paint" ? T.bg : T.bright} />
+                      </Button>
                       <Button label="Use eraser" selected={tool === "erase"}
-                        onPress={() => setTool("erase")}
-                        style={{ flex: 1, paddingHorizontal: 2 }}>Erase</Button>
+                        onPress={() => setTool("erase")} style={styles.symbolButton}>
+                        <PixelIcon name="erase" size={24} color={tool === "erase" ? T.bg : T.bright} />
+                      </Button>
                       <Button label="Choose brush color" onPress={() => open("color")}
-                        style={{ flex: 1, paddingHorizontal: 2 }}>
-                        <View style={{ width: 11, height: 11, backgroundColor: color,
-                          borderColor: T.text, borderWidth: 1 }} />
-                        <Text style={[s.text, { fontSize: 13 }]}>Color</Text>
+                        style={styles.symbolButton}>
+                        <View style={{ width: 23, height: 23, backgroundColor: color,
+                          borderColor: T.bright, borderWidth: 1 }} />
                       </Button>
                       <Button label={`Learn about ${PART_LABELS[kind].toLowerCase()}`}
-                        onPress={() => open("info")}
-                        style={{ flex: 1, paddingHorizontal: 2 }}>Help</Button>
+                        onPress={() => open("info")} style={styles.symbolButton}>
+                        <PixelIcon name="info" size={24} color={T.bright} />
+                      </Button>
                     </>
                   ) : playing ? (
                     <IconButton
@@ -1258,23 +1262,23 @@ export default function App() {
                         label="Undo drawing"
                         disabled={!history.length}
                         onPress={undo}
-                        style={{ flex: 1 }}
+                        style={styles.symbolButton}
                       >
-                        Undo
+                        <PixelIcon name="undo" size={24} color={T.bright} />
                       </Button>
                       <Button
                         label="Redo drawing"
                         disabled={!redo.length}
                         onPress={redoStroke}
-                        style={{ flex: 1 }}
+                        style={styles.symbolButton}
                       >
-                        Redo
+                        <PixelIcon name="redo" size={24} color={T.bright} />
                       </Button>
                       <Button
                         label="Mirror drawing"
                         selected={mirror}
                         onPress={() => setMirror(!mirror)}
-                        style={{ flex: 1 }}
+                        style={styles.compactTextButton}
                       >
                         Mirror
                       </Button>
@@ -1282,7 +1286,7 @@ export default function App() {
                         label="Clear drawing"
                         disabled={!pixels.length}
                         onPress={() => replace([])}
-                        style={{ flex: 1 }}
+                        style={styles.compactTextButton}
                       >
                         Clear
                       </Button>
@@ -2046,16 +2050,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: T.line,
     backgroundColor: "#090909",
-    padding: 11,
-    gap: 10,
+    padding: 10,
+    gap: 6,
     borderRadius: 14,
   },
   toolbar: {
     flexDirection: "row",
     gap: 5,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
+  // Fixed accessible tap targets without giant full-width labeled tiles.
+  symbolButton: { width: 44, minWidth: 44, height: 44, minHeight: 44,
+    paddingHorizontal: 0, paddingVertical: 0 },
+  compactTextButton: { flex: 1, minHeight: 44, paddingHorizontal: 2, paddingVertical: 2 },
   button: {
     minHeight: 44,
     minWidth: 44,
