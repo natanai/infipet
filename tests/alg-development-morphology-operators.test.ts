@@ -47,18 +47,19 @@ function conservation(graph:MaterialGraph){
    assert.equal(e.atMs,EPOCH+e.checkIndex*DAY);
    assert.deepEqual(e.createdCells?.map(c=>c.id),e.createdCellIds);
    const before=new Map(live);
+   const during=new Map(before);
    for(const c of e.createdCells??[]){
      assert.ok(!ever.has(c.id),"physical identity cannot be recycled");
-     assert.ok(!before.has(c.id),"creation must be new");
+     assert.ok(!during.has(c.id),"creation must be new");
      assert.ok(c.parentCellIds.length>0);
      const inherited=new Set(c.parentCellIds.flatMap(id=>{
-       const p=before.get(id);assert.ok(p,"parent must exist before physical operation");
+       const p=during.get(id);assert.ok(p,"parent must precede its child physically");
        assert.ok(Math.max(Math.abs(p.x-c.x),Math.abs(p.y-c.y))<=1,
          "every material quantum has an adjacent parent");
        return [...ancestry.get(id)!];
      }));
      assert.deepEqual(new Set(c.sourceIds),inherited);
-     ancestry.set(c.id,inherited);ever.add(c.id);
+     ancestry.set(c.id,inherited);ever.add(c.id);during.set(c.id,c);
    }
    for(const id of e.removedCellIds){
      assert.ok(live.has(id),"removal must consume live matter");live.delete(id);
