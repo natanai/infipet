@@ -24,7 +24,10 @@
     "Avoid generated screenshots, recordings or diagnostic bulk files in main; use small deterministic numeric tests.",
     "Every agent reads this plan before touching the engine, updates task status and acceptance tests together.",
     "Product temporal contract: a physical anatomical change may commit only at T_k=hatchAtMs+k*86400000 for k=1..365, never between checks or after maturity; zero-change outcomes are valid.",
-    "The former forced 30-day lifespan and hourly/8192-hour anatomy are retired. Historical numerical evidence is explicitly legacy; only the daily timeline defines production anatomy."
+    "The former forced 30-day lifespan and hourly/8192-hour anatomy are retired. Historical numerical evidence is explicitly legacy; only the daily timeline defines production anatomy.",
+    "Every changed permanent cell coordinate and persistent tissue, site, or attachment must be independently reproducible from source topology and named daily physical transactions, including every saved/reopened 365-check life.",
+    "At check 365 anatomical material freezes permanently; real accepted care and physiological expression continue after maturity with a bounded exact-state carryover rather than an unbounded keyframe archive.",
+    "Playable training, direction, numbers and CPU battle must activate the same procedural material pose rig that animates the living pet; unsupported movement cannot create substitute anatomy."
   ],
   "tasks": [
     {
@@ -921,7 +924,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1279,7 +1282,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -1705,6 +1708,126 @@
         "evidence": "Independent BigInt clock expectation, material inventory/ancestry/ownership and full cold reconstruction pass. Negative cases detect 23h growth, duplicate check1, fabricated absence checks, fractional boundary epoch, future care, post365 transactions, false rendered ancestry, missing ownership and cached/fresh divergence. Existing independent metric and recorded-command witness research remains registered.",
         "legacyReferences": "Former 1h/49h/121h references remain labeled historical research. Daily witness searches require actual 24h-multiple milestones and chronological physiological commands; no target shapes enter runtime compilation."
       }
+    },
+    {
+      "id": "AUD-001",
+      "phase": 9,
+      "area": "Independent correction audit",
+      "algorithmId": "development",
+      "title": "Independent daily relocation and persistent topology conservation",
+      "dependsOn": [
+        "DEV-007"
+      ],
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "A fixed-ID forged displacement without relocation evidence is rejected",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Actual full-year physical ledger and saved/reopened source topology are independently reconstructible",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Forged source tissue, attachment, coordinates or relocation transactions are rejected",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-physical-audit.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-physical-audit.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/daily-step.ts",
+        "src/development/material-graph.ts",
+        "src/development/physical-audit.ts"
+      ]
+    },
+    {
+      "id": "AUD-002",
+      "phase": 9,
+      "area": "Independent correction audit",
+      "algorithmId": "environment",
+      "title": "Exact lifelong care physiology after anatomical maturity",
+      "dependsOn": [
+        "GAME-002",
+        "DEV-007"
+      ],
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "At day 400 a genuinely living pet changes derived current needs after an accepted real care command, but not a rejected command",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Days 364, 365, 366, 400 and later preserve exactly the check-365 anatomical material",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Postmaturity physiology remains bounded and deterministic under save/reopen and batched/incremental replay",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-environment-mature-physiology.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-mature-physiology.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/gameplay/index.ts",
+        "src/needs/simulation.ts",
+        "src/integration/living-physiology.ts"
+      ]
+    },
+    {
+      "id": "AUD-003",
+      "phase": 9,
+      "area": "Independent correction audit",
+      "algorithmId": "integration",
+      "title": "Procedural care game action and visible pose integration",
+      "dependsOn": [
+        "GAME-001",
+        "MOT-001"
+      ],
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Each of training, direction and numbers provides five accepted playable prompts and the correct procedural animation cue",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Only locomotion actions supported by actual surviving material capabilities are animated",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "CPU battle uses the same procedural action rig without creating a static substitute creature",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-integration-care-games.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-integration-care-games.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "App.tsx",
+        "src/integration/care-game-animation.ts",
+        "src/simulation/locomotion.ts",
+        "src/simulation/growth.ts"
+      ]
     }
   ],
   "algorithms": [
@@ -1851,7 +1974,8 @@
         "DEV-004",
         "DEV-005",
         "DEV-006",
-        "DEV-007"
+        "DEV-007",
+        "AUD-001"
       ],
       "readyWhen": [
         "OBS-001"
@@ -1880,7 +2004,8 @@
         "CARE-002",
         "CARE-003",
         "CARE-004",
-        "GAME-002"
+        "GAME-002",
+        "AUD-002"
       ],
       "readyWhen": [
         "SYS-001"
@@ -1940,7 +2065,8 @@
         "PERF-001",
         "MOT-001",
         "INT-001",
-        "INT-002"
+        "INT-002",
+        "AUD-003"
       ],
       "readyWhen": [
         "OBS-001"
@@ -1998,7 +2124,10 @@
     "tests/alg-development-chaos.test.ts",
     "tests/alg-integration-unified-development.test.ts",
     "tests/alg-runtime-performance-invariants.test.ts",
-    "tests/development-budget.test.ts"
+    "tests/development-budget.test.ts",
+    "tests/alg-development-physical-audit.test.ts",
+    "tests/alg-environment-mature-physiology.test.ts",
+    "tests/alg-integration-care-games.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",

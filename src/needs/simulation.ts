@@ -151,17 +151,39 @@ function needDrivers(snapshot: Snapshot): NeedDevelopmentDrivers {
   ) as NeedDevelopmentDrivers;
 }
 
+/** Serializable exact state at a retired physiological event boundary.
+ * Stores sufficient statistics, not an invented replacement care command. */
+export type NeedsReplayCheckpoint = Readonly<{
+  tick:number;raw:readonly number[];fast:readonly number[];
+  exposure:readonly number[];memory:readonly number[];
+  signals:Readonly<Record<string,Readonly<{load:number;opportunity:number}>>>;
+}>;
 /** Captures its timeline; seeking and future edits never consume random state. */
 export function createNeedsSimulation(
   seed: string,
   timeline: readonly NeedKeyframe[] = [],
+  anchor?: NeedsReplayCheckpoint,
 ) {
-  const normalized = normalizeNeedTimeline(timeline);
+  // Laboratory keyframes retain integer hours. Only the saved mature
+  // physiology handoff accepts exact fractional-hour command timestamps.
+  const normalized = anchor ? [...timeline].sort((a,b)=>a.tick-b.tick) :
+    normalizeNeedTimeline(timeline);
+  if(anchor&&(!Number.isFinite(anchor.tick)||anchor.tick<0||
+     [anchor.raw,anchor.fast,anchor.exposure,anchor.memory].some(values=>
+       !Array.isArray(values)||values.length!==NEED_IDS.length||
+       values.some(n=>!Number.isFinite(n)))||
+     normalized.some(f=>!Number.isFinite(f.tick)||f.tick<=anchor.tick||
+       !index.has(f.needId)||!Number.isFinite(f.fulfillment)||
+       f.fulfillment<0||f.fulfillment>1)))
+    throw new RangeError("Invalid mature physiological checkpoint or event order");
   const events = new Map<number, NeedKeyframe[]>();
   for (const frame of normalized)
     events.set(frame.tick, [...(events.get(frame.tick) ?? []), frame]);
   const eventTicks = [...events.keys()].sort((a, b) => a - b);
-  const initial: Snapshot = {
+  const initial: Snapshot = anchor ? {
+    tick:anchor.tick,raw:[...anchor.raw],fast:[...anchor.fast],
+    exposure:[...anchor.exposure],memory:[...anchor.memory],
+  } : {
     tick: 0,
     raw: NEED_IDS.map(() => DEFAULT_FULFILLMENT),
     fast: NEED_IDS.map(() => DEFAULT_FULFILLMENT),
@@ -174,11 +196,11 @@ export function createNeedsSimulation(
   }
   const initialBeforeEvents = clone(initial);
   apply(initial);
-  const checkpoints = new Map<number, Snapshot>([[0, initial]]);
+  const checkpoints = new Map<number, Snapshot>([[initial.tick, initial]]);
   // Only canonical EVENT snapshots may resume numerical integration. A prior
   // arbitrary frame cutoff would split an exponential segment differently.
   // Storing after each real event preserves exactly the cold arithmetic order.
-  const canonicalEvents = new Map<number,Snapshot>([[0,clone(initial)]]);
+  const canonicalEvents = new Map<number,Snapshot>([[initial.tick,clone(initial)]]);
   const temperament = feelings.map(
     (feeling) => 0.94 + unit(seed + "|feeling|" + feeling.id) * 0.12,
   );
@@ -231,9 +253,9 @@ export function createNeedsSimulation(
   ): WellbeingState {
     const age = boundedAge(developmentalAge);
     const exactTick = forcedTick ?? ageTick(age);
-    const target = Math.floor(exactTick);
+    const target = anchor ? exactTick : Math.floor(exactTick);
     const current = snapshotAt(target, beforeEvents);
-    integrate(current, Math.max(0, exactTick - target) * HOUR);
+    if(!anchor)integrate(current,Math.max(0,exactTick-target)*HOUR);
     const needStates = Object.fromEntries(
       NEED_IDS.map((id, i) => [
         id,
@@ -331,7 +353,8 @@ export function createNeedsSimulation(
       APPEARANCE_NEED_IDS.map((id) => [id, { ...value[id] }]),
     ) as MutableSignals;
   const morphologyCheckpoints = new Map<number, MorphologyCheckpoint>([
-    [0, { snapshot: clone(initial), signals: zeroSignals() }],
+    [initial.tick, { snapshot: clone(initial),
+      signals: anchor ? copySignals(anchor.signals as MutableSignals) : zeroSignals() }],
   ]);
   let morphologyHourlySteps = 0;
   function saveMorphology(value: MorphologyCheckpoint): void {
@@ -342,7 +365,7 @@ export function createNeedsSimulation(
     });
     while (morphologyCheckpoints.size > MAX_CHECKPOINTS) {
       const old = [...morphologyCheckpoints.keys()].find(
-        (tick) => tick !== 0 && tick !== prefixTick,
+        (tick) => tick !== initial.tick && tick !== prefixTick,
       )!;
       morphologyCheckpoints.delete(old);
     }
@@ -465,9 +488,9 @@ export function createNeedsSimulation(
   }
   function morphologyAt(developmentalAge: number): NeedMorphologySignals {
     const exact = ageTick(boundedAge(developmentalAge)),
-      target = Math.floor(exact);
+      target = Math.max(initial.tick,Math.floor(exact));
     let start =
-      morphologyCheckpoints.get(target) ?? morphologyCheckpoints.get(0)!;
+      morphologyCheckpoints.get(target) ?? morphologyCheckpoints.get(initial.tick)!;
     if (start.snapshot.tick !== target)
       for (const checkpoint of morphologyCheckpoints.values())
         if (
@@ -502,6 +525,11 @@ export function createNeedsSimulation(
     return freeze(copySignals(current.signals));
   }
   return {
+    exportCheckpoint(developmentalAge:number):NeedsReplayCheckpoint {
+      const exact=ageTick(boundedAge(developmentalAge));
+      const snapshot=snapshotAt(exact);
+      return freeze({...snapshot,signals:morphologyAt(developmentalAge)});
+    },
     stateAt: (developmentalAge: number) => stateAt(developmentalAge),
     morphologyAt,
     getReplayStats: () =>

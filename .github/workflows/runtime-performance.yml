@@ -1,5 +1,15 @@
 name: Daily runtime performance evidence
 on:
+  pull_request:
+    paths:
+      - "src/development/**"
+      - "src/gameplay/**"
+      - "src/needs/**"
+      - "src/integration/**"
+      - "src/simulation/**"
+      - "scripts/daily-benchmark.ts"
+      - "tests/development-budget.test.ts"
+      - ".github/workflows/runtime-performance.yml"
   workflow_dispatch:
 permissions:
   contents: read

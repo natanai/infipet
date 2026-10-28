@@ -42,6 +42,19 @@ export type MaterialLink = Readonly<{
   fromCellId: string | null;
   toCellId: string | null;
 }>;
+/** Exact spatial/structural changes committed by a single daily opportunity.
+ * The before-images are checked against independently replayed state. */
+export type MaterialChange<T> = Readonly<{before:T|null;after:T|null}>;
+export type DailyPhysicalEvidence = Readonly<{
+  authorizedEvents:readonly string[];
+  relocations:readonly Readonly<{
+    cellId:string;from:Readonly<Point>;to:Readonly<Point>;
+    operationId:string;checkIndex:number;
+  }>[];
+  tissues:readonly MaterialChange<MaterialTissue>[];
+  sites:readonly MaterialChange<MaterialSite>[];
+  links:readonly MaterialChange<MaterialLink>[];
+}>;
 export type MaterialEvent = Readonly<{
   id: string;
   kind: string;
@@ -55,6 +68,8 @@ export type MaterialEvent = Readonly<{
   atMs?: number;
   careDigest?: string;
   genomeFingerprint?: string;
+  /** The final event of a changed daily opportunity, never a rendered snapshot. */
+  dailyPhysical?: DailyPhysicalEvidence;
 }>;
 export type MaterialGraph = Readonly<{
   version: 1;
@@ -67,6 +82,8 @@ export type MaterialGraph = Readonly<{
   /** Exact original empty enclosed spaces (per source patch), not color masks. */
   protectedVoids: readonly string[];
   events: readonly MaterialEvent[];
+  /** Immutable birth topology, independent of the mutable live structure. */
+  birthStructure?: Readonly<{tissues:readonly MaterialTissue[];sites:readonly MaterialSite[];links:readonly MaterialLink[]}>;
 }>;
 const at = (p: Point) => p.x + "," + p.y;
 const neighbor = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]] as const;
