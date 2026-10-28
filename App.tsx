@@ -65,7 +65,9 @@ import {
 } from "./src/needs";
 import { NeedsLab } from "./src/components/NeedsLab";
 import { FeelingsSheet } from "./src/components/FeelingsSheet";
-import { GamePanel } from "./src/components/GamePanel";
+import { GamePanel, CareRail, type CareMenu } from "./src/components/GamePanel";
+import { playerGeometry } from "./src/interface/player-geometry";
+import { careOutcome, type CareOutcome } from "./src/interface/care-outcome";
 import {
   deriveCareTimeline,
   deriveDevelopmentContext,
@@ -210,6 +212,9 @@ export default function App() {
     accept: () => void;
   } | null>(null);
   const [devEnabled, setDevEnabled] = useState(false);
+  const [careMenu, setCareMenu] = useState<CareMenu>("food");
+  const [lastOutcome, setLastOutcome] = useState<{seed:string;birth:number;cue:CareOutcome}|null>(null);
+  const [showLabels, setShowLabels] = useState(false);
   const devSession = useRef(0);
   const devEnabledRef = useRef(false);
   const [time, setTime] = useState(0);
@@ -253,13 +258,7 @@ export default function App() {
   const legacyLife=!!life&&life.anatomicalClock!=="daily-365-v1";
   const playing = view === "live" && (!devEnabled || !sandbox) && !!life && !legacyLife;
   const layout = developmentLayout(width, devEnabled);
-  const size = Math.floor(
-    Math.min(
-      layout.playerWidth - 48,
-      Math.max(160, height - (view === "draw" ? 420 : 250)),
-      view === "draw" ? 400 : 520,
-    ),
-  );
+  const { deviceWidth, canvasSide: size } = playerGeometry(width, height, layout.playerOffset, view);
   const simulation = useMemo(
     () =>
       createSimulation(parts, seed, mode, {
@@ -765,6 +764,8 @@ export default function App() {
       const next = {
         ...commandPlayerLife(current, command, now, id),
       };
+      setLastOutcome({seed:current.seed,birth:current.game.clock.startedAtMs,
+        cue:careOutcome(current.game,next.game,command)});
       commitLife(next);
       setTime(0);
       await persist();
@@ -1089,13 +1090,13 @@ export default function App() {
     );
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.root}>
+      <SafeAreaView style={[styles.root, Platform.OS === "web" && ({ minHeight: "100dvh" } as any)]}>
         <StatusBar style="light" />
         <ScrollView
-          style={{ marginLeft: layout.playerOffset }}
+          style={{ flex: 1, marginLeft: layout.playerOffset }}
           contentContainerStyle={[
             styles.page,
-            { paddingTop: layout.desktop ? 40 : 52 },
+            { paddingTop: layout.desktop ? 40 : 52, paddingBottom: layout.desktop ? 22 : 16 },
           ]}
           aria-hidden={sheet !== null || (devEnabled && !layout.desktop)}
           accessibilityElementsHidden={
@@ -1110,46 +1111,32 @@ export default function App() {
         >
           <View style={styles.workbench}>
             <View style={styles.creatureColumn}>
-              <View style={[styles.header, { width: size + 24 }]}>
+              <View style={[styles.header, { width: deviceWidth }]}>
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="Rename pet"
                   onPress={() => open("name")}
                   style={{ flex: 1, minWidth: 0 }}
                 >
-                  <Text
-                    numberOfLines={1}
-                    style={[s.bright, { fontSize: 23, lineHeight: 26 }]}
-                  >
+                  <Text style={[s.bright, { fontSize: 18, lineHeight: 23, flexShrink: 1 }]}>
                     {playing && life ? life.name : document.name}
                   </Text>
-                  <Text numberOfLines={1} style={s.muted}>
-                    {legacyLife?"Earlier pet · preserved file":view === "draw"
-                      ? life && !life.game.dead
-                        ? "Drawing draft · your pet lives on"
-                        : mode === "egg"
-                          ? "An egg, drawn by you"
-                          : "Draw anything. Bring it to life."
-                      : playing && life
-                        ? `${title(life.game.stage)} · day ${liveAge.toFixed(1)}${life.game.sleeping ? " · asleep" : ""}`
-                        : `Lab · ${title(frame.stage)} · day ${age.toFixed(1)}`}
-                  </Text>
+                  {showLabels && <Text style={[s.muted, {flexShrink:1}]}>
+                    {legacyLife ? "Earlier pet · preserved file" : view === "draw" ? "Drawing" : playing && life
+                      ? `${title(life.game.stage)} · day ${liveAge.toFixed(1)}` : "Development preview"}
+                  </Text>}
                 </Pressable>
-                {view === "live" && (
-                  <>
-                    <IconButton
-                      icon="feel"
-                      label="Check how your pet feels"
-                      disabled={frame.stage === "egg"}
-                      onPress={() => open("feelings")}
-                    />
-                  </>
-                )}
+                {view === "live" && <IconButton
+                  icon="feel"
+                  label="Check how your pet feels"
+                  disabled={frame.stage === "egg"}
+                  onPress={() => open("feelings")}
+                />}
               </View>
-              {legacyLife&&<View style={{maxWidth:size+24,padding:10}}>
+              {legacyLife&&<View style={{maxWidth:deviceWidth,padding:10}}>
                 <Text style={s.muted}>This earlier saved pet is preserved. Its past anatomy cannot be carried into daily growth. Save the original file in More → Export, or begin a new life from its drawing.</Text>
               </View>}
-              <View style={[styles.device, { width: size + 24 }]}>
+              <View nativeID="infipet-device" style={[styles.device, { width: deviceWidth }]}>
                 <View style={styles.nav}>
                   {(
                     [
@@ -1192,21 +1179,13 @@ export default function App() {
                             : T.text
                         }
                       />
-                      <Text
-                        style={[
-                          s.text,
-                          view === item.value &&
-                            (item.value !== "live" || playing) && {
-                              color: T.bg,
-                            },
-                        ]}
-                      >
-                        {item.label}
-                      </Text>
+                      {showLabels && <Text
+                        style={[s.text, view === item.value && { color: T.bg }]}
+                      >{item.label}</Text>}
                     </Button>
                   ))}
                 </View>
-                <View style={[styles.toolbar, { width: size }]}>
+                <View style={[styles.toolbar, { width: deviceWidth - 24 }]}>
                   {view === "draw" ? (
                     <>
                       <Button
@@ -1215,7 +1194,7 @@ export default function App() {
                         onPress={() => setTool("paint")}
                         style={{ flex: 1 }}
                       >
-                        Pencil
+                        <PixelIcon name="draw" color={tool === "paint" ? T.bg : T.text} />
                       </Button>
                       <Button
                         label="Use eraser"
@@ -1223,7 +1202,7 @@ export default function App() {
                         onPress={() => setTool("erase")}
                         style={{ flex: 1 }}
                       >
-                        Eraser
+                        <PixelIcon name="erase" color={tool === "erase" ? T.bg : T.text} />
                       </Button>
                       <Button
                         label="Choose brush color"
@@ -1246,40 +1225,27 @@ export default function App() {
                       />
                     </>
                   ) : playing ? (
-                    <>
-                      <Text style={[s.muted, { flex: 1 }]}>
-                        {life?.game.stage === "egg"
-                          ? "Waiting for a little life"
-                          : "Your pocket companion"}
-                      </Text>
-                      <IconButton
-                        icon="move"
-                        label="Watch your pet explore"
-                        selected={action === "move"}
-                        disabled={
-                          !!life?.game.sleeping || !frame.capabilities.canMove
-                        }
-                        onPress={() => act(action === "move" ? "idle" : "move")}
-                      />
-                      <IconButton
-                        icon="groom"
-                        label="Groom your living pet"
-                        selected={grooming}
-                        disabled={
-                          life?.game.stage === "egg" || !!life?.game.sleeping
-                        }
-                        onPress={() => {
-                          setGrooming(!grooming);
-                          setAction("idle");
-                        }}
-                      />
-                    </>
+                    <IconButton
+                      icon="move"
+                      label="Watch your pet explore"
+                      selected={action === "move"}
+                      disabled={!!life?.game.sleeping || !frame.capabilities.canMove}
+                      onPress={() => act(action === "move" ? "idle" : "move")}
+                    />
                   ) : (
                     <Text style={s.muted}>Development preview</Text>
                   )}
                 </View>
+                {playing && life && <CareRail
+                  side="top" game={life.game} disabled={settling} menu={careMenu}
+                  onMenu={(next) => { setCareMenu(next); setGrooming(false); }}
+                  onCommand={(command) => void careCommand(command)}
+                  grooming={grooming}
+                  onGroom={() => { setGrooming(!grooming); setAction("idle"); }}
+                  showLabels={showLabels}
+                />}
                 {view === "draw" ? (
-                  <View style={{ gap: 10 }}>
+                  <View style={{ gap: 8 }}>
                     <DrawingCanvas
                       pixels={pixels}
                       size={size}
@@ -1289,6 +1255,7 @@ export default function App() {
                       onEnd={finish}
                     />
                     <PartPalette
+                      showLabels={showLabels}
                       value={kind}
                       onChange={(next) => {
                         setKind(next);
@@ -1302,7 +1269,7 @@ export default function App() {
                         onPress={undo}
                         style={{ flex: 1 }}
                       >
-                        Undo
+                        <PixelIcon name="undo" color={T.text} />
                       </Button>
                       <Button
                         label="Redo drawing"
@@ -1310,7 +1277,7 @@ export default function App() {
                         onPress={redoStroke}
                         style={{ flex: 1 }}
                       >
-                        Redo
+                        <PixelIcon name="redo" color={T.text} />
                       </Button>
                       <Button
                         label="Mirror drawing"
@@ -1318,7 +1285,7 @@ export default function App() {
                         onPress={() => setMirror(!mirror)}
                         style={{ flex: 1 }}
                       >
-                        Mirror
+                        <PixelIcon name="mirror" color={mirror ? T.bg : T.text} />
                       </Button>
                       <Button
                         label="Clear drawing"
@@ -1326,16 +1293,16 @@ export default function App() {
                         onPress={() => replace([])}
                         style={{ flex: 1 }}
                       >
-                        Clear
+                        <PixelIcon name="clear" color={T.text} />
                       </Button>
                     </View>
-                    <Button
+                    {layout.desktop && <Button
                       label="Begin life"
                       disabled={!pixels.length || settling}
                       onPress={() => void beginLife()}
                     >
-                      Begin life
-                    </Button>
+                      <PixelIcon name="birth" /> <Text style={s.text}>Begin life</Text>
+                    </Button>}
                   </View>
                 ) : grooming ? (
                   <View>
@@ -1355,6 +1322,7 @@ export default function App() {
                     style={{
                       width: size,
                       height: size,
+                      alignSelf: "center",
                       backgroundColor: "#050505",
                     }}
                     onStartShouldSetResponder={() => action === "play"}
@@ -1444,8 +1412,19 @@ export default function App() {
                     )}
                   </View>
                 )}
+                {playing && life && <CareRail
+                  side="bottom" game={life.game} disabled={settling} menu={careMenu}
+                  onMenu={(next) => { setCareMenu(next); setGrooming(false); }}
+                  onCommand={(command) => void careCommand(command)}
+                  grooming={grooming}
+                  onGroom={() => { setGrooming(!grooming); setAction("idle"); }}
+                  showLabels={showLabels}
+                />}
                 {playing && life && (
                   <GamePanel
+                    menu={careMenu}
+                    showLabels={showLabels}
+                    outcome={lastOutcome && lastOutcome.seed===life.seed && lastOutcome.birth===life.game.clock.startedAtMs ? lastOutcome.cue : null}
                     game={life.game}
                     disabled={settling}
                     unsaved={!!saveError}
@@ -1465,7 +1444,7 @@ export default function App() {
               accessibilityRole="alert"
               style={[
                 s.text,
-                { width: size + 24, color: T.warning, marginTop: 12 },
+                { width: deviceWidth, color: T.warning, marginTop: 12 },
               ]}
             >
               {saveError}
@@ -1474,12 +1453,18 @@ export default function App() {
           {!!notice && (
             <Text
               accessibilityLiveRegion="polite"
-              style={[s.muted, { width: size + 24, marginTop: 12 }]}
+              style={[s.muted, { width: deviceWidth, marginTop: 12 }]}
             >
               {notice}
             </Text>
           )}
         </ScrollView>
+        {!layout.desktop && view === "draw" && !devEnabled && <View nativeID="infipet-mobile-birth" style={styles.mobileBirthBar}>
+          <Button label="Begin life" disabled={!pixels.length || settling} onPress={() => void beginLife()}
+            style={{minHeight:48,flex:1}}>
+            <PixelIcon name="birth" /> <Text style={s.text}>Begin life</Text>
+          </Button>
+        </View>}
         <DevelopmentPanel
           enabled={devEnabled}
           onToggle={toggleDevelopment}
@@ -1850,6 +1835,9 @@ export default function App() {
                         Name
                       </Button>
                     </View>
+                    <Button label="Show symbol labels" selected={showLabels} onPress={() => setShowLabels(!showLabels)}>
+                      {showLabels ? "Symbols + labels" : "Show symbol labels"}
+                    </Button>
                     <Button label="About" onPress={() => open("about")}>
                       About
                     </Button>
@@ -2059,7 +2047,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    minHeight: 59,
+    minHeight: 42,
     gap: 10,
   },
   device: {
@@ -2077,8 +2065,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    minHeight: 42,
-    minWidth: 38,
+    minHeight: 44,
+    minWidth: 44,
     borderWidth: 1,
     borderColor: T.line,
     paddingHorizontal: 10,
@@ -2094,7 +2082,8 @@ const styles = StyleSheet.create({
   },
   selected: { backgroundColor: T.bright, borderColor: T.bright },
   nav: { flexDirection: "row", gap: 8 },
-  row: { flexDirection: "row", gap: 8, alignItems: "center" },
+  row: { flexDirection: "row", gap: 6, alignItems: "center" },
+  mobileBirthBar: {flexDirection:"row",paddingHorizontal:12,paddingTop:6,paddingBottom:6,backgroundColor:T.bg,borderTopWidth:1,borderColor:T.line},
   wrap: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   presetChoice: { width: "47%", flexGrow: 1, paddingVertical: 8 },
   presetContent: { alignItems: "center", gap: 6 },

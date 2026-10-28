@@ -1,17 +1,16 @@
 import React, { useRef } from "react";
-import { PanResponder, View } from "react-native";
+import { PanResponder, View, type GestureResponderEvent } from "react-native";
 import { DRAW_SIZE, type Pixel, type Point } from "../simulation";
 import type { DrawTool } from "../drawing";
 import { PetPixels } from "./PetPixels";
 
-/** The authoring model fills pointer gaps and mirrors each brush cell once. */
+type GestureBasis = { size: number; originX: number; originY: number; tool: DrawTool };
+/** Every stroke snapshots its own mapping, so Safari's dynamic viewport cannot
+ * remap existing source pixels while the user's finger remains on the canvas.
+ * Points outside that original square remain discontinuities, not wrapped ink.
+ */
 export default function DrawingCanvas({
-  pixels,
-  size,
-  tool,
-  onStart,
-  onPaint,
-  onEnd,
+  pixels, size, tool, onStart, onPaint, onEnd,
 }: {
   pixels: Pixel[];
   size: number;
@@ -23,18 +22,20 @@ export default function DrawingCanvas({
   const latest = useRef({ size, tool, onStart, onPaint, onEnd });
   latest.current = { size, tool, onStart, onPaint, onEnd };
   const stroke = useRef<Point[]>([]);
-  const paint = (locationX: number, locationY: number) => {
-    const v = latest.current,
-      x = Math.floor((locationX / v.size) * DRAW_SIZE),
-      y = Math.floor((locationY / v.size) * DRAW_SIZE);
-    if (x < 0 || y < 0 || x >= DRAW_SIZE || y >= DRAW_SIZE) {
+  const basis = useRef<GestureBasis | null>(null);
+  const paint = (e: GestureResponderEvent) => {
+    const b = basis.current;
+    if (!b || b.size <= 0) return;
+    const x = Math.floor(((e.nativeEvent.pageX - b.originX) / b.size) * DRAW_SIZE);
+    const y = Math.floor(((e.nativeEvent.pageY - b.originY) / b.size) * DRAW_SIZE);
+    if (x < 0 || y < 0 || x >= DRAW_SIZE || y >= DRAW_SIZE)
       stroke.current.push({ x: -1, y: -1 });
-      return;
-    }
-    stroke.current.push({ x, y });
-    v.onPaint(stroke.current, v.tool);
+    else stroke.current.push({ x, y });
+    latest.current.onPaint(stroke.current, b.tool);
   };
   const finish = () => {
+    if (!basis.current) return;
+    basis.current = null;
     stroke.current = [];
     latest.current.onEnd();
   };
@@ -44,15 +45,18 @@ export default function DrawingCanvas({
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (e) => {
         stroke.current = [];
-        latest.current.onStart();
-        paint(e.nativeEvent.locationX, e.nativeEvent.locationY);
+        const v = latest.current;
+        basis.current = {
+          size: v.size,
+          originX: e.nativeEvent.pageX - e.nativeEvent.locationX,
+          originY: e.nativeEvent.pageY - e.nativeEvent.locationY,
+          tool: v.tool,
+        };
+        v.onStart();
+        paint(e);
       },
-      onPanResponderMove: (e) =>
-        paint(e.nativeEvent.locationX, e.nativeEvent.locationY),
-      onPanResponderRelease: (e) => {
-        paint(e.nativeEvent.locationX, e.nativeEvent.locationY);
-        finish();
-      },
+      onPanResponderMove: paint,
+      onPanResponderRelease: (e) => { paint(e); finish(); },
       onPanResponderTerminate: finish,
       onPanResponderTerminationRequest: () => false,
     }),
@@ -61,7 +65,7 @@ export default function DrawingCanvas({
     <View
       {...responder.panHandlers}
       accessibilityLabel="Draw your whole pet here"
-      style={{ height: size, width: size, backgroundColor: "#080808" }}
+      style={{ height: size, width: size, alignSelf: "center", backgroundColor: "#080808", ...({ touchAction: "none" } as any) }}
     >
       <PetPixels pixels={pixels} size={size} gridSize={DRAW_SIZE} grid />
     </View>

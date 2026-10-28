@@ -97,6 +97,45 @@ async function openTools(page) {
 
 const errors = [];
 try {
+
+  for (const viewport of [
+    {width:320,height:640},{width:360,height:640},
+    {width:375,height:667},{width:390,height:640},
+    {width:393,height:640},{width:414,height:736},{width:430,height:780}
+  ]) {
+    await test(`mobile device rail and birth action at ${viewport.width}×${viewport.height}`,async()=>{
+      const context=await browser.newContext({viewport,hasTouch:true,isMobile:true});
+      const page=await context.newPage();page.on("pageerror",error=>errors.push(error.message));
+      await page.goto(url);
+      const device=await page.locator("#infipet-device").boundingBox();
+      assert.ok(device,"device exists");
+      assert.ok(device.width>=viewport.width-26,"device uses full available width");
+      assert.ok(device.x>=0&&device.x+device.width<=viewport.width+1,"device does not overflow");
+      const birth=await button(page,"Begin life").boundingBox();
+      assert.ok(birth&&birth.height>=44&&birth.y+birth.height<=viewport.height+1,
+        "mobile birth command is visible above browser content edge without scrolling");
+      for(const name of parts){
+        const b=await button(page,`Draw ${name.toLowerCase()}`).boundingBox();
+        assert.ok(b.width>=44&&b.height>=44,`44px touch target: ${name}`);
+      }
+      const xOverflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth+1);
+      assert.equal(xOverflow,false,"no page-wide horizontal scrolling");
+      if(viewport.width===390){
+        const before=await page.locator("#infipet-device").boundingBox();
+        const canvas=await page.getByLabel("Draw your whole pet here",{exact:true}).boundingBox();
+        assert.ok(canvas.width<before.width-24,"square adapts without squeezing device");
+        await page.setViewportSize({width:390,height:500});
+        const after=await page.locator("#infipet-device").boundingBox();
+        assert.equal(Math.round(before.width),Math.round(after.width),
+          "shell width independent of Safari bar height");
+        const canvasAfter=await page.getByLabel("Draw your whole pet here",{exact:true}).boundingBox();
+        assert.ok(canvasAfter.width<=canvas.width,"canvas alone adapts");
+        const birthAfter=await button(page,"Begin life").boundingBox();
+        assert.ok(birthAfter.y+birthAfter.height<=501,"birth survives shortened viewport");
+      }
+      await context.close();
+    });
+  }
   for (const viewport of [
     { width: 1280, height: 1000 },
     { width: 390, height: 844 },
@@ -529,7 +568,7 @@ try {
     await page.clock.install({time:new Date(Date.UTC(2026,9,27,12,17,23,456))});
     await page.goto(url);const canvas=page.getByLabel("Draw your whole pet here",{exact:true});
     const box=await canvas.boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
-    await button(page,"Begin life").click();await button(page,"Games").click();
+    await button(page,"Begin life").click();await button(page,"Play and training").click();
     for(const name of ["Training","Direction","Numbers"]){
       await button(page,name).click();
       for(let round=0;round<5;round++){
@@ -555,7 +594,7 @@ try {
     await button(page,"Open more menu").click();await button(page,"Import pet").click();
     const choosing=page.waitForEvent("filechooser");await button(page,"Open pet file").click();
     await(await choosing).setFiles(fixture);await button(page,"Confirm replacement").click();
-    await button(page,"Games").click();await button(page,"CPU battle").click();
+    await button(page,"Play and training").click();await button(page,"CPU battle").click();
     await page.getByText(/^(Victory|Defeat) against /).waitFor();
     await page.getByText(/ · (Victory|Defeat)$/).waitFor();
     await button(page,"Back to pet").click();await context.close();

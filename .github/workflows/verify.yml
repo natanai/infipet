@@ -26,3 +26,5 @@ jobs:
       - run: node scripts/roadmap.mjs --check
       - run: pnpm typecheck
       - run: pnpm test
+      - name: Independently verify UI geometry and native care cue contracts
+        run: pnpm test:ux-contracts
