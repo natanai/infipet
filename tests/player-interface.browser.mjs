@@ -194,6 +194,8 @@ try {
       assert.equal(new Set(bounds.map(b=>Math.round(b.x))).size,5);
       assert.ok(bounds.every(b=>b.x>=0&&b.x+b.width<=viewport.width));
       await button(page,"Draw body").click();
+      assert.equal(await button(page,"Choose body part").getByText("Body",{exact:true}).count(),1,
+        "the selected material is named once to clarify an ambiguous glyph");
       assert.equal(await button(page,"Draw head").count(),0,
         "choosing a symbol automatically closes the optional grid");
       const c = await canvas.boundingBox();
