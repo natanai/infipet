@@ -322,9 +322,11 @@ try {
           `${label} is inside the dock`,
         );
       assert.equal(
-        await panel.getByRole("button", { name: /^Load .* preset$/ }).count(),
-        12,
+        await panel.getByRole("button", { name: /^Load .* starter creature/ }).count(),
+        0,
+        "starter drawings belong to player authoring, not the developer dock",
       );
+      assert.equal(await panel.getByRole("button", {name:"Expand morphology workbench"}).count(),1);
       assert.equal(
         await panel.getByLabel("Growth timeline", { exact: true }).count(),
         1,
@@ -433,25 +435,26 @@ try {
     await button(page, "Return to your pet").click();
     assert.deepEqual(livingIdentity(await stored(page)), identity);
     await openTools(page);
-    assert.equal(
-      await page.getByRole("button", { name: /^Load .* preset$/ }).count(),
-      12,
-    );
+    await button(page,"Preview player experience").click();
+    await button(page,"Draw your pet").click();
+    assert.equal(await page.getByRole("button",
+      { name: /^Load .* starter creature into drawing editor$/ }).count(),12);
     for (const [presetName, presetSeed] of [
-      ["Bean", "BEAN-87320104"],
-      ["Sprout", "SPROUT-39481726"],
-      ["Cub", "CUB-72018439"],
-      ["Ribbon", "RIBBON-51820476"],
-      ["Beetle", "BEETLE-26091384"],
-      ["Wisp", "WISP-63817205"],
-      ["Coral", "CORAL-28174690"],
-      ["Stilt", "STILT-48193062"],
-      ["Kite", "KITE-93716284"],
-      ["Lantern", "LANTERN-16284039"],
-      ["Drift", "DRIFT-59271048"],
-      ["Crown", "CROWN-74920163"],
+      ["Pippo", "STARTER-PIPPO-2026"],
+      ["Brumby", "STARTER-BRUMBY-2026"],
+      ["Glim", "STARTER-GLIM-2026"],
+      ["Thimbleaf", "STARTER-THIMBLEAF-2026"],
+      ["Vellune", "STARTER-VELLUNE-2026"],
+      ["Craggle", "STARTER-CRAGGLE-2026"],
+      ["Nibblet", "STARTER-NIBBLET-2026"],
+      ["Orbini", "STARTER-ORBINI-2026"],
+      ["Spoori", "STARTER-SPOORI-2026"],
+      ["Tukkin", "STARTER-TUKKIN-2026"],
+      ["Flinta", "STARTER-FLINTA-2026"],
+      ["Vespri", "STARTER-VESPRI-2026"],
     ]) {
-      await button(page, `Load ${presetName} preset`).click();
+      await button(page, `Load ${presetName} starter creature into drawing editor`).click();
+      await button(page,"Confirm replacement").click();
       await page.waitForFunction(
         (seed) =>
           JSON.parse(localStorage.getItem("infipet.pet"))?.seed === seed,
@@ -462,10 +465,10 @@ try {
         identity,
         `${presetName} does not replace the living organism`,
       );
-      await openTools(page);
     }
-    await button(page, "Load Coral preset").click();
-    const draft = await saved(page, (doc) => doc.seed === "CORAL-28174690");
+    await button(page,"Load Spoori starter creature into drawing editor").click();
+    await button(page,"Confirm replacement").click();
+    const draft = await saved(page, (doc) => doc.seed === "STARTER-SPOORI-2026");
     assert.deepEqual(
       livingIdentity(draft),
       identity,
@@ -741,6 +744,7 @@ try {
     const context=await browser.newContext({viewport:{width:1280,height:900}});
     const page=await context.newPage();page.on("pageerror",e=>errors.push(e.message));
     await page.goto(url);
+    await page.getByLabel("Draw your whole pet here",{exact:true}).waitFor();
     assert.equal(await button(page,"Show or hide starter creature gallery").count(),1);
     for(const creature of ["Pippo","Thimbleaf","Vellune","Craggle","Orbini","Vespri"]){
       const starter=button(page,`Load ${creature} starter creature into drawing editor`);
