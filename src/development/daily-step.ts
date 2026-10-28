@@ -73,9 +73,9 @@ export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:numbe
   const prior=verifiedPrefix.get(graph);
   if(prior?.hatchAtMs===hatchAtMs&&prior.throughCheck===throughCheck&&
      Object.isFrozen(graph)&&Object.isFrozen(graph.cells)&&Object.isFrozen(graph.events))return;
+  // A caller-frozen graph is not authenticated merely because it is frozen.
+  // Cache credentials are issued ONLY to outputs of our own deep-seal path.
   auditDailyPhysicalHistory(graph,hatchAtMs,throughCheck);
-  if(Object.isFrozen(graph)&&Object.isFrozen(graph.cells)&&Object.isFrozen(graph.events))
-    verifiedPrefix.set(graph,{hatchAtMs,throughCheck});
 }
 function changed<T extends {id:string}>(before:readonly T[],after:readonly T[]):MaterialChange<T>[] {
   const a=new Map(before.map(v=>[v.id,v])),b=new Map(after.map(v=>[v.id,v]));
