@@ -495,6 +495,7 @@ export function poseFunctionalGraph(
     action: PetAction;
     pace?: number;
     amplitude?: number;
+    target?:Point;
   },
 ): FunctionalPose {
   const time = Number.isFinite(options.time)
@@ -517,7 +518,8 @@ export function poseFunctionalGraph(
     graph.limbs.filter(limb => limb.readiness >= 0.9).length >= 2;
   // Cumulative ground travel is evaluated directly from birth, never integrated
   // from the previously rendered frame. Camera lag is a bounded screen offset.
-  const worldAdvance = locomotor ? q(heldCycle * stride) : 0;
+  const heading=options.action==="move"&&options.target&&options.target.x<graph.center.x?-1:1;
+  const worldAdvance = locomotor ? heading*q(heldCycle * stride) : 0;
   const cameraLagX = locomotor ? q(3 * Math.tanh(worldAdvance / 9)) : 0;
   const cameraWorldX = q(worldAdvance - cameraLagX);
   let rootOffset = { x: 0, y: 0 },
@@ -529,7 +531,7 @@ export function poseFunctionalGraph(
         -Math.sin(Math.PI * cyclePhase) * Math.min(5, graph.span * 0.2),
       );
     else if (family === "float" || family === "flutter")
-      rootOffset = point(Math.sin(angle) * 0.65, Math.cos(angle) * 0.8);
+      rootOffset = point(Math.sin(angle) * 0.65 * heading, Math.cos(angle) * 0.8);
     else if (family === "roll") rootRotation = angle;
     else if (
       family === "quadruped" ||
