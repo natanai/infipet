@@ -14,7 +14,7 @@
  * No target species, invented pigment, new physical cell or time reads.
  */
 import type {MaterialCell,MaterialGraph} from "./material-graph";
-type Point=Readonly<{x:number;y:number}>;
+type Point=Readonly<{x:number;y:number;z?:number}>;
 export type TissueReflow=Readonly<{
   cells:readonly MaterialCell[];
   relocated:Readonly<{cellId:string;from:Point;to:Point;path:readonly Point[]}>;
@@ -75,7 +75,15 @@ export function proposeTissueReflow(graph:MaterialGraph,tissueId:string,
  // Select the receding ORTHOGONAL flank: transferring mass from height
  // to width (or vice versa) changes whole-tissue aspect, not just position.
  const donorAxis={x:-direction.y,y:direction.x};
+ const sourceById=new Map(source.map(c=>[c.id,c]));
+ const stationary=group.filter(c=>{
+  const initial=sourceById.get(c.id);
+  return initial&&initial.x===c.x&&initial.y===c.y;
+ }).length;
+ const coreFloor=Math.ceil(source.length*0.35);
  const donors=group.filter(c=>!anchored.has(c.id)&&
+  (stationary>coreFloor||!sourceById.has(c.id)||
+    sourceById.get(c.id)!.x!==c.x||sourceById.get(c.id)!.y!==c.y)&&
   !at(c.x-donorAxis.x,c.y-donorAxis.y)&&
   group.length>1&&connected(group.filter(other=>other.id!==c.id)))
   .sort((a,b)=>lateral(a)-lateral(b)||dot(a)-dot(b)||
@@ -107,7 +115,10 @@ export function proposeTissueReflow(graph:MaterialGraph,tissueId:string,
    const b=l.toCellId?byId.get(l.toCellId):undefined;
    return !a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8;
   }))continue;
-  return {cells,relocated:{cellId:from.id,from:{x:from.x,y:from.y},to,path}};
+  return {cells,relocated:{cellId:from.id,
+   from:{x:from.x,y:from.y,...(from.z===undefined?{}:{z:from.z})},
+   to:{...to,...(from.z===undefined?{}:{z:from.z})},
+   path:path.map(p=>({...p,...(from.z===undefined?{}:{z:from.z})}))}};
  }
  return null;
 }
