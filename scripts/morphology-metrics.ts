@@ -9,7 +9,7 @@ export type PhysicalWitness = Readonly<{
   cells: readonly Readonly<{id:string;x:number;y:number;tissueId:string;provenance:string;sourceIds:readonly string[]}>[];
   sourceCells: readonly Readonly<{id:string;x:number;y:number}>[];
   tissues: readonly Readonly<{id:string}>[];
-  links: readonly Readonly<{fromCellId?:string;toCellId?:string}>[];
+  links: readonly Readonly<{fromCellId?:string|null;toCellId?:string|null}>[];
   events: readonly Readonly<{id:string;atHour:number;createdCellIds:readonly string[];removedCellIds:readonly string[]}>[];
 }>;
 type Point={x:number;y:number};
