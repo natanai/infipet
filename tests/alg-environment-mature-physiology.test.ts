@@ -45,6 +45,19 @@ test("[AUD-002/A1] a genuinely alive day-400 pet changes current need physiology
   assert.ok(changed.matureCare!.samples.some(s=>s.atMs===T+400*DAY));
   assert.ok(changed.matureCare!.samples.length<=128);
   assert.equal(deriveCareTimeline(changed).at(-1)!.tick,400*24);
+  const source=fixtures.blob;
+  const beforeSim=createSimulation(source,alive.seed,alive.mode,{careGame:alive});
+  const afterSim=createSimulation(source,changed.seed,changed.mode,{careGame:changed});
+  const beforeFrame=beforeSim.frameAt(400,{time:1.3,action:"move"});
+  const afterFrame=afterSim.frameAt(400,{time:1.3,action:"move"});
+  assert.equal(beforeFrame.wellbeing.needs.relaxation.fulfillment,
+    before.needs.relaxation.fulfillment);
+  assert.equal(afterFrame.wellbeing.needs.relaxation.fulfillment,
+    after.needs.relaxation.fulfillment);
+  assert.notDeepEqual(beforeFrame.wellbeing,afterFrame.wellbeing,
+    "the actual living player frame must read accepted postmaturity care");
+  assert.deepEqual(afterSim.materialStateAt(400),beforeSim.materialStateAt(400),
+    "a frame response may never schedule postmaturity physical mutation");
   const rejected=commandGame(changed,{type:"choose",choice:"higher"},T+400*DAY,"invalid-choice");
   assert.equal(rejected.commandHistory.at(-1)?.accepted,false);
   assert.deepEqual(recordedNeedsSimulation(rejected).stateAt(400),after);
