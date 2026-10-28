@@ -17,11 +17,12 @@ const btn={borderWidth:1,borderColor:T.line,paddingVertical:9,paddingHorizontal:
  backgroundColor:T.bg,justifyContent:"center" as const,alignItems:"center" as const};
 const cap=(n:number)=>Math.max(0,Math.min(2,Math.round(n*20)/20));
 export function MorphologyWorkbench({
- value,onApply,onCompare,
+ value,onApply,onCompare,age,
 }:{
  value:Readonly<MorphologyTuning>;
  onApply:(next:MorphologyTuning)=>void;
  onCompare:()=>Compare;
+ age:number;
 }){
  const [open,setOpen]=useState(false);
  const [draft,setDraft]=useState<MorphologyTuning>({...value});
@@ -32,6 +33,7 @@ export function MorphologyWorkbench({
    setDraft(v=>({...v,[kind]:cap(next)}));setReport(null);
  };
  const dirty=MORPH_KINDS.some(k=>draft[k]!==value[k]);
+ const sameShape=report?JSON.stringify(report.originalPixels)===JSON.stringify(report.experimentalPixels):false;
  const camera=(()=>{
    if(!report)return "0 0 64 64";
    const both=[...report.originalPixels,...report.experimentalPixels];
@@ -62,9 +64,13 @@ export function MorphologyWorkbench({
      cannot be invented by a slider.
     </Text>
     <Text style={textStyle}>
-     These eight controls affect scheduled physical operators. Iterative
-     branching, growth-field choices, care exposure and rig motion have
-     separate algorithms; these controls do not claim to tune them.
+     Release a slider to apply its preview. Hiding developer tools keeps
+     the experiment on screen; use the pet icon to return to your saved pet.
+    </Text>
+    <Text style={textStyle}>
+     Only scheduled material operators respond here; iterative growth fields,
+     chaos, care, and rig motion use other algorithms.
+     {age<1?" Day 0 must preserve the original ink; seek a later day to test development.":""}
     </Text>
     {MORPH_KINDS.map(kind=><View key={kind} style={{gap:2}}>
      <View style={{flexDirection:"row",justifyContent:"space-between",gap:4}}>
@@ -76,31 +82,31 @@ export function MorphologyWorkbench({
        accessibilityHint="Only adjusts the experimental development preview, not your real pet"
        minimumValue={0} maximumValue={2} step={0.05} value={draft[kind]}
        onValueChange={n=>change(kind,n)}
+       onSlidingComplete={n=>{const next={...draft,[kind]:cap(n)};
+         setDraft(next);onApply(next);setReport(null);setError("");}}
        minimumTrackTintColor={T.text} maximumTrackTintColor={T.line}
        thumbTintColor={T.bright} style={{width:"100%",height:28}}/>
     </View>)}
-    <View style={{flexDirection:"row",flexWrap:"wrap",gap:6}}>
-     <Pressable accessibilityRole="button" accessibilityLabel="Apply experimental morphology settings"
-       disabled={!dirty} onPress={()=>{onApply({...draft});setReport(null);setError("");}}
-       style={[btn,{flex:1,opacity:dirty?1:0.45}]}>
-       <Text style={s.text}>Apply preview</Text>
-     </Pressable>
-     <Pressable accessibilityRole="button" accessibilityLabel="Reset experimental morphology settings"
+    <Pressable accessibilityRole="button" accessibilityLabel="Reset experimental morphology settings"
        onPress={()=>{const v={...DEFAULT_MORPH_TUNING};setDraft(v);onApply(v);
-         setReport(null);setError("");}} style={[btn,{flex:1}]}>
-       <Text style={s.text}>Reset all</Text>
-     </Pressable>
-    </View>
+         setReport(null);setError("");}} style={btn}>
+       <Text style={s.text}>Reset operator tuning</Text>
+    </Pressable>
     <Pressable accessibilityRole="button" accessibilityLabel="Compare original and experimental physical morphology"
      disabled={dirty} onPress={()=>{try{setReport(onCompare());setError("");}
       catch(err){setReport(null);setError(err instanceof Error?err.message:"Comparison failed");}}}
      style={[btn,{opacity:dirty?0.45:1}]}>
      <Text style={s.bright}>Compare physical anatomy at this day</Text>
     </Pressable>
-    {dirty&&<Text style={textStyle}>Apply sliders before measuring. Slider motion itself does not replay a whole life.</Text>}
+    {dirty&&<Text style={textStyle}>Finish sliding to evaluate the adjusted anatomy.</Text>}
     {!!error&&<Text style={[textStyle,{color:T.warning}]}>{error}</Text>}
     {report&&<>
       <Text style={s.bright}>PHYSICAL COMPARISON · DAY {report.age.toFixed(2)}</Text>
+      {sameShape&&<Text style={textStyle}>
+        No physical change at this day. This may be a legitimate genetic or
+        anatomical null response, or the adjusted operators may not govern
+        the dominant growth path. Do not treat this as a successful transformation.
+      </Text>}
       <View style={{flexDirection:"row",gap:6,justifyContent:"center"}}>
        <View style={{alignItems:"center",gap:3}}>
         <Text style={textStyle}>Original program</Text>
