@@ -18,7 +18,6 @@ export type RegionFrontProposal=Readonly<{
 }>;
 const key=(p:{x:number;y:number})=>p.x+","+p.y;
 const inside=(x:number,y:number)=>Number.isInteger(x)&&Number.isInteger(y)&&x>=0&&y>=0&&x<64&&y<64;
-const near=(a:{x:number;y:number},b:{x:number;y:number})=>Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))<=1;
 const directions=[[1,0],[-1,0],[0,1],[0,-1]] as const;
 export function proposeCoherentReshape(graph:MaterialGraph,tissueId:string,
  direction:Readonly<{x:number;y:number}>,operationId:string,limit=16):RegionFrontProposal|null{
@@ -28,25 +27,40 @@ export function proposeCoherentReshape(graph:MaterialGraph,tissueId:string,
  const source=graph.sourceCells.filter(c=>c.tissueId===tissueId);
  const group=graph.cells.filter(c=>c.tissueId===tissueId);
  if(source.length<4||group.length<4)return null;
- const occupied=new Map(graph.cells.map(c=>[key(c),c]));
- const positions=new Set(group.map(key)),d=direction,p={x:-d.y,y:d.x};
+ const occupied=new Set(graph.cells.map(key));
+ const positions=new Set(group.map(key)),originalPositions=new Set(source.map(key));
+ const d=direction,p={x:-d.y,y:d.x};
+ const distanceFromAuthored=(c:MaterialCell):number=>{
+  if(originalPositions.has(key(c)))return 0;
+  for(let radius=1;radius<=8;radius++){
+   for(let dy=-radius;dy<=radius;dy++)for(let dx=-radius;dx<=radius;dx++){
+    if(Math.max(Math.abs(dx),Math.abs(dy))!==radius)continue;
+    if(originalPositions.has((c.x+dx)+","+(c.y+dy)))return radius;
+   }
+  }
+  return 9;
+ };
  const linked=new Set(graph.links.flatMap(l=>l.fromTissueId===tissueId?
    [l.toTissueId]:l.toTissueId===tissueId?[l.fromTissueId]:[]));
  const voids=new Set(graph.protectedVoids);
+ const foreign=new Set<string>();
+ for(const other of graph.cells)if(other.tissueId!==tissueId&&!linked.has(other.tissueId))
+  for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)
+   foreign.add((other.x+dx)+","+(other.y+dy));
  const center={x:source.reduce((n,c)=>n+c.x,0)/source.length,
   y:source.reduce((n,c)=>n+c.y,0)/source.length};
  const candidates=group.flatMap(c=>{
   const target={x:c.x+d.x,y:c.y+d.y};
-  if(!inside(target.x,target.y)||occupied.has(key(target))||voids.has(key(target)))return [];
+  if(!inside(target.x,target.y)||occupied.has(key(target))||voids.has(key(target))||foreign.has(key(target)))return [];
   const inner=positions.has((c.x-d.x)+","+(c.y-d.y));
   const lateral=positions.has((c.x+p.x)+","+(c.y+p.y))||
                 positions.has((c.x-p.x)+","+(c.y-p.y));
   if(!inner||!lateral)return [];
-  const sourceDistance=Math.min(...source.map(a=>Math.max(Math.abs(c.x-a.x),Math.abs(c.y-a.y))));
+  const sourceDistance=distanceFromAuthored(c);
   if(sourceDistance>8)return [];
-  if(graph.cells.some(other=>other.tissueId!==tissueId&&!linked.has(other.tissueId)&&
-      near(other,target)))return [];
-  const support=group.filter(a=>a.id!==c.id&&near(a,c)).length;
+  let support=0;
+  for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++)
+    if((x!==0||y!==0)&&positions.has((c.x+x)+","+(c.y+y)))support++;
   if(support<3)return [];
   return [{cell:c,target,sourceDistance,support,
     radial:(c.x-center.x)*d.x+(c.y-center.y)*d.y,
