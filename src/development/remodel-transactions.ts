@@ -410,7 +410,7 @@ export function applyRemodelingProposal(
       }
     } else if(op.kind==="reshape") {
       const proposed=proposeCoherentReshape(graph,op.tissueId,op.direction!,op.id,
-        Math.min(16,Math.max(1,Math.ceil(group.length/3))));
+        Math.min(8,Math.max(1,Math.ceil(Math.sqrt(group.length)))));
       if(!proposed)reason="no-supported-regional-front";
       else {
         created.push(...proposed.createdCells);
