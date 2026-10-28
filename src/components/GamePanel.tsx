@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { GAME_RULES, type GameCommand, type GameState } from "../gameplay";
 import { careGamePresentation } from "../integration/care-game-pose";
 import { PixelIcon, type PixelIconName } from "./PixelIcon";
+import type { CareOutcome } from "../interface/care-outcome";
 import { T, terminal as s } from "../theme";
 
 /** Visual selection does not emit gameplay events. Every command goes to the
@@ -95,11 +96,12 @@ function choiceIcon(choice: string): PixelIconName {
  */
 export function GamePanel({
   game, disabled, unsaved, onCommand, onNewPet, menu = "food",
-  showLabels = false,
+  showLabels = false, outcome = null,
 }: {
   game: GameState;
   disabled: boolean;
   unsaved: boolean;
+  outcome?: CareOutcome | null;
   onCommand: (command: GameCommand) => void;
   onNewPet: () => void;
   menu?: CareMenu;
@@ -120,6 +122,19 @@ export function GamePanel({
         <Meter label="Happy" value={game.meters.happiness} />
         <Meter label="Strong" value={game.meters.strength} />
       </View>
+      {outcome && <View style={styles.indicators}
+        accessibilityLabel={outcome.description} accessibilityLiveRegion="polite">
+        <PixelIcon size={17}
+          name={outcome.result==="effective" ? "feel" :
+            outcome.result==="partial" ? "status" :
+            outcome.result==="refused" || outcome.result==="missed" ? "clear" : "attention"}
+          color={outcome.result==="effective" ? T.bright : T.warning} />
+        <Text style={s.muted}>
+          {outcome.result==="effective" ? "✓" : outcome.result==="partial" ? "◒" :
+            outcome.result==="refused" || outcome.result==="missed" ? "×" : "·"}
+        </Text>
+        {showLabels && <Text style={[s.muted,{flexShrink:1}]}>{outcome.description}</Text>}
+      </View>}
       {(call || needsTreatment || game.waste > 0 || game.attention.discipline) && (
         <View style={styles.indicators} accessibilityRole="alert">
           <PixelIcon name="attention" color={T.warning} size={16}/>
