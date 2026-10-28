@@ -46,7 +46,7 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
   const allKinds = new Set<string>();
   for (const preset of STARTER_PRESETS) {
     assert.ok(preset.description.length >= 20, "explain the source anatomy without promising evolution");
-    assert.ok(!/tamagotchi|digimon|pokemon|agumon|patamon/i.test(preset.name));
+    assert.equal("name" in preset,false,"starters are unnamed original drawings, not named species");
     const parts = clonePreset(preset.id),
       ids = new Set(parts.map((p) => p.id));
     assert.equal(ids.size, parts.length);
@@ -88,7 +88,7 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
     drawnSignatures.add([...new Set(sourcePixels.map(p=>p.x+","+p.y))].sort().join(";"));
     for(const part of parts)allKinds.add(part.kind);
     const life = birthPlayerLife(
-      { parts, mode: "infant", name: preset.name, seed: preset.seed },
+      { parts, mode: "infant", name: "Little one", seed: preset.seed },
       1_000_000,
     );
     const doc = {
@@ -97,7 +97,7 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
       revision: PROTOTYPE_REVISION,
       parts,
       mode: "infant" as const,
-      name: preset.name,
+      name: "Little one",
       seed: preset.seed,
       bornAt: 1_000_000,
       age: 0,
