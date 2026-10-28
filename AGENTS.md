@@ -35,6 +35,25 @@
 - Run typecheck, focused regressions and web export before publishing. Automated passes are not proof of visually convincing growth; review unfamiliar player drawings over complete lifetimes.
 - Earlier saved lives remain unchanged and read-only with exact-byte recoverable backups, as requested by the daily migration contract. Never fabricate their past daily transactions or silently restart their birth. A new daily life requires the existing explicit replacement action. Archived full history: `archive/pre-minimal-2026-10-25`.
 
+## Permanent Morphological Expressiveness Principle — mandatory
+
+**Infipet must support a broad, independently verifiable space of anatomical transformations. No implementation may preserve physical correctness by reducing development to predominantly linear extensions, branches, or cosmetic changes.**
+
+Developmental variety must emerge from the player's authored material, permanent genetic potential, deterministic chaotic processes, anatomical constraints, and chronological care.
+
+The system must demonstrate genuine variation in whole-body proportions, topology, tissue distribution, structural specialization, and developmental trajectories, without predetermined creature outcomes.
+
+An individual organism may legitimately remain unchanged or favor one developmental strategy. System-wide capability must not collapse to a narrow family of outcomes.
+
+**This is as authoritative as source continuity, exact authored-ink fidelity, physical material conservation, and the 365-check chronological contract.** A physically valid slender branch is not automatically an expressive organism generator.
+
+- Never restore a historical visual warp as material until independent journals prove exactly which source-linked cells were created, removed, relocated, fused, reattached or changed tissue. Pose/pigment-only differences must never count as physical morphology.
+- Never satisfy variety by inserting target species, sprites, fixed silhouettes, named outcome classes, or unexplained matter. Preserve the mathematical inventions where possible; re-express them as physically accountable operators.
+- Evaluate system-wide capability over independently characterized unfamiliar drawings, several immutable seeds, recorded care counterfactuals and the complete available lifetime. Preserve legitimate null outcomes for individual organisms.
+- Measure independent area, proportions, local thickness, regional tissue allocation, topology, cavity preservation/creation, branch prominence, whole-body remodeling, anatomical provenance, and seed/care causal differences. Use independent structural oracles and reproducible counterexamples, not visual approval.
+- The historical benchmark in `docs/morphology/` is **diagnostic, not production authority**. The historical display engine and the daily material engine have different clocks. Never equate legacy morphological stage-days to the exact 365 elapsed 24-hour material checks.
+- `roadmap/plan.json#morphologicalExpressiveness` is normative and machine-readable. Its MORPH-001, MORPH-002 and MORPH-003 tasks remain explicit until recovery, physical implementation, and independent verification each pass their own acceptance contracts.
+
 ## Mathematical verification and deterministic chaotic dynamics — mandatory
 
 Infipet should obtain vast morphological diversity from a **small, inspectable collection of general mathematical laws**, not from creature-specific templates, repeated screenshot comparison, or manual approval of individual outcomes.
