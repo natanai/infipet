@@ -1132,7 +1132,7 @@ export default function App() {
               {legacyLife&&<View style={{maxWidth:deviceWidth,padding:10}}>
                 <Text style={s.muted}>This earlier saved pet is preserved. Its past anatomy cannot be carried into daily growth. Save the original file in More → Export, or begin a new life from its drawing.</Text>
               </View>}
-              <View style={[styles.device, { width: deviceWidth }]}>
+              <View nativeID="infipet-device" style={[styles.device, { width: deviceWidth }]}>
                 <View style={styles.nav}>
                   {(
                     [
@@ -1454,7 +1454,7 @@ export default function App() {
             </Text>
           )}
         </ScrollView>
-        {!layout.desktop && view === "draw" && !devEnabled && <View style={styles.mobileBirthBar}>
+        {!layout.desktop && view === "draw" && !devEnabled && <View nativeID="infipet-mobile-birth" style={styles.mobileBirthBar}>
           <Button label="Begin life" disabled={!pixels.length || settling} onPress={() => void beginLife()}
             style={{minHeight:48,flex:1}}>
             <PixelIcon name="birth" /> <Text style={s.text}>Begin life</Text>
