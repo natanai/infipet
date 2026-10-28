@@ -894,7 +894,7 @@ export function createSimulation(
   if(!exposedProgram){exposedProgram=freeze(copy(program));setLRU(publicEntry.programs,publicKey,exposedProgram,8);}
   function structure(dev: number) {
     const birthKey=dev===0?JSON.stringify([hatchAt,liveContext?.stagePoints[0],
-      options.careGame?.careSamples[0],options.careGame?null:options.needTimeline?.filter(f=>f.tick===0)]):"";
+      options.careGame?.careSamples[0],options.careGame?null:(Array.isArray(options.needTimeline)?options.needTimeline.filter(f=>f.tick===0):options.needTimeline)]):"";
     const stored=dev===0?birthMetadata.get(blueprint!)?.get(birthKey):undefined;
     if(stored)return stored;
     let result = structural.get(dev);

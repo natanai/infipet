@@ -15,7 +15,7 @@ export const benchmarkShapes:Record<string,PetPart[]>={
 function ink(test:(x:number,y:number)=>boolean):PetPart[]{return [{id:"arbitrary-ink",kind:"body",name:"Player drawing",parentId:null,position:{x:0,y:0},pixels:Array.from({length:1024},(_,i)=>({x:i%32,y:Math.floor(i/32),color:"#597b42"})).filter(p=>test(p.x,p.y))}];}
 export function maintainedLife(seed:string,days=366):Map<number,GameState>{
   let game=createGame(seed,"infant",BENCHMARK_START);const lives=new Map<number,GameState>([[0,game]]);
-  const command=(c:GameCommand)=>{game=commandGame(game,c,game.clock.nowMs,"perf/"+game.commandHistory.length);};
+  const command=(c:GameCommand)=>{game=commandGame(game,c,game.clock.nowMs,"perf/"+(game.commandSequence??game.commandHistory.length));};
   for(let hour=1;hour<=days*24;hour++){
     game=advanceGame(game,BENCHMARK_START+hour*HOUR);
     if(game.dead)throw new Error("Real benchmark care failed at "+hour);
@@ -27,7 +27,7 @@ export function maintainedLife(seed:string,days=366):Map<number,GameState>{
       if(game.waste)command({type:"clean"});
       while(game.health.sickness||game.health.injury)command({type:"medicine"});
     }
-    if([2,23,24,7*24,90*24,364*24,365*24,366*24].includes(hour))lives.set(hour,game);
+    if([2,23,24,7*24,90*24,364*24,365*24,366*24,400*24,days*24].includes(hour))lives.set(hour,game);
   }
   return lives;
 }

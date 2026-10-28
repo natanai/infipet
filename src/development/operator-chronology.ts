@@ -489,7 +489,7 @@ function physicalUnit(
     sourceCellIds:[...new Set([...newCells,...removed].flatMap(c=>c.sourceIds))].sort(compareText),
   };
   const updated:MaterialGraph={...graph,cells,tissues,sites,links};
-  const recorded=journalMaterialEvent(graph,updated,event,"material",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.direction?{direction:op.direction}:{})});
+  const recorded=journalMaterialEvent(graph,updated,event,"material",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.targetTissueId?{targetTissueId:op.targetTissueId}:{}),...(op.direction?{direction:op.direction}:{})});
   const next:MaterialGraph={...updated,events:[...graph.events,recorded]};
   return succeed(next,tips.length?tips:previous.tipCellIds);
 }

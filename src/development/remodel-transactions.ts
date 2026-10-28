@@ -511,7 +511,7 @@ export function applyRemodelingProposal(
     const event=journalMaterialEvent(graph,next,{
       id,kind:op.kind,atHour,createdCells:created,createdCellIds:transition.createdCellIds,
       removedCellIds:transition.removedCellIds,sourceCellIds:transition.sourceCellIds,
-    },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})});
+    },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.targetTissueId?{targetTissueId:op.targetTissueId}:{}),...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})});
     next={...next,events:[...next.events,event]};
   }
   const beforeSites=new Map(graph.sites.map(site=>[site.id,site]));

@@ -1715,7 +1715,7 @@
         "GAME-001",
         "INT-002"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1738,7 +1738,10 @@
         "src/integration",
         "tests/alg-integration-care-games.test.ts"
       ],
-      "algorithmId": "integration"
+      "algorithmId": "integration",
+      "qualification": {
+        "evidence": "Both focused tests pass: all three five-round games, prepared juvenile battle, seeded deterministic scoring/rewards and owned quad poses. Current numbers only; future draws cannot affect presentation. Actual exported-browser exercise is part of final qualification."
+      }
     },
     {
       "id": "DEV-008",
@@ -1748,7 +1751,7 @@
       "dependsOn": [
         "DEV-007"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1771,7 +1774,12 @@
         "src/development",
         "tests/alg-development-spatial-conservation.test.ts"
       ],
-      "algorithmId": "development"
+      "algorithmId": "development",
+      "qualification": {
+        "counterexample": "Verified on 3695203: surviving original cell ink/original/18,16 moved x18 to19 with zero events passed the old inventory audit. New independent spatial reconstruction rejects it and an identical-silhouette identity swap.",
+        "evidence": "Five focused tests: unrecorded physical properties, authentic translate, all365 checks plus JSON restoration, authentic reattachment, forged journals entering voids/occupied tissue. Existing six production daily integration tests pass.",
+        "contract": "Cell color/z/tissue/ancestry immutable. Per-operation journals contain relocation before/after, operationID, check/time and complete topology deltas. Independent reconstruction starts with canonical source topology and checks permanent operator authorization and mechanical state after each event."
+      }
     },
     {
       "id": "CARE-005",
@@ -1783,7 +1791,7 @@
         "CARE-004",
         "INT-002"
       ],
-      "status": "in_progress",
+      "status": "done",
       "acceptance": [
         {
           "id": "A1",
@@ -1804,9 +1812,23 @@
       },
       "implementationPaths": [
         "src/gameplay",
+        "src/needs/recorded-physiology.ts",
+        "src/needs/simulation.ts",
+        "src/integration/living-physiology.ts",
         "tests/alg-environment-mature-physiology.test.ts"
       ],
-      "algorithmId": "environment"
+      "algorithmId": "environment",
+      "qualification": {
+        "counterexample": "On 3695203 a real day366.0625 snack changed happiness3 to4 but derived timeline, needs and actual player-frame wellbeing stayed unchanged under the365-day sample cap.",
+        "evidence": "Three focused tests pass: genuinely maintained living pet through1460days, exact fractional care response at364/365/366/400/1460, accepted/rejected commands, active/absent intervals, JSON reopening, frozen post365 graph, saved checkpoints, independent2000-event closed-form ODE comparison, captured-input immutability and explicit unknown legacy interval.",
+        "retention": {
+          "physiologicalEvents": 128,
+          "postmaturityCommandReceipts": 128,
+          "day400SaveBytes": 2836790,
+          "day1460SaveBytes": 2837435
+        },
+        "limits": "Complete original first-year evidence retained; older postmaturity diagnostic queries outside the rolling window explicitly unavailable. Expired postmaturity arbitrary idempotency keys are not retained; application IDs use a monotonic lifetime sequence. Missing old physiological intervals remain explicitly unknown."
+      }
     }
   ],
   "algorithms": [

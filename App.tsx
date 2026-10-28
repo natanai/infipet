@@ -760,7 +760,7 @@ export default function App() {
     commandPending.current = true;
     setSettling(true);
     const now = Date.now();
-    const id = `command:${now}:${current.game.history.length}:${current.game.receipts.length}`;
+    const id = `command:${now}:${current.game.commandSequence??current.game.commandHistory.length}`;
     try {
       const next = {
         ...commandPlayerLife(current, command, now, id),

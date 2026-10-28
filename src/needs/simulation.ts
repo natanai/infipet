@@ -7,6 +7,8 @@ import {
   type NeedId,
 } from "./catalog";
 import { normalizeNeedTimeline } from "./timeline";
+import { physiologyAt, validatePhysiology, seal, PHYSIOLOGY_NEEDS, type RecordedNeedTimeline } from "./recorded-physiology";
+export type NeedsTimelineInput = readonly NeedKeyframe[] | RecordedNeedTimeline;
 import {
   DEFAULT_FULFILLMENT,
   DEFAULT_PREVIEW_DAYS,
@@ -154,9 +156,15 @@ function needDrivers(snapshot: Snapshot): NeedDevelopmentDrivers {
 /** Captures its timeline; seeking and future edits never consume random state. */
 export function createNeedsSimulation(
   seed: string,
-  timeline: readonly NeedKeyframe[] = [],
+  timeline: NeedsTimelineInput = [],
 ) {
-  const normalized = normalizeNeedTimeline(timeline);
+  const recorded = Array.isArray(timeline) ? undefined : seal(JSON.parse(JSON.stringify(timeline)) as RecordedNeedTimeline);
+  if(recorded){
+    if(recorded.kind!=="recorded-physiology-v1"||!Array.isArray(recorded.history))throw new Error("Invalid recorded need timeline.");
+    validatePhysiology(recorded.model,Number.MAX_SAFE_INTEGER);
+    recorded.history.forEach((p,i)=>{if(!Number.isSafeInteger(p.atMs)||p.atMs<0||p.atMs>365*86400000||i>0&&p.atMs<=recorded.history[i-1].atMs||p.values.length!==6||p.values.some((v:number)=>!Number.isFinite(v)||v<0||v>1))throw new Error("Invalid recorded physiological history.");});
+  }
+  const normalized = normalizeNeedTimeline(recorded ? [] : timeline as readonly NeedKeyframe[]);
   const events = new Map<number, NeedKeyframe[]>();
   for (const frame of normalized)
     events.set(frame.tick, [...(events.get(frame.tick) ?? []), frame]);
@@ -224,6 +232,12 @@ export function createNeedsSimulation(
     if (!beforeEvents && target % 24 === 0) cache(checkpoints, current);
     return current;
   }
+  function recordedSnapshot(tick:number,before=false):Snapshot {
+    const point=physiologyAt(recorded!,tick*3_600_000,before);
+    const value:Snapshot={tick,raw:NEED_IDS.map(()=>.75),fast:NEED_IDS.map(()=>.75),exposure:NEED_IDS.map(()=>0),memory:NEED_IDS.map(()=>0)};
+    PHYSIOLOGY_NEEDS.forEach((id,i)=>{const j=index.get(id)!;value.raw[j]=point.raw[i];value.fast[j]=point.fast[i];value.exposure[j]=point.exposure[i];value.memory[j]=point.memory[i];});
+    return value;
+  }
   function stateAt(
     developmentalAge: number,
     beforeEvents = false,
@@ -232,8 +246,8 @@ export function createNeedsSimulation(
     const age = boundedAge(developmentalAge);
     const exactTick = forcedTick ?? ageTick(age);
     const target = Math.floor(exactTick);
-    const current = snapshotAt(target, beforeEvents);
-    integrate(current, Math.max(0, exactTick - target) * HOUR);
+    const current = recorded ? recordedSnapshot(exactTick, beforeEvents) : snapshotAt(target, beforeEvents);
+    if (!recorded) integrate(current, Math.max(0, exactTick - target) * HOUR);
     const needStates = Object.fromEntries(
       NEED_IDS.map((id, i) => [
         id,
@@ -309,6 +323,7 @@ export function createNeedsSimulation(
     return freeze({
       tick: target,
       developmentalAge: age,
+      ...(recorded?.model.unknownInterval?{physiologyEvidence:{unknownInterval:recorded.model.unknownInterval}}:{}),
       needs: needStates,
       needDrivers: needDrivers(current),
       feelings: emitted,
@@ -464,6 +479,11 @@ export function createNeedsSimulation(
     value.snapshot.tick += hours;
   }
   function morphologyAt(developmentalAge: number): NeedMorphologySignals {
+    // Recorded physiology controls current expression. Permanent player anatomy
+    // consumes exact daily environmental evidence, never this legacy Lab filter.
+    if(recorded){const drivers=needDrivers(recordedSnapshot(ageTick(boundedAge(developmentalAge))));
+      return freeze(Object.fromEntries(APPEARANCE_NEED_IDS.map(id=>[id,{load:drivers[id].load,opportunity:drivers[id].opportunity}])) as NeedMorphologySignals);}
+
     const exact = ageTick(boundedAge(developmentalAge)),
       target = Math.floor(exact);
     let start =
