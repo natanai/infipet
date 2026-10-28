@@ -109,8 +109,13 @@ test("[MORPH-001/A4] canonical numeric expressiveness contract has independent n
   assert.ok(contract.measurements.includes("physical-source-relocation"));
   assert.ok(contract.measurements.includes("branch-prominence"));
   assert.ok(contract.measurements.includes("topology-change"));
-  assert.equal(plan.tasks.find((t:{id:string})=>t.id==="MORPH-002").status,"todo");
-  assert.equal(plan.tasks.find((t:{id:string})=>t.id==="MORPH-003").status,"todo");
+  // A recovered capability may become in_progress without claiming full scientific qualification.
+  for (const taskId of ["MORPH-002","MORPH-003"]) {
+    const status=plan.tasks.find((t:{id:string})=>t.id===taskId)?.status;
+    assert.ok(status==="todo"||status==="in_progress",
+      taskId+" must remain unqualified until its production cohort passes");
+  }
+  assert.equal(plan.tasks.find((t:{id:string})=>t.id==="MORPH-004")?.status,"todo");
   for(const revision of Object.values(inventory.revisions) as string[])
     assert.match(root("scripts/morphology-compare.mjs"),new RegExp(revision));
   assert.match(root("scripts/morphology-replay.ts"),/normalizedProgress/);

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "infipet-artificial-life",
-  "updatedOn": "2026-10-27",
+  "updatedOn": "2026-10-28",
   "mandate": "One pet per creation: arbitrary authored ink, a permanent hidden seed, and chronological care drive that SAME organism through potentially dramatic developmental forms guided by a scientifically sourced phylogenetic possibility map. No breeding, reproduction, offspring, multi-generation mechanics or heritable change between creatures.",
   "sourceOfTruth": true,
   "lifecycle": {
@@ -1903,7 +1903,7 @@
         "MORPH-001",
         "DEV-008"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -1961,7 +1961,7 @@
         "MORPH-001",
         "DEV-008"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -2006,6 +2006,72 @@
           "mark every null-growth life a failure",
           "use target species as reference renderer"
         ]
+      }
+    },
+    {
+      "id": "MORPH-004",
+      "phase": 4,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "Coordinated source-conserving whole-body metamorphosis with physical relocation and topology",
+      "dependsOn": [
+        "MORPH-002",
+        "DEV-008"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Coordinated daily operations can independently transform whole-body aspect, existing source-derived regional mass, attachment location and topology; they cannot reduce all lawful change to tip extension or thickened tendrils.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Every new, resorbed, or relocated physical cell and every attachment topology edit has a single authorized, atomic chronological transaction at exact daily check T_k, immutable original provenance, permanent genetic eligibility, chaotic state, and interval-local care forcing.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Adversarial counterexamples reject renderer-only transformations, forged cells, unreceipted relocations, illegal overlaps, detached joints and failed atomic rollbacks; historical and 365-check physical conservation remains valid.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A4",
+          "requirement": "Independent source/genotype eligible 30-drawing cohort proves physically real distribution changes in whole-body proportions, tissue thickness, regional specialization, attachment topology and care/seed counterfactual trajectories; honest constrained nulls remain admissible.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-coordinated-metamorphosis.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-coordinated-metamorphosis.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/coordinated-metamorphosis.ts",
+        "src/development/daily-step.ts",
+        "tests/alg-development-coordinated-metamorphosis.test.ts"
+      ],
+      "interfaceContract": {
+        "inputs": [
+          "authored immutable source material",
+          "inherited genotype/capabilities",
+          "persistent chaotic orbits",
+          "committed physical graph and daily care forcing"
+        ],
+        "outputs": [
+          "atomic source-traceable relocation/deposit/resorb/link transactions",
+          "replayable coordinated structural changes",
+          "auditable structural metrics and lawful null outcomes"
+        ],
+        "mustNot": [
+          "change one-pet ancestry or immutable seed",
+          "commit between the 365 daily boundaries",
+          "draw unowned anatomical pixels",
+          "use named species targets, target sprites or visual snapshots as fitness",
+          "silently repair blocked operations by fallback tendrils"
+        ],
+        "trackedIssue": "https://github.com/natanai/infipet/issues/46"
       }
     }
   ],
@@ -2155,7 +2221,8 @@
         "DEV-006",
         "DEV-007",
         "DEV-008",
-        "MORPH-002"
+        "MORPH-002",
+        "MORPH-004"
       ],
       "readyWhen": [
         "OBS-001"
