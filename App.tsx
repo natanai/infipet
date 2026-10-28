@@ -261,7 +261,7 @@ export default function App() {
   const returnGeneration = useRef(0);
   const deathSeen = useRef<string | null>(null);
   const legacyLife=!!life&&life.anatomicalClock!=="daily-365-v1";
-  const playing = view === "live" && (!devEnabled || !sandbox) && !!life && !legacyLife;
+  const playing = view === "live" && !sandbox && !!life && !legacyLife;
   const layout = developmentLayout(width, devEnabled);
   const { deviceWidth, canvasSide: size } = playerGeometry(width, height, layout.playerOffset, view);
   const simulation = useMemo(
@@ -271,13 +271,13 @@ export default function App() {
         groomingTimeline,
         // Never use experimental overrides for actual gameplay, persistence,
         // or the ordinary player presentation. Source and genome stay fixed.
-        ...(devEnabled&&!tuningIsDefault(morphTune)?{
+        ...((devEnabled||sandbox)&&!tuningIsDefault(morphTune)?{
           verifyMaterialProgram:(base:Parameters<typeof tuneMaterialProgram>[0])=>({
             program:tuneMaterialProgram(base,morphTune),
           }),
         }:{}),
       }),
-    [parts, seed, mode, needTimeline, needPreview, groomingTimeline,devEnabled,morphTune],
+    [parts, seed, mode, needTimeline, needPreview, groomingTimeline,devEnabled,sandbox,morphTune],
   );
   const timelineEnd =
     simulation.hatchAt +
@@ -961,10 +961,12 @@ export default function App() {
     setDevEnabled(enabled);
     setSeedInput(seed);
     setGrowing(false);
-    setNeedPreview(null);
     setSheet(null);
-    if (!enabled) {
-      setSandbox(false);
+    if (!enabled && !sandbox) {
+      // Closing diagnostic chrome without an active experiment returns to
+      // the ordinary player experience. A sandbox experiment, however,
+      // remains visibly intact until the player explicitly returns to pet.
+      setNeedPreview(null);
       setMotion(true);
       setView(lifeRef.current?.anatomicalClock==="daily-365-v1" ? "live" : "draw");
       setGrooming(false);
@@ -1141,15 +1143,17 @@ export default function App() {
                   </Text>}
                 </Pressable>
                 {life && <Button
-                  label={view === "draw" ? "Return to your pet" : "Draw your pet"}
-                  onPress={() => view === "draw" ? live() :
-                    (setSandbox(true), setView("draw"), setNeedPreview(null))}
-                  style={{ paddingHorizontal: 6 }}
-                >{view === "draw" ? "Pet" : "Draw"}</Button>}
-                {view === "live" && <IconButton
+                  label={view === "draw" || sandbox ? "Return to your pet" : "Draw your pet"}
+                  onPress={() => {
+                    if (view === "draw" || sandbox) live();
+                    else {setSandbox(true);setView("draw");setNeedPreview(null);}
+                  }}
+                  style={styles.symbolButton}>
+                  <PixelIcon name={view === "draw" || sandbox ? "live" : "draw"} size={24} color={T.bright}/>
+                </Button>}}
+                {playing && frame.stage !== "egg" && <IconButton
                   icon="feel"
                   label="Check how your pet feels"
-                  disabled={frame.stage === "egg"}
                   onPress={() => open("feelings")}
                 />}
                 <Button label="Open more menu" onPress={() => open("more")}
@@ -1182,17 +1186,14 @@ export default function App() {
                         <PixelIcon name="info" size={24} color={T.bright} />
                       </Button>
                     </>
-                  ) : playing ? (
+                  ) : playing && !life?.game.sleeping && frame.capabilities.canMove ? (
                     <IconButton
                       icon="move"
                       label="Watch your pet explore"
                       selected={action === "move"}
-                      disabled={!!life?.game.sleeping || !frame.capabilities.canMove}
                       onPress={() => act(action === "move" ? "idle" : "move")}
                     />
-                  ) : (
-                    <Text style={s.muted}>Development preview</Text>
-                  )}
+                  ) : null}
                 </View>
                 {playing && life && <CareRail
                   side="top" game={life.game} disabled={settling} menu={careMenu}
