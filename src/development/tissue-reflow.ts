@@ -72,10 +72,13 @@ export function proposeTissueReflow(graph:MaterialGraph,tissueId:string,
  const at=(x:number,y:number)=>own.has(x+","+y);
  // Donors must be exposed on the receding side and must not carry an
  // attachment or growth-site identity. The 8-connected source cannot tear.
+ // Select the receding ORTHOGONAL flank: transferring mass from height
+ // to width (or vice versa) changes whole-tissue aspect, not just position.
+ const donorAxis={x:-direction.y,y:direction.x};
  const donors=group.filter(c=>!anchored.has(c.id)&&
-  !at(c.x-direction.x,c.y-direction.y)&&
+  !at(c.x-donorAxis.x,c.y-donorAxis.y)&&
   group.length>1&&connected(group.filter(other=>other.id!==c.id)))
-  .sort((a,b)=>dot(a)-dot(b)||Math.abs(lateral(a))-Math.abs(lateral(b))||
+  .sort((a,b)=>lateral(a)-lateral(b)||dot(a)-dot(b)||
     (a.id<b.id?-1:a.id>b.id?1:0)).slice(0,24);
  if(!donors.length)return null;
  const possibilities=new Map<string,Point>();

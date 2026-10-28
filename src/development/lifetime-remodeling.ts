@@ -271,7 +271,7 @@ export function compileLifetimeRemodeling(
       const axis=directions[orbit.x%4];
       operations.push({
         id:"remodel/"+index+"/shape-stage/"+stage,
-        kind:stage%2===0?"redistribute":"reshape",
+        kind:stage===1?"reshape":"redistribute",
         tissueId:tissue.id,direction:axis,
         // Allometric regional inertia: (reference scale 8 lattice units)
         // expression = min(1, 8/sqrt(A_source)).

@@ -392,7 +392,7 @@ export function reconstructDailyPhysicalState(
           !same(path[0],m.from)||!same(path.at(-1),m.to)||
           (m.to.x-m.from.x)*axis.x+(m.to.y-m.from.y)*axis.y<2||
           positions.has(key(m.to))||
-          positions.has((donor.x-axis.x)+","+(donor.y-axis.y))||
+          positions.has((donor.x+axis.y)+","+(donor.y-axis.x))||
           [...sites.values()].some(s=>s.rootCellId===donor.id)||
           [...links.values()].some(l=>l.fromCellId===donor.id||l.toCellId===donor.id))
           throw new Error("Forged or unsupported tissue reflow");

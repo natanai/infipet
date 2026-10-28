@@ -160,6 +160,8 @@ test("[MORPH-004/REFLOW] original physical material migrates, actually vacating 
  assert.ok(!before.has(m.to.x+","+m.to.y));
  assert.ok(after.has(m.to.x+","+m.to.y));
  assert.equal(after.size,before.size,"mass transfer creates no new cells");
+ assert.ok(b(result.cells).w>b(birth.cells).w,
+  "a physically transferred flank cell can change whole-body aspect ratio");
  assert.equal(result.cells.length,birth.cells.length);
  assert.ok(m.path.length>=3&&m.path.length<=25);
  assert.ok(m.path.slice(1,-1).every(p=>before.has(p.x+","+p.y)),
