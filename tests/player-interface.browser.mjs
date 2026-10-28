@@ -346,19 +346,16 @@ try {
           "drawing remains alongside the left dock",
         );
       }
-      // Presets stay in the panel; switching it off returns to drawing without birthing anything.
-      await panel
-        .getByRole("button", { name: "Load Bean preset", exact: true })
-        .click();
-      const draft = await saved(page, (doc) => doc.seed === "BEAN-87320104");
-      assert.equal(draft.life, undefined);
+      // The left dock owns only diagnostics, never player starter selection.
+      // Editing the preview seed must not create or change a living organism.
       await panel
         .getByRole("textbox", { name: "Growth seed", exact: true })
         .fill("CHECKBOX-PREVIEW");
       await panel
         .getByRole("button", { name: "Apply seed", exact: true })
         .click();
-      await saved(page, (doc) => doc.seed === "CHECKBOX-PREVIEW");
+      const draft=await saved(page, (doc) => doc.seed === "CHECKBOX-PREVIEW");
+      assert.equal(draft.life, undefined);
       if (process.env.UI_EVIDENCE_DIR && viewport.width !== 320) {
         await mkdir(process.env.UI_EVIDENCE_DIR, { recursive: true });
         // Scroll the independent dock back to its top before collecting interface evidence.
@@ -385,6 +382,8 @@ try {
         .getByLabel("Draw your whole pet here", { exact: true })
         .waitFor();
       assert.equal(await panel.count(), 0);
+      assert.equal(await button(page,"Show or hide starter creature gallery").count(),1,
+        "public starter gallery remains available without developer tools");
       assert.equal(
         await page.getByLabel("Growth timeline", { exact: true }).count(),
         0,
