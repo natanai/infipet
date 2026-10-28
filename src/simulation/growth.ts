@@ -1077,7 +1077,7 @@ export function createSimulation(
       dailyRenderGeometry.set(graph,geometry);
     }
     const {byId,tissueSource,groups,original,regions,functional,rig}=geometry;
-    const pose=poseFunctionalGraph(rig,{time,action,pace,amplitude});
+    const pose=poseFunctionalGraph(rig,{time,action,pace,amplitude,target:opts.target});
     const bindings=new Map(functional.bindings.map(b=>[b.tissueId,b]));
     // Brushing poses existing authored hair; it never lengthens it or changes
     // material inventory. The existing bounded relaxation law controls bend.
