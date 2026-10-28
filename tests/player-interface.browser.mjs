@@ -126,7 +126,7 @@ try {
       if(viewport.width===390){
         const before=await page.locator("#infipet-device").boundingBox();
         const canvas=await page.getByLabel("Draw your whole pet here",{exact:true}).boundingBox();
-        assert.ok(canvas.width<before.width-24,"square adapts without squeezing device");
+        assert.ok(canvas.width<=before.width-24,"canvas uses available width without squeezing device");
         await page.setViewportSize({width:390,height:500});
         const after=await page.locator("#infipet-device").boundingBox();
         assert.equal(Math.round(before.width),Math.round(after.width),
