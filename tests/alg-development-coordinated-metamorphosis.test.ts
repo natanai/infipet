@@ -100,3 +100,28 @@ test("[MORPH-004/A3] full production daily replay admits documented redistributi
  assert.throws(()=>verifyDailyMaterialInventory(changed,TIME,12,program.source,
    {material:program.operators,remodeling:remodeling.operations}));
 });
+
+test("[MORPH-004/A4] real compiled lifetime includes coherent non-tip remodeling without target silhouettes",()=>{
+ const source=drawing([".....",".###.",".###.",".###.","....."]);
+ const outcomes: {seed:string;events:number;moved:number;newCells:number}[]=[];
+ for(const seed of ["morph-alpha","morph-beta","morph-gamma"]){
+  const {atlas,genome}=materialInputs(source,seed);
+  const program=compileMaterialDevelopment(atlas,genome);
+  const defaultProgram=compileLifetimeRemodeling(program,genome);
+  assert.ok(defaultProgram.operations.some(op=>op.kind==="reshape"),
+    "regional program is part of the default lifetime");
+  let state=createDailyMaterialState(program,TIME);
+  for(let k=1;k<=90;k++)
+   state=applyDailyMaterialStep(program,genome,state,window(k,1),defaultProgram);
+  const events=state.graph.events.filter(e=>e.kind==="reshape");
+  const moved=events.reduce((n,e)=>n+(e.physical?.relocations.length??0),0);
+  outcomes.push({seed,events:events.length,moved,
+   newCells:events.reduce((n,e)=>n+e.createdCellIds.length,0)});
+  verifyDailyMaterialInventory(state.graph,TIME,90,program.source,
+   {material:program.operators,remodeling:defaultProgram.operations});
+ }
+ console.info("MORPH-004 actual 90-day source-owned regional witnesses",
+  JSON.stringify(outcomes));
+ assert.ok(outcomes.some(o=>o.events>0&&o.moved>=2&&o.moved===o.newCells),
+   "default daily biology must exhibit real bulk movement in a source/genotype-eligible witness");
+});
