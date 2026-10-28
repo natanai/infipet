@@ -485,8 +485,8 @@ export function stepIterativeChronology(
       // touching several of one's own live cells is physically desirable.
       const expansion=birth.signals.channels.growth.expansion;
       if(!made && expansion>=0.12 && s.extensions>=1){
-        const orbit=slot===0?s.orbit:
-          Array.from({length:slot}).reduce(o=>stepChaos(o),s.orbit);
+        let orbit=s.orbit;
+        for(let step=0;step<slot;step++)orbit=stepChaos(orbit);
         if(orbit.x/(CHAOS_MODULUS-1)<expansion){
           const mode=chooseMorphologicalField(expansion,
             birth.signals.channels.support.membrane,orbit);
