@@ -5,7 +5,8 @@
  * after every transaction. The producer's journal/diff code is not imported.
  *
  * Domain: integer x/y in [0,63], immutable z/color/ancestry/tissue ownership;
- * only unit-lattice translate/remodel/reshape may relocate existing identities.
+ * unit-lattice translate/remodel/reshape and recorded tissue-local transport
+ * paths may relocate existing identities. Never infer a route from the final image.
  * Parent topology is acyclic, tissues 8-connected, new overlaps/void entries
  * forbidden, live attachment endpoints within squared distance 8. Fusion
  * links require an actual continuous material bridge, not distant endpoints.
@@ -375,7 +376,38 @@ export function reconstructDailyPhysicalState(
           "Relocation enters occupied material or protected void",
         );
       const d = { x: m.to.x - c.x, y: m.to.y - c.y };
-      if (
+      if(e.kind==="redistribute"){
+        // An entire tissue can change its mass distribution without adding a
+        // child at the donor coordinate. Independently inspect every recorded
+        // passage through the PRE-transaction tissue, not the final geometry.
+        const path=m.path;
+        const axis=p.operation.direction;
+        const donor=beforeCells.get(m.cellId)!;
+        const group=[...beforeCells.values()].filter(c=>c.tissueId===donor.tissueId);
+        const positions=new Set(group.map(key));
+        if(p.system!=="remodeling"||!axis||
+          ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>axis.x===x&&axis.y===y)||
+          p.relocations.length!==1||made.length||e.removedCellIds.length||
+          !path||path.length<3||path.length>25||
+          !same(path[0],m.from)||!same(path.at(-1),m.to)||
+          (m.to.x-m.from.x)*axis.x+(m.to.y-m.from.y)*axis.y<2||
+          positions.has(key(m.to))||
+          positions.has((donor.x+axis.y)+","+(donor.y-axis.x))||
+          [...sites.values()].some(s=>s.rootCellId===donor.id)||
+          [...links.values()].some(l=>l.fromCellId===donor.id||l.toCellId===donor.id))
+          throw new Error("Forged or unsupported tissue reflow");
+        for(let i=1;i<path.length;i++){
+          const a=path[i-1],b=path[i];
+          if(!bounded(b)||Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))!==1||
+            (i<path.length-1&&!positions.has(key(b))))
+            throw new Error("Broken physical migration route");
+        }
+        const support=[...beforeCells.values()].filter(c=>
+          c.tissueId===donor.tissueId&&
+          Math.max(Math.abs(c.x-m.to.x),Math.abs(c.y-m.to.y))===1);
+        if(support.length<2||!support.some(c=>Math.abs(c.x-m.to.x)+Math.abs(c.y-m.to.y)===1))
+          throw new Error("Tissue reflow deposited into unsupported tip");
+      } else if (
         !["translate", "remodel", "reshape"].includes(e.kind) ||
         p.system === "iterative" ||
         !Math.max(Math.abs(d.x), Math.abs(d.y)) ||

@@ -28,6 +28,8 @@ export function journalMaterialEvent(
   event: MaterialEvent,
   system: MaterialPhysicalJournal["system"],
   operation: MaterialPhysicalJournal["operation"],
+  /** Explicit producer route is verified independently against birth-state occupancy. */
+  routes?:ReadonlyMap<string,readonly Readonly<{x:number;y:number}>[]>,
 ): MaterialEvent {
   if (!same(before.protectedVoids, after.protectedVoids))
     throw new Error("No operator authorizes changing protected voids");
@@ -51,6 +53,7 @@ export function journalMaterialEvent(
             },
             to: { x: c.x, y: c.y, ...(c.z === undefined ? {} : { z: c.z }) },
             operationId: operation.id,
+            ...(routes?.has(c.id)?{path:routes.get(c.id)!.map(p=>({...p}))}:{}),
           },
         ];
   });

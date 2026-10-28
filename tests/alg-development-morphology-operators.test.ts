@@ -74,8 +74,30 @@ function conservation(graph:MaterialGraph){
      assert.equal(xy(before),xy(move.from),"relocation from must equal live position");
      assert.ok(!moved.has(move.cellId),"duplicate relocation in one event");
      assert.equal(move.operationId,e.physical?.operation.id);
-     assert.ok(Math.max(Math.abs(move.from.x-move.to.x),
-       Math.abs(move.from.y-move.to.y))<=1);
+     if(e.kind==="redistribute"){
+       // Independently calculate path geometry from the pre-transaction map;
+       // one-day mass transport is not a one-cell geometric translation.
+       const path=move.path??[];
+       assert.ok(path.length>=3&&path.length<=25);
+       assert.equal(xy(path[0]),xy(move.from));
+       assert.equal(xy(path.at(-1)!),xy(move.to));
+       const oldTissue=new Set([...live.values()]
+         .filter(c=>c.tissueId===before.tissueId).map(xy));
+       assert.ok(!oldTissue.has(xy(move.to)),"reflow must VACATE and genuinely occupy new space");
+       for(let i=1;i<path.length;i++){
+         assert.ok(Math.max(Math.abs(path[i].x-path[i-1].x),
+           Math.abs(path[i].y-path[i-1].y))===1,
+           "every transport step must be one real lattice neighbor");
+         if(i<path.length-1)
+           assert.ok(oldTissue.has(xy(path[i])),
+             "intermediate route must be supported by actual existing tissue");
+       }
+       assert.equal(e.createdCellIds.length,0);
+       assert.equal(e.removedCellIds.length,0);
+     }else{
+       assert.ok(Math.max(Math.abs(move.from.x-move.to.x),
+         Math.abs(move.from.y-move.to.y))<=1);
+     }
      assert.equal(move.checkIndex,e.checkIndex);
      moved.set(move.cellId,{...before,x:move.to.x,y:move.to.y});
    }

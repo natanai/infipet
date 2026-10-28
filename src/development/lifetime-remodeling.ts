@@ -35,7 +35,7 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
@@ -138,6 +138,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "resorb": return c.maturation.plasticity;
     case "translate": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
+    case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "reattach": return c.segmentation.boundaries;
     case "articulate": return c.segmentation.boundaries;
   }
@@ -269,7 +270,8 @@ export function compileLifetimeRemodeling(
         tissue.id,"regional-front",stage].join("|"));
       const axis=directions[orbit.x%4];
       operations.push({
-        id:"remodel/"+index+"/reshape/"+stage,kind:"reshape",
+        id:"remodel/"+index+"/shape-stage/"+stage,
+        kind:stage===1?"reshape":"redistribute",
         tissueId:tissue.id,direction:axis,
         // Allometric regional inertia: (reference scale 8 lattice units)
         // expression = min(1, 8/sqrt(A_source)).
@@ -400,7 +402,7 @@ export function lifetimeRemodelingAt(
         removed.push(choice);
         cells = cells.filter(c => c.id !== choice.id);
       }
-    } else if (op.kind === "reshape") {
+    } else if (op.kind === "reshape" || op.kind === "redistribute") {
       // This legacy fractional-hour evaluator is not an authorized daily
       // material transaction; refusing prevents a fake anatomical snapshot.
       reason="region-front-requires-daily-physical-transaction";

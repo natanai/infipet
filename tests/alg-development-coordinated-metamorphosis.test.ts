@@ -1,6 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {proposeCoherentReshape} from "../src/development/coordinated-metamorphosis";
+import {proposeTissueReflow} from "../src/development/tissue-reflow";
+import {STARTER_PRESETS} from "../src/presets";
+import {createSimulation} from "../src/simulation";
 import type {MaterialCell} from "../src/development/material-graph";
 import {compileMaterialDevelopment} from "../src/development/operators";
 import {compileLifetimeRemodeling} from "../src/development/lifetime-remodeling";
@@ -113,7 +116,7 @@ test("[MORPH-004/A4] real compiled lifetime includes coherent non-tip remodeling
   let state=createDailyMaterialState(program,TIME);
   for(let k=1;k<=90;k++)
    state=applyDailyMaterialStep(program,genome,state,window(k,1),defaultProgram);
-  const events=state.graph.events.filter(e=>e.kind==="reshape");
+  const events=state.graph.events.filter(e=>["reshape","redistribute"].includes(e.kind));
   const moved=events.reduce((n,e)=>n+(e.physical?.relocations.length??0),0);
   outcomes.push({seed,events:events.length,moved,
    newCells:events.reduce((n,e)=>n+e.createdCellIds.length,0)});
@@ -122,8 +125,8 @@ test("[MORPH-004/A4] real compiled lifetime includes coherent non-tip remodeling
  }
  console.info("MORPH-004 actual 90-day source-owned regional witnesses",
   JSON.stringify(outcomes));
- assert.ok(outcomes.some(o=>o.events>0&&o.moved>=2&&o.moved===o.newCells),
-   "default daily biology must exhibit real bulk movement in a source/genotype-eligible witness");
+ assert.ok(outcomes.some(o=>o.events>0&&o.moved>=1),
+   "default daily biology must exhibit actual source-owned regional movement");
 });
 
 test("[MORPH-004/A4] independently derived source-area inertia bounds dense region opportunities",()=>{
@@ -141,4 +144,108 @@ test("[MORPH-004/A4] independently derived source-area inertia bounds dense regi
    assert.equal(op.strength,expected,
     "physical source area, not creature label or target silhouette, governs volume inertia");
  }
+});
+
+test("[MORPH-004/REFLOW] original physical material migrates, actually vacating its old occupied position",()=>{
+ const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."]),"REFLOW-PURE");
+ const birth=compileMaterialDevelopment(atlas,genome).source;
+ const tissue=birth.tissues.find(t=>birth.cells.filter(c=>c.tissueId===t.id).length>=9)!;
+ const result=proposeTissueReflow(birth,tissue.id,{x:1,y:0});
+ assert.ok(result,"a supported small body must allow at least one real mass transfer");
+ const m=result.relocated;
+ const original=birth.cells.find(c=>c.id===m.cellId)!;
+ assert.deepEqual(m.from,{x:original.x,y:original.y});
+ const at=(cells:readonly {x:number;y:number}[])=>new Set(cells.map(c=>c.x+","+c.y));
+ const before=at(birth.cells),after=at(result.cells);
+ assert.ok(before.has(m.from.x+","+m.from.y));
+ assert.ok(!after.has(m.from.x+","+m.from.y),"material must VACATE its old coordinate");
+ assert.ok(!before.has(m.to.x+","+m.to.y));
+ assert.ok(after.has(m.to.x+","+m.to.y));
+ assert.equal(after.size,before.size,"mass transfer creates no new cells");
+ assert.ok(b(result.cells).w>b(birth.cells).w,
+  "a physically transferred flank cell can change whole-body aspect ratio");
+ assert.equal(result.cells.length,birth.cells.length);
+ assert.ok(m.path.length>=3&&m.path.length<=25);
+ assert.ok(m.path.slice(1,-1).every(p=>before.has(p.x+","+p.y)),
+  "migration must traverse real prior tissue, never empty-space teleportation");
+ const moved=result.cells.find(c=>c.id===m.cellId)!;
+ assert.deepEqual(moved.sourceIds,original.sourceIds);
+ assert.equal(moved.color,original.color);
+ assert.deepEqual(result,proposeTissueReflow(birth,tissue.id,{x:1,y:0}),
+  "permanent source and direction determine exact reproducible result");
+ assert.throws(()=>proposeTissueReflow(birth,tissue.id,{x:2,y:0}),/axis/);
+});
+test("[MORPH-004/REFLOW] chronological transaction proves source relocation route, rejects forged path",()=>{
+ const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."]),"REFLOW-LEDGER");
+ const program=compileMaterialDevelopment(atlas,genome);
+ const tissue=program.source.tissues.find(t=>program.source.cells.filter(c=>c.tissueId===t.id).length>=9)!;
+ const op={id:"path-bounded-reflow",kind:"redistribute" as const,tissueId:tissue.id,
+   direction:{x:1,y:0},atHour:0,durationHours:12,units:12,strength:1};
+ const remodeling=compileLifetimeRemodeling(program,genome,[op]);
+ const due=remodelingProposalsBetween(remodeling,0,12);
+ assert.ok(due.length>0);
+ let accepted:ReturnType<typeof applyRemodelingProposal>|null=null;
+ for(const proposal of due){
+  const candidate=applyRemodelingProposal(program.source,remodeling,proposal,
+    EMPTY_REMODELING_CHRONOLOGY,Math.ceil(proposal.atHour));
+  if(candidate.attempt.status==="accepted"){accepted=candidate;break;}
+ }
+ assert.ok(accepted,"reflow should reach a legitimate deterministic stage");
+ const e=accepted.graph.events.at(-1)!;
+ assert.equal(e.kind,"redistribute");
+ assert.equal(e.createdCellIds.length,0);
+ assert.equal(e.removedCellIds.length,0);
+ assert.equal(e.physical?.relocations.length,1);
+ const path=e.physical!.relocations[0].path!;
+ assert.ok(path.length>=3);
+ const k=Math.ceil(e.atHour);
+ // Reuse the production daily contract so the independent auditor checks
+ // opportunity, ancestry, path, and exact before/after coordinate inventory.
+ const auditGraph={...accepted.graph,events:accepted.graph.events.map(x=>({
+  ...x,atHour:k*24,atMs:TIME+k*DAY,checkIndex:k,careDigest:"ref",
+  genomeFingerprint:program.genomeFingerprint,
+  physical:{...x.physical!,relocations:x.physical!.relocations.map(m=>({
+    ...m,checkIndex:k,atMs:TIME+k*DAY,
+  }))},
+ }))};
+ verifyDailyMaterialInventory(auditGraph,TIME,k,program.source,
+   {material:program.operators,remodeling:remodeling.operations});
+ const bad={...auditGraph,events:auditGraph.events.map(x=>({
+  ...x,physical:{...x.physical,relocations:x.physical.relocations.map(m=>({
+   ...m,path:[m.from,m.to],
+  }))},
+ }))};
+ assert.throws(()=>verifyDailyMaterialInventory(bad,TIME,k,program.source,
+   {material:program.operators,remodeling:remodeling.operations}),
+   /route|reflow|migration/i);
+});
+
+test("[MORPH-004/PLAYER] actual published starter seed shows auditable reflow and chronological continuity",()=>{
+ const preset=STARTER_PRESETS.find(p=>p.id==="pippo")!;
+ const sim=createSimulation(preset.parts,preset.seed,"infant",{
+   previewCare:{kind:"synthetic-needs-lab-v1",nutrition:0.9,timeline:[]},
+   reuseLivingMaterial:false,
+ });
+ const stages=[0,75,180,365].map(day=>({day,graph:sim.materialStateAt(day).graph}));
+ const source=stages[0].graph.sourceCells;
+ const final=stages.at(-1)!.graph;
+ assert.deepEqual(final.sourceCells,source,
+   "the authored organism and its source ancestry cannot change");
+ const reflow=final.events.filter(e=>e.kind==="redistribute");
+ const moved=reflow.flatMap(e=>e.physical?.relocations??[]);
+ const vacated=new Set(moved.map(m=>m.from.x+","+m.from.y));
+ const filled=new Set(moved.map(m=>m.to.x+","+m.to.y));
+ console.info("MORPH-004 published starter mass transport",
+   JSON.stringify({events:reflow.length,moved:moved.length,
+     vacated:vacated.size,occupiedNew:filled.size,
+     checks:stages.map(s=>s.day),cells:stages.map(s=>s.graph.cells.length)}));
+ assert.ok(reflow.length>0,
+   "seeded public starter should have actual material migration, not only linear growth");
+ assert.ok(moved.length>0&&moved.every(m=>(m.path?.length??0)>=3));
+ assert.ok(stages.every((s,i)=>i===0||
+   s.graph.events.length>=stages[i-1].graph.events.length),
+   "new daily events never remove previous history");
+ const originalIds=new Set(source.map(c=>c.id));
+ assert.ok(final.cells.some(c=>originalIds.has(c.id)),
+   "retain real permanent authored material through maturity");
 });
