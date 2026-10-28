@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createGame,commandGame,type GameCommand,type GameState} from "../src/gameplay";
+import {createGame,advanceGame,commandGame,HOUR,type GameCommand,type GameState} from "../src/gameplay";
 import {careGamePose,supportedCareGameAction} from "../src/integration/care-game-animation";
 import {createSimulation} from "../src/simulation";
 import {fixtures} from "./alg-development-fixtures";
@@ -60,12 +60,36 @@ test("[AUD-003/A2] the renderer uses its own real material rig and refuses unsup
   assert.ok(typeof sparse.canMove==="boolean");
 });
 
-test("[AUD-003/A3] CPU battle uses the same playing material and deterministic outcome cue",()=>{
-  const activity={kind:"battle" as const,id:"battle/0",opponent:"Test",
-    result:"win" as const,prompt:"Victory"};
-  const pose=careGamePose(activity);
+test("[AUD-003/A3] real CPU battle changes health/energy/statistics and animates surviving material",()=>{
+  let s=createGame("AUTHENTIC-CPU-BATTLE","infant",T);
+  for(let h=1;h<=72;h++){
+    s=advanceGame(s,T+h*HOUR);
+    if(s.sleeping)continue;
+    if(s.attention.discipline)s=commandGame(s,{type:"discipline"},s.clock.nowMs,"d/"+h);
+    for(const [key,food] of [["hunger","meal"],["happiness","snack"],["strength","protein"]] as const)
+      while(s.meters[key]<4)
+        s=commandGame(s,{type:"feed",food},s.clock.nowMs,"f/"+h+"/"+key+"/"+s.commandHistory.length);
+    if(s.waste)s=commandGame(s,{type:"clean"},s.clock.nowMs,"c/"+h);
+    while(s.health.sickness||s.health.injury)
+      s=commandGame(s,{type:"medicine"},s.clock.nowMs,"m/"+h+"/"+s.commandHistory.length);
+  }
+  assert.equal(s.dead,false);
+  assert.ok(["juvenile","adult","advanced"].includes(s.stage));
+  const energy=s.meters.energy,priorBattles=s.stats.battles;
+  const fought=commandGame(s,{type:"battle"},s.clock.nowMs,"real-battle");
+  assert.equal(fought.commandHistory.at(-1)?.accepted,true);
+  assert.equal(fought.activity?.kind,"battle");
+  assert.equal(fought.stats.battles,priorBattles+1);
+  assert.ok(fought.meters.energy<energy);
+  const pose=careGamePose(fought.activity);
   assert.equal(pose?.action,"play");
-  assert.equal(pose?.cue,"victory");
   assert.ok(pose?.target);
+  assert.ok(["duel","victory"].includes(pose!.cue));
+  const simulation=createSimulation(fixtures.branching,fought.seed,fought.mode,{careGame:fought});
+  const before=simulation.materialStateAt(3);
+  const frame=simulation.frameAt(3,{time:1.4,action:pose!.action,target:pose!.target!});
+  assert.ok(frame.pixels.every(p=>p.materialCellId));
+  assert.deepEqual(simulation.materialStateAt(3),before,
+    "CPU battles may animate but cannot replace the player's anatomical material");
   assert.equal(careGamePose(null),null);
 });
