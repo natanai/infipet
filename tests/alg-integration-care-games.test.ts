@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createGame,commandGame,type GameCommand} from "../src/gameplay";
+import {createGame,commandGame,type GameCommand,type GameState} from "../src/gameplay";
 import {careGamePose,supportedCareGameAction} from "../src/integration/care-game-animation";
 import {createSimulation} from "../src/simulation";
 import {fixtures} from "./alg-development-fixtures";
@@ -13,7 +13,7 @@ test("[AUD-003/A1] each of three five-round games has a deterministic reachable 
     assert.equal(s.commandHistory.at(-1)!.accepted,true);
     assert.equal(s.activity?.kind,kind);
     for(let round=0;round<5;round++){
-      const a=s.activity!;
+      const a:NonNullable<GameState["activity"]>=s.activity!;
       assert.ok("targets" in a);
       assert.equal(a.round,round);
       const pose=careGamePose(a);
