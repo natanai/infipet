@@ -24,7 +24,10 @@
     "Avoid generated screenshots, recordings or diagnostic bulk files in main; use small deterministic numeric tests.",
     "Every agent reads this plan before touching the engine, updates task status and acceptance tests together.",
     "Product temporal contract: a physical anatomical change may commit only at T_k=hatchAtMs+k*86400000 for k=1..365, never between checks or after maturity; zero-change outcomes are valid.",
-    "The former forced 30-day lifespan and hourly/8192-hour anatomy are retired. Historical numerical evidence is explicitly legacy; only the daily timeline defines production anatomy."
+    "The former forced 30-day lifespan and hourly/8192-hour anatomy are retired. Historical numerical evidence is explicitly legacy; only the daily timeline defines production anatomy.",
+    "Infipet must support a broad, independently verifiable space of anatomical transformations. No implementation may preserve physical correctness by reducing development to predominantly linear extensions, branches, or cosmetic changes.",
+    "Developmental variety must emerge from the player's authored material, permanent genetic potential, deterministic chaotic processes, anatomical constraints, and chronological care. The system must demonstrate genuine variation in whole-body proportions, topology, tissue distribution, structural specialization, and developmental trajectories, without predetermined creature outcomes. An individual organism may legitimately remain unchanged or favor one developmental strategy. System-wide capability must not collapse to a narrow family of outcomes.",
+    "Morphological expressiveness is coequal with source continuity and physical material conservation; display-only warps, pose, or pigment cannot count as physically achieved anatomical diversity."
   ],
   "tasks": [
     {
@@ -921,7 +924,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1279,7 +1282,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -1833,6 +1836,177 @@
         },
         "limits": "Complete original first-year evidence retained; older postmaturity diagnostic queries outside the rolling window explicitly unavailable. Expired postmaturity arbitrary idempotency keys are not retained; application IDs use a monotonic lifetime sequence. Missing old physiological intervals remain explicitly unknown."
       }
+    },
+    {
+      "id": "MORPH-001",
+      "phase": 4,
+      "area": "Historical Evaluation",
+      "algorithmId": "evaluation",
+      "title": "Historical morphology recovery and conceptual preservation",
+      "dependsOn": [
+        "EVAL-001",
+        "DEV-008"
+      ],
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Inventory distinguishes lost renderer output, dormant old algorithms, weakened physical operators, preserved features and every concept's equations, inputs, material proof and physical recovery route.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Thirty geometrically independent source drawings cover ten morphological families with independently derived lattice measurements and material counterexamples.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "The exact pre-material, hybrid and current revisions are reproducibly replayed with at least three seeds, three care profiles, whole available life and separate native and normalized clock values; real numerical comparison must be executed and preserved as a small digest.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A4",
+          "requirement": "AGENTS.md and the canonical plan permanently enshrine a non-tendril morphological expressiveness requirement coequal with physical material conservation.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A5",
+          "requirement": "The focused test measures real current material-backed frames and fails mathematical fabricated examples independently of display snapshots.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-evaluation-morphology-history.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-evaluation-morphology-history.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "AGENTS.md",
+        "roadmap/plan.json",
+        "docs/morphology/capability-inventory.json",
+        "docs/morphology/README.md",
+        "scripts/morphology-cohort.ts",
+        "scripts/morphology-metrics.ts",
+        "scripts/morphology-compare.mjs",
+        "scripts/morphology-replay.ts",
+        "tests/alg-evaluation-morphology-history.test.ts"
+      ]
+    },
+    {
+      "id": "MORPH-002",
+      "phase": 4,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "Source-conserving restoration of broad anatomical transformation capabilities",
+      "dependsOn": [
+        "MORPH-001",
+        "DEV-008"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "At least four genuinely different physically audited operator families include significant non-tendril volumetric and regional change without injecting target species or overriding authored topology.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Whole-body proportion, thickness, topology, region specialization and attachment changes are independently reconstructible from source cells, fixed genome, check-labeled explicit transactions and recorded care.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Zero growth remains possible per pet, while full-cohort system-wide outcomes show noncosmetic and nonpredominantly linear structural breadth across seeds and care.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-morphology-expressiveness.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-morphology-expressiveness.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/",
+        "src/simulation/development.ts",
+        "tests/alg-development-morphology-expressiveness.test.ts"
+      ],
+      "interfaceContract": {
+        "inputs": [
+          "original source material",
+          "once-fixed genotype",
+          "chronological care windows",
+          "available material operators"
+        ],
+        "outputs": [
+          "conserving geometry and topology transactions",
+          "auditable regional mass changes",
+          "diverse structural outcome vectors"
+        ],
+        "mustNot": [
+          "modify daily schedule",
+          "inject target species or template",
+          "claim pose as source-creating anatomy"
+        ]
+      }
+    },
+    {
+      "id": "MORPH-003",
+      "phase": 4,
+      "area": "Independent Verification",
+      "algorithmId": "evaluation",
+      "title": "Independent morphological expressiveness verification and regression protection",
+      "dependsOn": [
+        "MORPH-001",
+        "DEV-008"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Run thirty independent inputs with multiple seeds and recorded care counterfactuals across exactly the available 365-check physical timeline and report all distinct structural shape families and null outcomes.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Independent physical and topological oracles reject tendril-only or cosmetic-only cohort-level expressiveness despite completely valid source conservation; validate real bulk, proportional, regional and topological changes.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Detect numerical regression relative to MORPH-001 pinned historical comparison without demanding restoration of invalid historical visuals or predetermined species outcomes.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-evaluation-morphology-expressiveness.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-evaluation-morphology-expressiveness.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "docs/morphology/",
+        "tests/alg-evaluation-morphology-expressiveness.test.ts"
+      ],
+      "interfaceContract": {
+        "inputs": [
+          "source-preserving physical material journals",
+          "pinned normalized historical metrics",
+          "30 unfamiliar drawings",
+          "immutable seed/care witnesses"
+        ],
+        "outputs": [
+          "independently computed morphology distributions",
+          "causal root and exact relocation ledger evidence",
+          "system-wide not-tendril qualification"
+        ],
+        "mustNot": [
+          "infer physical truth from screenshots",
+          "mark every null-growth life a failure",
+          "use target species as reference renderer"
+        ]
+      }
     }
   ],
   "algorithms": [
@@ -1980,7 +2154,8 @@
         "DEV-005",
         "DEV-006",
         "DEV-007",
-        "DEV-008"
+        "DEV-008",
+        "MORPH-002"
       ],
       "readyWhen": [
         "OBS-001"
@@ -2033,13 +2208,17 @@
         "roadmap/cohorts.json",
         "tests/development-cohort.test.ts",
         "tests/retro-reference-score.test.ts",
-        "tests/alg-evaluation-"
+        "tests/alg-evaluation-",
+        "docs/morphology/",
+        "scripts/morphology-"
       ],
       "taskIds": [
         "EVAL-001",
         "EVAL-002",
         "EVAL-003",
-        "EVAL-004"
+        "EVAL-004",
+        "MORPH-001",
+        "MORPH-003"
       ],
       "readyWhen": [
         "SYS-001"
@@ -2129,7 +2308,8 @@
     "tests/alg-development-chaos.test.ts",
     "tests/alg-integration-unified-development.test.ts",
     "tests/alg-runtime-performance-invariants.test.ts",
-    "tests/development-budget.test.ts"
+    "tests/development-budget.test.ts",
+    "tests/alg-evaluation-morphology-history.test.ts"
   ],
   "singleCreatureLifecycle": {
     "unitOfSimulation": "one continuously identifiable organism across its entire lifetime",
@@ -2237,5 +2417,106 @@
       "Native-phone hardware unmeasured. Observational 4xCPU viewport: care tail1.43s, reopen7.06s.",
       "Unobserved legacy postmaturity physiology stays explicitly unknown. Old mature diagnostic histories and receipt keys have bounded retention."
     ]
+  },
+  "morphologicalExpressiveness": {
+    "version": "morphological-expressiveness-v1",
+    "authority": "normative-coequal-with-source-continuity-and-material-conservation",
+    "principle": "Infipet must support a broad, independently verifiable space of anatomical transformations. No implementation may preserve physical correctness by reducing development to predominantly linear extensions, branches, or cosmetic changes.",
+    "systemLevelRequirement": "Developmental variety must emerge from the player's authored material, permanent genetic potential, deterministic chaotic processes, anatomical constraints, and chronological care. The system must demonstrate genuine variation in whole-body proportions, topology, tissue distribution, structural specialization, and developmental trajectories, without predetermined creature outcomes. An individual organism may legitimately remain unchanged or favor one developmental strategy. System-wide capability must not collapse to a narrow family of outcomes.",
+    "onePetOnly": true,
+    "sourceMaterial": "immutable-authored-ink-and-provenance",
+    "geneticPotential": "permanent-seeded-genome",
+    "chaos": "bounded-deterministic-dynamics",
+    "physicalConstraints": "accepted-conserving-transactions-with-independent-reconstruction",
+    "care": "recorded-causal-chronological-exposure",
+    "temporal": {
+      "clock": "daily-365-v1",
+      "checks": 365,
+      "formula": "T_k = hatchAtMs + k*86400000 for k integer 1..365",
+      "birthCheck": 0,
+      "matureNoAnatomy": true,
+      "sourceClockComparison": "legacy stage-days never equivalent to daily material check indices"
+    },
+    "historicalRevisions": {
+      "earliestExpressive": "1469fc4d8f8f98be21a7c13ac602ce69ed9a67a7",
+      "historicalReference": "3111b1666317d491e7c09c3087c41a5ef3b59685",
+      "physicalDaily": "9e00248518b6bc857454038405967562a25df263"
+    },
+    "cohort": {
+      "version": "morphology-authored-ink-30-v1",
+      "minimumIndependentDrawings": 30,
+      "minimumSeedsPerDrawing": 3,
+      "minimumCareHistoriesPerSeed": 3,
+      "archetypes": [
+        "sparse",
+        "dense",
+        "hollow",
+        "asymmetric",
+        "articulated",
+        "compact",
+        "elongated",
+        "plant-like",
+        "animal-like",
+        "abstract"
+      ],
+      "timeComparison": "record each native elapsed clock and normalize progress only separately"
+    },
+    "measurements": [
+      "occupied-area-change",
+      "whole-body-proportion-change",
+      "aspect-ratio",
+      "local-thickness-distribution",
+      "region-mass-allocation",
+      "perimeter-and-compactness",
+      "topology-change",
+      "cavity-change",
+      "tissue-specialization",
+      "attachment-topology",
+      "branch-prominence",
+      "spatial-generated-material-distribution",
+      "whole-body-displacement",
+      "physical-source-relocation",
+      "persistent-source-ancestry",
+      "seed-counterfactual-difference",
+      "care-counterfactual-difference",
+      "physical-vs-visual-only-change"
+    ],
+    "mathematicalReference": {
+      "fourNeighborComponent": "count flood-filled occupied 4-connected components",
+      "cavities": "count enclosed empty 8-connected components",
+      "perimeter": "sum missing 4-neighbor faces",
+      "compactness": "4*pi*area/perimeter^2 for perimeter>0",
+      "localThickness": "2*d4(pixel,background)-1; report distribution",
+      "regionShift": "L1 distance between nine normalized shape-region occupancies",
+      "physicalSource": "compare stable cell IDs, birth ID membership and event/relocation journals independently of renderer"
+    },
+    "acceptanceGates": {
+      "nullIndividualAllowed": true,
+      "systemicCapabilityRequired": true,
+      "categories": [
+        "global-mass-and-proportional-change",
+        "regional-redistribution-and-thickness",
+        "topology-fusion-resorption-cavities",
+        "structural-specialization-and-attachment",
+        "seed-and-care-dependent-trajectory"
+      ],
+      "excludeAsQualifyingEvidence": [
+        "pigment-only",
+        "pose-only",
+        "silhouette-without-physical-transactions",
+        "branch-only-conservation",
+        "predetermined-named-species-or-target-sprite"
+      ],
+      "physicalWitness": "source-cell ancestry and complete creation/removal/relocation/tissue/attachment changes at exact daily check timestamps",
+      "referenceComparator": "independently computed metrics over 30 unfamiliar drawings and seed/care counterfactuals; report observed effect sizes and uncertainty; do not rubber-stamp fixed target creatures",
+      "qualificationOwner": "MORPH-003",
+      "physicalImplementationOwner": "MORPH-002"
+    },
+    "baseline": {
+      "status": "historical-run-pending",
+      "reason": "Pinned optional worktree replay is implemented; actual full three-revision numerical output is not yet checked in or independently executed.",
+      "command": "node scripts/morphology-compare.mjs --out=/tmp/infipet-morphology.json",
+      "mustNeverBecomeImplicitPass": true
+    }
   }
 }
