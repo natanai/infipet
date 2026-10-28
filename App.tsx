@@ -215,7 +215,7 @@ export default function App() {
     accept: () => void;
   } | null>(null);
   const [devEnabled, setDevEnabled] = useState(false);
-  const [starterGalleryOpen,setStarterGalleryOpen]=useState(true);
+  const [starterGalleryOpen,setStarterGalleryOpen]=useState(false);
   const [morphTune,setMorphTune]=useState<MorphologyTuning>({...DEFAULT_MORPH_TUNING});
   const [careMenu, setCareMenu] = useState<CareMenu>("food");
   const [lastOutcome, setLastOutcome] = useState<{seed:string;birth:number;cue:CareOutcome}|null>(null);
@@ -689,6 +689,7 @@ export default function App() {
   };
   const start = (presetId?: string) => {
     const preset = STARTER_PRESETS.find((item) => item.id === presetId);
+    setStarterGalleryOpen(false);
     setNeedTimeline([]);
     setGroomingTimeline([]);
     setGrooming(false);
@@ -1199,6 +1200,44 @@ export default function App() {
                 />}
                 {view === "draw" ? (
                   <View style={{ gap: 8 }}>
+                    <View style={{borderTopWidth:1,borderColor:T.line,
+                      marginBottom:5,paddingBottom:5,gap:8}}>
+                      <Button label="Show or hide starter creature gallery"
+                        selected={starterGalleryOpen}
+                        onPress={()=>setStarterGalleryOpen(v=>!v)}>
+                        {starterGalleryOpen?"[-]":"[+]"} Choose a starter
+                      </Button>
+                      {starterGalleryOpen&&<>
+                        <Text style={[s.muted,{fontSize:14,lineHeight:18}]}>
+                          Twelve original editable starting drawings, using only
+                          the default palette. Choose one, customize it, or
+                          draw your own. Their forms suggest possibilities,
+                          not guaranteed evolution outcomes.
+                        </Text>
+                        <View style={styles.wrap}>
+                        {STARTER_PRESETS.map(preset=><Button
+                          key={preset.id}
+                          label={`Load ${preset.name} starter creature into drawing editor`}
+                          style={styles.presetChoice}
+                          onPress={()=>{
+                            const load=()=>start(preset.id);
+                            if(pixels.length)confirmReplacement(
+                              `Replace the editable drawing with ${preset.name}? Your current living pet will not be changed until you choose Begin life.`,
+                              load);
+                            else load();
+                          }}>
+                          <View style={styles.presetContent}>
+                            <PetPixels pixels={presetThumbnails.get(preset.id)!}
+                              size={80} gridSize={DRAW_SIZE}/>
+                            <Text style={[s.bright,styles.presetName]}>{preset.name}</Text>
+                            <Text style={[s.muted,{fontSize:12,lineHeight:16,textAlign:"center"}]}>
+                              {preset.description}
+                            </Text>
+                          </View>
+                        </Button>)}
+                        </View>
+                      </>}
+                    </View>
                     <DrawingCanvas
                       pixels={pixels}
                       size={size}
@@ -1247,44 +1286,6 @@ export default function App() {
                       >
                         Clear
                       </Button>
-                    </View>
-                    <View style={{borderTopWidth:1,borderColor:T.line,
-                      marginTop:9,paddingTop:9,gap:8}}>
-                      <Button label="Show or hide starter creature gallery"
-                        selected={starterGalleryOpen}
-                        onPress={()=>setStarterGalleryOpen(v=>!v)}>
-                        {starterGalleryOpen?"[-]":"[+]"} STARTER CREATURES
-                      </Button>
-                      {starterGalleryOpen&&<>
-                        <Text style={[s.muted,{fontSize:14,lineHeight:18}]}>
-                          Twelve original editable starting drawings, using only
-                          the default palette. Choose one, customize it, or
-                          draw your own. Their forms suggest possibilities,
-                          not guaranteed evolution outcomes.
-                        </Text>
-                        <View style={styles.wrap}>
-                        {STARTER_PRESETS.map(preset=><Button
-                          key={preset.id}
-                          label={`Load ${preset.name} starter creature into drawing editor`}
-                          style={styles.presetChoice}
-                          onPress={()=>{
-                            const load=()=>start(preset.id);
-                            if(pixels.length)confirmReplacement(
-                              `Replace the editable drawing with ${preset.name}? Your current living pet will not be changed until you choose Begin life.`,
-                              load);
-                            else load();
-                          }}>
-                          <View style={styles.presetContent}>
-                            <PetPixels pixels={presetThumbnails.get(preset.id)!}
-                              size={80} gridSize={DRAW_SIZE}/>
-                            <Text style={[s.bright,styles.presetName]}>{preset.name}</Text>
-                            <Text style={[s.muted,{fontSize:12,lineHeight:16,textAlign:"center"}]}>
-                              {preset.description}
-                            </Text>
-                          </View>
-                        </Button>)}
-                        </View>
-                      </>}
                     </View>
                     {layout.desktop && <Button
                       label="Begin life"
