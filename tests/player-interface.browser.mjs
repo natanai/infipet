@@ -737,6 +737,36 @@ try {
     assert.deepEqual(cared.life.anatomicalCheckpoint.state.graph,opened.life.anatomicalCheckpoint.state.graph);
     await context.close();
   });
+  await test("player starter gallery and developer morphology tools remain separate from saved life",async()=>{
+    const context=await browser.newContext({viewport:{width:1280,height:900}});
+    const page=await context.newPage();page.on("pageerror",e=>errors.push(e.message));
+    await page.goto(url);
+    assert.equal(await button(page,"Show or hide starter creature gallery").count(),1);
+    for(const creature of ["Pippo","Thimbleaf","Vellune","Craggle","Orbini","Vespri"]){
+      const starter=button(page,`Load ${creature} starter creature into drawing editor`);
+      assert.equal(await starter.count(),1,"public player can find "+creature);
+    }
+    await button(page,"Load Pippo starter creature into drawing editor").click();
+    assert.equal(await button(page,"Begin life").isDisabled(),false);
+    await button(page,"Begin life").click();
+    await button(page,"Meal").waitFor();
+    const pet=await saved(page,doc=>doc?.life?.name==="Pippo");
+    const identity=livingIdentity(pet);
+    await openTools(page);
+    await button(page,"Expand morphology workbench").click();
+    for(const kind of ["elongate","expand","branch","bud","fuse","resorb","remodel","reinforce"])
+      assert.equal(await page.getByLabel(kind+" operator expression",{exact:true}).count(),1,
+        "dev-only material control exists: "+kind);
+    await button(page,"Compare original and experimental physical morphology").click();
+    await page.getByText("PHYSICAL COMPARISON",{exact:false}).waitFor();
+    await button(page,"Preview player experience").click();
+    const preserved=await stored(page);
+    assert.deepEqual(livingIdentity(preserved),identity,
+      "developer preview did not modify original player source, seed or birth");
+    assert.equal("operatorMultipliers" in preserved,false,
+      "experimental tuning is not persisted as a pet property");
+    await context.close();
+  });
   assert.deepEqual(errors, [], "no application runtime errors");
 } finally {
   await browser.close();
