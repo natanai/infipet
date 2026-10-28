@@ -67,6 +67,7 @@ import { NeedsLab } from "./src/components/NeedsLab";
 import { FeelingsSheet } from "./src/components/FeelingsSheet";
 import { GamePanel, CareRail, type CareMenu } from "./src/components/GamePanel";
 import { playerGeometry } from "./src/interface/player-geometry";
+import { careOutcome, type CareOutcome } from "./src/interface/care-outcome";
 import {
   deriveCareTimeline,
   deriveDevelopmentContext,
@@ -212,6 +213,7 @@ export default function App() {
   } | null>(null);
   const [devEnabled, setDevEnabled] = useState(false);
   const [careMenu, setCareMenu] = useState<CareMenu>("food");
+  const [lastOutcome, setLastOutcome] = useState<{seed:string;birth:number;cue:CareOutcome}|null>(null);
   const [showLabels, setShowLabels] = useState(false);
   const devSession = useRef(0);
   const devEnabledRef = useRef(false);
@@ -762,6 +764,8 @@ export default function App() {
       const next = {
         ...commandPlayerLife(current, command, now, id),
       };
+      setLastOutcome({seed:current.seed,birth:current.game.clock.startedAtMs,
+        cue:careOutcome(current.game,next.game,command)});
       commitLife(next);
       setTime(0);
       await persist();
@@ -1420,6 +1424,7 @@ export default function App() {
                   <GamePanel
                     menu={careMenu}
                     showLabels={showLabels}
+                    outcome={lastOutcome && lastOutcome.seed===life.seed && lastOutcome.birth===life.game.clock.startedAtMs ? lastOutcome.cue : null}
                     game={life.game}
                     disabled={settling}
                     unsaved={!!saveError}
