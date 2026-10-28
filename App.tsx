@@ -1221,34 +1221,13 @@ export default function App() {
                       />
                     </>
                   ) : playing ? (
-                    <>
-                      <Text style={[s.muted, { flex: 1 }]}>
-                        {life?.game.stage === "egg"
-                          ? "Waiting for a little life"
-                          : "Your pocket companion"}
-                      </Text>
-                      <IconButton
-                        icon="move"
-                        label="Watch your pet explore"
-                        selected={action === "move"}
-                        disabled={
-                          !!life?.game.sleeping || !frame.capabilities.canMove
-                        }
-                        onPress={() => act(action === "move" ? "idle" : "move")}
-                      />
-                      <IconButton
-                        icon="groom"
-                        label="Groom your living pet"
-                        selected={grooming}
-                        disabled={
-                          life?.game.stage === "egg" || !!life?.game.sleeping
-                        }
-                        onPress={() => {
-                          setGrooming(!grooming);
-                          setAction("idle");
-                        }}
-                      />
-                    </>
+                    <IconButton
+                      icon="move"
+                      label="Watch your pet explore"
+                      selected={action === "move"}
+                      disabled={!!life?.game.sleeping || !frame.capabilities.canMove}
+                      onPress={() => act(action === "move" ? "idle" : "move")}
+                    />
                   ) : (
                     <Text style={s.muted}>Development preview</Text>
                   )}
@@ -1339,6 +1318,7 @@ export default function App() {
                     style={{
                       width: size,
                       height: size,
+                      alignSelf: "center",
                       backgroundColor: "#050505",
                     }}
                     onStartShouldSetResponder={() => action === "play"}
