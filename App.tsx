@@ -29,6 +29,9 @@ import {
 } from "./src/simulation";
 import { drawingPixels, paintStroke, type DrawTool } from "./src/drawing";
 import { STARTER_PRESETS, clonePreset } from "./src/presets";
+import { MorphologyWorkbench } from "./src/components/MorphologyWorkbench";
+import { DEFAULT_MORPH_TUNING, morphologyShapeMetrics, tuningIsDefault,
+ tuneMaterialProgram, type MorphologyTuning } from "./src/interface/morphology-tuning";
 import {
   normalizeGroomTimeline,
   type GroomStroke,
@@ -212,6 +215,8 @@ export default function App() {
     accept: () => void;
   } | null>(null);
   const [devEnabled, setDevEnabled] = useState(false);
+  const [starterGalleryOpen,setStarterGalleryOpen]=useState(true);
+  const [morphTune,setMorphTune]=useState<MorphologyTuning>({...DEFAULT_MORPH_TUNING});
   const [careMenu, setCareMenu] = useState<CareMenu>("food");
   const [lastOutcome, setLastOutcome] = useState<{seed:string;birth:number;cue:CareOutcome}|null>(null);
   const [showLabels, setShowLabels] = useState(false);
@@ -264,8 +269,15 @@ export default function App() {
       createSimulation(parts, seed, mode, {
         needTimeline: needPreview ?? needTimeline,
         groomingTimeline,
+        // Never use experimental overrides for actual gameplay, persistence,
+        // or the ordinary player presentation. Source and genome stay fixed.
+        ...(devEnabled&&!tuningIsDefault(morphTune)?{
+          verifyMaterialProgram:(base:Parameters<typeof tuneMaterialProgram>[0])=>({
+            program:tuneMaterialProgram(base,morphTune),
+          }),
+        }:{}),
       }),
-    [parts, seed, mode, needTimeline, needPreview, groomingTimeline],
+    [parts, seed, mode, needTimeline, needPreview, groomingTimeline,devEnabled,morphTune],
   );
   const timelineEnd =
     simulation.hatchAt +
@@ -685,6 +697,7 @@ export default function App() {
     setTimeExtent(DEFAULT_PREVIEW_DAYS);
     setNeedPreview(null);
     setLabIdentity((value) => value + 1);
+    setMorphTune({...DEFAULT_MORPH_TUNING});
     setMode("infant");
     setParts(preset ? clonePreset(preset.id) : []);
     setKind("body");
@@ -1235,6 +1248,44 @@ export default function App() {
                         Clear
                       </Button>
                     </View>
+                    <View style={{borderTopWidth:1,borderColor:T.line,
+                      marginTop:9,paddingTop:9,gap:8}}>
+                      <Button label="Show or hide starter creature gallery"
+                        selected={starterGalleryOpen}
+                        onPress={()=>setStarterGalleryOpen(v=>!v)}>
+                        {starterGalleryOpen?"[-]":"[+]"} STARTER CREATURES
+                      </Button>
+                      {starterGalleryOpen&&<>
+                        <Text style={[s.muted,{fontSize:14,lineHeight:18}]}>
+                          Twelve original editable starting drawings, using only
+                          the default palette. Choose one, customize it, or
+                          draw your own. Their forms suggest possibilities,
+                          not guaranteed evolution outcomes.
+                        </Text>
+                        <View style={styles.wrap}>
+                        {STARTER_PRESETS.map(preset=><Button
+                          key={preset.id}
+                          label={`Load ${preset.name} starter creature into drawing editor`}
+                          style={styles.presetChoice}
+                          onPress={()=>{
+                            const load=()=>start(preset.id);
+                            if(pixels.length)confirmReplacement(
+                              `Replace the editable drawing with ${preset.name}? Your current living pet will not be changed until you choose Begin life.`,
+                              load);
+                            else load();
+                          }}>
+                          <View style={styles.presetContent}>
+                            <PetPixels pixels={presetThumbnails.get(preset.id)!}
+                              size={80} gridSize={DRAW_SIZE}/>
+                            <Text style={[s.bright,styles.presetName]}>{preset.name}</Text>
+                            <Text style={[s.muted,{fontSize:12,lineHeight:16,textAlign:"center"}]}>
+                              {preset.description}
+                            </Text>
+                          </View>
+                        </Button>)}
+                        </View>
+                      </>}
+                    </View>
                     {layout.desktop && <Button
                       label="Begin life"
                       disabled={!pixels.length || settling}
@@ -1632,6 +1683,30 @@ export default function App() {
                 </View>
               )}
 
+              <MorphologyWorkbench
+                value={morphTune}
+                onApply={next=>{openLab();setGrowing(false);setMorphTune(next);}}
+                onCompare={()=>{
+                  const baseline=createSimulation(parts,seed,mode,{
+                    needTimeline:needPreview??needTimeline,groomingTimeline,
+                  });
+                  const original=morphologyShapeMetrics(
+                    baseline.materialStateAt(age).graph);
+                  const experimental=morphologyShapeMetrics(
+                    simulation.materialStateAt(age).graph);
+                  return {
+                    age,seed,original,experimental,
+                    recipe:JSON.stringify({
+                      kind:"infipet-morphology-lab-v1",
+                      source:"currently edited drawing",
+                      seed,mode,age,operatorMultipliers:morphTune,
+                      needTimeline:needPreview??needTimeline,
+                      measurements:{original,experimental},
+                      syntheticPreviewOnly:true,
+                    }),
+                  };
+                }}
+              />
               <NeedsLab
                 embedded
                 key={labIdentity}
@@ -1670,32 +1745,6 @@ export default function App() {
               <Button label="New empty drawing" onPress={() => start()}>
                 New empty drawing
               </Button>
-              <Text style={s.bright}>Testing presets · 12 drawings</Text>
-              <Text style={s.muted}>
-                Loads an editable draft with a fixed seed. Begin life commits
-                it.
-              </Text>
-              <View style={styles.wrap}>
-                {STARTER_PRESETS.map((preset) => (
-                  <Button
-                    key={preset.id}
-                    label={`Load ${preset.name} preset`}
-                    style={styles.presetChoice}
-                    onPress={() => start(preset.id)}
-                  >
-                    <View style={styles.presetContent}>
-                      <PetPixels
-                        pixels={presetThumbnails.get(preset.id)!}
-                        size={72}
-                        gridSize={DRAW_SIZE}
-                      />
-                      <Text style={[s.text, styles.presetName]}>
-                        {preset.name}
-                      </Text>
-                    </View>
-                  </Button>
-                ))}
-              </View>
             </>
           )}
         </DevelopmentPanel>
