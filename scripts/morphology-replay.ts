@@ -75,7 +75,8 @@ for(const item of cases)for(const seed of seeds)for(const care of careProfiles){
   output.records.push({sourceId:item.id,sourceFamily:item.family,
     characteristics:item.characteristics,seed,care,
     startAge:0,lastRequestedAge:times.at(-1),actualLastAge:frames.at(-1)!.actualAge,
-    clockUnit:"elapsed days",nativeDevelopmentClock:mode,\n    nativeStageLandmarks:mode==="daily"?[]:[30,75,120],
+    clockUnit:"elapsed days",nativeDevelopmentClock:mode,
+    nativeStageLandmarks:mode==="daily"?[]:[30,75,120],
     recordedCareSupported:mode!=="expressive",
     originalCellCount:item.source[0].pixels.length,frames});
 }
