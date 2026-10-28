@@ -402,7 +402,7 @@ export function lifetimeRemodelingAt(
         removed.push(choice);
         cells = cells.filter(c => c.id !== choice.id);
       }
-    } else if (op.kind === "reshape") {
+    } else if (op.kind === "reshape" || op.kind === "redistribute") {
       // This legacy fractional-hour evaluator is not an authorized daily
       // material transaction; refusing prevents a fake anatomical snapshot.
       reason="region-front-requires-daily-physical-transaction";
