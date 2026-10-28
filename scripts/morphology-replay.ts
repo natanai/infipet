@@ -7,6 +7,7 @@ import {createSimulation} from "../src/simulation";
 import {morphologyCohort} from "./morphology-cohort";
 import {morphologyDelta,morphologyMetrics,type PhysicalWitness} from "./morphology-metrics";
 import {createGame,advanceGame,commandGame,DAY,HOUR} from "../src/gameplay";
+import type {NeedKeyframe} from "../src/needs";
 
 const version=process.argv.find(v=>v.startsWith("--revision="))?.split("=")[1]??"unknown";
 const mode=process.argv.find(v=>v.startsWith("--clock="))?.split("=")[1]??"historical";
@@ -15,8 +16,8 @@ const seeds=fast?["MORPH-A","MORPH-B"]:["MORPH-A","MORPH-B","MORPH-C"];
 const careProfiles=["ambient","supported","deprived"] as const;
 const cases=morphologyCohort();
 const start=12*HOUR;
-const needTimeline=(care:string)=>care==="ambient"?[]:
-  ["rest","security","safety"].map(needId=>({
+const needTimeline=(care:string):NeedKeyframe[]=>care==="ambient"?[]:
+  (["rest","security","safety"] as const).map(needId=>({
     needId,tick:0,fulfillment:care==="supported"?1:0.08,
   }));
 function careGame(seed:string,profile:string,horizon:number){
@@ -34,7 +35,7 @@ function careGame(seed:string,profile:string,horizon:number){
       } catch { break; } // record that the engine could not accept more commands
     }
   }
-  return advanceGame(game,start+endDay*DAY);
+  try {return advanceGame(game,start+endDay*DAY);} catch {return game;}
 }
 const output:{
   revision:string;clock:string;shapes:number;seeds:readonly string[];careProfiles:readonly string[];
@@ -56,13 +57,14 @@ for(const item of cases)for(const seed of seeds)for(const care of careProfiles){
     delta:ReturnType<typeof morphologyDelta>|null
   }>;
   const birth=simulation.frameAt(0,{action:"idle",time:0});
-  const birthGraph:PhysicalWitness|undefined=typeof simulation.materialStateAt==="function"
-    ?simulation.materialStateAt(0).graph:undefined;
+  const materialStateAt=(simulation as unknown as {materialStateAt?: (age:number)=>{graph:PhysicalWitness}}).materialStateAt;
+  const birthGraph:PhysicalWitness|undefined=mode==="daily"&&typeof materialStateAt==="function"
+    ?materialStateAt(0).graph:undefined;
   for(const requested of times){
     const frame=simulation.frameAt(requested,{action:"idle",time:0});
     // Only the production daily engine is an authoritative physical timeline.
-    const graph:PhysicalWitness|undefined=mode==="daily"&&typeof simulation.materialStateAt==="function"
-      ? simulation.materialStateAt(requested).graph : undefined;
+    const graph:PhysicalWitness|undefined=mode==="daily"&&typeof materialStateAt==="function"
+      ? materialStateAt(requested).graph : undefined;
     frames.push({
       ...morphologyMetrics(frame.pixels,graph,birthGraph),
       actualAge:frame.age,atHour:frame.age*24,
