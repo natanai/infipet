@@ -1193,6 +1193,8 @@ export default function App() {
                       selected={action === "move"}
                       onPress={() => act(action === "move" ? "idle" : "move")}
                     />
+                  ) : view === "live" && sandbox ? (
+                    <Text style={[s.muted,{fontSize:13}]}>PREVIEW · DAY {Math.floor(age)}</Text>
                   ) : null}
                 </View>
                 {playing && life && <CareRail
@@ -1682,6 +1684,7 @@ export default function App() {
               )}
 
               <MorphologyWorkbench
+                age={age}
                 value={morphTune}
                 onApply={next=>{openLab();setGrowing(false);setMorphTune(next);}}
                 onCompare={()=>{
