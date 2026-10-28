@@ -263,6 +263,10 @@ export function stepIterativeChronology(
   graph: MaterialGraph,
   state: IterativeChronologyState,
   exposure: IterativeExposure,
+  /** The exact 365-opportunity daily engine explicitly opts into expanded
+   * physical field families. Omitted means legacy hourly numerical semantics,
+   * which continue to have independently established oracles. */
+  policy: Readonly<{enablePhysicalFields:boolean}>={enablePhysicalFields:false},
 ): IterativeChronologyStep {
   if (state.version !== 1 ||
       state.fingerprint !== birth.fingerprint ||
@@ -486,7 +490,7 @@ export function stepIterativeChronology(
       const expansion=birth.signals.channels.growth.expansion;
       const membrane=birth.signals.channels.support.membrane;
       let selectedField=false;
-      if(!made && expansion>=0.12 && s.extensions>=1){
+      if(policy.enablePhysicalFields && !made && expansion>=0.12 && s.extensions>=1){
         let orbit=s.orbit;
         for(let step=0;step<slot;step++)orbit=stepChaos(orbit);
         if(orbit.x/(CHAOS_MODULUS-1)<expansion){

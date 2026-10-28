@@ -134,7 +134,7 @@ export function applyDailyMaterialStep(
     const applied=applyRemodelingProposal(graph,remodelingProgram,proposal,remodeling,k);
     graph=applied.graph;remodeling=applied.chronology;
   }
-  const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources,light:null});
+  const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources,light:null},{enablePhysicalFields:true});
   graph=iterative.graph;
   const added=graph.events.slice(prior.graph.events.length);
   if(added.some(e=>e.atHour!==k))throw new RangeError("Primitive attempted a between-check physical mutation");

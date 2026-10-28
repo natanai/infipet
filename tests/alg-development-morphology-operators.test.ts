@@ -223,5 +223,5 @@ test("[MORPH-002/A6] fabricated new material, forged relocation and ancestral de
  if(forged.length)assert.throws(()=>conservation({...g,events:forged}));
  const survivor=g.cells[0];
  if(survivor)assert.throws(()=>conservation({...g,cells:g.cells.map(c=>
-   c.id===survivor.id?{...c,x:c.x+1}:c)}),/relocation|same permanent|deep-equal|Expected/);
+   c.id===survivor.id?{...c,x:c.x+1}:c)}),/teleport|relocation|same permanent|deep-equal|Expected/);
 });
