@@ -40,7 +40,7 @@ test("[MORPH-004/A1] finite front displacement changes broad original body propo
   const origin=old.get(m.cellId)!;
   assert.equal(m.from.x,origin.x);assert.equal(m.from.y,origin.y);
   assert.equal(m.to.x,m.from.x+1);assert.equal(m.to.y,m.from.y);
-  const daughter=p.createdCells.find(c=>c.parentCellIds.length===1&&
+  const daughter:(typeof p.createdCells)[number]|undefined=p.createdCells.find(c=>c.parentCellIds.length===1&&
     c.parentCellIds[0]===m.cellId)!;
   assert.ok(daughter);
   assert.deepEqual({x:daughter.x,y:daughter.y},m.from);
