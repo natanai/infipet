@@ -233,7 +233,7 @@ export type SimulationOptions = {
   anatomicalCheckpoint?:unknown;
   /** Test/profiler oracle: force independent from-birth material replay. */
   reuseLivingMaterial?: boolean;
-  needTimeline?: readonly NeedKeyframe[];
+  needTimeline?: import("../needs").NeedsTimelineInput;
   groomingTimeline?: readonly GroomStroke[];
   liveContext?: LiveDevelopmentContext;
 };

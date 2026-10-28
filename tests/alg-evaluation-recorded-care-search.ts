@@ -377,7 +377,7 @@ export function dailyStrategySteps(seed:string,strategy:StrategyId,birthAtMs:num
     {kind:"advance",atMs:birthAtMs+terminalHour*HOUR,presence:"absent"}];
   let s=createGame(seed,"infant",birthAtMs);const steps:RecordedStep[]=[];
   const command=(value:GameCommand)=>{
-    const step={kind:"command" as const,atMs:s.clock.nowMs,id:"daily/"+s.commandHistory.length,command:value};
+    const step={kind:"command" as const,atMs:s.clock.nowMs,id:"daily/"+(s.commandSequence??s.commandHistory.length),command:value};
     steps.push(step);s=commandGame(s,value,step.atMs,step.id);
   };
   for(let hour=1;hour<=terminalHour&&!s.dead;hour++){

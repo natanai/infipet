@@ -1385,7 +1385,7 @@
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "oldBenchmarks": "Prior dense 720h and 8192h continuous-growth measurements are legacy profiler results, NOT present product requirements",
         "acceptance": "After INT-002, measure due daily checks, a year-long late return, unchanged-between-check display and cached mature-pet play",
-        "evidence": "Both isolated Node acceptance tests pass across sparse, unusual, dense and 15-brush maximum-complexity drawings, real 366-day care, all ten scenarios, exact paired cold graphs, bounded allocation ledgers and invalid-cache recovery. All eight actual Chromium maximum-complexity saved-life scenarios completed and exact original graphs persisted across normal care. Nine exported UI flows pass including offline year-long reopen and mounted catch-up. Final registered gate: 195 functional tests plus two isolated performance tests pass.",
+        "evidence": "Corrected runtime: 206 functional tests, two isolated official daily performance tests, all 10 exported-browser flows and eight CI browser performance scenarios pass. Budgets unchanged. Paired cold physical reconstruction, rehashed cache rejection, zero ordinary anatomical steps and mature checkpoint reuse remain mandatory.",
         "referenceEnvironment": "Linux x64 Node v24.22.1; CI Node22. Native phones have not been measured.",
         "budgets": {
           "ordinaryUpdateP95Ms": 33.333333333333336,
@@ -1396,24 +1396,28 @@
           "isolatedRssMiB": 768
         },
         "measuredReference": {
-          "worstOrdinaryP95Ms": 18.64,
-          "maxColdYearMs": 3529.6,
-          "maxSavedReopenMs": 287.39,
-          "maxStateBytes": 1599557,
-          "maxIsolatedRssMiB": 537.54
+          "environment": "Linux x64 Node24.22.1; node --expose-gc --import tsx --test tests/development-budget.test.ts",
+          "sourceHead": "40dfbbb122ba97942bd27955d882e83d37acf13f",
+          "worstOrdinaryP95Ms": 13.486458,
+          "worstOrdinaryMedianMs": 9.520181,
+          "maxColdYearMs": 4581.39541,
+          "maxSavedReopenMs": 319.417401,
+          "maxStateBytes": 2116293,
+          "maxIsolatedRssMiB": 458.324219,
+          "ordinaryPhysicalSteps": 0
         },
         "browserReference": {
-          "environment": "Linux headless Chromium153, 1024-cell/15-brush sources at birth/day7/day90/day366; 180 native RAF gaps and four saved care acknowledgements per age. Date shifted to actual recorded histories; performance timers remain native.",
+          "environment": "GitHub ubuntu-latest Node22, headless Chromium, 1024 cells/all15 brushes at days0/7/90/366; 180 native RAF gaps and four care acknowledgements per age. Source40dfbbb122ba97942bd27955d882e83d37acf13f; Actions40608932246.",
           "desktop": {
-            "maxReopenMs": 1508.35,
-            "maxFrameGapP95Ms": 16.8,
-            "maxSavedCareAckP95Ms": 238.59
+            "maxReopenMs": 1838,
+            "maxFrameGapP95Ms": 16.7,
+            "maxSavedCareAckP95Ms": 405.655
           },
           "cpu4xMobileViewportEmulation": {
-            "maxReopenMs": 6856.87,
+            "maxReopenMs": 7056.75,
             "maxFrameGapP95Ms": 33.3,
-            "maxSavedCareAckP95Ms": 828.83,
-            "maxFrameGapMs": 216.6,
+            "maxSavedCareAckP95Ms": 1427.416,
+            "maxFrameGapMs": 216.7,
             "realPhone": false
           },
           "desktopBudgets": {
@@ -1705,6 +1709,130 @@
         "evidence": "Independent BigInt clock expectation, material inventory/ancestry/ownership and full cold reconstruction pass. Negative cases detect 23h growth, duplicate check1, fabricated absence checks, fractional boundary epoch, future care, post365 transactions, false rendered ancestry, missing ownership and cached/fresh divergence. Existing independent metric and recorded-command witness research remains registered.",
         "legacyReferences": "Former 1h/49h/121h references remain labeled historical research. Daily witness searches require actual 24h-multiple milestones and chronological physiological commands; no target shapes enter runtime compilation."
       }
+    },
+    {
+      "id": "GAME-003",
+      "phase": 6,
+      "area": "Independent audit correction",
+      "title": "Playable existing care games with source-owned procedural cues",
+      "dependsOn": [
+        "GAME-001",
+        "INT-002"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Every existing care game has player-visible rules, choices or preparation, reproducible outcomes and physiological consequences",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Actual player frames express cues and results through owned material poses, with no anatomy change; save/reopen and existing UI remain usable",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-integration-care-games.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-integration-care-games.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/integration",
+        "tests/alg-integration-care-games.test.ts"
+      ],
+      "algorithmId": "integration",
+      "qualification": {
+        "evidence": "Both focused tests pass: all three five-round games, prepared juvenile battle, seeded deterministic scoring/rewards and owned quad poses. Current numbers only; future draws cannot affect presentation. Exported browser passes all five rounds of each game and a healthy juvenile battle; actual day366 care/reopen also passes. A raster-level negative test caught subpixel-only Numbers motion on one-pixel/3x3 sources; the bounded 1.2-cell bob now produces actual visible pixel changes for every game while keeping the authoritative graph identical."
+      }
+    },
+    {
+      "id": "DEV-008",
+      "phase": 6,
+      "area": "Independent audit correction",
+      "title": "Independently reconstruct physical positions, tissue identity and attachments from transactions",
+      "dependsOn": [
+        "DEV-007"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Reproduce the unrecorded relocation counterexample; independently reject missing/forged movement and persistent-property changes",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Authentic physical operators journal complete chronological spatial/topological evidence through all 365 checks and saved restoration",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-spatial-conservation.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-spatial-conservation.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development",
+        "tests/alg-development-spatial-conservation.test.ts"
+      ],
+      "algorithmId": "development",
+      "qualification": {
+        "counterexample": "Verified on 3695203: surviving original cell ink/original/18,16 moved x18 to19 with zero events passed the old inventory audit. New independent spatial reconstruction rejects it and an identical-silhouette identity swap.",
+        "evidence": "Six focused tests: unrecorded physical properties, authentic translate, all365 checks plus JSON restoration, authentic reattachment, forged journals entering voids/occupied tissue. Rehashed forged-position and pre-journal caches safely reconstruct; existing six production daily integration tests pass.",
+        "contract": "Cell color/z/tissue/ancestry immutable. Per-operation journals contain relocation before/after, operationID, check/time and complete topology deltas. Independent reconstruction starts with canonical source topology and checks permanent operator authorization and mechanical state after each event."
+      }
+    },
+    {
+      "id": "CARE-005",
+      "phase": 6,
+      "area": "Independent audit correction",
+      "title": "Bounded ongoing physiological response after anatomical maturity",
+      "dependsOn": [
+        "GAME-002",
+        "CARE-004",
+        "INT-002"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Reproduce stale derived physiology after actual accepted mature care; reconcile meters, timelines, needs and player frames at days364/365/366/400 and much later",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Keep anatomy frozen, causal physiological state bounded and deterministic across save/reopen, active/absent histories and query partitions",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-environment-mature-physiology.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-environment-mature-physiology.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/gameplay",
+        "src/needs/recorded-physiology.ts",
+        "src/needs/simulation.ts",
+        "src/integration/living-physiology.ts",
+        "tests/alg-environment-mature-physiology.test.ts"
+      ],
+      "algorithmId": "environment",
+      "qualification": {
+        "counterexample": "On 3695203 a real day366.0625 snack changed happiness3 to4 but derived timeline, needs and actual player-frame wellbeing stayed unchanged under the365-day sample cap.",
+        "evidence": "Three focused tests pass: genuinely maintained living pet through1460days, exact fractional care response at364/365/366/400/1460, accepted/rejected commands, active/absent intervals, JSON reopening, frozen post365 graph, saved checkpoints, independent2000-event closed-form ODE comparison, captured-input immutability and explicit unknown legacy interval.",
+        "retention": {
+          "physiologicalEvents": 128,
+          "postmaturityCommandReceipts": 128,
+          "day400SaveBytes": 2836803,
+          "day1460SaveBytes": 2837447
+        },
+        "limits": "Complete original first-year evidence retained; older postmaturity diagnostic queries outside the rolling window explicitly unavailable. Expired postmaturity arbitrary idempotency keys are not retained; application IDs use a monotonic lifetime sequence. Missing old physiological intervals remain explicitly unknown."
+      }
     }
   ],
   "algorithms": [
@@ -1851,7 +1979,8 @@
         "DEV-004",
         "DEV-005",
         "DEV-006",
-        "DEV-007"
+        "DEV-007",
+        "DEV-008"
       ],
       "readyWhen": [
         "OBS-001"
@@ -1880,7 +2009,8 @@
         "CARE-002",
         "CARE-003",
         "CARE-004",
-        "GAME-002"
+        "GAME-002",
+        "CARE-005"
       ],
       "readyWhen": [
         "SYS-001"
@@ -1940,7 +2070,8 @@
         "PERF-001",
         "MOT-001",
         "INT-001",
-        "INT-002"
+        "INT-002",
+        "GAME-003"
       ],
       "readyWhen": [
         "OBS-001"
@@ -2079,5 +2210,32 @@
         ]
       }
     }
+  },
+  "qualification": {
+    "status": "verified_changes_release_gated",
+    "baseCommit": "369520373ec32106b622c58f3159b71078689a65",
+    "verifiedSourceHead": "40dfbbb122ba97942bd27955d882e83d37acf13f",
+    "corrections": [
+      "GAME-003",
+      "DEV-008",
+      "CARE-005"
+    ],
+    "verification": {
+      "roadmap": "36/36 evidenced",
+      "typecheck": "pass",
+      "functionalTests": 206,
+      "isolatedPerformanceTests": 2,
+      "exportedBrowserTests": 10,
+      "browserPerformanceScenarios": 8,
+      "budgets": "unchanged",
+      "ciVerify": "https://github.com/natanai/infipet/actions/runs/40608932336",
+      "ciWeb": "https://github.com/natanai/infipet/actions/runs/40608932246",
+      "rasterCorrection": "Additional single-pixel and 3x3 actual-rendered-pixel animation regression passes; needs/material performance inputs are unchanged."
+    },
+    "releaseGate": "Source/test receipts do not claim deployment. Merge only the verified PR head; Publish Web must succeed on the exact resulting main SHA and live release.json must match before final publication qualification.",
+    "limits": [
+      "Native-phone hardware unmeasured. Observational 4xCPU viewport: care tail1.43s, reopen7.06s.",
+      "Unobserved legacy postmaturity physiology stays explicitly unknown. Old mature diagnostic histories and receipt keys have bounded retention."
+    ]
   }
 }

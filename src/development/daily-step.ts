@@ -1,3 +1,4 @@
+import {reconstructDailyPhysicalState,type PhysicalOperatorAuthorization} from "./spatial-inventory";
 /**
  * DEV-007: one atomic physical opportunity on [T_(k-1),T_k), committed at T_k.
  *
@@ -64,62 +65,32 @@ function seal<T>(value:T):T {
 }
 /** Independent inventory reconstruction. Does NOT trust cell counts, operator
  * receipts or the graph's currently live list as the creation oracle. */
-export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:number,throughCheck:number):void {
-  dailyCheckTime(hatchAtMs,throughCheck);
-  const source=new Map(graph.sourceCells.map(c=>[c.id,c]));
-  const active=new Set(source.keys()),ever=new Set(source.keys());
-  const archive=new Map<string,MaterialCell>(source);
-  const events=new Set<string>();let previous=0;
-  if(source.size!==graph.sourceCells.length)throw new TypeError("Duplicate original material");
-  for(const event of graph.events){
-    const k=event.checkIndex;
-    if(k===undefined||!Number.isInteger(k)||k<1||k>throughCheck||k>FINAL_ANATOMICAL_CHECK||
-        event.atHour!==k*DAILY_HOURS||event.atMs!==dailyCheckTime(hatchAtMs,k)||k<previous)
-      throw new RangeError("Material transaction is outside its daily opportunity");
-    if(events.has(event.id))throw new TypeError("Duplicate material transaction");
-    events.add(event.id);previous=k;
-    const made=event.createdCells??[];
-    if(!equal(made.map(c=>c.id),event.createdCellIds))throw new TypeError("Missing physical creation ownership");
-    for(const cell of made){
-      if(ever.has(cell.id)||cell.provenance!=="generated"||!cell.operationId||
-          !cell.parentCellIds.length||cell.parentCellIds.some(id=>!active.has(id))||
-          !cell.sourceIds.length||cell.sourceIds.some(id=>!source.has(id)))
-        throw new TypeError("Reused identity or invalid physical parent/source ancestry");
-      const inherited=[...new Set(cell.parentCellIds.flatMap(id=>archive.get(id)!.sourceIds))].sort();
-      if(!equal([...cell.sourceIds].sort(),inherited))throw new TypeError("Creation changed material ancestry");
-      active.add(cell.id);ever.add(cell.id);archive.set(cell.id,cell);
-    }
-    for(const id of event.removedCellIds){
-      if(!active.has(id))throw new TypeError("Removal lacks active physical inventory");
-      active.delete(id);
-    }
-  }
-  const actual=new Set(graph.cells.map(c=>c.id));
-  if(actual.size!==graph.cells.length||actual.size!==active.size||[...active].some(id=>!actual.has(id)))
-    throw new TypeError("Actual material inventory disagrees with creation/removal transactions");
-  const tissues=new Set(graph.tissues.map(t=>t.id));
-  for(const cell of graph.cells){
-    const original=archive.get(cell.id);
-    if(!original||!equal(cell.sourceIds,original.sourceIds)||!equal(cell.parentCellIds,original.parentCellIds)||
-        cell.operationId!==original.operationId||cell.provenance!==original.provenance||
-        !tissues.has(cell.tissueId)||![cell.x,cell.y].every(v=>Number.isInteger(v)&&v>=0&&v<64))
-      throw new TypeError("Active material lost its original creation ancestry");
-  }
-  for(const link of graph.links)
-    if(!tissues.has(link.fromTissueId)||!tissues.has(link.toTissueId)||
-        (link.fromCellId!==null&&!active.has(link.fromCellId))||
-        (link.toCellId!==null&&!active.has(link.toCellId)))
-      throw new TypeError("Attachment lacks active physical endpoints");
+const physicalProofs=new WeakMap<MaterialGraph,{basis:object;hatch:number;lastCheck:number;authorization:string}>();
+function deeplyFrozen(value:unknown,seen=new Set<object>()):boolean{
+  if(!value||typeof value!=="object"||seen.has(value))return true;
+  if(!Object.isFrozen(value))return false;seen.add(value);
+  return Object.values(value).every(v=>deeplyFrozen(v,seen));
 }
+export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:number,throughCheck:number,original?:MaterialGraph,authorization?:PhysicalOperatorAuthorization):void {
+  dailyCheckTime(hatchAtMs,throughCheck);
+  const basis=original??graph.birth,prior=physicalProofs.get(graph),key=authorization?JSON.stringify(authorization):"";
+  if(prior&&prior.basis===basis&&prior.hatch===hatchAtMs&&prior.lastCheck<=throughCheck&&prior.authorization===key)return;
+  const proof=reconstructDailyPhysicalState(graph,hatchAtMs,throughCheck,original,authorization);
+  if(basis&&deeplyFrozen(graph)&&(!original||deeplyFrozen(original)))physicalProofs.set(graph,{basis,hatch:hatchAtMs,lastCheck:proof.lastCheck,authorization:key});
+}
+
 export function createDailyMaterialState(program:MaterialDevelopmentProgram,hatchAtMs:number):DailyMaterialState {
   dailyCheckTime(hatchAtMs,FINAL_ANATOMICAL_CHECK);
   if(program.source.events.length)throw new TypeError("Daily birth must be original authored material");
+  const origin={tissues:program.source.tissues,sites:program.source.sites,links:program.source.links,protectedVoids:program.source.protectedVoids};
+  const birthGraph=equal(program.source.birth,origin)?program.source:{...program.source,birth:origin};
   const state:DailyMaterialState={version:1,clock:"daily-365-v1",hatchAtMs,
     programFingerprint:program.fingerprint,genomeFingerprint:program.genomeFingerprint,
-    completedChecks:0,graph:program.source,material:initializeMaterialOperatorChronology(program),
+    completedChecks:0,graph:birthGraph,material:initializeMaterialOperatorChronology(program),
     iterative:createIterativeChronologyState(program),remodeling:EMPTY_REMODELING_CHRONOLOGY,checks:[]};
-  verifyDailyMaterialInventory(state.graph,hatchAtMs,0);
-  return seal(state);
+  seal(state);
+  verifyDailyMaterialInventory(state.graph,hatchAtMs,0,program.source);
+  return state;
 }
 export function applyDailyMaterialStep(
   program:MaterialDevelopmentProgram,genome:InheritedGenome,prior:DailyMaterialState,
@@ -135,7 +106,8 @@ export function applyDailyMaterialStep(
       remodelingProgram.genomeFingerprint!==program.genomeFingerprint||
       !equal(prior.graph.sourceCells,program.source.sourceCells))
     throw new TypeError("Duplicate, out-of-sequence or incompatible daily material step");
-  verifyDailyMaterialInventory(prior.graph,prior.hatchAtMs,n);
+  const authorization={material:program.operators,remodeling:remodelingProgram.operations};
+  verifyDailyMaterialInventory(prior.graph,prior.hatchAtMs,n,program.source,authorization);
   // A unit adapter for geometric primitives, not an elapsed-hour replay.
   let graph:MaterialGraph={...prior.graph,events:prior.graph.events.map(e=>({...e,atHour:e.atHour/DAILY_HOURS}))};
   const growth=f.nutrition*(0.5+0.5*f.rest)*(0.5+0.5*f.security);
@@ -167,7 +139,8 @@ export function applyDailyMaterialStep(
   const added=graph.events.slice(prior.graph.events.length);
   if(added.some(e=>e.atHour!==k))throw new RangeError("Primitive attempted a between-check physical mutation");
   const events:MaterialEvent[]=added.map(e=>({...e,atHour:k*DAILY_HOURS,atMs:window.endMs,
-    checkIndex:k,careDigest:window.provenanceDigest,genomeFingerprint:program.genomeFingerprint}));
+    checkIndex:k,careDigest:window.provenanceDigest,genomeFingerprint:program.genomeFingerprint,
+    ...(e.physical?{physical:{...e.physical,relocations:e.physical.relocations.map(m=>({...m,checkIndex:k,atMs:window.endMs}))}}:{})}));
   graph=events.length?{...graph,events:[...prior.graph.events,...events]}:prior.graph;
   const old=new Map(prior.graph.cells.map(c=>[c.id,c]));
   const record:DailyCheckRecord={checkIndex:k,atMs:window.endMs,careDigest:window.provenanceDigest,
@@ -181,6 +154,7 @@ export function applyDailyMaterialStep(
   const compactIterative={...iterative.state,ledger:[...prior.iterative.ledger,compactLedger]};
   const next:DailyMaterialState={...prior,completedChecks:k,graph,material:material.state,
     iterative:compactIterative,remodeling,checks:[...prior.checks,record]};
-  verifyDailyMaterialInventory(next.graph,prior.hatchAtMs,k);
-  return seal(next);
+  seal(next);
+  verifyDailyMaterialInventory(next.graph,prior.hatchAtMs,k,program.source,authorization);
+  return next;
 }

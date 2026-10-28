@@ -80,7 +80,8 @@ test("[EVAL-003/A1] true fractional commands retain accepted/rejected receipts a
   ]);
   assert.deepEqual(history.samples.map(s=>s.hour),game.careSamples.map(s=>s.hour));
   assert.equal(history.maxHour,4);
-  assert.deepEqual(deriveCareTimeline(game).length,game.careSamples.length*6);
+  assert.equal(deriveCareTimeline(game).kind,"recorded-physiology-v1");
+  assert.ok(deriveCareTimeline(game).history.length>0);
   assert.equal(deriveDevelopmentContext(game).hatchAtHours,0);
   assert.ok(game.stageCommitments.some(s=>s.atHour===1),"real stage gate at 1 hour");
   let manual=createGame("eval003/fixture-seed/0","infant",birth);

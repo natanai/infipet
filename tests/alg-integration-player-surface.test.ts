@@ -152,7 +152,7 @@ test("[GAME-001/A2] native save/import and deterministic absent-to-active replay
     "lab preview cannot replace saved life in the player render pathway");
   const canonicalCare=deriveCareTimeline(next.game);
   const context=deriveDevelopmentContext(next.game);
-  assert.ok(canonicalCare.length>0 && context.stagePoints.length>0);
+  assert.ok(canonicalCare.history.length>0 && context.stagePoints.length>0);
   assert.deepEqual(JSON.parse(encodePet(portable(next))).life.game.commandHistory,
     next.game.commandHistory);
 });

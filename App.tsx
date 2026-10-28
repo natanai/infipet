@@ -760,12 +760,13 @@ export default function App() {
     commandPending.current = true;
     setSettling(true);
     const now = Date.now();
-    const id = `command:${now}:${current.game.history.length}:${current.game.receipts.length}`;
+    const id = `command:${now}:${current.game.commandSequence??current.game.commandHistory.length}`;
     try {
       const next = {
         ...commandPlayerLife(current, command, now, id),
       };
       commitLife(next);
+      setTime(0);
       await persist();
     } catch (error) {
       setSaveError(
@@ -2011,7 +2012,7 @@ export default function App() {
                     </Text>
                     <Text style={s.muted}>
                       Feed, play, train and care for a real-time pocket pet. Its
-                      anatomy grows continuously through gameplay stages. The
+                      anatomy can change once every 24 real hours, for 365 checks. The
                       Lab explores other possible lives while your pet
                       continues.
                     </Text>

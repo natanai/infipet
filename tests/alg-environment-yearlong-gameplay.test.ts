@@ -5,7 +5,7 @@ import {advanceGame,commandGame,createGame,validateGameState,DAY,HOUR,GAME_RULES
 const T=Date.UTC(2026,2,7,12,17,13,123);
 function care(game:GameState):GameState {
   let s=game;
-  const command=(c:GameCommand)=>{s=commandGame(s,c,s.clock.nowMs,"care/"+s.commandHistory.length);};
+  const command=(c:GameCommand)=>{s=commandGame(s,c,s.clock.nowMs,"care/"+(s.commandSequence??s.commandHistory.length));};
   if(s.sleeping) {if(s.lightsOn)command({type:"lights",on:false});return s;}
   if(s.attention.discipline)command({type:"discipline"});
   for(const [meter,food] of [["hunger","meal"],["happiness","snack"],["strength","protein"]] as const)

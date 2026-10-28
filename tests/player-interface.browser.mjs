@@ -523,6 +523,43 @@ try {
     assert.deepEqual(replacement.life.game.commandHistory, []);
     await context.close();
   });
+  await test("all three care games offer usable cues and five real rounds; healthy juvenile battles animate a real result",async()=>{
+    const context=await browser.newContext(),page=await context.newPage();
+    page.on("pageerror",error=>errors.push(error.message));
+    await page.clock.install({time:new Date(Date.UTC(2026,9,27,12,17,23,456))});
+    await page.goto(url);const canvas=page.getByLabel("Draw your whole pet here",{exact:true});
+    const box=await canvas.boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height/2);
+    await button(page,"Begin life").click();await button(page,"Games").click();
+    for(const name of ["Training","Direction","Numbers"]){
+      await button(page,name).click();
+      for(let round=0;round<5;round++){
+        const doc=await saved(page,doc=>!!doc.life?.game.activity?.targets),activity=doc.life.game.activity;
+        assert.equal(activity.round,round);
+        if(name==="Training")await page.getByText(/^Aim (high|low)$/).waitFor();
+        if(name==="Direction")await page.getByText("Follow your pet's lean",{exact:true}).waitFor();
+        if(name==="Numbers")await page.getByText(/ · Guess higher or lower$/).waitFor();
+        const choice=name==="Training"?(activity.targets[round]===0?"High":"Low"):
+          name==="Direction"?(activity.targets[round]===0?"Left":"Right"):
+          activity.shownNumbers[round]<=5?"Higher":"Lower";
+        await button(page,choice).click();
+        await page.waitForFunction(r=>{const a=JSON.parse(localStorage.getItem("infipet.pet"))?.life?.game.activity;return a?.kind==="result"||a?.round===r+1;},round);
+      }
+      const result=(await stored(page)).life.game.activity;assert.equal(result.kind,"result");
+      assert.equal(result.rounds,5);if(name!=="Numbers")assert.equal(result.score,5);
+      await button(page,"Back to pet").click();
+    }
+    const fixture=path.join(tmpdir(),"infipet-games-juvenile.json");
+    execFileSync(process.execPath,["--import","tsx","scripts/create-year-life-fixture.ts",fixture,"168"],{stdio:"pipe"});
+    const juvenile=JSON.parse(await readFile(fixture,"utf8"));
+    await page.clock.setFixedTime(new Date(juvenile.life.game.clock.nowMs));
+    await button(page,"Open more menu").click();await button(page,"Import pet").click();
+    const choosing=page.waitForEvent("filechooser");await button(page,"Open pet file").click();
+    await(await choosing).setFiles(fixture);await button(page,"Confirm replacement").click();
+    await button(page,"Games").click();await button(page,"CPU battle").click();
+    await page.getByText(/^(Victory|Defeat) against /).waitFor();
+    await page.getByText(/ · (Victory|Defeat)$/).waitFor();
+    await button(page,"Back to pet").click();await context.close();
+  });
   await test("daily boundaries, mature checkpoint reopening, damaged-cache recovery and original-save preservation",async()=>{
     const context=await browser.newContext();const page=await context.newPage();
     page.on("pageerror",error=>errors.push(error.message));
@@ -632,6 +669,14 @@ try {
     assert.equal(opened.life.anatomicalCheckpoint.state.completedChecks,365);
     assert.deepEqual(opened.life.anatomicalCheckpoint.state.graph,expected.life.anatomicalCheckpoint.state.graph);
     assert.deepEqual(opened.life.game.commandHistory,expected.life.game.commandHistory);
+    await button(page,"Close panel").click();
+    await page.clock.setFixedTime(new Date(expected.life.game.clock.nowMs+90*60000));await button(page,"Snack").click();
+    await button(page,"Open more menu").click();await button(page,"Export pet").click();
+    const careDownload=page.waitForEvent("download");await button(page,"Download pet file").click();
+    const cared=JSON.parse(await readFile(await(await careDownload).path(),"utf8"));
+    assert.equal(cared.life.game.dead,false);assert.equal(cared.life.game.meters.happiness,4);
+    assert.ok(cared.life.game.physiology.events.some(p=>p.atMs>366*86400000));
+    assert.deepEqual(cared.life.anatomicalCheckpoint.state.graph,opened.life.anatomicalCheckpoint.state.graph);
     await context.close();
   });
   assert.deepEqual(errors, [], "no application runtime errors");

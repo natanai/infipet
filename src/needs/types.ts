@@ -50,6 +50,8 @@ export type NeedMorphologySignals = Readonly<
   Record<ModeledNeedId, Readonly<{ load: number; opportunity: number }>>
 >;
 export type WellbeingState = {
+  /** Elapsed ms since hatch; an old save did not record this past interval. */
+  physiologyEvidence?:Readonly<{unknownInterval:Readonly<{fromMs:number;toMs:number}>}>;
   tick: number;
   developmentalAge: number;
   needs: Record<NeedId, NeedState>;
