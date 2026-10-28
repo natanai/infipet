@@ -44,7 +44,7 @@ Web refresh and mounted-tab return process missed checks in short work slices be
 
 ## Player interface
 
-Fresh sessions open an empty drawing pad with a three-control anatomy selector (previous, current, next), an optional compact grid of 15 unlabeled anatomical symbols, and pixel-art pencil, eraser, color, undo and redo tools. Symbol names remain available to screen readers and in contextual help. **Begin life** commits the drawing; **Pet** returns to it. Replacing a living pet, including import, uses the existing confirmation.
+Fresh sessions open an empty drawing pad with a three-control anatomy selector (previous, current, next), an optional compact grid of 15 unlabeled anatomical symbols (with the currently selected part named once for clarity), and pixel-art pencil, eraser, color, undo and redo tools. Symbol names remain available to screen readers and in contextual help. **Begin life** commits the drawing; **Pet** returns to it. Replacing a living pet, including import, uses the existing confirmation.
 
 Training shows high/low targets and moves the pet toward them. Direction uses the pet's visible lean; Numbers shows the current number and invites a higher/lower guess without revealing future numbers. Each game has five rounds, score, real rewards and an energy cost. CPU battles use actual training/strength preparation and display an animated outcome, including possible injury. All poses transform the organism's owned physical material and never create a substitute silhouette.
 
