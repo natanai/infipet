@@ -64,16 +64,26 @@ function conservation(graph:MaterialGraph){
      assert.ok(live.has(id),"removal must consume live matter");live.delete(id);
    }
    for(const c of e.createdCells??[])live.set(c.id,c);
+   // All relocations in a material event are atomic: validate the BEFORE
+   // snapshot, then update the same permanent cell identities together.
+   const moved=new Map<string,MaterialCell>();
    for(const move of e.physical?.relocations??[]){
      const before=live.get(move.cellId);
-     assert.ok(before);
+     assert.ok(before,"moving matter must already exist");
+     assert.equal(xy(before),xy(move.from),"relocation from must equal live position");
+     assert.ok(!moved.has(move.cellId),"duplicate relocation in one event");
      assert.equal(move.operationId,e.physical?.operation.id);
      assert.ok(Math.max(Math.abs(move.from.x-move.to.x),
        Math.abs(move.from.y-move.to.y))<=1);
      assert.equal(move.checkIndex,e.checkIndex);
+     moved.set(move.cellId,{...before,x:move.to.x,y:move.to.y});
    }
+   for(const [id,c] of moved)live.set(id,c);
  }
  assert.deepEqual(new Set(graph.cells.map(c=>c.id)),new Set(live.keys()));
+ assert.deepEqual(new Map(graph.cells.map(c=>[c.id,xy(c)])),
+   new Map([...live.values()].map(c=>[c.id,xy(c)])),
+   "no surviving material identity may teleport without a recorded move");
  assert.deepEqual(graph.sourceCells,original.size?[...original.values()]:[]);
  assert.ok(graph.cells.every(c=>c.x>=0&&c.x<64&&c.y>=0&&c.y<64));
  assert.ok(graph.events.every(e=>(e.createdCells??[]).every(c=>
@@ -210,4 +220,7 @@ test("[MORPH-002/A6] fabricated new material, forged relocation and ancestral de
  const forged=g.events.length?g.events.map((e,i)=>i===0?
    {...e,createdCellIds:["invented-material"]}:e):[];
  if(forged.length)assert.throws(()=>conservation({...g,events:forged}));
+ const survivor=g.cells[0];
+ if(survivor)assert.throws(()=>conservation({...g,cells:g.cells.map(c=>
+   c.id===survivor.id?{...c,x:c.x+1}:c)}),/relocation|same permanent|deep-equal|Expected/);
 });
