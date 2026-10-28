@@ -616,9 +616,12 @@ try {
     const fixture=path.join(tmpdir(),"infipet-games-juvenile.json");
     execFileSync(process.execPath,["--import","tsx","scripts/create-year-life-fixture.ts",fixture,"168"],{stdio:"pipe"});
     const juvenile=JSON.parse(await readFile(fixture,"utf8"));
-    await page.clock.setFixedTime(new Date(juvenile.life.game.clock.nowMs));
+    // Open import before shifting the active pet's simulated clock forward.
+    // Otherwise the prior life performs 168 days of catch-up while Playwright
+    // is trying to click the modal, repeatedly detaching its controls.
     await button(page,"Open more menu").click();await button(page,"Import pet").click();
     const choosing=page.waitForEvent("filechooser");await button(page,"Open pet file").click();
+    await page.clock.setFixedTime(new Date(juvenile.life.game.clock.nowMs));
     await(await choosing).setFiles(fixture);await button(page,"Confirm replacement").click();
     await button(page,"Play and training").click();await button(page,"CPU battle").click();
     await page.getByText(/^(Victory|Defeat) against /).waitFor();
