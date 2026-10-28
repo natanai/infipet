@@ -197,7 +197,6 @@ try {
       assert.equal(await button(page,"Draw head").count(),0,
         "choosing a symbol automatically closes the optional grid");
       const c = await canvas.boundingBox();
-      await button(page, "Draw body").click();
       if (viewport.width < 500)
         await canvas.tap({
           position: { x: c.width * 0.45, y: c.height * 0.5 },
