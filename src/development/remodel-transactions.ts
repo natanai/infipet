@@ -1,4 +1,5 @@
 import {journalMaterialEvent} from "./material-journal";
+import {proposeCoherentReshape} from "./coordinated-metamorphosis";
 /**
  * Composable DEV-004 remodeling transactions. This module never replays birth
  * anatomy or chooses the global order of heterogeneous development events.
@@ -114,6 +115,7 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "extend": return c.growth.elongation;
     case "reinforce": return c.support.rigidity;
     case "resorb": case "translate": return c.maturation.plasticity;
+    case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
     case "reattach": case "articulate": return c.segmentation.boundaries;
   }
 }
@@ -126,6 +128,9 @@ function checked(op: RemodelOperation): string | null {
     (op.direction && (!Number.isFinite(op.direction.x) ||
       !Number.isFinite(op.direction.y)))) return "invalid-operator";
   if(op.kind==="reattach" && !op.targetTissueId) return "missing-target-tissue";
+  if(op.kind==="reshape" &&
+    ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
+    return "invalid-regional-direction";
   if(op.chaos) {
     try {validateMaterialChaos(op.chaos);}
     catch {return "invalid-chaos";}
@@ -402,6 +407,15 @@ export function applyRemodelingProposal(
       else {
         removed.push(choice);
         next={...graph,cells:graph.cells.filter(c=>c.id!==choice.id)};
+      }
+    } else if(op.kind==="reshape") {
+      const proposed=proposeCoherentReshape(graph,op.tissueId,op.direction!,op.id,
+        Math.min(8,Math.max(1,Math.ceil(Math.sqrt(group.length)))));
+      if(!proposed)reason="no-supported-regional-front";
+      else {
+        created.push(...proposed.createdCells);
+        relocated.push(...proposed.relocated);
+        next={...graph,cells:proposed.cells};
       }
     } else if(op.kind==="translate") {
       const step=stepFor(axis);

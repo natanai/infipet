@@ -5,7 +5,7 @@
  * after every transaction. The producer's journal/diff code is not imported.
  *
  * Domain: integer x/y in [0,63], immutable z/color/ancestry/tissue ownership;
- * only unit-lattice translate/remodel may relocate existing identities.
+ * only unit-lattice translate/remodel/reshape may relocate existing identities.
  * Parent topology is acyclic, tissues 8-connected, new overlaps/void entries
  * forbidden, live attachment endpoints within squared distance 8. Fusion
  * links require an actual continuous material bridge, not distant endpoints.
@@ -376,13 +376,13 @@ export function reconstructDailyPhysicalState(
         );
       const d = { x: m.to.x - c.x, y: m.to.y - c.y };
       if (
-        !["translate", "remodel"].includes(e.kind) ||
+        !["translate", "remodel", "reshape"].includes(e.kind) ||
         p.system === "iterative" ||
         !Math.max(Math.abs(d.x), Math.abs(d.y)) ||
         Math.max(Math.abs(d.x), Math.abs(d.y)) > 1
       )
         throw new Error("Physically impossible relocation");
-      if (e.kind === "translate") {
+      if (e.kind === "translate" || e.kind === "reshape") {
         const axis = p.operation.direction ??
           [...sites.values()].find(
             (s) =>
@@ -413,6 +413,27 @@ export function reconstructDailyPhysicalState(
       throw new Error("Incomplete tissue translation");
     if (e.kind === "remodel" && moves.size > 1)
       throw new Error("Remodel quantum relocated excess material");
+    if(e.kind==="reshape"){
+      // Independently require one replacement daughter at each vacated
+      // coordinate. Creation occurs before relocation, so parent contact is
+      // tested against its PRE-operation position (not a fabricated source).
+      if(p.system!=="remodeling"||!p.operation.direction||
+         !moves.size||moves.size>16||made.length!==moves.size||
+         e.removedCellIds.length)
+        throw new Error("Unowned regional remodeling material");
+      const createdParents=new Set<string>();
+      for(const m of p.relocations){
+        const prior=beforeCells.get(m.cellId)!;
+        const daughters=made.filter(c=>c.parentCellIds.length===1&&
+          c.parentCellIds[0]===prior.id &&
+          c.x===m.from.x&&c.y===m.from.y &&
+          c.tissueId===prior.tissueId &&
+          c.color===prior.color && c.z===prior.z);
+        if(daughters.length!==1||createdParents.has(prior.id))
+          throw new Error("Regional source material lacks exact parent replacement");
+        createdParents.add(prior.id);
+      }
+    }
     for (const id of e.removedCellIds) {
       if (!active.has(id) || moves.has(id))
         throw new Error("Removal lacks active physical inventory");

@@ -35,7 +35,7 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
@@ -137,6 +137,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "reinforce": return c.support.rigidity;
     case "resorb": return c.maturation.plasticity;
     case "translate": return c.maturation.plasticity;
+    case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
     case "reattach": return c.segmentation.boundaries;
     case "articulate": return c.segmentation.boundaries;
   }
@@ -258,6 +259,21 @@ export function compileLifetimeRemodeling(
       kind: "resorb", tissueId: tissue.id, sourceSiteId: site?.id,
       atHour: 235 + slot, durationHours: 24, units: 3, strength: 1,
     });
+    // Coherent region fronts compete with previous tip growth. Four independent
+    // permanent orientations are seeded once, rather than chosen from an
+    // animal template or desired final silhouette. Their daily care gate is
+    // applied only when the corresponding chronological opportunity is earned.
+    const directions=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
+    for(const [stage,start] of [24,82,156,242].entries()){
+      const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
+        tissue.id,"regional-front",stage].join("|"));
+      const axis=directions[orbit.x%4];
+      operations.push({
+        id:"remodel/"+index+"/reshape/"+stage,kind:"reshape",
+        tissueId:tissue.id,direction:axis,
+        atHour:start+slot,durationHours:32,units:12,strength:1,
+      });
+    }
   }
   if (operations.length > REMODEL_LIMITS.maxOperations)
     throw new RangeError("Too many remodeling operations");
@@ -379,6 +395,10 @@ export function lifetimeRemodelingAt(
         removed.push(choice);
         cells = cells.filter(c => c.id !== choice.id);
       }
+    } else if (op.kind === "reshape") {
+      // This legacy fractional-hour evaluator is not an authorized daily
+      // material transaction; refusing prevents a fake anatomical snapshot.
+      reason="region-front-requires-daily-physical-transaction";
     } else if (op.kind === "translate") {
       const step = lattice(axis);
       const moved = group.map(c => ({
