@@ -1150,7 +1150,7 @@ export default function App() {
                   }}
                   style={styles.symbolButton}>
                   <PixelIcon name={view === "draw" || sandbox ? "live" : "draw"} size={24} color={T.bright}/>
-                </Button>}}
+                </Button>}
                 {playing && frame.stage !== "egg" && <IconButton
                   icon="feel"
                   label="Check how your pet feels"
