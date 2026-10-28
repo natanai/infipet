@@ -436,6 +436,7 @@ try {
     await openTools(page);
     await button(page,"Preview player experience").click();
     await button(page,"Draw your pet").click();
+    await button(page,"Show or hide starter creature gallery").click();
     assert.equal(await page.getByRole("button",
       { name: /^Load .* starter creature into drawing editor$/ }).count(),12);
     for (const [presetName, presetSeed] of [
@@ -452,6 +453,9 @@ try {
       ["Flinta", "STARTER-FLINTA-2026"],
       ["Vespri", "STARTER-VESPRI-2026"],
     ]) {
+      // Loading a draft closes the gallery to restore the handheld canvas.
+      if(await button(page,`Load ${presetName} starter creature into drawing editor`).count()===0)
+        await button(page,"Show or hide starter creature gallery").click();
       await button(page, `Load ${presetName} starter creature into drawing editor`).click();
       await button(page,"Confirm replacement").click();
       await page.waitForFunction(
@@ -465,6 +469,7 @@ try {
         `${presetName} does not replace the living organism`,
       );
     }
+    await button(page,"Show or hide starter creature gallery").click();
     await button(page,"Load Spoori starter creature into drawing editor").click();
     await button(page,"Confirm replacement").click();
     const draft = await saved(page, (doc) => doc.seed === "STARTER-SPOORI-2026");
@@ -745,6 +750,7 @@ try {
     await page.goto(url);
     await page.getByLabel("Draw your whole pet here",{exact:true}).waitFor();
     assert.equal(await button(page,"Show or hide starter creature gallery").count(),1);
+    await button(page,"Show or hide starter creature gallery").click();
     for(const creature of ["Pippo","Thimbleaf","Vellune","Craggle","Orbini","Vespri"]){
       const starter=button(page,`Load ${creature} starter creature into drawing editor`);
       assert.equal(await starter.count(),1,"public player can find "+creature);
