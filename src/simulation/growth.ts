@@ -51,7 +51,7 @@ import {
 import { type MaterialDevelopmentProgram, type MaterialGraph, type MaterialCell } from "../development";
 import {careGamePresentation} from "../integration/care-game-pose";
 import {recordedNeedsSimulation} from "../integration/living-physiology";
-import {createDailyMaterialTimeline,createReusedDailyMaterialTimeline} from "../integration/daily-runtime";
+import {createDailyMaterialTimeline,createReusedDailyMaterialTimeline,type PreviewCareInputs} from "../integration/daily-runtime";
 import { inferFunctionalMaterial, type MaterialMovementBinding } from "../integration/functional-material";
 import {
   compileSurfaceExpression,
@@ -673,8 +673,10 @@ export function createSimulation(
   input: PetPart[],
   seed: string,
   mode: SourceMode = "infant",
-  options: SimulationOptions = {},
+  options: SimulationOptions & {previewCare?:PreviewCareInputs} = {},
 ): PetSimulation {
+  if (options.careGame && options.previewCare)
+    throw new TypeError("Synthetic Needs Lab care cannot enter a real saved life");
   const liveContext = options.liveContext
     ? {
         hatchAtHours: options.liveContext.hatchAtHours,
@@ -751,6 +753,7 @@ export function createSimulation(
       : createDailyMaterialTimeline({program:physicalProgram,genome:inherited,birthKey:cacheKey,
           savedCheckpoint:options.anatomicalCheckpoint,
           ...(options.careGame?{game:options.careGame}:{}),
+          ...(options.previewCare?{previewCare:options.previewCare}:{}),
           ...(verified?.remodelingProgram?{remodelingProgram:verified.remodelingProgram}:{})}),
     surfaceGenes = compileSurfaceExpression(inherited),
     hatchAt = liveContext
@@ -1130,6 +1133,14 @@ export function createSimulation(
         planted:!pose.locomotionSupported,bounds:box}];
       });
     });
+    // Every authoritative physical cell must have one material-to-quad
+    // ownership mapping, irrespective of its morphology, origin or rig.
+    const quadOwnerCounts=new Map<string,number>();
+    for(const q of quads)quadOwnerCounts.set(q.cellId,(quadOwnerCounts.get(q.cellId)??0)+1);
+    const missingPhysicalOwnerIds=graph.cells.filter(c=>quadOwnerCounts.get(c.id)!==1).map(c=>c.id);
+    if(missingPhysicalOwnerIds.length)
+      throw new TypeError("Authoritative material omitted or duplicated during rendering: "+
+        missingPhysicalOwnerIds.slice(0,4).join(","));
     const pixels=composite(parts);
     const diagnostics={...pose.diagnostics,careGame:carePose,camera:{scale:1,offset:{x:0,y:0}},worldPosition:pose.worldPosition,
       worldCameraX:pose.cameraWorldX,materialLocomotionEvidence:functional.evidence,
@@ -1138,7 +1149,8 @@ export function createSimulation(
         generatedCells:graph.cells.filter(c=>c.provenance==="generated").length,
         graphEvents:graph.events.length,completedChecks:physical.completedChecks,mature:physical.completedChecks===365,
         visibleGrowthParts:parts.filter(p=>p.role==="material-growth").length,
-        unmappedGeneratedTissues:[],remodeledAuthoredCells:graph.sourceCells.filter(c=>{
+        unmappedGeneratedTissues:[],renderedPhysicalCells:quadOwnerCounts.size,
+        missingPhysicalOwnerIds,remodeledAuthoredCells:graph.sourceCells.filter(c=>{
           const active=byId.get(c.id);return !active||c.x!==active.x||c.y!==active.y;}).length,
         renderedCellQuads:quads},
     };

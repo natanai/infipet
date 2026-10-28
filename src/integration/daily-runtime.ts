@@ -12,12 +12,15 @@ import {createDailyCareWindowSummarizer} from "../environment/daily-care";
 import type {GameState} from "../gameplay";
 import type {InheritedGenome} from "../simulation/genome";
 import {checkpointDigest} from "./checkpoint-integrity";
+import {needValueAt,type NeedKeyframe} from "../needs";
 export const DAILY_CHECKPOINT_LIMIT=4;
 export const DAILY_LIVING_CACHE_LIMIT=3;
 type Options=Readonly<{
   program:MaterialDevelopmentProgram;genome:InheritedGenome;game?:GameState;
   remodelingProgram?:LifetimeRemodelingProgram;canonical?:DailyMaterialState;
   savedCheckpoint?:unknown;birthKey?:string;
+  /** Lab-only immutable forcing input; forbidden alongside recorded GameState. */
+  previewCare?:PreviewCareInputs;
 }>;
 export type PersistedDailyCheckpoint=Readonly<{
   version:1;origin:string;historyDigest:string;stateDigest:string;state:DailyMaterialState;
@@ -41,13 +44,54 @@ function canonicalBirth(program:MaterialDevelopmentProgram,hatch:number):DailyMa
     while(states.size>3)states.delete(states.keys().next().value!);birthStates.set(program,states);}
   return state;
 }
-const previewWindow=(k:number):DailyCareWindowV1=>({version:1,hatchAtMs:0,checkIndex:k,
-  startMs:(k-1)*86400000,endMs:k*86400000,
-  forcing:{nutrition:0.75,rest:0.75,security:0.75,activity:0.75,threat:0,observedFraction:1},
-  acceptedCommands:0,rejectedCommands:0,observations:0,activeMs:0,absentMs:0,unknownMs:86400000,
-  unknown:["synthetic developer preview; never saved-life care"],provenanceDigest:"preview/"+k});
+export type PreviewCareInputs=Readonly<{
+  kind:"synthetic-needs-lab-v1";
+  /** Exactly authored Lab keyframes; never recorded commands/observations. */
+  timeline:readonly NeedKeyframe[];
+  /** Direct nutritional forcing supplied by a Lab control. */
+  nutrition:number;
+}>;
+const unit=(v:number)=>Math.max(0,Math.min(1,v));
+/**
+ * Sample 24 hourly values on [24(k-1),24k), never the following endpoint.
+ * These Lab needs proxies are UI controls for EXISTING forcing inputs:
+ * rest -> rest, physical-fitness -> activity, security -> security,
+ * safety shortfall -> threat. They are not observations or biological rules.
+ */
+export function createPreviewCareWindow(k:number,input:PreviewCareInputs):DailyCareWindowV1{
+  if(input.kind!=="synthetic-needs-lab-v1"||
+      !Number.isFinite(input.nutrition)||input.nutrition<0||input.nutrition>1||
+      !Number.isSafeInteger(k)||k<1||k>FINAL_ANATOMICAL_CHECK)
+    throw new RangeError("Invalid synthetic Needs Lab forcing");
+  const start=(k-1)*86400000,end=k*86400000;
+  const mean=(id:Parameters<typeof needValueAt>[1])=>{
+    let sum=0;
+    for(let hour=(k-1)*24;hour<k*24;hour++)
+      sum+=needValueAt(input.timeline,id,hour);
+    return sum/24;
+  };
+  const safety=mean("safety");
+  const forcing={
+    nutrition:input.nutrition,
+    rest:unit(mean("rest")),
+    activity:unit(mean("physical-fitness")),
+    security:unit(mean("security")),
+    threat:unit(Math.max(0,0.75-safety)/0.75),
+    observedFraction:1,
+  };
+  return {version:1,hatchAtMs:0,checkIndex:k,startMs:start,endMs:end,
+    forcing,acceptedCommands:0,rejectedCommands:0,observations:0,
+    activeMs:86400000,absentMs:0,unknownMs:0,
+    unknown:["SYNTHETIC NEEDS LAB PREVIEW — not recorded life evidence"],
+    provenanceDigest:"preview-lab/"+checkpointDigest(JSON.stringify([k,forcing])),
+  };
+}
+const previewWindow=(k:number):DailyCareWindowV1=>createPreviewCareWindow(k,{
+  kind:"synthetic-needs-lab-v1",timeline:[],nutrition:0.75,
+});
 export function createDailyMaterialTimeline(options:Options):DailyMaterialTimeline {
   const {program,genome,game}=options;
+  if(game&&options.previewCare)throw new TypeError("Synthetic Needs Lab care cannot enter a real saved life");
   if(program.genomeFingerprint!==genome.genotype.fingerprint ||
       (game&&(genome.seed!==game.seed||genome.mode!==game.mode)))
     throw new TypeError("Daily anatomy and saved life must have the same immutable origin");
@@ -58,7 +102,8 @@ export function createDailyMaterialTimeline(options:Options):DailyMaterialTimeli
   const checkpoints=new Map<number,DailyMaterialState>();
   let cold=0,resumed=0,imported=0,steps=0;
   let summarize:ReturnType<typeof createDailyCareWindowSummarizer>|undefined;
-  const window=(k:number)=>game?(summarize??=createDailyCareWindowSummarizer(game))(k):previewWindow(k);
+  const window=(k:number)=>game?(summarize??=createDailyCareWindowSummarizer(game))(k):
+    options.previewCare?createPreviewCareWindow(k,options.previewCare):previewWindow(k);
   let latest=birth();
   let restored:DailyMaterialState|undefined;
   if(game && options.savedCheckpoint && !options.canonical){
