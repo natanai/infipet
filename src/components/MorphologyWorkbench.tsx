@@ -32,6 +32,19 @@ export function MorphologyWorkbench({
    setDraft(v=>({...v,[kind]:cap(next)}));setReport(null);
  };
  const dirty=MORPH_KINDS.some(k=>draft[k]!==value[k]);
+ const camera=(()=>{
+   if(!report)return "0 0 64 64";
+   const both=[...report.originalPixels,...report.experimentalPixels];
+   if(!both.length)return "0 0 64 64";
+   const xs=both.map(p=>p.x),ys=both.map(p=>p.y);
+   const minX=Math.min(...xs),maxX=Math.max(...xs);
+   const minY=Math.min(...ys),maxY=Math.max(...ys);
+   // Common square camera; preserve relative proportions, never scale the
+   // two comparison creatures independently or draw fabricated material.
+   const span=Math.max(14,maxX-minX+5,maxY-minY+5);
+   const x=(minX+maxX-span+1)/2,y=(minY+maxY-span+1)/2;
+   return [x,y,span,span].join(" ");
+ })();
  return (
   <View style={{borderWidth:1,borderColor:T.line,padding:8,gap:7}}>
    <Pressable accessibilityRole="button"
@@ -91,11 +104,11 @@ export function MorphologyWorkbench({
       <View style={{flexDirection:"row",gap:6,justifyContent:"center"}}>
        <View style={{alignItems:"center",gap:3}}>
         <Text style={textStyle}>Original program</Text>
-        <PetPixels pixels={report.originalPixels} size={118} gridSize={64}/>
+        <PetPixels pixels={report.originalPixels} size={118} gridSize={64} viewBox={camera}/>
        </View>
        <View style={{alignItems:"center",gap:3}}>
         <Text style={textStyle}>Adjusted program</Text>
-        <PetPixels pixels={report.experimentalPixels} size={118} gridSize={64}/>
+        <PetPixels pixels={report.experimentalPixels} size={118} gridSize={64} viewBox={camera}/>
        </View>
       </View>
       <Text style={textStyle}>These are the actual unposed material-cell maps at the selected day, not an evolution target or hand-approved image. The measurements below help interpret what changed.</Text>
