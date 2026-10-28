@@ -16,7 +16,7 @@ export function playerGeometry(
     Math.max(0, availableWidth - 24),
   );
   const inside = Math.max(0, deviceWidth - 24);
-  const heightBudget = Math.max(160, viewportHeight - (view === "draw" ? 420 : 280));
+  const heightBudget = Math.max(160, viewportHeight - (view === "draw" ? 295 : 280));
   const canvasSide = Math.max(0, Math.floor(Math.min(inside, heightBudget, view === "draw" ? 400 : 520)));
   return { deviceWidth, canvasSide };
 }
