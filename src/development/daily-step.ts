@@ -82,8 +82,7 @@ export function createDailyMaterialState(program:MaterialDevelopmentProgram,hatc
   if(program.source.events.length)throw new TypeError("Daily birth must be original authored material");
   const state:DailyMaterialState={version:1,clock:"daily-365-v1",hatchAtMs,
     programFingerprint:program.fingerprint,genomeFingerprint:program.genomeFingerprint,
-    completedChecks:0,graph:{...program.source,birthStructure:{
-      tissues:program.source.tissues,sites:program.source.sites,links:program.source.links}},
+    completedChecks:0,graph:program.source,
     material:initializeMaterialOperatorChronology(program),
     iterative:createIterativeChronologyState(program),remodeling:EMPTY_REMODELING_CHRONOLOGY,checks:[]};
   verifyDailyMaterialInventory(state.graph,hatchAtMs,0);
@@ -140,13 +139,11 @@ export function applyDailyMaterialStep(
     ...prior.graph.cells.map(c=>[c.id,c] as const),
     ...events.flatMap(e=>(e.createdCells??[]).map(c=>[c.id,c] as const)),
   ]);
-  const operations=[...program.operators,...remodelingProgram.operations]
-    .sort((a,b)=>b.id.length-a.id.length);
+
   const relocations=graph.cells.flatMap(c=>{
     const before=original.get(c.id);
     if(!before||before.x===c.x&&before.y===c.y)return [];
-    const owner=events.find(e=>(e.kind==="remodel"||e.kind==="translate")&&
-      operations.some(op=>op.tissueId===c.tissueId&&e.id.startsWith(op.id+"/")));
+    const owner=events.find(e=>e.kind==="remodel"||e.kind==="translate");
     if(!owner)throw new TypeError("Primitive relocated material without a named operation");
     return [{cellId:c.id,from:{x:before.x,y:before.y},to:{x:c.x,y:c.y},
       operationId:owner.id,checkIndex:k}];
@@ -165,7 +162,10 @@ export function applyDailyMaterialStep(
     genomeFingerprint:program.genomeFingerprint,sourceCellIds:[],
     createdCellIds:[],removedCellIds:[],createdCells:[],dailyPhysical:physical,
   }]:[];
-  graph=events.length?{...graph,events:[...prior.graph.events,...events,...closing]}:prior.graph;
+  graph=events.length?{...graph,
+    birthStructure:prior.graph.birthStructure??{
+      tissues:program.source.tissues,sites:program.source.sites,links:program.source.links},
+    events:[...prior.graph.events,...events,...closing]}:prior.graph;
   const record:DailyCheckRecord={checkIndex:k,atMs:window.endMs,careDigest:window.provenanceDigest,
     createdCellIds:events.flatMap(e=>e.createdCellIds),removedCellIds:events.flatMap(e=>e.removedCellIds),
     relocatedCellIds:relocations.filter(m=>prior.graph.cells.some(c=>c.id===m.cellId)).map(m=>m.cellId),
