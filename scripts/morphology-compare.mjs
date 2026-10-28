@@ -27,7 +27,7 @@ const mean=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:0;
 const med=a=>a.length?[...a].sort((x,y)=>x-y)[Math.floor(a.length/2)]:null;
 const round=n=>n===null?null:Math.round(n*1e6)/1e6;
 const properties=["occupiedArea","width","height","aspectRatio","perimeter","compactness",
-  "components","cavities","thinFraction","thinEndpoints","thinJunctionPixels",
+  "components","cavities","thinFraction","thinEndpoints","thinJunctionPixels","branchLengthProxy",
   "materialIdentityCoverage"] ;
 function summarize(data){
   const records=data.records;
@@ -72,6 +72,9 @@ function summarize(data){
       meanBranchingChange:round(mean(frames.map(f=>f.delta?.branchingProminenceChange??0))),
       meanCavityChange:round(mean(frames.map(f=>f.delta?.cavityChange??0))),
       physicalGeneratedMean:round(mean(frames.map(f=>f.physical?.generated??0))),
+      meanThinBranchLength:round(mean(frames.map(f=>f.branchLengthProxy))),
+      meanMaterialSpread:round(mean(frames.map(f=>f.physical?.generatedSpread??0))),
+      meanTissueConcentration:round(mean(frames.map(f=>f.physical?.tissueConcentration??0))),
     }];
   }));
   return {revision:data.revision,clock:data.clock,
