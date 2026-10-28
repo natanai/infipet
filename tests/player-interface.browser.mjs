@@ -797,7 +797,15 @@ try {
     await button(page,"View adult").click();
     await button(page,"Expand morphology workbench").click();
     const slider=page.getByLabel("expand operator expression",{exact:true});
-    const bounds=await slider.boundingBox();assert.ok(bounds?.width>70);
+    // Dev drawer layout and the native-web slider may settle one animation
+    // frame after the expandable panel becomes interactive. Keep the same
+    // strictly readable (>70px) tap-area contract; never accept zero width.
+    await page.waitForFunction(()=>{
+      const el=document.querySelector('[aria-label="expand operator expression"]');
+      return (el?.getBoundingClientRect().width??0)>70;
+    },null,{timeout:5000});
+    const bounds=await slider.boundingBox();
+    assert.ok(bounds?.width>70,"usable slider width: "+JSON.stringify(bounds));
     await slider.tap({position:{x:bounds.width*0.82,y:bounds.height/2}});
     // Sliding commits to sandbox at the pointer release, with no extra
     // "Apply" step or silent transition to the real saved organism.
