@@ -1,0 +1,28 @@
+# Animation and actual-play follow-up contract
+
+This file is an executable engineering handoff and **not a claim of implementation**. Complete the current #36 independent material/physiology audit before modifying those algorithms. Assign code ownership before changing App or the native gameplay reducer.
+
+## Authority and data path
+
+Player intent → single idempotent **native** command at a canonical integer-ms time → typed immutable receipt/outcome → source capability and goal resolver → bounded pose/prop playback → read-only LCD raster. Playback, cancellation and replay cannot reapply the native command.
+
+The current UI adapter `src/interface/care-outcome.ts` is a **local presentation bridge** deriving semantic food/medicine/refusal status from the last native receipt, event ID and actual source state. It is not the final versioned native cue API. It deliberately returns `unresolved` rather than inventing success when the proof is incomplete.
+
+### Package A: native presentation cues
+**Inputs:** immutable before/after GameState, stable receipt ID, command, integer-ms commit time, original source IDs. **Outputs:** `{version, receiptId, atMs, intent, result, reason, sourceIds, targetId?, propId?, committedEffect?}`. Every cue must link to a native receipt or an explicit non-persistent visual-only intent. Distinguish `effective, refused, partial, no-change, rejected, cancelled, missed, unresolved`. No English message parsing. Preserve one native effect across zero/one/many renderings; add full-food, healthy medicine, partial recovery, game cancellation and action-under-active-game counterexamples. CI must compare exact native state after skipped vs replayed cues.
+
+### Package B: mechanically grounded contact
+**Inputs:** verified current material graph, authored occupied cells/holes, source eligibility and attachment evidence, bounded target/world prop geometry, goal type, explicit presentation clock. **Outputs:** bounded source-linked transforms; `reach/impact/grasp/hold/release/nudge/miss/unreachable` plus witness IDs and diagnostics. Extend existing FunctionalGraph/RigNode and analytic `solveTwoLink`; do not add a species template or extrapolate hands from labels. Use actual occupied material, never an AABB over an empty cavity. Define real contact tolerance `epsilon`, max joints/solves/substeps, deterministic ties by stable source ID. For two-link lengths L1,L2 and target distance d, reachability requires |L1-L2|≤d≤L1+L2 (within declared epsilon); compare computed joint angle with an independently derived law-of-cosines oracle. Singular zero length, missing links, disconnected tissues, rigid/rooted/hollow drawings must not create phantom contact. A body nudge is **not** a catch.
+
+### Package C: layered action sequences
+**Inputs:** daily immutable rest graph, cue, explicit elapsed presentation ms, allowed source capabilities and accessibility settings. **Outputs:** bounded deterministic phases `anticipate→approach→contact→react→settle`, actual pose transforms, separate world props, equivalent static cues. Presentation must not create/remove/relocate physical cells, change seed, genus, care, clocks or history. Retain retro pose quantization without delaying touch feedback. Define clamp/rebase for existing 4096-second pose timer. Bound simultaneous props (proposed 8), particle marks (64) and cue queue (16), justify actual budgets by profiling; urgent medicine remains usable. Reduced motion disables unnecessary movement but not information. Frame ordering, refresh rate, resize, cancellation and app backgrounding cannot affect rewards.
+
+### Package D: deterministic interactive rules
+**Inputs:** saved seed, stable ordinal, native round/game state, recorded aim/timing/choice events, contact witnesses. **Outputs:** true hit/miss/score, fatigue/reward/injury deltas and replay trace, with a documented input and save schema. Preserve existing high/low, direction and number prediction semantics until changed by approved game rules. For ball projectile, a possible independent reference is `t=(sampleMs−startMs)/1000; x=x0+vx*t; y=y0+vy*t+0.5*g*t*t` (down-positive y); this is **a proposed oracle**, not production physics. Define bounded contact along the swept path, handling holes, exact target radius, deterministic ordering, reachable manipulation and release. A pointer-based skill game is not the same as playing a predetermined target reveal; design both honestly. Real interactive sparring requires an approved native rule change; statistical battle reveal stays identified as such.
+
+## Mandatory mathematical verification
+Each subsystem must declare units, inputs/outputs, equations and operation order, numerical domains, clamps, iteration/memory limits, source/material invariants, explicit timestamps, deterministic random key use and failure cases. Independently compute reach and collision expectations; do not bless predetermined creature outputs or screenshots.
+
+For all t between canonical daily checks, the permanent source/physical material inventory is invariant; only legal read-only pose and world props vary. After 365 opportunities, anatomy is frozen but later native care physiology can still change. Every source-derived limb/feature must have traceable original material, permanent genetic potential and eligible chronological operations. Crossing a daily material graph change invalidates stale effectors deterministically.
+
+Deliver: interfaces, supported-morphology matrix, independent property/counterexample tests, exact-main CI, browser/mobile latency and regression results, honest unknowns and a PR that does not modify the UI-owner branch without coordination.
