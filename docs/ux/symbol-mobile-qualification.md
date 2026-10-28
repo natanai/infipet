@@ -54,6 +54,6 @@ The screenshot-driven legibility correction is grounded in real iPhone Safari fe
 
 ## October 27 phone readability correction
 - Remove the in-device Draw / Pet / More tab strip. The top identity row now provides one contextual navigation action (Pet or Draw, only after birth) and a text More action. Before birth no disabled Pet tab consumes space. The drawing workspace has only one row of text-labeled Pencil, Erase, Color and Help controls.
-- Original material categories remain independently selectable (no inferred or invented anatomy), but appear as 15 always-labeled three-column selectors. Labels are primary; 16px material glyphs are auxiliary.
+- Original material categories remain independently selectable (no inferred or invented anatomy), but appear as 15 always-labeled three-column selectors. The former 15 tiny material glyphs are removed; readable 16px text is the complete material selector.
 - Undo, Redo, Mirror and Clear are written out, rather than represented by nonstandard graphics. Developer motion preview actions and contextual care-game decisions similarly remain readable, while the habitat care rails retain symbol-first navigation.
 - Automated exported-browser checks now enforce these visible names at phone widths, not merely accessibility metadata or button counts. Real Safari tap and scroll confirmation remains necessary.
