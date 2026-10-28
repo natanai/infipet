@@ -497,13 +497,17 @@ export function stepIterativeChronology(
           const mode=chooseMorphologicalField(expansion,membrane,orbit);
           if(mode){
             selectedField=true;
-            // Source-derived carrying capacity. Volume cannot inflate without
-            // limit simply because a daily credit is available:
-            // B_t=min(192,ceil(N_source*(4+8*g_expand+4*g_membrane))).
-            // Exactly the original tissue's permanent root material sets the
-            // scale; neither sprite targets nor contemporary body labels do.
+            // Source-derived growth capacity with increasing mass inertia:
+            // extra=min(192,ceil(A*(4+8e+4m)/(1+(A/64)^2))),
+            // A=permanent original tissue cell count, e=expansion, m=membrane.
+            // Small source creatures can develop large proportional changes;
+            // broad preexisting bodies are not forced to reproduce their full
+            // 1024-cell surface scan hundreds of times each year.
+            // This is bounded allometry, not a species- or target-shape rule.
             const area=Math.max(1,tissuesById.get(s.tissueId)?.sourceCellIds.length??0);
-            const capacity=area+Math.min(192,Math.ceil(area*(4+8*expansion+4*membrane)));
+            const inertia=1+(area/64)**2;
+            const extra=Math.min(192,Math.ceil(area*(4+8*expansion+4*membrane)/inertia));
+            const capacity=area+extra;
             const currentArea=cells.filter(c=>c.tissueId===s.tissueId).length;
             if(currentArea>=capacity){
               suppressions.push({hour:n,siteId:s.id,kind:"expand",
