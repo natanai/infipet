@@ -1385,7 +1385,7 @@
         "normativeSpec": "roadmap/plan.json#anatomicalDevelopment",
         "oldBenchmarks": "Prior dense 720h and 8192h continuous-growth measurements are legacy profiler results, NOT present product requirements",
         "acceptance": "After INT-002, measure due daily checks, a year-long late return, unchanged-between-check display and cached mature-pet play",
-        "evidence": "Both isolated Node acceptance tests pass across sparse, unusual, dense and 15-brush maximum-complexity drawings, real 366-day care, all ten scenarios, exact paired cold graphs, bounded allocation ledgers and invalid-cache recovery. All eight actual Chromium maximum-complexity saved-life scenarios completed and exact original graphs persisted across normal care. Nine exported UI flows pass including offline year-long reopen and mounted catch-up. Final registered gate: 195 functional tests plus two isolated performance tests pass.",
+        "evidence": "Corrected runtime: 206 functional tests, two isolated official daily performance tests, all 10 exported-browser flows and eight CI browser performance scenarios pass. Budgets unchanged. Paired cold physical reconstruction, rehashed cache rejection, zero ordinary anatomical steps and mature checkpoint reuse remain mandatory.",
         "referenceEnvironment": "Linux x64 Node v24.22.1; CI Node22. Native phones have not been measured.",
         "budgets": {
           "ordinaryUpdateP95Ms": 33.333333333333336,
@@ -1396,24 +1396,28 @@
           "isolatedRssMiB": 768
         },
         "measuredReference": {
-          "worstOrdinaryP95Ms": 18.64,
-          "maxColdYearMs": 3529.6,
-          "maxSavedReopenMs": 287.39,
-          "maxStateBytes": 1599557,
-          "maxIsolatedRssMiB": 537.54
+          "environment": "Linux x64 Node24.22.1; node --expose-gc --import tsx --test tests/development-budget.test.ts",
+          "sourceHead": "40dfbbb122ba97942bd27955d882e83d37acf13f",
+          "worstOrdinaryP95Ms": 13.486458,
+          "worstOrdinaryMedianMs": 9.520181,
+          "maxColdYearMs": 4581.39541,
+          "maxSavedReopenMs": 319.417401,
+          "maxStateBytes": 2116293,
+          "maxIsolatedRssMiB": 458.324219,
+          "ordinaryPhysicalSteps": 0
         },
         "browserReference": {
-          "environment": "Linux headless Chromium153, 1024-cell/15-brush sources at birth/day7/day90/day366; 180 native RAF gaps and four saved care acknowledgements per age. Date shifted to actual recorded histories; performance timers remain native.",
+          "environment": "GitHub ubuntu-latest Node22, headless Chromium, 1024 cells/all15 brushes at days0/7/90/366; 180 native RAF gaps and four care acknowledgements per age. Source40dfbbb122ba97942bd27955d882e83d37acf13f; Actions40608932246.",
           "desktop": {
-            "maxReopenMs": 1508.35,
-            "maxFrameGapP95Ms": 16.8,
-            "maxSavedCareAckP95Ms": 238.59
+            "maxReopenMs": 1838,
+            "maxFrameGapP95Ms": 16.7,
+            "maxSavedCareAckP95Ms": 405.655
           },
           "cpu4xMobileViewportEmulation": {
-            "maxReopenMs": 6856.87,
+            "maxReopenMs": 7056.75,
             "maxFrameGapP95Ms": 33.3,
-            "maxSavedCareAckP95Ms": 828.83,
-            "maxFrameGapMs": 216.6,
+            "maxSavedCareAckP95Ms": 1427.416,
+            "maxFrameGapMs": 216.7,
             "realPhone": false
           },
           "desktopBudgets": {
@@ -1740,7 +1744,7 @@
       ],
       "algorithmId": "integration",
       "qualification": {
-        "evidence": "Both focused tests pass: all three five-round games, prepared juvenile battle, seeded deterministic scoring/rewards and owned quad poses. Current numbers only; future draws cannot affect presentation. Actual exported-browser exercise is part of final qualification."
+        "evidence": "Both focused tests pass: all three five-round games, prepared juvenile battle, seeded deterministic scoring/rewards and owned quad poses. Current numbers only; future draws cannot affect presentation. Exported browser passes all five rounds of each game and a healthy juvenile battle; actual day366 care/reopen also passes."
       }
     },
     {
@@ -2208,8 +2212,29 @@
     }
   },
   "qualification": {
-    "status": "in_progress",
+    "status": "verified_changes_release_gated",
     "baseCommit": "369520373ec32106b622c58f3159b71078689a65",
-    "reason": "Independent audit: unjournaled surviving-cell relocation and stale postmaturity derived physiology. Existing care games also require procedural player feedback. No final qualification until the three focused correction tasks and release gates pass."
+    "verifiedSourceHead": "40dfbbb122ba97942bd27955d882e83d37acf13f",
+    "corrections": [
+      "GAME-003",
+      "DEV-008",
+      "CARE-005"
+    ],
+    "verification": {
+      "roadmap": "36/36 evidenced",
+      "typecheck": "pass",
+      "functionalTests": 206,
+      "isolatedPerformanceTests": 2,
+      "exportedBrowserTests": 10,
+      "browserPerformanceScenarios": 8,
+      "budgets": "unchanged",
+      "ciVerify": "https://github.com/natanai/infipet/actions/runs/40608932336",
+      "ciWeb": "https://github.com/natanai/infipet/actions/runs/40608932246"
+    },
+    "releaseGate": "Source/test receipts do not claim deployment. Merge only the verified PR head; Publish Web must succeed on the exact resulting main SHA and live release.json must match before final publication qualification.",
+    "limits": [
+      "Native-phone hardware unmeasured. Observational 4xCPU viewport: care tail1.43s, reopen7.06s.",
+      "Unobserved legacy postmaturity physiology stays explicitly unknown. Old mature diagnostic histories and receipt keys have bounded retention."
+    ]
   }
 }
