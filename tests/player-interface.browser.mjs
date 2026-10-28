@@ -376,10 +376,13 @@ try {
         await on.focus();
         await page.keyboard.press("Space");
       }
-      await page
-        .getByLabel("Draw your whole pet here", { exact: true })
-        .waitFor();
+      await page.getByText(/PREVIEW · DAY/).waitFor();
       assert.equal(await panel.count(), 0);
+      assert.equal(await button(page,"Return to drawing").count(),1,
+        "a nameless experimental organism has an explicit return to the editor");
+      if(viewport.width<500)await button(page,"Return to drawing").tap();
+      else await button(page,"Return to drawing").click();
+      await page.getByLabel("Draw your whole pet here",{exact:true}).waitFor();
       assert.equal(await button(page,"Show or hide starter creature gallery").count(),1,
         "public starter gallery remains available without developer tools");
       assert.equal(
@@ -502,6 +505,10 @@ try {
         .count(),
       0,
     );
+    await page.getByText(/PREVIEW · DAY/).waitFor();
+    assert.equal(await button(page,"Meal").count(),0,
+      "preview does not expose care controls for the living organism");
+    await button(page,"Return to your pet").click();
     await button(page, "Meal").waitFor();
     assert.deepEqual(livingIdentity(await stored(page)), identity);
     assert.deepEqual(
