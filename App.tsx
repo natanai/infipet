@@ -1460,9 +1460,8 @@ export default function App() {
                       { value: "greet", icon: "greet", label: "Say hello" },
                     ] as const
                   ).map((a) => (
-                    <IconButton
+                    <Button
                       key={a.value}
-                      icon={a.icon}
                       label={a.label}
                       selected={!playing && action === a.value}
                       disabled={
@@ -1475,10 +1474,9 @@ export default function App() {
                               : !previewFrame!.capabilities.canGreet
                       }
                       onPress={() => act(a.value, true)}
-                    />
+                    >{a.label}</Button>
                   ))}
-                  <IconButton
-                    icon="groom"
+                  <Button
                     label="Groom your pet"
                     selected={grooming}
                     disabled={
@@ -1498,7 +1496,7 @@ export default function App() {
                       setGrowing(false);
                       setTarget(null);
                     }}
-                  />
+                  >Groom</Button>
                 </>
               </View>
               {view === "live" && grooming && !playing && (
