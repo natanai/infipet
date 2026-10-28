@@ -529,6 +529,7 @@ export function applyRemodelingProposal(
       relocated,oldLinks,newLinks,
       sourceCellIds:uniqueSources(
         created.length||removed.length?[...created,...removed]:
+        relocated.length?graph.cells.filter(c=>relocated.some(m=>m.cellId===c.id)):
         graph.cells.filter(c=>c.tissueId===op.tissueId).slice(0,1)),
       ...(beforeRigidity===undefined?{}:
         {rigidityBefore:beforeRigidity,rigidityAfter:afterRigidity}),
