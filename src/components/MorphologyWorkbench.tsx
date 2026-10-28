@@ -85,7 +85,7 @@ export function MorphologyWorkbench({
        onSlidingComplete={n=>{const next={...draft,[kind]:cap(n)};
          setDraft(next);onApply(next);setReport(null);setError("");}}
        minimumTrackTintColor={T.text} maximumTrackTintColor={T.line}
-       thumbTintColor={T.bright} style={{width:"100%",height:28}}/>
+       thumbTintColor={T.bright} style={{width:"100%",minWidth:104,height:28}}/>
     </View>)}
     <Pressable accessibilityRole="button" accessibilityLabel="Reset experimental morphology settings"
        onPress={()=>{const v={...DEFAULT_MORPH_TUNING};setDraft(v);onApply(v);
