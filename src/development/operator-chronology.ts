@@ -455,8 +455,12 @@ function physicalUnit(
            !left.some(c=>touching(c,at)))continue;
         // Explicitly relocate the SAME cell ID: no new genetic or material
         // origin, and no "birth graph" reset. Future site queries use its x/y.
-        cells=cells.map(c=>c.id===candidate.id?{...c,x:at.x,y:at.y}:c);
-        if(!contiguous(cells.filter(c=>c.tissueId===tissue.id)))continue;
+        const proposed=cells.map(c=>c.id===candidate.id?{...c,x:at.x,y:at.y}:c);
+        if(!contiguous(proposed.filter(c=>c.tissueId===tissue.id)))continue;
+        // A rejected relocation must leave the entire *candidate state*
+        // intact. Previously the mutable array retained rejected moves,
+        // allowing a later selection to inherit an unjournaled relocation.
+        cells=proposed;
         tips=[candidate.id];chosen=candidate;break;
       }
       removed.push(candidate);
