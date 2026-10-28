@@ -104,6 +104,21 @@ function connected(
           }
   return b ? seen.has(b.id) : seen.size === cells.length;
 }
+/** Independent union-find of cardinal contacts. Co-located authored cells
+ * occupy one vertex; each left/up edge removes at most one component. */
+function cardinalComponents(cells:readonly MaterialCell[]):number{
+  if(!cells.length)return 0;
+  if(cells.length===1)return 1;
+  const occupied=new Set(cells.map(c=>c.y*64+c.x)),parent=new Int16Array(4096).fill(-1);
+  let count=occupied.size;
+  const root=(v:number):number=>{while(parent[v]!==v){parent[v]=parent[parent[v]];v=parent[v];}return v;};
+  for(const v of occupied)parent[v]=v;
+  for(const v of occupied)for(const next of [v%64?v-1:-1,v>=64?v-64:-1]){
+    if(next<0||!occupied.has(next))continue;const a=root(v),b=root(next);
+    if(a!==b){parent[a]=b;count--;}
+  }
+  return count;
+}
 function mechanical(
   cells: Map<string, MaterialCell>,
   tissues: Map<string, MaterialTissue>,
@@ -203,16 +218,25 @@ type Reconstructed=Readonly<{
 type VerifiedPrefix=Reconstructed&Readonly<{
  original:object|undefined;hatch:number;authorization:string;
  ever:ReadonlySet<string>;events:ReadonlySet<string>;
+ voids:ReadonlySet<string>;
 }>;
 // Only independently reconstructed, deeply frozen journals qualify. Private
 // maps never escape this module. Continuing a proven prefix verifies EVERY
 // new transaction with exactly the same mechanical and ancestry algorithm;
 // JSON restoration, changed histories and mutable graphs use full replay.
 const verifiedPrefixes=new WeakMap<MaterialGraph,VerifiedPrefix>();
+// A frozen serializable data object's bindings and all already-proven frozen
+// descendants cannot change. Prove each new object fully once; every new
+// physical transaction is still reconstructed below. Mutable JSON restores
+// and shallow-frozen containers never receive this credential.
+const immutableDataProofs=new WeakSet<object>();
 function immutable(value:unknown,seen=new Set<object>()):boolean{
  if(!value||typeof value!=="object"||seen.has(value))return true;
+ if(immutableDataProofs.has(value))return true;
  if(!Object.isFrozen(value))return false;
- seen.add(value);return Object.values(value).every(v=>immutable(v,seen));
+ seen.add(value);const complete=Object.values(value).every(v=>immutable(v,seen));
+ if(complete)immutableDataProofs.add(value);
+ return complete;
 }
 export function reconstructDailyPhysicalState(
   graph: MaterialGraph,
@@ -240,8 +264,6 @@ export function reconstructDailyPhysicalState(
         original.sourceFingerprint !== graph.sourceFingerprint))
   )
     throw new Error("Missing or changed original physical topology");
-  if (!same(graph.protectedVoids, birth.protectedVoids))
-    throw new Error("Unrecorded protected-void mutation");
   const authorizationKey=authorization?JSON.stringify(authorization):"";
   const candidate=previousGraph?verifiedPrefixes.get(previousGraph):undefined;
   const prefix=candidate&&candidate.original===(original??graph.birth)&&
@@ -255,7 +277,7 @@ export function reconstructDailyPhysicalState(
   const tissues = prefix?new Map(prefix.tissues):unique(birth.tissues, "birth tissue"),
     sites = prefix?new Map(prefix.sites):unique(birth.sites, "birth site"),
     links = prefix?new Map(prefix.links):unique(birth.links, "birth attachment"),
-    voids = new Set(birth.protectedVoids);
+    voids = new Set(prefix?.voids??birth.protectedVoids);
   const events = new Set<string>(prefix?.events);
   let previous = prefix?.lastCheck??0;
   mechanical(active, tissues, sites, links, voids, source);
@@ -371,6 +393,7 @@ export function reconstructDailyPhysicalState(
     }
     const moves = new Set<string>(),
       movingIds = new Set(p.relocations.map((m) => m.cellId));
+    const moveDestinations=new Set<string>();
     let step: { x: number; y: number } | undefined;
     if (movingIds.size !== p.relocations.length)
       throw new Error("Duplicate relocation identity");
@@ -389,7 +412,7 @@ export function reconstructDailyPhysicalState(
         }) ||
         !bounded(m.to) ||
         m.to.z !== c.z ||
-        c.tissueId !== p.operation.tissueId
+        (c.tissueId !== p.operation.tissueId && e.kind!=="repattern")
       )
         throw new Error("Inconsistent or forged relocation evidence");
       if (
@@ -402,7 +425,34 @@ export function reconstructDailyPhysicalState(
           "Relocation enters occupied material or protected void",
         );
       const d = { x: m.to.x - c.x, y: m.to.y - c.y };
-      if(e.kind==="redistribute"){
+      if(e.kind==="repattern"){
+        // Independently reconstruct a simultaneous, bounded tissue-local
+        // transport. This does not import the producer's field or path finder.
+        const path=m.path,group=[...beforeCells.values()].filter(a=>a.tissueId===c.tissueId);
+        const own=new Set(group.map(key));
+        if(p.system!=="remodeling"||made.length||
+          p.relocations.length+e.removedCellIds.length>64||!path||path.length<2||path.length>65||
+          !same(path[0],m.from)||!same(path.at(-1),m.to)||own.has(key(m.to))||moveDestinations.has(key(m.to)))
+          throw new Error("Forged developmental transport: "+JSON.stringify({
+            cell:m.cellId,system:p.system,made:made.length,
+            budget:p.relocations.length+e.removedCellIds.length,pathLength:path?.length,
+            from:!!path&&same(path[0],m.from),to:!!path&&same(path.at(-1),m.to),
+            targetOccupied:own.has(key(m.to))}));
+        for(let i=1;i<path.length;i++){
+          const a=path[i-1],b=path[i];
+          if(!bounded(b)||b.z!==c.z||Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))!==1||
+            (i<path.length-1&&!own.has(key(b))))throw new Error("Broken developmental transport route");
+        }
+        const supported=group.filter(a=>Math.max(Math.abs(a.x-m.to.x),Math.abs(a.y-m.to.y))===1);
+        if(!supported.length||group.length>=3&&(supported.length<2||
+          !supported.some(a=>Math.abs(a.x-m.to.x)+Math.abs(a.y-m.to.y)===1)))
+          throw new Error("Unsupported developmental transport endpoint");
+        const linked=new Set([...links.values()].flatMap(l=>l.fromTissueId===c.tissueId?[l.toTissueId]:l.toTissueId===c.tissueId?[l.fromTissueId]:[]));
+        if([...beforeCells.values()].some(other=>other.tissueId!==c.tissueId&&!linked.has(other.tissueId)&&
+          Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
+          throw new Error("Developmental transport creates unlinked contact");
+        moveDestinations.add(key(m.to));
+      }else if(e.kind==="redistribute"){
         // An entire tissue can change its mass distribution without adding a
         // child at the donor coordinate. Independently inspect every recorded
         // passage through the PRE-transaction tissue, not the final geometry.
@@ -454,7 +504,7 @@ export function reconstructDailyPhysicalState(
           };
         if (!same(d, expected)) throw new Error("Forged relocation direction");
       }
-      if (step && !same(step, d))
+      if (e.kind!=="repattern" && step && !same(step, d))
         throw new Error("Nonrigid tissue translation");
       step = d;
       moves.add(c.id);
@@ -492,6 +542,18 @@ export function reconstructDailyPhysicalState(
         createdParents.add(prior.id);
       }
     }
+    if(e.kind==="repattern"){
+      if(p.system!=="remodeling"||made.length||
+        !e.removedCellIds.length&&!moves.size||e.removedCellIds.length+moves.size>64)
+        throw new Error("Invalid developmental turnover budget");
+      for(const id of e.removedCellIds){
+        const donor=beforeCells.get(id);
+        const own=new Set([...beforeCells.values()].filter(a=>a.tissueId===donor?.tissueId).map(key));
+        if(!donor||![-1,0,1].some(y=>[-1,0,1].some(x=>
+          (x||y)&&!own.has((donor.x+x)+","+(donor.y+y)))))
+          throw new Error("Developmental resorption lacks an exposed boundary");
+      }
+    }
     for (const id of e.removedCellIds) {
       if (!active.has(id) || moves.has(id))
         throw new Error("Removal lacks active physical inventory");
@@ -516,15 +578,17 @@ export function reconstructDailyPhysicalState(
           throw new Error("Unrecorded tissue identity mutation");
         if (
           !same(a.growthSiteIds, b.growthSiteIds) &&
-          (e.kind !== "resorb" ||
+          (!["resorb","repattern"].includes(e.kind) ||
             b.growthSiteIds.some((id) => !a.growthSiteIds.includes(id)))
         )
           throw new Error("Unauthorized tissue growth-site mutation");
         if (
           (a.parentId !== b.parentId || a.relationship !== b.relationship) &&
+          (e.kind === "repattern" ?
+            (b.parentId!==null||b.relationship!=="floating"||[...active.values()].some(c=>c.tissueId===a.id)) :
           (e.kind !== "reattach" ||
             a.id !== p.operation.tissueId ||
-            b.parentId !== p.operation.targetTissueId)
+            b.parentId !== p.operation.targetTissueId))
         )
           throw new Error("Unauthorized attachment mutation");
         if (
@@ -546,6 +610,14 @@ export function reconstructDailyPhysicalState(
         throw new Error("Unauthorized tissue creation");
     }
     for (const change of p.links) {
+      if(e.kind==="repattern"){
+        const a=change.before,b=change.after;
+        if(!a||b&&!same({...a,fromCellId:b.fromCellId,toCellId:b.toCellId},b)||
+          !b&&[...active.values()].some(c=>c.tissueId===a.fromTissueId)&&
+            [...active.values()].some(c=>c.tissueId===a.toTissueId))
+          throw new Error("Unauthorized developmental attachment change");
+        continue;
+      }
       if (
         e.kind === "reattach" &&
         change.after &&
@@ -561,6 +633,17 @@ export function reconstructDailyPhysicalState(
         throw new Error("Unauthorized attachment transaction");
     }
     for (const change of p.sites) {
+      if(e.kind==="repattern"){
+        const a=change.before,b=change.after;
+        const old=a?beforeCells.get(a.rootCellId):undefined,newRoot=b?beforeCells.get(b.rootCellId):undefined;
+        if(!a||!old||!e.removedCellIds.includes(old.id)||
+          (b?(!same({...a,rootCellId:b.rootCellId},b)||!newRoot||
+             newRoot.tissueId!==old.tissueId||!active.has(newRoot.id)||
+             Math.max(Math.abs(newRoot.x-old.x),Math.abs(newRoot.y-old.y))>1):
+            [...active.values()].some(c=>c.tissueId===old.tissueId)))
+          throw new Error("Unauthorized developmental growth-site turnover");
+        continue;
+      }
       if (
         change.before &&
         change.after &&
@@ -585,6 +668,40 @@ export function reconstructDailyPhysicalState(
     patch(tissues, p.tissues, "tissue");
     patch(sites, p.sites, "growth site");
     patch(links, p.links, "attachment");
+    if(e.kind==="repattern"){
+      if(!active.size)throw new Error("Developmental turnover erased the organism");
+      const before=[...beforeCells.values()],after=[...active.values()];
+      const beforeGroups=new Map<string,MaterialCell[]>(),afterGroups=new Map<string,MaterialCell[]>();
+      for(const c of before){const group=beforeGroups.get(c.tissueId)??[];group.push(c);beforeGroups.set(c.tissueId,group);}
+      for(const c of after){const group=afterGroups.get(c.tissueId)??[];group.push(c);afterGroups.set(c.tissueId,group);}
+      for(const t of tissues.values()){
+        if(cardinalComponents(afterGroups.get(t.id)??[])>
+          cardinalComponents(beforeGroups.get(t.id)??[]))
+          throw new Error("Developmental turnover fragments cardinal tissue contact");
+      }
+      for(const movement of p.relocations){
+        const moved=active.get(movement.cellId)!;
+        const linked=new Set([...links.values()].flatMap(l=>l.fromTissueId===moved.tissueId?[l.toTissueId]:l.toTissueId===moved.tissueId?[l.fromTissueId]:[]));
+        if(after.some(c=>c.tissueId!==moved.tissueId&&!linked.has(c.tissueId)&&
+          Math.max(Math.abs(c.x-moved.x),Math.abs(c.y-moved.y))<=1))
+          throw new Error("Simultaneous turnover creates unlinked tissue contact");
+      }
+    }
+    if(p.protectedVoids){
+      if(e.kind!=="repattern"||!same(p.protectedVoids.before,[...voids]))
+        throw new Error("Unauthorized protected-void transaction");
+      // A separate four-neighbour exterior flood proves the cavity actually
+      // opened. Changing a mask without physical surgery cannot release it.
+      const occupied=new Set([...active.values()].map(key)),outside=new Set<string>(),stack:{x:number;y:number}[]=[];
+      for(let i=0;i<64;i++)stack.push({x:i,y:0},{x:i,y:63},{x:0,y:i},{x:63,y:i});
+      while(stack.length){const q=stack.pop()!,k=key(q);
+        if(!bounded(q)||occupied.has(k)||outside.has(k))continue;
+        outside.add(k);stack.push({x:q.x-1,y:q.y},{x:q.x+1,y:q.y},{x:q.x,y:q.y-1},{x:q.x,y:q.y+1});
+      }
+      const expected=[...voids].filter(k=>!outside.has(k));
+      if(!same(p.protectedVoids.after,expected))throw new Error("Protected cavity was not physically opened");
+      voids.clear();for(const k of expected)voids.add(k);
+    }
     mechanical(active, tissues, sites, links, voids, source);
   }
   if (
@@ -613,10 +730,11 @@ export function reconstructDailyPhysicalState(
         throw new Error("Unrecorded physical topology mutation");
     }
   }
+  if(!same(graph.protectedVoids,[...voids]))throw new Error("Unrecorded protected-void mutation");
   if(immutable(graph)&&(!original||immutable(original)))verifiedPrefixes.set(graph,{
     cells:new Map(active),tissues:new Map(tissues),sites:new Map(sites),links:new Map(links),
     lastCheck:previous,original:original??graph.birth,hatch:hatchAtMs,
-    authorization:authorizationKey,ever:new Set(ever),events:new Set(events),
+    authorization:authorizationKey,ever:new Set(ever),events:new Set(events),voids:new Set(voids),
   });
   return { cells: active, tissues, sites, links, lastCheck: previous };
 }

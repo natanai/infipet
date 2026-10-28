@@ -31,7 +31,7 @@ export function journalMaterialEvent(
   /** Explicit producer route is verified independently against birth-state occupancy. */
   routes?:ReadonlyMap<string,readonly Readonly<{x:number;y:number}>[]>,
 ): MaterialEvent {
-  if (!same(before.protectedVoids, after.protectedVoids))
+  if (!same(before.protectedVoids, after.protectedVoids)&&operation.kind!=="repattern")
     throw new Error("No operator authorizes changing protected voids");
   const a = new Map(before.cells.map((c) => [c.id, c]));
   const relocations = after.cells.flatMap((c) => {
@@ -67,6 +67,8 @@ export function journalMaterialEvent(
       tissues: changes(before.tissues, after.tissues),
       sites: changes(before.sites, after.sites),
       links: changes(before.links, after.links),
+      ...(!same(before.protectedVoids,after.protectedVoids)?
+        {protectedVoids:{before:before.protectedVoids,after:after.protectedVoids}}:{}),
     },
   };
 }

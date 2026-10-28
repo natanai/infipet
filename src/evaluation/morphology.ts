@@ -283,6 +283,7 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
   const same=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
   const sources=new Map(graph.sourceCells.map(c=>[c.id,c]));
   const birth=graph.birth;
+  let protectedVoids=[...(birth?.protectedVoids??graph.protectedVoids)];
   const tissues=new Map((birth?.tissues??[]).map(t=>[t.id,t]));
   const links=new Map((birth?.links??[]).map(l=>[l.id,l]));
   const sites=new Map((birth?.sites??[]).map(t=>[t.id,t]));
@@ -334,6 +335,7 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
         !Number.isSafeInteger(cell.x)||!Number.isSafeInteger(cell.y)||
         cell.x<0||cell.x>=64||cell.y<0||cell.y>=64)
         errors.push("invalid-material-creation:"+id);
+      if(cell&&protectedVoids.includes(pos(cell)))errors.push("creation-in-protected-void:"+id);
       if(cell)active.set(id,cell);
       createdEver.add(id);
     }
@@ -343,6 +345,14 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
     for(const movement of relocations){
       const prior=before.get(movement.cellId);
       const dest=movement.to;
+      const path=movement.path;
+      const transport=["redistribute","repattern"].includes(event.kind)&&!!prior&&!!path&&
+        path.length>=2&&path.length<=(event.kind==="repattern"?65:25)&&
+        same(path[0],movement.from)&&same(path.at(-1),dest)&&
+        path.every((p,i)=>Number.isSafeInteger(p.x)&&Number.isSafeInteger(p.y)&&
+          p.x>=0&&p.x<64&&p.y>=0&&p.y<64&&p.z===prior.z&&
+          (i===0||Math.max(Math.abs(p.x-path[i-1].x),Math.abs(p.y-path[i-1].y))===1)&&
+          (i===path.length-1||[...before.values()].some(c=>c.tissueId===prior.tissueId&&pos(c)===pos(p))));
       if(!prior||!same(movement.from,{
         x:prior.x,y:prior.y,...(prior.z===undefined?{}:{z:prior.z})})||
         movement.operationId!==event.physical?.operation.id||
@@ -351,7 +361,9 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
         !Number.isSafeInteger(dest.x)||!Number.isSafeInteger(dest.y)||
         dest.x<0||dest.x>=64||dest.y<0||dest.y>=64||
         dest.z!==prior.z||
-        Math.max(Math.abs(dest.x-prior.x),Math.abs(dest.y-prior.y))!==1)
+        protectedVoids.includes(pos(dest))||
+        (["redistribute","repattern"].includes(event.kind)?!transport:
+          Math.max(Math.abs(dest.x-prior.x),Math.abs(dest.y-prior.y))!==1))
         errors.push("invalid-relocation:"+movement.cellId);
       else active.set(prior.id,{...prior,x:dest.x,y:dest.y});
     }
@@ -364,6 +376,21 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
       applyChanges(tissues,event.physical.tissues,"tissue");
       applyChanges(sites,event.physical.sites,"site");
       applyChanges(links,event.physical.links,"link");
+      if(event.physical.protectedVoids){
+        const change=event.physical.protectedVoids;
+        const occupied=new Set([...active.values()].map(pos)),outside=new Set<string>();
+        const queue:{x:number;y:number}[]=[];
+        for(let a=0;a<64;a++)queue.push({x:a,y:0},{x:a,y:63},{x:0,y:a},{x:63,y:a});
+        for(let a=0;a<queue.length;a++){
+          const p=queue[a],at=pos(p);
+          if(p.x<0||p.x>=64||p.y<0||p.y>=64||outside.has(at)||occupied.has(at))continue;
+          outside.add(at);for(const [dx,dy] of cardinal)queue.push({x:p.x+dx,y:p.y+dy});
+        }
+        const expected=protectedVoids.filter(k=>!outside.has(k));
+        if(event.kind!=="repattern"||!same(change.before,protectedVoids)||!same(change.after,expected))
+          errors.push("unauthorized-protected-void-change:"+event.id);
+        protectedVoids=[...change.after];
+      }
     }
   }
   const live=new Map(graph.cells.map(c=>[c.id,c]));
@@ -381,7 +408,7 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
       for(const entity of current)if(!same(expected.get(entity.id),entity))
         errors.push("unauthorized-"+name+":"+entity.id);
     }
-    if(!same([...birth.protectedVoids].sort(),[...graph.protectedVoids].sort()))
+    if(!same([...protectedVoids].sort(),[...graph.protectedVoids].sort()))
       errors.push("unauthorized-protected-void-change");
   }
   return {valid:errors.length===0,errors};

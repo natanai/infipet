@@ -357,7 +357,9 @@ function auditInventory(
 
 function audit(g:MaterialGraph,birth:MaterialGraph,cutoff:number):void {
   assert.deepEqual(g.sourceCells,birth.sourceCells,"permanent original ink witness");
-  assert.deepEqual(g.protectedVoids,birth.protectedVoids);
+  const cavityTransactions=g.events.some(e=>e.physical?.protectedVoids);
+  if(!cavityTransactions)assert.deepEqual(g.protectedVoids,birth.protectedVoids,
+    "protected space cannot change without an explicit physical transaction");
   assert.equal(g.sourceFingerprint,birth.sourceFingerprint);
   auditInventory(g,birth,cutoff);
   const source=new Map(birth.sourceCells.map(c=>[c.id,c]));
@@ -387,7 +389,7 @@ function audit(g:MaterialGraph,birth:MaterialGraph,cutoff:number):void {
     assert.ok(e.sourceCellIds.every(id=>source.has(id)),
       "event points at imaginary original ink");
   }
-  const voids=new Set(birth.protectedVoids);
+  const voids=new Set(g.protectedVoids);
   const sourcePositions=new Map(birth.cells.map(c=>[c.id,xy(c)]));
   const positions=new Map<string,MaterialCell[]>();
   for(const c of g.cells) {
@@ -447,6 +449,40 @@ function audit(g:MaterialGraph,birth:MaterialGraph,cutoff:number):void {
     if(t.parentId)assert.ok(tissues.has(t.parentId),"orphaned parent tissue");
     assert.ok(t.growthSiteIds.every(id=>sites.has(id)),
       "tissue claims non-existent growth site");
+  }
+  if(cavityTransactions){
+    // Independently replay actual positions before trusting a cavity release.
+    // A rendered shape, a changed mask or a producer's final count is not an
+    // opening. The original birth-space record itself remains immutable.
+    const inventory=new Map(birth.cells.map(c=>[c.id,c]));
+    let protection=[...birth.protectedVoids];
+    for(const event of g.events){
+      assert.deepEqual(event.createdCells?.map(c=>c.id),event.createdCellIds);
+      for(const cell of event.createdCells??[]){
+        assert.ok(!protection.includes(xy(cell)),"creation entered protected cavity");
+        inventory.set(cell.id,cell);
+      }
+      for(const move of event.physical?.relocations??[]){
+        const prior=inventory.get(move.cellId)!;assert.equal(xy(prior),xy(move.from));
+        assert.ok(!protection.includes(xy(move.to)),"relocation entered protected cavity");
+        inventory.set(prior.id,{...prior,...move.to});
+      }
+      for(const id of event.removedCellIds){assert.ok(inventory.has(id));inventory.delete(id);}
+      const change=event.physical?.protectedVoids;if(!change)continue;
+      assert.equal(event.kind,"repattern");assert.deepEqual(change.before,protection);
+      const occupied=new Set([...inventory.values()].map(xy)),outside=new Set<string>();
+      const queue:{x:number;y:number}[]=[];
+      for(let i=0;i<64;i++)queue.push({x:i,y:0},{x:i,y:63},{x:0,y:i},{x:63,y:i});
+      for(let i=0;i<queue.length;i++){
+        const p=queue[i],at=xy(p);
+        if(p.x<0||p.x>=64||p.y<0||p.y>=64||occupied.has(at)||outside.has(at))continue;
+        outside.add(at);queue.push({x:p.x-1,y:p.y},{x:p.x+1,y:p.y},{x:p.x,y:p.y-1},{x:p.x,y:p.y+1});
+      }
+      assert.deepEqual(change.after,protection.filter(k=>!outside.has(k)),"protected cavity was not physically opened");
+      protection=[...change.after];
+    }
+    assert.deepEqual(protection,g.protectedVoids);
+    assert.deepEqual(inventory,new Map(g.cells.map(c=>[c.id,c])),"spatial inventory must agree after cavity surgery");
   }
 }
 test("[DEV-006/A1] independent exact birth paint, depth, positioning and part identities",()=>{

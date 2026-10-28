@@ -301,21 +301,52 @@ test("[DEV-005/A2] physical suppression blocks forbidden negative space and reco
     ...source,source:birth,operators:[],fingerprint:source.fingerprint+"/void",
   };
   const spec=compileSpeculativeMaterialComposition(base,genome,view,waypoints());
-  // Some speculative hints are prevented; none can occupy any void.
+  // Some speculative hints are prevented. Protected space remains forbidden
+  // until an actual, independently reconstructed operation opens the cavity.
   const state=createUnifiedMaterialTimeline({program:spec.program,genome}).at(40);
-  assert.ok(state.graph.cells.every(c=>!birth.protectedVoids.includes(c.x+","+c.y)));
+  const at=(p:{x:number;y:number})=>p.x+","+p.y;
+  const active=new Map(birth.cells.map(c=>[c.id,c]));
+  let protection=[...birth.protectedVoids];
+  for(const event of state.graph.events){
+    for(const cell of event.createdCells??[]){
+      assert.ok(!protection.includes(at(cell)),"ordinary material may not fill a currently protected cavity");
+      active.set(cell.id,cell);
+    }
+    for(const move of event.physical?.relocations??[]){
+      const prior=active.get(move.cellId)!;assert.equal(at(prior),at(move.from));
+      assert.ok(!protection.includes(at(move.to)));active.set(prior.id,{...prior,...move.to});
+    }
+    for(const id of event.removedCellIds){assert.ok(active.has(id));active.delete(id);}
+    const change=event.physical?.protectedVoids;
+    if(change){
+      assert.equal(event.kind,"repattern");assert.deepEqual(change.before,protection);
+      const occupied=new Set([...active.values()].map(at)),outside=new Set<string>();
+      const queue:{x:number;y:number}[]=[];
+      for(let i=0;i<64;i++)queue.push({x:i,y:0},{x:i,y:63},{x:0,y:i},{x:63,y:i});
+      for(let i=0;i<queue.length;i++){
+        const p=queue[i],k=at(p);
+        if(p.x<0||p.x>=64||p.y<0||p.y>=64||occupied.has(k)||outside.has(k))continue;
+        outside.add(k);queue.push({x:p.x-1,y:p.y},{x:p.x+1,y:p.y},{x:p.x,y:p.y-1},{x:p.x,y:p.y+1});
+      }
+      assert.deepEqual(change.after,protection.filter(k=>!outside.has(k)),"a mask cannot disappear without a real opening");
+      protection=[...change.after];
+    }
+  }
+  assert.deepEqual(active,new Map(state.graph.cells.map(c=>[c.id,c])));
+  assert.deepEqual(state.graph.protectedVoids,protection);
+  assert.ok(state.graph.cells.every(c=>!protection.includes(at(c))));
   const ledger=state.material.decisions.filter(d=>
     spec.bindings.some(b=>b.operatorId===d.operatorId));
   assert.ok(ledger.some(d=>d.status==="suppressed" || d.status==="deferred"),
     "a full cavity cannot always be filled by generic material operators");
   assert.ok(ledger.every(d=>d.reason===null || typeof d.reason==="string"));
   console.log("DEV-005 cavity counterexample "+JSON.stringify({
-    protectedVoids:birth.protectedVoids.length,
+    protectedVoids:protection.length,birthProtectedVoids:birth.protectedVoids.length,
     prevented:ledger.filter(d=>d.status==="suppressed" ||
       d.status==="deferred").length,
     reasons:[...new Set(ledger.map(d=>d.reason).filter(Boolean))],
     occupiedProtectedVoids:state.graph.cells.filter(c=>
-      birth.protectedVoids.includes(c.x+","+c.y)).length,
+      protection.includes(c.x+","+c.y)).length,
   }));
   assert.deepEqual(state.graph.sourceCells,birth.sourceCells);
 });

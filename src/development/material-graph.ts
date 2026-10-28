@@ -58,6 +58,8 @@ export type MaterialPhysicalJournal=Readonly<{
   tissues:readonly MaterialChange<MaterialTissue>[];
   sites:readonly MaterialChange<MaterialSite>[];
   links:readonly MaterialChange<MaterialLink>[];
+  /** Explicit cavity release after a physical remodeling opens it. */
+  protectedVoids?:Readonly<{before:readonly string[];after:readonly string[]}>;
 }>;
 export type MaterialEvent = Readonly<{
   id: string;

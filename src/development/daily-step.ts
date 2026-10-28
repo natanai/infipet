@@ -18,6 +18,11 @@ import {reconstructDailyPhysicalState,type PhysicalOperatorAuthorization} from "
  * (integrated nutrition+security)/2; zero resources permit honest null steps.
  * Earned remodeling proposals are committed at ceil(nominal opportunity), in
  * nominal-time/ID/unit order, after material quanta and before iterative growth.
+ * Repatterning has floor(64*resources*(.5+.5*rest)) bounded physical work
+ * units (transport/resorption, never generated matter). Its expressed field
+ * also guides subsequent ordinary surface deposition. Apical succession
+ * requires an explicit physical site journal; genetic and chaotic identity
+ * continue without a reset.
  * A care-resource veto is recorded, never silently retried or turned into care.
  *
  * State is serializable, immutable and birth-bound. Domain k=1..365; numeric
@@ -36,6 +41,7 @@ import {createIterativeChronologyState,stepIterativeChronology,type IterativeChr
 import {applyRemodelingProposal,remodelingProposalsBetween,EMPTY_REMODELING_CHRONOLOGY,type RemodelingChronology} from "./remodel-transactions";
 import type {MaterialGraph,MaterialCell,MaterialEvent} from "./material-graph";
 import {REGIONAL_GROWTH_VERSION} from "./regional-regulation";
+import {expressedRepatterningFields} from "./developmental-repatterning";
 import {dailyCheckTime,validateDailyCareWindow,DAILY_HOURS,FINAL_ANATOMICAL_CHECK,type DailyCareWindowV1} from "./daily-contract";
 export * from "./daily-contract";
 
@@ -71,10 +77,14 @@ function seal<T>(value:T):T {
 /** Independent inventory reconstruction. Does NOT trust cell counts, operator
  * receipts or the graph's currently live list as the creation oracle. */
 const physicalProofs=new WeakMap<MaterialGraph,{basis:object;hatch:number;lastCheck:number;authorization:string}>();
+const frozenDataProofs=new WeakSet<object>();
 function deeplyFrozen(value:unknown,seen=new Set<object>()):boolean{
   if(!value||typeof value!=="object"||seen.has(value))return true;
+  if(frozenDataProofs.has(value))return true;
   if(!Object.isFrozen(value))return false;seen.add(value);
-  return Object.values(value).every(v=>deeplyFrozen(v,seen));
+  const complete=Object.values(value).every(v=>deeplyFrozen(v,seen));
+  if(complete)frozenDataProofs.add(value);
+  return complete;
 }
 export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:number,throughCheck:number,original?:MaterialGraph,authorization?:PhysicalOperatorAuthorization,previousGraph?:MaterialGraph):void {
   dailyCheckTime(hatchAtMs,throughCheck);
@@ -137,11 +147,14 @@ export function applyDailyMaterialStep(
         id:proposal.operation.id+"/unit/"+proposal.unit,atHour:k,status:"rejected",reason:"daily-resource-unavailable"}]};
       continue;
     }
-    const applied=applyRemodelingProposal(graph,remodelingProgram,proposal,remodeling,k);
+    const applied=applyRemodelingProposal(graph,remodelingProgram,proposal,remodeling,k,
+      Math.floor(64*resources*(.5+.5*f.rest)));
     graph=applied.graph;remodeling=applied.chronology;
   }
+  const wave=graph.events.findLast(e=>e.kind==="repattern")?.physical?.operation.id;
   const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources,light:null},
-    {enablePhysicalFields:true,care:f});
+    {enablePhysicalFields:true,care:f,...(wave?{developmentalFields:
+      expressedRepatterningFields(graph,program.signals.channels,remodelingProgram.seed,wave)}:{})});
   graph=iterative.graph;
   const added=graph.events.slice(prior.graph.events.length);
   if(added.some(e=>e.atHour!==k))throw new RangeError("Primitive attempted a between-check physical mutation");

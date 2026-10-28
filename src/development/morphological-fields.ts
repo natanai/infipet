@@ -32,10 +32,14 @@
  * j=1 for thickening, 2 for surface, 3 for axial surface fields. The last
  * term applies only to width/height respectively. Same bounded chaotic
  * coherence breaks ties. No selected field creates material by itself.
+ * Once a physical repatterning wave expresses, U additionally subtracts
+ * 4*E(p) for that source-owned developmental potential. Growth therefore
+ * follows the expressed field rather than refilling a retired body plan.
  */
 import type {Point} from "../simulation/model";
 import type {MaterialCell} from "./material-graph";
 import {CHAOS_MODULUS,type ChaosState} from "./chaos";
+import {repatterningPotential,type RepatterningField} from "./developmental-repatterning";
 
 export type MorphologicalField="thicken"|"width"|"height"|"surface";
 export type MorphologicalProposal=Readonly<{
@@ -109,6 +113,7 @@ export function rankMorphologicalField(
  live:readonly MaterialCell[],tissueId:string,mode:MorphologicalField,
  orbit:ChaosState,limit=24,
  tensor?:Readonly<{axis:Readonly<Point>;stretch:number}>,
+  developmentalField?:RepatterningField,
 ):readonly MorphologicalProposal[]{
  if(!Number.isSafeInteger(limit)||limit<1||limit>64)
    throw new RangeError("Field proposal cap must be within 1..64");
@@ -165,7 +170,7 @@ export function rankMorphologicalField(
    const chosen=[...parents].sort((a,b)=>
      (a.id<b.id?-1:a.id>b.id?1:0))[0];
    candidates.push({parentId:chosen.id,destination:{x,y},mode,
-     score:score+coherence,neighboringMaterial:n});
+     score:score+coherence-(developmentalField?4*repatterningPotential({x,y},developmentalField):0),neighboringMaterial:n});
  }
  candidates.sort((a,b)=>b.score-a.score||
    b.neighboringMaterial-a.neighboringMaterial||

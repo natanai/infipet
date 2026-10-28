@@ -2094,7 +2094,7 @@
         },
         {
           "id": "A2",
-          "requirement": "Every public starter at its immutable shipped seed and the same ink flattened into unlabeled freehand input exhibits substantial nonterminal, broad physical growth over a full 365-check lifetime without preset-specific runtime inputs.",
+          "requirement": "Every public starter at its immutable shipped seed and the same ink flattened into unlabeled freehand input exhibits substantial independently measured physical development over a full 365-check lifetime: broad nonterminal growth or significant vacating and turnover of original anatomy, without preset-specific runtime inputs. Mass gain is not required.",
           "oracle": "focused-node-test"
         },
         {
@@ -2197,7 +2197,8 @@
           "rssMaxMiB": 634.109375,
           "existingBudgetsChanged": false,
           "followUpTask": "PERF-002"
-        }
+        },
+        "historicalBaseline": "The numerical mass-growth evidence below records the pre-MORPH-006 implementation. It is historical, not acceptance of the revised non-additive morphology. Current turnover and qualification evidence belongs to MORPH-006."
       }
     },
     {
@@ -2288,6 +2289,204 @@
         "budgetsChanged": false,
         "independentSpatialAuditorChanged": false,
         "limits": "Reference measurements are Linux Node24; native-phone performance remains unmeasured. Full publication still requires successful production verification."
+      }
+    },
+    {
+      "id": "MORPH-006",
+      "phase": 4,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "Developmental tissue turnover and repatterning without permanent feature locks",
+      "dependsOn": [
+        "MORPH-005",
+        "PERF-002"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "A bounded source-derived developmental potential drives real mass transfer and resorption; no stationary-source quota, target mask or mandatory shape outcome. Independent small mathematical oracles establish the field, resource bounds, finite routes and null decisions.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Every shipped starter and unlabeled freehand equivalent has independently reconstructed anatomy across 365 daily opportunities; non-additive remodeling is measured through original-identity displacement/removal, vacated positions, proportions and trajectory changes. Birth ink and seed remain unchanged.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Unfamiliar drawings and immutable seed/care counterfactuals demonstrate source-dependent non-additive anatomical development; future care leaves the physical prefix unchanged and constrained individual nulls remain valid.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A4",
+          "requirement": "Independent birth replay rejects forged transport, resorption, attachment and cavity changes; exact saved replay, unchanged-between-check anatomy and final-check maturity remain valid.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-repatterning.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-repatterning.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/developmental-repatterning.ts",
+        "src/development/lifetime-remodeling.ts",
+        "src/development/remodel-transactions.ts",
+        "src/development/spatial-inventory.ts",
+        "tests/alg-development-repatterning.test.ts"
+      ],
+      "interfaceContract": {
+        "inputs": [
+          "immutable authored source cells and birth topology",
+          "once-assigned genotype and seed",
+          "causal recorded daily care",
+          "live material, growth sites, attachments and permanent chaotic histories"
+        ],
+        "outputs": [
+          "bounded source-traceable tissue transport and resorption",
+          "independently reconstructible site, attachment and cavity turnover",
+          "shared developmental potential guiding subsequent ordinary growth"
+        ],
+        "mustNot": [
+          "change starter ink or seeds",
+          "change UI or renderer",
+          "disable existing operator families or independent audits",
+          "replace a removed apex without explicit physical site succession",
+          "reset a surviving growth site orbit or lifetime counters",
+          "force a named creature, silhouette, or per-starter outcome",
+          "change daily clock, maturity, material or existing performance budgets"
+        ]
+      },
+      "evidenceSummary": {
+        "clock": "daily-365-v1",
+        "checkpoints": [
+          0,
+          60,
+          120,
+          220,
+          365
+        ],
+        "qualification": "All 12 immutable starter seeds and their 12 unlabeled equivalents independently reconstructed from birth. Each exceeds 25% source identity movement/removal and 10% genuinely vacated original occupied sites. Fixed per-source quotas and renderer changes are absent.",
+        "cases": {
+          "starter": {
+            "lives": 12,
+            "alteredSourceFractionRange": [
+              0.8537735849056604,
+              1
+            ],
+            "vacatedBirthPositionFractionRange": [
+              0.16483516483516483,
+              0.8378378378378378
+            ],
+            "areaRatioRange": [
+              0.5804597701149425,
+              2.402173913043478
+            ],
+            "retiredRegions": 14
+          },
+          "unlabeled": {
+            "lives": 12,
+            "alteredSourceFractionRange": [
+              0.7010869565217391,
+              1
+            ],
+            "vacatedBirthPositionFractionRange": [
+              0.19653179190751446,
+              1
+            ],
+            "areaRatioRange": [
+              0.7747252747252747,
+              2.538860103626943
+            ],
+            "retiredRegions": 0
+          }
+        },
+        "unfamiliarFocusedInputs": "six independent construction rules, two immutable seeds, future-care counterfactuals; compare actual occupied sites, not identity metadata. The registered MORPH-005 suite additionally covers 30 drawings x 3 seeds x 3 care histories.",
+        "conservation": "Independent from-birth inventory, source archives, paths, cardinal contact, attachment/site turnover, cavity-opening negative witnesses and exact 365-check/final maturity invariants. Apical renewal preserves torus state and all lifetime counters.",
+        "limits": "No claim of literal franchise resemblance or proof for every possible input. Structural thresholds do not certify aesthetic quality. Existing full verification, performance and exported browser gates remain required before publication.",
+        "unfamiliarCohort": {
+          "lives": 270,
+          "broad": 216,
+          "expressive": 270,
+          "nulls": 0,
+          "seedSensitive": 30,
+          "careSensitive": 30,
+          "topology": 170,
+          "proportions": 215,
+          "remodeled": 270,
+          "thickened": 257,
+          "regional": 267
+        }
+      }
+    },
+    {
+      "id": "PERF-003",
+      "phase": 4,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "Exact material indices and immutable geometry proofs for developmental turnover",
+      "dependsOn": [
+        "MORPH-006",
+        "PERF-002"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Indexed mechanical capabilities, region partitions, tissue groups and site-succession bookkeeping equal independent all-pairs geometry oracles and paired complete physical states, including exhaustive local occupancies, world edges, authored co-location, hinges, empty regions, permutations and 1024 independent source regions.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Private deep-immutability and source-field proofs cannot authorize mutable or shallow-frozen histories, source positions or source-ID vectors. Effective field inputs key a bounded cache. Full independent reconstruction still rejects forged cells, paths, sources, attachments and cavity records; JSON restoration and verified-prefix continuation remain exactly equal.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "All 365 daily opportunities, exact anatomical state and mathematical behavior survive the optimizations. The original performance budgets and publication gates remain unchanged.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-indexed-mechanics.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-indexed-mechanics.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/lifetime-remodeling.ts",
+        "src/development/developmental-repatterning.ts",
+        "src/development/daily-step.ts",
+        "src/development/spatial-inventory.ts",
+        "tests/alg-development-indexed-mechanics.test.ts",
+        "src/development/remodel-transactions.ts"
+      ],
+      "evidenceSummary": {
+        "independentTests": 3,
+        "localOccupancyCases": 2048,
+        "mechanics": "All-pairs disjoint-set component and neighbour-count oracle versus indexed physical graph. Includes overlays, all world corners, hinges, permutations, fractional reference-domain fallback and original stiffness behavior.",
+        "immutability": "Mutable restored data and shallow-frozen graphs cannot acquire a verified-prefix credential; full reconstruction rejects subsequent changes. Every new event is independently checked.",
+        "pairedDense365CheckState": "Complete serialized physical anatomy, events, source ancestry, sites, attachments, chaos and care/credit ledgers were compared before and after optimization: exact equality (1197 cells, 255 events, 365 checks). Profiling numbers were diagnostic under differing load, not acceptance timing.",
+        "budgetsChanged": false,
+        "mosaicRegression": {
+          "originalUnchangedColdLimitMs": 8000,
+          "failedColdMs": 20133.31654099998,
+          "failure": "Original PERF-001/A2 loading-time assertion, all other functional tests passed. No thresholds changed.",
+          "repair": "Replace repeated all-sites scans with direct site succession; index current tissue/position/child relationships; memoize only immutable birth-field inputs in a 12-phase bounded cache. Preserve exact decisions and journals.",
+          "pairedComplete365CheckStateUnchanged": true,
+          "physicalCells": 553,
+          "archivedTissues": 1024,
+          "physicalEvents": 32
+        },
+        "registeredFunctionalTestsPassed": 244,
+        "publicationRequirements": "Canonical full registered suite, isolated original PERF-001 budget tests, typecheck, web export, GitHub verification and exported browser/publication qualification.",
+        "sourceFieldCache": "At most 12 birth-field phase maps; immutable source positions and source-ID vectors only, keyed by effective field channels and permanent seed/owner/wave. Mutable or shallow-frozen data recomputes. Every physical operation is still independently reconstructed.",
+        "focusedConservationRegressionsPassed": 38,
+        "typecheck": "passed",
+        "webExport": "passed",
+        "indexedMechanicalContractTestsPassed": 3
       }
     }
   ],
@@ -2440,7 +2639,9 @@
         "MORPH-002",
         "MORPH-004",
         "MORPH-005",
-        "PERF-002"
+        "PERF-002",
+        "MORPH-006",
+        "PERF-003"
       ],
       "readyWhen": [
         "OBS-001"
@@ -2802,6 +3003,7 @@
       "reason": "Pinned optional worktree replay is implemented; actual full three-revision numerical output is not yet checked in or independently executed.",
       "command": "node scripts/morphology-compare.mjs --out=/tmp/infipet-morphology.json",
       "mustNeverBecomeImplicitPass": true
-    }
+    },
+    "expressedAnatomy": "Authored ink is an immutable birth/provenance record, not a permanent expressed shape. Original cells, recognizable features, growth apices and cavities may be physically resorbed, relocated or renewed through authorized independently reconstructed transactions. No minimum stationary-ink quota or feature-retention floor. Material continuity is chronological ancestry and accountable physical inventory, never a requirement to look like the birth drawing."
   }
 }

@@ -29,13 +29,15 @@ import type {
 } from "./material-graph";
 import type { MaterialDevelopmentProgram } from "./operators";
 import { MATERIAL_LIMITS } from "./operators";
+import {repatterningExpression} from "./developmental-repatterning";
+import {isLatticeConnected} from "./lattice-connectivity";
 
 export const REMODEL_LIMITS = {
   world: 64, maxOperations: 64, maxUnits: 12, maxAgeHours: 8192,
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
@@ -139,6 +141,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "translate": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
     case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": return c.segmentation.boundaries;
     case "articulate": return c.segmentation.boundaries;
   }
@@ -159,6 +162,10 @@ function validateOperation(op: RemodelOperation): void {
 }
 function activeConnected(group: readonly MaterialCell[]): boolean {
   if (!group.length) return false;
+  if(group.every(within)&&new Set(group.map(c=>c.id)).size===group.length)
+    return isLatticeConnected(group);
+  // Preserve the mathematical/debug semantics on non-lattice or duplicate
+  // inputs too. Such graphs are still rejected by transaction validation.
   const seen = new Set<string>([group[0].id]);
   const queue = [group[0]];
   for (let i = 0; i < queue.length; i++)
@@ -167,6 +174,13 @@ function activeConnected(group: readonly MaterialCell[]): boolean {
         seen.add(c.id); queue.push(c);
       }
   return seen.size === group.length;
+}
+function neighborhoodIndex(group:readonly MaterialCell[]):Map<string,MaterialCell[]>|null{
+  if(group.some(c=>!Number.isSafeInteger(c.x)||!Number.isSafeInteger(c.y))||
+    new Set(group.map(c=>c.id)).size!==group.length)return null;
+  const bins=new Map<string,MaterialCell[]>();
+  for(const c of group){const k=xy(c),list=bins.get(k)??[];list.push(c);bins.set(k,list);}
+  return bins;
 }
 function canDeposit(
   point: Point, tissueId: string, cells: readonly MaterialCell[],
@@ -281,6 +295,15 @@ export function compileLifetimeRemodeling(
         strength:Math.min(1,8/Math.sqrt(Math.max(1,tissue.sourceCellIds.length))),
       });
     }
+  }
+  const primary=tissues[0]??base.source.tissues[0];
+  if(!override&&primary){
+    // One organism-wide operator family reaches every source region,
+    // including small marks. Tissue IDs select provenance, never body parts.
+    for(const [wave,start] of [20,120,230].entries())operations.push({
+      id:"developmental-repattern/"+wave,kind:"repattern",tissueId:primary.id,
+      atHour:start,durationHours:[90,100,130][wave],units:12,strength:1,
+    });
   }
   if (operations.length > REMODEL_LIMITS.maxOperations)
     throw new RangeError("Too many remodeling operations");
@@ -402,7 +425,7 @@ export function lifetimeRemodelingAt(
         removed.push(choice);
         cells = cells.filter(c => c.id !== choice.id);
       }
-    } else if (op.kind === "reshape" || op.kind === "redistribute") {
+    } else if (op.kind === "reshape" || op.kind === "redistribute" || op.kind === "repattern") {
       // This legacy fractional-hour evaluator is not an authorized daily
       // material transaction; refusing prevents a fake anatomical snapshot.
       reason="region-front-requires-daily-physical-transaction";
@@ -516,8 +539,10 @@ export function mechanicalCapabilities(
   graph: MaterialGraph, articulations: ReadonlyMap<string, string> = new Map(),
 ): readonly MechanicalCapability[] {
   const result: MechanicalCapability[] = [];
+  const groups=new Map<string,MaterialCell[]>();
+  for(const c of graph.cells){const group=groups.get(c.tissueId)??[];group.push(c);groups.set(c.tissueId,group);}
   for (const tissue of graph.tissues) {
-    const group = graph.cells.filter(c => c.tissueId === tissue.id);
+    const group = groups.get(tissue.id)??[];
     if (!group.length) continue;
     const stiffness = cap(tissue.rigidity);
     if (group.length >= 3 && activeConnected(group)) {
@@ -538,8 +563,14 @@ export function mechanicalCapabilities(
         result.push({ id: tissue.id + "/flexible", kind: "flexible-span",
           tissueId: tissue.id, cellIds: group.map(c => c.id).sort(compareText),
           stiffness, mobility: 1 - stiffness });
-      const endpoints = group.filter(c =>
-        group.filter(other => other.id !== c.id && around(c, other)).length === 1);
+      const bins=neighborhoodIndex(group);
+      const endpoints = group.filter(c => {
+        if(!bins)return group.filter(other=>other.id!==c.id&&around(c,other)).length===1;
+        let neighbours=-1; // The unique current identity is in its own bin.
+        for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++)
+          neighbours+=bins.get((c.x+x)+","+(c.y+y))?.length??0;
+        return neighbours===1;
+      });
       for (const c of endpoints.slice().sort(compareCell))
         result.push({ id: c.id + "/effector", kind: "effector",
           tissueId: tissue.id, cellIds: [c.id], stiffness, mobility: 1 - stiffness });
@@ -575,8 +606,10 @@ export function mechanicalRegions(
   graph: MaterialGraph, articulations: ReadonlyMap<string, string> = new Map(),
 ): readonly MechanicalRegion[] {
   const regions: MechanicalRegion[] = [];
+  const groups=new Map<string,MaterialCell[]>();
+  for(const c of graph.cells){const group=groups.get(c.tissueId)??[];group.push(c);groups.set(c.tissueId,group);}
   for (const t of graph.tissues) {
-    const group = graph.cells.filter(c => c.tissueId === t.id);
+    const group = groups.get(t.id)??[];
     if (!group.length) continue;
     const hingeId = articulations.get(t.id) ?? null;
     const isHinge = hingeId !== null &&
@@ -585,6 +618,19 @@ export function mechanicalRegions(
     const remaining = group.filter(c => !isHinge || c.id !== hingeId);
     const unseen = new Map(remaining.map(c => [c.id, c]));
     const components: MaterialCell[][] = [];
+    const bins=neighborhoodIndex(remaining);
+    if(bins){
+      for(const first of [...unseen.values()].sort(compareCell)){
+        if(!unseen.has(first.id))continue;
+        const queue=[first];unseen.delete(first.id);
+        for(let i=0;i<queue.length;i++)for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++)
+          for(const c of bins.get((queue[i].x+x)+","+(queue[i].y+y))??[])
+            if(unseen.has(c.id)){unseen.delete(c.id);queue.push(c);}
+        components.push(queue.sort(compareCell));
+      }
+    }
+    // Fractional/debug inputs keep the original all-pairs definition. The
+    // accepted physical integer domain uses exactly equivalent local bins.
     while (unseen.size) {
       const first = [...unseen.values()].sort(compareCell)[0];
       const queue = [first];

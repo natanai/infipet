@@ -118,10 +118,18 @@ test("[MORPH-005/A2] all 12 shipped starters and their unlabeled freehand equiva
    const result=lifetime(parts,preset.seed),{before,after,delta,birth,adult}=result;
    // Declared before qualification: these are physical effect sizes, not a
    // resemblance score or a fitted target silhouette. All must pass together.
-   assert.ok(after.occupiedArea/before.occupiedArea>=1.75,
-    preset.id+" "+kind+": substantial occupied area growth");
-   assert.ok(delta.broadFraction>=.35,preset.id+" "+kind+": broad interior deposition");
-   assert.ok(delta.terminalFraction<=.4,preset.id+" "+kind+": no tendril-dominant substitute");
+   // MORPH-006 deliberately admits replacement and resorption of early
+   // anatomy. A universal mass-increase requirement would force bulk back
+   // into the engine. Retain the original broad-growth route, and require
+   // substantial independently visible non-additive change for the other.
+   const occupied=new Set(adult.cells.map(c=>c.x+","+c.y));
+   const vacated=new Set(birth.cells.map(c=>c.x+","+c.y));
+   for(const p of occupied)vacated.delete(p);
+   const broad=after.occupiedArea/before.occupiedArea>=1.75&&
+    delta.broadFraction>=.35&&delta.terminalFraction<=.4;
+   const remodeled=(delta.sourceRelocated+delta.sourceResorbed)/birth.sourceCells.length>=.25&&
+    vacated.size/before.occupiedArea>=.1;
+   assert.ok(broad||remodeled,preset.id+" "+kind+": substantial broad growth or real anatomical turnover");
    assert.ok(delta.structuralChange>=.4,preset.id+" "+kind+": substantial birth-relative change");
    assert.ok(delta.sourceRelocated>0||delta.sourceResorbed>0||delta.topologyChanged,
     "growth must include material remodeling or topological specialization");
@@ -152,7 +160,7 @@ test("[MORPH-005/A3] 30 unfamiliar drawings by three seeds by three chronologica
  const sources=morphologySources();
  assert.equal(sources.length,30);
  assert.equal(new Set(sources.map(s=>s.parts.flatMap(p=>p.pixels.map(c=>c.x+","+c.y)).sort().join(";"))).size,30);
- const summary={lives:0,broad:0,nulls:0,seedSensitive:0,careSensitive:0,
+ const summary={lives:0,broad:0,expressive:0,nulls:0,seedSensitive:0,careSensitive:0,
   topology:0,proportions:0,remodeled:0,thickened:0,regional:0};
  for(const source of sources){
   const lives=[];
@@ -162,7 +170,12 @@ test("[MORPH-005/A3] 30 unfamiliar drawings by three seeds by three chronologica
     const life=lifetime(source.parts,seed,strategy),d=life.delta;
     summary.lives++;
     if(d.created===0&&d.relocated===0&&d.removed===0)summary.nulls++;
-    if(d.broadFraction>=.35&&d.terminalFraction<=.4&&d.structuralChange>=.4)summary.broad++;
+    const broad=d.broadFraction>=.35&&d.terminalFraction<=.4&&d.structuralChange>=.4;
+    if(broad)summary.broad++;
+    const old=new Set(life.birth.cells.map(c=>c.x+","+c.y)),now=new Set(life.adult.cells.map(c=>c.x+","+c.y));
+    const vacated=[...old].filter(p=>!now.has(p)).length/old.size;
+    if(broad||vacated>=.1&&(d.sourceRelocated+d.sourceResorbed)/life.birth.sourceCells.length>=.25)
+      summary.expressive++;
     if(d.topologyChanged)summary.topology++;
     if(Math.abs(life.after.aspect-life.before.aspect)>=.15)summary.proportions++;
     if(d.sourceRelocated>0||d.sourceResorbed>0)summary.remodeled++;
@@ -181,7 +194,8 @@ test("[MORPH-005/A3] 30 unfamiliar drawings by three seeds by three chronologica
   console.info("REGIONAL_UNFAMILIAR",source.id,JSON.stringify(summary));
  }
  assert.equal(summary.lives,270);
- assert.ok(summary.broad>=summary.lives*.6,"broad anatomy must be frequent across independent inputs");
+ assert.ok(summary.expressive>=summary.lives*.6,"broad growth or non-additive anatomy must be frequent across independent inputs");
+ assert.ok(summary.broad>=24,"positive volumetric growth remains a demonstrated capability");
  assert.ok(summary.seedSensitive>=24&&summary.careSensitive>=24);
  assert.ok(summary.topology>=12&&summary.proportions>=24&&summary.remodeled>=24&&summary.thickened>=48);
  assert.ok(summary.regional>=48,"independent spatial allocation must change beyond a common overall scale");
@@ -248,7 +262,8 @@ test("[MORPH-005/A4] real saved-life recorded care reaches the same production o
  const sim=playerSimulation(parts,game,true),birth=sim.materialStateAt(0).graph,
   state=sim.materialStateAt(365);
  assert.equal(state.completedChecks,365);
- assert.ok(state.graph.cells.length>birth.cells.length);
+ assert.ok(measureChange(birth,state.graph).structuralChange>=.4,
+  "recorded care must produce actual anatomy change; it need not increase mass");
  assert.ok(state.graph.events.some(e=>e.kind==="expand"));
  assert.ok(state.graph.events.every(e=>e.careDigest&&!e.careDigest.startsWith("preview-lab/")));
  assert.ok(game.commandHistory.some(c=>c.accepted));

@@ -69,20 +69,20 @@ function conservation(graph:MaterialGraph){
    // snapshot, then update the same permanent cell identities together.
    const moved=new Map<string,MaterialCell>();
    for(const move of e.physical?.relocations??[]){
-     const before=live.get(move.cellId);
-     assert.ok(before,"moving matter must already exist");
-     assert.equal(xy(before),xy(move.from),"relocation from must equal live position");
+     const prior=before.get(move.cellId);
+     assert.ok(prior,"moving matter must already exist");
+     assert.equal(xy(prior),xy(move.from),"relocation from must equal live position");
      assert.ok(!moved.has(move.cellId),"duplicate relocation in one event");
      assert.equal(move.operationId,e.physical?.operation.id);
-     if(e.kind==="redistribute"){
+     if(e.kind==="redistribute"||e.kind==="repattern"){
        // Independently calculate path geometry from the pre-transaction map;
        // one-day mass transport is not a one-cell geometric translation.
        const path=move.path??[];
-       assert.ok(path.length>=3&&path.length<=25);
+       assert.ok(path.length>=(e.kind==="repattern"?2:3)&&path.length<=(e.kind==="repattern"?65:25));
        assert.equal(xy(path[0]),xy(move.from));
        assert.equal(xy(path.at(-1)!),xy(move.to));
-       const oldTissue=new Set([...live.values()]
-         .filter(c=>c.tissueId===before.tissueId).map(xy));
+       const oldTissue=new Set([...before.values()]
+         .filter(c=>c.tissueId===prior.tissueId).map(xy));
        assert.ok(!oldTissue.has(xy(move.to)),"reflow must VACATE and genuinely occupy new space");
        for(let i=1;i<path.length;i++){
          assert.ok(Math.max(Math.abs(path[i].x-path[i-1].x),
@@ -93,13 +93,14 @@ function conservation(graph:MaterialGraph){
              "intermediate route must be supported by actual existing tissue");
        }
        assert.equal(e.createdCellIds.length,0);
-       assert.equal(e.removedCellIds.length,0);
+       if(e.kind==="redistribute")assert.equal(e.removedCellIds.length,0);
+       else assert.ok((e.physical?.relocations.length??0)+e.removedCellIds.length<=64);
      }else{
        assert.ok(Math.max(Math.abs(move.from.x-move.to.x),
          Math.abs(move.from.y-move.to.y))<=1);
      }
      assert.equal(move.checkIndex,e.checkIndex);
-     moved.set(move.cellId,{...before,x:move.to.x,y:move.to.y});
+     moved.set(move.cellId,{...prior,x:move.to.x,y:move.to.y});
    }
    for(const [id,c] of moved)live.set(id,c);
  }
