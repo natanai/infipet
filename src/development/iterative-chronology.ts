@@ -61,6 +61,7 @@ import {
 } from "./iterative-growth";
 import type { MaterialDevelopmentProgram } from "./operators";
 import { REMODEL_LIMITS } from "./lifetime-remodeling";
+import {chooseMorphologicalField,rankMorphologicalField} from "./morphological-fields";
 
 /** Inclusive supported age. No modulo clock, implicit maturity reset, or clamp. */
 export const ITERATIVE_CHRONOLOGY_MAX_HOURS = REMODEL_LIMITS.maxAgeHours;
@@ -379,13 +380,14 @@ export function stepIterativeChronology(
     return unit({ x: raw.x + strength * light.x, y: raw.y + strength * light.y });
   };
   const place = (tip: MaterialCell, tissueId: string, axis: Point,
-    siteId: string, slot: number, kind: GrowthSuppression["kind"]): MaterialCell | null => {
+    siteId: string, slot: number, kind: GrowthSuppression["kind"],
+    coherentSurface=false,at?:Point): MaterialCell | null => {
     const direction = unit(axis);
-    const destination = { x: tip.x + Math.round(direction.x),
+    const destination = at ?? { x: tip.x + Math.round(direction.x),
       y: tip.y + Math.round(direction.y) };
     const reason = assessIterativePlacement(
       occupied, voids, tip, tissueId, destination,
-      Math.max(0, cells.length - graph.sourceCells.length), roots,
+      Math.max(0, cells.length - graph.sourceCells.length), roots, coherentSurface,
     );
     if (reason) {
       suppressions.push({ hour: n, siteId, kind, attempted: destination, reason });
@@ -472,6 +474,32 @@ export function stepIterativeChronology(
             kind: "introduced", reason: "branch-born" });
           s.forks++;
           break;
+        }
+      }
+      // Physical whole-region growth, not repeated tip extrusion. Select
+      // from REAL current tissue material and a permanent seeded chaotic orbit.
+      // Each accepted candidate is a one-credit, one-cell "expand" event with
+      // its own live immediate parent and full material journal. A proposal
+      // cannot create a new tissue, cross a protected void, or invent an organ.
+      // The within-tissue contact rule differs from a free-standing branch:
+      // touching several of one's own live cells is physically desirable.
+      const expansion=birth.signals.channels.growth.expansion;
+      if(!made && expansion>=0.12 && s.extensions>=1){
+        const orbit=slot===0?s.orbit:
+          Array.from({length:slot}).reduce(o=>stepChaos(o),s.orbit);
+        if(orbit.x/(CHAOS_MODULUS-1)<expansion){
+          const mode=chooseMorphologicalField(expansion,
+            birth.signals.channels.support.membrane,orbit);
+          if(mode)for(const candidate of rankMorphologicalField(
+            cells,s.tissueId,mode,orbit,4)){
+            const parent=byId.get(candidate.parentId);
+            if(!parent)continue;
+            const destination=candidate.destination;
+            made=place(parent,s.tissueId,
+              {x:destination.x-parent.x,y:destination.y-parent.y},
+              s.id,slot,"expand",true,destination);
+            if(made){s.lateralCells++;break;}
+          }
         }
       }
       const canSpread = !made && s.depth > 0 && s.extensions >= 2 &&
