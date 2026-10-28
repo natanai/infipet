@@ -1690,12 +1690,17 @@ export default function App() {
                   const baseline=createSimulation(parts,seed,mode,{
                     needTimeline:needPreview??needTimeline,groomingTimeline,
                   });
-                  const original=morphologyShapeMetrics(
-                    baseline.materialStateAt(age).graph);
-                  const experimental=morphologyShapeMetrics(
-                    simulation.materialStateAt(age).graph);
+                  const originalGraph=baseline.materialStateAt(age).graph;
+                  const experimentalGraph=simulation.materialStateAt(age).graph;
+                  const original=morphologyShapeMetrics(originalGraph);
+                  const experimental=morphologyShapeMetrics(experimentalGraph);
+                  const pixels=(graph:typeof originalGraph)=>graph.cells.map(c=>({
+                    x:c.x,y:c.y,color:c.color,materialCellId:c.id,
+                  }));
                   return {
                     age,seed,original,experimental,
+                    originalPixels:pixels(originalGraph),
+                    experimentalPixels:pixels(experimentalGraph),
                     recipe:JSON.stringify({
                       kind:"infipet-morphology-lab-v1",
                       source:"currently edited drawing",
