@@ -155,8 +155,7 @@ test("[MORPH-002/A4] actual daily development deposits source-owned nontip mater
    const before=bounds(state.graph.cells);
    for(let k=1;k<=42;k++)state=applyDailyMaterialStep(program,genome,state,window(k,1));
    conservation(state.graph);
-   verifyDailyMaterialInventory(state.graph,EPOCH,42,program.source,
-     {material:program.operators,remodeling:[]});
+   verifyDailyMaterialInventory(state.graph,EPOCH,42,program.source);
    const fields=state.graph.events.filter(e=>e.physical?.system==="iterative"&&e.kind==="expand");
    const tip=state.graph.events.filter(e=>e.physical?.system==="iterative"&&e.kind==="elongate");
    const shape=bounds(state.graph.cells);
@@ -207,7 +206,7 @@ test("[MORPH-002/A6] fabricated new material, forged relocation and ancestral de
    parentCellIds:[g.sourceCells[0].id],operationId:"invented"};
  assert.throws(()=>conservation({...g,cells:[...g.cells,extra]}),/deep-equal|Expected/);
  assert.throws(()=>verifyDailyMaterialInventory({...g,cells:[...g.cells,extra]},
-   EPOCH,18,program.source,{material:program.operators,remodeling:[]}));
+   EPOCH,18,program.source));
  const forged=g.events.length?g.events.map((e,i)=>i===0?
    {...e,createdCellIds:["invented-material"]}:e):[];
  if(forged.length)assert.throws(()=>conservation({...g,events:forged}));
