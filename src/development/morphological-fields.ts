@@ -14,7 +14,7 @@
  *   thickening: U=(n(p)-1)/7 - ||p-c||_2/(2*world);
  *   width:     U=|p_x-c_x|/(width/2+1) - |p_y-c_y|/(height+1);
  *   height:    U=|p_y-c_y|/(height/2+1) - |p_x-c_x|/(width+1);
- *   surface:   U=||p-c||_2/(max(width,height)+1)+n(p)/16;
+ *   surface:   U=(n(p)-1)/3 + 0.2*||p-c||_2/(max(width,height)+1);
  *   U+=0.10*(p-c) dot u(theta)/(max(width,height)+1)
  * where theta=2*pi*orbit.x/(p-1), p=65521 (exact recurrent integer).
  *
@@ -112,7 +112,7 @@ export function rankMorphologicalField(
       Math.abs(dx)/(width/2+1)-Math.abs(dy)/(height+1):
      mode==="height"?
       Math.abs(dy)/(height/2+1)-Math.abs(dx)/(width+1):
-      Math.hypot(dx,dy)/(Math.max(width,height)+1)+n/16;
+      (n-1)/3+0.2*Math.hypot(dx,dy)/(Math.max(width,height)+1);
    const coherence=0.1*(dx*uv.x+dy*uv.y)/(Math.max(width,height)+1);
    const chosen=[...parents].sort((a,b)=>
      (a.id<b.id?-1:a.id>b.id?1:0))[0];
