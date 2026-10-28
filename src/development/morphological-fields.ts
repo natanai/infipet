@@ -74,15 +74,17 @@ export function chooseMorphologicalField(
  }
  return modes[3];
 }
-export function proposeMorphologicalField(
+export function rankMorphologicalField(
  live:readonly MaterialCell[],tissueId:string,mode:MorphologicalField,
- orbit:ChaosState,
-):MorphologicalProposal|null{
+ orbit:ChaosState,limit=24,
+):readonly MorphologicalProposal[]{
+ if(!Number.isSafeInteger(limit)||limit<1||limit>64)
+   throw new RangeError("Field proposal cap must be within 1..64");
  validOrbit(orbit);
  if(!["thicken","width","height","surface"].includes(mode))
    throw new RangeError("Unknown morphological field");
  const cells=live.filter(c=>c.tissueId===tissueId);
- if(!cells.length||cells.length>4096)return null;
+ if(!cells.length||cells.length>4096)return [];
  const occupied=new Set(live.map(c=>key(c.x,c.y)));
  const minX=Math.min(...cells.map(c=>c.x)),maxX=Math.max(...cells.map(c=>c.x)),
    minY=Math.min(...cells.map(c=>c.y)),maxY=Math.max(...cells.map(c=>c.y));
@@ -121,5 +123,11 @@ export function proposeMorphologicalField(
    b.neighboringMaterial-a.neighboringMaterial||
    a.destination.y-b.destination.y||a.destination.x-b.destination.x||
    (a.parentId<b.parentId?-1:a.parentId>b.parentId?1:0));
- return candidates[0]??null;
+ return candidates.slice(0,limit);
+}
+export function proposeMorphologicalField(
+ live:readonly MaterialCell[],tissueId:string,mode:MorphologicalField,
+ orbit:ChaosState,
+):MorphologicalProposal|null{
+ return rankMorphologicalField(live,tissueId,mode,orbit,1)[0]??null;
 }
