@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   current: { borderColor: T.bright, width: 54 },
   palette: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 4,
-    alignSelf: "stretch", paddingVertical: 2 },
+    width: 236, maxWidth: "100%", alignSelf: "center", paddingVertical: 2 },
   gridPart: { margin: 0 },
   selected: { backgroundColor: T.bright, borderColor: T.bright },
 });
