@@ -68,8 +68,15 @@ export function proposeCoherentReshape(graph:MaterialGraph,tissueId:string,
  }).sort((a,b)=>a.sourceDistance-b.sourceDistance||
    a.lateralDistance-b.lateralDistance||b.support-a.support||
    b.radial-a.radial||(a.cell.id<b.cell.id?-1:a.cell.id>b.cell.id?1:0));
+ // A source-scaled, permanently bounded regional material budget is
+ // independent of tip-growth spending and prevents the chronicle from being
+ // saturated with hundreds of ever-widening front transactions.
+ const previous=graph.events.filter(e=>e.kind==="reshape"&&
+   e.physical?.operation.tissueId===tissueId)
+   .reduce((n,e)=>n+e.createdCellIds.length,0);
+ const capacity=Math.min(96,Math.ceil(source.length*5));
  const free=3072-graph.cells.filter(c=>c.provenance==="generated").length;
- const chosen=candidates.slice(0,Math.max(0,Math.min(limit,free)));
+ const chosen=candidates.slice(0,Math.max(0,Math.min(limit,free,capacity-previous)));
  if(!chosen.length)return null;
  const displaced=new Map(chosen.map(o=>[o.cell.id,o.target]));
  const createdCells=chosen.map((o,i):MaterialCell=>({
