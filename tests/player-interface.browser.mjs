@@ -180,6 +180,9 @@ try {
         assert.equal(await part.isVisible(), true);
         assert.equal(await part.getByText(name, {exact: true}).isVisible(),true,
           `body-part material ${name} must have a visible name`);
+        const fontSize=await part.getByText(name,{exact:true})
+          .evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+        assert.ok(fontSize>=16,`material ${name} is actually readable, not 13px subtext`);
         if (viewport.width < 500) await part.tap();
         else await part.click();
         assert.equal(await part.getAttribute("aria-pressed"), "true");
