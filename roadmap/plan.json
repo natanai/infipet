@@ -1744,7 +1744,7 @@
       ],
       "algorithmId": "integration",
       "qualification": {
-        "evidence": "Both focused tests pass: all three five-round games, prepared juvenile battle, seeded deterministic scoring/rewards and owned quad poses. Current numbers only; future draws cannot affect presentation. Exported browser passes all five rounds of each game and a healthy juvenile battle; actual day366 care/reopen also passes."
+        "evidence": "Both focused tests pass: all three five-round games, prepared juvenile battle, seeded deterministic scoring/rewards and owned quad poses. Current numbers only; future draws cannot affect presentation. Exported browser passes all five rounds of each game and a healthy juvenile battle; actual day366 care/reopen also passes. A raster-level negative test caught subpixel-only Numbers motion on one-pixel/3x3 sources; the bounded 1.2-cell bob now produces actual visible pixel changes for every game while keeping the authoritative graph identical."
       }
     },
     {
@@ -2229,7 +2229,8 @@
       "browserPerformanceScenarios": 8,
       "budgets": "unchanged",
       "ciVerify": "https://github.com/natanai/infipet/actions/runs/40608932336",
-      "ciWeb": "https://github.com/natanai/infipet/actions/runs/40608932246"
+      "ciWeb": "https://github.com/natanai/infipet/actions/runs/40608932246",
+      "rasterCorrection": "Additional single-pixel and 3x3 actual-rendered-pixel animation regression passes; needs/material performance inputs are unchanged."
     },
     "releaseGate": "Source/test receipts do not claim deployment. Merge only the verified PR head; Publish Web must succeed on the exact resulting main SHA and live release.json must match before final publication qualification.",
     "limits": [

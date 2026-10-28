@@ -11,7 +11,7 @@ import {
 } from "../src/gameplay";
 import { careGamePresentation } from "../src/integration/care-game-pose";
 import { createSimulation } from "../src/simulation";
-import { fixtures } from "./alg-development-fixtures";
+import { fixtures, drawing } from "./alg-development-fixtures";
 const T = Date.UTC(2026, 9, 27, 12),
   parts = fixtures.branching;
 function command(s: GameState, c: Parameters<typeof commandGame>[1]) {
@@ -87,6 +87,14 @@ test("[GAME-003/A2] actual saved-player frames pose owned cells for cues/results
         .flatMap((p) => p.pixels)
         .every((p) => state.graph.cells.some((c) => c.id === p.materialCellId)),
     );
+    for(const source of [drawing(["#"]),drawing(["###","###","###"])]){
+      const tiny=createSimulation(source,game.seed,"infant",{careGame:game});
+      const physical=tiny.materialStateAt(0);
+      const frames=Array.from({length:10},(_,i)=>tiny.frameAt(0,{time:i/10}));
+      assert.ok(new Set(frames.map(f=>JSON.stringify(f.pixels.map(p=>[p.x,p.y])))).size>1,
+        kind+" must visibly animate even one authored pixel; changing diagnostics alone is insufficient");
+      assert.deepEqual(tiny.materialStateAt(0),physical);
+    }
     if (kind === "numbers") {
       const altered = JSON.parse(JSON.stringify(game));
       altered.activity.targets.reverse();

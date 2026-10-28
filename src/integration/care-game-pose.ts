@@ -46,7 +46,7 @@ export function careGamePresentation(
     return {
       kind: a.kind,
       cue: `${a.shownNumbers[a.round]} · Guess higher or lower`,
-      offset: { x: 0, y: -0.4 * pulse },
+      offset: { x: 0, y: -1.2 * pulse },
       rotation: Math.sin(t * Math.PI) * 0.03,
     };
   }
