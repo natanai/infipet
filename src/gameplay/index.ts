@@ -1,5 +1,6 @@
 /** Infipet's deterministic, serializable pocket-pet game. No renderer or wall-clock reads. */
 import type { NeedKeyframe, NeedId } from "../needs";
+import {createNeedsSimulation,type NeedsReplayCheckpoint} from "../needs/simulation";
 import { selectV1Branch } from "./reference-profiles";
 export {
   REFERENCE_PROFILES,
@@ -90,6 +91,18 @@ export type GameActivity =
 type Call = { atMs: number; missed: boolean };
 /** Existing hourly care evidence, with optional hunger sampling for old save compatibility. */
 type CareSample = { hour: number; values: number[]; nutrition?: number };
+export type MatureCareSample = CareSample & {
+  atMs:number;presence:CareObservation["presence"];
+};
+/** Exact sufficient state plus a bounded causal suffix. Historical anatomy
+ * retains its finite pre-maturity archive; this is exclusively physiology. */
+export type MatureCareHistory = {
+  checkpoint:NeedsReplayCheckpoint;
+  samples:MatureCareSample[];
+};
+const MATURE_SUFFIX_LIMIT=128;
+const MATURE_RETIRE_BATCH=64;
+
 /** Actual post-event physiology; piecewise held until the next observation.
  * Presence describes the following interval, never an invented care action. */
 export type CareObservation = Readonly<{
@@ -175,6 +188,7 @@ export type GameState = {
   commandHistory: CommandRecord[];
   randomCounters: { refusals: number; games: number; battles: number };
   careSamples: CareSample[];
+  matureCare?:MatureCareHistory;
   /** Absent only in pre-daily saves; unknown historical effects remain unknown. */
   careObservations?: CareObservation[];
 };
@@ -334,9 +348,37 @@ function careValues(s: GameState) {
 }
 function sample(s: GameState, presence: CareObservation["presence"] = "active",recordObservation=true) {
   if (s.stage === "egg") return;
-  // Detailed anatomical evidence has a finite 365-day horizon. Current
-  // meters and commands still operate without a maximum biological lifespan.
-  if (s.clock.nowMs - s.clock.hatchAtMs > ANATOMICAL_HISTORY_MS) return;
+  // Exact post-maturity care is an independent, bounded physiology stream.
+  // Its checkpoint is a sufficient state of the same needs integrator;
+  // retiring an old event does NOT invent or backdate a care action.
+  if(s.clock.nowMs-s.clock.hatchAtMs>ANATOMICAL_HISTORY_MS){
+    if(!recordObservation)return;
+    if(!s.matureCare){
+      const anchor=createNeedsSimulation(s.seed,s.careSamples.flatMap(p=>
+        CARE_NEEDS.map((needId,i)=>({needId,tick:p.hour,fulfillment:p.values[i]}))))
+        .exportCheckpoint(365);
+      s.matureCare={checkpoint:anchor,samples:[]};
+    }
+    const history=s.matureCare,values=careValues(s);
+    const next:MatureCareSample={atMs:s.clock.nowMs,
+      hour:(s.clock.nowMs-s.clock.hatchAtMs)/HOUR,
+      values:Object.freeze(values) as unknown as number[],
+      nutrition:s.meters.hunger/4,presence};
+    const last=history.samples.at(-1);
+    if(last?.atMs===next.atMs)history.samples[history.samples.length-1]=Object.freeze(next);
+    else if(!last||last.presence!==next.presence||last.nutrition!==next.nutrition||
+      next.values.some((v,i)=>v!==last.values[i]))history.samples.push(Object.freeze(next));
+    if(history.samples.length>MATURE_SUFFIX_LIMIT){
+      const retired=history.samples.slice(0,MATURE_RETIRE_BATCH);
+      const timeline=retired.flatMap(p=>CARE_NEEDS.map((needId,i)=>({
+        needId,tick:p.hour,fulfillment:p.values[i],
+      })));
+      const replay=createNeedsSimulation(s.seed,timeline,history.checkpoint);
+      history.checkpoint=replay.exportCheckpoint(retired.at(-1)!.hour/24);
+      history.samples=history.samples.slice(MATURE_RETIRE_BATCH);
+    }
+    return;
+  }
   if(recordObservation){
   const observed: CareObservation = Object.freeze({atMs:s.clock.nowMs,
     values:Object.freeze(careValues(s)), nutrition:s.meters.hunger/4, presence});
@@ -1018,7 +1060,7 @@ export function commandGame(
 }
 /** Gameplay-derived care is separate from the player's manually authored Lab timeline. */
 export function deriveCareTimeline(s: GameState): NeedKeyframe[] {
-  return s.careSamples.flatMap((p) =>
+  return [...s.careSamples,...(s.matureCare?.samples??[])].flatMap((p) =>
     CARE_NEEDS.map((needId, i) => ({
       needId,
       tick: p.hour,
@@ -1031,7 +1073,7 @@ export function careAt(
   developmentalHour: number,
 ): Record<string, number> {
   let values = [0.75, 0.75, 0.75, 0.75, 0.75, 0.75];
-  for (const p of s.careSamples) {
+  for (const p of [...s.careSamples,...(s.matureCare?.samples??[])]) {
     if (p.hour > developmentalHour) break;
     values = p.values;
   }
@@ -1101,6 +1143,7 @@ export function validateGameState(value: unknown): GameState {
     "commandHistory",
     "randomCounters",
     "careSamples",
+    "matureCare",
     "careObservations",
   ]);
   if (
@@ -1411,6 +1454,28 @@ export function validateGameState(value: unknown): GameState {
   )
     throw new Error("Invalid derived care history.");
   s.careSamples.forEach((p) => keys(p, ["hour", "values", "nutrition"]));
+  if(s.matureCare!==undefined){
+    const m=s.matureCare;
+    keys(m,["checkpoint","samples"]);
+    const c=m.checkpoint;
+    keys(c,["tick","raw","fast","exposure","memory","signals"]);
+    if(!finite(c.tick,8760,gameAgeHours(s))||
+       ![c.raw,c.fast,c.exposure,c.memory].every(values=>
+         Array.isArray(values)&&values.length===67&&values.every(n=>finite(n,0,Number.MAX_SAFE_INTEGER)))||
+       !c.signals||typeof c.signals!=="object"||
+       !Array.isArray(m.samples)||m.samples.length>MATURE_SUFFIX_LIMIT)
+      throw new Error("Invalid bounded mature physiology");
+    m.samples.forEach((p,i)=>{
+      keys(p,["hour","atMs","values","nutrition","presence"]);
+      if(!integer(p.atMs,s.clock.hatchAtMs+ANATOMICAL_HISTORY_MS+1,s.clock.nowMs)||
+         p.hour!==(p.atMs-s.clock.hatchAtMs)/HOUR||
+         p.hour<=c.tick||(i>0&&p.atMs<=m.samples[i-1].atMs)||
+         !Array.isArray(p.values)||p.values.length!==6||
+         !p.values.every(n=>finite(n,0,1))||!finite(p.nutrition,0,1)||
+         !["active","absent","birth"].includes(p.presence))
+        throw new Error("Invalid postmaturity care evidence");
+    });
+  }
   if (s.careObservations !== undefined) {
     if (!Array.isArray(s.careObservations)) throw new Error("Invalid care observations.");
     s.careObservations.forEach((o,i)=>{
@@ -1509,6 +1574,10 @@ export function validateGameState(value: unknown): GameState {
   }
   const validated=copyGame(s);
   validated.careSamples=validated.careSamples.map(o=>Object.isFrozen(o)&&Object.isFrozen(o.values)?o:Object.freeze({...o,values:Object.freeze([...o.values]) as unknown as number[]}));
+  if(validated.matureCare){
+    validated.matureCare={checkpoint:validated.matureCare.checkpoint,
+      samples:validated.matureCare.samples.map(o=>Object.freeze({...o,values:Object.freeze([...o.values]) as unknown as number[]}))};
+  }
   validated.commandHistory=validated.commandHistory.map(immutableRecord);
   if(validated.careObservations)validated.careObservations=validated.careObservations.map(o=>Object.isFrozen(o)&&Object.isFrozen(o.values)?o:Object.freeze({...o,values:Object.freeze([...o.values])}));
   return validated;
