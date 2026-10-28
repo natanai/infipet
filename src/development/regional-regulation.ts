@@ -28,7 +28,7 @@
 import type {DevelopmentalChannels} from "../genetics";
 import {CHAOS_MODULUS,type ChaosState} from "./chaos";
 
-export const REGIONAL_GROWTH_VERSION="source-regional-competition-v1" as const;
+export const REGIONAL_GROWTH_VERSION="source-developmental-repatterning-v2" as const;
 const bounded=(v:number)=>Number.isFinite(v)&&v>=0&&v<=1;
 export function regionalGrowthDemand(authored:number,live:number,sites:number,capacity:number):number{
  if(![authored,live,sites,capacity].every(Number.isSafeInteger)||

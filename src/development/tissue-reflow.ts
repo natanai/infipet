@@ -75,15 +75,12 @@ export function proposeTissueReflow(graph:MaterialGraph,tissueId:string,
  // Select the receding ORTHOGONAL flank: transferring mass from height
  // to width (or vice versa) changes whole-tissue aspect, not just position.
  const donorAxis={x:-direction.y,y:direction.x};
- const sourceById=new Map(source.map(c=>[c.id,c]));
- const stationary=group.filter(c=>{
-  const initial=sourceById.get(c.id);
-  return initial&&initial.x===c.x&&initial.y===c.y;
- }).length;
- const coreFloor=Math.ceil(source.length*0.35);
+ // Preserve source identity through complete provenance, rather than a
+ // quota of stationary coordinates. Reflow conserves every live identity;
+ // the independent journal additionally proves its exact physical route.
+ const authored=new Set(graph.sourceCells.map(c=>c.id));
+ if(group.some(c=>!c.sourceIds.length||c.sourceIds.some(id=>!authored.has(id))))return null;
  const donors=group.filter(c=>!anchored.has(c.id)&&
-  (stationary>coreFloor||!sourceById.has(c.id)||
-    sourceById.get(c.id)!.x!==c.x||sourceById.get(c.id)!.y!==c.y)&&
   !at(c.x-donorAxis.x,c.y-donorAxis.y)&&
   group.length>1&&connected(group.filter(other=>other.id!==c.id)))
   .sort((a,b)=>lateral(a)-lateral(b)||dot(a)-dot(b)||

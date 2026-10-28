@@ -20,8 +20,10 @@ import {journalMaterialEvent} from "./material-journal";
  * The persistent site record includes direction, full exact torus state,
  * elapsed extension/fork/lateral counts, activation time and invalidations.
  * A relocated tip with its SAME cell ID follows the relocated cell; a removed
- * tip, removed site registration, or missing tissue irreversibly invalidates
- * the site. No nearest-tip guesses or implicit joins. External site additions
+ * tip without a documented physical succession, removed site registration,
+ * or missing tissue irreversibly invalidates the site. No nearest-tip guesses
+ * or implicit joins. A documented succession preserves the existing orbit
+ * and lifetime counters. External site additions
  * are admitted only when registered on the current MaterialGraph and backed
  * by a live source-traceable cell. Existing event and tissue arrays are never
  * reconstructed from birth. Source material and birth genotype are immutable.
@@ -65,6 +67,7 @@ import {chooseMorphologicalField,rankMorphologicalField,
   morphologicalVolumeCapacity} from "./morphological-fields";
 import {regionalGrowthDemand,regionalGrowthTensor,selectRegionalGrammar,
   type RegionalCare} from "./regional-regulation";
+import type {RepatterningField} from "./developmental-repatterning";
 
 /** Inclusive supported age. No modulo clock, implicit maturity reset, or clamp. */
 export const ITERATIVE_CHRONOLOGY_MAX_HOURS = REMODEL_LIMITS.maxAgeHours;
@@ -90,11 +93,11 @@ export type PersistentGrowthSite = Readonly<{
 export type GrowthSiteChange = Readonly<{
   atHour: number;
   siteId: string;
-  kind: "introduced" | "invalidated";
+  kind: "introduced" | "invalidated" | "renewed";
   reason:
     | "birth" | "external-site" | "branch-born"
     | "tip-removed" | "root-removed" | "site-removed" | "tissue-removed"
-    | "site-tissue-changed" | "source-invalid";
+    | "site-tissue-changed" | "source-invalid" | "material-site-turnover";
 }>;
 
 export type IterativeChronologyState = Readonly<{
@@ -270,7 +273,8 @@ export function stepIterativeChronology(
   /** The exact 365-opportunity daily engine explicitly opts into expanded
    * physical field families. Omitted means legacy hourly numerical semantics,
    * which continue to have independently established oracles. */
-  policy: Readonly<{enablePhysicalFields:boolean;care?:RegionalCare}>={enablePhysicalFields:false},
+  policy: Readonly<{enablePhysicalFields:boolean;care?:RegionalCare;
+    developmentalFields?:ReadonlyMap<string,RepatterningField>}>={enablePhysicalFields:false},
 ): IterativeChronologyStep {
   if (state.version !== 1 ||
       state.fingerprint !== birth.fingerprint ||
@@ -311,18 +315,31 @@ export function stepIterativeChronology(
   const suppressions: GrowthSuppression[] = [];
   const createdEvents: MaterialEvent[] = [];
 
-  // A missing tip is never replaced by a heuristic "nearest" cell. A
-  // translation preserving the persistent ID naturally follows the cell.
+  // Explicit physical site succession may replace an apex. No nearest-cell
+  // guess, resurrection, new orbit or reset of lifetime counters is allowed.
+  // Ordinary unjournaled disappearance still permanently invalidates a site.
   for (const s of lives) {
     if (s.status === "invalidated") continue;
     const recorded = registry.get(s.id);
+    if(recorded&&recorded.rootCellId!==s.tipCellId){
+      let successor=s.tipCellId;
+      for(const event of graph.events)if(event.atHour===n+1&&
+        ["elongate","extend","branch","bud","repattern"].includes(event.kind))
+        for(const change of event.physical?.sites??[])
+          if(change.id===s.id&&change.before?.rootCellId===successor&&change.after)
+            successor=change.after.rootCellId;
+      if(successor===recorded.rootCellId&&byId.get(successor)?.tissueId===s.tissueId){
+        s.tipCellId=recorded.rootCellId;
+        changes.push({atHour:n+1,siteId:s.id,kind:"renewed",reason:"material-site-turnover"});
+      }
+    }
     const tip = byId.get(s.tipCellId);
     const reason: GrowthSiteChange["reason"] | null =
       !tissuesById.has(s.tissueId) ? "tissue-removed" :
       !recorded ? "site-removed" :
       recorded.tissueId !== s.tissueId ? "site-tissue-changed" :
-      !byId.has(recorded.rootCellId) ? "root-removed" :
-      !tip || tip.tissueId !== s.tissueId ? "tip-removed" : null;
+      !tip || tip.tissueId !== s.tissueId ? "tip-removed" :
+      !byId.has(recorded.rootCellId) ? "root-removed" : null;
     if (reason) {
       s.status = "invalidated";
       changes.push({ atHour: n, siteId: s.id, kind: "invalidated", reason });
@@ -535,7 +552,7 @@ export function stepIterativeChronology(
                 attempted:{x:tip.x,y:tip.y},reason:"genetic-volume-cap"});
             }else{
               for(const candidate of rankMorphologicalField(
-                cells,s.tissueId,mode,orbit,24,tensors.get(s.tissueId))){
+                cells,s.tissueId,mode,orbit,24,tensors.get(s.tissueId),policy.developmentalFields?.get(s.tissueId))){
                 const parent=byId.get(candidate.parentId);
                 if(!parent)continue;
                 const destination=candidate.destination;
@@ -564,6 +581,12 @@ export function stepIterativeChronology(
         made = place(tip, s.tissueId, axis, s.id, slot, "elongate");
         if (made) {
           s.tipCellId = made.id; s.direction = axis; s.extensions++;
+          const registered=registry.get(s.id);
+          if(registered){
+            const updated={...registered,rootCellId:made.id};
+            const index=sites.findIndex(site=>site.id===s.id);
+            sites[index]=updated;registry.set(s.id,updated);
+          }
         }
       }
       if (!made) { s.status = "blocked"; break; }

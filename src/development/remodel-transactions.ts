@@ -2,6 +2,7 @@ import {journalMaterialEvent} from "./material-journal";
 import {proposeCoherentReshape} from "./coordinated-metamorphosis";
 import {proposeTissueReflow} from "./tissue-reflow";
 import {isLatticeConnected} from "./lattice-connectivity";
+import {proposeDevelopmentalRepatterning,repatterningExpression} from "./developmental-repatterning";
 /**
  * Composable DEV-004 remodeling transactions. This module never replays birth
  * anatomy or chooses the global order of heterogeneous development events.
@@ -113,6 +114,7 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "resorb": case "translate": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
     case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": case "articulate": return c.segmentation.boundaries;
   }
 }
@@ -189,6 +191,7 @@ function checkGraph(g:MaterialGraph):string|null {
   if(tissue.size!==g.tissues.length) return "duplicate-tissue";
   const events=new Set(g.events.flatMap(e=>e.createdCellIds));
   const positions=new Map<string,MaterialCell>();
+  const groups=new Map<string,MaterialCell[]>();
   let generated=0;
   for(const c of g.cells) {
     if(!bounded(c)) return "existing-outside-world";
@@ -212,10 +215,11 @@ function checkGraph(g:MaterialGraph):string|null {
     if(prior && (c.provenance==="generated" ||
       prior.provenance==="generated")) return "existing-material-overlap";
     positions.set(k,c);
+    const group=groups.get(c.tissueId)??[];group.push(c);groups.set(c.tissueId,group);
   }
   if(generated>REMODEL_LIMITS.maxAdded) return "existing-material-limit";
   for(const t of g.tissues) {
-    const group=g.cells.filter(c=>c.tissueId===t.id);
+    const group=groups.get(t.id)??[];
     if(group.length && !connected(group)) return "existing-tissue-disconnected";
     if(t.parentId && !tissue.has(t.parentId)) return "missing-parent-tissue";
     const visited=new Set<string>();
@@ -310,6 +314,8 @@ export function applyRemodelingProposal(
   /** Daily callers commit an earned proposal only at ceil(nominal tick).
    * This changes the real transaction clock, not just its displayed sprite. */
   commitAtOpportunity?:number,
+  /** Interval-local care scales physical work; no future-care inputs. */
+  repatterningBudget=64,
 ):RemodelingTransaction {
   const op=proposal.operation, k=proposal.unit, atHour=commitAtOpportunity??proposal.atHour;
   const id=op.id+"/unit/"+k;
@@ -349,7 +355,10 @@ export function applyRemodelingProposal(
     const anchor=group.find(c=>c.id===site?.rootCellId) ??
       [...group].sort(cmp)[0];
     const forbidden=new Set([...graph.protectedVoids,...enclosed(graph.cells)]);
-    if(!tissue||!anchor||!connected(group))reason="missing-or-invalid-tissue";
+    // Organism-wide turnover is authorized by an archived source tissue;
+    // it remains available after that region retires. Local operators still
+    // require their own connected living anchor.
+    if(!tissue||(op.kind==="repattern"?!graph.cells.length:!anchor||!connected(group)))reason="missing-or-invalid-tissue";
     else if(op.sourceSiteId && !graph.sites.some(s=>
       s.tissueId===op.tissueId && s.id===op.sourceSiteId))
       reason="missing-named-site";
@@ -417,6 +426,19 @@ export function applyRemodelingProposal(
       else {
         removed.push(choice);
         next={...graph,cells:graph.cells.filter(c=>c.id!==choice.id)};
+      }
+    } else if(op.kind==="repattern") {
+      const proposed=proposeDevelopmentalRepatterning(graph,program.signals.channels,
+        program.seed,op.id,k,repatterningBudget);
+      if(!proposed)reason="no-admissible-developmental-turnover";
+      else{
+        removed.push(...proposed.removedCells);
+        for(const [cellId,path] of proposed.routes){
+          const from=graph.cells.find(c=>c.id===cellId)!;
+          relocated.push({cellId,from:{x:from.x,y:from.y},to:path.at(-1)!,path});
+        }
+        next={...graph,cells:proposed.cells,sites:proposed.sites,tissues:proposed.tissues,
+          links:proposed.links,protectedVoids:proposed.protectedVoids};
       }
     } else if(op.kind==="redistribute") {
       // This is NOT dilation: vacated material coordinates remain empty.
@@ -536,6 +558,7 @@ export function applyRemodelingProposal(
       createdCellIds:created.map(c=>c.id),removedCellIds:removed.map(c=>c.id),
       relocated,oldLinks,newLinks,
       sourceCellIds:uniqueSources(
+        op.kind==="repattern"?[...removed,...graph.cells.filter(c=>relocated.some(m=>m.cellId===c.id))]:
         created.length||removed.length?[...created,...removed]:
         relocated.length?graph.cells.filter(c=>relocated.some(m=>m.cellId===c.id)):
         graph.cells.filter(c=>c.tissueId===op.tissueId).slice(0,1)),
@@ -546,7 +569,7 @@ export function applyRemodelingProposal(
       id,kind:op.kind,atHour,createdCells:created,createdCellIds:transition.createdCellIds,
       removedCellIds:transition.removedCellIds,sourceCellIds:transition.sourceCellIds,
     },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.targetTissueId?{targetTissueId:op.targetTissueId}:{}),...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})},
-      op.kind==="redistribute"?new Map(relocated.filter(m=>m.path).map(m=>[m.cellId,m.path!])):undefined);
+      ["redistribute","repattern"].includes(op.kind)?new Map(relocated.filter(m=>m.path).map(m=>[m.cellId,m.path!])):undefined);
     next={...next,events:[...next.events,event]};
   }
   const beforeSites=new Map(graph.sites.map(site=>[site.id,site]));
