@@ -164,6 +164,10 @@ test("[MORPH-002/A3] genomic expansion potential and exact chaos gate anatomical
  assert.equal(chooseMorphologicalField(0,1,a),null);
  assert.equal(chooseMorphologicalField(0.11,0.8,a),null);
  assert.ok(chooseMorphologicalField(1,1,a));
+ assert.equal(chooseMorphologicalField(1,1,{x:0,y:0}),"width",
+   "zero weighted thickening cannot win at an exact torus boundary");
+ assert.equal(chooseMorphologicalField(1,0,{x:0,y:0}),"thicken",
+   "a genuinely positive regime remains selectable on the same boundary");
  assert.ok(chooseMorphologicalField(1,0,b));
  for(const potential of [-0.01,1.01,NaN])
   assert.throws(()=>chooseMorphologicalField(potential,0.5,a),/genetic/);

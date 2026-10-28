@@ -69,8 +69,11 @@ export function chooseMorphologicalField(
  let target=(orbit.y/(CHAOS_MODULUS-1))*total;
  const modes:MorphologicalField[]=["thicken","width","height","surface"];
  for(let i=0;i<modes.length;i++){
+   // Half-open nonzero-weight intervals: a zero-potential mode cannot win
+   // solely because chaos lands exactly on a cumulative weight boundary.
+   if(weights[i]<=0)continue;
+   if(target<weights[i])return modes[i];
    target-=weights[i];
-   if(target<=0)return modes[i];
  }
  return modes[3];
 }
