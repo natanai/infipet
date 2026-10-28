@@ -8,7 +8,7 @@ import {PRESET_COLORS} from "./palette";
  * All ink belongs to the player's normal 12-color brush palette.
  */
 export type StarterPreset=Readonly<{
- id:string;name:string;seed:string;description:string;parts:readonly PetPart[];
+ id:string;name:string;seed:string;description:string;parts:PetPart[];
 }>;
 export type HouseholdPreset=StarterPreset;
 type Ink=Readonly<{id:string;kind:PartKind;x:number;y:number;rows:readonly string[];parentId?:string|null}>;
