@@ -43,6 +43,9 @@ export type MaterialChangeMetrics=Readonly<{
   created:number;removed:number;relocated:number;
   terminalExtension:number;lateralExpansion:number;broadDeposition:number;otherDeposition:number;
   terminalFraction:number;broadFraction:number;
+  /** Exclusive physical-unit allocation; topology contributions count links/components/tissues as one unit each. */
+  changeShares:Readonly<{terminal:number;lateral:number;broad:number;relocation:number;
+    resorption:number;topology:number;other:number}>;
   distribution:readonly [number,number,number,number];
   sourceResorbed:number;sourceRelocated:number;
   newTissues:number;changedAttachments:number;
@@ -54,6 +57,43 @@ const diagonal=[...cardinal,[1,1],[1,-1],[-1,1],[-1,-1]] as const;
 const k=(x:number,y:number)=>x+","+y;
 const pos=(p:{x:number;y:number})=>k(p.x,p.y);
 const MAX=4096;
+/**
+ * Independent verification contract for the fourteen required dimensions.
+ * Domain: integer physical MaterialGraph coordinates [0,63], 0..4096 cells,
+ * chronological checkIndex 0..365. All definitions are pure and deterministic.
+ * Sensitivity identifies a change detected; blind spots delimit what it cannot
+ * establish. Numerical finite guarantees are enforced in validate().
+ */
+export const MORPHOLOGY_METRIC_CONTRACT={
+  physicalArea:{equation:"A=number of unique occupied lattice sites",
+    sensitivity:"Detects occupied-cell gain/loss",blindSpot:"Overlapping cells share one area unit"},
+  wholeBodyBounds:{equation:"W=maxX-minX+1,H=maxY-minY+1,aspect=W/max(1,H)",
+    sensitivity:"Detects extents and aspect change",blindSpot:"Identical bounds may hide internal remodeling"},
+  localThickness:{equation:"d(p)=1+min four-connected erosion depth to exterior; count d=1,2,>=3",
+    sensitivity:"Discriminates thick deposits from one-cell filaments",blindSpot:"Manhattan not Euclidean thickness"},
+  perimeter:{equation:"P=4A-2E4; surface=P/max(1,A)",
+    sensitivity:"Higher exposed-edge fraction for tendrils",blindSpot:"Cavities also increase perimeter"},
+  solidity:{equation:"A/max(1,W*H)",
+    sensitivity:"Detects spatially compact occupation",blindSpot:"Not convex-hull solidity; line can be box-solid"},
+  regionalProportions:{equation:"per-tissue live physical count/max(1,birth tissue count)",
+    sensitivity:"Detects nonuniform regional tissue growth",blindSpot:"Tissue ID persistence is not semantic identity"},
+  branchLengths:{equation:"connected cardinal runs with d=1 and original graph degree<=2",
+    sensitivity:"Detects narrow extended material trajectories",blindSpot:"Not a semantic skeleton or anatomical appendage classifier"},
+  topology:{equation:"8-neighbor foreground components, 4-neighbor holes, E4/E8 and material links",
+    sensitivity:"Detects attachment and cavity structure",blindSpot:"Diagonal touch is connected by convention"},
+  tissueSpecialization:{equation:"distinct live tissue IDs, active rigidity>0 and attachment links",
+    sensitivity:"Detects recorded material specialization",blindSpot:"Labels alone do not prove mechanical function"},
+  depositionDistribution:{equation:"new cells classified by terminal/lateral/broad/other and 4 bbox sectors",
+    sensitivity:"Detects where physical matter actually appears",blindSpot:"Relative sectors may blur fine gradients"},
+  relocationResorption:{equation:"permanent source IDs absent or at changed (x,y); explicit event receipts",
+    sensitivity:"Detects source rearrangement or loss",blindSpot:"Must additionally prove operation authorization"},
+  birthChange:{equation:"|occupied_birth symmetric_difference occupied_now|/|union|",
+    sensitivity:"Detects anatomy change independent of initial drawing diversity",blindSpot:"Exact swaps and rotations may exaggerate coordinate difference"},
+  chronologicalTrajectory:{equation:"ordered physical metrics at k=0,1,7,30,90,180,365; daily-check causality",
+    sensitivity:"Detects timing and diversity across one lifetime",blindSpot:"Sparse checkpoints can miss reversible transients"},
+  counterfactuals:{equation:"difference of equal-time birth-relative physical deltas between fixed-drawing lives",
+    sensitivity:"Detects seed and synthetic/recorded care influence",blindSpot:"Same magnitude different geometry needs additional topology metrics"},
+} as const;
 const bound=(cells:readonly {x:number;y:number}[])=>{
   if(!cells.length)return {minX:0,minY:0,maxX:-1,maxY:-1,width:0,height:0};
   const xs=cells.map(c=>c.x),ys=cells.map(c=>c.y);
@@ -121,7 +161,7 @@ function degree(occupied:ReadonlySet<string>,at:string,neighbors=cardinal):numbe
 }
 /** Maximal cardinal narrow-material runs; sorted lengths, not semantic limbs. */
 function narrowRuns(occupied:ReadonlySet<string>,depth:ReadonlyMap<string,number>):number[]{
-  const thin=new Set([...occupied].filter(at=>depth.get(at)===1));
+  const thin=new Set([...occupied].filter(at=>depth.get(at)===1&&degree(occupied,at)<=2));
   const junctions=new Set([...thin].filter(at=>degree(thin,at)>2));
   const seen=new Set<string>(),runs:number[]=[];
   for(const at of thin){
@@ -205,10 +245,18 @@ export function measureChange(before:MaterialGraph,after:MaterialGraph):Material
   const newLinks=new Set(after.links.map(l=>l.id+"|"+l.fromCellId+"|"+l.toCellId));
   const changedAttachments=[...new Set([...oldLinks,...newLinks])]
     .filter(a=>oldLinks.has(a)!==newLinks.has(a)).length;
+  const topologicalUnits=changedAttachments+
+    Math.abs(newM.components-oldM.components)+Math.abs(newM.holes-oldM.holes)+
+    [...newRegions.keys()].filter(id=>!oldRegions.has(id)).length;
+  const changeUnits=created.length+removed.length+moved.length+topologicalUnits;
+  const share=(v:number)=>changeUnits?v/changeUnits:0;
   return {created:created.length,removed:removed.length,relocated:moved.length,
     terminalExtension:terminal,lateralExpansion:lateral,broadDeposition:broad,otherDeposition:other,
     terminalFraction:created.length?terminal/created.length:0,
     broadFraction:created.length?broad/created.length:0,
+    changeShares:{terminal:share(terminal),lateral:share(lateral),
+      broad:share(broad),relocation:share(moved.length),resorption:share(removed.length),
+      topology:share(topologicalUnits),other:share(other)},
     distribution:sectors(created,bound(after.cells)),
     sourceResorbed:removed.filter(c=>c.provenance==="authored").length,
     sourceRelocated:moved.filter(c=>c.provenance==="authored").length,
@@ -342,11 +390,24 @@ export type Qualification=Readonly<{
   status:"pass"|"fail"|"null"|"unresolved";
   reasons:readonly string[];change:MaterialChangeMetrics;proof:PhysicalProof;
 }>;
-/** Predeclared adversarial discrimination, not thresholds tuned to production. */
+/**
+ * Predeclared, production-agnostic thresholds:
+ * 8 changed cells exceed a 2x2 cosmetic patch; broad>=0.20 is below a 5x5
+ * deposited square's 9/25=0.36 thick interior, while a one-cell filament is 0.
+ * terminal<=0.70 requires >=30% nonterminal creation; >=0.15 changed union
+ * excludes single-pixel perturbations on ordinary >=9-cell eligible bodies.
+ * Cohort >=30% independently broad lives guards against one lucky outcome;
+ * requiring 2 topological/remodeling/proportion witnesses prevents a wholly
+ * linear growth family from being certified. Eligibility MUST be established
+ * independently before enforcing cohort coverage against production.
+ */
 export const EXPRESSIVENESS_GATE=Object.freeze({
   minCreatedForEligible:8,minBroadFraction:0.20,
   maxTerminalFraction:0.70,minStructuralChange:0.15,
   minIndependentBreadthExamples:2,minEligibleLives:6,
+  minBreadthRate:0.30,minTopologicalLives:2,minRemodeledLives:2,
+  minProportionalLives:2,minSpecializedLives:2,
+  minSeedSensitiveSources:6,minCareSensitiveSources:6,
 });
 export function qualifyPhysicalChange(
   birth:MaterialGraph,adult:MaterialGraph,

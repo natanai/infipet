@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import type {MaterialCell,MaterialGraph,MaterialEvent,MaterialTissue} from "../src/development/material-graph";
 import {
-  EXPRESSIVENESS_GATE,measurePhysical,measureChange,provePhysicalMaterial,
+  EXPRESSIVENESS_GATE,MORPHOLOGY_METRIC_CONTRACT,measurePhysical,measureChange,provePhysicalMaterial,
   qualifyPhysicalChange,compareCounterfactuals,
 } from "../src/evaluation/morphology";
 
@@ -70,6 +70,7 @@ test("[MORPH-003/A1] independent geometry distinguishes rich deposition, line-on
   const enlarged=volume(initial);
   const skinny=tendril(initial);
   const before=stable(initial);
+  assert.equal(Object.keys(MORPHOLOGY_METRIC_CONTRACT).length,14);
   assert.equal(measurePhysical(initial).occupiedArea,25);
   assert.equal(measurePhysical(initial).perimeter,20);
   assert.equal(measurePhysical(initial).thickness.threePlus,1);
@@ -86,6 +87,22 @@ test("[MORPH-003/A1] independent geometry distinguishes rich deposition, line-on
   assert.equal(qualifyPhysicalChange(initial,initial,"eligible").status,"fail");
   assert.equal(qualifyPhysicalChange(initial,initial,"unknown").status,"unresolved");
   assert.equal(stable(initial),before);
+});
+test("[MORPH-003/A1] actual physical connectivity changes and exclusive change shares are independently detected",()=>{
+  const initial=source("separate-islands",[
+    ...box(3,3,20,20),...box(3,3,28,20),
+  ]);
+  assert.equal(measurePhysical(initial).components,2);
+  const connected=add(initial,7,Array.from({length:5},(_,i)=>({x:23+i,y:21})));
+  const diff=measureChange(initial,connected);
+  assert.equal(provePhysicalMaterial(connected).valid,true);
+  assert.equal(measurePhysical(connected).components,1);
+  assert.equal(diff.componentDelta,-1);
+  assert.equal(diff.topologyChanged,true);
+  assert.equal(diff.changeShares.topology>0,true);
+  const sum=Object.values(diff.changeShares).reduce((total,n)=>total+n,0);
+  assert.ok(Math.abs(sum-1)<1e-12,"Physical change shares partition actual changes");
+  assert.equal(measurePhysical(connected).thinPathLengths.every(n=>n<=7),true);
 });
 test("[MORPH-003/A2] forged attractive morphology, fabricated provenance and silent relocations all fail",()=>{
   const initial=source("proof",box(5,5));
@@ -158,4 +175,9 @@ test("[MORPH-003/A3] 30 distinct source forms, seed/care counterfactuals and day
   assert.ok(careDivergence>=20);
   assert.equal(nulls,5);
   assert.ok(sampleNumbers.every(n=>n>=EXPRESSIVENESS_GATE.minBroadFraction));
+  console.log("MORPHOLOGY_CONTROL_COHORT "+JSON.stringify({
+    drawings:births.length,eligible,positives,mutantRejected,constrainedNulls:nulls,
+    seedDivergence,careDivergence,minBroadFraction:Math.min(...sampleNumbers),
+    syntheticWitnessOnly:true,
+  }));
 });

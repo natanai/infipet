@@ -32,6 +32,7 @@ test("[MORPH-003/SCIENCE] production 30-source seed/care lifetime cohort, manual
     broadFraction:number;terminalFraction:number;structuralChange:number;
     occupied:number;status:string;proofValid:boolean}[]=[];
   let eligible=0,broad=0,constrained=0,seedSensitivity=0,careSensitivity=0;
+  let topology=0,remodeled=0,proportions=0,specialization=0;
   for(const item of cohort){
     const variants=Array.from({length:2},(_,seedIndex)=>
       strategies.map((previewCare,care)=>({
@@ -40,13 +41,22 @@ test("[MORPH-003/SCIENCE] production 30-source seed/care lifetime cohort, manual
         states:(()=>{
           const sim=createSimulation(item.parts,"MORPH-SCIENCE-"+seedIndex,"infant",
             {previewCare,reuseLivingMaterial:false});
-          return checkpoints.map(day=>sim.materialStateAt(day).graph);
+          const states=checkpoints.map(day=>sim.materialStateAt(day).graph);
+          assert.deepEqual(sim.materialStateAt(366).graph,states.at(-1),
+            "A mature pet may move but cannot physically change after day 365");
+          return states;
         })(),
       }))).flat();
     if(item.physicalEligibility==="candidate"){
       eligible++;
-      const measure=qualifyPhysicalChange(variants[0].states[0],variants[0].states.at(-1)!,"eligible");
+      const origin=variants[0].states[0],adult=variants[0].states.at(-1)!;
+      const measure=qualifyPhysicalChange(origin,adult,"eligible");
+      const delta=measure.change,pre=measurePhysical(origin),post=measurePhysical(adult);
       if(measure.status==="pass")broad++;
+      if(delta.topologyChanged)topology++;
+      if(delta.sourceRelocated>0||delta.sourceResorbed>0)remodeled++;
+      if(Math.abs(post.aspect-pre.aspect)>=0.15)proportions++;
+      if(delta.newTissues>0||post.specializedTissues>pre.specializedTissues)specialization++;
     }else constrained++;
     if(compareCounterfactuals(variants[0].states,variants[2].states).divergentChecks)
       seedSensitivity++;
@@ -65,15 +75,27 @@ test("[MORPH-003/SCIENCE] production 30-source seed/care lifetime cohort, manual
   }
   const aggregate={cohort:cohort.length,seeds:2,careStrategies:strategies.length,
     checkpointDays:checkpoints,eligible,broad,constrained,seedSensitivity,careSensitivity,
+    topology,remodeled,proportions,specialization,
     broadRate:eligible?broad/eligible:0,gate:EXPRESSIVENESS_GATE,
     doesNotCertifyCurrentEngine:true,measurements:report};
   console.log("MORPHOLOGY_SCIENTIFIC_REPORT "+JSON.stringify(aggregate));
   if(process.env.MORPH_QUALIFY==="1"){
     assert.ok(eligible>=EXPRESSIVENESS_GATE.minEligibleLives);
-    assert.ok(broad>=EXPRESSIVENESS_GATE.minIndependentBreadthExamples,
-      "Current production does not demonstrate independent broad material growth");
-    assert.ok(seedSensitivity>=6,"Lost controlled seed sensitivity");
-    assert.ok(careSensitivity>=6,"Lost controlled care sensitivity");
+    assert.ok(broad>=EXPRESSIVENESS_GATE.minIndependentBreadthExamples&&
+      broad/eligible>=EXPRESSIVENESS_GATE.minBreadthRate,
+      "Production cohort lacks sufficiently frequent broad structural development");
+    assert.ok(topology>=EXPRESSIVENESS_GATE.minTopologicalLives,
+      "No independently verified anatomical topology variety");
+    assert.ok(remodeled>=EXPRESSIVENESS_GATE.minRemodeledLives,
+      "No independently verified authored-material relocation/resorption variety");
+    assert.ok(proportions>=EXPRESSIVENESS_GATE.minProportionalLives,
+      "No independently verified whole-body proportional variety");
+    assert.ok(specialization>=EXPRESSIVENESS_GATE.minSpecializedLives,
+      "No independently verified structural specialization variety");
+    assert.ok(seedSensitivity>=EXPRESSIVENESS_GATE.minSeedSensitiveSources,
+      "Lost controlled seed sensitivity");
+    assert.ok(careSensitivity>=EXPRESSIVENESS_GATE.minCareSensitiveSources,
+      "Lost controlled care sensitivity");
     assert.ok(report.every(r=>r.proofValid),"Forged or unverifiable material observed");
   }
 });
