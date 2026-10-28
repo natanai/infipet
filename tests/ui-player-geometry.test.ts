@@ -10,11 +10,11 @@ test("shell width is independent of constrained canvas height", () => {
     assert.equal(tall.deviceWidth,short.deviceWidth);
     assert.ok(short.canvasSide<=short.deviceWidth-24);
     assert.ok(tall.canvasSide>=short.canvasSide);
-    assert.ok(width-24>=5*44+4*4,"five 44px part selectors fit with gaps");
+    assert.ok(width-24>=3*44+2*6,"three 44px primary anatomical controls fit with gaps");
   }
   const short=playerGeometry(390,640,0,"draw");
   assert.equal(short.deviceWidth,366);
-  assert.equal(short.canvasSide,220);
+  assert.equal(short.canvasSide,342);
 });
 test("development dock only subtracts its own width",()=>{
   const before=playerGeometry(1400,900,0,"live");
@@ -33,4 +33,12 @@ test("monotonic height, bounded coordinates, and no NaN for finite nonnegative v
      previous=canvasSide;
    }
  }
+});
+
+test("compact mobile anatomy layout allocates more pixels to drawing without shrinking touch targets",()=>{
+  for(const width of [320,360,375,390,393,414,430]){
+    const {deviceWidth,canvasSide}=playerGeometry(width,640,0,"draw");
+    assert.equal(deviceWidth,width-24);
+    assert.ok(canvasSide>=272,"even the smallest supported mobile viewport has an ample physical drawing square");
+  }
 });
