@@ -66,6 +66,7 @@ import {
 import { NeedsLab } from "./src/components/NeedsLab";
 import { FeelingsSheet } from "./src/components/FeelingsSheet";
 import { GamePanel } from "./src/components/GamePanel";
+import {careGamePose,supportedCareGameAction} from "./src/integration/care-game-animation";
 import {
   deriveCareTimeline,
   deriveDevelopmentContext,
@@ -306,23 +307,24 @@ export default function App() {
         (life.game.clock.nowMs - life.game.clock.startedAtMs) / 86400000,
       )
     : 0;
-  const livingFrame = useMemo(
-    () =>
-      livingSimulation?.frameAt(liveAge, {
-        time,
-        action: life?.game.sleeping || life?.game.dead ? "idle" : action,
-        ...(target ? { target } : {}),
-      }),
-    [
-      livingSimulation,
-      liveAge,
-      time,
-      action,
-      target,
-      life?.game.sleeping,
-      life?.game.dead,
-    ],
-  );
+  const livingFrame = useMemo(() => {
+    if(!livingSimulation)return null;
+    const gamePose=life?.game.sleeping||life?.game.dead?null:
+      careGamePose(life?.game.activity??null);
+    const baseAction=life?.game.sleeping||life?.game.dead?"idle":action;
+    const requested=gamePose?.action??baseAction;
+    const targetPoint=gamePose?.target??target;
+    const candidate=livingSimulation.frameAt(liveAge,{time,action:requested,
+      ...(targetPoint?{target:targetPoint}:{})});
+    if(!gamePose)return candidate;
+    const permitted=supportedCareGameAction(requested,candidate.capabilities);
+    return permitted===requested?candidate:livingSimulation.frameAt(liveAge,{
+      time,action:permitted,...(targetPoint?{target:targetPoint}:{})
+    });
+  },[
+    livingSimulation,liveAge,time,action,target,
+    life?.game.sleeping,life?.game.dead,life?.game.activity,
+  ]);
   // Save a completed physical state once per daily boundary. Ordinary frames
   // and care commands reuse it; persisted integrity is revalidated on reopen.
   useEffect(()=>{
@@ -766,6 +768,10 @@ export default function App() {
         ...commandPlayerLife(current, command, now, id),
       };
       commitLife(next);
+      if(next.game.commandHistory.at(-1)?.accepted&&next.game.activity){
+        // Re-start the real procedural pose on each accepted game round.
+        setTime(0);setMotion(true);
+      }
       await persist();
     } catch (error) {
       setSaveError(
@@ -1052,10 +1058,12 @@ export default function App() {
     }
   };
   const contact = frame.interaction.contactPoint;
-  const ballTarget = frame.interaction.target ?? target;
+  const activeGamePose=playing?careGamePose(life?.game.activity??null):null;
+  const showingGameBall=activeGamePose?.action==="play"&&frame.capabilities.canPlay;
+  const ballTarget = frame.interaction.target ?? activeGamePose?.target ?? target;
   const flight = Math.min(1, time / 1.1);
   const ball =
-    action === "play" && ballTarget
+    (action === "play" || showingGameBall) && ballTarget
       ? time >= 1.1 && frame.interaction.status === "caught" && contact
         ? contact
         : {
@@ -1423,7 +1431,7 @@ export default function App() {
                           </Text>
                         </View>
                       )}
-                    {action === "play" && (
+                    {(action === "play" || showingGameBall) && (
                       <Text style={[s.muted, styles.sceneCaption]}>
                         {time < 1.1
                           ? "..."
