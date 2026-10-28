@@ -1126,103 +1126,43 @@ export default function App() {
                       ? `${title(life.game.stage)} · day ${liveAge.toFixed(1)}` : "Development preview"}
                   </Text>}
                 </Pressable>
+                {life && <Button
+                  label={view === "draw" ? "Return to your pet" : "Draw your pet"}
+                  onPress={() => view === "draw" ? live() :
+                    (setSandbox(true), setView("draw"), setNeedPreview(null))}
+                  style={{ paddingHorizontal: 6 }}
+                >{view === "draw" ? "Pet" : "Draw"}</Button>}
                 {view === "live" && <IconButton
                   icon="feel"
                   label="Check how your pet feels"
                   disabled={frame.stage === "egg"}
                   onPress={() => open("feelings")}
                 />}
+                <Button label="Open more menu" onPress={() => open("more")}
+                  style={{ paddingHorizontal: 6 }}>More</Button>
               </View>
               {legacyLife&&<View style={{maxWidth:deviceWidth,padding:10}}>
                 <Text style={s.muted}>This earlier saved pet is preserved. Its past anatomy cannot be carried into daily growth. Save the original file in More → Export, or begin a new life from its drawing.</Text>
               </View>}
               <View nativeID="infipet-device" style={[styles.device, { width: deviceWidth }]}>
-                <View style={styles.nav}>
-                  {(
-                    [
-                      { value: "draw", icon: "draw", label: "Draw" },
-                      { value: "live", icon: "live", label: "Pet" },
-                      { value: "more", icon: "more", label: "More" },
-                    ] as const
-                  ).map((item) => (
-                    <Button
-                      key={item.value}
-                      label={
-                        item.value === "more"
-                          ? "Open more menu"
-                          : item.value === "live"
-                            ? "Return to your pet"
-                            : "Draw your pet"
-                      }
-                      selected={
-                        view === item.value &&
-                        (item.value !== "live" || playing)
-                      }
-                      disabled={item.value === "live" && !life}
-                      onPress={() =>
-                        item.value === "more"
-                          ? open("more")
-                          : item.value === "draw"
-                            ? (setSandbox(true),
-                              setView("draw"),
-                              setNeedPreview(null))
-                            : live()
-                      }
-                      style={{ flex: 1 }}
-                    >
-                      <PixelIcon
-                        name={item.icon}
-                        color={
-                          view === item.value &&
-                          (item.value !== "live" || playing)
-                            ? T.bg
-                            : T.text
-                        }
-                      />
-                      {showLabels && <Text
-                        style={[s.text, view === item.value && { color: T.bg }]}
-                      >{item.label}</Text>}
-                    </Button>
-                  ))}
-                </View>
                 <View style={[styles.toolbar, { width: deviceWidth - 24 }]}>
                   {view === "draw" ? (
                     <>
-                      <Button
-                        label="Use pencil"
-                        selected={tool === "paint"}
+                      <Button label="Use pencil" selected={tool === "paint"}
                         onPress={() => setTool("paint")}
-                        style={{ flex: 1 }}
-                      >
-                        <PixelIcon name="draw" color={tool === "paint" ? T.bg : T.text} />
-                      </Button>
-                      <Button
-                        label="Use eraser"
-                        selected={tool === "erase"}
+                        style={{ flex: 1, paddingHorizontal: 2 }}>Pencil</Button>
+                      <Button label="Use eraser" selected={tool === "erase"}
                         onPress={() => setTool("erase")}
-                        style={{ flex: 1 }}
-                      >
-                        <PixelIcon name="erase" color={tool === "erase" ? T.bg : T.text} />
+                        style={{ flex: 1, paddingHorizontal: 2 }}>Erase</Button>
+                      <Button label="Choose brush color" onPress={() => open("color")}
+                        style={{ flex: 1, paddingHorizontal: 2 }}>
+                        <View style={{ width: 11, height: 11, backgroundColor: color,
+                          borderColor: T.text, borderWidth: 1 }} />
+                        <Text style={[s.text, { fontSize: 13 }]}>Color</Text>
                       </Button>
-                      <Button
-                        label="Choose brush color"
-                        onPress={() => open("color")}
-                      >
-                        <View
-                          style={{
-                            width: 20,
-                            height: 20,
-                            backgroundColor: color,
-                            borderColor: T.text,
-                            borderWidth: 1,
-                          }}
-                        />
-                      </Button>
-                      <IconButton
-                        icon="info"
-                        label={`Learn about ${PART_LABELS[kind].toLowerCase()}`}
+                      <Button label={`Learn about ${PART_LABELS[kind].toLowerCase()}`}
                         onPress={() => open("info")}
-                      />
+                        style={{ flex: 1, paddingHorizontal: 2 }}>Help</Button>
                     </>
                   ) : playing ? (
                     <IconButton
@@ -1255,7 +1195,6 @@ export default function App() {
                       onEnd={finish}
                     />
                     <PartPalette
-                      showLabels={showLabels}
                       value={kind}
                       onChange={(next) => {
                         setKind(next);
@@ -1269,7 +1208,7 @@ export default function App() {
                         onPress={undo}
                         style={{ flex: 1 }}
                       >
-                        <PixelIcon name="undo" color={T.text} />
+                        Undo
                       </Button>
                       <Button
                         label="Redo drawing"
@@ -1277,7 +1216,7 @@ export default function App() {
                         onPress={redoStroke}
                         style={{ flex: 1 }}
                       >
-                        <PixelIcon name="redo" color={T.text} />
+                        Redo
                       </Button>
                       <Button
                         label="Mirror drawing"
@@ -1285,7 +1224,7 @@ export default function App() {
                         onPress={() => setMirror(!mirror)}
                         style={{ flex: 1 }}
                       >
-                        <PixelIcon name="mirror" color={mirror ? T.bg : T.text} />
+                        Mirror
                       </Button>
                       <Button
                         label="Clear drawing"
@@ -1293,7 +1232,7 @@ export default function App() {
                         onPress={() => replace([])}
                         style={{ flex: 1 }}
                       >
-                        <PixelIcon name="clear" color={T.text} />
+                        Clear
                       </Button>
                     </View>
                     {layout.desktop && <Button
@@ -1835,8 +1774,8 @@ export default function App() {
                         Name
                       </Button>
                     </View>
-                    <Button label="Show symbol labels" selected={showLabels} onPress={() => setShowLabels(!showLabels)}>
-                      {showLabels ? "Symbols + labels" : "Show symbol labels"}
+                    <Button label="Show care symbol labels" selected={showLabels} onPress={() => setShowLabels(!showLabels)}>
+                      {showLabels ? "Care labels on" : "Show care labels"}
                     </Button>
                     <Button label="About" onPress={() => open("about")}>
                       About
@@ -2048,7 +1987,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     minHeight: 42,
-    gap: 10,
+    gap: 6,
   },
   device: {
     borderWidth: 1,
