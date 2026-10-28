@@ -65,8 +65,17 @@ function seal<T>(value:T):T {
 }
 /** Independent inventory reconstruction. Does NOT trust cell counts, operator
  * receipts or the graph's currently live list as the creation oracle. */
+/** Verified immutable graphs can be reused without re-auditing a prefix whose
+ * identity and every nested property are recursively frozen. Mutable imported,
+ * adversarial and just-produced graphs must be independently replayed. */
+const verifiedPrefix=new WeakMap<MaterialGraph,{hatchAtMs:number;throughCheck:number}>();
 export function verifyDailyMaterialInventory(graph:MaterialGraph,hatchAtMs:number,throughCheck:number):void {
+  const prior=verifiedPrefix.get(graph);
+  if(prior?.hatchAtMs===hatchAtMs&&prior.throughCheck===throughCheck&&
+     Object.isFrozen(graph)&&Object.isFrozen(graph.cells)&&Object.isFrozen(graph.events))return;
   auditDailyPhysicalHistory(graph,hatchAtMs,throughCheck);
+  if(Object.isFrozen(graph)&&Object.isFrozen(graph.cells)&&Object.isFrozen(graph.events))
+    verifiedPrefix.set(graph,{hatchAtMs,throughCheck});
 }
 function changed<T extends {id:string}>(before:readonly T[],after:readonly T[]):MaterialChange<T>[] {
   const a=new Map(before.map(v=>[v.id,v])),b=new Map(after.map(v=>[v.id,v]));
@@ -86,7 +95,9 @@ export function createDailyMaterialState(program:MaterialDevelopmentProgram,hatc
     material:initializeMaterialOperatorChronology(program),
     iterative:createIterativeChronologyState(program),remodeling:EMPTY_REMODELING_CHRONOLOGY,checks:[]};
   verifyDailyMaterialInventory(state.graph,hatchAtMs,0);
-  return seal(state);
+  const frozen=seal(state);
+  verifiedPrefix.set(frozen.graph,{hatchAtMs,throughCheck:0});
+  return frozen;
 }
 export function applyDailyMaterialStep(
   program:MaterialDevelopmentProgram,genome:InheritedGenome,prior:DailyMaterialState,
@@ -178,5 +189,7 @@ export function applyDailyMaterialStep(
   const next:DailyMaterialState={...prior,completedChecks:k,graph,material:material.state,
     iterative:compactIterative,remodeling,checks:[...prior.checks,record]};
   verifyDailyMaterialInventory(next.graph,prior.hatchAtMs,k);
-  return seal(next);
+  const frozen=seal(next);
+  verifiedPrefix.set(frozen.graph,{hatchAtMs:prior.hatchAtMs,throughCheck:k});
+  return frozen;
 }
