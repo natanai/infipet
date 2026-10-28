@@ -484,25 +484,42 @@ export function stepIterativeChronology(
       // The within-tissue contact rule differs from a free-standing branch:
       // touching several of one's own live cells is physically desirable.
       const expansion=birth.signals.channels.growth.expansion;
+      const membrane=birth.signals.channels.support.membrane;
+      let selectedField=false;
       if(!made && expansion>=0.12 && s.extensions>=1){
         let orbit=s.orbit;
         for(let step=0;step<slot;step++)orbit=stepChaos(orbit);
         if(orbit.x/(CHAOS_MODULUS-1)<expansion){
-          const mode=chooseMorphologicalField(expansion,
-            birth.signals.channels.support.membrane,orbit);
-          if(mode)for(const candidate of rankMorphologicalField(
-            cells,s.tissueId,mode,orbit,4)){
-            const parent=byId.get(candidate.parentId);
-            if(!parent)continue;
-            const destination=candidate.destination;
-            made=place(parent,s.tissueId,
-              {x:destination.x-parent.x,y:destination.y-parent.y},
-              s.id,slot,"expand",true,destination);
-            if(made){s.lateralCells++;break;}
+          const mode=chooseMorphologicalField(expansion,membrane,orbit);
+          if(mode){
+            selectedField=true;
+            // Source-derived carrying capacity. Volume cannot inflate without
+            // limit simply because a daily credit is available:
+            // B_t=min(192,ceil(N_source*(4+8*g_expand+4*g_membrane))).
+            // Exactly the original tissue's permanent root material sets the
+            // scale; neither sprite targets nor contemporary body labels do.
+            const area=Math.max(1,tissuesById.get(s.tissueId)?.sourceCellIds.length??0);
+            const capacity=area+Math.min(192,Math.ceil(area*(4+8*expansion+4*membrane)));
+            const currentArea=cells.filter(c=>c.tissueId===s.tissueId).length;
+            if(currentArea>=capacity){
+              suppressions.push({hour:n,siteId:s.id,kind:"expand",
+                attempted:{x:tip.x,y:tip.y},reason:"genetic-volume-cap"});
+            }else{
+              for(const candidate of rankMorphologicalField(
+                cells,s.tissueId,mode,orbit,4)){
+                const parent=byId.get(candidate.parentId);
+                if(!parent)continue;
+                const destination=candidate.destination;
+                made=place(parent,s.tissueId,
+                  {x:destination.x-parent.x,y:destination.y-parent.y},
+                  s.id,slot,"expand",true,destination);
+                if(made){s.lateralCells++;break;}
+              }
+            }
           }
         }
       }
-      const canSpread = !made && s.depth > 0 && s.extensions >= 2 &&
+      const canSpread = !made && !selectedField && s.depth > 0 && s.extensions >= 2 &&
         birth.signals.channels.support.membrane *
         birth.signals.channels.appendages.extension >= 0.01 &&
         s.lateralCells < s.extensions * 2 &&
@@ -515,7 +532,7 @@ export function stepIterativeChronology(
           if (made) { s.lateralCells++; break; }
         }
       }
-      if (!made) {
+      if (!made && !selectedField) {
         made = place(tip, s.tissueId, axis, s.id, slot, "elongate");
         if (made) {
           s.tipCellId = made.id; s.direction = axis; s.extensions++;
