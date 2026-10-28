@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { PART_KINDS, PART_LABELS, type PartKind } from "../simulation";
 import PixelIcon, { type PixelIconName } from "./PixelIcon";
-import { T } from "../theme";
+import { T, terminal as s } from "../theme";
 
 /**
  * Minimal three-control anatomy selector, inspired by handheld pet devices.
  * Prev / current (opens all) / next are the ordinary drawing controls.
  * All 15 species-neutral anatomical glyphs remain a tap away in a compact
- * 5x3 grid with 44px touch targets. No visible part names are shown.
+ * 5x3 grid with 44px touch targets. The *current* part has one readable
+ * name because its role is more ambiguous than the pencil/eraser symbols.
  * VoiceOver and other accessibility clients receive exact names and hints.
  */
 export function PartPalette({
@@ -43,7 +44,8 @@ export function PartPalette({
           aria-expanded={expanded}
           onPress={() => setExpanded(v => !v)}
           style={[styles.part, styles.current]}>
-          <PixelIcon name={value === "decoration" ? "details" : value as PixelIconName} size={27} color={T.bright}/>
+          <PixelIcon name={value === "decoration" ? "details" : value as PixelIconName} size={23} color={T.bright}/>
+          <Text style={[s.text,styles.currentLabel]}>{PART_LABELS[value]}</Text>
         </Pressable>
         <Pressable
           accessibilityRole="button"
@@ -87,7 +89,8 @@ const styles = StyleSheet.create({
     justifyContent: "center", alignItems: "center",
     backgroundColor: T.bg,
   },
-  current: { borderColor: T.bright, width: 54 },
+  current: { borderColor: T.bright, width: 130, flexDirection: "row", gap: 6 },
+  currentLabel: { fontSize: 14, lineHeight: 17 },
   palette: { flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 4,
     width: 236, maxWidth: "100%", alignSelf: "center", paddingVertical: 2 },
   gridPart: { margin: 0 },
