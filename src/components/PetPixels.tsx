@@ -8,6 +8,8 @@ type Props = {
   gridSize?: number;
   grid?: boolean;
   shadow?: boolean;
+  /** Read-only camera for developer comparison; default remains full authored grid. */
+  viewBox?: string;
 };
 
 export const PetPixels = React.memo(function PetPixels({
@@ -16,6 +18,7 @@ export const PetPixels = React.memo(function PetPixels({
   gridSize = 64,
   grid = false,
   shadow = false,
+  viewBox,
 }: Props) {
   const runs = useMemo(() => {
     const sorted = [...pixels].sort((a, b) => a.y - b.y || a.x - b.x);
@@ -38,7 +41,7 @@ export const PetPixels = React.memo(function PetPixels({
     <Svg
       width={size}
       height={size}
-      viewBox={`0 0 ${gridSize} ${gridSize}`}
+      viewBox={viewBox ?? `0 0 ${gridSize} ${gridSize}`}
       pointerEvents="none"
     >
       {grid && (

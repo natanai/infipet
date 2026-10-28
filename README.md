@@ -6,6 +6,14 @@ Draw anything on the 32 × 32 canvas, begin its life, and return to the same pet
 
 Each life is one continuously identifiable organism. The scientific tree of life supplies reference constraints and possibilities; it does not assign a species to an arbitrary drawing or imply that an individual changes ancestry. There is no breeding, reproduction or population evolution. Reference sprites never enter runtime development or rendering.
 
+## Original starter creatures and morphology workbench
+
+The normal **Draw** screen provides twelve **original, editable starter creatures**. They use only the twelve built-in drawing swatches, cover compact, wide, hollow, winged, articulated, bulbous and other source anatomies, and are not named species or predetermined development targets. Selecting one replaces only the editable drawing after confirmation when needed. **Begin life** explicitly commits it as a real pet; existing saved living pets are untouched until that separate confirmation.
+
+Under **Development tools → Morphology workbench**, eight operator-expression sliders provide local, temporary diagnostic counterfactuals for the existing material operators: elongation, expansion, branching, budding, fusion, resorption, remodeling and reinforcement. Each multiplier spans 0–200% of the **original operator strength**, clamped to the legal 0–1 range; zero genetic potential remains zero. They do not unlock capabilities, alter the seed, change the saved organism, or substitute for physical-operator verification. Slider motion edits a local draft; **Apply preview** constructs a distinct experimental program. **Compare physical anatomy** compares original and experimental material-derived cell count, interior thickness, thin-cell fraction, bounding proportions, relocation/resorption and topology at the selected day and provides a copyable exact JSON recipe. These descriptive metrics complement, rather than replace, mandatory independent scientific qualification. They do not automatically certify that a creature has meaningful morphology or a mechanically functional appendage.
+
+**Scope:** these eight controls affect compiled scheduled material operators, **not every biological algorithm**. Iterative growth fields, chaotic recurrence, inherited capability compilation, simulated care windows, animation and locomotion have separate contracts; a slider must never pretend to control an engine path it cannot actually influence. Expand this workbench only through explicit, verified preview-only adapter interfaces as new physical operators land.
+
 ## The daily anatomical clock
 
 The canonical contract is [roadmap/plan.json](roadmap/plan.json), especially `anatomicalDevelopment`. The production `createSimulation` / `frameAt` path uses the daily material engine.

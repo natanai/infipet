@@ -1,657 +1,187 @@
-import type { PartKind, PetPart } from "./simulation";
+import type {PartKind,PetPart} from "./simulation";
+import {PRESET_COLORS} from "./palette";
 
-export type StarterPreset = {
-  id: string;
-  name: string;
-  seed: string;
-  parts: PetPart[];
+/**
+ * Original 32x32 pixel-creatures. These are editable birth drawings, never
+ * species destinations or hidden evolution templates. Design vocabulary is
+ * broadly retro virtual-pet / handheld-monster, with no copied silhouettes.
+ * All ink belongs to the player's normal 12-color brush palette.
+ */
+export type StarterPreset=Readonly<{
+ id:string;name:string;seed:string;description:string;parts:PetPart[];
+}>;
+export type HouseholdPreset=StarterPreset;
+type Ink=Readonly<{id:string;kind:PartKind;x:number;y:number;rows:readonly string[];parentId?:string|null}>;
+const swatches:Record<string,string>={
+ k:PRESET_COLORS[0],s:PRESET_COLORS[1],d:PRESET_COLORS[2],
+ m:PRESET_COLORS[3],l:PRESET_COLORS[4],w:PRESET_COLORS[5],
+ c:PRESET_COLORS[6],r:PRESET_COLORS[7],p:PRESET_COLORS[8],
+ g:PRESET_COLORS[9],o:PRESET_COLORS[10],q:PRESET_COLORS[11],
 };
-/** Temporary source-level name for existing creation-flow consumers. */
-export type HouseholdPreset = StarterPreset;
-const WHITE = "#FFFFFF",
-  BLACK = "#000000";
-
-// Original LCD infants only. Every cluster is ordinary editable shared-canvas ink.
-function drawing() {
-  const parts: PetPart[] = [];
-  const add = (
-    id: string,
-    kind: PartKind,
-    x: number,
-    y: number,
-    rows: string[],
-    color = WHITE,
-    parentId: string | null = "body",
-  ) => {
-    parts.push({
-      id,
-      kind,
-      name: id
-        .split("-")
-        .map((word) => word[0].toUpperCase() + word.slice(1))
-        .join(" "),
-      position: { x, y },
-      parentId,
-      layer: parts.length,
-      pixels: rows.flatMap((row, py) =>
-        [...row].flatMap((ink, px) =>
-          ink === "." ? [] : [{ x: px, y: py, color }],
-        ),
-      ),
-    });
-  };
-  return { parts, add };
+function build(parts:readonly Ink[]):PetPart[]{
+ return parts.map((p,i)=>({
+  id:p.id,kind:p.kind,name:p.id.replace(/-/g," "),
+  parentId:p.parentId===undefined?(p.id==="body"?null:"body"):p.parentId,
+  position:{x:p.x,y:p.y},layer:i,
+  pixels:p.rows.flatMap((row,y)=>[...row].flatMap((a,x)=>
+    a==="."?[]:[{x,y,color:swatches[a]??(()=>{throw Error("Unknown preset ink "+a)})()}])),
+ }));
 }
-function bean() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    9,
-    11,
-    [
-      "....aaaaaa....",
-      "..aaaaaaaaaa..",
-      ".aaaaaaaaaaaa.",
-      "aaaaaaaaaaaaaa",
-      "aaaaaaaaaaaaaa",
-      "aaaaaaaaaaaaaa",
-      "aaaaaaaaaaaaaa",
-      "aaaaaaaaaaaaaa",
-      ".aaaaaaaaaaaa.",
-      "..aaaaaaaaaa..",
-      "....aaaaaa....",
-    ],
-    WHITE,
-    null,
-  );
-  add("eye-left", "eye", 13, 14, ["a", "a"], BLACK);
-  add("eye-right", "eye", 18, 14, ["a", "a"], BLACK);
-  add("mouth", "mouth", 15, 18, ["a.a", ".a."], BLACK);
-  add("cheek-left", "decoration", 11, 17, ["aa"], BLACK);
-  add("cheek-right", "decoration", 20, 17, ["aa"], BLACK);
-  return parts;
-}
-function sprout() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    12,
-    16,
-    [".aaaaaa.", "aaaaaaaa", "aaaaaaaa", "aaaaaaaa", ".aaaaaa.", "..aaaa.."],
-    WHITE,
-    null,
-  );
-  add(
-    "head",
-    "head",
-    10,
-    9,
-    [
-      "..aaaaaaaa..",
-      ".aaaaaaaaaa.",
-      "aaaaaaaaaaaa",
-      "aaaaaaaaaaaa",
-      "aaaaaaaaaaaa",
-      ".aaaaaaaaaa.",
-      "..aaaaaaaa..",
-    ],
-    WHITE,
-  );
-  add(
-    "hair-left",
-    "hair",
-    13,
-    5,
-    ["a...", "aa..", ".aa.", "..aa"],
-    WHITE,
-    "head",
-  );
-  add(
-    "hair-right",
-    "hair",
-    16,
-    5,
-    ["...a", "..aa", ".aa.", "aa.."],
-    WHITE,
-    "head",
-  );
-  add("arm-left", "arm", 9, 17, ["aa", "aa", "a."], WHITE);
-  add("arm-right", "arm", 21, 17, ["aa", "aa", ".a"], WHITE);
-  add("leg-left", "leg", 12, 21, ["aa", "aa", "aa"], WHITE);
-  add("leg-right", "leg", 18, 21, ["aa", "aa", "aa"], WHITE);
-  add("foot-left", "foot", 10, 24, ["aaaa"], WHITE, "leg-left");
-  add("foot-right", "foot", 18, 24, ["aaaa"], WHITE, "leg-right");
-  add("eye-left", "eye", 13, 12, ["a", "a"], BLACK, "head");
-  add("eye-right", "eye", 18, 12, ["a", "a"], BLACK, "head");
-  add("mouth", "mouth", 15, 15, ["aa"], BLACK, "head");
-  return parts;
-}
-function canineCub() {
-  const { parts, add } = drawing();
-  add(
-    "tail",
-    "tail",
-    3,
-    12,
-    ["aa.....", ".aa....", "..aa...", "...aa..", "....aaa"],
-    WHITE,
-  );
-  add("leg-hind-right", "leg", 13, 19, ["aa", "aa", "aa", "aa", "aa"], WHITE);
-  add("foot-hind-right", "foot", 13, 24, ["aaa"], WHITE, "leg-hind-right");
-  add("leg-fore-right", "leg", 24, 19, ["aa", "aa", "aa", "aa", "aa"], WHITE);
-  add("foot-fore-right", "foot", 24, 24, ["aaa"], WHITE, "leg-fore-right");
-  add(
-    "body",
-    "body",
-    8,
-    14,
-    [
-      "...aaaaaaaaaaa...",
-      ".aaaaaaaaaaaaaaa.",
-      "aaaaaaaaaaaaaaaaa",
-      "aaaaaaaaaaaaaaaaa",
-      "aaaaaaaaaaaaaaaaa",
-      ".aaaaaaaaaaaaaaa.",
-      "...aaaaaaaaaaa...",
-    ],
-    WHITE,
-    null,
-  );
-  add(
-    "head",
-    "head",
-    21,
-    10,
-    [
-      "..aaaaa..",
-      ".aaaaaaa.",
-      "aaaaaaaaa",
-      "aaaaaaaaa",
-      "aaaaaaaaa",
-      ".aaaaaaaa",
-      "..aaaaaa.",
-    ],
-    WHITE,
-  );
-  add("ear-left", "ear", 22, 7, ["a..", "aa.", "aaa", "aaa"], WHITE, "head");
-  add("ear-right", "ear", 27, 7, ["..a", ".aa", "aaa", "aaa"], WHITE, "head");
-  add(
-    "leg-hind-left",
-    "leg",
-    9,
-    19,
-    ["aa", "aa", "aa", "aa", "aa", "aa"],
-    WHITE,
-  );
-  add("foot-hind-left", "foot", 8, 25, ["aaaa"], WHITE, "leg-hind-left");
-  add(
-    "leg-fore-left",
-    "leg",
-    20,
-    19,
-    ["aa", "aa", "aa", "aa", "aa", "aa"],
-    WHITE,
-  );
-  add("foot-fore-left", "foot", 20, 25, ["aaaa"], WHITE, "leg-fore-left");
-  add("eye-left", "eye", 24, 12, ["a", "a"], BLACK, "head");
-  add("eye-right", "eye", 28, 12, ["a"], BLACK, "head");
-  add("nose", "decoration", 28, 15, ["aa"], BLACK, "head");
-  add("mouth", "mouth", 26, 16, ["aa"], BLACK, "head");
-  add("flank-mark", "decoration", 12, 16, ["aaa", ".aa"], BLACK);
-  return parts;
-}
-function ribbon() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    7,
-    14,
-    [
-      "....aaaaaaaa.....",
-      "..aaaaaaaaaaaa...",
-      ".aaaa......aaaa..",
-      "aaaa........aaaa.",
-      "aaa..........aaa.",
-      "aaa...aaaa...aaa.",
-      "aaaa..aaaa..aaaa.",
-      ".aaaa......aaaa..",
-      "..aaaaaaaaaaaa...",
-      "....aaaaaaaa.....",
-    ],
-    WHITE,
-    null,
-  );
-  add(
-    "tail",
-    "tail",
-    4,
-    19,
-    ["aaaa...", ".aaaa..", "..aaaa.", "...aaaa"],
-    WHITE,
-  );
-  add(
-    "head",
-    "head",
-    18,
-    8,
-    [
-      "..aaaaaa..",
-      ".aaaaaaaa.",
-      "aaaaaaaaaa",
-      "aaaaaaaaaa",
-      "aaaaaaaaaa",
-      ".aaaaaaaa.",
-      "..aaaaaa..",
-    ],
-    WHITE,
-  );
-  add("horn-left", "horn", 19, 5, ["a.", "aa", "aa"], WHITE, "head");
-  add("horn-right", "horn", 25, 5, [".a", "aa", "aa"], WHITE, "head");
-  add("eye-left", "eye", 20, 10, ["a", "a"], BLACK, "head");
-  add("eye-right", "eye", 25, 10, ["a", "a"], BLACK, "head");
-  add("mouth", "mouth", 22, 13, ["aaa"], BLACK, "head");
-  add("band-left", "decoration", 8, 18, ["aa", "aa"], BLACK);
-  add("band-right", "decoration", 21, 19, ["aa", "aa"], BLACK);
-  return parts;
-}
-function beetle() {
-  const { parts, add } = drawing();
-  for (let i = 0; i < 3; i++) {
-    const y = 15 + i * 3;
-    add(`leg-left-${i}`, "leg", 6, y, [".aaaa", "aaa.."], WHITE);
-    add(`foot-left-${i}`, "foot", 5, y + 1, ["aa"], WHITE, `leg-left-${i}`);
-    add(`leg-right-${i}`, "leg", 22, y, ["aaaa.", "..aaa"], WHITE);
-    add(`foot-right-${i}`, "foot", 25, y + 1, ["aa"], WHITE, `leg-right-${i}`);
-  }
-  add(
-    "body",
-    "body",
-    10,
-    13,
-    [
-      "....aaaa....",
-      "..aaaaaaaa..",
-      ".aaaaaaaaaa.",
-      "aaaaaaaaaaaa",
-      "aaaaaaaaaaaa",
-      "aaaaaaaaaaaa",
-      "aaaaaaaaaaaa",
-      ".aaaaaaaaaa.",
-      "..aaaaaaaa..",
-      "....aaaa....",
-    ],
-    WHITE,
-    null,
-  );
-  add(
-    "head",
-    "head",
-    12,
-    8,
-    [".aaaaaa.", "aaaaaaaa", "aaaaaaaa", "aaaaaaaa", ".aaaaaa."],
-    WHITE,
-  );
-  add(
-    "horn-left",
-    "horn",
-    10,
-    4,
-    ["a...", "aa..", ".aa.", "..aa"],
-    WHITE,
-    "head",
-  );
-  add(
-    "horn-right",
-    "horn",
-    18,
-    4,
-    ["...a", "..aa", ".aa.", "aa.."],
-    WHITE,
-    "head",
-  );
-  add("eye-left", "eye", 13, 10, ["a"], BLACK, "head");
-  add("eye-right", "eye", 18, 10, ["a"], BLACK, "head");
-  add("mouth", "mouth", 15, 12, ["aa"], BLACK, "head");
-  add(
-    "carapace-seam",
-    "decoration",
-    15,
-    14,
-    ["a", "a", "a", "a", "a", "a", "a", "a"],
-    BLACK,
-  );
-  add("carapace-band", "decoration", 11, 18, ["aaaaaaaaaa"], BLACK);
-  return parts;
-}
-function wisp() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    10,
-    8,
-    [
-      ".....aa.....",
-      "...aa..aa...",
-      "..a......a..",
-      ".a........a.",
-      "a..........a",
-      "a..........a",
-      "a..........a",
-      "a..........a",
-      "a..........a",
-      ".a........a.",
-      ".a........a.",
-      "..a.a..a.a..",
-      "...a.aa.a...",
-    ],
-    WHITE,
-    null,
-  );
-  add("eye-left", "eye", 13, 12, ["a", "a"], WHITE);
-  add("eye-right", "eye", 18, 12, ["a", "a"], WHITE);
-  add("mouth", "mouth", 15, 16, ["aa"], WHITE);
-  add("hand-left", "hand", 4, 14, [".aa", "aaa", ".aa"], WHITE);
-  add("hand-right", "hand", 25, 14, ["aa.", "aaa", "aa."], WHITE);
-  add("halo", "decoration", 13, 4, ["aaaaaa"], WHITE);
-  return parts;
-}
-
-// Six more original drawings cover non-animal and unusual material layouts.
-function coral() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    14,
-    13,
-    ["aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa"],
-    "#DA8E9F",
-    null,
-  );
-  add(
-    "branch-left",
-    "arm",
-    8,
-    8,
-    [
-      "aa......",
-      "aa......",
-      ".aa.....",
-      "..aa....",
-      "...aa...",
-      "....aa..",
-      ".....aaa",
-    ],
-    "#DA8E9F",
-  );
-  add(
-    "branch-right",
-    "arm",
-    16,
-    5,
-    [
-      "......aa",
-      ".....aa.",
-      "....aa..",
-      "...aa...",
-      "..aa....",
-      ".aa.....",
-      "aa......",
-      "aa......",
-      "aa......",
-    ],
-    "#DA8E9F",
-  );
-  add(
-    "bud",
-    "hand",
-    6,
-    6,
-    [".aaa.", "aaaaa", ".aaa."],
-    "#E8B56C",
-    "branch-left",
-  );
-  return parts;
-}
-function stilt() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    12,
-    12,
-    [".aaaaaa.", "aaaaaaaa", "aaaaaaaa", ".aaaaaa."],
-    "#18D7E8",
-    null,
-  );
-  add(
-    "head",
-    "head",
-    13,
-    7,
-    ["aaaaaa", "a....a", "aaaaaa", "..aa..", "..aa.."],
-    "#18D7E8",
-  );
-  add(
-    "leg-left",
-    "leg",
-    12,
-    16,
-    ["aa", "aa", "aa", "aa", "aa", "aa", "aa"],
-    "#DDDDDD",
-  );
-  add(
-    "leg-right",
-    "leg",
-    18,
-    16,
-    ["aa", "aa", "aa", "aa", "aa", "aa", "aa"],
-    "#DDDDDD",
-  );
-  add("foot-left", "foot", 10, 23, ["aaaa"], "#18D7E8", "leg-left");
-  add("foot-right", "foot", 18, 23, ["aaaa"], "#18D7E8", "leg-right");
-  return parts;
-}
-function kite() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    14,
-    12,
-    ["aaaa", "aaaa", "aaaa", "aaaa", "aaaa", "aaaa"],
-    "#AAAAAA",
-    null,
-  );
-  add(
-    "wing-left",
-    "wing",
-    4,
-    7,
-    [
-      "a..........",
-      "aaa........",
-      "aaaaa......",
-      ".aaaaaa....",
-      "..aaaaaaa..",
-      "...aaaaaaaa",
-      "....aaaaaaa",
-      "......aaaaa",
-      "........aaa",
-    ],
-    "#A378C8",
-  );
-  add(
-    "wing-right",
-    "wing",
-    17,
-    7,
-    [
-      "..........a",
-      "........aaa",
-      "......aaaaa",
-      "....aaaaaa.",
-      "..aaaaaaa..",
-      "aaaaaaaa...",
-      "aaaaaaa....",
-      "aaaaa......",
-      "aaa........",
-    ],
-    "#A378C8",
-  );
-  add("eye-left", "eye", 14, 13, ["a"], BLACK);
-  add("eye-right", "eye", 17, 13, ["a"], BLACK);
-  add(
-    "tail",
-    "tail",
-    15,
-    18,
-    ["aa..", ".aa.", "..aa", ".aa.", "aa.."],
-    "#E8B56C",
-  );
-  return parts;
-}
-function lantern() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    8,
-    8,
-    [
-      "..aaaaaaaaaaaa..",
-      ".aa..........aa.",
-      "aa............aa",
-      "aa............aa",
-      "aa............aa",
-      "aa............aa",
-      "aa............aa",
-      "aa............aa",
-      "aa............aa",
-      ".aa..........aa.",
-      "..aaaaaaaaaaaa..",
-    ],
-    "#E8B56C",
-    null,
-  );
-  add(
-    "handle",
-    "horn",
-    13,
-    4,
-    ["aaaaaa", "a....a", "a....a", "a....a"],
-    "#AAAAAA",
-  );
-  add("tail", "tail", 14, 19, ["aaaa", ".aa.", ".aa.", "aaaa"], "#E8B56C");
-  return parts;
-}
-function drift() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    13,
-    14,
-    ["..a..", ".aaa.", "aaaaa", ".aaa.", "..a.."],
-    "#86AC6B",
-    null,
-  );
-  add(
-    "thread",
-    "tail",
-    17,
-    17,
-    ["a....", ".a...", "..a..", "...a.", "....a"],
-    "#86AC6B",
-  );
-  add("eye", "eye", 14, 15, ["a"], BLACK);
-  add("spark-left", "decoration", 7, 9, ["a"], "#E8B56C", null);
-  add("spark-right", "decoration", 23, 8, ["a"], "#E8B56C", null);
-  return parts;
-}
-function crown() {
-  const { parts, add } = drawing();
-  add(
-    "body",
-    "body",
-    11,
-    14,
-    [".aaaaaaaa.", "aaaaaaaaaa", "aa......aa", "aaaaaaaaaa", ".aaaaaaaa."],
-    "#A378C8",
-    null,
-  );
-  add(
-    "horn-left",
-    "horn",
-    10,
-    8,
-    ["a....", "aa...", ".aa..", "..aa.", "...aa", "....a"],
-    "#18D7E8",
-  );
-  add(
-    "horn-right",
-    "horn",
-    17,
-    8,
-    ["....a", "...aa", "..aa.", ".aa..", "aa...", "a...."],
-    "#18D7E8",
-  );
-  add(
-    "crest",
-    "hair",
-    14,
-    9,
-    ["aaaa", ".aa.", ".aa.", ".aa.", ".aa."],
-    "#DA8E9F",
-  );
-  add("leg-left", "leg", 11, 19, ["aa", "aa", "aa"], "#A378C8");
-  add("leg-right", "leg", 19, 19, ["aa", "aa", "aa"], "#A378C8");
-  return parts;
-}
-
-/** Developer demonstrations, never species templates or developmental destinations.
- * Fixed seeds are individual birth identities, not promises of a particular outcome. */
-export const STARTER_PRESETS: readonly StarterPreset[] = [
-  { id: "bean", name: "Bean", seed: "BEAN-87320104", parts: bean() },
-  { id: "sprout", name: "Sprout", seed: "SPROUT-39481726", parts: sprout() },
-  { id: "canine-cub", name: "Cub", seed: "CUB-72018439", parts: canineCub() },
-  { id: "ribbon", name: "Ribbon", seed: "RIBBON-51820476", parts: ribbon() },
-  { id: "beetle", name: "Beetle", seed: "BEETLE-26091384", parts: beetle() },
-  { id: "wisp", name: "Wisp", seed: "WISP-63817205", parts: wisp() },
-  { id: "coral", name: "Coral", seed: "CORAL-28174690", parts: coral() },
-  { id: "stilt", name: "Stilt", seed: "STILT-48193062", parts: stilt() },
-  { id: "kite", name: "Kite", seed: "KITE-93716284", parts: kite() },
-  {
-    id: "lantern",
-    name: "Lantern",
-    seed: "LANTERN-16284039",
-    parts: lantern(),
-  },
-  { id: "drift", name: "Drift", seed: "DRIFT-59271048", parts: drift() },
-  { id: "crown", name: "Crown", seed: "CROWN-74920163", parts: crown() },
+const designs:ReadonlyArray<Readonly<{
+ id:string;name:string;seed:string;description:string;ink:readonly Ink[];
+}>>=[
+ {id:"pippo",name:"Pippo",seed:"STARTER-PIPPO-2026",description:"Round body, two broad ears and tiny feet",ink:[
+  {id:"body",kind:"body",x:9,y:11,rows:[
+   "....mmmmmmmm....","..mmllllllllmm..",".mmllwwwwwwllmm.","mmllwwwwwwwwllmm",
+   "mllwwwwwwwwwwllm","mllwwwwwwwwwwllm","mllwwwwwwwwwwllm",
+   "mmllwwwwwwwwllmm",".mmllwwwwwwllmm.","..mmllllllllmm..",
+   "....mmmmmmmm...."]},
+  {id:"ear-left",kind:"ear",x:8,y:5,rows:["..mmmm..",".mllllm.","mllllllm","mllllllm",".mllllm.","..mmmm.."]},
+  {id:"ear-right",kind:"ear",x:19,y:5,rows:["..mmmm..",".mllllm.","mllllllm","mllllllm",".mllllm.","..mmmm.."]},
+  {id:"feet",kind:"leg",x:12,y:21,rows:["mmm...mmm","mmmm.mmmm"]},
+  {id:"face",kind:"decoration",x:13,y:15,rows:["k...k",".q.q.","..k.."]},
+ ]},
+ {id:"brumby",name:"Brumby",seed:"STARTER-BRUMBY-2026",description:"A low armored quadruped with strong feet",ink:[
+  {id:"body",kind:"body",x:6,y:12,rows:[
+   "...sssssssssss....",".ssdddddddddddss..","ssddooooooooooddss",
+   "sdooddddddddddooods","sdoooooooooooooods","ssddooooooooooddss",
+   ".ssdddddddddddss..","...sssssssssss...."]},
+  {id:"head",kind:"head",x:20,y:11,rows:["..ssssss.",".ssllllss","ssllwwlls","sslllllls",".sssssss"]},
+  {id:"legs",kind:"leg",x:9,y:19,rows:["sss...sss...sss","sss...sss...sss","sss...sss...sss"]},
+  {id:"tail",kind:"tail",x:3,y:14,rows:["..sss","ssss.","sss.."]},
+  {id:"eye",kind:"eye",x:25,y:14,rows:["k"] ,parentId:"head"},
+ ]},
+ {id:"glim",name:"Glim",seed:"STARTER-GLIM-2026",description:"A soft floating bell with four rounded arms",ink:[
+  {id:"body",kind:"body",x:9,y:6,rows:[
+   ".....ccccc.....","...ccccccccc...","..ccwwwwwwwcc..",".ccwwwwwwwwwcc.",
+   "ccwwwwwwwwwwwcc","ccwwwwwwwwwwwcc","ccwwwwwwwwwwwcc",
+   ".ccwwwwwwwwwcc.","..ccccccccccc..","....ccccccc...."]},
+  {id:"arm-left",kind:"arm",x:5,y:15,rows:["cccc...","cccc...","cccc...","cccc...","..cc...","...cc.."]},
+  {id:"arm-mid-left",kind:"arm",x:12,y:16,rows:["ccc","ccc","ccc","ccc","ccc"]},
+  {id:"arm-mid-right",kind:"arm",x:18,y:16,rows:["ccc","ccc","ccc","ccc","ccc"]},
+  {id:"arm-right",kind:"arm",x:24,y:15,rows:["...cccc","...cccc","...cccc","...cccc","..cc...","..cc..."]},
+  {id:"eyes",kind:"eye",x:13,y:11,rows:["k....k","k....k"]},
+  {id:"mouth",kind:"mouth",x:15,y:15,rows:["kk"]},
+ ]},
+ {id:"thimbleaf",name:"Thimbleaf",seed:"STARTER-THIMBLEAF-2026",description:"A leafy crest above a rounded seed body",ink:[
+  {id:"body",kind:"body",x:11,y:14,rows:[
+   "...gggggg...","..ggllllgg..",".ggllllllgg.","ggllllllllgg",
+   "ggllllllllgg",".ggllllllgg.","..ggllllgg..","...gggggg..."]},
+  {id:"leaf-left",kind:"wing",x:4,y:5,rows:["....gg....","..ggggg...","gggggggg..","ggggggggg.","..gggggggg","....gggggg","......gggg",".......gg."]},
+  {id:"leaf-right",kind:"wing",x:17,y:4,rows:["......gg.","....ggggg","..ggggggg","ggggggggg","gggggggg.","..ggggg..","....gg..."]},
+  {id:"roots",kind:"leg",x:11,y:22,rows:["gg...gggg","gg...gggg","gg...gggg"]},
+  {id:"eyes",kind:"eye",x:14,y:17,rows:["k...k"]},
+ ]},
+ {id:"vellune",name:"Vellune",seed:"STARTER-VELLUNE-2026",description:"A diamond-winged glider with a narrow core",ink:[
+  {id:"body",kind:"body",x:13,y:9,rows:[
+   "..pppp..",".ppwwpp.","ppwwwwpp","ppwwwwpp","ppwwwwpp",
+   ".ppwwpp.","..pppp..","..pppp..","..pppp.."]},
+  {id:"wing-left",kind:"wing",x:2,y:6,rows:[
+   "......ppp...","....ppppp...","..ppppppp...","pppppppppp..",
+   "pppppppppppp","..pppppppppp","....pppppp..","......ppp..."]},
+  {id:"wing-right",kind:"wing",x:20,y:6,rows:[
+   "...ppp......","...ppppp....","...ppppppp..","..pppppppppp",
+   "pppppppppppp","pppppppppp..","..pppppp....","...ppp......"]},
+  {id:"tail",kind:"tail",x:15,y:18,rows:["pp","pp","pp","pp","pp","pp"]},
+  {id:"eye",kind:"eye",x:16,y:12,rows:["k"]},
+ ]},
+ {id:"craggle",name:"Craggle",seed:"STARTER-CRAGGLE-2026",description:"A compact segmented shell with sturdy joints",ink:[
+  {id:"body",kind:"body",x:9,y:11,rows:[
+   "....ssssss....","..ssmmmmmmss..",".ssmllllllmss.","ssmllooooollmss",
+   "smlloooooo llms".replace(" ",""),"smllooooooollms",
+   "ssmllooooollmss",".ssmllllllmss.","..ssmmmmmmss..","....ssssss...."]},
+  {id:"head",kind:"head",x:13,y:6,rows:["..ssss..",".ssmmss.","ssmmm mss".replace(" ",""),".ssmmss.","..ssss.."]},
+  {id:"legs-left",kind:"leg",x:5,y:14,rows:["ssss...","sssss..",".ssss..","..ssss."]},
+  {id:"legs-right",kind:"leg",x:24,y:14,rows:["...ssss","..sssss","..ssss.",".ssss.."]},
+  {id:"eyes",kind:"eye",x:15,y:8,rows:["k..k"],parentId:"head"},
+  {id:"seam",kind:"decoration",x:15,y:14,rows:["kk","kk","kk","kk"]},
+ ]},
+ {id:"nibblet",name:"Nibblet",seed:"STARTER-NIBBLET-2026",description:"A broad-headed biped with mobile antennae",ink:[
+  {id:"body",kind:"body",x:11,y:13,rows:["..rrrrrr..",".rrqqqqrr.","rrqqqqqqrr","rrqqqqqqrr","rrqqqqqqrr",".rrqqqqrr.","..rrrrrr.."]},
+  {id:"head",kind:"head",x:10,y:6,rows:["..rrrrrrrr..",".rrqqqqqqrr.","rrqqqqqqqqrr","rrqqqqqqqqrr","rrqqqqqqqqrr",".rrqqqqqqrr.","..rrrrrrrr.."]},
+  {id:"antenna-left",kind:"horn",x:10,y:3,rows:["rrrr.","rrrr.","..rr."]},
+  {id:"antenna-right",kind:"horn",x:19,y:3,rows:[".rrrr",".rrrr",".rr.."]},
+  {id:"arm-left",kind:"arm",x:6,y:15,rows:["rrrrr","rrrrr","..rrr"]},
+  {id:"arm-right",kind:"arm",x:21,y:15,rows:["rrrrr","rrrrr","rrr.."]},
+  {id:"leg-left",kind:"leg",x:12,y:20,rows:["rrr","rrr","rrrr"]},
+  {id:"leg-right",kind:"leg",x:19,y:20,rows:["rrr","rrr","rrrr"]},
+  {id:"eyes",kind:"eye",x:14,y:9,rows:["k....k"] ,parentId:"head"},
+ ]},
+ {id:"orbini",name:"Orbini",seed:"STARTER-ORBINI-2026",description:"A hollow ring organism with trailing fins",ink:[
+  {id:"body",kind:"body",x:7,y:8,rows:[
+   "......cccc......","....cccccccc....","..ccc......ccc..",
+   ".ccc..........ccc","ccc............ccc","ccc............ccc",
+   "ccc............ccc","ccc............ccc","ccc............ccc",
+   ".ccc..........ccc","..ccc......ccc..","....cccccccc....",
+   "......cccc......"]},
+  {id:"fin-left",kind:"wing",x:3,y:15,rows:["ccccc.","cccccc",".ccccc","..cccc","...ccc"]},
+  {id:"fin-right",kind:"wing",x:24,y:15,rows:[".ccccc","cccccc","ccccc.","cccc..","ccc..."]},
+  {id:"eye-left",kind:"eye",x:11,y:13,rows:["ww","ww"]},
+  {id:"eye-right",kind:"eye",x:19,y:13,rows:["ww","ww"]},
+  {id:"mouth",kind:"mouth",x:15,y:18,rows:["ww"]},
+ ]},
+ {id:"spoori",name:"Spoori",seed:"STARTER-SPOORI-2026",description:"A wide fungal cap over a sturdy short stalk",ink:[
+  {id:"body",kind:"body",x:13,y:15,rows:["..oooo..",".oolloo.","oolllloo","oolllloo","oolllloo",".oolloo.","..oooo..","..oooo.."]},
+  {id:"cap",kind:"head",x:6,y:6,rows:[
+   "......qqqqqq......","....qqqqqqqqqq....","..qqqqqqqqqqqqqq..",
+   ".qqqqqqqqqqqqqqqq.","qqqqqqqqqqqqqqqqqq","oooooooooooooooooo",
+   ".oooooooooooooooo.","...oooooooooooo..."]},
+  {id:"spots",kind:"decoration",x:10,y:9,rows:["ww...ww...ww",".w........w."] ,parentId:"cap"},
+  {id:"feet",kind:"leg",x:11,y:22,rows:["oooo...oooo","oooo...oooo"]},
+  {id:"eyes",kind:"eye",x:15,y:17,rows:["k...k"]},
+ ]},
+ {id:"tukkin",name:"Tukkin",seed:"STARTER-TUKKIN-2026",description:"A round owl-like creature with broad horns",ink:[
+  {id:"body",kind:"body",x:9,y:10,rows:[
+   "...gggggggg...","..ggllllllgg..",".ggllllllllgg.","ggllllllllllgg",
+   "ggllllllllllgg","ggllllllllllgg","ggllllllllllgg",
+   ".ggllllllllgg.","..ggllllllgg..","...gggggggg..."]},
+  {id:"horn-left",kind:"horn",x:6,y:5,rows:["ggggg","ggggg",".gggg","..ggg"]},
+  {id:"horn-right",kind:"horn",x:21,y:5,rows:["ggggg","ggggg","gggg.","ggg.."]},
+  {id:"wing-left",kind:"wing",x:5,y:15,rows:["ggggg","ggggg","ggggg",".gggg"]},
+  {id:"wing-right",kind:"wing",x:22,y:15,rows:["ggggg","ggggg","ggggg","gggg."]},
+  {id:"feet",kind:"leg",x:12,y:20,rows:["ggg....ggg","ggg....ggg"]},
+  {id:"eyes",kind:"eye",x:13,y:13,rows:["kk....kk","kk....kk"]},
+  {id:"beak",kind:"mouth",x:16,y:17,rows:["oo","oo"]},
+ ]},
+ {id:"flinta",name:"Flinta",seed:"STARTER-FLINTA-2026",description:"A long curved body with fins and a heavy head",ink:[
+  {id:"body",kind:"body",x:6,y:12,rows:[
+   "...pppppppp......",".ppwwwwwwwwpp....","ppwwwwwwwwwwpp...",
+   "ppwwwwwwwwwwwpp..",".ppwwwwwwwwwwpp.","..ppwwwwwwwwwwpp",
+   "....pppppppppppp","......pppppppp.."]},
+  {id:"head",kind:"head",x:18,y:8,rows:["..pppppp..",".ppwwwwpp.","ppwwwwwwpp","ppwwwwwwpp",".ppwwwwpp.","..pppppp.."]},
+  {id:"tail",kind:"tail",x:3,y:9,rows:["pp......","pppp....",".pppppp.","..pppppp","....pppp"]},
+  {id:"fin-back",kind:"wing",x:11,y:7,rows:["....pp....","..pppppp..","pppppppppp"]},
+  {id:"legs",kind:"leg",x:11,y:20,rows:["pppp...pppp","pppp...pppp"]},
+  {id:"eye",kind:"eye",x:24,y:11,rows:["k"] ,parentId:"head"},
+ ]},
+ {id:"vespri",name:"Vespri",seed:"STARTER-VESPRI-2026",description:"A small core with four distinct rounded wings",ink:[
+  {id:"body",kind:"body",x:14,y:10,rows:["..qqqq..",".qqwwqq.","qqwwwwqq","qqwwwwqq","qqwwwwqq","qqwwwwqq",".qqwwqq.","..qqqq..","..qqqq.."]},
+  {id:"upper-left",kind:"wing",x:3,y:4,rows:[
+   "......ppp..","....pppppp.","..ppppppppp","ppppppppppp",
+   "pppppppppp.","..ppppppp..","....ppp...."]},
+  {id:"upper-right",kind:"wing",x:20,y:4,rows:[
+   "..ppp......",".pppppp....","ppppppppp..","ppppppppppp",
+   ".pppppppppp","..ppppppp..","....ppp...."]},
+  {id:"lower-left",kind:"wing",x:5,y:16,rows:["..ppppppp","ppppppppp","pppppppp.","..ppppp..","....pp..."]},
+  {id:"lower-right",kind:"wing",x:20,y:16,rows:["ppppppp..","ppppppppp",".pppppppp","..ppppp..","...pp...."]},
+  {id:"antennae",kind:"horn",x:13,y:5,rows:["pp.....pp","pp.....pp",".pp...pp."]},
+  {id:"eyes",kind:"eye",x:16,y:12,rows:["k..k"]},
+ ]},
 ];
-for (const preset of STARTER_PRESETS) {
-  for (const part of preset.parts) {
-    part.pixels.forEach(Object.freeze);
-    Object.freeze(part.pixels);
-    Object.freeze(part.position);
-    Object.freeze(part);
-  }
-  Object.freeze(preset.parts);
-  Object.freeze(preset);
+export const STARTER_PRESETS:readonly StarterPreset[]=designs.map(d=>({
+ id:d.id,name:d.name,seed:d.seed,description:d.description,parts:build(d.ink)
+}));
+for(const preset of STARTER_PRESETS){
+ for(const part of preset.parts){
+   part.pixels.forEach(Object.freeze);Object.freeze(part.pixels);
+   Object.freeze(part.position);Object.freeze(part);
+ }
+ Object.freeze(preset.parts);Object.freeze(preset);
 }
 Object.freeze(STARTER_PRESETS);
-export const HOUSEHOLD_PRESETS = STARTER_PRESETS;
-export function clonePreset(id: string): PetPart[] {
-  const preset = STARTER_PRESETS.find((candidate) => candidate.id === id);
-  if (!preset) throw new RangeError(`Unknown starter preset: ${id}`);
-  return preset.parts.map((part) => ({
-    ...part,
-    position: { ...part.position },
-    pixels: part.pixels.map((pixel) => ({ ...pixel })),
-  }));
+export const HOUSEHOLD_PRESETS=STARTER_PRESETS;
+export function clonePreset(id:string):PetPart[]{
+ const preset=STARTER_PRESETS.find(candidate=>candidate.id===id);
+ if(!preset)throw new RangeError("Unknown starter preset: "+id);
+ return preset.parts.map(p=>({...p,position:{...p.position},pixels:p.pixels.map(c=>({...c}))}));
 }

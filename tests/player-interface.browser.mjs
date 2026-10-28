@@ -322,9 +322,11 @@ try {
           `${label} is inside the dock`,
         );
       assert.equal(
-        await panel.getByRole("button", { name: /^Load .* preset$/ }).count(),
-        12,
+        await panel.getByRole("button", { name: /^Load .* starter creature/ }).count(),
+        0,
+        "starter drawings belong to player authoring, not the developer dock",
       );
+      assert.equal(await panel.getByRole("button", {name:"Expand morphology workbench"}).count(),1);
       assert.equal(
         await panel.getByLabel("Growth timeline", { exact: true }).count(),
         1,
@@ -344,19 +346,16 @@ try {
           "drawing remains alongside the left dock",
         );
       }
-      // Presets stay in the panel; switching it off returns to drawing without birthing anything.
-      await panel
-        .getByRole("button", { name: "Load Bean preset", exact: true })
-        .click();
-      const draft = await saved(page, (doc) => doc.seed === "BEAN-87320104");
-      assert.equal(draft.life, undefined);
+      // The left dock owns only diagnostics, never player starter selection.
+      // Editing the preview seed must not create or change a living organism.
       await panel
         .getByRole("textbox", { name: "Growth seed", exact: true })
         .fill("CHECKBOX-PREVIEW");
       await panel
         .getByRole("button", { name: "Apply seed", exact: true })
         .click();
-      await saved(page, (doc) => doc.seed === "CHECKBOX-PREVIEW");
+      const draft=await saved(page, (doc) => doc.seed === "CHECKBOX-PREVIEW");
+      assert.equal(draft.life, undefined);
       if (process.env.UI_EVIDENCE_DIR && viewport.width !== 320) {
         await mkdir(process.env.UI_EVIDENCE_DIR, { recursive: true });
         // Scroll the independent dock back to its top before collecting interface evidence.
@@ -383,6 +382,8 @@ try {
         .getByLabel("Draw your whole pet here", { exact: true })
         .waitFor();
       assert.equal(await panel.count(), 0);
+      assert.equal(await button(page,"Show or hide starter creature gallery").count(),1,
+        "public starter gallery remains available without developer tools");
       assert.equal(
         await page.getByLabel("Growth timeline", { exact: true }).count(),
         0,
@@ -433,25 +434,30 @@ try {
     await button(page, "Return to your pet").click();
     assert.deepEqual(livingIdentity(await stored(page)), identity);
     await openTools(page);
-    assert.equal(
-      await page.getByRole("button", { name: /^Load .* preset$/ }).count(),
-      12,
-    );
+    await button(page,"Preview player experience").click();
+    await button(page,"Draw your pet").click();
+    await button(page,"Show or hide starter creature gallery").click();
+    assert.equal(await page.getByRole("button",
+      { name: /^Load .* starter creature into drawing editor$/ }).count(),12);
     for (const [presetName, presetSeed] of [
-      ["Bean", "BEAN-87320104"],
-      ["Sprout", "SPROUT-39481726"],
-      ["Cub", "CUB-72018439"],
-      ["Ribbon", "RIBBON-51820476"],
-      ["Beetle", "BEETLE-26091384"],
-      ["Wisp", "WISP-63817205"],
-      ["Coral", "CORAL-28174690"],
-      ["Stilt", "STILT-48193062"],
-      ["Kite", "KITE-93716284"],
-      ["Lantern", "LANTERN-16284039"],
-      ["Drift", "DRIFT-59271048"],
-      ["Crown", "CROWN-74920163"],
+      ["Pippo", "STARTER-PIPPO-2026"],
+      ["Brumby", "STARTER-BRUMBY-2026"],
+      ["Glim", "STARTER-GLIM-2026"],
+      ["Thimbleaf", "STARTER-THIMBLEAF-2026"],
+      ["Vellune", "STARTER-VELLUNE-2026"],
+      ["Craggle", "STARTER-CRAGGLE-2026"],
+      ["Nibblet", "STARTER-NIBBLET-2026"],
+      ["Orbini", "STARTER-ORBINI-2026"],
+      ["Spoori", "STARTER-SPOORI-2026"],
+      ["Tukkin", "STARTER-TUKKIN-2026"],
+      ["Flinta", "STARTER-FLINTA-2026"],
+      ["Vespri", "STARTER-VESPRI-2026"],
     ]) {
-      await button(page, `Load ${presetName} preset`).click();
+      // Loading a draft closes the gallery to restore the handheld canvas.
+      if(await button(page,`Load ${presetName} starter creature into drawing editor`).count()===0)
+        await button(page,"Show or hide starter creature gallery").click();
+      await button(page, `Load ${presetName} starter creature into drawing editor`).click();
+      await button(page,"Confirm replacement").click();
       await page.waitForFunction(
         (seed) =>
           JSON.parse(localStorage.getItem("infipet.pet"))?.seed === seed,
@@ -462,10 +468,11 @@ try {
         identity,
         `${presetName} does not replace the living organism`,
       );
-      await openTools(page);
     }
-    await button(page, "Load Coral preset").click();
-    const draft = await saved(page, (doc) => doc.seed === "CORAL-28174690");
+    await button(page,"Show or hide starter creature gallery").click();
+    await button(page,"Load Spoori starter creature into drawing editor").click();
+    await button(page,"Confirm replacement").click();
+    const draft = await saved(page, (doc) => doc.seed === "STARTER-SPOORI-2026");
     assert.deepEqual(
       livingIdentity(draft),
       identity,
@@ -609,9 +616,12 @@ try {
     const fixture=path.join(tmpdir(),"infipet-games-juvenile.json");
     execFileSync(process.execPath,["--import","tsx","scripts/create-year-life-fixture.ts",fixture,"168"],{stdio:"pipe"});
     const juvenile=JSON.parse(await readFile(fixture,"utf8"));
-    await page.clock.setFixedTime(new Date(juvenile.life.game.clock.nowMs));
+    // Open import before shifting the active pet's simulated clock forward.
+    // Otherwise the prior life performs 168 days of catch-up while Playwright
+    // is trying to click the modal, repeatedly detaching its controls.
     await button(page,"Open more menu").click();await button(page,"Import pet").click();
     const choosing=page.waitForEvent("filechooser");await button(page,"Open pet file").click();
+    await page.clock.setFixedTime(new Date(juvenile.life.game.clock.nowMs));
     await(await choosing).setFiles(fixture);await button(page,"Confirm replacement").click();
     await button(page,"Play and training").click();await button(page,"CPU battle").click();
     await page.getByText(/^(Victory|Defeat) against /).waitFor();
@@ -735,6 +745,38 @@ try {
     assert.equal(cared.life.game.dead,false);assert.equal(cared.life.game.meters.happiness,4);
     assert.ok(cared.life.game.physiology.events.some(p=>p.atMs>366*86400000));
     assert.deepEqual(cared.life.anatomicalCheckpoint.state.graph,opened.life.anatomicalCheckpoint.state.graph);
+    await context.close();
+  });
+  await test("player starter gallery and developer morphology tools remain separate from saved life",async()=>{
+    const context=await browser.newContext({viewport:{width:1280,height:900}});
+    const page=await context.newPage();page.on("pageerror",e=>errors.push(e.message));
+    await page.goto(url);
+    await page.getByLabel("Draw your whole pet here",{exact:true}).waitFor();
+    assert.equal(await button(page,"Show or hide starter creature gallery").count(),1);
+    await button(page,"Show or hide starter creature gallery").click();
+    for(const creature of ["Pippo","Thimbleaf","Vellune","Craggle","Orbini","Vespri"]){
+      const starter=button(page,`Load ${creature} starter creature into drawing editor`);
+      assert.equal(await starter.count(),1,"public player can find "+creature);
+    }
+    await button(page,"Load Pippo starter creature into drawing editor").click();
+    assert.equal(await button(page,"Begin life").isDisabled(),false);
+    await button(page,"Begin life").click();
+    await button(page,"Meal").waitFor();
+    const pet=await saved(page,doc=>doc?.life?.name==="Pippo");
+    const identity=livingIdentity(pet);
+    await openTools(page);
+    await button(page,"Expand morphology workbench").click();
+    for(const kind of ["elongate","expand","branch","bud","fuse","resorb","remodel","reinforce"])
+      assert.equal(await page.getByLabel(kind+" operator expression",{exact:true}).count(),1,
+        "dev-only material control exists: "+kind);
+    await button(page,"Compare original and experimental physical morphology").click();
+    await page.getByText("PHYSICAL COMPARISON",{exact:false}).waitFor();
+    await button(page,"Preview player experience").click();
+    const preserved=await stored(page);
+    assert.deepEqual(livingIdentity(preserved),identity,
+      "developer preview did not modify original player source, seed or birth");
+    assert.equal("operatorMultipliers" in preserved,false,
+      "experimental tuning is not persisted as a pet property");
     await context.close();
   });
   assert.deepEqual(errors, [], "no application runtime errors");
