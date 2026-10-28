@@ -12,18 +12,18 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
   assert.deepEqual(
     STARTER_PRESETS.map((p) => [p.id, p.seed]),
     [
-      ["bean", "BEAN-87320104"],
-      ["sprout", "SPROUT-39481726"],
-      ["canine-cub", "CUB-72018439"],
-      ["ribbon", "RIBBON-51820476"],
-      ["beetle", "BEETLE-26091384"],
-      ["wisp", "WISP-63817205"],
-      ["coral", "CORAL-28174690"],
-      ["stilt", "STILT-48193062"],
-      ["kite", "KITE-93716284"],
-      ["lantern", "LANTERN-16284039"],
-      ["drift", "DRIFT-59271048"],
-      ["crown", "CROWN-74920163"],
+      ["pippo", "STARTER-PIPPO-2026"],
+      ["brumby", "STARTER-BRUMBY-2026"],
+      ["glim", "STARTER-GLIM-2026"],
+      ["thimbleaf", "STARTER-THIMBLEAF-2026"],
+      ["vellune", "STARTER-VELLUNE-2026"],
+      ["craggle", "STARTER-CRAGGLE-2026"],
+      ["nibblet", "STARTER-NIBBLET-2026"],
+      ["orbini", "STARTER-ORBINI-2026"],
+      ["spoori", "STARTER-SPOORI-2026"],
+      ["tukkin", "STARTER-TUKKIN-2026"],
+      ["flinta", "STARTER-FLINTA-2026"],
+      ["vespri", "STARTER-VESPRI-2026"],
     ],
   );
   assert.deepEqual(PRESET_COLORS, [
@@ -40,7 +40,12 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
     "#E8B56C",
     "#DA8E9F",
   ]);
+  const drawnSignatures = new Set<string>();
+  const dimensions = new Set<string>();
+  const allKinds = new Set<string>();
   for (const preset of STARTER_PRESETS) {
+    assert.ok(preset.description.length >= 20, "explain the source anatomy without promising evolution");
+    assert.ok(!/tamagotchi|digimon|pokemon|agumon|patamon/i.test(preset.name));
     const parts = clonePreset(preset.id),
       ids = new Set(parts.map((p) => p.id));
     assert.equal(ids.size, parts.length);
@@ -74,6 +79,13 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
         positions.add(`${x},${y}`);
       }
     }
+    const sourcePixels=parts.flatMap(p=>p.pixels.map(c=>({x:c.x+p.position.x,y:c.y+p.position.y})));
+    assert.ok(sourcePixels.length >= 15, "starter silhouette must read at small scale");
+    const x0=Math.min(...sourcePixels.map(p=>p.x)),x1=Math.max(...sourcePixels.map(p=>p.x));
+    const y0=Math.min(...sourcePixels.map(p=>p.y)),y1=Math.max(...sourcePixels.map(p=>p.y));
+    dimensions.add((x1-x0+1)+"x"+(y1-y0+1));
+    drawnSignatures.add([...new Set(sourcePixels.map(p=>p.x+","+p.y))].sort().join(";"));
+    for(const part of parts)allKinds.add(part.kind);
     const life = birthPlayerLife(
       { parts, mode: "infant", name: preset.name, seed: preset.seed },
       1_000_000,
@@ -108,4 +120,7 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
       "editing a clone must not alter the curated source",
     );
   }
+  assert.equal(drawnSignatures.size,12,"starter designs must have distinct authored shapes");
+  assert.ok(dimensions.size>=6,"starters must sample contrasting bodily proportions");
+  assert.ok(allKinds.size>=7,"starters should demonstrate meaningful editable anatomy roles");
 });
