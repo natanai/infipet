@@ -81,7 +81,7 @@ function conservation(graph:MaterialGraph){
        assert.ok(path.length>=3&&path.length<=25);
        assert.equal(xy(path[0]),xy(move.from));
        assert.equal(xy(path.at(-1)!),xy(move.to));
-       const oldTissue=new Set([...before.values()]
+       const oldTissue=new Set([...live.values()]
          .filter(c=>c.tissueId===before.tissueId).map(xy));
        assert.ok(!oldTissue.has(xy(move.to)),"reflow must VACATE and genuinely occupy new space");
        for(let i=1;i<path.length;i++){
