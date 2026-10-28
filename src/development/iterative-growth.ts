@@ -99,7 +99,7 @@ export type IterativeGrowthSite = Readonly<{
 export type GrowthSuppressionReason =
   | "outside-world" | "protected-void" | "occupied" | "material-cap"
   | "unrelated-source-proximity" | "independent-branch-proximity"
-  | "self-overcrowding";
+  | "self-overcrowding" | "genetic-volume-cap";
 export type GrowthSuppression = Readonly<{
   hour: number;
   siteId: string;
