@@ -1,5 +1,6 @@
 import {journalMaterialEvent} from "./material-journal";
 import {proposeCoherentReshape} from "./coordinated-metamorphosis";
+import {proposeTissueReflow} from "./tissue-reflow";
 /**
  * Composable DEV-004 remodeling transactions. This module never replays birth
  * anatomy or chooses the global order of heterogeneous development events.
@@ -116,6 +117,7 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "reinforce": return c.support.rigidity;
     case "resorb": case "translate": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
+    case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "reattach": case "articulate": return c.segmentation.boundaries;
   }
 }
@@ -128,7 +130,7 @@ function checked(op: RemodelOperation): string | null {
     (op.direction && (!Number.isFinite(op.direction.x) ||
       !Number.isFinite(op.direction.y)))) return "invalid-operator";
   if(op.kind==="reattach" && !op.targetTissueId) return "missing-target-tissue";
-  if(op.kind==="reshape" &&
+  if(["reshape","redistribute"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-regional-direction";
   if(op.chaos) {
@@ -324,7 +326,7 @@ export function applyRemodelingProposal(
 
   let next:MaterialGraph=graph;
   const created:MaterialCell[]=[], removed:MaterialCell[]=[];
-  const relocated:{cellId:string;from:Point;to:Point}[]=[];
+  const relocated:{cellId:string;from:Point;to:Point;path?:readonly Point[]}[]=[];
   const oldLinks:MaterialLink[]=[],newLinks:MaterialLink[]=[];
   const sitesChanged:{before:MaterialSite;after:MaterialSite}[]=[];
   let beforeRigidity:number|undefined,afterRigidity:number|undefined;
@@ -407,6 +409,15 @@ export function applyRemodelingProposal(
       else {
         removed.push(choice);
         next={...graph,cells:graph.cells.filter(c=>c.id!==choice.id)};
+      }
+    } else if(op.kind==="redistribute") {
+      // This is NOT dilation: vacated material coordinates remain empty.
+      // One permanent cell follows a bounded tissue route, with no new mass.
+      const proposed=proposeTissueReflow(graph,op.tissueId,op.direction!);
+      if(!proposed)reason="no-connected-mass-transfer";
+      else{
+        relocated.push(proposed.relocated);
+        next={...graph,cells:proposed.cells};
       }
     } else if(op.kind==="reshape") {
       const proposed=proposeCoherentReshape(graph,op.tissueId,op.direction!,op.id,
@@ -525,7 +536,8 @@ export function applyRemodelingProposal(
     const event=journalMaterialEvent(graph,next,{
       id,kind:op.kind,atHour,createdCells:created,createdCellIds:transition.createdCellIds,
       removedCellIds:transition.removedCellIds,sourceCellIds:transition.sourceCellIds,
-    },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.targetTissueId?{targetTissueId:op.targetTissueId}:{}),...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})});
+    },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.targetTissueId?{targetTissueId:op.targetTissueId}:{}),...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})},
+      op.kind==="redistribute"?new Map(relocated.filter(m=>m.path).map(m=>[m.cellId,m.path!])):undefined);
     next={...next,events:[...next.events,event]};
   }
   const beforeSites=new Map(graph.sites.map(site=>[site.id,site]));
