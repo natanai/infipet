@@ -61,7 +61,8 @@ import {
 } from "./iterative-growth";
 import type { MaterialDevelopmentProgram } from "./operators";
 import { REMODEL_LIMITS } from "./lifetime-remodeling";
-import {chooseMorphologicalField,rankMorphologicalField} from "./morphological-fields";
+import {chooseMorphologicalField,rankMorphologicalField,
+  morphologicalVolumeCapacity} from "./morphological-fields";
 
 /** Inclusive supported age. No modulo clock, implicit maturity reset, or clamp. */
 export const ITERATIVE_CHRONOLOGY_MAX_HOURS = REMODEL_LIMITS.maxAgeHours;
@@ -505,9 +506,7 @@ export function stepIterativeChronology(
             // 1024-cell surface scan hundreds of times each year.
             // This is bounded allometry, not a species- or target-shape rule.
             const area=Math.max(1,tissuesById.get(s.tissueId)?.sourceCellIds.length??0);
-            const inertia=1+(area/64)**2;
-            const extra=Math.min(192,Math.ceil(area*(4+8*expansion+4*membrane)/inertia));
-            const capacity=area+extra;
+            const capacity=morphologicalVolumeCapacity(area,expansion,membrane);
             const currentArea=cells.filter(c=>c.tissueId===s.tissueId).length;
             if(currentArea>=capacity){
               suppressions.push({hour:n,siteId:s.id,kind:"expand",

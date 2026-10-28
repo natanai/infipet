@@ -74,6 +74,23 @@ export function chooseMorphologicalField(
  }
  return modes[3];
 }
+/** Source-rooted whole-tissue carrying capacity; no species outcome.
+ * A=permanent original source IDs in the current tissue (safe positive int).
+ * Allometric expression mass=A+min(192,ceil(A*(4+8e+4m)/(1+(A/64)^2))).
+ * Bounded by A+192, exact and deterministic at floating IEEE754 precision.
+ * Existing global budget and occupancy can still reject every deposit. */
+export function morphologicalVolumeCapacity(
+ authoredArea:number,expansion:number,membrane:number,
+):number{
+ if(!Number.isSafeInteger(authoredArea)||authoredArea<1||authoredArea>4096||
+    !Number.isFinite(expansion)||expansion<0||expansion>1||
+    !Number.isFinite(membrane)||membrane<0||membrane>1)
+   throw new RangeError("Invalid allometric material budget inputs");
+ const inertia=1+(authoredArea/64)**2;
+ return authoredArea+Math.min(192,
+   Math.ceil(authoredArea*(4+8*expansion+4*membrane)/inertia));
+}
+
 export function rankMorphologicalField(
  live:readonly MaterialCell[],tissueId:string,mode:MorphologicalField,
  orbit:ChaosState,limit=24,

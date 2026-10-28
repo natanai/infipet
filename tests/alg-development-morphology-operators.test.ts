@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {chooseMorphologicalField,proposeMorphologicalField,
-  rankMorphologicalField} from "../src/development/morphological-fields";
+  rankMorphologicalField,morphologicalVolumeCapacity} from "../src/development/morphological-fields";
 import {assessIterativePlacement} from "../src/development/iterative-growth";
 import {compileMaterialDevelopment} from "../src/development/operators";
 import {applyDailyMaterialStep,createDailyMaterialState,
@@ -141,6 +141,23 @@ test("[MORPH-002/A2] coherent surfaces permit same-tissue contact without relaxi
  assert.equal(assessIterativePlacement(occupied,new Set(),parent,"t",
    destination,3072,roots,true),"material-cap");
 });
+test("[MORPH-002/A3] independent allometric expression bounds dense growth without disabling small-source volume",()=>{
+  // These exact expectations follow solely from the declared equation, NOT
+  // from a renderer snapshot, seed-specific creature or production validator.
+  assert.equal(morphologicalVolumeCapacity(9,0.5,0.5),98);
+  assert.equal(morphologicalVolumeCapacity(1024,0.5,0.5),1064);
+  assert.ok(morphologicalVolumeCapacity(9,0.5,0.5)-9>
+    morphologicalVolumeCapacity(1024,0.5,0.5)-1024,
+    "source mass inertia should not erase small organism growth capacity");
+  for(const source of [1,4,9,64,128,512,1024,4096])
+    for(const e of [0,0.1,0.5,1])for(const m of [0,0.5,1]){
+      const cap=morphologicalVolumeCapacity(source,e,m);
+      assert.ok(Number.isSafeInteger(cap)&&cap>=source&&cap<=source+192);
+    }
+  for(const bad of [0,-1,4097,0.5,Infinity,NaN])
+    assert.throws(()=>morphologicalVolumeCapacity(bad,0.5,0.5),/allometric/);
+  assert.throws(()=>morphologicalVolumeCapacity(9,1.1,0.5),/allometric/);
+});
 test("[MORPH-002/A3] genomic expansion potential and exact chaos gate anatomical field eligibility",()=>{
  const a=seedChaos("morph/seed-a"),b=seedChaos("morph/seed-b");
  assert.notDeepEqual(a,b);
@@ -198,7 +215,9 @@ test("[MORPH-002/A5] care vetoes are genuine nulls, future care cannot rewrite a
  }
  assert.deepEqual(zero.graph.sourceCells,rich.graph.sourceCells);
  assert.ok(zero.graph.events.length===0,"zero nutrient, rest and security cannot create matter");
- assert.ok(rich.graph.cells.length>=zero.graph.cells.length);
+ assert.ok(rich.graph.cells.length>zero.graph.cells.length,
+   "real accepted daily resources must physically change this eligible organism");
+ assert.ok(rich.graph.events.length>0,"genuine care must generate chronological material events");
  const at24=JSON.stringify(rich.graph);
  const changed=applyDailyMaterialStep(program,genome,rich,window(25,0));
  assert.equal(JSON.stringify(rich.graph),at24,"future care must never mutate past state");
