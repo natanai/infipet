@@ -774,6 +774,36 @@ try {
       "experimental tuning is not persisted as a pet property");
     await context.close();
   });
+  await test("mobile morphology sliders survive hiding dev tools and never rewrite a living pet",async()=>{
+    const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
+    const page=await context.newPage();page.on("pageerror",e=>errors.push(e.message));
+    await page.goto(url);
+    await button(page,"Show or hide starter creature gallery").tap();
+    await button(page,"Load starter drawing 1").tap();
+    await button(page,"Begin life").tap();
+    await button(page,"Meal").waitFor();
+    const born=await saved(page,doc=>!!doc.life);
+    const identity=livingIdentity(born);
+    await button(page,"Enable development tools").tap();
+    await button(page,"View adult").click();
+    await button(page,"Expand morphology workbench").click();
+    const slider=page.getByLabel("expand operator expression",{exact:true});
+    const bounds=await slider.boundingBox();assert.ok(bounds?.width>70);
+    await slider.tap({position:{x:bounds.width*0.82,y:bounds.height/2}});
+    // Sliding commits to sandbox at the pointer release, with no extra
+    // "Apply" step or silent transition to the real saved organism.
+    await button(page,"Preview player experience").tap();
+    await page.getByText(/PREVIEW · DAY/).waitFor();
+    assert.equal(await button(page,"Return to your pet").count(),1);
+    assert.equal(await button(page,"Meal").count(),0,
+      "care actions must not target the experimental creature");
+    assert.deepEqual(livingIdentity(await stored(page)),identity);
+    await button(page,"Return to your pet").tap();
+    await button(page,"Meal").waitFor();
+    assert.equal(await page.getByText(/PREVIEW · DAY/).count(),0);
+    assert.deepEqual(livingIdentity(await stored(page)),identity);
+    await context.close();
+  });
   assert.deepEqual(errors, [], "no application runtime errors");
 } finally {
   await browser.close();
