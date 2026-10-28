@@ -94,6 +94,7 @@ function shape(pixels:readonly MorphPoint[]){
     const degree=dirs.filter(([dx,dy])=>thinSet.has(key(p.x+dx,p.y+dy))).length;
     if(degree===1)tips++;if(degree>=3)junctions++;
   }
+  const branchLengthProxy=tips>0?thin.reduce((n,p)=>n+dirs.filter(([dx,dy])=>thinSet.has(key(p.x+dx,p.y+dy))).length,0)/2:0;
   return {points,occupied,left,top,width,height,center,
     area:points.length,perimeter,components,cavities,
     aspectRatio:height?width/height:0,
@@ -102,7 +103,7 @@ function shape(pixels:readonly MorphPoint[]){
       p90:sorted[Math.floor((sorted.length-1)*0.9)]??0,mean:mean(sorted)},
     regionFractions:regions.map(n=>points.length?n/points.length:0),
     thinFraction:points.length?thin.length/points.length:0,
-    thinEndpoints:tips,thinJunctionPixels:junctions};
+    thinEndpoints:tips,thinJunctionPixels:junctions,branchLengthProxy};
 }
 function physical(graph?:PhysicalWitness,before?:PhysicalWitness){
   if(!graph)return null;
@@ -122,6 +123,8 @@ function physical(graph?:PhysicalWitness,before?:PhysicalWitness){
     originalSurvivors:originalSurvivors.length,movedOriginals,movedSurvivors,
     generated:generated.length,generatedRatio:graph.cells.length?generated.length/graph.cells.length:0,
     liveTissues:new Set(graph.cells.map(c=>c.tissueId)).size,
+    tissueConcentration:(()=>{const counts=new Map<string,number>();for(const c of graph.cells)counts.set(c.tissueId,(counts.get(c.tissueId)??0)+1);return graph.cells.length?[...counts.values()].reduce((n,k)=>n+(k/graph.cells.length)**2,0):0;})(),
+    generatedSpread:generated.length?Math.sqrt(mean(generated.map(c=>(c.x-mean(generated.map(q=>q.x)))**2+(c.y-mean(generated.map(q=>q.y)))**2))):0,
     links:graph.links.length,validLinks,
     events:graph.events.length,
     generatedCenter:generated.length?{x:mean(generated.map(c=>c.x)),y:mean(generated.map(c=>c.y))}:null,
@@ -139,6 +142,7 @@ export function morphologyMetrics(pixels:readonly MorphPoint[],graph?:PhysicalWi
     components:s.components,cavities:s.cavities,
     localThickness:s.localThickness,regionFractions:s.regionFractions,
     thinFraction:s.thinFraction,thinEndpoints:s.thinEndpoints,thinJunctionPixels:s.thinJunctionPixels,
+    branchLengthProxy:s.branchLengthProxy,
     center:s.center,materialIdentityPixels:mapped,
     materialIdentityCoverage:pixels.length?mapped/pixels.length:0,
     physical:physical(graph,before),
@@ -163,6 +167,7 @@ export function morphologyDelta(
     medianThicknessChange:b.localThickness.median-a.localThickness.median,
     thinFractionChange:b.thinFraction-a.thinFraction,
     branchingProminenceChange:b.thinEndpoints-a.thinEndpoints,
+    branchLengthProxyChange:b.branchLengthProxy-a.branchLengthProxy,
     centerDisplacement:Math.hypot(b.center.x-a.center.x,b.center.y-a.center.y),
     pixelJaccard:union.size?overlap/union.size:1,
     physical:physical(laterGraph,birthGraph),
