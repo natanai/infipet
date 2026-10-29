@@ -120,15 +120,42 @@ export function scheduledOperatorPotential(
     op.developedKind ? Math.max(0.9, inherited) : inherited;
 }
 
+/** New real genetic tissues may physically specialize their pigment.
+ * Authored cells are never recolored. Role/color are fixed by an authorized
+ * bud operation, not guessed from a drawing's apparent facial markings.
+ * Fails closed to the source color for non-hex or unsupported pigments.
+ */
+export function developmentalPigment(sourceColor:string,kind:PartKind):string {
+  const match=/^#([0-9a-fA-F]{6})$/.exec(sourceColor);
+  if(!match)return sourceColor;
+  const hex=match[1],channels=[0,2,4].map(i=>parseInt(hex.slice(i,i+2),16));
+  const luminance=(0.2126*channels[0]+0.7152*channels[1]+0.0722*channels[2])/255;
+  const contrast=luminance<0.46?232:24;
+  const semanticContrast=kind==="eye"||kind==="mouth";
+  const alpha=semanticContrast?0.82:
+    kind==="horn"||kind==="hair"?0.38:
+    kind==="wing"||kind==="ear"?0.28:0.16;
+  const target=semanticContrast?contrast:
+    (kind==="wing"||kind==="ear"?232:24);
+  return "#"+channels.map(v=>Math.round(v*(1-alpha)+target*alpha)
+    .toString(16).padStart(2,"0")).join("").toUpperCase();
+}
+
 export function createOperatorMaterialCell(
   operation: MaterialOperator, tissueId: string, x: number, y: number,
   parents: readonly MaterialCell[],
 ): MaterialCell {
   const sources = [...new Set(parents.flatMap(p => p.sourceIds))].sort();
+  const firstGeneticCell=operation.kind==="bud" &&
+    Boolean(operation.geneticInstructionId && operation.developedKind) &&
+    parents[0].tissueId!==tissueId;
+  const color=firstGeneticCell && operation.developedKind
+    ?developmentalPigment(parents[0].color,operation.developedKind)
+    :parents[0].color;
   return {
     id: "growth/" + encodeURIComponent(operation.id) + "/" +
       encodeURIComponent(tissueId) + "/" + x + "," + y,
-    tissueId, x, y, color: parents[0].color,
+    tissueId, x, y, color,
     ...(parents[0].z === undefined ? {} : { z: parents[0].z }),
     provenance: "generated", sourceIds: sources,
     parentCellIds: parents.map(p => p.id).sort(), operationId: operation.id,
