@@ -167,12 +167,12 @@ test("[PHY-004/A12] body-only reference lottery balances supported phylogenetic 
     const chosen=chooseAuthoredReference(atlas,seed)!;
     const expectedDomain:(typeof domains)[number]=
       available[hash(seed+"|uncommitted-domain")%available.length];
-    const options=tree.nodes.filter(node=>classify(node.id)===expectedDomain)
+    const options:{id:string;rank:number}[]=tree.nodes.filter(node=>classify(node.id)===expectedDomain)
       .map(node=>({
         id:node.id,
         rank:hash(seed+"|authored-neighbor|"+node.id)/4294967296,
       })).sort((a,b)=>b.rank-a.rank||a.id.localeCompare(b.id));
-    const expectedNode=options[
+    const expectedNode:string|undefined=options[
       hash(seed+"|uncommitted-node|"+expectedDomain)%options.length
     ]?.id;
     assert.equal(chosen.referenceDomain,expectedDomain);
