@@ -41,7 +41,6 @@ import {
   decodePet,
   encodePet,
   loadEditablePet,
-  loadOriginalPetBackup,
   preparePetForDaily,
   savePet,
   PROTOTYPE_REVISION,
@@ -231,7 +230,6 @@ export default function App() {
   const [hydrated, setHydrated] = useState(false);
   const [writable, setWritable] = useState(false);
   const [saveError, setSaveError] = useState("");
-  const [originalSavedPet,setOriginalSavedPet]=useState<string|null>(null);
   const [notice, setNotice] = useState("");
   const [importInput, setImportInput] = useState("");
   const [importError, setImportError] = useState("");
@@ -262,8 +260,7 @@ export default function App() {
   const pendingReturnLife = useRef<LivingPet | undefined>(undefined);
   const returnGeneration = useRef(0);
   const deathSeen = useRef<string | null>(null);
-  const legacyLife=!!life&&life.anatomicalClock!=="daily-365-v1";
-  const playing = view === "live" && !sandbox && !!life && !legacyLife;
+  const playing = view === "live" && !sandbox && !!life;
   const layout = developmentLayout(width, devEnabled);
   const { deviceWidth, canvasSide: size } = playerGeometry(width, height, layout.playerOffset, view);
   const simulation = useMemo(
@@ -326,7 +323,7 @@ export default function App() {
   // Build only from the native saved-life evidence. Each accepted care command
   // invalidates this memo immediately; time is not approximated or bucketed.
   const livingSimulation = useMemo(() => {
-    if (!life||life.anatomicalClock!=="daily-365-v1") return null;
+    if (!life) return null;
     return createSimulation(life.parts, life.seed, life.mode, {
       groomingTimeline: life.groomingTimeline,
       liveContext: deriveDevelopmentContext(life.game),
@@ -393,7 +390,6 @@ export default function App() {
   const persist = async (
     message = "Progress is unsaved. Export a copy from More.",
   ): Promise<boolean> => {
-    if(latest.current.document.life&&latest.current.document.life.anatomicalClock!=="daily-365-v1")return false;
     const request = ++saveRequest.current;
     try {
       await savePet(latest.current.document);
@@ -441,24 +437,22 @@ export default function App() {
           setNeedTimeline(doc.needTimeline);
           setGroomingTimeline(doc.groomingTimeline ?? []);
           if (doc.life) {
-            const legacy=doc.life.anatomicalClock!=="daily-365-v1";
-            const resumed = legacy?doc.life:await prepareReturnedLife(advancePlayerLife(doc.life, Date.now(), "absent"));
+            const resumed = await prepareReturnedLife(advancePlayerLife(doc.life, Date.now(), "absent"));
             if(!active)return;
             commitLife(resumed);
-            if(legacy){setParts(doc.life.parts);setMode(doc.life.mode);setSeed(doc.life.seed);setSeedInput(doc.life.seed);setName(doc.life.name);setAge(0);}
-            setView(legacy?"draw":"live");
+            setView("live");
             setSandbox(false);
           }
-          setWritable(!doc.life||doc.life.anatomicalClock==="daily-365-v1");
+          setWritable(true);
         } else setWritable(true);
-        void loadOriginalPetBackup().then(raw=>{if(active)setOriginalSavedPet(raw);});
         setHydrated(true);
       })
-      .catch(async () => {
-        const original=await loadOriginalPetBackup().catch(()=>null);
+      .catch((error) => {
         if (active) {
-          setOriginalSavedPet(original);
-          setSaveError(original?"This saved pet could not be opened. Its original file is preserved in More → Export.":"Storage unavailable. Export your pet to keep a copy.");
+          setSaveError(error instanceof Error
+            ? "The local pet is not in the current prototype format: " + error.message
+            : "Could not open this local pet.");
+          setWritable(true);
           setHydrated(true);
         }
       });
