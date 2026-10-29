@@ -310,8 +310,41 @@ function physicalUnit(
     return fail("tip-removed");
   const axis=orient(op,graph,site,k);
   const vector=stepVector(axis);
-  const current=previous.tipCellIds[0] ?
+  let current=previous.tipCellIds[0] ?
     graph.cells.find(c=>c.id===previous.tipCellIds[0]) : (root && tip(graph,tissue.id,root,axis));
+  if(op.kind==="bud" && op.geneticInstructionId && !previous.tipCellIds.length){
+    // A fixed SOURCE growth site is a starting reference, not a single place
+    // where every accepted gene must compete for space. A genetically typed
+    // organ can begin only on a live, exposed, source-linked parent cell.
+    // Select mechanically valid exposed sites on the actual parent tissue,
+    // ranked along this operation's immutable seed direction, with distance
+    // from previously realized genetic tissues. No semantic image inference.
+    const own=remaining(graph,tissue.id),center={
+      x:own.reduce((a,c)=>a+c.x,0)/own.length,
+      y:own.reduce((a,c)=>a+c.y,0)/own.length,
+    };
+    const specialized=graph.tissues.filter(t=>t.developedKind).flatMap(t=>
+      remaining(graph,t.id));
+    const vector=stepVector(unit(turn(axis,
+      (program.signals.channels.symmetry.chirality-0.5)*0.8)));
+    const viable=own.filter(parent=>{
+      const target={x:parent.x+vector.x,y:parent.y+vector.y};
+      return !canDeposit(graph,target,op.id+"/growth/0",[],tissue.id) &&
+        growthSupportDistance(graph.cells,graph.links,parent.tissueId,
+          target,program.signals.channels.support.rigidity)!==null;
+    });
+    viable.sort((a,b)=>{
+      const score=(c:MaterialCell)=>{
+        const forward=(c.x-center.x)*axis.x+(c.y-center.y)*axis.y;
+        const separation=specialized.length?Math.min(16,...specialized.map(
+          e=>Math.hypot(c.x-e.x,c.y-e.y))):16;
+        return forward*2+separation;
+      };
+      return score(b)-score(a)||
+        compareText(a.id,b.id);
+    });
+    if(viable.length)current=viable[0];
+  }
   const newCells:MaterialCell[]=[];
   const removed:MaterialCell[]=[];
   let tissues=[...graph.tissues],sites=[...graph.sites],links=[...graph.links];
