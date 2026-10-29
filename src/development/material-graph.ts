@@ -24,6 +24,13 @@ export type MaterialCell = Readonly<{
 export type MaterialTissue = Readonly<{
   id: string;
   sourcePartId: string;
+  /**
+   * A NEW anatomically specialized tissue created by an authorized genetic
+   * operator. Absent for all original (possibly body-only) user ink.
+   * The sourcePartId continues to identify actual authored provenance.
+   */
+  developedKind?: PartKind;
+  geneticInstructionId?: string;
   parentId: string | null;
   relationship: Relationship;
   sourceCellIds: readonly string[];
