@@ -35,7 +35,7 @@
 - The only authoring surface is the shared 32 × 32 drawing canvas; the selected brush names each part and Body is the default. Specialized labels are optional, never inferred. Creation must be untimed and birth explicit.
 - Separate independent preview/Lab state from a committed living pet. Preserve replay-deterministic time, seed, drawing, chronological care events, gameplay outcomes and ordinary reload saves.
 - Do not add bulk generated audits, downloaded phylogeny files, retrospective screenshots, or run logs to `main`. Tests should cover current gameplay and growth behavior.
-- Run typecheck, focused regressions and web export before publishing. Automated passes are not proof of visually convincing growth; review unfamiliar player drawings over complete lifetimes.
+- **Prototype iteration priority:** deliver a recognizable, enjoyable, physically coherent virtual pet. There are NO automatic GitHub verification workflows and NO requirement to wait for bulk tests, roadmap validators, browser suites, CI badges or memory benchmarks between gameplay changes. A minimal publish build is necessary; use narrow manual debugging checks only when they answer a specific development question. User-observable development, drawing preservation and meaningful care are the immediate criteria.
 - **Unreleased prototype: no backward compatibility contract.** Do not preserve old pet formats, migrate previous life clocks, carry old stage identifiers, or retain compatibility adapters solely for hypothetical users or saves. Reject unsupported old formats cleanly. Maintain exact reproducibility and integrity for the *current* format; current saves still must reopen reliably. Historical source code can be consulted via git history without being kept in the production bundle.
 
 ## Player-authored anatomy and tree-first development — mandatory
@@ -84,18 +84,18 @@ Infipet should obtain vast morphological diversity from a **small, inspectable c
 - Original-device evolution requires a **witness**: source drawing, particular seed, replayable player care commands or explicit history, stage timings, and independently measured resemblance at every checkpoint. No stage lookup or sprite interpolation counts as an algorithmic success. Treat ROM-derived P1 count predicates as constraints, not proof of live command replay.
 - Growth within a pet is ontogeny. Bundled provenance-backed animal, plant and fungal reference graphs constrain possibilities. A guessed drawing affinity never establishes scientific ancestry.
 
-## Canonical implementation checklist (required for every agent)
+## Focused development habits (not automatic gates)
 
 - **Single source of truth:** [roadmap/plan.json](roadmap/plan.json). Do not create parallel Markdown roadmaps, issue-only completion trackers or generated progress reports.
 - Read dependencies and feature-specific acceptance criteria before working on a task: `node scripts/roadmap.mjs --task=OBS-001` (replace task ID).
-- After a change, add or update the named, focused test with all acceptance markers `[TASK-ID/A1]`, `[TASK-ID/A2]`, etc. Run **only that test** with `node scripts/roadmap.mjs --task=TASK-ID --run` while iterating. No screenshots or visual snapshots as automatic acceptance evidence.
-- Set status to `done` only after all its acceptance claims are asserted, the focused test passes and prerequisites are complete. The roadmap validator rejects unevidenced completion and cyclic/missing dependencies. CI executes validation and all focused tests.
-- Update the JSON task in the **same commit** as implementation and its tests; keep task IDs stable, and use `in_progress` or `blocked` when unfinished. Avoid accumulating large report assets.
+- If a mathematical regression is at issue, add a small independent test or manually replay a counterexample. Do **not** automatically add a check for every feature or queue a full numerical cohort on each iteration. Preserve source causality without allowing verification infrastructure to displace playable mechanics.
+- Keep roadmap status candid: `in_progress` means incomplete. Documentation and test evidence should never be substituted for seeing actual useful development in the game. Qualification can resume after a player-usable core exists.
+- Update the relevant roadmap contract as code changes, but do not require a test marker or a separate progress artifact for every prototype commit. Avoid accumulating large reports and validation-only code.
 
-## Algorithm ownership and verification
+## Algorithm ownership and optional diagnostics
 
 - The `algorithms` array in `roadmap/plan.json` defines agent-owned write scopes, interface contracts, task IDs and readiness gates. If delegating, assign one write owner per agent and arrange handoffs; `App.tsx`, `src/simulation/growth.ts`, and `src/lineage/index.ts` are integration-owned shared surfaces.
-- Keep CI focused: roadmap integrity, TypeScript typecheck and the currently registered algorithm acceptance tests. Web publishing and browser qualification are separate. Previously retired prototype tests remain available in history; do not treat old hourly benchmarks as proof of the new 365-check runtime.
-- New development gets exactly one narrow contract test per task or coherent algorithm behavior. Name it `tests/alg-<algorithm-id>-<feature>.test.ts`, register it in the JSON plan, and only add it to the lightweight `pnpm test` baseline when the behavior becomes a stable invariant. Do not invent general scans or generate screenshots.
+- **All five GitHub Actions check workflows have been deleted.** Only `.github/workflows/deploy.yml` remains, with a minimal build-and-publish step on `main` or manual dispatch. Do not reintroduce automatic test, format, scientific, memory, perf, documentation-integrity or browser qualification jobs unless the user explicitly requests them after enjoying a working game. No gate may wait on CI.
+- Existing tests remain optional, manually runnable troubleshooting utilities. Prefer implementing and observing real pet behavior; when fixing a specific mathematical defect, use the smallest relevant test rather than a system-wide run. Do not invent new repository-wide scans.
 
-- CI discovers test files from all `done` tasks automatically, plus `roadmap/plan.json` `baselineTests`; no separate per-task test list. Preview the exact gate with `node scripts/roadmap.mjs --verify-done --dry-run`. Keep completion evidence narrow; do not mark a task `done` until its named test is green.
+- The old `pnpm test` / roadmap suite may still discover historical acceptance tests **only when someone manually invokes it**; it is no longer run by Actions or publication. Preserve its source code if useful, but do not require it as the development scheduler.
