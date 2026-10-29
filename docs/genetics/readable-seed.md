@@ -288,6 +288,18 @@ renderer warps; they can correctly do nothing if source geometry, protected
 voids, links, care or resource limits reject the proposal. Source identities
 never transform into species targets or disappear silently.
 
+**Continuing specialist morphology:** Once new tissue has genuinely been
+born, subsequent daily regional growth does not discard its permanent
+developmental identity. The real source brush kind (or a physically created
+`developedKind`) adds a bounded `-0.28 * specializationRank` term to the
+shared 8-neighbor frontier candidate score. This operates on actual current
+tissue geometry and its registered growth-site direction, and favors compact
+Eyes, broad Wings/Feet and longitudinal Legs/Tails. General allometric body
+phases and specialist mechanics can compete; none authorizes a cell by
+itself. All original Body pixels retain the Body identity indefinitely.
+The combined rule is an experimental prior and still needs genuine visual
+evaluation rather than just metadata counting.
+
 This mechanism is implemented but **not yet manually confirmed as dramatic
 or legible on mobile Safari**. Even an accepted physical strain does not
 prove the player would find the resulting creature appealing. No automatic
