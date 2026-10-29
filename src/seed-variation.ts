@@ -1,3 +1,7 @@
+/** OPTIONAL DEVELOPER SEED COMPARISON, NOT THE GENETIC COMPILER.
+ * These queried ages are preview sampling points, not evolution stages or
+ * permitted growth times. The daily material engine governs all 365 checks;
+ * the readable seed meanings live in src/genetics/seed-language.ts. */
 import type { PetSimulation, Pixel } from "./simulation";
 
 const COMPARISON_DAYS = [30, 75, 120, 240] as const;

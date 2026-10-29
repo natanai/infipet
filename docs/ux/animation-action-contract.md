@@ -1,5 +1,7 @@
 # Animation and actual-play follow-up contract
 
+> **Proposed follow-up work, not an implemented-feature claim.** Physical source, anatomy selector, deterministic readable seed, phylogenetic potential and daily-check authority are defined by [../ARCHITECTURE.md](../ARCHITECTURE.md). Animation must never silently perform these operations. Entries below describing new effects, contact solvers or games are candidate contracts until separately implemented, measured and accepted.
+
 This file is an executable engineering handoff and **not a claim of implementation**. Complete the current #36 independent material/physiology audit before modifying those algorithms. Assign code ownership before changing App or the native gameplay reducer.
 
 ## Authority and data path

@@ -1,3 +1,7 @@
+/** IMPORTED LEGACY SOMATIC/POSE MATHEMATICS. Retained for compatibility
+ * with existing derived displays. Do not restore this module's continuous
+ * projected silhouettes as physical material, and do not infer anatomical
+ * kinds from geometric shape. Canonical physical growth: daily-step.ts. */
 import {
   geneRandom,
   SOMATIC_GROWTH_VERSION,

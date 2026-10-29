@@ -30,13 +30,18 @@
  * L=width+height, a=stretch in [1/16,16], P=(u/(L*sqrt(a)))^2+
  * (v/(L/sqrt(a)))^2. U=(n-1)/4 - j*P + .25*|u or v|/(L+1),
  * j=1 for thickening, 2 for surface, 3 for axial surface fields. The last
- * term applies only to width/height respectively. Same bounded chaotic
+ * directional term now weighs 2.4 (formerly 0.25) for genuine whole-region\n * proportional growth rather than repeated generic filling. Same bounded chaotic
  * coherence breaks ties. No selected field creates material by itself.
  * Once a physical repatterning wave expresses, U additionally subtracts
  * 4*E(p) for that source-owned developmental potential. Growth therefore
  * follows the expressed field rather than refilling a retired body plan.
+ * Already BRUSH-SELECTED or physically gene-differentiated tissue can add
+ * -0.28*specializationRank to its physical site score, so even later whole-
+ * body phases cannot indiscriminately stretch eyes into limb-like stalks.
+ * This never relabels source material or bypasses the mechanical gate.
  */
-import type {Point} from "../simulation/model";
+import type {Point,PartKind} from "../simulation/model";
+import {createSpecializationRank} from "./specialization-front";
 import type {MaterialCell} from "./material-graph";
 import {CHAOS_MODULUS,type ChaosState} from "./chaos";
 import {repatterningPotential,type RepatterningField} from "./developmental-repatterning";
@@ -114,6 +119,7 @@ export function rankMorphologicalField(
  orbit:ChaosState,limit=24,
  tensor?:Readonly<{axis:Readonly<Point>;stretch:number}>,
   developmentalField?:RepatterningField,
+  anatomicalKind?:Readonly<{kind:PartKind;direction:Readonly<Point>}>,
 ):readonly MorphologicalProposal[]{
  if(!Number.isSafeInteger(limit)||limit<1||limit>64)
    throw new RangeError("Field proposal cap must be within 1..64");
@@ -126,6 +132,8 @@ export function rankMorphologicalField(
    throw new RangeError("Unknown morphological field");
  const cells=live.filter(c=>c.tissueId===tissueId);
  if(!cells.length||cells.length>4096)return [];
+ const specialized=anatomicalKind?createSpecializationRank(
+   anatomicalKind.kind,cells,anatomicalKind.direction):null;
  const occupied=new Set(live.map(c=>key(c.x,c.y)));
  const minX=Math.min(...cells.map(c=>c.x)),maxX=Math.max(...cells.map(c=>c.x)),
    minY=Math.min(...cells.map(c=>c.y)),maxY=Math.max(...cells.map(c=>c.y));
@@ -158,8 +166,12 @@ export function rankMorphologicalField(
    const score=tensor?
       (n-1)/4-pressure*(mode==="thicken"?1:
        mode==="surface"?2:3)+
-      (mode==="width"?Math.abs(u)/(width+height+1)*.25:
-       mode==="height"?Math.abs(v)/(width+height+1)*.25:0):mode==="thicken"?
+      // Allometric selection must compete with neighbor-thickening.
+      // The old 0.25 factor was too weak to distribute material away
+      // from the centroid, so repeatedly reinforced the same body outline.
+      // These are legal PHYSICAL frontier choices, never display warps.
+      (mode==="width"?2.4*Math.abs(u)/(width+height+1):
+       mode==="height"?2.4*Math.abs(v)/(width+height+1):0):mode==="thicken"?
       (n-1)/7-Math.hypot(dx,dy)/(2*world):
      mode==="width"?
       Math.abs(dx)/(width/2+1)-Math.abs(dy)/(height+1):
@@ -170,7 +182,10 @@ export function rankMorphologicalField(
    const chosen=[...parents].sort((a,b)=>
      (a.id<b.id?-1:a.id>b.id?1:0))[0];
    candidates.push({parentId:chosen.id,destination:{x,y},mode,
-     score:score+coherence-(developmentalField?4*repatterningPotential({x,y},developmentalField):0),neighboringMaterial:n});
+     score:score+coherence-
+       (developmentalField?4*repatterningPotential({x,y},developmentalField):0)-
+       (specialized?0.28*specialized({x,y}):0),
+     neighboringMaterial:n});
  }
  candidates.sort((a,b)=>b.score-a.score||
    b.neighboringMaterial-a.neighboringMaterial||

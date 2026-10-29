@@ -1,3 +1,7 @@
+/** LEGACY COMPOSITING GENES. Imported for historical pose/shape metadata,
+ * NOT the authoritative readable A-Z/0-9 genetic language or a body-part
+ * classifier. Do not infer authored PartKinds or install fixed templates.
+ * Current seed instructions live in src/genetics/seed-language.ts. */
 import {
   geneRandom,
   PROCEDURAL_GRAMMAR_VERSION,

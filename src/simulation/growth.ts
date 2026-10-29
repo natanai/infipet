@@ -1029,7 +1029,10 @@ export function createSimulation(
       metadata=freeze({
         commitments:physical.checks.map(c=>({id:"daily/"+c.checkIndex,tick:c.checkIndex*24,option:c.nullEffect?"no-physical-change":"physical-transaction"})),
         operations:physical.graph.events.map(e=>({id:e.id,kind:e.kind,progress:1})),
-        anatomy:physical.graph.tissues.filter(t=>active.has(t.id)).map(t=>({id:t.id,role:physical.graph.sourceCells.some(c=>c.tissueId===t.id)?"source-material":"generated-material",sourcePartIds:[t.sourcePartId],readiness:1})),
+        anatomy:physical.graph.tissues.filter(t=>active.has(t.id)).map(t=>({id:t.id,
+          role:physical.graph.sourceCells.some(c=>c.tissueId===t.id)
+            ?"source-material" : t.developedKind??"generated-material",
+          sourcePartIds:[t.sourcePartId],readiness:1})),
       });dailyStateMetadata.set(physical,metadata);
     }
     result.developmentalAge=Math.max(0,age-hatchAt);
@@ -1125,8 +1128,16 @@ export function createSimulation(
       quads.push(...material.map(q=>({partId,cellId:q.cell.materialCellId,quad:q.quad})));
       const pixels=rasterCellQuads(material),box=bounds(pixels);
       const anchor=region?.anchor??cells[0],tip=region?.tip??cells[cells.length-1];
-      return [{id:partId,kind:source?.kind??"decoration",name:source?.name??"Growing material",
-        parentId:t.parentId,sourcePartIds:[t.sourcePartId],role:authored?source?.kind??"source":"material-growth",
+      // Authored ink remains the selected original kind. A new anatomical
+      // kind becomes player-visible ONLY after its physically generated child
+      // tissue exists: assigning a genetic ticket alone renders nothing.
+      const actualKind=authored?source?.kind??"decoration"
+        :t.developedKind??source?.kind??"decoration";
+      return [{id:partId,kind:actualKind,
+        name:authored?source?.name??"Authored material":
+          t.developedKind??"Growing material",
+        parentId:t.parentId,sourcePartIds:[t.sourcePartId],
+        role:authored?source?.kind??"source":t.developedKind??"material-growth",
         readiness:1,provenance:authored?"authored":"grown",relationship:t.relationship,
         layer:source?.part.layer??100,pixels,anchor:transport(anchor),tip:transport(tip),
         attachment:transport(anchor),attached:t.parentId!==null,scale:1,growth:{x:1,y:1},rotation:0,
@@ -1148,7 +1159,7 @@ export function createSimulation(
       physicalMaterial:{version:graph.version,sourceFingerprint:graph.sourceFingerprint,
         generatedCells:graph.cells.filter(c=>c.provenance==="generated").length,
         graphEvents:graph.events.length,completedChecks:physical.completedChecks,mature:physical.completedChecks===365,
-        visibleGrowthParts:parts.filter(p=>p.role==="material-growth").length,
+        visibleGrowthParts:parts.filter(p=>p.provenance==="grown").length,
         unmappedGeneratedTissues:[],renderedPhysicalCells:quadOwnerCounts.size,
         missingPhysicalOwnerIds,remodeledAuthoredCells:graph.sourceCells.filter(c=>{
           const active=byId.get(c.id);return !active||c.x!==active.x||c.y!==active.y;}).length,

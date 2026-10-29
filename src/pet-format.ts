@@ -21,13 +21,14 @@ import {
   type NeedKeyframe,
 } from "./needs";
 
-export const PROTOTYPE_REVISION = "life-v10" as const;
+/** Unreleased format break; no old-life migrations or compatibility modes. */
+export const PROTOTYPE_REVISION = "life-v11" as const;
 export const LINEAGE_RECIPE_VERSION = `${datasetVersion}|${profileVersion}|${LINEAGE_RULES_VERSION}|${PROCEDURAL_GRAMMAR_VERSION}|${SURFACE_EXPRESSION_VERSION}|${SOMATIC_GROWTH_VERSION}`;
 
 /** The living pet is independent of the editable laboratory recipe. */
 export type LivingPet = {
   lineageVersion: string;
-  anatomicalClock?:"daily-365-v1";
+  anatomicalClock:"daily-365-v1";
   /** Optional acceleration only; a malformed cache cannot invalidate the life. */
   anatomicalCheckpoint?:unknown;
   parts: PetPart[];
@@ -453,8 +454,8 @@ function validatedPet(value: unknown): PetDocument {
     try {
       life = {
         lineageVersion: LINEAGE_RECIPE_VERSION,
-        ...(saved.anatomicalClock===undefined?{}:saved.anatomicalClock==="daily-365-v1"?
-          {anatomicalClock:"daily-365-v1" as const}:invalid("unsupported anatomical clock")),
+        anatomicalClock:saved.anatomicalClock==="daily-365-v1"
+          ? "daily-365-v1" as const : invalid("only the current 365-check physical clock is supported"),
         ...(saved.anatomicalCheckpoint===undefined?{}:{anatomicalCheckpoint:saved.anatomicalCheckpoint}),
         parts: validatedParts(saved.parts),
         mode: saved.mode,
@@ -517,7 +518,7 @@ export function encodePet(pet: PetDocument): string {
   return raw;
 }
 
-/** Read a validated document. Unsupported versions are preserved by storage. */
+/** Read the current prototype document. Retired formats are rejected, not migrated. */
 export function decodePet(raw: string): PetDocument {
   if (typeof raw !== "string") invalid("the file must contain JSON text.");
   enforceSize(raw);

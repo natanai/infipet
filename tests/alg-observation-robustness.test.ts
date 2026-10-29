@@ -33,6 +33,10 @@ test("[OBS-003/A1] translated, repainted and reorganized layer ink has identical
   assert.deepEqual(painted.morphology, baseline.morphology);
   assert.deepEqual(shifted.candidates, baseline.candidates);
   assert.deepEqual(painted.candidates, baseline.candidates);
+  const declaredWing = infer(draw(geometry).map(p => ({ ...p, kind: "wing" as const })));
+  assert.notDeepEqual(declaredWing.candidates.map(c => c.probability),
+    baseline.candidates.map(c => c.probability),
+    "a changed selected brush is a deliberate semantic change, not geometric noise");
   const report = measureInferenceStability(baseline, [
     { label: "translated", inference: shifted },
     { label: "repainted", inference: painted },

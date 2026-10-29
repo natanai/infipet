@@ -1,5 +1,7 @@
 # Historical morphological expressiveness: preserved concepts and reproducible recovery
 
+> **RESEARCH ARCHIVE, NOT THE ACTIVE DEVELOPMENT SPECIFICATION.** This document describes historical engines, old benchmarks, prior decisions and unresolved regression evidence. For the current 365-check game, selector-authoritative anatomy and deterministic readable seeds, read [../ARCHITECTURE.md](../ARCHITECTURE.md), [../../AGENTS.md](../../AGENTS.md) and [../../roadmap/plan.json](../../roadmap/plan.json). Historical stage numbers, geometry-derived candidate anatomy, continuous compositing and older chaotic-first suggestions here do not override those contracts. This file is retained for independently reproducible regression research, not as an instruction to reinstall the old renderer.
+
 **Status:** source investigation and regression contract established. Actual three-engine full-lifetime comparative measurements are **not yet executed**, so `MORPH-001` remains `in_progress`. This document is an evidence inventory, not a claim that historical visual geometry was physically valid, or that current growth is already qualified.
 
 ## Pinned evidence, not retrospective aesthetics

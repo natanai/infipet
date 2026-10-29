@@ -1,10 +1,14 @@
-import { compareText, type Pixel, type Point, type Relationship } from "../simulation/model";
+import { compareText, type PartKind, type Pixel, type Point, type Relationship } from "../simulation/model";
 import type { SourceAtlas } from "../simulation/source-atlas";
 
 /** World-space source cells are retained independently of any later remodeling. */
 export type MaterialCell = Readonly<{
   id: string;
   tissueId: string;
+  /** Player-selected semantic kind, recorded on authored source cells only. */
+  sourceKind?: PartKind;
+  /** Exact player-authored part ID, never guessed from geometry. */
+  sourcePartId?: string;
   x: number;
   y: number;
   color: string;
@@ -20,6 +24,13 @@ export type MaterialCell = Readonly<{
 export type MaterialTissue = Readonly<{
   id: string;
   sourcePartId: string;
+  /**
+   * A NEW anatomically specialized tissue created by an authorized genetic
+   * operator. Absent for all original (possibly body-only) user ink.
+   * The sourcePartId continues to identify actual authored provenance.
+   */
+  developedKind?: PartKind;
+  geneticInstructionId?: string;
   parentId: string | null;
   relationship: Relationship;
   sourceCellIds: readonly string[];
@@ -179,7 +190,8 @@ export function createMaterialGraph(atlas: SourceAtlas): MaterialGraph {
         const cellId = "ink/" + encodeURIComponent(patch.id) + "/" +
           cell.x + "," + cell.y;
         const authored: MaterialCell = {
-          id: cellId, tissueId: id, x: cell.x, y: cell.y, color: cell.color,
+          id: cellId, tissueId: id, sourceKind: patch.kind, sourcePartId: patch.id,
+          x: cell.x, y: cell.y, color: cell.color,
           ...(cell.z === undefined ? {} : { z: cell.z }),
           provenance: "authored", sourceIds: [cellId], parentCellIds: [],
           operationId: null,

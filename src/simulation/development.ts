@@ -1,3 +1,9 @@
+/** COMPATIBILITY MATH ONLY. This historical compositing and stage program is
+ * still imported for pose, regional metadata and numerical regression tools.
+ * It MUST NOT be used to create live anatomical pixels: only the 365-check
+ * source-owned material graph in src/development/daily-step.ts can do that.
+ * Player-selected PartKinds are never inferred from silhouettes here.
+ * Canonical rules: docs/ARCHITECTURE.md. */
 import {
   clamp,
   hash,

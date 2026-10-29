@@ -20,15 +20,18 @@
  * Zero potential contributes zero rate. A blocked selected surface is a null
  * proposal, never converted to a convenient tendril or fabricated anatomy.
  *
- * Permanent anisotropy a=2^[3(l-e)+2(qx-.5)], in [1/16,16];
- * direction angle=2*pi*qy. Live source-linked extents set the metric scale.
- * The current exact chaotic orbit controls expression, not this permanent
- * polarity; randomizing the tensor every day would average out allometry.
+ * Daily allometry uses five seed-fixed 73-check phases with bounded
+ * region-local aspect in [1/8,8]; chronological rest/activity biases actual
+ * expression, not the permanent genome. The available region, not a species
+ * template, determines the physically legal next boundary position.
+ * The earlier single-tensor primitive remains available to mathematical
+ * clients but no longer governs the daily player growth field.
  */
 import type {DevelopmentalChannels} from "../genetics";
 import {CHAOS_MODULUS,type ChaosState} from "./chaos";
+import {hash} from "../simulation/model";
 
-export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v3" as const;
+export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v4" as const;
 /** A new bud receives the square-root material scale of its birth region,
  * rather than being permanently starved as a one-cell birth drawing. The
  * genome, four-credit competition and all material caps remain unchanged. */
@@ -67,4 +70,41 @@ export function regionalGrowthTensor(c:DevelopmentalChannels,phase:ChaosState){
  return {axis:{x:Math.cos(angle),y:Math.sin(angle)},
   stretch:2**(3*(c.growth.elongation-c.growth.expansion)+
     2*(phase.x/(CHAOS_MODULUS-1)-.5))};
+}
+
+/**
+ * A reproducible developmental allometry FIELD for the already-source-owned
+ * regional growth operator. It is not a species/stage template, and never
+ * modifies authored material directly. Its axes influence only candidates
+ * that the physical lattice/ancestry/void/contact guards can actually place.
+ *
+ * Inputs: immutable organism identity, actual tissue identity, daily check
+ * n in 0..364, fixed birth genetic channels, and chronological bounded
+ * rest/activity. Outputs: unit direction and anisotropy in [1/8,8].
+ *
+ * phase=floor(n/73) (five phases, 0..4). Each tissue/phase gets a permanent
+ * seed-derived u,v in [0,1); angle=2*pi*u. The log2 aspect bias is
+ * clamp(3*(elongation-expansion)+2*(v-.5)+1.5*(activity-rest),-3,3).
+ *
+ * Past snapshots cannot change when later care changes; no PRNG draws,
+ * species labels, image recognition or new chaotic recurrence are involved.
+ */
+export function developmentalAllometry(
+  identity:string,tissueId:string,check:number,
+  c:DevelopmentalChannels,care:RegionalCare,
+):Readonly<{axis:Readonly<{x:number;y:number}>;stretch:number}> {
+  if(!identity||!tissueId||!Number.isSafeInteger(check)||check<0||check>=365||
+     ![care.rest,care.activity,care.security,
+       c.growth.elongation,c.growth.expansion].every(bounded))
+    throw new RangeError("Invalid developmental allometry inputs");
+  const phase=Math.floor(check/73);
+  const key=identity+"|whole-body-phase|"+tissueId+"|"+phase;
+  const u=hash(key+"|axis")/4294967296;
+  const v=hash(key+"|aspect")/4294967296;
+  const angle=2*Math.PI*u;
+  const exponent=Math.max(-3,Math.min(3,
+    3*(c.growth.elongation-c.growth.expansion)+2*(v-0.5)+
+    1.5*(care.activity-care.rest)));
+  return {axis:{x:Math.cos(angle),y:Math.sin(angle)},
+    stretch:2**exponent};
 }

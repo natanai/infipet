@@ -18,7 +18,7 @@ export type StrainAuthorization = Readonly<{
 }>;
 /** Re-derive the genetic organizer, independently of sourceStrain(). */
 export function verifyStrainProgram(
-  source: readonly MaterialCell[],
+  _source: readonly MaterialCell[],
   fingerprint: string,
   before: ReadonlyMap<string, MaterialCell>,
   wave: string,
@@ -33,11 +33,10 @@ export function verifyStrainProgram(
     )
   )
     throw new Error("Invalid permanent strain authorization");
-  const ids = new Set(source.map((c) => c.id)),
-    ink = [...before.values()].filter(
-      (c) => c.provenance === "authored" && ids.has(c.id),
-    );
-  const live = ink.length ? ink : [...before.values()];
+  // Independent pre-transaction oracle: the developmental strain must be
+  // derived from the COMPLETE live physical mass, not merely birth pixels.
+  // This evaluator never calls sourceStrain() or the producer's graph mapper.
+  const live = [...before.values()];
   const orbit = stepChaos(
       seedChaos(
         [parameters.seed, fingerprint, wave, "coherent-strain"].join("|"),
@@ -238,6 +237,19 @@ export function createAnatomicalAudit(
         if (!exposed) throw new Error("Buried drawn protrusion: " + feature.id);
       }
     }
+    const semantic = contract.features.filter(f =>
+      f.kind && f.kind !== "body" && f.kind !== "decoration" && f.sourcePartId);
+    for (let i = 0; i < semantic.length; i++)
+      for (let j = 0; j < i; j++) {
+        const a = semantic[i], b = semantic[j];
+        if (a.kind !== b.kind) continue;
+        const left = new Set(groups[a.id].map(position));
+        const right = new Set(groups[b.id].map(position));
+        if (![...left].some(k => !right.has(k)) ||
+            ![...right].some(k => !left.has(k)))
+          throw new Error("Collapsed player-declared parts: " +
+            b.sourcePartId + ":" + a.sourcePartId);
+      }
     for (const edge of contract.bonds) {
       let adjacent = false;
       search: for (const a of groups[edge.a])

@@ -1,4 +1,5 @@
-import { clamp, compareText, hash, type Point } from "../simulation/model";
+import { clamp, compareText, hash, type PartKind, type Point } from "../simulation/model";
+import { compileReadableSeed, scheduleSeedOpportunities, type ReadableSeedProgram } from "../genetics/seed-language";
 import {
   CHAOS_VERSION,
   seedChaos, chaoticProgress, chaoticTurn, validateMaterialChaos,
@@ -36,6 +37,10 @@ export type MaterialOperator = Readonly<{
   strength: number;
   /** Optional independently verifiable chaotic rhythm and source-tip steering. */
   chaos?: MaterialChaos;
+  /** Optional authored-seed opportunity: only a real bud transaction creates
+   * a new independently typed tissue from its own source-linked parent. */
+  developedKind?: PartKind;
+  geneticInstructionId?: string;
 }>;
 export type MaterialDevelopmentProgram = Readonly<{
   version: 1;
@@ -45,10 +50,50 @@ export type MaterialDevelopmentProgram = Readonly<{
   iterativeSeedFingerprint?: string;
   signals: DevelopmentGeneticSignals;
   operators: readonly MaterialOperator[];
+  /** Seed-character grammar is frozen at birth, before care, and has no
+   * chaotic inputs or later rerolls. */
+  seedLanguage?: ReadableSeedProgram;
   /** Hash contains only the actual drawing, seed genotype and operator schedule. */
   fingerprint: string;
 }>;
 export const MATERIAL_LIMITS = { world: 64, addedCells: 3072, operators: 64 } as const;
+
+/** A newly differentiated sensory surface is not an antenna. These bounded
+ * *axial* growth ceilings are general physical organ mechanics, not species
+ * templates. The remaining tissue mass is shaped by sourced expansion.
+ * Only actual accepted genetic buds use this rule; original anatomy stays.
+ */
+/** A player's explicit brush is a physical tissue type, not an inferred
+ * facial feature. Its source-rooted geometry influences how available
+ * inherited operator capacity is DISTRIBUTED between axial, sheet and
+ * branching changes. These are bounded weights, never a target silhouette.
+ * The same kind remains free to bend, expand, reshape and relocate.
+ */
+export function authoredTissueMechanics(kind:PartKind):Readonly<{
+  axial:number;surface:number;branch:number;
+}> {
+  const weights:Readonly<Record<PartKind,readonly [number,number,number]>>={
+    body:[1,1,1],head:[0.4,1.3,0.35],
+    arm:[1,1,0.7],hand:[0.3,1.4,0.2],
+    leg:[1,1,0.6],foot:[0.25,1.5,0.2],
+    eye:[0.06,1.6,0.05],mouth:[0.16,1.6,0.1],
+    ear:[0.55,1.4,0.3],tail:[1,0.8,0.8],
+    wing:[0.65,1.5,0.55],horn:[1,0.75,0.55],
+    egg:[0.1,1.5,0.05],hair:[1,0.8,0.8],
+    decoration:[0.08,1.15,0.1],
+  };
+  const [axial,surface,branch]=weights[kind];
+  return {axial,surface,branch};
+}
+
+export function geneticBudAxisLimit(kind:PartKind):number {
+  const limits:Readonly<Partial<Record<PartKind,number>>>={
+    eye:1,mouth:2,ear:2,head:3,hand:2,foot:2,
+    wing:5,leg:6,arm:6,tail:7,horn:4,hair:5,
+    egg:2,body:5,decoration:1,
+  };
+  return limits[kind]??5;
+}
 const key = (x: number, y: number) => x + "," + y;
 const within = (x: number, y: number) =>
   Number.isInteger(x) && Number.isInteger(y) && x >= 0 && x < 64 && y >= 0 && y < 64;
@@ -82,15 +127,58 @@ export function materialOperatorPotential(kind: MaterialOperatorKind, signal: De
   return clamp((0.3 + 0.5 * operator.potential + 0.2 * supplement) * hint, 0.1, 1.5);
 }
 
+/**
+ * A reproducibly accepted seed ticket is itself permanent developmental
+ * competence, independent of the older random latent appendage channel.
+ * This only raises the potential of an ALREADY AUTHORIZED gene operation:
+ * no gene, no exception. It does NOT force any physical result without a
+ * lawful source-grown transaction, positive care and available material.
+ */
+export function scheduledOperatorPotential(
+  op: MaterialOperator, signal: DevelopmentGeneticSignals,
+): number {
+  const inherited = materialOperatorPotential(op.kind, signal);
+  return op.geneticInstructionId &&
+    (op.kind === "bud" || op.kind === "expand") &&
+    op.developedKind ? Math.max(0.9, inherited) : inherited;
+}
+
+/** New real genetic tissues may physically specialize their pigment.
+ * Authored cells are never recolored. Role/color are fixed by an authorized
+ * bud operation, not guessed from a drawing's apparent facial markings.
+ * Fails closed to the source color for non-hex or unsupported pigments.
+ */
+export function developmentalPigment(sourceColor:string,kind:PartKind):string {
+  const match=/^#([0-9a-fA-F]{6})$/.exec(sourceColor);
+  if(!match)return sourceColor;
+  const hex=match[1],channels=[0,2,4].map(i=>parseInt(hex.slice(i,i+2),16));
+  const luminance=(0.2126*channels[0]+0.7152*channels[1]+0.0722*channels[2])/255;
+  const contrast=luminance<0.46?232:24;
+  const semanticContrast=kind==="eye"||kind==="mouth";
+  const alpha=semanticContrast?0.82:
+    kind==="horn"||kind==="hair"?0.38:
+    kind==="wing"||kind==="ear"?0.28:0.16;
+  const target=semanticContrast?contrast:
+    (kind==="wing"||kind==="ear"?232:24);
+  return "#"+channels.map(v=>Math.round(v*(1-alpha)+target*alpha)
+    .toString(16).padStart(2,"0")).join("").toUpperCase();
+}
+
 export function createOperatorMaterialCell(
   operation: MaterialOperator, tissueId: string, x: number, y: number,
   parents: readonly MaterialCell[],
 ): MaterialCell {
   const sources = [...new Set(parents.flatMap(p => p.sourceIds))].sort();
+  const firstGeneticCell=operation.kind==="bud" &&
+    Boolean(operation.geneticInstructionId && operation.developedKind) &&
+    parents[0].tissueId!==tissueId;
+  const color=firstGeneticCell && operation.developedKind
+    ?developmentalPigment(parents[0].color,operation.developedKind)
+    :parents[0].color;
   return {
     id: "growth/" + encodeURIComponent(operation.id) + "/" +
       encodeURIComponent(tissueId) + "/" + x + "," + y,
-    tissueId, x, y, color: parents[0].color,
+    tissueId, x, y, color,
     ...(parents[0].z === undefined ? {} : { z: parents[0].z }),
     provenance: "generated", sourceIds: sources,
     parentCellIds: parents.map(p => p.id).sort(), operationId: operation.id,
@@ -188,7 +276,7 @@ export function applyMaterialOperators(
     const grownFraction = op.chaos
       ? chaoticProgress(op.chaos, op.atHour, op.durationHours, atHour)
       : completion;
-    const effect = op.strength * grownFraction * materialOperatorPotential(op.kind, signals);
+    const effect = op.strength * grownFraction * scheduledOperatorPotential(op, signals);
     if (effect <= 0) continue;
     const before = new Set(cells.map(c => c.id));
     const removed: string[] = [];
@@ -217,6 +305,8 @@ export function applyMaterialOperators(
         const rootSiteId = childId + "/site/0";
         tissues.push({
           id: childId, sourcePartId: tissue.sourcePartId, parentId: tissue.id,
+          ...(op.developedKind ? { developedKind: op.developedKind,
+            geneticInstructionId: op.geneticInstructionId } : {}),
           relationship: "joint", sourceCellIds: root.sourceIds,
           growthSiteIds: [rootSiteId], rigidity: 0,
         });
@@ -338,16 +428,22 @@ export function compileMaterialDevelopment(
   atlas: SourceAtlas, genome: InheritedGenome, prior?: DevelopmentPrior,
 ): MaterialDevelopmentProgram {
   const source = createMaterialGraph(atlas);
+  // The seed compiler is pure. It receives exactly source-authored brush
+  // labels + immutable seed + initial game tree reference, NEVER care.
+  const seedLanguage = prior
+    ? compileReadableSeed(genome.seed, prior.taxonId, atlas) : undefined;
   const expression = expressGenotype(genome.genotype,
     prior ? adaptDevelopmentPrior(prior) : undefined);
   const signals = compileDevelopmentGeneticSignals(expression);
   const operations: MaterialOperator[] = [];
   const ordered = [...source.tissues]
-    .filter(t => t.sourceCellIds.length >= 2)
+    .filter(t => t.sourceCellIds.length >= 1)
     .sort((a, b) => b.sourceCellIds.length - a.sourceCellIds.length ||
       compareText(a.id, b.id)).slice(0, 8);
   for (const [index, tissue] of ordered.entries()) {
     const siteId = tissue.growthSiteIds[0];
+    const sourceKind=source.sourceCells.find(c=>c.tissueId===tissue.id)?.sourceKind??"body";
+    const mechanics=authoredTissueMechanics(sourceKind);
     const slot = index * 0.25;
     const chaosFor = (id: string): MaterialChaos => ({
       version: CHAOS_VERSION,
@@ -364,21 +460,23 @@ export function compileMaterialDevelopment(
     const elongateId = "life/" + index + "/elongate";
     operations.push({ id: elongateId, tissueId: tissue.id,
       kind: "elongate", siteId, atHour: 10 + slot, durationHours: 25,
-      strength: clamp(signals.channels.growth.elongation, 0, 1),
+      strength: clamp(signals.channels.growth.elongation*mechanics.axial, 0, 1),
       chaos: chaosFor(elongateId) });
     const expandId = "life/" + index + "/expand";
     operations.push({ id: expandId, tissueId: tissue.id,
-      kind: "expand", atHour: 35 + slot, durationHours: 35,
-      strength: clamp(signals.channels.growth.expansion, 0, 1),
+      kind: "expand", atHour: sourceKind==="body"?35+slot:12+slot,
+      durationHours: 45,
+      strength: clamp(signals.channels.growth.expansion*mechanics.surface, 0, 1),
       chaos: chaosFor(expandId) });
-    if (source.tissues.length <= 12 && tissue.sourceCellIds.length >= 3) {
+    if (tissue.sourceCellIds.length >= 3) {
       const ready = Math.max(signals.channels.branching.initiation,
-        signals.channels.appendages.initiation);
+        signals.channels.appendages.initiation)*mechanics.branch;
       if (ready > 0.35) {
         const branchId = "life/" + index + "/branch";
         operations.push({
           id: branchId, tissueId: tissue.id, siteId,
-          kind: ready === signals.channels.branching.initiation ? "branch" : "bud",
+          kind: signals.channels.branching.initiation >= signals.channels.appendages.initiation
+            ? "branch" : "bud",
           atHour: 70 + slot, durationHours: 45, strength: ready,
           chaos: chaosFor(branchId),
         });
@@ -390,11 +488,72 @@ export function compileMaterialDevelopment(
       strength: signals.channels.support.rigidity,
       chaos: chaosFor(reinforceId) });
   }
+  if (seedLanguage) {
+    // Every valid drawing, including multi-part creatures, retains seeded
+    // differentiation. Do not arbitrarily disable genes when the user drew
+    // more than twelve source tissues. Finite operator and physical budgets
+    // still bound expression; morphology must remain source-owned.
+    const bodyTissues=source.tissues.filter(t=>
+      source.sourceCells.some(c=>c.tissueId===t.id&&c.sourceKind==="body"))
+      .sort((a,b)=>b.sourceCellIds.length-a.sourceCellIds.length||
+        compareText(a.id,b.id));
+    const carrier=bodyTissues[0]??ordered[0];
+    const site = carrier?.growthSiteIds[0];
+    if (carrier && site) {
+      const budget=Math.min(6,Math.floor((MATERIAL_LIMITS.operators-operations.length)/2));
+      for (const [slot, opportunity] of scheduleSeedOpportunities(seedLanguage,budget).entries()) {
+        const encoded = encodeURIComponent(opportunity.kind);
+        const instructionId = "genetic/" + encoded + "/" + opportunity.ticket;
+        const budId = "life/" + instructionId + "/differentiate";
+        const childId = budId + "/growth/0";
+        // First organ opportunity arrives during early care, not four
+        // months into a life. Other deterministic gene opportunities are
+        // spaced through its lifetime; empty care can still suppress them.
+        // Final expand closes by day 319, before maturation check 365.
+        const start = 5 + (seedLanguage.phase % 12) + 45 * slot;
+        // Select a fixed orientation from the seed without chaotic turning.
+        // The original growth-site orientation has already been used by
+        // generic elongation; other exposed directions allow genuinely new
+        // material compartments rather than forcing every feature into one
+        // overlapping tendril. This is mechanical placement, not inference
+        // of user-drawn anatomy.
+        const directions: readonly Point[] = [
+          {x:1,y:0}, {x:0,y:1}, {x:-1,y:0}, {x:0,y:-1},
+        ];
+        const rootDirection = source.sites.find(s=>s.id===site)?.direction ??
+          {x:0,y:-1};
+        const available = directions.filter(d=>
+          d.x*rootDirection.x+d.y*rootDirection.y<0.5);
+        const direction = available[
+          hash(genome.seed+"|gene-direction|"+instructionId) % available.length
+        ];
+        // No chaotic rhythms in the new typed genetic instructions. Linear
+        // chronology + causally recorded care decide the expression.
+        operations.push({
+          id: budId, kind: "bud", tissueId: carrier.id,
+          siteId: site, direction, atHour: start, durationHours: 30,
+          strength: 0.95, developedKind: opportunity.kind,
+          geneticInstructionId: instructionId,
+        });
+        operations.push({
+          id: "life/" + instructionId + "/specialize",
+          kind: "expand", tissueId: childId,
+          atHour: start + 28, durationHours: 50,
+          strength: clamp(0.55 + 0.03 *
+            (seedLanguage.processes["surface-growth"] ?? 0), 0, 1),
+          developedKind: opportunity.kind,
+          geneticInstructionId: instructionId,
+        });
+      }
+    }
+  }
   const fingerprint = hash(JSON.stringify([source.sourceFingerprint,
     genome.genotype.fingerprint, prior?.version ?? null, prior?.taxonId ?? null,
+    seedLanguage?.version ?? null, seedLanguage?.referenceId ?? null,
+    seedLanguage?.opportunities.filter(x=>x.accepted).map(x=>[x.kind,x.ticket]) ?? [],
     operations])).toString(16);
   return { version: 1, source, genomeFingerprint: genome.genotype.fingerprint,
-    signals, operators: operations, fingerprint };
+    signals, operators: operations, ...(seedLanguage?{seedLanguage}:{}), fingerprint };
 }
 
 /** Evaluate from immutable birth material each time: save/load and call-order invariant. */

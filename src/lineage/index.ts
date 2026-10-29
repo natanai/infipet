@@ -19,11 +19,11 @@ export type {
 export { createDevelopmentClock } from "./clock";
 
 /**
- * Persistence compatibility token: existing life-v10 saves contain this exact
- * lineage recipe identifier. Kept stable so correcting an invalid scientific
- * claim does not silently delete existing pets. NOT an animal-only algorithm.
+ * Current unreleased metadata version. No historical pet-format compatibility
+ * or animal-taxonomy identity token is retained. Anatomical development is
+ * owned by the immutable brush/seed/tree material program, NOT this report.
  */
-export const LINEAGE_RULES_VERSION = "animal-affinity-v1";
+export const LINEAGE_RULES_VERSION = "authored-potential-v1";
 
 const neutral: LineageTraitModifiers = Object.freeze({
   elongation: 1,
@@ -35,23 +35,24 @@ const neutral: LineageTraitModifiers = Object.freeze({
 });
 
 /**
- * The old placement contract is still used in saved-development metadata.
- * A drawing has NO proven scientific ancestry. Inference may have animal,
- * plant, fungal and unresolved hypotheses, never a forced taxonomic anchor.
- * Full ranked evidence lives in src/integration/ and the runtime program.
+ * Scientific ancestry remains unresolved for every player-made organism.
+ * Stage diagnostics may explain authored BRUSH kinds but never use holes,
+ * symmetry, outline, pigment, proximity or silhouette to identify anything.
+ * The actual seed-chosen tree inspiration lives in compileRuntimeBiology().
  */
 export function classifySource(atlas: SourceAtlas): LineagePlacement {
   const inferred = inferSourceAffinities(atlas);
-  const ink = inferred.morphology.signature;
+  const declared = atlas.patches
+    .filter(p=>p.source.cells.length>0)
+    .map(p=>p.kind)
+    .sort();
   const evidence: string[] = [
-    `${ink.connectedComponents} connected ink component(s)`,
-    `${ink.occupiedCells} authored cell(s)`,
-    `observed affinity uncertainty: ${inferred.uncertainty.toFixed(4)}`,
-    ...inferred.candidates.map(candidate =>
-      `${candidate.affinity}: ${candidate.probability.toFixed(4)} heuristic weight`),
+    declared.length
+      ? "player-selected part kinds: " + declared.join(", ")
+      : "empty source; no authored part identity",
+    "source kind evidence only; no image-based species inference",
+    `declared-brush affinity uncertainty: ${inferred.uncertainty.toFixed(4)}`,
   ];
-  if (!ink.occupiedCells) evidence.push("empty source; no biological assignment");
-  if (ink.holes) evidence.push(`${ink.holes} enclosed negative space(s)`);
   return {
     nodeId: "unresolved",
     profileId: "unresolved",
@@ -61,7 +62,7 @@ export function classifySource(atlas: SourceAtlas): LineagePlacement {
 }
 
 /**
- * A diagnostic compatibility bridge for stage metadata.
+ * A nonauthoritative stage metadata report for the current prototype.
  * Life stages do NOT advance along descendant taxa, and neither care nor a
  * random draw rewrites scientific ancestry. Developmental inspiration
  * candidates are separately available through compileRuntimeBiology().
@@ -97,7 +98,7 @@ export function compileLineage(
 }
 
 /**
- * The old animal-taxon lookup could change the pet's anatomy based on an
+ * No taxonomy lookup may change this one pet's ancestry based on an
  * invented progression from Metazoa to more specific taxa. Retire that
  * mechanism rather than repurpose scientific identity as a growth control.
  */

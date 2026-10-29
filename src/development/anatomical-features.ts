@@ -1,18 +1,22 @@
-/** Immutable birth anatomy contract, MORPH-007. Features are inferred from
- * ink, not labels: pigment islands, authored material islands and contour
- * extrema with a geodesic collar. A feature needs ceil(sqrt(birth area))
- * occupied sites; an extremal port also retains an exposed descendant.
- * Pigment contacts and pigment enclosures describe anatomical relationships.
- * Cells may retire. These are feature requirements, never pixel quotas.
+/** Immutable birth material and PLAYER-DECLARED anatomy contract.
+ * The selected kind and source part ID are the only semantic features.
+ * Pigment islands, tissues, contacts and cavities are PHYSICAL constraints,
+ * not inferred eyes, limbs, mouths, heads or biologically typed parts.
+ * No anatomical minimum-area rule and no inferred contour "body part" ports.
+ * A declared feature persists by its source ancestry, not original size.
  * All floods use 8-connected material / 4-connected background on [0,63]^2.
  */
 import type { MaterialCell } from "./material-graph";
+import type { PartKind } from "../simulation/model";
 import { sourceNeighborhood } from "./anatomical-neighborhood";
 export type AnatomicalFeature = Readonly<{
   id: number;
   sourceIds: readonly string[];
   minimum: number;
   pigment: string | null;
+  /** Present only for user-selected, not inferred, anatomical features. */
+  kind?: PartKind;
+  sourcePartId?: string;
   ports: readonly (readonly string[])[];
 }>;
 export type AnatomicalFeatures = Readonly<{
@@ -108,6 +112,8 @@ export function sourceFeatures(
       sourceIds: string[];
       minimum: number;
       pigment: string | null;
+      kind?: PartKind;
+      sourcePartId?: string;
       ports: string[][];
     }[] = [],
     duplicates = new Map<string, number>();
@@ -115,6 +121,7 @@ export function sourceFeatures(
     ids: readonly string[],
     pigment: string | null,
     port?: readonly string[],
+    declared?: Readonly<{ kind: PartKind; sourcePartId: string }>,
   ) => {
     const ordered = [...new Set(ids)].sort(),
       signature = ordered.join("|");
@@ -125,13 +132,15 @@ export function sourceFeatures(
       features.push({
         id,
         sourceIds: ordered,
-        minimum: Math.ceil(
-          Math.sqrt(new Set(ordered.map((id) => code(byId.get(id)!))).size),
-        ),
+        minimum: 1,
         pigment,
+        ...(declared ?? {}),
         ports: [],
       });
-    } else if (pigment !== null) features[id].pigment = pigment;
+    } else {
+      if (pigment !== null) features[id].pigment = pigment;
+      if (declared) Object.assign(features[id], declared);
+    }
     if (port) features[id].ports.push([...port].sort());
     return id;
   };
@@ -165,104 +174,28 @@ export function sourceFeatures(
     const id = add(ids, null);
     for (const s of ids) tissueAt.set(s, id);
   }
-  // Row/column contour extrema identify protrusions even in one-color freehand
-  // ink. Flat contour plateaus form one port, not one protected pixel per row.
-  const unseen = new Set(positions.keys()),
-    wholeInside = enclosedSites(new Set(positions.keys()));
-  while (unseen.size) {
-    const first = unseen.values().next().value!,
-      component = [first];
-    unseen.delete(first);
-    for (let i = 0; i < component.length; i++)
-      for (const n of around(component[i]))
-        if (unseen.delete(n)) component.push(n);
-    const own = new Set(component),
-      rows = new Map<number, { min: number; max: number }>(),
-      cols = new Map<number, { min: number; max: number }>();
-    for (const k of component) {
-      const x = k % 64,
-        y = Math.floor(k / 64),
-        r = rows.get(y) ?? { min: x, max: x },
-        c = cols.get(x) ?? { min: y, max: y };
-      rows.set(y, { min: Math.min(r.min, x), max: Math.max(r.max, x) });
-      cols.set(x, { min: Math.min(c.min, y), max: Math.max(c.max, y) });
-    }
-    const peaks = new Set(
-      component.filter((k) => {
-        const x = k % 64,
-          y = Math.floor(k / 64),
-          r = rows.get(y)!,
-          c = cols.get(x)!;
-        return (
-          (x === r.min &&
-            [y - 1, y + 1].every(
-              (v) => !rows.has(v) || r.min <= rows.get(v)!.min,
-            )) ||
-          (x === r.max &&
-            [y - 1, y + 1].every(
-              (v) => !rows.has(v) || r.max >= rows.get(v)!.max,
-            )) ||
-          (y === c.min &&
-            [x - 1, x + 1].every(
-              (v) => !cols.has(v) || c.min <= cols.get(v)!.min,
-            )) ||
-          (y === c.max &&
-            [x - 1, x + 1].every(
-              (v) => !cols.has(v) || c.max >= cols.get(v)!.max,
-            ))
-        );
-      }),
-    );
-    const radius = Math.max(1, Math.floor(Math.sqrt(component.length) / 6));
-    while (peaks.size) {
-      const start = peaks.values().next().value!,
-        port = [start];
-      peaks.delete(start);
-      for (let i = 0; i < port.length; i++)
-        for (const n of around(port[i])) if (peaks.delete(n)) port.push(n);
-      if (
-        !port.some((k) => {
-          const x = k % 64,
-            y = Math.floor(k / 64);
-          return [
-            [1, 0],
-            [-1, 0],
-            [0, 1],
-            [0, -1],
-          ].some(([dx, dy]) => {
-            const nx = x + dx,
-              ny = y + dy,
-              v = ny * 64 + nx;
-            return (
-              nx < 0 ||
-              ny < 0 ||
-              nx >= 64 ||
-              ny >= 64 ||
-              (!positions.has(v) && !wholeInside.has(v))
-            );
-          });
-        })
-      )
-        continue;
-      const collar = new Set(port);
-      let front = port;
-      for (let r = 0; r < radius; r++) {
-        const next: number[] = [];
-        for (const k of front)
-          for (const n of around(k))
-            if (own.has(n) && !collar.has(n)) {
-              collar.add(n);
-              next.push(n);
-            }
-        front = next;
-      }
-      add(
-        [...collar].flatMap((k) => positions.get(k)!.map((c) => c.id)),
-        null,
-        port.flatMap((k) => positions.get(k)!.map((c) => c.id)),
-      );
-    }
+  // Explicitly selected brush labels: multiple separately authored eye parts
+  // remain multiple eyes regardless of color, contour, scale or later movement.
+  const declaredParts = new Map<string, { kind: PartKind; ids: string[] }>();
+  for (const cell of source) {
+    if (!cell.sourcePartId || !cell.sourceKind) continue;
+    const entry = declaredParts.get(cell.sourcePartId);
+    if (entry && entry.kind !== cell.sourceKind)
+      throw new Error("One authored part cannot change semantic kind");
+    if (entry) entry.ids.push(cell.id);
+    else declaredParts.set(cell.sourcePartId, {
+      kind: cell.sourceKind, ids: [cell.id],
+    });
   }
+  const exposedKinds = new Set<PartKind>([
+    "arm", "hand", "leg", "foot", "wing", "tail", "horn", "ear", "hair",
+  ]);
+  for (const [sourcePartId, { kind, ids }] of declaredParts)
+    add(ids, null, exposedKinds.has(kind) ? ids : undefined,
+      { kind, sourcePartId });
+
+  // Geometric contact and enclosure below still enforce physical coherence;
+  // they do not create or change anatomical labels.
   const bonds = new Map<string, { a: number; b: number; distance: number }>();
   for (const b of sourceNeighborhood(source))
     for (const mapping of [pigmentAt, tissueAt]) {

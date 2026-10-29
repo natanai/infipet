@@ -34,16 +34,15 @@ import {growthSupportDistance} from "./material-support";
  * No PRNG draws, no rerolled chaotic initial states, no species targets.
  */
 import { compareText, type Point } from "../simulation/model";
-import { grownMaterialCells } from "../simulation/material-growth";
-import type { Tissue } from "../simulation/material";
+import { createSpecializationRank } from "./specialization-front";
 import {
   chaoticTurn, chaoticProgress, chaosAt,
   CHAOS_MAX_TICK, CHAOS_MODULUS, validateMaterialChaos,
 } from "./chaos";
 import type { MaterialCell, MaterialEvent, MaterialGraph, MaterialSite, MaterialTissue, MaterialLink } from "./material-graph";
 import {
-  createOperatorMaterialCell, materialOperatorPotential, MATERIAL_LIMITS,
-  type MaterialDevelopmentProgram, type MaterialOperator,
+  createOperatorMaterialCell, scheduledOperatorPotential, geneticBudAxisLimit,
+  MATERIAL_LIMITS, type MaterialDevelopmentProgram, type MaterialOperator,
 } from "./operators";
 
 export type MaterialCumulativeExpression = Readonly<{
@@ -309,8 +308,41 @@ function physicalUnit(
     return fail("tip-removed");
   const axis=orient(op,graph,site,k);
   const vector=stepVector(axis);
-  const current=previous.tipCellIds[0] ?
+  let current=previous.tipCellIds[0] ?
     graph.cells.find(c=>c.id===previous.tipCellIds[0]) : (root && tip(graph,tissue.id,root,axis));
+  if(op.kind==="bud" && op.geneticInstructionId && !previous.tipCellIds.length){
+    // A fixed SOURCE growth site is a starting reference, not a single place
+    // where every accepted gene must compete for space. A genetically typed
+    // organ can begin only on a live, exposed, source-linked parent cell.
+    // Select mechanically valid exposed sites on the actual parent tissue,
+    // ranked along this operation's immutable seed direction, with distance
+    // from previously realized genetic tissues. No semantic image inference.
+    const own=remaining(graph,tissue.id),center={
+      x:own.reduce((a,c)=>a+c.x,0)/own.length,
+      y:own.reduce((a,c)=>a+c.y,0)/own.length,
+    };
+    const specialized=graph.tissues.filter(t=>t.developedKind).flatMap(t=>
+      remaining(graph,t.id));
+    const vector=stepVector(unit(turn(axis,
+      (program.signals.channels.symmetry.chirality-0.5)*0.8)));
+    const viable=own.filter(parent=>{
+      const target={x:parent.x+vector.x,y:parent.y+vector.y};
+      return !canDeposit(graph,target,op.id+"/growth/0",[],tissue.id) &&
+        growthSupportDistance(graph.cells,graph.links,parent.tissueId,
+          target,program.signals.channels.support.rigidity)!==null;
+    });
+    viable.sort((a,b)=>{
+      const score=(c:MaterialCell)=>{
+        const forward=(c.x-center.x)*axis.x+(c.y-center.y)*axis.y;
+        const separation=specialized.length?Math.min(16,...specialized.map(
+          e=>Math.hypot(c.x-e.x,c.y-e.y))):16;
+        return forward*2+separation;
+      };
+      return score(b)-score(a)||
+        compareText(a.id,b.id);
+    });
+    if(viable.length)current=viable[0];
+  }
   const newCells:MaterialCell[]=[];
   const removed:MaterialCell[]=[];
   let tissues=[...graph.tissues],sites=[...graph.sites],links=[...graph.links];
@@ -361,6 +393,8 @@ function physicalUnit(
         const childSiteId=childId+"/site/0";
         tissues.push({
           id:childId,sourcePartId:tissue.sourcePartId,parentId:tissue.id,
+          ...(op.developedKind ? {developedKind:op.developedKind,
+            geneticInstructionId:op.geneticInstructionId} : {}),
           relationship:"joint",sourceCellIds:source.sourceIds,
           growthSiteIds:[childSiteId],rigidity:0,
         });
@@ -386,28 +420,42 @@ function physicalUnit(
       rigidityOnly=true;
     }else{
       const material=remaining(graph,tissue.id);
-      const faux={cells:material.map(c=>({x:c.x,y:c.y,color:c.color,
-        ...(c.z===undefined?{}:{z:c.z})}))} as Tissue;
-      // The old exterior signed-distance material expansion primitive is
-      // called on the CURRENT contour. Take one new lattice cell per quantum.
-      const field=grownMaterialCells(faux,1.5,2)
-        // A distance band can contain cells TWO lattice steps away. An
-        // incremental quantum must choose a LIVE adjacent boundary cell,
-        // otherwise it would insert a disconnected anatomical island.
-        .filter(p=>!material.some(c=>xy(c)===xy(p)) &&
-          material.some(c=>touching(c,p)))
-        .sort((a,b)=>
-          Math.min(...material.map(c=>sq(c,a)))-
-          Math.min(...material.map(c=>sq(c,b))) ||
-          a.y-b.y||a.x-b.x);
+      // A physical specialization needs tissue area, not just a one-pixel
+      // label. One earned expansion quantum can form a bounded connected patch:
+      // every individual cell is attached to a live parent and enters the
+      // SAME atomic chronological journal.
+      const sourceKind=graph.sourceCells.find(c=>c.tissueId===tissue.id)?.sourceKind;
+      const kind=tissue.developedKind??sourceKind??"body";
+      const selected=kind!=="body"&&kind!=="decoration";
+      const budget=tissue.developedKind?
+        (["wing","foot","ear","mouth"].includes(kind)?5:4):
+        selected?3:1;
       let reason:MaterialOperatorReason="no-boundary",chosen=false;
-      for(const candidate of field) {
-        const parent=[...material].sort((a,b)=>sq(a,candidate)-sq(b,candidate) ||
-          cellOrder(a,b))[0];
-        if(!parent)break;
-        const problem=deposit(tissue.id,candidate,[parent]);
-        if(problem){reason=problem;continue;}
-        chosen=true;break;
+      for(let quantum=0;quantum<budget;quantum++){
+        const live=[...material,...newCells];
+        const occupied=new Set(live.map(xy));
+        const frontier=new Map<string,Point>();
+        for(const cell of live){
+          for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+            if(!dx&&!dy)continue;
+            const at={x:cell.x+dx,y:cell.y+dy};
+            if(!occupied.has(xy(at)))frontier.set(xy(at),at);
+          }
+        }
+        const rank=createSpecializationRank(kind,live,
+          op.direction??site?.direction??{x:0,y:-1});
+        const candidates=[...frontier.values()].sort((a,b)=>
+          (rank?rank(a)-rank(b):0)||a.y-b.y||a.x-b.x);
+        let placed=false;
+        for(const candidate of candidates){
+          const parent=live.filter(c=>touching(c,candidate)).sort(
+            (a,b)=>sq(a,candidate)-sq(b,candidate)||cellOrder(a,b))[0];
+          if(!parent)continue;
+          const problem=deposit(tissue.id,candidate,[parent]);
+          if(problem){reason=problem;continue;}
+          chosen=true;placed=true;break;
+        }
+        if(!placed)break;
       }
       if(!chosen)return fail(reason);
     }
@@ -574,10 +622,13 @@ export function stepMaterialOperatorChronology(
     const cumulative=values.get(op.id)!;
     if(previous.settled){continue;}
     const end=op.atHour+op.durationHours;
-    const capacity=materialOperatorPotential(op.kind,program.signals);
+    const capacity=scheduledOperatorPotential(op,program.signals);
     const credit=op.strength*capacity*cumulative;
     const multiplier=op.kind==="branch"?5:7;
-    const quota=op.kind==="fuse"?1:Math.min(9,Math.floor(multiplier*credit+EPS));
+    const natural=Math.min(9,Math.floor(multiplier*credit+EPS));
+    const quota=op.kind==="fuse"?Math.min(1,natural):
+      op.kind==="bud"&&op.developedKind?
+        Math.min(natural,geneticBudAxisLimit(op.developedKind)):natural;
     let committed=previous.committedUnits, tips=[...previous.tipCellIds];
     let terminal=false;
     while(committed<quota){

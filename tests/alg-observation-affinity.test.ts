@@ -68,6 +68,14 @@ test("[OBS-002/A2] geometric descriptors and inspectable alternatives are indepe
   assert.deepEqual(inferInkMorphology(base), inferInkMorphology(atlas(recoloredAndRelabeled)));
 
   const result = inferSourceAffinities(base);
+  const selectedWing = inferSourceAffinities(atlas(recoloredAndRelabeled));
+  assert.notDeepEqual(
+    selectedWing.candidates.map(c => c.probability),
+    result.candidates.map(c => c.probability),
+    "explicitly selecting Wing must change semantic game evidence even when the shape stays identical",
+  );
+  assert.equal(result.candidates[0].evidence[0].feature, "brush:unspecified");
+  assert.equal(selectedWing.candidates.find(c => c.affinity === "animal")!.evidence[0].feature, "brush:declared");
   assert.equal(result.probabilityKind, "heuristic-not-calibrated");
   assert.ok(Math.abs(result.candidates.reduce((sum, c) => sum + c.probability, 0) - 1) < 1e-12);
   for (const candidate of result.candidates) {

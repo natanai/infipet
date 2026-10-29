@@ -1,3 +1,8 @@
+/** FUNCTIONAL POSE ORIENTATION ONLY. This module assigns spatial support
+ * sides to ALREADY player-selected parts; its geometry NEVER identifies a
+ * new PartKind, species, eyes, legs or wings. The selector's source labels
+ * remain authoritative. Mechanically usable effectors additionally require
+ * physical evidence and valid source-owned connections. */
 import type { Point } from "./model";
 import type { SourceAtlas, SourcePatch } from "./source-atlas";
 

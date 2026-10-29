@@ -24,9 +24,11 @@ export type StabilityReport = Readonly<{
 }>;
 
 const affinities: readonly BiologicalAffinity[] = ["animal", "plant", "fungus", "unresolved"];
+// Semantic stability measures only player-declared anatomical labels.
+// Shape, pigment, cavity and symmetry are physical diagnostics, NEVER
+// semantic classifier features.
 const features: readonly ObservedFeature[] = [
-  "bilateralSymmetry", "radialOrganization", "elongation", "branching",
-  "repeatedAppendages", "cavities", "detachment", "attachment", "scarceInk",
+  "brush:declared", "brush:unspecified",
 ];
 
 /**

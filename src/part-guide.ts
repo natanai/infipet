@@ -11,7 +11,13 @@ export type PartGuide = {
   example: readonly string[];
 };
 
-/** Plain-language brush help, shown only when the player opens the ? sheet. */
+/**
+ * Plain-language brush help. These are optional semantic names chosen by the
+ * PLAYER, not shape recognition. Drawn parts retain authorship; functionality
+ * and subsequent specializations are conditional on physical connections,
+ * permanent seed potential and actual chronological care. Avoid promises of
+ * motion, facial auto-attachment or generated anatomy for floating ink.
+ */
 export const PART_GUIDE: Record<PartKind, PartGuide> = {
   body: {
     title: "Body",
@@ -38,7 +44,7 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     purpose: "A face can live here. You can draw a filled shape or an outline.",
     placement: "Near the body, with eyes and a mouth inside or on top.",
     floating: "A separate head can float; it does not need a neck.",
-    growth: "Facial features follow the head as it changes shape.",
+    growth: "Only separately selected facial parts have their own identity and history.",
     activity: "Carries expressions while your pet moves and greets you.",
     example: [
       "..####..",
@@ -55,9 +61,9 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     title: "Arms",
     purpose: "Reaching shapes. One arm or several are equally welcome.",
     placement: "Draw outward from the body; put a hand near the end.",
-    floating: "An arm away from the body moves as its own piece.",
+    floating: "A separate arm stays an arm, but reaching requires a supported connection.",
     growth: "Arms can lengthen, bend and change proportions.",
-    activity: "Connected hands can reach with their arms during play.",
+    activity: "Reaching requires real connected and mechanically viable material.",
     example: [
       "........",
       ".##.....",
@@ -73,9 +79,9 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     title: "Hands",
     purpose: "The part your pet uses to reach and play.",
     placement: "At the end of an arm, or anywhere for a floating hand.",
-    floating: "A floating hand can still reach and play on its own.",
+    floating: "A separate hand remains your hand drawing; reaching requires actual physical support.",
     growth: "Its palm and outline develop while keeping their identity.",
-    activity: "Play uses a hand when it can reach the target.",
+    activity: "Play can use a physically supported hand when it can reach the target.",
     example: [
       "........",
       "..#.#...",
@@ -91,7 +97,7 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     title: "Legs",
     purpose: "Support and stepping shapes. Your pet can have any number.",
     placement: "Extend from the body toward a foot.",
-    floating: "A separate leg keeps its own position and motion.",
+    floating: "A separate leg stays a leg; stepping requires a valid connection.",
     growth: "Legs can lengthen, bend and develop different proportions.",
     activity: "A leg and foot can work together for steps.",
     example: [
@@ -110,9 +116,9 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     purpose: "A little surface to land or step on.",
     placement: "At the end of a leg; make it as wide or small as you like.",
     floating:
-      "A floating foot can still help your pet move, without a visible leg.",
+      "A separate foot stays a foot. Walking requires physically supported movement.",
     growth: "The sole develops with the rest of your pet.",
-    activity: "Feet provide stepping points during movement.",
+    activity: "Physical feet may provide stepping points when mechanics allow.",
     example: [
       "........",
       "..##....",
@@ -129,7 +135,7 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     purpose: "A dot is enough. Draw one eye, two, or a whole constellation.",
     placement: "Inside a head or body, even when you only drew an outline.",
     floating: "An eye outside the face can float independently.",
-    growth: "Eyes stay with their face as it grows and changes shape.",
+    growth: "An authored eye stays traceable; its connection is not guessed from proximity.",
     activity: "They blink and look toward something interesting.",
     example: [
       "........",
@@ -147,7 +153,7 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     purpose: "A smile, a line, a beak or a single dot can be a mouth.",
     placement: "Inside or on the face. It can also sit directly on the body.",
     floating: "A separate mouth keeps its own place.",
-    growth: "It follows the face instead of being left behind.",
+    growth: "An authored mouth remains traceable; attachments are physically constrained.",
     activity: "Changes expression when your pet greets you.",
     example: [
       "........",
@@ -183,7 +189,7 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     purpose: "A tuft, fringe, mane or a few wild strands.",
     placement: "Start near the head or body and draw outward from the roots.",
     floating: "A separate tuft floats as its own piece.",
-    growth: "Roots follow the skin while the strands develop.",
+    growth: "Authored hair retains its source identity; its development depends on care and genetics.",
     activity: "Hair can sway as your pet moves.",
     example: [
       ".#...#..",
@@ -256,7 +262,7 @@ export const PART_GUIDE: Record<PartKind, PartGuide> = {
     placement:
       "Any closed shape works. Colors and markings belong to your egg.",
     floating: "An egg does not need limbs or a body beside it.",
-    growth: "In egg mode, the seed determines the creature that hatches.",
+    growth: "In egg mode, the same organism develops from your material and fixed seed.",
     activity:
       "The shell changes before hatching; the hatchling learns to move.",
     example: [

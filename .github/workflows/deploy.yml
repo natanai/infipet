@@ -1,8 +1,9 @@
+# The only GitHub Actions workflow while Infipet is pre-release.
+# Publish playable code immediately after a change reaches main.
+# There are deliberately no CI, browser, morphology or performance gates.
 name: Publish Infipet
 on:
-  workflow_run:
-    workflows: [Verify Infipet]
-    types: [completed]
+  push:
     branches: [main]
   workflow_dispatch:
 permissions:
@@ -14,9 +15,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   publish:
-    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -24,8 +24,6 @@ jobs:
       INFIPET_BASE_URL: /infipet
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
       - uses: pnpm/action-setup@v4
         with:
           version: 10
@@ -34,17 +32,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Qualify manual publication of this exact commit
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          node scripts/roadmap.mjs --check
-          pnpm typecheck
-          pnpm test
-      - name: Export verified web app under the repository path
-        run: pnpm build:web
-      - run: pnpm exec playwright install --with-deps chromium
-      - name: Qualify exported daily player flows before publishing
-        run: pnpm test:ui
+      # A build is required to produce the site, but it is NOT a test gate.
+      - run: pnpm build:web
       - run: touch dist/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
