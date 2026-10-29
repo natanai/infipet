@@ -42,7 +42,7 @@ import {
 } from "./chaos";
 import type { MaterialCell, MaterialEvent, MaterialGraph, MaterialSite, MaterialTissue, MaterialLink } from "./material-graph";
 import {
-  createOperatorMaterialCell, materialOperatorPotential, MATERIAL_LIMITS,
+  createOperatorMaterialCell, scheduledOperatorPotential, MATERIAL_LIMITS,
   type MaterialDevelopmentProgram, type MaterialOperator,
 } from "./operators";
 
@@ -576,7 +576,7 @@ export function stepMaterialOperatorChronology(
     const cumulative=values.get(op.id)!;
     if(previous.settled){continue;}
     const end=op.atHour+op.durationHours;
-    const capacity=materialOperatorPotential(op.kind,program.signals);
+    const capacity=scheduledOperatorPotential(op,program.signals);
     const credit=op.strength*capacity*cumulative;
     const multiplier=op.kind==="branch"?5:7;
     const quota=op.kind==="fuse"?1:Math.min(9,Math.floor(multiplier*credit+EPS));
