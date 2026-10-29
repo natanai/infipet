@@ -3101,7 +3101,7 @@
       "organAxialBound": "Genetically typed axial bud ceilings: eyes 1, mouths/ears/feet/hands 2, heads 3, horns 4, wings/hair 5, arms/legs 6, tails 7. Real care, support and collision can suppress any unit.",
       "drawingScope": "All valid authored drawings can schedule genetic tissue differentiation, including >12 source tissues. A body source tissue is preferred as carrier; no arbitrary tissue-count exclusion.",
       "phasedAllometry": {
-        "status": "implemented-visual-qualification-pending",
+        "status": "implemented-draft-visual-outcomes-not-yet-verified",
         "span": "five immutable 73-daily-opportunity identity phases; n in integer 0..364",
         "seed": "u=uint32Hash(identity|whole-body-phase|tissueId|floor(n/73)|axis)/2^32; v similarly for |aspect",
         "axis": "(cos(2*pi*u),sin(2*pi*u))",
@@ -3109,7 +3109,10 @@
         "output": "Only ranks source-owned physically adjacent new-growth candidates; no species target, no render warp, no gene reroll.",
         "directionalCandidateScore": "Width/height physical-front component changed from .25*abs(projectedCoord)/(width+height+1) to 2.4*abs(projectedCoord)/(width+height+1), subordinate to tissue support, voids, overlap and physical journals.",
         "remodelling": "Five organism-wide physical strain windows start at daily opportunities 12,79,148,219,289 with durations 55,55,55,55,66, 10 unit opportunities each. Actual source-cell transport and seam daughters are independently journaled; invalid operations null.",
-        "knownGap": "Whole-body shape categories and enjoyable legibility NOT demonstrated on actual phone or live site; new code is draft-only."
+        "knownGap": "Whole-body shape categories and enjoyable legibility NOT demonstrated on actual phone or live site; new code is draft-only.",
+        "liveMassOrganizer": "Repattern strain axis, cut and transverse range are computed from ALL currently live physically owned material at the actual opportunity, not only the player's birth pixels. Independent verification recomputes these from all BEFORE transaction cells; authorized relocation/seam contacts/voids remain compulsory.",
+        "specialistDescendants": "A physically branched child of a genetically developed tissue inherits that parent's developedKind and geneticInstructionId, without any new gene ticket or semantic image inference. Authored source kind of untyped descendants remains available through sourcePartId.",
+        "careResponse": "Current chronological daily rest/activity influences bounded field anisotropy. Genetically fixed phase directions remain immutable; later care cannot change earlier physical states."
       }
     }
   },
@@ -3268,6 +3271,6 @@
       "care causing real expression differences",
       "daily saved pet continuation"
     ],
-    "currentPriority": "Five-phase physically accountable changing whole-body proportions + coherent seed-derived specialty tissue, with real phone visual evaluation when the prototype is deployed. All CI gates remain removed."
+    "currentPriority": "Observe whole-body metamorphosis on actual device after draft is deployed: dynamic existing-material strain, responsive 5-phase allometry, source-child organ identity, meaningful care. Automated CI stays removed."
   }
 }
