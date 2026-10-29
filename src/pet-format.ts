@@ -517,7 +517,7 @@ export function encodePet(pet: PetDocument): string {
   return raw;
 }
 
-/** Read a validated document. Unsupported versions are preserved by storage. */
+/** Read the current prototype document. Retired formats are rejected, not migrated. */
 export function decodePet(raw: string): PetDocument {
   if (typeof raw !== "string") invalid("the file must contain JSON text.");
   enforceSize(raw);
