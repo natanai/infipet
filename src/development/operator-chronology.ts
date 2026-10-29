@@ -1,5 +1,7 @@
 import {journalMaterialEvent} from "./material-journal";
 import {isLatticeConnected} from "./lattice-connectivity";
+import {anatomicalContinuityFailure,anatomicalEditGuard} from "./anatomical-continuity";
+import {growthSupportDistance} from "./material-support";
 /**
  * DEV-002 incremental transactions on the ONE authoritative material graph.
  *
@@ -68,7 +70,7 @@ export type MaterialOperatorReason =
   | "missing-target" | "already-connected" | "occupied" | "protected-void"
   | "outside-world" | "severed-tissue" | "link-endpoint" | "no-boundary"
   | "capacity" | "no-material" | "duplicate-event" | "invalid-structure"
-  | "expired";
+  | "expired" | "insufficient-support";
 export type MaterialOperatorDecision = Readonly<{
   id: string;
   operatorId: string;
@@ -319,6 +321,8 @@ function physicalUnit(
   function deposit(owner:string,at:Point,parents:readonly MaterialCell[],parentId?:string) {
     const problem=canDeposit(graph,at,owner,newCells,parentId);
     if(problem)return problem;
+    if(["elongate","branch","bud"].includes(op.kind)&&growthSupportDistance(graph.cells,graph.links,
+      parents[0].tissueId,at,program.signals.channels.support.rigidity)===null)return "insufficient-support" as const;
     const next=createOperatorMaterialCell(synth,owner,at.x,at.y,parents);
     newCells.push(next);return null;
   }
@@ -433,6 +437,7 @@ function physicalUnit(
     });
   }
   if(op.kind==="resorb" || op.kind==="remodel"){
+    const coherentEdit=anatomicalEditGuard(graph.sourceCells,cells,{links,protectedVoids:graph.protectedVoids});
     const all=remaining(graph,tissue.id);
     const rootPoint=root??all[0];
     const candidates=[...all].sort((a,b)=>
@@ -453,12 +458,14 @@ function physicalUnit(
         // origin, and no "birth graph" reset. Future site queries use its x/y.
         const proposed=cells.map(c=>c.id===candidate.id?{...c,x:at.x,y:at.y}:c);
         if(!contiguous(proposed.filter(c=>c.tissueId===tissue.id)))continue;
+        if(!coherentEdit(candidate,{...candidate,x:at.x,y:at.y}))continue;
         // A rejected relocation must leave the entire *candidate state*
         // intact. Previously the mutable array retained rejected moves,
         // allowing a later selection to inherit an unjournaled relocation.
         cells=proposed;
         tips=[candidate.id];chosen=candidate;break;
       }
+      if(!coherentEdit(candidate,null))continue;
       removed.push(candidate);
       cells=cells.filter(c=>c.id!==candidate.id);
       // A resorbed site root must be removed, not silently attached to the
@@ -473,6 +480,7 @@ function physicalUnit(
   if(op.kind!=="reinforce" && !newCells.length && !removed.length &&
      op.kind!=="remodel" && op.kind!=="fuse")return fail("no-material");
   cells.push(...newCells);
+  if(anatomicalContinuityFailure(graph.sourceCells,cells,{links,protectedVoids:graph.protectedVoids}))return fail("invalid-structure");
   const currentIds=new Set(cells.map(c=>c.id));
   if(new Set(cells.map(c=>c.id)).size!==cells.length ||
       !cells.every(c=>bounds(c)) || 

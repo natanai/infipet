@@ -1,3 +1,4 @@
+import {verifyCoordinatedStrain} from "../src/development/anatomical-audit";
 /**
  * DEV-006: independent source-preservation and physical diversity oracles.
  *
@@ -363,6 +364,16 @@ function audit(g:MaterialGraph,birth:MaterialGraph,cutoff:number):void {
   assert.equal(g.sourceFingerprint,birth.sourceFingerprint);
   auditInventory(g,birth,cutoff);
   const source=new Map(birth.sourceCells.map(c=>[c.id,c]));
+  const inheritedOverlay=(a:MaterialCell,b:MaterialCell)=>[a,b].every((p,i)=>{
+    const other=i?a:b;
+    return p.sourceIds.every(id=>{
+      const first=source.get(id);
+      return !!first&&first.color===p.color&&first.z===p.z&&other.sourceIds.some(j=>{
+        const second=source.get(j);
+        return id!==j&&!!second&&xy(first)===xy(second)&&second.color===other.color&&second.z===other.z;
+      });
+    });
+  });
   const active=new Map(g.cells.map(c=>[c.id,c]));
   assert.equal(active.size,g.cells.length,"duplicated material identity");
   const tissues=new Map(g.tissues.map(t=>[t.id,t]));
@@ -398,12 +409,12 @@ function audit(g:MaterialGraph,birth:MaterialGraph,cutoff:number):void {
     assert.ok(tissues.has(c.tissueId),"orphan tissue "+c.id);
     assert.ok(c.sourceIds.length>0&&
       c.sourceIds.every(id=>source.has(id)),"missing original-cell ancestry "+c.id);
-    assert.ok(!voids.has(xy(c)),"originally protected cavity filled "+c.id);
+    assert.ok(!voids.has(xy(c))||c.sourceIds.every(id=>{const p=source.get(id);return !!p&&birth.protectedVoids.includes(xy(p))&&p.color===c.color;}),"originally protected cavity filled "+c.id);
     assert.ok(!removed.has(c.id),"removed material resurrected");
     const overlapping=positions.get(xy(c))??[];
     assert.ok(overlapping.every(other=>
-      sourcePositions.get(other.id)===xy(c)&&
-      sourcePositions.get(c.id)===xy(c)),
+      (sourcePositions.get(other.id)===xy(c)&&sourcePositions.get(c.id)===xy(c))||
+      inheritedOverlay(c,other)),
       "unrecorded overlapping matter "+c.id);
     overlapping.push(c);positions.set(xy(c),overlapping);
     if(c.provenance==="authored") {
@@ -457,14 +468,16 @@ function audit(g:MaterialGraph,birth:MaterialGraph,cutoff:number):void {
     const inventory=new Map(birth.cells.map(c=>[c.id,c]));
     let protection=[...birth.protectedVoids];
     for(const event of g.events){
+      const deformed=event.physical?.strain?verifyCoordinatedStrain(new Map(inventory),event.createdCells??[],event.removedCellIds,event.physical,event.kind,new Set(protection)):undefined;
+      const currentProtection=deformed??protection;
       assert.deepEqual(event.createdCells?.map(c=>c.id),event.createdCellIds);
       for(const cell of event.createdCells??[]){
-        assert.ok(!protection.includes(xy(cell)),"creation entered protected cavity");
+        assert.ok(!currentProtection.includes(xy(cell)),"creation entered protected cavity");
         inventory.set(cell.id,cell);
       }
       for(const move of event.physical?.relocations??[]){
         const prior=inventory.get(move.cellId)!;assert.equal(xy(prior),xy(move.from));
-        assert.ok(!protection.includes(xy(move.to)),"relocation entered protected cavity");
+        assert.ok(!currentProtection.includes(xy(move.to)),"relocation entered protected cavity");
         inventory.set(prior.id,{...prior,...move.to});
       }
       for(const id of event.removedCellIds){assert.ok(inventory.has(id));inventory.delete(id);}
@@ -478,7 +491,7 @@ function audit(g:MaterialGraph,birth:MaterialGraph,cutoff:number):void {
         if(p.x<0||p.x>=64||p.y<0||p.y>=64||occupied.has(at)||outside.has(at))continue;
         outside.add(at);queue.push({x:p.x-1,y:p.y},{x:p.x+1,y:p.y},{x:p.x,y:p.y-1},{x:p.x,y:p.y+1});
       }
-      assert.deepEqual(change.after,protection.filter(k=>!outside.has(k)),"protected cavity was not physically opened");
+      assert.deepEqual(change.after,deformed??protection.filter(k=>!outside.has(k)),"protected cavity requires physical surgery or exact coherent transport");
       protection=[...change.after];
     }
     assert.deepEqual(protection,g.protectedVoids);

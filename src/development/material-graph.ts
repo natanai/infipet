@@ -60,6 +60,8 @@ export type MaterialPhysicalJournal=Readonly<{
   links:readonly MaterialChange<MaterialLink>[];
   /** Explicit cavity release after a physical remodeling opens it. */
   protectedVoids?:Readonly<{before:readonly string[];after:readonly string[]}>;
+  /** Coordinated physical lattice intercalation, never a render warp. */
+  strain?:import("./developmental-strain").DevelopmentalStrain;
 }>;
 export type MaterialEvent = Readonly<{
   id: string;

@@ -23,7 +23,10 @@ import type {
   MaterialLink,
 } from "./material-graph";
 import { dailyCheckTime } from "./daily-contract";
+import {createAnatomicalAudit,verifyCoordinatedStrain,verifyAdvancingFront,verifyAxialSupport,verifyStrainProgram,type StrainAuthorization} from "./anatomical-audit";
 export type PhysicalOperatorAuthorization = Readonly<{
+  structuralRigidity?:number;
+  repatterning?:StrainAuthorization;
   material: readonly Readonly<{
     id: string;
     kind: string;
@@ -79,30 +82,24 @@ function patch<T extends { id: string }>(
     else m.delete(c.id);
   }
 }
-function connected(
-  cells: readonly MaterialCell[],
-  a?: MaterialCell,
-  b?: MaterialCell,
-): boolean {
-  if (!cells.length) return true;
-  const at = new Map<string, MaterialCell[]>();
-  for (const c of cells) {
-    const list = at.get(key(c)) ?? [];
-    list.push(c);
-    at.set(key(c), list);
+function connected(cells:readonly MaterialCell[],a?:MaterialCell,b?:MaterialCell):boolean{
+  if(!cells.length)return true;
+  if(cells.length===1)return !b||a?.id===b.id||cells[0].id===b.id;
+  // Independent union-find over integer positions; overlays share a vertex.
+  // Unlike the producer reachability helper, this unions left/up diagonals.
+  const positions=new Set(cells.map(c=>c.y*64+c.x)),parent=new Int16Array(4096).fill(-1);
+  const root=(v:number):number=>{while(parent[v]!==v){parent[v]=parent[parent[v]];v=parent[v];}return v;};
+  for(const v of positions)parent[v]=v;
+  let count=positions.size;
+  for(const v of positions){
+    const x=v%64,y=Math.floor(v/64);
+    for(const n of [x>0?v-1:-1,y>0?v-64:-1,x>0&&y>0?v-65:-1,x<63&&y>0?v-63:-1]){
+      if(n<0||!positions.has(n))continue;const i=root(v),j=root(n);if(i!==j){parent[i]=j;count--;}
+    }
   }
-  const origin = a ?? cells[0],
-    seen = new Set([origin.id]),
-    q = [origin];
-  for (let n = 0; n < q.length; n++)
-    for (let y = -1; y <= 1; y++)
-      for (let x = -1; x <= 1; x++)
-        for (const c of at.get(q[n].x + x + "," + (q[n].y + y)) ?? [])
-          if (!seen.has(c.id)) {
-            seen.add(c.id);
-            q.push(c);
-          }
-  return b ? seen.has(b.id) : seen.size === cells.length;
+  if(b){const origin=a??cells[0],u=origin.y*64+origin.x,v=b.y*64+b.x;
+    return positions.has(u)&&positions.has(v)&&root(u)===root(v);}
+  return count===1;
 }
 /** Independent union-find of cardinal contacts. Co-located authored cells
  * occupy one vertex; each left/up edge removes at most one component. */
@@ -126,22 +123,30 @@ function mechanical(
   links: Map<string, MaterialLink>,
   voids: Set<string>,
   source: Map<string, MaterialCell>,
+  originalVoids:ReadonlySet<string>,
 ) {
-  const occupied = new Map<string, MaterialCell>(),
+  const occupied = new Map<string, MaterialCell[]>(),
     groups = new Map<string, MaterialCell[]>();
   for (const c of cells.values()) {
     if (!bounded(c) || !tissues.has(c.tissueId))
       throw new Error("Invalid physical cell position or tissue");
     const original = source.get(c.id);
-    if (voids.has(key(c)) && (!original || key(original) !== key(c)))
+    if (voids.has(key(c)) && (!original || key(original) !== key(c))&&
+      !c.sourceIds.every(id=>{const a=source.get(id);return !!a&&originalVoids.has(key(a))&&a.color===c.color;}))
       throw new Error("Protected-void violation");
-    const other = occupied.get(key(c));
-    if (
-      other &&
-      (c.provenance !== "authored" || other.provenance !== "authored")
-    )
-      throw new Error("Physical material overlap");
-    occupied.set(key(c), c);
+    const others = occupied.get(key(c))??[];
+    for(const other of others)if(c.provenance!=="authored"||other.provenance!=="authored"){
+      // Independently inspect original coordinate/pigment/layer pairs. A
+      // duplicated descendant of one source cannot authorize an overlay.
+      const sharesLayer=(a:MaterialCell,b:MaterialCell)=>a.sourceIds.every(id=>{
+        const first=source.get(id);return !!first&&first.color===a.color&&first.z===a.z&&b.sourceIds.some(j=>{
+          const second=source.get(j);return id!==j&&!!second&&second.x===first.x&&second.y===first.y&&
+            second.color===b.color&&second.z===b.z;
+        });
+      });
+      if(!sharesLayer(c,other)||!sharesLayer(other,c))throw new Error("Physical material overlap");
+    }
+    occupied.set(key(c),[...others,c]);
     const g = groups.get(c.tissueId) ?? [];
     g.push(c);
     groups.set(c.tissueId, g);
@@ -280,7 +285,9 @@ export function reconstructDailyPhysicalState(
     voids = new Set(prefix?.voids??birth.protectedVoids);
   const events = new Set<string>(prefix?.events);
   let previous = prefix?.lastCheck??0;
-  mechanical(active, tissues, sites, links, voids, source);
+  const birthVoids=new Set(birth.protectedVoids),continuousAnatomy=createAnatomicalAudit(graph.sourceCells);
+  mechanical(active, tissues, sites, links, voids, source,birthVoids);
+  continuousAnatomy([...active.values()],{links:[...links.values()],protectedVoids:[...voids]});
   for (const e of graph.events.slice(prefix?previousGraph!.events.length:0)) {
     const k = e.checkIndex,
       p = e.physical;
@@ -356,6 +363,18 @@ export function reconstructDailyPhysicalState(
     const beforeCells = new Map(active),
       beforeTissues = new Map(tissues);
     const made = e.createdCells ?? [];
+    if(["elongate","extend","branch","bud"].includes(e.kind))
+      verifyAxialSupport([...beforeCells.values()],[...links.values()],made,authorization?.structuralRigidity??1);
+    // Independently evaluate the declared lattice strain on EVERY prior cell
+    // and empty protected site. The producer's mapper/proposer is not used.
+    const strain=p.strain;
+    if(e.kind==="repattern"&&!strain)throw new Error("Missing coordinated developmental strain");
+    const advancingFront=p.system==="iterative"&&e.kind==="expand"&&p.relocations.length>0;
+    if(advancingFront)verifyAdvancingFront(graph.sourceCells,beforeCells,made,e.removedCellIds,p);
+    let strainedVoids:readonly string[]|undefined;
+    if(strain)strainedVoids=verifyCoordinatedStrain(beforeCells,made,e.removedCellIds,p,e.kind,voids);
+    if(strain&&authorization?.repatterning)verifyStrainProgram(graph.sourceCells,graph.sourceFingerprint,beforeCells,p.operation.id,
+      Number(e.id.slice(e.id.lastIndexOf("/unit/")+6)),strain,authorization.repatterning);
     if (
       !same(
         made.map((c) => c.id),
@@ -416,7 +435,7 @@ export function reconstructDailyPhysicalState(
       )
         throw new Error("Inconsistent or forged relocation evidence");
       if (
-        voids.has(key(m.to)) ||
+        (!strain&&voids.has(key(m.to))) ||
         [...beforeCells.values()].some(
           (other) => !movingIds.has(other.id) && key(other) === key(m.to),
         )
@@ -425,7 +444,9 @@ export function reconstructDailyPhysicalState(
           "Relocation enters occupied material or protected void",
         );
       const d = { x: m.to.x - c.x, y: m.to.y - c.y };
-      if(e.kind==="repattern"){
+      if(strain){
+        if(Math.max(Math.abs(d.x),Math.abs(d.y))!==1)throw new Error("Strain exceeds one physical lattice step");
+      }else if(e.kind==="repattern"){
         // Independently reconstruct a simultaneous, bounded tissue-local
         // transport. This does not import the producer's field or path finder.
         const path=m.path,group=[...beforeCells.values()].filter(a=>a.tissueId===c.tissueId);
@@ -484,8 +505,8 @@ export function reconstructDailyPhysicalState(
         if(support.length<2||!support.some(c=>Math.abs(c.x-m.to.x)+Math.abs(c.y-m.to.y)===1))
           throw new Error("Tissue reflow deposited into unsupported tip");
       } else if (
-        !["translate", "remodel", "reshape"].includes(e.kind) ||
-        p.system === "iterative" ||
+        (!advancingFront&&!["translate", "remodel", "reshape"].includes(e.kind)) ||
+        (p.system === "iterative"&&!advancingFront) ||
         !Math.max(Math.abs(d.x), Math.abs(d.y)) ||
         Math.max(Math.abs(d.x), Math.abs(d.y)) > 1
       )
@@ -542,7 +563,7 @@ export function reconstructDailyPhysicalState(
         createdParents.add(prior.id);
       }
     }
-    if(e.kind==="repattern"){
+    if(e.kind==="repattern"&&!strain){
       if(p.system!=="remodeling"||made.length||
         !e.removedCellIds.length&&!moves.size||e.removedCellIds.length+moves.size>64)
         throw new Error("Invalid developmental turnover budget");
@@ -668,7 +689,7 @@ export function reconstructDailyPhysicalState(
     patch(tissues, p.tissues, "tissue");
     patch(sites, p.sites, "growth site");
     patch(links, p.links, "attachment");
-    if(e.kind==="repattern"){
+    if(e.kind==="repattern"&&!strain){
       if(!active.size)throw new Error("Developmental turnover erased the organism");
       const before=[...beforeCells.values()],after=[...active.values()];
       const beforeGroups=new Map<string,MaterialCell[]>(),afterGroups=new Map<string,MaterialCell[]>();
@@ -698,11 +719,12 @@ export function reconstructDailyPhysicalState(
         if(!bounded(q)||occupied.has(k)||outside.has(k))continue;
         outside.add(k);stack.push({x:q.x-1,y:q.y},{x:q.x+1,y:q.y},{x:q.x,y:q.y-1},{x:q.x,y:q.y+1});
       }
-      const expected=[...voids].filter(k=>!outside.has(k));
+      const expected=strainedVoids??[...voids].filter(k=>!outside.has(k));
       if(!same(p.protectedVoids.after,expected))throw new Error("Protected cavity was not physically opened");
       voids.clear();for(const k of expected)voids.add(k);
     }
-    mechanical(active, tissues, sites, links, voids, source);
+    mechanical(active, tissues, sites, links, voids, source,birthVoids);
+    continuousAnatomy([...active.values()],{links:[...links.values()],protectedVoids:[...voids]});
   }
   if (
     new Set(graph.cells.map((c) => c.id)).size !== graph.cells.length ||

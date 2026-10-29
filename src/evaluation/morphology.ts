@@ -29,6 +29,7 @@
  * additionally verify authorized event chronology and exact inventory.
  */
 import type {MaterialCell, MaterialGraph} from "../development/material-graph";
+import {createAnatomicalAudit,verifyCoordinatedStrain,verifyAdvancingFront,verifyAxialSupport} from "../development/anatomical-audit";
 
 export type PhysicalMetrics=Readonly<{
   occupiedArea:number;physicalCells:number;width:number;height:number;aspect:number;
@@ -48,6 +49,8 @@ export type MaterialChangeMetrics=Readonly<{
     resorption:number;topology:number;other:number}>;
   distribution:readonly [number,number,number,number];
   sourceResorbed:number;sourceRelocated:number;
+  /** Fraction of source-identity pairs whose distance changes by >=.75 cells. */
+  sourcePairChange:number;
   newTissues:number;changedAttachments:number;
   componentDelta:number;holeDelta:number;topologyChanged:boolean;
   structuralChange:number;regionalAreaRatios:Readonly<Record<string,number>>;
@@ -57,6 +60,22 @@ const diagonal=[...cardinal,[1,1],[1,-1],[-1,1],[-1,-1]] as const;
 const k=(x:number,y:number)=>x+","+y;
 const pos=(p:{x:number;y:number})=>k(p.x,p.y);
 const MAX=4096;
+/** Translation- and added-mass-independent strain of source material. A live
+ * original is its own representative; after real turnover use the nearest
+ * pigment-matched descendant, ties by ID. Counts no renderer or pose changes. */
+export function sourcePairChange(before:MaterialGraph,after:MaterialGraph):number{
+ const live=new Map(after.cells.map(c=>[c.id,c]));
+ const points=before.sourceCells.map(c=>({old:c,now:live.get(c.id)??after.cells
+  .filter(p=>p.color===c.color&&p.sourceIds.includes(c.id)).sort((a,b)=>
+   (a.x-c.x)**2+(a.y-c.y)**2-(b.x-c.x)**2-(b.y-c.y)**2||(a.id<b.id?-1:1))[0]}));
+ let changed=0,total=0;
+ for(let i=0;i<points.length;i++)for(let j=0;j<i;j++){
+  const a=points[i],b=points[j];if(!a.now||!b.now)continue;
+  if(Math.abs(Math.hypot(a.old.x-b.old.x,a.old.y-b.old.y)-Math.hypot(a.now.x-b.now.x,a.now.y-b.now.y))>=.75)changed++;
+  total++;
+ }
+ return total?changed/total:0;
+}
 /**
  * Independent verification contract for the fourteen required dimensions.
  * Domain: integer physical MaterialGraph coordinates [0,63], 0..4096 cells,
@@ -260,6 +279,7 @@ export function measureChange(before:MaterialGraph,after:MaterialGraph):Material
     distribution:sectors(created,bound(after.cells)),
     sourceResorbed:removed.filter(c=>c.provenance==="authored").length,
     sourceRelocated:moved.filter(c=>c.provenance==="authored").length,
+    sourcePairChange:sourcePairChange(before,after),
     newTissues:[...newRegions.keys()].filter(id=>!oldRegions.has(id)).length,
     changedAttachments,componentDelta:newM.components-oldM.components,
     holeDelta:newM.holes-oldM.holes,
@@ -282,6 +302,7 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
   const sourceIds=new Set(active.keys()),createdEver=new Set(sourceIds);
   const same=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
   const sources=new Map(graph.sourceCells.map(c=>[c.id,c]));
+  const continuous=createAnatomicalAudit(graph.sourceCells);
   const birth=graph.birth;
   let protectedVoids=[...(birth?.protectedVoids??graph.protectedVoids)];
   const tissues=new Map((birth?.tissues??[]).map(t=>[t.id,t]));
@@ -314,6 +335,22 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
       new Set(event.removedCellIds).size!==event.removedCellIds.length)
       errors.push("duplicate-event-identity:"+event.id);
     const archived=event.createdCells??[];
+    if(["elongate","extend","branch","bud"].includes(event.kind)){
+      try{verifyAxialSupport([...before.values()],[...links.values()],archived,1);}catch{errors.push("unsupported-axial-material:"+event.id);}
+    }
+    let strainedVoids:readonly string[]|undefined;
+    if(event.physical?.strain){
+      try{strainedVoids=verifyCoordinatedStrain(before,archived,event.removedCellIds,event.physical,event.kind,new Set(protectedVoids));}
+      catch{errors.push("invalid-coordinated-strain:"+event.id);}
+    }
+    if(event.physical?.system==="iterative"&&event.kind==="expand"&&event.physical.relocations.length){
+      try{verifyAdvancingFront(graph.sourceCells,before,archived,event.removedCellIds,event.physical);}
+      catch{errors.push("invalid-advancing-material-front:"+event.id);}
+    }
+    const currentVoids=strainedVoids??protectedVoids;
+    const originalOverlay=(c:MaterialCell)=>c.sourceIds.every(id=>{
+      const original=sources.get(id);return !!original&&(birth?.protectedVoids??[]).includes(pos(original))&&original.color===c.color;
+    });
     const archive=new Map(archived.map(c=>[c.id,c]));
     if(!same(archived.map(c=>c.id),event.createdCellIds)||
       archive.size!==archived.length)
@@ -335,7 +372,7 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
         !Number.isSafeInteger(cell.x)||!Number.isSafeInteger(cell.y)||
         cell.x<0||cell.x>=64||cell.y<0||cell.y>=64)
         errors.push("invalid-material-creation:"+id);
-      if(cell&&protectedVoids.includes(pos(cell)))errors.push("creation-in-protected-void:"+id);
+      if(cell&&currentVoids.includes(pos(cell))&&!originalOverlay(cell))errors.push("creation-in-protected-void:"+id);
       if(cell)active.set(id,cell);
       createdEver.add(id);
     }
@@ -361,8 +398,8 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
         !Number.isSafeInteger(dest.x)||!Number.isSafeInteger(dest.y)||
         dest.x<0||dest.x>=64||dest.y<0||dest.y>=64||
         dest.z!==prior.z||
-        protectedVoids.includes(pos(dest))||
-        (["redistribute","repattern"].includes(event.kind)?!transport:
+        (currentVoids.includes(pos(dest))&&!!prior&&!originalOverlay(prior))||
+        (event.physical?.strain?!strainedVoids:["redistribute","repattern"].includes(event.kind)?!transport:
           Math.max(Math.abs(dest.x-prior.x),Math.abs(dest.y-prior.y))!==1))
         errors.push("invalid-relocation:"+movement.cellId);
       else active.set(prior.id,{...prior,x:dest.x,y:dest.y});
@@ -386,12 +423,13 @@ export function provePhysicalMaterial(graph:MaterialGraph):PhysicalProof{
           if(p.x<0||p.x>=64||p.y<0||p.y>=64||outside.has(at)||occupied.has(at))continue;
           outside.add(at);for(const [dx,dy] of cardinal)queue.push({x:p.x+dx,y:p.y+dy});
         }
-        const expected=protectedVoids.filter(k=>!outside.has(k));
+        const expected=strainedVoids??protectedVoids.filter(k=>!outside.has(k));
         if(event.kind!=="repattern"||!same(change.before,protectedVoids)||!same(change.after,expected))
           errors.push("unauthorized-protected-void-change:"+event.id);
         protectedVoids=[...change.after];
       }
     }
+    try{continuous([...active.values()],{links:[...links.values()],protectedVoids});}catch{errors.push("lost-drawn-neighborhood:"+event.id);}
   }
   const live=new Map(graph.cells.map(c=>[c.id,c]));
   if(active.size!==live.size)errors.push("physical-inventory-count");

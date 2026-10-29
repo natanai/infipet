@@ -19,7 +19,8 @@ import {reconstructDailyPhysicalState,type PhysicalOperatorAuthorization} from "
  * Earned remodeling proposals are committed at ceil(nominal opportunity), in
  * nominal-time/ID/unit order, after material quanta and before iterative growth.
  * Repatterning has floor(64*resources*(.5+.5*rest)) bounded physical work
- * units (transport/resorption, never generated matter). Its expressed field
+ * real seam daughters; source-neighbor intercalation transports the coupled
+ * existing sheet at most one cell (<=4096 unit moves). Its expressed field
  * also guides subsequent ordinary surface deposition. Apical succession
  * requires an explicit physical site journal; genetic and chaotic identity
  * continue without a reset.
@@ -122,7 +123,10 @@ export function applyDailyMaterialStep(
       remodelingProgram.genomeFingerprint!==program.genomeFingerprint||
       !equal(prior.graph.sourceCells,program.source.sourceCells))
     throw new TypeError("Duplicate, out-of-sequence or incompatible daily material step");
-  const authorization={material:program.operators,remodeling:remodelingProgram.operations};
+  const authorization={material:program.operators,remodeling:remodelingProgram.operations,
+    structuralRigidity:program.signals.channels.support.rigidity,repatterning:{seed:remodelingProgram.seed,
+      elongation:program.signals.channels.growth.elongation,expansion:program.signals.channels.growth.expansion,
+      membrane:program.signals.channels.support.membrane}};
   verifyDailyMaterialInventory(prior.graph,prior.hatchAtMs,n,program.source,authorization);
   // A unit adapter for geometric primitives, not an elapsed-hour replay.
   let graph:MaterialGraph={...prior.graph,events:prior.graph.events.map(e=>({...e,atHour:e.atHour/DAILY_HOURS}))};

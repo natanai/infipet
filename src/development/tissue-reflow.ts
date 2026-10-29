@@ -14,6 +14,9 @@
  * No target species, invented pigment, new physical cell or time reads.
  */
 import type {MaterialCell,MaterialGraph} from "./material-graph";
+import {isLatticeConnected} from "./lattice-connectivity";
+import {anatomicalEditGuard} from "./anatomical-continuity";
+import {transferPerimeterChange} from "./developmental-repatterning";
 type Point=Readonly<{x:number;y:number;z?:number}>;
 export type TissueReflow=Readonly<{
   cells:readonly MaterialCell[];
@@ -24,15 +27,7 @@ const valid=(p:Point)=>Number.isInteger(p.x)&&Number.isInteger(p.y)&&p.x>=0&&p.x
 const dirs:readonly Point[]=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}];
 const near=(a:Point,b:Point)=>Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))===1;
 const steps=dirs.concat([{x:1,y:1},{x:1,y:-1},{x:-1,y:1},{x:-1,y:-1}]);
-function connected(cells:readonly MaterialCell[]):boolean{
- if(!cells.length)return false;
- const lookup=new Set(cells.map(pos)),seen=new Set([pos(cells[0])]),q:Point[]=[cells[0]];
- for(let i=0;i<q.length;i++)for(const d of steps){
-  const p={x:q[i].x+d.x,y:q[i].y+d.y},key=pos(p);
-  if(lookup.has(key)&&!seen.has(key)){seen.add(key);q.push(p);}
- }
- return seen.size===lookup.size;
-}
+function connected(cells:readonly MaterialCell[]):boolean{return cells.length>0&&isLatticeConnected(cells);}
 function route(tissue:ReadonlySet<string>,from:Point,to:Point):Point[]|null{
  const q:Point[]=[from],prev=new Map<string,string|null>([[pos(from),null]]);
  const end=pos(to);
@@ -58,6 +53,7 @@ export function proposeTissueReflow(graph:MaterialGraph,tissueId:string,
  if(!tissueId||!dirs.some(d=>d.x===direction.x&&d.y===direction.y))
   throw new RangeError("Invalid tissue reflow axis");
  const group=graph.cells.filter(c=>c.tissueId===tissueId);
+ const coherentEdit=anatomicalEditGuard(graph.sourceCells,graph.cells,graph);
  const source=graph.sourceCells.filter(c=>c.tissueId===tissueId);
  if(group.length<9||source.length<9)return null;
  const occupied=new Set(graph.cells.map(pos)),own=new Set(group.map(pos));
@@ -100,12 +96,14 @@ export function proposeTissueReflow(graph:MaterialGraph,tissueId:string,
   return support>=2&&orthogonal>=1;
  }).sort((a,b)=>dot(b)-dot(a)||Math.abs(lateral(a))-Math.abs(lateral(b))||
    a.y-b.y||a.x-b.x).slice(0,32);
- for(const from of donors)for(const to of targets){
+ for(const from of donors)for(const to of [...targets].sort((a,b)=>
+  (dot(b)-.25*transferPerimeterChange(from,b,own))-(dot(a)-.25*transferPerimeterChange(from,a,own))||a.y-b.y||a.x-b.x)){
   if(dot(to)-dot(from)<2)continue; // Distinguish reflow from a local tip.
   const path=route(own,from,to);
   if(!path)continue;
   const cells=graph.cells.map(c=>c.id===from.id?{...c,x:to.x,y:to.y}:c);
   if(!connected(cells.filter(c=>c.tissueId===tissueId)))continue;
+  if(!coherentEdit(from,{...from,x:to.x,y:to.y}))continue;
   const byId=new Map(cells.map(c=>[c.id,c]));
   if(graph.links.some(l=>{
    const a=l.fromCellId?byId.get(l.fromCellId):undefined;

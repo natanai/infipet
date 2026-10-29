@@ -2094,7 +2094,7 @@
         },
         {
           "id": "A2",
-          "requirement": "Every public starter at its immutable shipped seed and the same ink flattened into unlabeled freehand input exhibits substantial independently measured physical development over a full 365-check lifetime: broad nonterminal growth or significant vacating and turnover of original anatomy, without preset-specific runtime inputs. Mass gain is not required.",
+          "requirement": "Every public starter at its immutable shipped seed and the same ink flattened into unlabeled freehand input exhibits substantial independently measured physical development over a full 365-check lifetime: broad nonterminal growth or significant change in original material proportions and pair distances, without preset-specific runtime inputs. Mass gain is not required.",
           "oracle": "focused-node-test"
         },
         {
@@ -2296,7 +2296,7 @@
       "phase": 4,
       "area": "Development",
       "algorithmId": "development",
-      "title": "Developmental tissue turnover and repatterning without permanent feature locks",
+      "title": "Developmental tissue turnover and repatterning with continuous drawn anatomy",
       "dependsOn": [
         "MORPH-005",
         "PERF-002"
@@ -2305,12 +2305,12 @@
       "acceptance": [
         {
           "id": "A1",
-          "requirement": "A bounded source-derived developmental potential drives real mass transfer and resorption; no stationary-source quota, target mask or mandatory shape outcome. Independent small mathematical oracles establish the field, resource bounds, finite routes and null decisions.",
+          "requirement": "A bounded source-derived developmental potential and coordinated physical strain drive real material turnover; no stationary-source quota, target mask or mandatory shape outcome. Independent small mathematical oracles establish the field, resource bounds, transport and null decisions.",
           "oracle": "focused-node-test"
         },
         {
           "id": "A2",
-          "requirement": "Every shipped starter and unlabeled freehand equivalent has independently reconstructed anatomy across 365 daily opportunities; non-additive remodeling is measured through original-identity displacement/removal, vacated positions, proportions and trajectory changes. Birth ink and seed remain unchanged.",
+          "requirement": "Every shipped starter and unlabeled freehand equivalent has independently reconstructed anatomy across 365 daily opportunities. Non-additive development changes original material positions and pair distances while preserving all drawn part lineages; vacated positions, proportions and trajectory changes remain diagnostics. Birth ink and seed remain unchanged.",
           "oracle": "focused-node-test"
         },
         {
@@ -2359,7 +2359,7 @@
           "change daily clock, maturity, material or existing performance budgets"
         ]
       },
-      "evidenceSummary": {
+      "historicalEvidenceSummary": {
         "clock": "daily-365-v1",
         "checkpoints": [
           0,
@@ -2418,7 +2418,9 @@
           "remodeled": 270,
           "thickened": 257,
           "regional": 267
-        }
+        },
+        "sourceRevision": "0e3ef779308ed1ebce593f776fd467aa7f3882cf",
+        "supersededBy": "MORPH-007: the historic erasure/vacated-space tests failed to establish coherent feature continuity."
       }
     },
     {
@@ -2487,6 +2489,79 @@
         "typecheck": "passed",
         "webExport": "passed",
         "indexedMechanicalContractTestsPassed": 3
+      }
+    },
+    {
+      "id": "MORPH-007",
+      "phase": 4,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "Coordinated physical strain and continuous drawn anatomy",
+      "dependsOn": [
+        "MORPH-006",
+        "PERF-003"
+      ],
+      "status": "done",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Source-derived pigment islands, source parts, contour protrusions, material contacts and containment relationships persist through real cell turnover. Independent feature oracles reject erased eyes/limbs, scattered details and broken enclosures while allowing individual source cells to retire.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "A shared bounded lattice strain transports neighboring material together, deposits only real parent-linked seam cells and journals every moved cell and cavity. Independently derived coordinate, mass, pigment support, bud resource and local axial-support oracles reject malformed transformations while preserving all growth families.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "All twelve immutable starters and flattened unlabeled equivalents preserve every drawn material feature and its neighborhood across the complete 365 checks while exhibiting independently measured non-additive proportional and regional development. Unfamiliar drawings, immutable seeds and causal care counterfactuals use the same algorithms.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A4",
+          "requirement": "Birth replay, saved continuation, future-care prefixes, exact daily timing, legitimate resource nulls and final maturity remain exact. Existing operator families, material caps, independent audits and original publication/performance gates remain active.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-coherent-anatomy.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-coherent-anatomy.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "AGENTS.md",
+        "roadmap/plan.json",
+        "src/development/anatomical-continuity.ts",
+        "src/development/anatomical-audit.ts",
+        "src/development/developmental-strain.ts",
+        "src/development/material-front.ts",
+        "src/development/developmental-repatterning.ts",
+        "src/development/material-journal.ts",
+        "src/development/remodel-transactions.ts",
+        "src/development/operator-chronology.ts",
+        "src/development/iterative-chronology.ts",
+        "src/development/tissue-reflow.ts",
+        "src/development/spatial-inventory.ts",
+        "src/evaluation/morphology.ts",
+        "tests/alg-development-coherent-anatomy.test.ts",
+        "src/development/anatomical-features.ts",
+        "src/development/anatomical-neighborhood.ts",
+        "src/development/material-support.ts",
+        "src/development/regional-regulation.ts",
+        "src/integration/daily-runtime.ts"
+      ],
+      "evidenceSummary": {
+        "focusedTestsPassed": 4,
+        "qualification": "All 12 immutable starters and their 12 unlabeled equivalents retain visible birth pigment islands at days 60, 120, 220 and 365. Source-derived feature material, pigment contacts, protrusions and enclosures are independently checked after every transaction; individual source cells may retire. Actual distances between original cells change, so added bulk and rigid translation cannot qualify as source reshaping.",
+        "care": "Six unfamiliar independent construction rules, fixed-seed counterfactuals, rest/security histories changed after day 90, exact earlier-prefix equality, zero-resource 365-check null and JSON continuation. Late-care effects are compared through every daily physical geometry, allowing mature convergence.",
+        "physicalBounds": "W=real seam daughters+ceil(one-cell relocations/64) is bounded by the existing care-scaled 0..64 work budget. Up to 4096 one-cell moves and 64 daughters remain loose absolute bounds; the 3072 generated-cell, 64-operator and 12-unit caps remain active. Every movement and cavity is independently reconstructed, including genetic organizer authorization.",
+        "limitations": "Quantitative continuity and expressive geometry do not certify appealing designs or literal franchise resemblance. Manual rendered inspection informs the model. Full existing verification, performance and exported browser/publication gates are still required.",
+        "repairedRegressions": "All six focused existing regression checks pass, including real source-cell resorption, actual flank reflow, strict cavity-overlay authorization, apical succession and the ordinary player renderer. These are not disabled to retain features.",
+        "browserQualification": "Saved-life browser assertions await and resolve the actual persisted document from both localStorage and IndexedDB under the original 30-second wait bound, returning the exact document that satisfies the condition. The existing maximum-complexity fixture independently exercises the large-save reader and compares exact living identity and physical graph; boundary, corruption recovery and offline assertions remain active.",
+        "performance": "Only source arrays with frozen cells reuse private source membership, ownership and contour-port setup; every live candidate and journal event is still independently evaluated. Mutable and shallow-frozen source changes, fresh live inventories and changed cavity context are tested. Original PERF-001 thresholds remain unchanged; full release verification runs them in isolation after functional tests. Native-phone performance is not claimed.",
+        "unfamiliarQualification": "The existing MORPH-005 suite covers 30 independent drawings by three seeds by three care histories through the full available lifetime; canonical release verification includes that suite."
       }
     }
   ],
@@ -2641,7 +2716,8 @@
         "MORPH-005",
         "PERF-002",
         "MORPH-006",
-        "PERF-003"
+        "PERF-003",
+        "MORPH-007"
       ],
       "readyWhen": [
         "OBS-001"
@@ -3004,6 +3080,6 @@
       "command": "node scripts/morphology-compare.mjs --out=/tmp/infipet-morphology.json",
       "mustNeverBecomeImplicitPass": true
     },
-    "expressedAnatomy": "Authored ink is an immutable birth/provenance record, not a permanent expressed shape. Original cells, recognizable features, growth apices and cavities may be physically resorbed, relocated or renewed through authorized independently reconstructed transactions. No minimum stationary-ink quota or feature-retention floor. Material continuity is chronological ancestry and accountable physical inventory, never a requirement to look like the birth drawing."
+    "expressedAnatomy": "Drawn parts remain physically represented throughout development. Exact birth pixels and positions need not persist: their pigment-specific material lineages, neighborhoods and physical relationships must. Coordinated source-derived strain can change proportions, outlines and cavities through independently reconstructed daily transactions; neither arbitrary feature deletion nor a stationary-coordinate quota is valid."
   }
 }

@@ -118,17 +118,16 @@ test("[MORPH-005/A2] all 12 shipped starters and their unlabeled freehand equiva
    const result=lifetime(parts,preset.seed),{before,after,delta,birth,adult}=result;
    // Declared before qualification: these are physical effect sizes, not a
    // resemblance score or a fitted target silhouette. All must pass together.
-   // MORPH-006 deliberately admits replacement and resorption of early
-   // anatomy. A universal mass-increase requirement would force bulk back
-   // into the engine. Retain the original broad-growth route, and require
-   // substantial independently visible non-additive change for the other.
+   // Coordinated deformation must change distances within original ink.
+   // Added bulk and whole-body translation score zero. Original coordinates
+   // need not become empty when real seam material develops between them.
    const occupied=new Set(adult.cells.map(c=>c.x+","+c.y));
    const vacated=new Set(birth.cells.map(c=>c.x+","+c.y));
    for(const p of occupied)vacated.delete(p);
    const broad=after.occupiedArea/before.occupiedArea>=1.75&&
     delta.broadFraction>=.35&&delta.terminalFraction<=.4;
    const remodeled=(delta.sourceRelocated+delta.sourceResorbed)/birth.sourceCells.length>=.25&&
-    vacated.size/before.occupiedArea>=.1;
+    delta.sourcePairChange>=.15;
    assert.ok(broad||remodeled,preset.id+" "+kind+": substantial broad growth or real anatomical turnover");
    assert.ok(delta.structuralChange>=.4,preset.id+" "+kind+": substantial birth-relative change");
    assert.ok(delta.sourceRelocated>0||delta.sourceResorbed>0||delta.topologyChanged,
@@ -174,7 +173,7 @@ test("[MORPH-005/A3] 30 unfamiliar drawings by three seeds by three chronologica
     if(broad)summary.broad++;
     const old=new Set(life.birth.cells.map(c=>c.x+","+c.y)),now=new Set(life.adult.cells.map(c=>c.x+","+c.y));
     const vacated=[...old].filter(p=>!now.has(p)).length/old.size;
-    if(broad||vacated>=.1&&(d.sourceRelocated+d.sourceResorbed)/life.birth.sourceCells.length>=.25)
+    if(broad||d.sourcePairChange>=.15&&(d.sourceRelocated+d.sourceResorbed)/life.birth.sourceCells.length>=.25)
       summary.expressive++;
     if(d.topologyChanged)summary.topology++;
     if(Math.abs(life.after.aspect-life.before.aspect)>=.15)summary.proportions++;

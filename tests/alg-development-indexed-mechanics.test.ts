@@ -126,7 +126,7 @@ test('[PERF-003/A2] private immutable proofs cannot brand shallow-frozen or muta
  const before=expressedRepatterningFields(unsafe,program.signals.channels,genome.seed,'cache-contract').get(owner)!;
  (unsafe.sourceCells[0] as {x:number}).x++;
  const after=expressedRepatterningFields(unsafe,program.signals.channels,genome.seed,'cache-contract').get(owner)!;
- assert.notDeepEqual(after.center,before.center,'a shallow-frozen source array cannot cache mutable birth positions');
+ assert.notDeepEqual(after.axis,before.axis,'a shallow-frozen source array cannot cache mutable birth geometry');
  const vectors=clone(state.graph);for(const c of vectors.sourceCells)Object.freeze(c);Object.freeze(vectors.sourceCells);
  const original=expressedRepatterningFields(vectors,program.signals.channels,genome.seed,'cache-contract').get(owner)!;
  (vectors.tissues.find(t=>t.id===owner)!.sourceCellIds as string[]).pop();
