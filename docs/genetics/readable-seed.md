@@ -227,6 +227,31 @@ retaining later surprise. Every **valid** source drawing is eligible, even if
 it contains more than 12 separate physical tissues. Physical budgets still
 govern what genuinely materializes.
 
+### Pigment expression of newly generated tissue
+
+A genuine genetically developed child may have a reproducible, visually
+distinct tissue pigment from the very first accepted bud cell. **No original
+player-drawn pixel is recolored.** The rule applies only when an authorized
+`geneticInstructionId` and `developedKind` create a child from a cell of
+a different parent tissue. Subsequent bud and expansion cells inherit that
+child pigment directly, so repeated operations cannot reapply the tint.
+
+For six-digit hex source channels `R,G,B`, luminance
+`Y=(0.2126 R+0.7152 G+0.0722 B)/255`, contrast target
+`T=232` if `Y<0.46`, else `T=24`, and specialization coefficient
+`a(kind) ∈ {0.16, 0.28, 0.38, 0.82}`, each generated channel is
+
+```text
+C_child = round((1-a)*C_parent + a*T_kind)
+```
+
+Eyes and mouths use strong high/low luminance contrast, broad membranes a
+gentler shade, and other organs smaller color differences. Unsupported
+color strings are inherited unchanged. This is a **physical tissue
+specialization adjunct**, not a simulated eye painted on the surface, a
+species target, or qualifying evidence of morphological variety by itself.
+Source ancestry, attachment and coherent material growth remain required.
+
 **Known remaining gaps:** a child physically differentiating and producing
 connected volume is not by itself proof of a recognizable eye, limb or wing.
 Whole-body deformation, membrane biomechanics, movement, care balance and
