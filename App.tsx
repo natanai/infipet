@@ -738,7 +738,6 @@ export default function App() {
   };
   const live = () => {
     if (!lifeRef.current) return;
-    if(lifeRef.current.anatomicalClock!=="daily-365-v1"){setView("draw");return;}
     setView("live");
     setSandbox(false);
     setMotion(true);
@@ -751,9 +750,7 @@ export default function App() {
     const current = lifeRef.current;
     if (current && !current.game.dead && !confirmed) {
       confirmReplacement(
-        current.anatomicalClock!=="daily-365-v1"
-          ? `Begin a new daily life from ${current.name}'s drawing? The earlier saved life stays available in More → Export.`
-          : `Replace ${current.name}? Its current life and care history will be replaced. Export a copy from More to keep it.`,
+`Replace ${current.name}? Its current life and care history will be replaced. Export a copy from More to keep it.`,
         () => void beginLife(true),
       );
       return;
@@ -833,11 +830,10 @@ export default function App() {
     }
   };
   const restore = (doc: PetDocument) => {
-    const legacy=!!doc.life&&doc.life.anatomicalClock!=="daily-365-v1";
     commitLife(
       doc.life
         ? {
-            ...(legacy?doc.life:advancePlayerLife(doc.life, Date.now(), "absent")),
+            ...advancePlayerLife(doc.life, Date.now(), "absent"),
           }
         : undefined,
     );
@@ -862,10 +858,8 @@ export default function App() {
     setAction("idle");
     setTarget(null);
     setGrowing(false);
-    setWritable(!legacy);
-    if(legacy&&doc.life){setParts(doc.life.parts);setMode(doc.life.mode);setSeed(doc.life.seed);setSeedInput(doc.life.seed);setName(doc.life.name);setAge(0);}
-    void loadOriginalPetBackup().then(setOriginalSavedPet);
-    setView(doc.life&&!legacy ? "live" : "draw");
+    setWritable(true);
+    setView(doc.life ? "live" : "draw");
     setSheet(null);
   };
   const openPetFile=()=>{
@@ -985,7 +979,7 @@ export default function App() {
       // remains visibly intact until the player explicitly returns to pet.
       setNeedPreview(null);
       setMotion(true);
-      setView(lifeRef.current?.anatomicalClock==="daily-365-v1" ? "live" : "draw");
+      setView(lifeRef.current ? "live" : "draw");
       setGrooming(false);
       setAction("idle");
       setTarget(null);
@@ -1155,7 +1149,7 @@ export default function App() {
                     {playing && life ? life.name : document.name}
                   </Text>
                   {showLabels && <Text style={[s.muted, {flexShrink:1}]}>
-                    {legacyLife ? "Earlier pet · preserved file" : view === "draw" ? "Drawing" : playing && life
+                    {view === "draw" ? "Drawing" : playing && life
                       ? `${title(life.game.stage)} · day ${liveAge.toFixed(1)}` : "Development preview"}
                   </Text>}
                 </Pressable>
@@ -1189,9 +1183,6 @@ export default function App() {
                   <PixelIcon name="more" size={24} color={T.bright} />
                 </Button>
               </View>
-              {legacyLife&&<View style={{maxWidth:deviceWidth,padding:10}}>
-                <Text style={s.muted}>This earlier saved pet is preserved. Its past anatomy cannot be carried into daily growth. Save the original file in More → Export, or begin a new life from its drawing.</Text>
-              </View>}
               <View nativeID="infipet-device" style={[styles.device, { width: deviceWidth }]}>
                 <View style={[styles.toolbar, { width: deviceWidth - 24 }]}>
                   {view === "draw" ? (
@@ -1960,14 +1951,6 @@ export default function App() {
                         Save pet file
                       </Button>
                     )}
-                    {originalSavedPet && Platform.OS === "web" && <>
-                      <Text style={s.muted}>Your earlier save is kept unchanged. Its previous hourly anatomy cannot be reproduced by the daily clock.</Text>
-                      <Button label="Download original saved pet" onPress={()=>{
-                        const blob=new Blob([originalSavedPet],{type:"application/json"});
-                        const url=URL.createObjectURL(blob),a=globalThis.document.createElement("a");
-                        a.href=url;a.download="infipet-before-daily-growth.json";a.click();URL.revokeObjectURL(url);
-                      }}>Save original pet file</Button>
-                    </>}
                     <Button
                       label="Show pet code"
                       onPress={() => showCode?setShowCode(false):revealExportCode()}
