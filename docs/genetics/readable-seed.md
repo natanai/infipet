@@ -227,6 +227,72 @@ retaining later surprise. Every **valid** source drawing is eligible, even if
 it contains more than 12 separate physical tissues. Physical budgets still
 govern what genuinely materializes.
 
+### Whole-organism allometric development (experimental)
+
+The earlier daily runtime held one regional orientation constant across an
+organism's lifetime, which often produced undirected bulk. The physical
+material growth field now supports **five successive orientations** of the
+same source-owned body. These orientations do not assign a different species,
+draw a target creature or replace the player's original pixels.
+
+For daily physical opportunity `n = 0 ... 364`, tissue identity `r`,
+fixed permanent individual identity `g`, and *recorded care values* rest
+`R`, activity `A` in `[0,1]`:
+
+```text
+phase = floor(n / 73)                           // integer 0 ... 4
+u = uint32Hash(g | "whole-body-phase" | r | phase | "axis") / 2^32
+v = uint32Hash(g | "whole-body-phase" | r | phase | "aspect") / 2^32
+theta = 2*pi*u
+e = clamp(3*(gene.elongation-gene.expansion) +
+          2*(v-0.5) + 1.5*(A-R), -3, 3)
+regionAxis = (cos(theta), sin(theta))
+aspectStretch = 2^e                            // in [1/8, 8]
+```
+
+Both hash values are stable per individual source tissue and chronological
+phase, and do not look at the creature's drawing to invent part names.
+Changing care changes the **expressed anisotropy** of the actual accepted
+material frontier, not the permanent genomic roll. Exact history prefixes
+still reproduce identical physical material events. Future care cannot
+rewrite earlier checks.
+
+When an authorized regional surface operation has growth credit, the
+candidate field evaluates only the already live physical tissue and its
+bounded 8-connected adjacent lattice frontier. For `u,v` measured along
+the current regionAxis, original extent `L=width+height`, local support
+neighbors `N`, and mode-specific axial component `z`:
+
+```text
+pressure = (u/(L*sqrt(aspectStretch)))^2 +
+           (v/(L/sqrt(aspectStretch)))^2
+score = (N-1)/4 - pressure*(1,2,or 3 depending on field mode)
+        + (width/height mode ? 2.4*abs(z)/(L+1) : 0)
+        + bounded seed-coherence
+        - (existing source-owned repatterning potential if expressed)
+```
+
+The directional term previously weighed just `0.25` and commonly lost
+to the same local thickening process. It now contributes enough to produce
+region-scale redistribution of new growth rather than only puffing out
+existing pixels. The physical placement auditor still forbids collisions,
+unsupported patches, impossible transfers, source-identity loss and new
+material between daily checks.
+
+**Existing source material can physically deform too:** five scheduled
+coordinated repatterning windows, rather than three late and sparse waves,
+start at checks 12, 79, 148, 219, and 289, with durations 55, 55, 55,
+55, and 66 respectively and at most 10 earned opportunities each. These
+are source-cell relocations with explicit replacement seam daughters, not
+renderer warps; they can correctly do nothing if source geometry, protected
+voids, links, care or resource limits reject the proposal. Source identities
+never transform into species targets or disappear silently.
+
+This mechanism is implemented but **not yet manually confirmed as dramatic
+or legible on mobile Safari**. Even an accepted physical strain does not
+prove the player would find the resulting creature appealing. No automatic
+CI/verification checks were restored.
+
 ### Pigment expression of newly generated tissue
 
 A genuine genetically developed child may have a reproducible, visually
