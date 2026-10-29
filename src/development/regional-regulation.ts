@@ -20,16 +20,18 @@
  * Zero potential contributes zero rate. A blocked selected surface is a null
  * proposal, never converted to a convenient tendril or fabricated anatomy.
  *
- * Permanent anisotropy a=2^[3(l-e)+2(qx-.5)], in [1/16,16];
- * direction angle=2*pi*qy. Live source-linked extents set the metric scale.
- * The current exact chaotic orbit controls expression, not this permanent
- * polarity; randomizing the tensor every day would average out allometry.
+ * Daily allometry uses five seed-fixed 73-check phases with bounded
+ * region-local aspect in [1/8,8]; chronological rest/activity biases actual
+ * expression, not the permanent genome. The available region, not a species
+ * template, determines the physically legal next boundary position.
+ * The earlier single-tensor primitive remains available to mathematical
+ * clients but no longer governs the daily player growth field.
  */
 import type {DevelopmentalChannels} from "../genetics";
 import {CHAOS_MODULUS,type ChaosState} from "./chaos";
 import {hash} from "../simulation/model";
 
-export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v3" as const;
+export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v4" as const;
 /** A new bud receives the square-root material scale of its birth region,
  * rather than being permanently starved as a one-cell birth drawing. The
  * genome, four-credit competition and all material caps remain unchanged. */
