@@ -399,6 +399,7 @@ export function stepIterativeChronology(
   const capacities=new Map(policy.enablePhysicalFields?tissues.map(t=>[t.id,morphologicalVolumeCapacity(
     sourceMass.get(t.id)!,birth.signals.channels.growth.expansion,
     birth.signals.channels.support.membrane)] as const):[]);
+  const birthSelectedKinds=new Map(graph.sourceCells.map(c=>[c.tissueId,c.sourceKind] as const));
   const tensors=new Map(policy.enablePhysicalFields?tissues.map(t=>[t.id,
     developmentalAllometry(
       birth.iterativeSeedFingerprint??birth.fingerprint,t.id,n,
@@ -593,7 +594,11 @@ export function stepIterativeChronology(
               suppressions.push({hour:n,siteId:s.id,kind:"expand",
                 attempted:{x:tip.x,y:tip.y},reason:"genetic-volume-cap"});
             }else{
-              const candidates=rankMorphologicalField(cells,s.tissueId,mode,orbit,24,tensors.get(s.tissueId),policy.developmentalFields?.get(s.tissueId))
+              const tissue=tissuesById.get(s.tissueId);
+              const actualKind=tissue?.developedKind??birthSelectedKinds.get(s.tissueId);
+              const candidates=rankMorphologicalField(cells,s.tissueId,mode,orbit,24,
+                  tensors.get(s.tissueId),policy.developmentalFields?.get(s.tissueId),
+                  actualKind?{kind:actualKind,direction:s.direction}:undefined)
                 .map(candidate=>({candidate,interior:interiorAt(byId.get(candidate.parentId)!,candidate.destination)}))
                 .sort((a,b)=>(b.candidate.score+Number(!!b.interior))-(a.candidate.score+Number(!!a.interior)));
               for(const {candidate,interior} of candidates){
