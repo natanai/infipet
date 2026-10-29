@@ -168,6 +168,21 @@ export function anatomicalContinuityFailure(
         return "drawn-protrusion-buried:" + f.id;
     }
   }
+  // Distinct separately selected anatomical parts cannot collapse onto the
+  // exact same visible support. They may each become very small (vestigial),
+  // but two authored eyes must remain distinguishable from one eye.
+  const semantic = blueprint.features.filter(f =>
+    f.kind && f.kind !== "body" && f.kind !== "decoration" && f.sourcePartId);
+  for (let i = 0; i < semantic.length; i++)
+    for (let j = 0; j < i; j++) {
+      const a = semantic[i], b = semantic[j];
+      if (a.kind !== b.kind) continue;
+      const left = new Set(groups[a.id].map(code));
+      const right = new Set(groups[b.id].map(code));
+      if (![...left].some(k => !right.has(k)) ||
+          ![...right].some(k => !left.has(k)))
+        return "declared-parts-collapsed:" + b.sourcePartId + ":" + a.sourcePartId;
+    }
   for (const b of blueprint.bonds) {
     const a = groups[b.a],
       c = groups[b.b];
