@@ -1,3 +1,8 @@
+/** LEGACY REGIONAL TRANSPORT HELPERS, still used for compatible rendering.
+ * Geometric transforms and inferred motion orientations are not authority
+ * to invent eyes, limbs, other selected PartKinds or new physical matter.
+ * Birth labels come solely from the brush; physical changes come solely
+ * from the journaled 365-check material engine. */
 import { clamp, type Point } from "./model";
 import { geneRandom, type InheritedGenome } from "./genome";
 import { compileMorphogenesis } from "./morphogenesis";
