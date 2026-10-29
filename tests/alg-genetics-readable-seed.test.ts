@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { hash } from "../src/simulation/model";
 import { compileGenome } from "../src/simulation/genome";
+import { createSimulation } from "../src/simulation";
 import { parseSeedInstructions, SEED_ALPHABET, SEED_ROLES,
   compileReadableSeed } from "../src/genetics/seed-language";
 import { chooseAuthoredReference } from "../src/lineage/authored-neighbor";
@@ -113,4 +114,36 @@ test("[PHY-004/A10] care cannot change birth genetics; only independently record
     365,first.signals);
   assert.deepEqual(nullGrowth.cells,first.source.cells);
   assert.deepEqual(second.seedLanguage,first.seedLanguage);
+});
+
+
+test("[PHY-004/A11] real daily-generated genetic tissues appear as their actual visible roles, not source-Body paint", () => {
+  const original = drawing(["###", "###", "###"], "body");
+  const sim = createSimulation(original, "12E12L7R", "infant", {
+    previewCare: {kind:"synthetic-needs-lab-v1",nutrition:0.95,timeline:[]},
+    reuseLivingMaterial:false,
+  });
+  const adult = sim.materialStateAt(365).graph;
+  const active = new Set(adult.cells.map(c=>c.tissueId));
+  const differentiated = adult.tissues.filter(t=>t.developedKind&&active.has(t.id));
+  assert.ok(differentiated.length>0,
+    "high-potential source must realize a physical specialized child at full care");
+  const physicalFrame=sim.frameAt(365,{time:0,action:"idle"});
+  for (const tissue of differentiated) {
+    const part=physicalFrame.parts.find(p=>p.id==="material-growth/"+tissue.id);
+    assert.ok(part,"every physical differentiated tissue must have a displayed part");
+    assert.equal(part.kind,tissue.developedKind,
+      "the renderer must expose the developed kind, not the original Body");
+    assert.equal(part.role,tissue.developedKind);
+    assert.equal(part.provenance,"grown");
+    assert.ok(part.pixels.length>0,"no metadata-only specialist organs");
+    assert.deepEqual(part.sourcePartIds,[tissue.sourcePartId]);
+    assert.ok(part.pixels.every(p=>p.materialCellId &&
+      adult.cells.some(c=>c.id===p.materialCellId&&c.tissueId===tissue.id)));
+  }
+  const birth=sim.frameAt(0,{time:0,action:"idle"});
+  assert.ok(birth.parts.filter(p=>p.provenance==="authored")
+    .every(p=>p.kind==="body"),
+    "new genetics must never relabel source pixels at birth");
+  assert.deepEqual(sim.materialStateAt(365).graph,adult);
 });
