@@ -22,7 +22,7 @@ const typed = (kind: PartKind, id: string, x: number, y: number): PetPart => ({
   pixels: [{ x, y, color: "#AAAAAA" }],
 });
 
-test("[AUTHORED/A1] default and unselected monochrome geometry never invent anatomy", () => {
+test("[PHY-004/A1] default and unselected monochrome geometry never invent anatomy", () => {
   for (const rows of [
     ["#####", "#.#.#", "#####", "#...#", "#####"],
     ["#.#.#", ".###.", "#.#.#", ".#.#."],
@@ -43,7 +43,7 @@ test("[AUTHORED/A1] default and unselected monochrome geometry never invent anat
     "geometric extrema must not become implicitly protected appendages");
 });
 
-test("[AUTHORED/A2] selected anatomical labels are immutable even under geometry changes", () => {
+test("[PHY-004/A2] selected anatomical labels are immutable even under geometry changes", () => {
   const kinds: PartKind[] = ["body", "eye", "eye", "wing", "horn"];
   const near = kinds.map((kind, i) => typed(kind, "part-" + i, 7 + i, 8));
   const far = kinds.map((kind, i) => typed(kind, "part-" + i, i * 5, 28 - i * 5));
@@ -60,7 +60,7 @@ test("[AUTHORED/A2] selected anatomical labels are immutable even under geometry
   }
 });
 
-test("[AUTHORED/A3] multiple separately drawn eyes remain separate authored parts", () => {
+test("[PHY-004/A3] multiple separately drawn eyes remain separate authored parts", () => {
   // A filled body avoids confusing legitimate authored eye overlays with a
   // separate protected empty cavity in this semantic-count witness.
   let parts = drawing(Array.from({ length: 12 }, () => "############"), "body");
@@ -77,7 +77,7 @@ test("[AUTHORED/A3] multiple separately drawn eyes remain separate authored part
     /drawn-feature-lost/);
 });
 
-test("[AUTHORED/A4] near-looking marks never acquire parents or change selected kind", () => {
+test("[PHY-004/A4] near-looking marks never acquire parents or change selected kind", () => {
   const parts = inferAnatomy([
     typed("body", "body", 5, 5),
     typed("eye", "eye", 5, 6),
@@ -88,7 +88,7 @@ test("[AUTHORED/A4] near-looking marks never acquire parents or change selected 
     "unsupported semantic parent guessing must not occur");
 });
 
-test("[AUTHORED/A5] unlabeled blobs are seed-resolved, fantasy branches are real game references", () => {
+test("[PHY-004/A5] unlabeled blobs are seed-resolved, fantasy branches are real game references", () => {
   const paths = createPhylogenyView(FANTASY_PATHS);
   assert.deepEqual(paths.validate(), []);
   const parts = drawing(["####", "####", "####", "####"], "body");
