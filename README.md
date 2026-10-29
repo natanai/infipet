@@ -60,6 +60,25 @@ A visually dramatic transformation without physical provenance is not
 acceptable, but neither is a mathematically safe engine that only produces
 thin tendrils or cosmetic thickness.
 
+## Prototype developmental behavior
+
+The currently drafted physical model introduces genetic specialization during
+**early care**, rather than waiting approximately four months before trying
+to produce an organ. The earliest accepted genetic bud can begin at daily
+check 5; later opportunities are distributed across the year. Different
+accepted letters can lead to different kinds of actual attached, connected
+tissue. Generated eyes, mouths, wings and limbs can gain several cells in a
+single lawful daily operation, instead of growing as one-pixel tendrils.
+The whole organism remains source-owned; the player-authored part colors
+are not overwritten, and only genuine new genetically developed tissue
+receives an inheritable contrasting pigment.
+
+This is still an **experimental draft, not a demonstrated fun or visually
+convincing virtual pet**. More coherent whole-body restructuring and
+care-game feedback are priorities. These changes are not live until merged
+and published. No automatic CI, browser or numerical qualification workflows
+run while the prototype is being made playable.
+
 ## Player experience
 
 Normal play includes drawing, **Begin life**, feeding, cleaning, sleep,
