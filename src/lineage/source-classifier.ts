@@ -6,7 +6,8 @@ import type { PhylogenyView } from "../phylogeny";
 import { inferInkMorphology, type InkMorphology } from "./ink-signature";
 
 /**
- * Morphological affinities are hypotheses, not taxonomic placements.
+ * Semantic brush-based affinity hints are uncertain game diagnostics,
+ * never pixel-derived morphology or taxonomic placements.
  * In particular, "plant" and "fungus" are supported even without the
  * multi-kingdom source tree; no fictitious or unsourced taxon IDs are emitted.
  */
@@ -15,7 +16,7 @@ export type ObservedFeature = "brush:declared" | "brush:unspecified";
 
 export type AffinityEvidence = Readonly<{
   feature: ObservedFeature;
-  /** Dimensionless 0..1 from the drawing, not player-authored anatomical labels. */
+  /** Dimensionless 0..1 from EXPLICIT authored brush labels, never pixel geometry. */
   measured: number;
   /** Heuristic scoring weight, not a statistically estimated likelihood. */
   weight: number;
