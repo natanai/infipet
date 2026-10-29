@@ -3,7 +3,7 @@
 This is the short technical entrypoint for the **current single-pet game**.
 [roadmap/plan.json](../roadmap/plan.json) is the machine-readable task register;
 [AGENTS.md](../AGENTS.md) supplies agent-specific invariants. Read these **before**
-historical research or compatibility modules. A passing historical benchmark,
+historical research or retired engine modules. A passing historical benchmark,
 a dated integration note, an old pull request, or a legacy API is not evidence
 that a retired behavior is active or approved.
 
@@ -43,7 +43,7 @@ that a retired behavior is active or approved.
    - Gene targets are *potential*, not a license to paint fake anatomy.
    - No new chaos should be introduced until the deterministic, legible engine
      is functioning and independently qualified. Retained chaotic primitives
-     are historical compatibility/numerical code; their existence does not
+     are historical numerical code slated for removal when no longer imported; their existence does not
      override this design direction.
 6. A pet's lifetime development is *ontogeny*, not breeding, offspring,
    species replacement, generational selection or literal phylogenetic ancestry
@@ -81,20 +81,33 @@ permanent genes, and earlier care may never be silently replaced.
 | Current material source and replay audit | `src/development/anatomical-audit.ts`, `src/development/spatial-inventory.ts`, `src/development/material-journal.ts` |
 | Player UI, pose and display | `App.tsx`, `src/simulation/growth.ts`; pose cannot author physical cells |
 
-**Compatibility warning:** `src/simulation/development.ts`,
+**Refactoring target, not a backward-compatibility contract:** `src/simulation/development.ts`,
 `src/simulation/metamorphosis.ts`, `src/simulation/regional-layout.ts`,
-`src/simulation/morphogenesis.ts` and related modules retain some old
-mathematical/pose/metadata responsibilities **and are currently imported**.
-Their historic continuous warps, stage days and image-space silhouettes are
-NOT independently authorized to create physical anatomy. Do not delete
-imported compatibility modules without call-graph and test proof; do not
-use them as a competing production growth engine.
+`src/simulation/morphogenesis.ts` and related modules currently contribute some old pose/metadata mathematics
+and **are still imported by the active renderer**. This is technical debt,
+NOT an excuse to preserve the old engine or accommodate nonexistent old saves.
+Refactor their current responsibilities into the deterministic material and
+presentation system and delete the unused remainder after live-import and
+focused-test verification. Historic continuous warps, stage days and
+image-space silhouettes are NOT authorized to create physical anatomy.
 
 The 36 retro drawings and historical morphology investigations are
 **research fixtures only**, never runtime targets. The original sprites,
 historical stage measurements and approved snapshots must not select creature
 destinations. See [morphology/README.md](morphology/README.md) for historical
 recovery only.
+
+## No unreleased compatibility requirement
+
+Infipet has not released. **There are no existing player pets to migrate.**
+Do not implement legacy pet recovery, read-only older-life screens, old growth
+clocks, old identity bridges or hypothetical save-version migrations. Only the
+current prototype file format is supported. A corrupt or obsolete import is
+rejected clearly rather than reinterpreted; successful current-format saves
+still require exact replay, checksum validation and reliable export/import.
+Old source files may be deleted once current usages are removed and the
+mathematical contracts are independently verified. Git history preserves
+research without shipping it as a parallel engine.
 
 ## Release gate and honest qualification
 
@@ -121,7 +134,8 @@ progression, 30-day lifespans, continuous/hourly anatomical mutations,
 inferred limbs from protrusions, or legacy operator delta loops as the
 player's development clock. Such references were intentionally removed from
 active documents and tests but may remain in git history and low-level
-compatibility code for independent mathematical replay.
+historical git history and diagnostic fixtures; no runtime backward-compatibility
+requirements exist for the unreleased prototype.
 
 The task register records any current implementation gaps. **Do not convert a
 documented design requirement into a claim that the game already satisfies
