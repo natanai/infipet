@@ -420,14 +420,16 @@ export function compileMaterialDevelopment(
       strength: signals.channels.support.rigidity,
       chaos: chaosFor(reinforceId) });
   }
-  if (seedLanguage && source.tissues.length <= 12) {
-    // Up to six typed differentiations on one ordinary small organism. The
-    // complete genetic potential remains available, but finite material,
-    // site count and care determine what can actually be expressed.
-    // This is a scheduling rule, NOT a pre-drawn anatomy generator.
-    const carrier = ordered.find(t =>
-      source.sourceCells.some(c => c.tissueId === t.id && c.sourceKind === "body"))
-      ?? ordered[0];
+  if (seedLanguage) {
+    // Every valid drawing, including multi-part creatures, retains seeded
+    // differentiation. Do not arbitrarily disable genes when the user drew
+    // more than twelve source tissues. Finite operator and physical budgets
+    // still bound expression; morphology must remain source-owned.
+    const bodyTissues=source.tissues.filter(t=>
+      source.sourceCells.some(c=>c.tissueId===t.id&&c.sourceKind==="body"))
+      .sort((a,b)=>b.sourceCellIds.length-a.sourceCellIds.length||
+        compareText(a.id,b.id));
+    const carrier=bodyTissues[0]??ordered[0];
     const site = carrier?.growthSiteIds[0];
     if (carrier && site) {
       const budget=Math.min(6,Math.floor((MATERIAL_LIMITS.operators-operations.length)/2));
