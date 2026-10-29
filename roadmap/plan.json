@@ -2628,6 +2628,16 @@
           "id": "A10",
           "requirement": "Exactly identical drawing, seed, tree reference and chronological care yield a fully deterministic physical outcome; modifying care affects expression but never rerolls the permanent genetic blueprint. Existing chaotic systems are not newly required for the readable-seed path.",
           "oracle": "focused-node-test"
+        },
+        {
+          "id": "A11",
+          "requirement": "Actual 365-day generated genetic tissues display their physically differentiated PartKind to the player with one-to-one material-to-pixel provenance; authored Body cells remain Body. A proposed gene ticket without created live tissue never appears as an organ.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A12",
+          "requirement": "A one-cell Body source samples uniformly among the represented animal, plant, fungus, explicitly fictional and other scientific domains before sampling a node. Independent bounded hash arithmetic reproduces every domain and node choice; all scientific/fictional nodes remain candidates and geometry has zero semantic influence.",
+          "oracle": "focused-node-test"
         }
       ],
       "verification": {
@@ -2652,7 +2662,12 @@
         "src/development/operators.ts",
         "src/development/operator-chronology.ts",
         "tests/alg-genetics-readable-seed.test.ts",
-        ".github/workflows/authored-anatomy.yml"
+        ".github/workflows/authored-anatomy.yml",
+        "src/simulation/growth.ts",
+        "src/lineage/index.ts",
+        "src/pet-format.ts",
+        "src/storage.ts",
+        "tests/alg-integration-runtime.test.ts"
       ],
       "interfaceContract": {
         "inputs": [
@@ -2676,7 +2691,7 @@
           "rewrite past save histories"
         ]
       },
-      "releaseGate": "Draft only until independent source/semantic tests, baseline morphology/physical audits, current-format save/reload parity, full year non-tendril qualification, and mobile review pass. Test full daily time and care counterfactual parity, independent replay, zero-resource null, performance and deterministic current-genetics replay before merger."
+      "releaseGate": "Draft only until independent source/semantic tests, baseline morphology/physical audits, current-format save/reload parity, full year non-tendril qualification, and real mobile review pass. Test full daily time and care counterfactual parity, independent replay, zero-resource null, performance and deterministic current-genetics replay before merger."
     }
   ],
   "algorithms": [
@@ -3211,6 +3226,7 @@
     "legacyMigration": "forbidden",
     "oldLifeReadOnlyMode": "removed",
     "rule": "There are no existing released player pets. Reject retired/old pet formats; do not preserve old growth engines or compatibility migrations. A current-format pet still needs exact save/replay, safe reload, and player-approved replacement.",
-    "retirementGate": "Prove current imports, explicit 365-day physical invariants, deterministic seed, functional gameplay and complete regression/performance gates before deleting an imported old module. Historical experiments remain accessible in git history, not as live engine obligations."
+    "retirementGate": "Prove current imports, explicit 365-day physical invariants, deterministic seed, functional gameplay and complete regression/performance gates before deleting an imported old module. Historical experiments remain accessible in git history, not as live engine obligations.",
+    "currentImplementation": "Unreleased current-only input and pet storage; old-format recovery/archival UI and compatibility helpers removed in draft PR #55. Rendering of physically differentiated child tissues respects developedKind; imported historical renderer remains a refactoring target, not a saved-pet obligation."
   }
 }
