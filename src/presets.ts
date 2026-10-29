@@ -6,6 +6,13 @@ import {PRESET_COLORS} from "./palette";
  * species destinations or hidden evolution templates. Design vocabulary is
  * broadly retro virtual-pet / handheld-monster, with no copied silhouettes.
  * All ink belongs to the player's normal 12-color brush palette.
+ *
+ * A starter's stable seed is a NORMAL readable-seed-v1 genetic script:
+ * decimal tickets immediately before A-Z gene letters, with no mascot name,
+ * hidden special case or optimized preset outcome encoded. The exact same
+ * compiler, fixed seed roll, chronological care and source-owned physiology
+ * are used for hand-drawn pets. Players can edit the seed after loading.
+ * These fixed examples are NOT preverified adult forms or hardcoded evolutions.
  */
 export type StarterPreset=Readonly<{
  id:string;seed:string;description:string;parts:PetPart[];
@@ -30,7 +37,7 @@ function build(parts:readonly Ink[]):PetPart[]{
 const designs:ReadonlyArray<Readonly<{
  id:string;seed:string;description:string;ink:readonly Ink[];
 }>>=[
- {id:"pippo",seed:"STARTER-PIPPO-2026",description:"Round body, two broad ears and tiny feet",ink:[
+ {id:"pippo",seed:"2W2F2TBGQZ",description:"Round body, two broad ears and tiny feet",ink:[
   {id:"body",kind:"body",x:9,y:11,rows:[
    "....mmmmmmmm....","..mmllllllllmm..",".mmllwwwwwwllmm.","mmllwwwwwwwwllmm",
    "mllwwwwwwwwwwllm","mllwwwwwwwwwwllm","mllwwwwwwwwwwllm",
@@ -39,9 +46,12 @@ const designs:ReadonlyArray<Readonly<{
   {id:"ear-left",kind:"ear",x:8,y:5,rows:["..mmmm..",".mllllm.","mllllllm","mllllllm",".mllllm.","..mmmm.."]},
   {id:"ear-right",kind:"ear",x:19,y:5,rows:["..mmmm..",".mllllm.","mllllllm","mllllllm",".mllllm.","..mmmm.."]},
   {id:"feet",kind:"leg",x:12,y:21,rows:["mmm...mmm","mmmm.mmmm"]},
-  {id:"face",kind:"decoration",x:13,y:15,rows:["k...k",".q.q.","..k.."]},
+  {id:"eye-left",kind:"eye",x:13,y:15,rows:["k"]},
+  {id:"eye-right",kind:"eye",x:17,y:15,rows:["k"]},
+  {id:"cheeks",kind:"decoration",x:14,y:16,rows:["q.q"]},
+  {id:"mouth",kind:"mouth",x:15,y:17,rows:["k"]},
  ]},
- {id:"brumby",seed:"STARTER-BRUMBY-2026",description:"A low armored quadruped with strong feet",ink:[
+ {id:"brumby",seed:"2H3W2AGKRZ",description:"A low armored quadruped with strong feet",ink:[
   {id:"body",kind:"body",x:6,y:12,rows:[
    "...sssssssssss....",".ssdddddddddddss..","ssddooooooooooddss",
    "sdooddddddddddooods","sdoooooooooooooods","ssddooooooooooddss",
@@ -51,7 +61,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"tail",kind:"tail",x:3,y:14,rows:["..sss","ssss.","sss.."]},
   {id:"eye",kind:"eye",x:25,y:14,rows:["k"] ,parentId:"head"},
  ]},
- {id:"glim",seed:"STARTER-GLIM-2026",description:"A soft floating bell with four rounded arms",ink:[
+ {id:"glim",seed:"2T3I2LBGYZ",description:"A soft floating bell with four rounded arms",ink:[
   {id:"body",kind:"body",x:9,y:6,rows:[
    ".....ccccc.....","...ccccccccc...","..ccwwwwwwwcc..",".ccwwwwwwwwwcc.",
    "ccwwwwwwwwwwwcc","ccwwwwwwwwwwwcc","ccwwwwwwwwwwwcc",
@@ -63,7 +73,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"eyes",kind:"eye",x:13,y:11,rows:["k....k","k....k"]},
   {id:"mouth",kind:"mouth",x:15,y:15,rows:["kk"]},
  ]},
- {id:"thimbleaf",seed:"STARTER-THIMBLEAF-2026",description:"A leafy crest above a rounded seed body",ink:[
+ {id:"thimbleaf",seed:"2C3H2FBGRZ",description:"A leafy crest above a rounded seed body",ink:[
   {id:"body",kind:"body",x:11,y:14,rows:[
    "...gggggg...","..ggllllgg..",".ggllllllgg.","ggllllllllgg",
    "ggllllllllgg",".ggllllllgg.","..ggllllgg..","...gggggg..."]},
@@ -72,7 +82,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"roots",kind:"leg",x:11,y:22,rows:["gg...gggg","gg...gggg","gg...gggg"]},
   {id:"eyes",kind:"eye",x:14,y:17,rows:["k...k"]},
  ]},
- {id:"vellune",seed:"STARTER-VELLUNE-2026",description:"A diamond-winged glider with a narrow core",ink:[
+ {id:"vellune",seed:"3L2I2FSGQZ",description:"A diamond-winged glider with a narrow core",ink:[
   {id:"body",kind:"body",x:13,y:9,rows:[
    "..pppp..",".ppwwpp.","ppwwwwpp","ppwwwwpp","ppwwwwpp",
    ".ppwwpp.","..pppp..","..pppp..","..pppp.."]},
@@ -85,7 +95,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"tail",kind:"tail",x:15,y:18,rows:["pp","pp","pp","pp","pp","pp"]},
   {id:"eye",kind:"eye",x:16,y:12,rows:["k"]},
  ]},
- {id:"craggle",seed:"STARTER-CRAGGLE-2026",description:"A compact segmented shell with sturdy joints",ink:[
+ {id:"craggle",seed:"2W3T2MDKRZ",description:"A compact segmented shell with sturdy joints",ink:[
   {id:"body",kind:"body",x:9,y:11,rows:[
    "....ssssss....","..ssmmmmmmss..",".ssmllllllmss.","ssmllooooollmss",
    "smlloooooo llms".replace(" ",""),"smllooooooollms",
@@ -96,7 +106,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"eyes",kind:"eye",x:15,y:8,rows:["k..k"],parentId:"head"},
   {id:"seam",kind:"decoration",x:15,y:14,rows:["kk","kk","kk","kk"]},
  ]},
- {id:"nibblet",seed:"STARTER-NIBBLET-2026",description:"A broad-headed biped with mobile antennae",ink:[
+ {id:"nibblet",seed:"3W2F2TBGRZ",description:"A broad-headed biped with mobile antennae",ink:[
   {id:"body",kind:"body",x:11,y:13,rows:["..rrrrrr..",".rrqqqqrr.","rrqqqqqqrr","rrqqqqqqrr","rrqqqqqqrr",".rrqqqqrr.","..rrrrrr.."]},
   {id:"head",kind:"head",x:10,y:6,rows:["..rrrrrrrr..",".rrqqqqqqrr.","rrqqqqqqqqrr","rrqqqqqqqqrr","rrqqqqqqqqrr",".rrqqqqqqrr.","..rrrrrrrr.."]},
   {id:"antenna-left",kind:"horn",x:10,y:3,rows:["rrrr.","rrrr.","..rr."]},
@@ -107,7 +117,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"leg-right",kind:"leg",x:19,y:20,rows:["rrr","rrr","rrrr"]},
   {id:"eyes",kind:"eye",x:14,y:9,rows:["k....k"] ,parentId:"head"},
  ]},
- {id:"orbini",seed:"STARTER-ORBINI-2026",description:"A hollow ring organism with trailing fins",ink:[
+ {id:"orbini",seed:"2L3H2CUGQZ",description:"A hollow ring organism with trailing fins",ink:[
   {id:"body",kind:"body",x:7,y:8,rows:[
    "......cccc......","....cccccccc....","..ccc......ccc..",
    ".ccc..........ccc","ccc............ccc","ccc............ccc",
@@ -120,7 +130,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"eye-right",kind:"eye",x:19,y:13,rows:["ww","ww"]},
   {id:"mouth",kind:"mouth",x:15,y:18,rows:["ww"]},
  ]},
- {id:"spoori",seed:"STARTER-SPOORI-2026",description:"A wide fungal cap over a sturdy short stalk",ink:[
+ {id:"spoori",seed:"3W2T2FGYZ",description:"A wide fungal cap over a sturdy short stalk",ink:[
   {id:"body",kind:"body",x:13,y:15,rows:["..oooo..",".oolloo.","oolllloo","oolllloo","oolllloo",".oolloo.","..oooo..","..oooo.."]},
   {id:"cap",kind:"head",x:6,y:6,rows:[
    "......qqqqqq......","....qqqqqqqqqq....","..qqqqqqqqqqqqqq..",
@@ -130,7 +140,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"feet",kind:"leg",x:11,y:22,rows:["oooo...oooo","oooo...oooo"]},
   {id:"eyes",kind:"eye",x:15,y:17,rows:["k...k"]},
  ]},
- {id:"tukkin",seed:"STARTER-TUKKIN-2026",description:"A round owl-like creature with broad horns",ink:[
+ {id:"tukkin",seed:"2I2A3TBRQZ",description:"A round owl-like creature with broad horns",ink:[
   {id:"body",kind:"body",x:9,y:10,rows:[
    "...gggggggg...","..ggllllllgg..",".ggllllllllgg.","ggllllllllllgg",
    "ggllllllllllgg","ggllllllllllgg","ggllllllllllgg",
@@ -143,7 +153,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"eyes",kind:"eye",x:13,y:13,rows:["kk....kk","kk....kk"]},
   {id:"beak",kind:"mouth",x:16,y:17,rows:["oo","oo"]},
  ]},
- {id:"flinta",seed:"STARTER-FLINTA-2026",description:"A long curved body with fins and a heavy head",ink:[
+ {id:"flinta",seed:"3A2H2CBGZ",description:"A long curved body with fins and a heavy head",ink:[
   {id:"body",kind:"body",x:6,y:12,rows:[
    "...pppppppp......",".ppwwwwwwwwpp....","ppwwwwwwwwwwpp...",
    "ppwwwwwwwwwwwpp..",".ppwwwwwwwwwwpp.","..ppwwwwwwwwwwpp",
@@ -154,7 +164,7 @@ const designs:ReadonlyArray<Readonly<{
   {id:"legs",kind:"leg",x:11,y:20,rows:["pppp...pppp","pppp...pppp"]},
   {id:"eye",kind:"eye",x:24,y:11,rows:["k"] ,parentId:"head"},
  ]},
- {id:"vespri",seed:"STARTER-VESPRI-2026",description:"A small core with four distinct rounded wings",ink:[
+ {id:"vespri",seed:"2L3T2IMGRZ",description:"A small core with four distinct rounded wings",ink:[
   {id:"body",kind:"body",x:14,y:10,rows:["..qqqq..",".qqwwqq.","qqwwwwqq","qqwwwwqq","qqwwwwqq","qqwwwwqq",".qqwwqq.","..qqqq..","..qqqq.."]},
   {id:"upper-left",kind:"wing",x:3,y:4,rows:[
    "......ppp..","....pppppp.","..ppppppppp","ppppppppppp",
