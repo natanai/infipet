@@ -90,6 +90,22 @@ export function materialOperatorPotential(kind: MaterialOperatorKind, signal: De
   return clamp((0.3 + 0.5 * operator.potential + 0.2 * supplement) * hint, 0.1, 1.5);
 }
 
+/**
+ * A reproducibly accepted seed ticket is itself permanent developmental
+ * competence, independent of the older random latent appendage channel.
+ * This only raises the potential of an ALREADY AUTHORIZED gene operation:
+ * no gene, no exception. It does NOT force any physical result without a
+ * lawful source-grown transaction, positive care and available material.
+ */
+export function scheduledOperatorPotential(
+  op: MaterialOperator, signal: DevelopmentGeneticSignals,
+): number {
+  const inherited = materialOperatorPotential(op.kind, signal);
+  return op.geneticInstructionId &&
+    (op.kind === "bud" || op.kind === "expand") &&
+    op.developedKind ? Math.max(0.9, inherited) : inherited;
+}
+
 export function createOperatorMaterialCell(
   operation: MaterialOperator, tissueId: string, x: number, y: number,
   parents: readonly MaterialCell[],
@@ -196,7 +212,7 @@ export function applyMaterialOperators(
     const grownFraction = op.chaos
       ? chaoticProgress(op.chaos, op.atHour, op.durationHours, atHour)
       : completion;
-    const effect = op.strength * grownFraction * materialOperatorPotential(op.kind, signals);
+    const effect = op.strength * grownFraction * scheduledOperatorPotential(op, signals);
     if (effect <= 0) continue;
     const before = new Set(cells.map(c => c.id));
     const removed: string[] = [];
