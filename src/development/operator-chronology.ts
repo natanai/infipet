@@ -34,9 +34,7 @@ import {growthSupportDistance} from "./material-support";
  * No PRNG draws, no rerolled chaotic initial states, no species targets.
  */
 import { compareText, type Point } from "../simulation/model";
-import { grownMaterialCells } from "../simulation/material-growth";
 import { createSpecializationRank } from "./specialization-front";
-import type { Tissue } from "../simulation/material";
 import {
   chaoticTurn, chaoticProgress, chaosAt,
   CHAOS_MAX_TICK, CHAOS_MODULUS, validateMaterialChaos,
@@ -422,37 +420,42 @@ function physicalUnit(
       rigidityOnly=true;
     }else{
       const material=remaining(graph,tissue.id);
-      const faux={cells:material.map(c=>({x:c.x,y:c.y,color:c.color,
-        ...(c.z===undefined?{}:{z:c.z})}))} as Tissue;
-      // The semantic kind comes ONLY from the player's original brush or a
-      // genuinely created, genetically authorized child tissue. Geometry
-      // does not name or classify anatomy. The scorer only orders spatial
-      // opportunities; the same material journal decides what can exist.
+      // A physical specialization needs tissue area, not just a one-pixel
+      // label. One earned expansion quantum can form a bounded connected patch:
+      // every individual cell is attached to a live parent and enters the
+      // SAME atomic chronological journal.
       const sourceKind=graph.sourceCells.find(c=>c.tissueId===tissue.id)?.sourceKind;
-      const specializedKind=tissue.developedKind??sourceKind??"body";
-      const rank=createSpecializationRank(specializedKind,material,
-        op.direction??site?.direction??{x:0,y:-1});
-      // Evaluate the EXISTING source-grown exterior candidates, with biomechanic
-      // preference for actual wings, eyes, legs, etc. Body growth stays generic.
-      const field=grownMaterialCells(faux,1.5,2)
-        // A distance band can contain cells TWO lattice steps away. An
-        // incremental quantum must choose a LIVE adjacent boundary cell,
-        // otherwise it would insert a disconnected anatomical island.
-        .filter(p=>!material.some(c=>xy(c)===xy(p)) &&
-          material.some(c=>touching(c,p)))
-        .sort((a,b)=>
-          (rank ? rank(a)-rank(b) : 0) ||
-          Math.min(...material.map(c=>sq(c,a)))-
-          Math.min(...material.map(c=>sq(c,b))) ||
-          a.y-b.y||a.x-b.x);
+      const kind=tissue.developedKind??sourceKind??"body";
+      const selected=kind!=="body"&&kind!=="decoration";
+      const budget=tissue.developedKind?
+        (["wing","foot","ear","mouth"].includes(kind)?5:4):
+        selected?3:1;
       let reason:MaterialOperatorReason="no-boundary",chosen=false;
-      for(const candidate of field) {
-        const parent=[...material].sort((a,b)=>sq(a,candidate)-sq(b,candidate) ||
-          cellOrder(a,b))[0];
-        if(!parent)break;
-        const problem=deposit(tissue.id,candidate,[parent]);
-        if(problem){reason=problem;continue;}
-        chosen=true;break;
+      for(let quantum=0;quantum<budget;quantum++){
+        const live=[...material,...newCells];
+        const occupied=new Set(live.map(xy));
+        const frontier=new Map<string,Point>();
+        for(const cell of live){
+          for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+            if(!dx&&!dy)continue;
+            const at={x:cell.x+dx,y:cell.y+dy};
+            if(!occupied.has(xy(at)))frontier.set(xy(at),at);
+          }
+        }
+        const rank=createSpecializationRank(kind,live,
+          op.direction??site?.direction??{x:0,y:-1});
+        const candidates=[...frontier.values()].sort((a,b)=>
+          (rank?rank(a)-rank(b):0)||a.y-b.y||a.x-b.x);
+        let placed=false;
+        for(const candidate of candidates){
+          const parent=live.filter(c=>touching(c,candidate)).sort(
+            (a,b)=>sq(a,candidate)-sq(b,candidate)||cellOrder(a,b))[0];
+          if(!parent)continue;
+          const problem=deposit(tissue.id,candidate,[parent]);
+          if(problem){reason=problem;continue;}
+          chosen=true;placed=true;break;
+        }
+        if(!placed)break;
       }
       if(!chosen)return fail(reason);
     }
