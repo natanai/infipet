@@ -2,6 +2,7 @@ import "./alg-interface-morphology-workbench.test";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { STARTER_PRESETS, clonePreset } from "../src/presets";
+import { parseSeedInstructions } from "../src/genetics/seed-language";
 import { PRESET_COLORS } from "../src/palette";
 import { PART_KINDS, DRAW_SIZE } from "../src/simulation";
 import { birthPlayerLife } from "../src/integration/player-lifecycle";
@@ -13,18 +14,18 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
   assert.deepEqual(
     STARTER_PRESETS.map((p) => [p.id, p.seed]),
     [
-      ["pippo", "STARTER-PIPPO-2026"],
-      ["brumby", "STARTER-BRUMBY-2026"],
-      ["glim", "STARTER-GLIM-2026"],
-      ["thimbleaf", "STARTER-THIMBLEAF-2026"],
-      ["vellune", "STARTER-VELLUNE-2026"],
-      ["craggle", "STARTER-CRAGGLE-2026"],
-      ["nibblet", "STARTER-NIBBLET-2026"],
-      ["orbini", "STARTER-ORBINI-2026"],
-      ["spoori", "STARTER-SPOORI-2026"],
-      ["tukkin", "STARTER-TUKKIN-2026"],
-      ["flinta", "STARTER-FLINTA-2026"],
-      ["vespri", "STARTER-VESPRI-2026"],
+      ["pippo", "2W2F2TBGQZ"],
+      ["brumby", "2H3W2AGKRZ"],
+      ["glim", "2T3I2LBGYZ"],
+      ["thimbleaf", "2C3H2FBGRZ"],
+      ["vellune", "3L2I2FSGQZ"],
+      ["craggle", "2W3T2MDKRZ"],
+      ["nibblet", "3W2F2TBGRZ"],
+      ["orbini", "2L3H2CUGQZ"],
+      ["spoori", "3W2T2FGYZ"],
+      ["tukkin", "2I2A3TBRQZ"],
+      ["flinta", "3A2H2CBGZ"],
+      ["vespri", "2L3T2IMGRZ"],
     ],
   );
   assert.deepEqual(PRESET_COLORS, [
@@ -41,6 +42,21 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
     "#E8B56C",
     "#DA8E9F",
   ]);
+  // Existing manual test remains valuable without reinstating automated CI:
+  // every stable starter seed must be genuinely readable genetic vocabulary.
+  const seeds=new Set<string>();
+  for(const preset of STARTER_PRESETS){
+    assert.match(preset.seed,/^(?:[0-9]{0,2}[A-Z])+$/);
+    const parsed=parseSeedInstructions(preset.seed);
+    assert.equal(parsed.instructions.map(g=>g.source).join(""),preset.seed,
+      "the whole preset seed, not its mascot ID, is readable genetics");
+    assert.ok(parsed.instructions.some(g=>g.role!==null&&g.tickets>=2),
+      "starter provides explicit anatomical opportunities, not just identifier letters");
+    assert.ok(parsed.instructions.some(g=>g.process!==null),
+      "starter includes ordinary process genes");
+    assert.ok(!seeds.has(preset.seed),"distinct starter drawings have stable distinct scripts");
+    seeds.add(preset.seed);
+  }
   const drawnSignatures = new Set<string>();
   const dimensions = new Set<string>();
   const allKinds = new Set<string>();
