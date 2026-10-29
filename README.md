@@ -40,8 +40,8 @@ chronological care, the organism develops exactly the same way in every
 replay. Care can change what gets expressed but does not reroll the seed or
 rewrite the past. **New chaotic equations are postponed** until the
 deterministic system demonstrably supports varied, coherent transformations.
-Older chaotic numerical primitives remain for compatibility, not as the
-new seed language.
+Historical chaotic primitives are not a compatibility obligation and may
+be removed or replaced. They never supply the readable seed's hidden meanings.
 
 ## How time and care work
 
@@ -78,10 +78,10 @@ outdated layout. In particular, the intended startup is the drawing pad,
 with developer fixtures kept secondary.
 
 Saves are automatic. The app supports portable JSON export and import
-through the player menu. Older-format lives and their original timestamps
-are preserved read-only with recovery backups rather than being assigned
-fabricated past development; a new life starts only after explicit
-replacement. Do not clear website storage without first exporting a pet.
+through the player menu. This game is **unreleased** and supports only its current prototype save
+format. Old prototype files are rejected, not migrated or kept read-only.
+A current pet can still be exported and imported, and replacing the current
+pet remains an explicit player action. Export before clearing browser storage.
 
 ## Local development
 
@@ -142,7 +142,8 @@ its remaining qualification checks succeed.
 The older continuous silhouette compositor, 30/75/120-day stage timings,
 8,192-hour growth horizon, automatic face/appendage geometry inference and
 hourly operator-exposure examples **do not define the production rules**.
-Some legacy modules are still imported for derived pose and compatibility.
-Removing them requires proof that neither live imports nor saved-pet
-reconstruction need them. Historical reference drawings and experiments
+Some historical modules are still imported by current pose/render paths and
+must be **refactored out**, not retained for backward compatibility. Removal
+requires proving the current renderer and deterministic physical ledger work
+without them; no unreleased save migration is required. Historical reference drawings and experiments
 must never become fixed creature destinations or genetic lookup sprites.
