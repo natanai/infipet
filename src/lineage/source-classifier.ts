@@ -11,10 +11,7 @@ import { inferInkMorphology, type InkMorphology } from "./ink-signature";
  * multi-kingdom source tree; no fictitious or unsourced taxon IDs are emitted.
  */
 export type BiologicalAffinity = "animal" | "plant" | "fungus" | "unresolved";
-export type ObservedFeature =
-  | "bilateralSymmetry" | "radialOrganization" | "elongation"
-  | "branching" | "repeatedAppendages" | "cavities"
-  | "detachment" | "attachment" | "scarceInk";
+export type ObservedFeature = "brush:declared" | "brush:unspecified";
 
 export type AffinityEvidence = Readonly<{
   feature: ObservedFeature;
@@ -142,92 +139,6 @@ const affinities: readonly BiologicalAffinity[] = [
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
 const round = (n: number) => Math.round(n * 1e8) / 1e8;
 
-const terms: Record<BiologicalAffinity, readonly (readonly [ObservedFeature, number])[]> = {
-  animal: [
-    ["bilateralSymmetry", 0.34], ["repeatedAppendages", 0.62],
-    ["elongation", 0.12], ["radialOrganization", 0.1],
-  ],
-  plant: [
-    ["branching", 0.62], ["attachment", 0.17],
-    ["elongation", 0.18], ["radialOrganization", 0.22],
-  ],
-  fungus: [
-    ["branching", 0.58], ["detachment", 0.2],
-    ["radialOrganization", 0.10], ["cavities", 0.08],
-  ],
-  unresolved: [
-    ["scarceInk", 0.90], ["detachment", 0.42],
-    ["cavities", 0.15],
-  ],
-};
-const baseline: Record<BiologicalAffinity, number> = {
-  animal: 0, plant: 0, fungus: 0, unresolved: 0.45,
-};
-
-function observed(m: InkMorphology): Record<ObservedFeature, number> {
-  const count = m.signature.occupiedCells;
-  return {
-    bilateralSymmetry: m.bilateralSymmetry,
-    radialOrganization: m.radialOrganization,
-    elongation: m.elongation,
-    branching: clamp01(m.branchJunctions / 3),
-    repeatedAppendages: clamp01(m.repeatedAppendages / 5),
-    cavities: clamp01(m.cavityCount / 3),
-    detachment: clamp01(m.detachedComponents / 4),
-    attachment: count ? clamp01(m.attachedFraction * (m.branchJunctions > 0 ? 1 : 0)) : 0,
-    scarceInk: 1 - m.observationStrength,
-  };
-}
-
-/**
- * Pure, seed-independent candidate ranking. Silhouette-only evidence can
- * motivate affinities, but cannot diagnose cellular structure, physiology,
- * reproductive mode, genetic lineage, or whether a drawing is fictional.
- */
-export function rankBiologicalAffinities(
-  morphology: InkMorphology,
-  taxonomy?: AffinityTaxonomyOptions,
-): AffinityInference {
-  const values = observed(morphology);
-  const scored = affinities.map((affinity) => {
-    const evidence = terms[affinity].map(([feature, weight]) => ({
-      feature, measured: round(values[feature]), weight,
-      contribution: round(values[feature] * weight),
-    }));
-    const score = baseline[affinity] +
-      evidence.reduce((total, item) => total + item.contribution, 0);
-    // Empty ink stays unresolved; linking a reference cannot increase an
-    // affinity score or certify the drawn organism as a species.
-    const taxon = affinity === "unresolved" || !taxonomy ||
-      !morphology.signature.occupiedCells ? null : (
-      (taxonomy.candidateNodeIds?.[affinity] ?? [cladeRoots[affinity]])
-        .map(id => verifyTaxonPossibility(affinity, id))
-        .find(candidate => candidate !== null) ?? null
-    );
-    return { affinity, evidence, score, taxon };
-  });
-  // Deliberate high-temperature softmax: simple geometric resemblances
-  // cannot produce unwarranted, near-certain biological assignments.
-  const exps = scored.map((item) => Math.exp(item.score / 1.7));
-  const total = exps.reduce((sum, value) => sum + value, 0);
-  const candidates: RankedAffinity[] = scored.map((item, i) => ({
-    ...item, probability: exps[i] / total,
-  })).sort((a, b) => b.probability - a.probability ||
-    affinities.indexOf(a.affinity) - affinities.indexOf(b.affinity));
-  const [first, second] = candidates;
-  const margin = first.probability - second.probability;
-  const entropy = -candidates.reduce((sum, c) =>
-    sum + c.probability * Math.log(c.probability), 0) / Math.log(candidates.length);
-  return {
-    version: "ink-affinity-v1", morphology, candidates,
-    bestAffinity: first.affinity, uncertainty: clamp01(entropy),
-    margin,
-    confidence: morphology.observationStrength > 0.75 &&
-      first.probability >= 0.4 && margin >= 0.1 ? "tentative" : "insufficient",
-    probabilityKind: "heuristic-not-calibrated",
-  };
-}
-
 /**
  * The player's selected brush is the ONLY authority for anatomical meaning.
  * Do not infer animals, plants, fungi, eyes or limbs from outline, symmetry,
@@ -271,7 +182,15 @@ export function inferSourceAffinities(
       : (taxonomy?.candidateNodeIds?.[affinity] ?? [cladeRoots[affinity]])
         .map(id => verifyTaxonPossibility(affinity, id))
         .find(candidate => candidate !== null) ?? null;
-    return { affinity, score, taxon, evidence: [] as AffinityEvidence[] };
+    // Exactly one transparent explanation of the declared-part-only score.
+    // No image descriptor is ever used in this semantic decision.
+    const evidence: AffinityEvidence[] = [{
+      feature: directed ? "brush:declared" : "brush:unspecified",
+      measured: score > 0 ? 1 : 0,
+      weight: score,
+      contribution: score,
+    }];
+    return { affinity, score, taxon, evidence };
   });
   const weights = scored.map(item => Math.exp(item.score / 1.7));
   const sum = weights.reduce((n, v) => n + v, 0);
