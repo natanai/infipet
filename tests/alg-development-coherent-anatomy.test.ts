@@ -118,8 +118,8 @@ test("[MORPH-007/A1] anatomical features persist while individual cells retire; 
   );
   verifyAnatomicalContinuity(body.sourceCells, body.cells.slice(1));
   assert.ok(
-    anatomicalContinuityFailure(body.sourceCells, body.cells.slice(0, 2)),
-    "a source feature needs real material, not a token ancestry string",
+    anatomicalContinuityFailure(body.sourceCells, []),
+    "an authored body cannot lose all source-supported material",
   );
   const parts = drawing([
     "#######",
@@ -130,8 +130,15 @@ test("[MORPH-007/A1] anatomical features persist while individual cells retire; 
     "#######",
     "#######",
   ]);
-  parts[0].pixels.find((p) => p.x === 3 && p.y === 3)!.color = "#000000";
-  const value = materialInputs(parts, "UNLABELED-EYE"),
+  // Eye identity exists ONLY because the player explicitly selected Eye.
+  const eyePixel = parts[0].pixels.find(p => p.x === 3 && p.y === 3)!;
+  parts[0].pixels = parts[0].pixels.filter(p => p !== eyePixel);
+  parts.push({
+    id: "player-selected-eye", kind: "eye", name: "Eye",
+    parentId: null, position: { x: 0, y: 0 },
+    pixels: [{ ...eyePixel, color: "#000000" }],
+  });
+  const value = materialInputs(parts, "SELECTED-EYE"),
     eyeGraph = compileMaterialDevelopment(value.atlas, value.genome).source;
   const eye = eyeGraph.cells.find((c) => c.color === "#000000")!;
   for (const cells of [
@@ -185,18 +192,28 @@ test("[MORPH-007/A1] anatomical features persist while individual cells retire; 
     null,
   );
   verifyAnatomicalContinuity(eyeGraph.sourceCells, shifted);
-  const arm = input([
+  const armInk = drawing([
     "....###....",
     "....###....",
     "###########",
     "....###....",
     "....###....",
-  ]).graph;
+  ], "body");
+  const selectedArm = armInk[0].pixels.filter(p => p.y === 2 && p.x < 4);
+  armInk[0].pixels = armInk[0].pixels.filter(p => !selectedArm.includes(p));
+  armInk.push({
+    id: "player-selected-arm", kind: "arm", name: "Arm",
+    parentId: null, position: { x: 0, y: 0 }, pixels: selectedArm,
+  });
+  const arm = compileMaterialDevelopment(
+    materialInputs(armInk, "SELECTED-ARM").atlas,
+    materialInputs(armInk, "SELECTED-ARM").genome,
+  ).source;
   const left = Math.min(...arm.cells.map((c) => c.x));
-  const erased = arm.cells.filter((c) => c.x >= left + 4);
+  const erased = arm.cells.filter(c => c.sourcePartId !== "player-selected-arm");
   assert.ok(
     anatomicalContinuityFailure(arm.sourceCells, erased),
-    "unlabeled monochrome arm cannot disappear into the body",
+    "player-selected Arm cannot disappear into the Body",
   );
   assert.throws(() => verifyAnatomicalContinuity(arm.sourceCells, erased));
   const parent = arm.cells.find((c) => c.x === left + 5 && c.y === 18)!;
@@ -216,14 +233,14 @@ test("[MORPH-007/A1] anatomical features persist while individual cells retire; 
         });
   assert.ok(
     anatomicalContinuityFailure(arm.sourceCells, [...arm.cells, ...padding]),
-    "bulk that buries a drawn protrusion is not part continuity",
+    "bulk that buries a specifically selected arm is not part continuity",
   );
   assert.throws(() =>
     verifyAnatomicalContinuity(arm.sourceCells, [...arm.cells, ...padding]),
   );
   for (const graph of [body, eyeGraph, arm]) {
-    // Independent all-pairs pigment-component oracle, without the blueprint's
-    // spatial index, ports, labels or flood implementation.
+    // Pigment components remain physical color-island constraints, never
+    // sources of eye/arm labels. Independently derive their sets.
     const unseen = new Set(graph.sourceCells.map((c) => c.id)),
       islands: string[][] = [];
     while (unseen.size) {
