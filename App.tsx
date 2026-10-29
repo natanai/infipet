@@ -41,7 +41,6 @@ import {
   decodePet,
   encodePet,
   loadEditablePet,
-  preparePetForDaily,
   savePet,
   PROTOTYPE_REVISION,
   type PetDocument,
@@ -486,7 +485,7 @@ export default function App() {
     let checkpoint = Date.now();
     const tick = () => {
       const current = lifeRef.current;
-      if (!current || current.anatomicalClock!=="daily-365-v1" || current.game.dead || presence.current !== "active")
+      if (!current || current.game.dead || presence.current !== "active")
         return;
       const next = {
         ...current,
@@ -526,14 +525,14 @@ export default function App() {
         returnGeneration.current++;
         if(pendingReturnLife.current)
           pendingReturnLife.current=advancePlayerLife(pendingReturnLife.current,Date.now(),"absent");
-        else if(current?.anatomicalClock==="daily-365-v1"&&previousPresence==="active")
+        else if(current&&previousPresence==="active")
           commitLife(advancePlayerLife(current,Date.now(),"active"));
         presence.current="absent";
         setGrowing(false);setMotion(false);
         if(latest.current.writable)void persist("Could not save. Export a copy from More.");
         return;
       }
-      if(!current||current.anatomicalClock!=="daily-365-v1"){
+      if(!current){
         presence.current="active";setMotion(true);return;
       }
       if(previousPresence==="active"&&!pendingReturnLife.current)return;
@@ -872,7 +871,7 @@ export default function App() {
       try{
         const file=picker.files?.[0];if(!file)return;
         if(file.size>16*1024*1024)throw new Error("Pet files must be at most 16 MB.");
-        const imported=await preparePetForDaily(await file.text());
+        const imported=decodePet(await file.text());
         const current=lifeRef.current;
         if(current&&!current.game.dead)confirmReplacement(
           `Importing replaces ${current.name} and its care history. Export a copy first to keep it.`,()=>restore(imported));
@@ -2004,7 +2003,7 @@ export default function App() {
                       disabled={!importInput.trim()}
                       onPress={async () => {
                         try {
-                          const imported = await preparePetForDaily(importInput);
+                          const imported = decodePet(importInput);
                           const current = lifeRef.current;
                           if (current && !current.game.dead)
                             confirmReplacement(
