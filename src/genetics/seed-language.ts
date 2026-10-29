@@ -105,7 +105,7 @@ export function parseSeedInstructions(seed: string): Readonly<{
       phase=(phase+Number(c)*(position+1))%365;
     } else if (SEED_ALPHABET[c]) {
       const word=SEED_ALPHABET[c];
-      const tickets=digits ? Math.min(12,Number(digits.slice(-3))) : 1;
+      const tickets=digits ? Math.min(12,Number(digits)) : 1;
       instructions.push({
         position,symbol:c,name:word.name,role:word.role,process:word.process,
         tickets,source:(digits?digits:"")+c,
@@ -142,11 +142,12 @@ export function compileReadableSeed(
     processes[instruction.process]=(processes[instruction.process]??0)+instruction.tickets;
   const features:SeedFeaturePotential[]=SEED_ROLES.map(kind=>{
     const authored=counts[kind]??0, match=inherited.has(kind);
-    const declared= instructions.filter(i=>i.role===kind)
-      .reduce((n,i)=>n+i.tickets,0);
-    // Any Body-only source has one latent chance per supported feature:
-    // no branch is excluded by a missing specialized part.
-    const tickets=Math.min(12,declared+(pluripotent?1:0));
+    const kindInstructions=instructions.filter(i=>i.role===kind);
+    const declared=kindInstructions.reduce((n,i)=>n+i.tickets,0);
+    // Undifferentiated Body material is eligible for every kind. A direct
+    // letter is authoritative about its own dosage: 0E excludes eyes;
+    // otherwise an unmentioned kind receives one latent opportunity.
+    const tickets=Math.min(12,declared+(pluripotent&&!kindInstructions.length?1:0));
     // Tree first: 58% for a matching reference role; otherwise 12%.
     // Declared letter genes add 12%, inherited appendage capability 4%.
     // No probability zero; the tree is an influence, not a species wall.
