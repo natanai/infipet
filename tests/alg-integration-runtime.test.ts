@@ -164,6 +164,11 @@ test("[integration] a normal single-pet save reconstructs the existing retro gam
   delete retired.life.anatomicalClock;
   assert.throws(()=>decodePet(JSON.stringify(retired)),
     /only the current 365-check physical clock/);
+  const oldRevision=JSON.parse(encodePet(pet)) as {revision:string};
+  oldRevision.revision="life-v10";
+  assert.throws(()=>decodePet(JSON.stringify(oldRevision)),
+    /prototype revision is not supported/);
+
   retired.life.anatomicalClock="hourly-8192";
   assert.throws(()=>decodePet(JSON.stringify(retired)),
     /only the current 365-check physical clock/);
