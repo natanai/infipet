@@ -3099,7 +3099,18 @@
       "exposedAnchorPolicy": "Each new genetically typed bud chooses an exposed live source-linked parent cell satisfying collision and support bounds, ranked by fixed seed direction and separation from already differentiated tissues; no geometry-derived semantic kind selection.",
       "specialistMaterialVolume": "Within a single atomically journaled expand quantum, up to 3 source-selected-kind cells or up to 4/5 genetically developed-kind cells are created from connected live tissue using a direction-aligned organ-aspect field. Body/undifferentiated expansion remains one cell. No virtual pigment creates material.",
       "organAxialBound": "Genetically typed axial bud ceilings: eyes 1, mouths/ears/feet/hands 2, heads 3, horns 4, wings/hair 5, arms/legs 6, tails 7. Real care, support and collision can suppress any unit.",
-      "drawingScope": "All valid authored drawings can schedule genetic tissue differentiation, including >12 source tissues. A body source tissue is preferred as carrier; no arbitrary tissue-count exclusion."
+      "drawingScope": "All valid authored drawings can schedule genetic tissue differentiation, including >12 source tissues. A body source tissue is preferred as carrier; no arbitrary tissue-count exclusion.",
+      "phasedAllometry": {
+        "status": "implemented-visual-qualification-pending",
+        "span": "five immutable 73-daily-opportunity identity phases; n in integer 0..364",
+        "seed": "u=uint32Hash(identity|whole-body-phase|tissueId|floor(n/73)|axis)/2^32; v similarly for |aspect",
+        "axis": "(cos(2*pi*u),sin(2*pi*u))",
+        "aspect": "2^clamp(3*(elongation-expansion)+2*(v-0.5)+1.5*(care.activity-care.rest),-3,3)",
+        "output": "Only ranks source-owned physically adjacent new-growth candidates; no species target, no render warp, no gene reroll.",
+        "directionalCandidateScore": "Width/height physical-front component changed from .25*abs(projectedCoord)/(width+height+1) to 2.4*abs(projectedCoord)/(width+height+1), subordinate to tissue support, voids, overlap and physical journals.",
+        "remodelling": "Five organism-wide physical strain windows start at daily opportunities 12,79,148,219,289 with durations 55,55,55,55,66, 10 unit opportunities each. Actual source-cell transport and seam daughters are independently journaled; invalid operations null.",
+        "knownGap": "Whole-body shape categories and enjoyable legibility NOT demonstrated on actual phone or live site; new code is draft-only."
+      }
     }
   },
   "qualification": {
@@ -3229,7 +3240,8 @@
       "command": "node scripts/morphology-compare.mjs --out=/tmp/infipet-morphology.json",
       "mustNeverBecomeImplicitPass": true
     },
-    "expressedAnatomy": "Only parts explicitly selected through the player's anatomical brush receive semantic kind labels. Unselected source ink is Body. Physical color islands, contours, cavities and contacts may affect viable geometry, never identify eyes, limbs, horns, heads or any body part. Every declared part remains source-traceable and independently represented; source cells may retire and explicitly phylogeny-authorized changes can become vestigial without arbitrary stationary-cell or minimum-area quotas."
+    "expressedAnatomy": "Only parts explicitly selected through the player's anatomical brush receive semantic kind labels. Unselected source ink is Body. Physical color islands, contours, cavities and contacts may affect viable geometry, never identify eyes, limbs, horns, heads or any body part. Every declared part remains source-traceable and independently represented; source cells may retire and explicitly phylogeny-authorized changes can become vestigial without arbitrary stationary-cell or minimum-area quotas.",
+    "currentDevelopmentStatus": "Experimental source-owned five-phase allometry and five repatterning windows implemented on unmerged draft; visual magnitude and quality unverified. No forced species progression, no automatic qualification."
   },
   "preReleasePolicy": {
     "released": false,
@@ -3256,6 +3268,6 @@
       "care causing real expression differences",
       "daily saved pet continuation"
     ],
-    "currentPriority": "Real playable virtual pet with early genetically expressed anatomically coherent volume, player-authored morphology and meaningful care; no repository check workflows."
+    "currentPriority": "Five-phase physically accountable changing whole-body proportions + coherent seed-derived specialty tissue, with real phone visual evaluation when the prototype is deployed. All CI gates remain removed."
   }
 }
