@@ -187,8 +187,12 @@ export function sourceFeatures(
       kind: cell.sourceKind, ids: [cell.id],
     });
   }
+  const exposedKinds = new Set<PartKind>([
+    "arm", "hand", "leg", "foot", "wing", "tail", "horn", "ear", "hair",
+  ]);
   for (const [sourcePartId, { kind, ids }] of declaredParts)
-    add(ids, null, undefined, { kind, sourcePartId });
+    add(ids, null, exposedKinds.has(kind) ? ids : undefined,
+      { kind, sourcePartId });
 
   // Geometric contact and enclosure below still enforce physical coherence;
   // they do not create or change anatomical labels.
