@@ -523,14 +523,24 @@ test("[DEV-004/A1] later care and iterative growth cannot alter earlier replayed
   const early=applyRemodelingInterval(earlyGrowth,remodel,earlyDue);
   const lateGrowth=iterativeGrowthAt(material,experiences,100).graph;
   assert.ok(lateGrowth.events.length>=earlyGrowth.events.length);
-  // The integrator must replay complete history, NOT feed a 100h frame
-  // into a 45h operation (explicitly rejected by the causal guard).
-  const invalid=earlyDue.length ? applyRemodelingProposal(lateGrowth,remodel,
+  // A later *query time* is not evidence of future material by itself:
+  // a physically stalled organism can contain no events after the proposed
+  // transaction. The causal guard rejects only ACTUALLY FUTURE transactions.
+  // Derive the expected result from the independent event timestamps rather
+  // than from the caller's requested 100-hour frame.
+  const candidate=earlyDue.length ? applyRemodelingProposal(lateGrowth,remodel,
     earlyDue[0]) : null;
-  if(invalid) {
-    assert.equal(invalid.attempt.status,"rejected");
-    assert.strictEqual(invalid.graph,lateGrowth);
-    assert.equal(invalid.deferral?.reason,"future-anatomy-in-transaction");
+  if(candidate) {
+    const hasFutureAnatomy=lateGrowth.events.some(
+      event=>event.atHour>earlyDue[0].atHour);
+    if(hasFutureAnatomy) {
+      assert.equal(candidate.attempt.status,"rejected");
+      assert.strictEqual(candidate.graph,lateGrowth);
+      assert.equal(candidate.deferral?.reason,"future-anatomy-in-transaction");
+    } else {
+      assert.notEqual(candidate.deferral?.reason,"future-anatomy-in-transaction",
+        "never fabricate a future event merely because the frame was queried later");
+    }
   }
   assert.deepEqual(applyRemodelingInterval(earlyGrowth,remodel,earlyDue),early);
   assert.deepEqual(applyRemodelingInterval(earlyGrowth,remodel,earlyDue),early);
