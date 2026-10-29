@@ -87,7 +87,10 @@ test("[PHY-004/A9] seed opportunities compile into fixed, source-owned nonchaoti
   assert.ok(program.operators.length<=64);
   const adult=applyMaterialOperators(program.source,program.operators,365,program.signals);
   verifyAnatomicalContinuity(adult.sourceCells,adult.cells,{links:adult.links,protectedVoids:adult.protectedVoids});
-  for(const tissue of adult.tissues.filter(t=>t.developedKind)){
+  const realized = adult.tissues.filter(t=>t.developedKind);
+  assert.ok(realized.length > 0,
+    "seed-selected material must produce at least one real differentiated tissue in this valid high-potential witness");
+  for(const tissue of realized){
     assert.ok(genes.some(op=>op.geneticInstructionId===tissue.geneticInstructionId &&
       op.developedKind===tissue.developedKind));
     assert.ok(tissue.sourceCellIds.every(id=>adult.sourceCells.some(c=>c.id===id)));
