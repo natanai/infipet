@@ -115,6 +115,18 @@ audited and may do nothing if care/resources/contacts do not permit them.
 The rest of the genetic potential remains latent rather than producing fake
 particles, violating the finite operator limit or forcing a shape.
 
+**Finite-slot fairness is deterministic.** Gene tickets accepted by the
+immutable seed are ranked for up to six source-owned physical slots:
+(1) explicit letter tickets before latent Body possibilities; (2) first
+accepted ticket of every represented kind before any second ticket of
+that kind; (3) second before third, and so on; (4) equal-rank ties broken
+by `hash(seed | "gene-allocation" | PartKind)`. No alphabetic PartKind
+order, artwork shape, call order, elapsed time, care, or chaotic variable
+participates. Thus `12E12L` cannot consume all six slots with eyes before
+considering an eligible leg solely because Eye precedes Leg in a table.
+Unscheduled accepted genetic opportunities remain *latent*, not failures
+or counterfeit created cells.
+
 The existing physics system may still use historical deterministic chaotic
 fields for older growth operators, but **there are no released pet saves to
 preserve** and no backward-compatibility obligation. Retire those operators
