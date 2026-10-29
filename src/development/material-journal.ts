@@ -9,7 +9,7 @@ import type {
   MaterialChange,
 } from "./material-graph";
 const same = (a: unknown, b: unknown) =>
-  JSON.stringify(a) === JSON.stringify(b);
+  a === b || JSON.stringify(a) === JSON.stringify(b);
 function changes<T extends { id: string }>(
   before: readonly T[],
   after: readonly T[],
@@ -36,7 +36,7 @@ export function journalMaterialEvent(
   const a = new Map(before.cells.map((c) => [c.id, c]));
   const relocations = after.cells.flatMap((c) => {
     const old = a.get(c.id);
-    if (!old) return [];
+    if (!old || old === c) return [];
     if (!same({ ...old, x: c.x, y: c.y }, c))
       throw new Error(
         "No operator authorizes mutating surviving-cell identity or material",

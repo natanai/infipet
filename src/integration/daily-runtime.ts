@@ -120,7 +120,7 @@ export function createDailyMaterialTimeline(options:Options):DailyMaterialTimeli
           s.checks.length!==s.completedChecks||s.material.nextHour!==s.completedChecks||
           s.iterative.nextHour!==s.completedChecks||
           JSON.stringify(s.graph.sourceCells)!==JSON.stringify(program.source.sourceCells))throw new Error("Stale daily checkpoint");
-      verifyDailyMaterialInventory(s.graph,hatch,s.completedChecks,program.source,{material:program.operators,remodeling:remodeling.operations});
+      verifyDailyMaterialInventory(s.graph,hatch,s.completedChecks,program.source,{material:program.operators,remodeling:remodeling.operations,structuralRigidity:program.signals.channels.support.rigidity,repatterning:{seed:remodeling.seed,elongation:program.signals.channels.growth.elongation,expansion:program.signals.channels.growth.expansion,membrane:program.signals.channels.support.membrane}});
       const care=createDailyCareWindowSummarizer(game);
       for(let i=0;i<s.checks.length;i++)if(s.checks[i].checkIndex!==i+1||
         s.checks[i].atMs!==hatch+(i+1)*86400000||s.checks[i].careDigest!==care(i+1).provenanceDigest)

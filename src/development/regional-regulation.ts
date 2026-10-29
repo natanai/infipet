@@ -28,7 +28,14 @@
 import type {DevelopmentalChannels} from "../genetics";
 import {CHAOS_MODULUS,type ChaosState} from "./chaos";
 
-export const REGIONAL_GROWTH_VERSION="source-developmental-repatterning-v2" as const;
+export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v3" as const;
+/** A new bud receives the square-root material scale of its birth region,
+ * rather than being permanently starved as a one-cell birth drawing. The
+ * genome, four-credit competition and all material caps remain unchanged. */
+export function regionalSourceScale(own:number,origin:number,generated:boolean):number{
+ if(![own,origin].every(v=>Number.isSafeInteger(v)&&v>=1&&v<=4096))throw new RangeError("Invalid regional source scale");
+ return generated?Math.max(own,Math.ceil(Math.sqrt(origin))):own;
+}
 const bounded=(v:number)=>Number.isFinite(v)&&v>=0&&v<=1;
 export function regionalGrowthDemand(authored:number,live:number,sites:number,capacity:number):number{
  if(![authored,live,sites,capacity].every(Number.isSafeInteger)||

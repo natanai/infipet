@@ -11,6 +11,7 @@ import type {MaterialCell,MaterialGraph} from "../src/development/material-graph
 import {materialInputs,fixtures,drawing} from "./alg-development-fixtures";
 import type {InheritedGenome} from "../src/simulation/genome";
 import {CHAOS_MODULUS,seedChaos} from "../src/development/chaos";
+import {verifyCoordinatedStrain} from "../src/development/anatomical-audit";
 
 const EPOCH=1_700_050_000_000, DAY=86_400_000;
 function window(k:number,care=1):DailyCareWindowV1{return {
@@ -39,7 +40,7 @@ function bounds(cells:readonly {x:number;y:number}[]){
 function conservation(graph:MaterialGraph){
  const original=new Map(graph.sourceCells.map(c=>[c.id,c]));
  const live=new Map(original),ever=new Set(live.keys());
- let last=0;const ancestry=new Map([...original.values()].map(c=>[c.id,new Set([c.id])]));
+ let last=0,protection=[...(graph.birth?.protectedVoids??[])];const ancestry=new Map([...original.values()].map(c=>[c.id,new Set([c.id])]));
  for(const e of graph.events){
    assert.ok(e.checkIndex!==undefined&&e.checkIndex>=last&&e.checkIndex<=365);
    last=e.checkIndex;
@@ -47,6 +48,7 @@ function conservation(graph:MaterialGraph){
    assert.equal(e.atMs,EPOCH+e.checkIndex*DAY);
    assert.deepEqual(e.createdCells?.map(c=>c.id),e.createdCellIds);
    const before=new Map(live);
+   const strained=e.physical?.strain?verifyCoordinatedStrain(before,e.createdCells??[],e.removedCellIds,e.physical,e.kind,new Set(protection)):undefined;
    const during=new Map(before);
    for(const c of e.createdCells??[]){
      assert.ok(!ever.has(c.id),"physical identity cannot be recycled");
@@ -74,7 +76,7 @@ function conservation(graph:MaterialGraph){
      assert.equal(xy(prior),xy(move.from),"relocation from must equal live position");
      assert.ok(!moved.has(move.cellId),"duplicate relocation in one event");
      assert.equal(move.operationId,e.physical?.operation.id);
-     if(e.kind==="redistribute"||e.kind==="repattern"){
+     if(!strained&&(e.kind==="redistribute"||e.kind==="repattern")){
        // Independently calculate path geometry from the pre-transaction map;
        // one-day mass transport is not a one-cell geometric translation.
        const path=move.path??[];
@@ -103,6 +105,11 @@ function conservation(graph:MaterialGraph){
      moved.set(move.cellId,{...prior,x:move.to.x,y:move.to.y});
    }
    for(const [id,c] of moved)live.set(id,c);
+   if(e.physical?.protectedVoids){
+    assert.deepEqual(e.physical.protectedVoids.before,protection);
+    if(strained)assert.deepEqual(e.physical.protectedVoids.after,strained);
+    protection=[...e.physical.protectedVoids.after];
+   }
  }
  assert.deepEqual(new Set(graph.cells.map(c=>c.id)),new Set(live.keys()));
  assert.deepEqual(new Map(graph.cells.map(c=>[c.id,xy(c)])),
@@ -110,8 +117,8 @@ function conservation(graph:MaterialGraph){
    "no surviving material identity may teleport without a recorded move");
  assert.deepEqual(graph.sourceCells,original.size?[...original.values()]:[]);
  assert.ok(graph.cells.every(c=>c.x>=0&&c.x<64&&c.y>=0&&c.y<64));
- assert.ok(graph.events.every(e=>(e.createdCells??[]).every(c=>
-   !graph.protectedVoids.includes(xy(c)))));
+ assert.deepEqual(graph.protectedVoids,protection);
+ assert.ok(graph.cells.every(c=>!protection.includes(xy(c))));
 }
 test("[MORPH-002/A1] independently derived field geometry changes thickness, width and height, not a tip",()=>{
  const square=Array.from({length:9},(_,i)=>cell(3+i%3,3+Math.floor(i/3)));

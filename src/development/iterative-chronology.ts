@@ -1,4 +1,7 @@
 import {journalMaterialEvent} from "./material-journal";
+import {sourcePigmentSupport,advancingInteriorParent} from "./material-front";
+import {anatomicalContinuityFailure} from "./anatomical-continuity";
+import {growthSupportDistance} from "./material-support";
 /**
  * Shared single-tick numerical primitive. The daily production transaction interprets one tick as one daily opportunity, commits at T_k, and never runs 24 hourly physical steps. The stand-alone hour-named API and its long-domain tests are legacy numerical coverage, not a player-life schedule.
  */
@@ -65,7 +68,7 @@ import type { MaterialDevelopmentProgram } from "./operators";
 import { REMODEL_LIMITS } from "./lifetime-remodeling";
 import {chooseMorphologicalField,rankMorphologicalField,
   morphologicalVolumeCapacity} from "./morphological-fields";
-import {regionalGrowthDemand,regionalGrowthTensor,selectRegionalGrammar,
+import {regionalGrowthDemand,regionalGrowthTensor,selectRegionalGrammar,regionalSourceScale,
   type RegionalCare} from "./regional-regulation";
 import type {RepatterningField} from "./developmental-repatterning";
 
@@ -304,6 +307,7 @@ export function stepIterativeChronology(
     events = [...graph.events];
   const occupied = new Map(cells.map(c => [xy(c.x, c.y), c]));
   const voids = new Set(graph.protectedVoids);
+  const pigmentSupport=policy.enablePhysicalFields?sourcePigmentSupport(graph.sourceCells):new Map<string,number>();
   const registry = new Map(sites.map(s => [s.id, s]));
   const tissuesById = new Map(tissues.map(t => [t.id, t]));
   const lives: MutableSite[] = state.sites.map(s => ({
@@ -383,7 +387,12 @@ export function stepIterativeChronology(
     s.activationHour <= n && byId.has(s.tipCellId))
     .sort((a, b) => compareText(a.id, b.id));
   const available = Math.floor(ITERATIVE_LIMITS.creditsPerHour * exposure.resources);
-  const sourceMass=new Map(tissues.map(t=>[t.id,Math.max(1,t.sourceCellIds.length)]));
+  const bornSizes=new Map(birth.source.tissues.map(t=>[t.id,t.sourceCellIds.length]));
+  const originById=new Map(birth.source.sourceCells.map(c=>[c.id,bornSizes.get(c.tissueId)??1]));
+  const sourceMass=new Map(tissues.map(t=>{
+    const own=Math.max(1,t.sourceCellIds.length),origin=Math.max(own,...t.sourceCellIds.map(id=>originById.get(id)??1));
+    return [t.id,policy.enablePhysicalFields?regionalSourceScale(own,origin,!bornSizes.has(t.id)):own] as const;
+  }));
   const liveMass=new Map<string,number>(),siteCount=new Map<string,number>();
   for(const cell of cells)liveMass.set(cell.tissueId,(liveMass.get(cell.tissueId)??0)+1);
   for(const s of active)siteCount.set(s.tissueId,(siteCount.get(s.tissueId)??0)+1);
@@ -415,9 +424,14 @@ export function stepIterativeChronology(
     const light = unit(exposure.light);
     return unit({ x: raw.x + strength * light.x, y: raw.y + strength * light.y });
   };
+  let placementBins:ReadonlyMap<string,readonly MaterialCell[]>=new Map();
+  const interiorAt=(parent:MaterialCell,destination:Point)=>{
+    const local:MaterialCell[]=[];for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++)local.push(...(placementBins.get(xy(parent.x+x,parent.y+y))??[]));
+    return advancingInteriorParent(graph.sourceCells,local,parent,destination,pigmentSupport);
+  };
   const place = (tip: MaterialCell, tissueId: string, axis: Point,
     siteId: string, slot: number, kind: GrowthSuppression["kind"],
-    coherentSurface=false,at?:Point): MaterialCell | null => {
+    coherentSurface=false,at?:Point,interiorHint?:MaterialCell|null): MaterialCell | null => {
     const direction = unit(axis);
     const destination = at ?? { x: tip.x + Math.round(direction.x),
       y: tip.y + Math.round(direction.y) };
@@ -429,22 +443,43 @@ export function stepIterativeChronology(
       suppressions.push({ hour: n, siteId, kind, attempted: destination, reason });
       return null;
     }
+    if(policy.enablePhysicalFields&&["elongate","branch","bud"].includes(kind)&&
+      growthSupportDistance(cells,links,tip.tissueId,destination,birth.signals.channels.support.rigidity)===null){
+      suppressions.push({hour:n,siteId,kind,attempted:destination,reason:"insufficient-support"});return null;
+    }
     const operationId = "iterative-composed/" + (n + 1) + "/" +
       encodeURIComponent(siteId) + "/" + slot + "/" + kind;
     const id = "growth/" + encodeURIComponent(operationId) + "/" +
       xy(destination.x, destination.y);
     if (byId.has(id) || events.some(e => e.id === operationId))
       throw new TypeError("Repeated chronological growth transaction");
+    const interior=coherentSurface&&policy.enablePhysicalFields?
+      (interiorHint===undefined?interiorAt(tip,destination):interiorHint):null;
+    const parent=interior??tip,position=interior?{x:tip.x,y:tip.y}:destination;
     const cell: MaterialCell = {
-      id, tissueId, ...destination, color: tip.color,
-      ...(tip.z === undefined ? {} : { z: tip.z }),
-      provenance: "generated", sourceIds: [...tip.sourceIds],
-      parentCellIds: [tip.id], operationId,
+      id, tissueId, ...position, color: parent.color,
+      ...(parent.z === undefined ? {} : { z: parent.z }),
+      provenance: "generated", sourceIds: [...parent.sourceIds],
+      parentCellIds: [parent.id], operationId,
     };
+    if(!interior&&anatomicalContinuityFailure(graph.sourceCells,[...cells,cell],{links,protectedVoids:graph.protectedVoids})){
+      suppressions.push({hour:n,siteId,kind,attempted:destination,reason:"anatomical-continuity"});return null;
+    }
+    if(interior){
+      const advanced={...tip,...destination};
+      const proposed=[...cells.map(c=>c.id===tip.id?advanced:c),cell];
+      if(anatomicalContinuityFailure(graph.sourceCells,proposed,{links,protectedVoids:graph.protectedVoids}))return null;
+      if(links.some(l=>{
+        const a=l.fromCellId===tip.id?advanced:byId.get(l.fromCellId!),b=l.toCellId===tip.id?advanced:byId.get(l.toCellId!);
+        return !a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8;
+      }))return null;
+      const index=cells.findIndex(c=>c.id===tip.id);cells[index]=advanced;byId.set(tip.id,advanced);
+      occupied.delete(xy(tip.x,tip.y));occupied.set(xy(advanced.x,advanced.y),advanced);
+    }
     const event: MaterialEvent = {
       id: operationId, kind, atHour: n + 1,
       createdCellIds: [id], createdCells:[cell], removedCellIds: [],
-      sourceCellIds: [...cell.sourceIds],
+      sourceCellIds: [...new Set([...cell.sourceIds,...(interior?tip.sourceIds:[])])].sort(),
     };
     cells.push(cell); byId.set(id, cell);
     occupied.set(xy(cell.x, cell.y), cell);
@@ -456,6 +491,9 @@ export function stepIterativeChronology(
     s.status = share ? "active" : "dormant";
     let spent = 0;
     for (let slot = 0; slot < share; slot++) {
+      const bins=new Map<string,MaterialCell[]>();
+      for(const cell of cells){const k=xy(cell.x,cell.y),list=bins.get(k)??[];list.push(cell);bins.set(k,list);}
+      placementBins=bins;
       const beforePhysical:MaterialGraph={...graph,cells:[...cells],tissues:[...tissues],sites:[...sites],links:[...links],events:[...events]};
       const tip = byId.get(s.tipCellId);
       if (!tip) { s.status = "invalidated"; break; }
@@ -544,21 +582,23 @@ export function stepIterativeChronology(
             // broad preexisting bodies are not forced to reproduce their full
             // 1024-cell surface scan hundreds of times each year.
             // This is bounded allometry, not a species- or target-shape rule.
-            const area=Math.max(1,tissuesById.get(s.tissueId)?.sourceCellIds.length??0);
+            const area=sourceMass.get(s.tissueId)!;
             const capacity=morphologicalVolumeCapacity(area,expansion,membrane);
             const currentArea=cells.filter(c=>c.tissueId===s.tissueId).length;
             if(currentArea>=capacity){
               suppressions.push({hour:n,siteId:s.id,kind:"expand",
                 attempted:{x:tip.x,y:tip.y},reason:"genetic-volume-cap"});
             }else{
-              for(const candidate of rankMorphologicalField(
-                cells,s.tissueId,mode,orbit,24,tensors.get(s.tissueId),policy.developmentalFields?.get(s.tissueId))){
+              const candidates=rankMorphologicalField(cells,s.tissueId,mode,orbit,24,tensors.get(s.tissueId),policy.developmentalFields?.get(s.tissueId))
+                .map(candidate=>({candidate,interior:interiorAt(byId.get(candidate.parentId)!,candidate.destination)}))
+                .sort((a,b)=>(b.candidate.score+Number(!!b.interior))-(a.candidate.score+Number(!!a.interior)));
+              for(const {candidate,interior} of candidates){
                 const parent=byId.get(candidate.parentId);
                 if(!parent)continue;
                 const destination=candidate.destination;
                 made=place(parent,s.tissueId,
                   {x:destination.x-parent.x,y:destination.y-parent.y},
-                  s.id,slot,"expand",true,destination);
+                  s.id,slot,"expand",true,destination,interior);
                 if(made){s.lateralCells++;break;}
               }
             }

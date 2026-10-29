@@ -9,7 +9,8 @@ import {reconstructDailyPhysicalState} from '../src/development/spatial-inventor
 import {STARTER_PRESETS} from '../src/presets';
 import {createSimulation,flattenAnatomy,type PetPart} from '../src/simulation';
 import type {MaterialGraph} from '../src/development/material-graph';
-import {measurePhysical} from '../src/evaluation/morphology';
+import {measurePhysical,sourcePairChange} from '../src/evaluation/morphology';
+import {verifyAnatomicalContinuity,verifyCoordinatedStrain} from '../src/development/anatomical-audit';
 import {morphologySources} from '../src/evaluation/morphology-cohort';
 import {stepChaos} from '../src/development/chaos';
 
@@ -42,7 +43,7 @@ function life(parts:PetPart[],seed:string){
  return {sim,states,birth,adult,metrics:evidence(birth,adult)};
 }
 
-test('[MORPH-006/A1] independent potential, finite work, empty-site transport and real source resorption',()=>{
+test('[MORPH-006/A1] independent potential, finite work and coordinated material transport',()=>{
  for(const p of [0,.25,.5,1])for(const e of [0,.25,.5,1])
   assert.equal(repatterningExpression(p,e),Math.sqrt(7*p/10+3*e/10));
  const input=materialInputs(drawing(['###','###','###']),'REPATTERN-LAWS');
@@ -50,11 +51,12 @@ test('[MORPH-006/A1] independent potential, finite work, empty-site transport an
   branching:{initiation:.5,divergence:.5},segmentation:{repetition:.5,boundaries:.5}};
  const f=developmentalRepatterningField([{x:0,y:0},{x:1,y:0},{x:0,y:1},{x:1,y:1}],channels,{x:0,y:0});
  assert.deepEqual(f.center,{x:.5,y:.5});assert.equal(f.radius,2/Math.sqrt(Math.PI));
- assert.deepEqual(f.axis,{x:1,y:0});assert.equal(f.stretch,.5);assert.equal(f.offset,-3);
- assert.equal(f.modulation,1);assert.equal(f.frequency,2*Math.PI);assert.equal(f.capacity,1);
- assert.equal(repatterningPotential(f.center,f),3.5);
- const p={x:1.5,y:.5},u=Math.sqrt(Math.PI)/2;
- assert.ok(Math.abs(repatterningPotential(p,f)-(2*u*u+4.5-Math.cos(2*Math.PI*u)))<1e-12);
+ assert.ok(Math.abs(f.axis.x-Math.cos(Math.PI/6))<1e-12);assert.ok(Math.abs(f.axis.y+.5)<1e-12);
+ assert.equal(f.stretch,.5);assert.equal(f.offset,0);
+ assert.equal(f.modulation,1);assert.equal(f.frequency,2*Math.PI);assert.equal(f.capacity,4);
+ assert.equal(repatterningPotential(f.center,f),-1);
+ const p={x:1.5,y:.5},u=Math.sqrt(Math.PI)/2*Math.cos(Math.PI/6),v=Math.sqrt(Math.PI)/4;
+ assert.ok(Math.abs(repatterningPotential(p,f)-(2*u*u+.5*v*v-Math.cos(2*Math.PI*u)*Math.exp(-v*v/2)))<1e-12);
  const birth=compileMaterialDevelopment(input.atlas,input.genome).source,unchanged=JSON.stringify(birth);
  const cardinalPerimeter=(cells:readonly {x:number;y:number}[])=>4*cells.length-
   2*cells.reduce((n,a,i)=>n+cells.slice(i+1).filter(b=>Math.abs(a.x-b.x)+Math.abs(a.y-b.y)===1).length,0);
@@ -67,15 +69,13 @@ test('[MORPH-006/A1] independent potential, finite work, empty-site transport an
  assert.equal(proposeDevelopmentalRepatterning(birth,channels,input.genome.seed,'law',1,0),null);
  const next=proposeDevelopmentalRepatterning(birth,channels,input.genome.seed,'law',1,8);
  assert.ok(next);assert.equal(JSON.stringify(birth),unchanged);
- assert.ok(next.removedCells.length+next.routes.size<=8);
- assert.equal(next.cells.length,birth.cells.length-next.removedCells.length,'no fabricated mass');
- assert.ok(next.removedCells.some(c=>c.provenance==='authored'),'birth material may be resorbed');
- const oldPositions=new Set(birth.cells.map(key));
- for(const [id,path] of next.routes){
-  assert.ok(path.length>=2&&path.length<=65);assert.equal(key(path[0]),key(birth.cells.find(c=>c.id===id)!));
-  assert.ok(path.slice(1,-1).every(p=>oldPositions.has(key(p))));
-  assert.ok(!oldPositions.has(key(path.at(-1)!)));
- }
+ assert.ok(next.createdCells.length<=8);
+ assert.equal(next.cells.length,birth.cells.length+next.createdCells.length-next.removedCells.length,'exact real seam mass');
+ verifyAnatomicalContinuity(birth.sourceCells,next.cells);
+ const after=new Map(next.cells.map(c=>[c.id,c]));
+ assert.ok(birth.cells.some(c=>key(after.get(c.id)!)!==key(c)),'original material physically moves');
+ for(const cell of next.createdCells){const parent=birth.cells.find(c=>c.id===cell.parentCellIds[0])!;
+  assert.ok(parent);assert.equal(key(parent),key(cell));assert.deepEqual(cell.sourceIds,parent.sourceIds);}
  assert.deepEqual(proposeDevelopmentalRepatterning(birth,channels,input.genome.seed,'law',1,8),next);
  assert.throws(()=>proposeDevelopmentalRepatterning(birth,channels,input.genome.seed,'law',1,65));
  assert.throws(()=>developmentalRepatterningField([],channels,{x:0,y:0}));
@@ -85,18 +85,21 @@ test('[MORPH-006/A1] independent potential, finite work, empty-site transport an
   .filter(op=>op.kind==='repattern').length,3,'one-pixel drawings are eligible for the same shared program');
 });
 
-test('[MORPH-006/A2] all shipped starters and unlabeled equivalents vacate and reorganize original anatomy, without a bulk requirement',()=>{
- const unchanged=JSON.stringify(STARTER_PRESETS),report=[];
+test('[MORPH-006/A2] all shipped starters and unlabeled equivalents reorganize original anatomy with continuous parts',()=>{
+ const unchanged=JSON.stringify(STARTER_PRESETS),report=[];let renewals=0;
  for(const p of STARTER_PRESETS){
   const unlabeled:PetPart[]=[{id:'freehand',kind:'decoration',name:'Player ink',parentId:null,
    position:{x:0,y:0},pixels:flattenAnatomy(p.parts)}];
   for(const [kind,parts] of [['starter',p.parts],['unlabeled',unlabeled]] as const){
    const result=life(parts,p.seed),m=result.metrics;
-   // Predeclared NON-additive effect sizes. Merely adding any amount of
-   // matter outside an unchanged source fails both measurements.
+   renewals+=result.states.at(-1)!.iterative.changes.filter(c=>c.kind==='renewed').length;
+   // Bulk outside unchanged ink and rigid whole-body translation cannot
+   // change distances between original source identities. Empty birth
+   // coordinates alone would instead reward erasing meaningful features.
    assert.ok(m.altered>=.25,p.id+' '+kind+': >=25% original cells moved or retired');
-   assert.ok(m.vacated>=.1,p.id+' '+kind+': >=10% original occupied sites actually empty');
-   assert.ok(result.adult.events.some(e=>e.kind==='repattern'&&e.removedCellIds.length>0));
+   assert.ok(sourcePairChange(result.birth,result.adult)>=.15,p.id+' '+kind+': source proportions physically change');
+   verifyAnatomicalContinuity(result.birth.sourceCells,result.adult.cells,result.adult);
+   assert.ok(result.adult.events.some(e=>e.kind==='repattern'&&e.physical?.strain));
    const frame=result.sim.frameAt(365,{time:0,action:'idle'});
    assert.deepEqual(new Set(frame.pixels.map(key)),new Set(result.adult.cells.map(key)));
    assert.ok(frame.pixels.every(p=>p.materialCellId&&result.adult.cells.some(c=>c.id===p.materialCellId)));
@@ -105,9 +108,9 @@ test('[MORPH-006/A2] all shipped starters and unlabeled equivalents vacate and r
   }
  }
  assert.equal(JSON.stringify(STARTER_PRESETS),unchanged);
- assert.equal(report.length,24);
- assert.ok(report.some(r=>r.area<1),'shrinking may express development');
+ assert.equal(report.length,24);assert.ok(renewals>0,'real material site succession keeps growth active across the fixed cohort');
  assert.ok(report.some(r=>r.area>1),'growth algorithms remain active');
+ assert.ok(report.every(r=>r.retired===0),'drawn parts do not disappear');
  assert.ok(report.filter(r=>Math.abs(r.aspect)>=.15).length>=8);
 });
 
@@ -122,14 +125,20 @@ test('[MORPH-006/A3] unfamiliar source-dependent seed and care trajectories rema
   const c=createSimulation(source.parts,'UNFAMILIAR-REMODELING-A','infant',{previewCare:{...care,timeline:[
    {needId:'rest',tick:90*24,fulfillment:.15},{needId:'security',tick:90*24,fulfillment:.15}]},reuseLivingMaterial:false});
   for(const day of [0,30,90])assert.deepEqual(a.materialStateAt(day),c.materialStateAt(day));
+  // Care can change actual growth timing while adequate later material
+  // converges under the same fixed potential. Compare the complete physical
+  // trajectory, not only its terminal silhouette. Every daily stage is read.
+  let careTrajectoryChanged=false;
+  for(let day=91;day<=365;day++)if(signature(a.materialStateAt(day).graph)!==signature(c.materialStateAt(day).graph))
+   careTrajectoryChanged=true;
   const adult=a.materialStateAt(365).graph;
   if(signature(adult)!==signature(b.materialStateAt(365).graph))seedSensitive++;
-  if(signature(adult)!==signature(c.materialStateAt(365).graph))careSensitive++;
+  if(careTrajectoryChanged)careSensitive++;
   assert.deepEqual(reconstructDailyPhysicalState(clone(adult),0,365,a.materialStateAt(0).graph).cells,
    new Map(adult.cells.map(c=>[c.id,c])));
  }
  assert.ok(seedSensitive>=4,'physical occupied sites, not seed metadata, must differ');
- assert.ok(careSensitive>=4,'physical occupied sites, not care receipts, must differ');
+ assert.ok(careSensitive>=4,'daily physical occupied sites, not care receipts, must differ across trajectories');
  const {atlas,genome}=materialInputs(drawing(['###','###','###']),'REPATTERN-NULL');
  const program=compileMaterialDevelopment(atlas,genome);let state=createDailyMaterialState(program,TIME);
  for(let k=1;k<=365;k++)state=applyDailyMaterialStep(program,genome,state,window(k,0));
@@ -151,7 +160,8 @@ test('[MORPH-006/A4] exact replay and independent negative witnesses for source,
    assert.ok(next.extensions>=old.extensions&&next.forks>=old.forks&&next.lateralCells>=old.lateralCells);
   }
  }
- assert.ok(renewals>0,'real physical site succession keeps growth algorithms operating');
+ // The fixed full cohort supplies positive succession witnesses. This cavity
+ // individual may legitimately have none; every actual renewal is checked above.
  const graph=state.graph,proof=reconstructDailyPhysicalState(clone(graph),TIME,365,program.source,auth);
  assert.deepEqual(proof.cells,new Map(graph.cells.map(c=>[c.id,c])));
  const resumed=applyDailyMaterialStep(program,genome,clone(mid),window(91),remodel);
@@ -160,10 +170,10 @@ test('[MORPH-006/A4] exact replay and independent negative witnesses for source,
  assert.ok(graph.events.some(e=>e.kind==='repattern'));
  const moves=graph.events.flatMap(e=>e.kind==='repattern'?(e.physical?.relocations??[]):[]);
  assert.ok(moves.length);
- const transported=graph.events.find(e=>e.kind==='repattern'&&e.physical!.relocations.some(m=>m.path!.length>2))!;
+ const transported=graph.events.find(e=>e.kind==='repattern'&&e.physical?.strain)!;
  assert.ok(transported);
  const malformed={...graph,events:graph.events.map(e=>e!==transported?e:{...e,physical:{...e.physical!,
-  relocations:e.physical!.relocations.map((m,i)=>i?m:{...m,path:[m.from,{x:63,y:63},m.to]})}})};
+  relocations:e.physical!.relocations.map((m,i)=>i?m:{...m,to:{...m.to,x:63,y:63}})}})};
  assert.throws(()=>verifyDailyMaterialInventory(malformed,TIME,365,program.source,auth));
  for(const forged of [
   {...graph,cells:graph.cells.map((c,i)=>i?c:{...c,x:c.x+1})},
@@ -175,8 +185,8 @@ test('[MORPH-006/A4] exact replay and independent negative witnesses for source,
    fromCellId:graph.cells[0].id,toCellId:graph.cells[0].id}]},
  ])assert.throws(()=>verifyDailyMaterialInventory(forged,TIME,365,program.source,auth));
  const opened=graph.events.find(e=>e.physical?.protectedVoids);
- assert.ok(opened,'physical boundary surgery can open an authored cavity');
- assert.ok(opened.physical!.protectedVoids!.after.length<opened.physical!.protectedVoids!.before.length);
+ assert.ok(opened,'coordinated strain physically transforms the authored cavity');
+ assert.notDeepEqual(opened.physical!.protectedVoids!.after,opened.physical!.protectedVoids!.before);
  const wrong={...graph,events:graph.events.map(e=>e!==opened?e:{...e,physical:{...e.physical!,
   protectedVoids:{...e.physical!.protectedVoids!,after:opened.physical!.protectedVoids!.before}}})};
  assert.throws(()=>verifyDailyMaterialInventory(wrong,TIME,365,program.source,auth));

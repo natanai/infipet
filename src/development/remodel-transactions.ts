@@ -3,6 +3,8 @@ import {proposeCoherentReshape} from "./coordinated-metamorphosis";
 import {proposeTissueReflow} from "./tissue-reflow";
 import {isLatticeConnected} from "./lattice-connectivity";
 import {proposeDevelopmentalRepatterning,repatterningExpression} from "./developmental-repatterning";
+import {anatomicalContinuityFailure,anatomicalEditGuard,sourceOverlay} from "./anatomical-continuity";
+import {growthSupportDistance} from "./material-support";
 /**
  * Composable DEV-004 remodeling transactions. This module never replays birth
  * anatomy or chooses the global order of heterogeneous development events.
@@ -177,7 +179,7 @@ export function remodelingProposalsBetween(
  * Original source cells may overlap by authored choice; no newly generated
  * overlap or hidden discontinuity is accepted.
  */
-function checkGraph(g:MaterialGraph):string|null {
+function checkGraph(g:MaterialGraph,deforming=false):string|null {
   if(g.version!==1 || !g.sourceFingerprint) return "invalid-material-graph";
   // First-match semantics exactly match the original source-array find(),
   // including authored overlays. Build once instead of scanning every source
@@ -190,7 +192,7 @@ function checkGraph(g:MaterialGraph):string|null {
   const tissue=new Map(g.tissues.map(t=>[t.id,t]));
   if(tissue.size!==g.tissues.length) return "duplicate-tissue";
   const events=new Set(g.events.flatMap(e=>e.createdCellIds));
-  const positions=new Map<string,MaterialCell>();
+  const positions=new Map<string,MaterialCell[]>();
   const groups=new Map<string,MaterialCell[]>();
   let generated=0;
   for(const c of g.cells) {
@@ -204,17 +206,26 @@ function checkGraph(g:MaterialGraph):string|null {
     const k=pointKey(c);
     if(voids.has(k)){
       const original=sourceById.get(c.id);
-      if(!original||pointKey(original)!==k)return "existing-protected-void";
+      const overlay=new Set(g.birth?.protectedVoids??[]);
+      if(!original||pointKey(original)!==k){
+        const ancestry=c.sourceIds.every(id=>{const source=sourceById.get(id);return !!source&&overlay.has(pointKey(source))&&source.color===c.color;});
+        let recorded=original;
+        for(const e of g.events){
+          const made=e.createdCells?.find(p=>p.id===c.id);if(made&&e.physical?.strain)recorded=made;
+          for(const m of e.physical?.relocations??[])if(m.cellId===c.id&&recorded)recorded={...recorded,...m.to};
+        }
+        if(!ancestry||!deforming&&(!recorded||pointKey(recorded)!==k))return "existing-protected-void";
+      }
     }
     if(c.provenance==="generated") {
       generated++;
       if(!c.operationId||!events.has(c.id)||!c.parentCellIds.length)
         return "missing-generating-operation";
     }
-    const prior=positions.get(k);
-    if(prior && (c.provenance==="generated" ||
-      prior.provenance==="generated")) return "existing-material-overlap";
-    positions.set(k,c);
+    const prior=positions.get(k)??[];
+    if(prior.some(other=>(c.provenance==="generated"||other.provenance==="generated")&&
+      !sourceOverlay(c,other,sourceById)))return "existing-material-overlap";
+    positions.set(k,[...prior,c]);
     const group=groups.get(c.tissueId)??[];group.push(c);groups.set(c.tissueId,group);
   }
   if(generated>REMODEL_LIMITS.maxAdded) return "existing-material-limit";
@@ -242,7 +253,7 @@ function checkGraph(g:MaterialGraph):string|null {
        b.tissueId!==l.toTissueId || square(a,b)>8)
       return "dangling-attachment";
   }
-  return null;
+  return anatomicalContinuityFailure(g.sourceCells,g.cells,g);
 }
 /** Current 4-connected enclosed emptiness; fixed authored voids separately persist. */
 function enclosed(cells:readonly MaterialCell[]):Set<string> {
@@ -345,6 +356,7 @@ export function applyRemodelingProposal(
   const sitesChanged:{before:MaterialSite;after:MaterialSite}[]=[];
   let beforeRigidity:number|undefined,afterRigidity:number|undefined;
   let hinge:RemodelingHinge|undefined;
+  let strain:import("./developmental-strain").DevelopmentalStrain|undefined;
   if(!reason) {
     const tissue=graph.tissues.find(t=>t.id===op.tissueId);
     const group=graph.cells.filter(c=>c.tissueId===op.tissueId);
@@ -354,7 +366,8 @@ export function applyRemodelingProposal(
     const axis=direction(op.direction??site?.direction??{x:0,y:-1});
     const anchor=group.find(c=>c.id===site?.rootCellId) ??
       [...group].sort(cmp)[0];
-    const forbidden=new Set([...graph.protectedVoids,...enclosed(graph.cells)]);
+    const forbidden=["extend","reinforce","translate"].includes(op.kind)?
+      new Set([...graph.protectedVoids,...enclosed(graph.cells)]):new Set<string>();
     // Organism-wide turnover is authorized by an archived source tissue;
     // it remains available after that region retires. Local operators still
     // require their own connected living anchor.
@@ -375,6 +388,8 @@ export function applyRemodelingProposal(
       const p={x:tip.x+step.x,y:tip.y+step.y};
       if(!permittedDeposition(p,op.tissueId,graph,forbidden))
         reason="extension-occupied-or-void";
+      else if(growthSupportDistance(graph.cells,graph.links,tip.tissueId,p,program.signals.channels.support.rigidity)===null)
+        reason="extension-lacks-material-support";
       else {
         const child=newCell(id+"/cell",op,p,tip);
         created.push(child);
@@ -416,9 +431,11 @@ export function applyRemodelingProposal(
         Number(b.provenance==="generated")-
         Number(a.provenance==="generated") ||
         square(b,anchor)-square(a,anchor)||cmp(a,b));
+      const coherentEdit=anatomicalEditGuard(graph.sourceCells,graph.cells,graph);
       const choice=candidates.find(c=>!protectedIds.has(c.id) &&
         group.length>1 &&
         connected(group.filter(other=>other.id!==c.id)) &&
+        coherentEdit(c,null)&&
         // Never remove last expressed source identity.
         group.some(other=>other.id!==c.id && other.sourceIds.some(s=>
           graph.sourceCells.some(src=>src.id===s))));
@@ -432,10 +449,13 @@ export function applyRemodelingProposal(
         program.seed,op.id,k,repatterningBudget);
       if(!proposed)reason="no-admissible-developmental-turnover";
       else{
+        created.push(...proposed.createdCells);strain=proposed.strain;
         removed.push(...proposed.removedCells);
-        for(const [cellId,path] of proposed.routes){
-          const from=graph.cells.find(c=>c.id===cellId)!;
-          relocated.push({cellId,from:{x:from.x,y:from.y},to:path.at(-1)!,path});
+        const previous=new Map(graph.cells.map(c=>[c.id,c]));
+        for(const cell of proposed.cells){
+          const from=previous.get(cell.id);
+          if(from&&(from.x!==cell.x||from.y!==cell.y))relocated.push({cellId:cell.id,
+            from:{x:from.x,y:from.y},to:{x:cell.x,y:cell.y}});
         }
         next={...graph,cells:proposed.cells,sites:proposed.sites,tissues:proposed.tissues,
           links:proposed.links,protectedVoids:proposed.protectedVoids};
@@ -538,7 +558,7 @@ export function applyRemodelingProposal(
       removedCellIds:removed.map(c=>c.id),
       sourceCellIds:uniqueSources([...created,...removed]),
     }]};
-    if((reason=checkGraph(candidate))) next=graph;
+    if((reason=checkGraph(candidate,!!strain))) next=graph;
   }
   const attempt:RemodelingAttempt={
     id,atHour:Number.isFinite(atHour)?atHour:0,
@@ -558,18 +578,19 @@ export function applyRemodelingProposal(
       createdCellIds:created.map(c=>c.id),removedCellIds:removed.map(c=>c.id),
       relocated,oldLinks,newLinks,
       sourceCellIds:uniqueSources(
-        op.kind==="repattern"?[...removed,...graph.cells.filter(c=>relocated.some(m=>m.cellId===c.id))]:
+        op.kind==="repattern"?[...created,...removed,...graph.cells.filter(c=>relocated.some(m=>m.cellId===c.id))]:
         created.length||removed.length?[...created,...removed]:
         relocated.length?graph.cells.filter(c=>relocated.some(m=>m.cellId===c.id)):
         graph.cells.filter(c=>c.tissueId===op.tissueId).slice(0,1)),
       ...(beforeRigidity===undefined?{}:
         {rigidityBefore:beforeRigidity,rigidityAfter:afterRigidity}),
     };
-    const event=journalMaterialEvent(graph,next,{
+    const recorded=journalMaterialEvent(graph,next,{
       id,kind:op.kind,atHour,createdCells:created,createdCellIds:transition.createdCellIds,
       removedCellIds:transition.removedCellIds,sourceCellIds:transition.sourceCellIds,
     },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.targetTissueId?{targetTissueId:op.targetTissueId}:{}),...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})},
       ["redistribute","repattern"].includes(op.kind)?new Map(relocated.filter(m=>m.path).map(m=>[m.cellId,m.path!])):undefined);
+    const event=strain?{...recorded,physical:{...recorded.physical!,strain}}:recorded;
     next={...next,events:[...next.events,event]};
   }
   const beforeSites=new Map(graph.sites.map(site=>[site.id,site]));

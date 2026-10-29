@@ -1,3 +1,4 @@
+import {verifyCoordinatedStrain} from "../src/development/anatomical-audit";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -308,13 +309,15 @@ test("[DEV-005/A2] physical suppression blocks forbidden negative space and reco
   const active=new Map(birth.cells.map(c=>[c.id,c]));
   let protection=[...birth.protectedVoids];
   for(const event of state.graph.events){
+    const deformed=event.physical?.strain?verifyCoordinatedStrain(new Map(active),event.createdCells??[],event.removedCellIds,event.physical,event.kind,new Set(protection)):undefined;
+    const currentProtection=deformed??protection;
     for(const cell of event.createdCells??[]){
-      assert.ok(!protection.includes(at(cell)),"ordinary material may not fill a currently protected cavity");
+      assert.ok(!currentProtection.includes(at(cell)),"ordinary material may not fill a currently protected cavity");
       active.set(cell.id,cell);
     }
     for(const move of event.physical?.relocations??[]){
       const prior=active.get(move.cellId)!;assert.equal(at(prior),at(move.from));
-      assert.ok(!protection.includes(at(move.to)));active.set(prior.id,{...prior,...move.to});
+      assert.ok(!currentProtection.includes(at(move.to)));active.set(prior.id,{...prior,...move.to});
     }
     for(const id of event.removedCellIds){assert.ok(active.has(id));active.delete(id);}
     const change=event.physical?.protectedVoids;
@@ -328,7 +331,7 @@ test("[DEV-005/A2] physical suppression blocks forbidden negative space and reco
         if(p.x<0||p.x>=64||p.y<0||p.y>=64||occupied.has(k)||outside.has(k))continue;
         outside.add(k);queue.push({x:p.x-1,y:p.y},{x:p.x+1,y:p.y},{x:p.x,y:p.y-1},{x:p.x,y:p.y+1});
       }
-      assert.deepEqual(change.after,protection.filter(k=>!outside.has(k)),"a mask cannot disappear without a real opening");
+      assert.deepEqual(change.after,deformed??protection.filter(k=>!outside.has(k)),"a mask requires exact physical opening or coordinated transport");
       protection=[...change.after];
     }
   }
