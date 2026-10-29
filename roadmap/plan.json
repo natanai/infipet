@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "infipet-artificial-life",
-  "updatedOn": "2026-10-28",
+  "updatedOn": "2026-10-29",
   "mandate": "One pet per creation: arbitrary authored ink, a permanent hidden seed, and chronological care drive that SAME organism through potentially dramatic developmental forms guided by a scientifically sourced phylogenetic possibility map. No breeding, reproduction, offspring, multi-generation mechanics or heritable change between creatures.",
   "sourceOfTruth": true,
   "lifecycle": {
@@ -924,7 +924,7 @@
           "Fixed nonintervention strategies and explicit chronological intervention window"
         ],
         "outputs": [
-          "Independent piecewise q(t) \u00d7 permanent chaos r(floor(t)) integral counterexample checks",
+          "Independent piecewise q(t) × permanent chaos r(floor(t)) integral counterexample checks",
           "Numeric whole-life structural and physiological signed care contrasts, valid nulls and rendered ownership",
           "Verified chronology, source ancestry, reproducibility and save/replay properties"
         ],
@@ -1282,7 +1282,7 @@
           "locomotor topology derived from active material"
         ],
         "chronology": "T measured in hours from hatching. Original material thresholds at T, then remodeling proposals at T, then iterative interval [T-1,T) completion if integer, then care observations at T apply to next interval. Lexical IDs and unit ordinals settle equal-time category conflicts.",
-        "equation": "E_i(t)=min(1,(1/d_i)\u222b_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
+        "equation": "E_i(t)=min(1,(1/d_i)∫_{s_i}^{min(t,s_i+d_i)}q_i(u)*materialOperatorChaosRate(i,floor(u))du), no inherited strength factor in the adapter; only material transaction engine applies strength.",
         "invariants": [
           "Material graph and module state share a single birth fingerprint/genotype",
           "No cumulative from-birth snapshots overlaid",
@@ -2501,11 +2501,11 @@
         "MORPH-006",
         "PERF-003"
       ],
-      "status": "done",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
-          "requirement": "Source-derived pigment islands, source parts, contour protrusions, material contacts and containment relationships persist through real cell turnover. Independent feature oracles reject erased eyes/limbs, scattered details and broken enclosures while allowing individual source cells to retire.",
+          "requirement": "Every explicitly player-selected part remains independently source-represented through real cell turnover. Pigment and enclosure are material properties, not geometry-derived eye/limb labels; unselected contours never create semantic parts or area-based persistence quotas. Independent oracles reject loss or collapse of separately authored eyes/limbs.",
           "oracle": "focused-node-test"
         },
         {
@@ -2561,8 +2561,88 @@
         "repairedRegressions": "All six focused existing regression checks pass, including real source-cell resorption, actual flank reflow, strict cavity-overlay authorization, apical succession and the ordinary player renderer. These are not disabled to retain features.",
         "browserQualification": "Saved-life browser assertions await and resolve the actual persisted document from both localStorage and IndexedDB under the original 30-second wait bound, returning the exact document that satisfies the condition. The existing maximum-complexity fixture independently exercises the large-save reader and compares exact living identity and physical graph; boundary, corruption recovery and offline assertions remain active.",
         "performance": "Only source arrays with frozen cells reuse private source membership, ownership and contour-port setup; every live candidate and journal event is still independently evaluated. Mutable and shallow-frozen source changes, fresh live inventories and changed cavity context are tested. Original PERF-001 thresholds remain unchanged; full release verification runs them in isolation after functional tests. Native-phone performance is not claimed.",
-        "unfamiliarQualification": "The existing MORPH-005 suite covers 30 independent drawings by three seeds by three care histories through the full available lifetime; canonical release verification includes that suite."
+        "unfamiliarQualification": "The existing MORPH-005 suite covers 30 independent drawings by three seeds by three care histories through the full available lifetime; canonical release verification includes that suite.",
+        "previousQualificationSupersededBy": "PHY-004: original contour-protrusion and unlabeled-shape anatomical classification was not player-authorized. Independent authored-part requalification pending."
       }
+    },
+    {
+      "id": "PHY-004",
+      "phase": 4,
+      "area": "Phylogeny",
+      "algorithmId": "ancestry",
+      "title": "Make selected anatomical brushes the exclusive semantic source and connect a seeded real/fictional tree-neighbor",
+      "dependsOn": [
+        "PHY-003",
+        "MORPH-007"
+      ],
+      "status": "in_progress",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Unselected geometry is entirely Body; no hole, pigment, symmetry, spatial proximity, or contour automatically becomes an eye, mouth, limb, or other anatomy label.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Selected part kinds and instances remain stable independently of layout, position and silhouette while a source-derived birth anchor and candidate rankings use only those explicit labels and permanent seed.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Multiple separately authored eyes/limbs remain independently identifiable through real material lineage; no generic area-based minimum or invented contour port substitutes for typed anatomical identity.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A4",
+          "requirement": "Editor cannot infer semantic parents from proximity; only explicit part metadata selects parent, while physical contact may constrain attachment and locomotion.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A5",
+          "requirement": "The seeded primary game reference belongs to the bundled phylogeny with clearly marked fantastical possibilities, is deterministic and reference-only, does not claim scientific ancestry, and influences genuine player physical development.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-lineage-authored-brush.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-lineage-authored-brush.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/drawing-features.ts",
+        "src/drawing.ts",
+        "src/lineage/source-classifier.ts",
+        "src/lineage/authored-neighbor.ts",
+        "src/integration/index.ts",
+        "src/phylogeny/fantasy-paths.ts",
+        "src/development/anatomical-features.ts",
+        "src/development/material-graph.ts",
+        "src/development/anatomical-audit.ts",
+        "src/development/anatomical-continuity.ts",
+        "tests/alg-lineage-authored-brush.test.ts"
+      ],
+      "interfaceContract": {
+        "inputs": [
+          "player-selected brush kind per source part",
+          "the exact authored cell graph",
+          "permanent seed",
+          "real and explicitly fictional reference nodes"
+        ],
+        "outputs": [
+          "immutable declared anatomical identities",
+          "seeded developmental game reference",
+          "source-owned physical operator prior"
+        ],
+        "mustNot": [
+          "infer any selected body-part kind from geometry",
+          "invent species ancestry",
+          "inject target sprites or known creature outcomes",
+          "drop original material audit or 365 elapsed-day chronology",
+          "rewrite past save histories"
+        ]
+      },
+      "releaseGate": "Draft only until independent source/semantic tests, baseline morphology/physical audits, save compatibility, full year non-tendril qualification, and mobile review pass."
     }
   ],
   "algorithms": [
@@ -2646,7 +2726,8 @@
       "taskIds": [
         "PHY-001",
         "PHY-002",
-        "PHY-003"
+        "PHY-003",
+        "PHY-004"
       ],
       "readyWhen": [
         "SYS-001"
@@ -3080,6 +3161,6 @@
       "command": "node scripts/morphology-compare.mjs --out=/tmp/infipet-morphology.json",
       "mustNeverBecomeImplicitPass": true
     },
-    "expressedAnatomy": "Drawn parts remain physically represented throughout development. Exact birth pixels and positions need not persist: their pigment-specific material lineages, neighborhoods and physical relationships must. Coordinated source-derived strain can change proportions, outlines and cavities through independently reconstructed daily transactions; neither arbitrary feature deletion nor a stationary-coordinate quota is valid."
+    "expressedAnatomy": "Only parts explicitly selected through the player's anatomical brush receive semantic kind labels. Unselected source ink is Body. Physical color islands, contours, cavities and contacts may affect viable geometry, never identify eyes, limbs, horns, heads or any body part. Every declared part remains source-traceable and independently represented; source cells may retire and explicitly phylogeny-authorized changes can become vestigial without arbitrary stationary-cell or minimum-area quotas."
   }
 }
