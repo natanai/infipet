@@ -19,6 +19,7 @@ import { genomeCacheKey, type InheritedGenome } from "../simulation/genome";
 import type { SourceAtlas } from "../simulation/source-atlas";
 import { chooseAuthoredReference, type AuthoredReference } from "../lineage/authored-neighbor";
 import { FANTASY_PATHS } from "../phylogeny/fantasy-paths";
+import { compileReadableSeed, type ReadableSeedProgram } from "../genetics/seed-language";
 
 /**
  * Birth-time composition of player-declared anatomy and seeded phylogenetic
@@ -54,6 +55,8 @@ export type RuntimeBiology = Readonly<{
   references: readonly ReferenceHypothesis[];
   /** Chosen GAME developmental reference, not a scientific identification. */
   playReference: AuthoredReference | null;
+  /** All readable per-character developmental proposals and tree-weighted rolls. */
+  seedLanguage: ReadableSeedProgram | null;
   scientificPetAssignment: null;
   physicalOperatorsConnected: false;
   chronologicalExposureConnected: false;
@@ -69,6 +72,8 @@ export function compileRuntimeBiology(
   const observation = inferSourceAffinities(atlas, {});
   const tree = createPhylogenyView(FANTASY_PATHS);
   const playReference = chooseAuthoredReference(atlas, inherited.seed);
+  const seedLanguage = playReference
+    ? compileReadableSeed(inherited.seed, playReference.referenceId, atlas) : null;
   const candidateIds = observation.candidates.flatMap(candidate =>
     candidate.taxon ? [candidate.taxon.nodeId] : []);
   const possibleIds = [...new Set([...candidateIds, ...anatomicalReferenceIds])];
@@ -104,6 +109,7 @@ export function compileRuntimeBiology(
     ),
     references,
     playReference,
+    seedLanguage,
     scientificPetAssignment: null,
     physicalOperatorsConnected: false,
     chronologicalExposureConnected: false,
