@@ -238,6 +238,19 @@ export function createAnatomicalAudit(
         if (!exposed) throw new Error("Buried drawn protrusion: " + feature.id);
       }
     }
+    const semantic = contract.features.filter(f =>
+      f.kind && f.kind !== "body" && f.kind !== "decoration" && f.sourcePartId);
+    for (let i = 0; i < semantic.length; i++)
+      for (let j = 0; j < i; j++) {
+        const a = semantic[i], b = semantic[j];
+        if (a.kind !== b.kind) continue;
+        const left = new Set(groups[a.id].map(position));
+        const right = new Set(groups[b.id].map(position));
+        if (![...left].some(k => !right.has(k)) ||
+            ![...right].some(k => !left.has(k)))
+          throw new Error("Collapsed player-declared parts: " +
+            b.sourcePartId + ":" + a.sourcePartId);
+      }
     for (const edge of contract.bonds) {
       let adjacent = false;
       search: for (const a of groups[edge.a])
