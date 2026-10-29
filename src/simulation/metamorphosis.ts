@@ -1,3 +1,7 @@
+/** HISTORICAL METAMORPHOSIS/POSE COMPATIBILITY. Its continuous age fields
+ * and original stage markers do not schedule the living pet's anatomy.
+ * All physical change commits only at the 365 daily source-owned checks.
+ * See docs/ARCHITECTURE.md before modifying this imported module. */
 import { clamp, type Point } from "./model";
 import { geneRandom, type InheritedGenome } from "./genome";
 import { inheritedSourceRetention } from "./morphogenesis";
