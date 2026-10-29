@@ -361,6 +361,8 @@ function physicalUnit(
         const childSiteId=childId+"/site/0";
         tissues.push({
           id:childId,sourcePartId:tissue.sourcePartId,parentId:tissue.id,
+          ...(op.developedKind ? {developedKind:op.developedKind,
+            geneticInstructionId:op.geneticInstructionId} : {}),
           relationship:"joint",sourceCellIds:source.sourceIds,
           growthSiteIds:[childSiteId],rigidity:0,
         });
