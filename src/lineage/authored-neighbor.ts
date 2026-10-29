@@ -15,7 +15,8 @@ import { FANTASY_PATHS } from "../phylogeny/fantasy-paths";
  * with any different valid geometry give the same ranking for a fixed seed.
  * The single pet retains its actual immutable ancestry/source throughout life.
  */
-export const AUTHORED_NEIGHBOR_VERSION = "authored-neighbor-v1" as const;
+export const AUTHORED_NEIGHBOR_VERSION = "authored-neighbor-v2" as const;
+export type ReferenceDomain = "animal"|"plant"|"fungus"|"fictional"|"other-scientific";
 type Role = Exclude<PartKind, "body" | "decoration" | "egg">;
 type Candidate = Readonly<{ id: string; roles: readonly Role[] }>;
 /**
@@ -57,6 +58,8 @@ export type AuthoredReferenceCandidate = Readonly<{
 export type AuthoredReference = Readonly<{
   version: typeof AUTHORED_NEIGHBOR_VERSION;
   referenceId: string;
+  /** Seed-selected realm; no initial kingdom is inferred from Body pixels. */
+  referenceDomain: ReferenceDomain;
   /** Nonempty, separately authored parts by selected brush; no geometry. */
   authoredCounts: Readonly<Partial<Record<PartKind, number>>>;
   roleEvidence: "player-selected-brush-only";
@@ -109,9 +112,33 @@ export function chooseAuthoredReference(atlas: SourceAtlas, seed: string): Autho
     return { nodeId: node.id, structuralScore, tieBreak };
   }).sort((a, b) => b.structuralScore - a.structuralScore ||
     b.tieBreak - a.tieBreak || a.nodeId.localeCompare(b.nodeId));
+  const domainOf = (id:string):ReferenceDomain =>
+    id.startsWith("fiction:") ? "fictional" :
+    tree.isDescendant(id,"ncbi:33090") ? "plant" :
+    tree.isDescendant(id,"ncbi:4751") ? "fungus" :
+    tree.isDescendant(id,"ott691846") ? "animal" : "other-scientific";
+  let selected=scored[0];
+  if (!used.length) {
+    // Choosing uniformly over raw taxon IDs would overwhelm plants and fungi
+    // just because our animal *catalog* happens to contain many more nodes.
+    // First roll a represented tree domain, THEN a node within that domain.
+    // Each of the five supported realms receives the same ex-ante chance.
+    // This is a documented game choice, not biological likelihood or ancestry.
+    const domains:readonly ReferenceDomain[]=[
+      "animal","plant","fungus","fictional","other-scientific"];
+    const available=domains.filter(d=>scored.some(x=>domainOf(x.nodeId)===d));
+    const domain=available[hash(seed+"|uncommitted-domain")%available.length];
+    const inDomain=scored.filter(x=>domainOf(x.nodeId)===domain);
+    selected=inDomain[hash(seed+"|uncommitted-node|"+domain)%inDomain.length];
+    // Ranking still exposes every supported node; the selected seed draw is
+    // first so consumers never mistake the highest tie-break for the anchor.
+    scored.splice(scored.indexOf(selected),1);
+    scored.unshift(selected);
+  }
   return {
     version: AUTHORED_NEIGHBOR_VERSION,
-    referenceId: scored[0].nodeId,
+    referenceId: selected.nodeId,
+    referenceDomain: domainOf(selected.nodeId),
     authoredCounts: counts,
     roleEvidence: "player-selected-brush-only",
     status: used.length ? "typed-heuristic" : "seeded-ambiguous",
