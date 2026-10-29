@@ -97,11 +97,11 @@ export function sourceStrain(
   );
   const qx = orbit.x / (CHAOS_MODULUS - 1),
     qy = orbit.y / (CHAOS_MODULUS - 1);
-  const sourceIds = new Set(graph.sourceCells.map((c) => c.id));
-  const source = graph.cells.filter(
-    (p) => p.provenance === "authored" && sourceIds.has(p.id),
-  );
-  const material = source.length ? source : graph.cells;
+  // The deformation organizer must follow the organism that actually
+  // exists NOW. Restricting its axis/band to birth ink caused later
+  // differentiating material to outgrow the region ever being remodeled.
+  // Each moved cell still retains its immutable original source ancestry.
+  const material = graph.cells;
   const axis: "x" | "y" =
     qx <
     (c.growth.expansion + 0.1) /
