@@ -61,6 +61,12 @@ export type AuthoredReference = Readonly<{
   authoredCounts: Readonly<Partial<Record<PartKind, number>>>;
   roleEvidence: "player-selected-brush-only";
   status: "seeded-ambiguous" | "typed-heuristic";
+  /**
+   * Body-only (including non-anatomical decoration) starts undifferentiated.
+   * Every supported real or fantastical tree node remains eligible; the
+   * selected birth reference is orientation, not a phylogenetic gate.
+   */
+  developmentalPotential: "pluripotent" | "authored-specialized";
   candidates: readonly AuthoredReferenceCandidate[];
 }>;
 const roleSet = new Set<string>([
@@ -83,17 +89,24 @@ export function chooseAuthoredReference(atlas: SourceAtlas, seed: string): Autho
   const tree = createPhylogenyView(FANTASY_PATHS);
   const used = Object.entries(counts).filter(([kind, n]) =>
     roleSet.has(kind) && n > 0);
-  const scored: AuthoredReferenceCandidate[] = REFERENCE_ROLES.map(candidate => {
-    if (!tree.getNode(candidate.id) || !tree.resolveBiologicalConstraints(candidate.id))
-      throw new Error("Missing referenced scientific/fictional node: " + candidate.id);
-    const allowed = new Set(candidate.roles);
+  // Include the FULL represented tree rather than the short handpicked
+  // reference list. Every real and fantastical branch can be a birth anchor
+  // for an uncommitted Body organism, and no later branch is excluded.
+  // Roles are annotations on a small set of nodes, not gates.
+  const annotated = new Map(REFERENCE_ROLES.map(candidate => [candidate.id, candidate.roles]));
+  for (const id of annotated.keys())
+    if (!tree.getNode(id)) throw new Error("Unknown declared reference: " + id);
+  const scored: AuthoredReferenceCandidate[] = tree.nodes.map(node => {
+    if (!tree.resolveBiologicalConstraints(node.id))
+      throw new Error("Unresolvable supported reference: " + node.id);
+    const allowed = new Set(annotated.get(node.id) ?? []);
     // A declared anatomical role is evidence, not a biologically impossible
     // morphology if the reference does not list it. Do not reward absence of
     // user-authored parts or use birth pixel area as confidence.
     const structuralScore = used.reduce((sum, [kind, n]) =>
       sum + Math.min(3, n) * (allowed.has(kind as Role) ? 2 : -1), 0);
-    const tieBreak = hash(seed + "|authored-neighbor|" + candidate.id) / 4294967296;
-    return { nodeId: candidate.id, structuralScore, tieBreak };
+    const tieBreak = hash(seed + "|authored-neighbor|" + node.id) / 4294967296;
+    return { nodeId: node.id, structuralScore, tieBreak };
   }).sort((a, b) => b.structuralScore - a.structuralScore ||
     b.tieBreak - a.tieBreak || a.nodeId.localeCompare(b.nodeId));
   return {
@@ -102,6 +115,7 @@ export function chooseAuthoredReference(atlas: SourceAtlas, seed: string): Autho
     authoredCounts: counts,
     roleEvidence: "player-selected-brush-only",
     status: used.length ? "typed-heuristic" : "seeded-ambiguous",
+    developmentalPotential: used.length ? "authored-specialized" : "pluripotent",
     candidates: scored,
   };
 }
