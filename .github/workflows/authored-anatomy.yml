@@ -5,6 +5,12 @@ on:
       - architecture/authored-anatomy-phylogeny
   pull_request:
     paths:
+      - 'docs/**'
+      - 'AGENTS.md'
+      - 'README.md'
+      - 'roadmap/plan.json'
+      - 'src/part-guide.ts'
+      - 'tests/repository-guidance.test.ts'
       - 'src/genetics/**'
       - 'src/lineage/**'
       - 'src/phylogeny/**'
@@ -27,6 +33,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
+      - name: Ensure canonical documentation and removal of obsolete entrypoints
+        run: pnpm exec tsx --test tests/repository-guidance.test.ts
       - name: Verify player-declared anatomy and tree selection
         run: pnpm exec tsx --test tests/alg-lineage-authored-brush.test.ts tests/alg-genetics-readable-seed.test.ts tests/alg-observation-affinity.test.ts tests/alg-observation-robustness.test.ts tests/alg-integration-runtime.test.ts
       - name: Verify independent source continuity and growth conservation
