@@ -1447,7 +1447,7 @@
       "acceptance": [
         {
           "id": "A1",
-          "requirement": "Exactly 12 original editable presets have fixed IDs/seeds, approved existing colors, bounded pixels, acyclic valid part relationships and native living-pet save round trips",
+          "requirement": "Exactly 12 original editable starter drawings have stable unique IDs and human-readable genetic scripts composed only of normal A–Z and decimal dosage tokens. Selecting one copies the drawing and seed into the ordinary editable player creation path, with no preset-specific physical operators, future evolution targets, or server data. Existing colors, bounded pixels, valid authored part relationships, and ordinary living-pet save round trips remain supported.",
           "oracle": "focused-node-test"
         }
       ],
@@ -1467,7 +1467,10 @@
         "command": "pnpm build:web && pnpm test:ui",
         "testPath": "tests/player-interface.browser.mjs",
         "scope": "Real browser draw-first, all 15 one-action parts, birth once, Pet identity, explicit replacement, import/export, refresh and offline reopen; desktop/narrow screenshots are interface evidence only."
-      }
+      },
+      "presetSeedLanguage": "readable-seed-v1",
+      "presetSeedImplementation": "src/presets.ts: twelve explicit, ordinary, stable readable gene strings. Pippo eyes and mouth are separately authored source parts, not a guessed facial image.",
+      "presetSeedManualStatus": "Implemented without reinstalling automatic test workflow; manual phone visual growth acceptance remains open. Old STARTER-<NAME>-2026 strings incorrectly parsed mascot names into genes and have been removed."
     },
     {
       "id": "UI-002",
@@ -2096,7 +2099,7 @@
         },
         {
           "id": "A2",
-          "requirement": "Every public starter at its immutable shipped seed and the same ink flattened into unlabeled freehand input exhibits substantial independently measured physical development over a full 365-check lifetime: broad nonterminal growth or significant change in original material proportions and pair distances, without preset-specific runtime inputs. Mass gain is not required.",
+          "requirement": "Every public starter at its fixed current readable seed and the same ink flattened into unlabeled freehand input exhibits substantial independently measured physical development over a full 365-check lifetime: broad nonterminal growth or significant change in original material proportions and pair distances, without preset-specific runtime inputs. Mass gain is not required.",
           "oracle": "focused-node-test"
         },
         {
@@ -2140,7 +2143,7 @@
           "independently measured birth-relative morphological breadth"
         ],
         "mustNot": [
-          "change starter drawings or seeds",
+          "special-case preset outcomes or secretly alter preset seed/drawing at runtime; author-requested source/seed updates are ordinary fixture changes",
           "change renderer or daily schedule",
           "bypass physical or phylogenetic constraints",
           "inject named outcomes or turn rejected operators into tendril fallback"
@@ -2200,7 +2203,8 @@
           "existingBudgetsChanged": false,
           "followUpTask": "PERF-002"
         },
-        "historicalBaseline": "The numerical mass-growth evidence below records the pre-MORPH-006 implementation. It is historical, not acceptance of the revised non-additive morphology. Current turnover and qualification evidence belongs to MORPH-006."
+        "historicalBaseline": "The numerical mass-growth evidence below records the pre-MORPH-006 implementation. It is historical, not acceptance of the revised non-additive morphology. Current turnover and qualification evidence belongs to MORPH-006.",
+        "historicalFixtureStatus": "Any prior numerical cohort results for original STARTER-NAME-2026 seed strings are historical only. New readable starter genes have not been independently run through full 365-check visual/manual evaluation; no current qualification is claimed."
       }
     },
     {
@@ -2517,7 +2521,7 @@
         },
         {
           "id": "A3",
-          "requirement": "All twelve immutable starters and flattened unlabeled equivalents preserve every drawn material feature and its neighborhood across the complete 365 checks while exhibiting independently measured non-additive proportional and regional development. Unfamiliar drawings, immutable seeds and causal care counterfactuals use the same algorithms.",
+          "requirement": "All twelve editable starters with fixed current readable seeds and flattened unlabeled equivalents preserve every drawn material feature and its neighborhood across the complete 365 checks while exhibiting independently measured non-additive proportional and regional development. Unfamiliar drawings, immutable seeds and causal care counterfactuals use the same algorithms.",
           "oracle": "focused-node-test"
         },
         {
@@ -2564,7 +2568,8 @@
         "browserQualification": "Saved-life browser assertions await and resolve the actual persisted document from both localStorage and IndexedDB under the original 30-second wait bound, returning the exact document that satisfies the condition. The existing maximum-complexity fixture independently exercises the large-save reader and compares exact living identity and physical graph; boundary, corruption recovery and offline assertions remain active.",
         "performance": "Only source arrays with frozen cells reuse private source membership, ownership and contour-port setup; every live candidate and journal event is still independently evaluated. Mutable and shallow-frozen source changes, fresh live inventories and changed cavity context are tested. Original PERF-001 thresholds remain unchanged; full release verification runs them in isolation after functional tests. Native-phone performance is not claimed.",
         "unfamiliarQualification": "The existing MORPH-005 suite covers 30 independent drawings by three seeds by three care histories through the full available lifetime; canonical release verification includes that suite.",
-        "previousQualificationSupersededBy": "PHY-004: original contour-protrusion and unlabeled-shape anatomical classification was not player-authorized. Independent authored-part requalification pending."
+        "previousQualificationSupersededBy": "PHY-004: original contour-protrusion and unlabeled-shape anatomical classification was not player-authorized. Independent authored-part requalification pending.",
+        "historicalFixtureStatus": "Any prior numerical cohort results for original STARTER-NAME-2026 seed strings are historical only. New readable starter genes have not been independently run through full 365-check visual/manual evaluation; no current qualification is claimed."
       }
     },
     {
@@ -3271,6 +3276,6 @@
       "care causing real expression differences",
       "daily saved pet continuation"
     ],
-    "currentPriority": "Observe whole-body metamorphosis on actual device after draft is deployed: dynamic existing-material strain, responsive 5-phase allometry, source-child organ identity, meaningful care. Automated CI stays removed."
+    "currentPriority": "12 selectable starter drawings now ship fixed normal readable A–Z seeds, without name-derived genes or mascot-specific operators; prioritize evaluating their ordinary full-life morphology and meaningful care on live iPhone Safari. Do not restore CI gates."
   }
 }
