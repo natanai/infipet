@@ -4,7 +4,7 @@ import { hash } from "../src/simulation/model";
 import { compileGenome } from "../src/simulation/genome";
 import { createSimulation } from "../src/simulation";
 import { parseSeedInstructions, SEED_ALPHABET, SEED_ROLES,
-  compileReadableSeed } from "../src/genetics/seed-language";
+  compileReadableSeed, scheduleSeedOpportunities } from "../src/genetics/seed-language";
 import { chooseAuthoredReference } from "../src/lineage/authored-neighbor";
 import { createPhylogenyView } from "../src/phylogeny";
 import { FANTASY_PATHS } from "../src/phylogeny/fantasy-paths";
@@ -183,4 +183,26 @@ test("[PHY-004/A12] body-only reference lottery balances supported phylogenetic 
     observed.add(expectedDomain);
   }
   assert.deepEqual([...observed].sort(),[...domains].sort());
+});
+
+
+test("[PHY-004/A13] explicit seed kinds share finite physical-growth slots before duplicates", () => {
+  const {atlas}=materialInputs(drawing(["###","###","###"],"body"),"12E12L");
+  const seed=compileReadableSeed("12E12L","ott244265",atlas);
+  const eyes=seed.opportunities.filter(o=>o.kind==="eye"&&o.accepted&&o.source==="letter");
+  const legs=seed.opportunities.filter(o=>o.kind==="leg"&&o.accepted&&o.source==="letter");
+  assert.ok(eyes.length>2&&legs.length>2,
+    "the deterministic high-dose witness must independently enable both selected kinds");
+  const slots=scheduleSeedOpportunities(seed,6);
+  assert.equal(slots.length,6);
+  assert.deepEqual(slots,scheduleSeedOpportunities(seed,6));
+  assert.equal(slots[0].source,"letter");
+  assert.equal(slots[1].source,"letter");
+  assert.notEqual(slots[0].kind,slots[1].kind,
+    "one anatomical kind must not monopolize the budget by roster order");
+  assert.ok(slots.some(o=>o.kind==="eye")&&slots.some(o=>o.kind==="leg"));
+  assert.ok(slots.every(o=>o.accepted&&o.source==="letter"));
+  assert.deepEqual(scheduleSeedOpportunities(seed,0),[]);
+  assert.throws(()=>scheduleSeedOpportunities(seed,169),/0..168/);
+  assert.throws(()=>scheduleSeedOpportunities(seed,-1),/0..168/);
 });
