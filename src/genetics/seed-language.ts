@@ -169,3 +169,37 @@ export function compileReadableSeed(
     origin:pluripotent?"pluripotent-body":"authored-anatomy",
     instructions,opportunities,features,processes,phase};
 }
+
+/**
+ * Choose a finite set of ALREADY ACCEPTED genetically eligible operations.
+ * Explicit seed letters precede latent one-cell opportunities. Within each
+ * evidence tier, distribute one accepted ticket per anatomical kind before
+ * any kind receives its second, then its third, etc. Seed-derived hash breaks
+ * equal-rank ties. This prevents a fixed alphabetical PartKind roster from
+ * consuming every operator slot with e.g. Eyes before Legs are considered.
+ *
+ * No rerolls, geometry heuristics or care: O(n log n), n <= 14*12.
+ */
+export function scheduleSeedOpportunities(
+  program:ReadableSeedProgram, limit:number,
+):readonly SeedOpportunity[] {
+  if(!Number.isSafeInteger(limit)||limit<0||limit>168)
+    throw new RangeError("Seed material-op limit must be an integer 0..168");
+  const accepted=program.opportunities.filter(x=>x.accepted);
+  const counters=new Map<string,number>(), ranks=new Map<string,number>();
+  for(const op of accepted) {
+    const key=op.source+"|"+op.kind;
+    const rank=counters.get(key)??0;
+    ranks.set(key+"|"+op.ticket,rank);
+    counters.set(key,rank+1);
+  }
+  return [...accepted].sort((a,b)=>{
+    if(a.source!==b.source)return a.source==="letter"?-1:1;
+    const ar=ranks.get(a.source+"|"+a.kind+"|"+a.ticket)!;
+    const br=ranks.get(b.source+"|"+b.kind+"|"+b.ticket)!;
+    if(ar!==br)return ar-br;
+    const ah=hash(program.originalSeed+"|gene-allocation|"+a.kind);
+    const bh=hash(program.originalSeed+"|gene-allocation|"+b.kind);
+    return ah-bh || a.kind.localeCompare(b.kind) || a.ticket-b.ticket;
+  }).slice(0,limit);
+}
