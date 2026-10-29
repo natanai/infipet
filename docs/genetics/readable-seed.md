@@ -284,9 +284,16 @@ coordinated repatterning windows, rather than three late and sparse waves,
 start at checks 12, 79, 148, 219, and 289, with durations 55, 55, 55,
 55, and 66 respectively and at most 10 earned opportunities each. These
 are source-cell relocations with explicit replacement seam daughters, not
-renderer warps; they can correctly do nothing if source geometry, protected
-voids, links, care or resource limits reject the proposal. Source identities
-never transform into species targets or disappear silently.
+renderer warps. **The physical strain band's coordinates are derived from
+all currently live material cells at that check**, including source-owned
+growth, not only the original tiny birth drawing. This allows later phases
+to deform the actual mature-size body rather than repeatedly straining a
+birth-size patch. The independent verifier separately re-derives the same
+axis, cut, band and mode from the PRE-transaction live inventory; it does
+not trust the producer or its claimed operation. They can correctly do
+nothing if physical geometry, protected voids, links, care or resource limits
+reject the proposal. Source identities never transform into species targets
+or disappear silently.
 
 **Continuing specialist morphology:** Once new tissue has genuinely been
 born, subsequent daily regional growth does not discard its permanent
