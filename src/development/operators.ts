@@ -225,6 +225,8 @@ export function applyMaterialOperators(
         const rootSiteId = childId + "/site/0";
         tissues.push({
           id: childId, sourcePartId: tissue.sourcePartId, parentId: tissue.id,
+          ...(op.developedKind ? { developedKind: op.developedKind,
+            geneticInstructionId: op.geneticInstructionId } : {}),
           relationship: "joint", sourceCellIds: root.sourceIds,
           growthSiteIds: [rootSiteId], rigidity: 0,
         });
