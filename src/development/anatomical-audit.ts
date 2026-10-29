@@ -33,11 +33,10 @@ export function verifyStrainProgram(
     )
   )
     throw new Error("Invalid permanent strain authorization");
-  const ids = new Set(source.map((c) => c.id)),
-    ink = [...before.values()].filter(
-      (c) => c.provenance === "authored" && ids.has(c.id),
-    );
-  const live = ink.length ? ink : [...before.values()];
+  // Independent pre-transaction oracle: the developmental strain must be
+  // derived from the COMPLETE live physical mass, not merely birth pixels.
+  // This evaluator never calls sourceStrain() or the producer's graph mapper.
+  const live = [...before.values()];
   const orbit = stepChaos(
       seedChaos(
         [parameters.seed, fingerprint, wave, "coherent-strain"].join("|"),
