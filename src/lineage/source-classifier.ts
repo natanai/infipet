@@ -229,21 +229,70 @@ export function rankBiologicalAffinities(
 }
 
 /**
- * Integration usage (PHY-001 is now included in main):
+ * The player's selected brush is the ONLY authority for anatomical meaning.
+ * Do not infer animals, plants, fungi, eyes or limbs from outline, symmetry,
+ * color, proximity, holes, or connected-component shape.
  *
- * const alternatives = inferSourceAffinities(sourceAtlas, {
- *   candidateNodeIds: { plant: ["ncbi:3193"] },
- * });
- * // Every candidate retains its heuristic weight and geometric evidence.
- * // A candidate.taxon reference is independently checked against the bundled
- * // scientific tree, but does not establish any organism's real ancestry.
+ * Scores here are declared-part evidence for possible developmental references,
+ * not scientific species assignments. Body-only drawings are unclassified
+ * blobs: their actual development reference is selected from the tree using
+ * the immutable seed, without relabelling any source material.
  *
- * The living pet's random seed, care, and changing anatomical expression are
- * managed downstream; inference never mutates its fixed birth identity.
+ * inkMorphology is returned for physical/diagnostic statistics only. It never
+ * contributes to an affinity score or anatomical label.
  */
 export function inferSourceAffinities(
   atlas: SourceAtlas,
   taxonomy?: AffinityTaxonomyOptions,
 ): AffinityInference {
-  return rankBiologicalAffinities(inferInkMorphology(atlas), taxonomy);
+  const morphology = inferInkMorphology(atlas);
+  const counts = new Map<string, number>();
+  for (const part of atlas.patches) {
+    if (!part.source.cells.length) continue;
+    counts.set(part.kind, (counts.get(part.kind) ?? 0) + 1);
+  }
+  const count = (kind: string) => counts.get(kind) ?? 0;
+  const animals = count("eye") + count("mouth") + count("ear") +
+    count("head") + count("arm") + count("hand") + count("leg") +
+    count("foot") + count("tail") + count("wing") + count("horn");
+  const directed = animals + count("hair") + count("egg");
+  const scores: Record<BiologicalAffinity, number> = {
+    animal: Math.min(2, 0.23 * animals + 0.05 * (count("hair") + count("egg"))),
+    plant: 0,
+    fungus: 0,
+    unresolved: directed ? 0.18 : 0.65,
+  };
+  // No dedicated leaf/root or fungal-tissue brush currently exists. Plant
+  // and fungal references remain valid seeded possibilities for body-only ink.
+  const scored = affinities.map(affinity => {
+    const score = scores[affinity];
+    const taxon = affinity === "unresolved" || !morphology.signature.occupiedCells
+      ? null
+      : (taxonomy?.candidateNodeIds?.[affinity] ?? [cladeRoots[affinity]])
+        .map(id => verifyTaxonPossibility(affinity, id))
+        .find(candidate => candidate !== null) ?? null;
+    return { affinity, score, taxon, evidence: [] as AffinityEvidence[] };
+  });
+  const weights = scored.map(item => Math.exp(item.score / 1.7));
+  const sum = weights.reduce((n, v) => n + v, 0);
+  const candidates = scored.map((item, i) => ({
+    ...item, probability: weights[i] / sum,
+  })).sort((a, b) => b.probability - a.probability ||
+    affinities.indexOf(a.affinity) - affinities.indexOf(b.affinity));
+  const [first, second] = candidates;
+  const entropy = -candidates.reduce(
+    (n, c) => n + c.probability * Math.log(c.probability), 0,
+  ) / Math.log(candidates.length);
+  const margin = first.probability - second.probability;
+  return {
+    version: "ink-affinity-v1",
+    morphology, candidates,
+    bestAffinity: first.affinity,
+    uncertainty: clamp01(entropy),
+    margin,
+    confidence: directed && first.affinity === "animal" &&
+      first.probability >= 0.4 && margin >= 0.1
+      ? "tentative" : "insufficient",
+    probabilityKind: "heuristic-not-calibrated",
+  };
 }
