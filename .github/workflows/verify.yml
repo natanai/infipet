@@ -26,6 +26,8 @@ jobs:
       - run: node scripts/roadmap.mjs --check
       - run: pnpm typecheck
       - run: pnpm test
+      - name: Verify explicit brush semantics, authored feature conservation and tree placement
+        run: pnpm exec tsx --test tests/alg-lineage-authored-brush.test.ts tests/alg-development-coherent-anatomy.test.ts
       - name: Independent morphology regression witnesses and daily integration
         run: pnpm exec tsx --test tests/alg-evaluation-morphology-controls.test.ts tests/alg-integration-morphology-preview.test.ts tests/alg-evaluation-morphology-scientific.test.ts
       - name: Independently verify UI geometry and native care cue contracts
