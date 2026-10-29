@@ -41,8 +41,8 @@ import {
 } from "./chaos";
 import type { MaterialCell, MaterialEvent, MaterialGraph, MaterialSite, MaterialTissue, MaterialLink } from "./material-graph";
 import {
-  createOperatorMaterialCell, scheduledOperatorPotential, MATERIAL_LIMITS,
-  type MaterialDevelopmentProgram, type MaterialOperator,
+  createOperatorMaterialCell, scheduledOperatorPotential, geneticBudAxisLimit,
+  MATERIAL_LIMITS, type MaterialDevelopmentProgram, type MaterialOperator,
 } from "./operators";
 
 export type MaterialCumulativeExpression = Readonly<{
@@ -625,7 +625,10 @@ export function stepMaterialOperatorChronology(
     const capacity=scheduledOperatorPotential(op,program.signals);
     const credit=op.strength*capacity*cumulative;
     const multiplier=op.kind==="branch"?5:7;
-    const quota=op.kind==="fuse"?1:Math.min(9,Math.floor(multiplier*credit+EPS));
+    const natural=Math.min(9,Math.floor(multiplier*credit+EPS));
+    const quota=op.kind==="fuse"?Math.min(1,natural):
+      op.kind==="bud"&&op.developedKind?
+        Math.min(natural,geneticBudAxisLimit(op.developedKind)):natural;
     let committed=previous.committedUnits, tips=[...previous.tipCellIds];
     let terminal=false;
     while(committed<quota){
