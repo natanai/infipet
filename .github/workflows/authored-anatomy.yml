@@ -5,6 +5,7 @@ on:
       - architecture/authored-anatomy-phylogeny
   pull_request:
     paths:
+      - 'src/genetics/**'
       - 'src/lineage/**'
       - 'src/phylogeny/**'
       - 'src/development/**'
@@ -27,6 +28,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - name: Verify player-declared anatomy and tree selection
-        run: pnpm exec tsx --test tests/alg-lineage-authored-brush.test.ts tests/alg-observation-affinity.test.ts tests/alg-observation-robustness.test.ts tests/alg-integration-runtime.test.ts
+        run: pnpm exec tsx --test tests/alg-lineage-authored-brush.test.ts tests/alg-genetics-readable-seed.test.ts tests/alg-observation-affinity.test.ts tests/alg-observation-robustness.test.ts tests/alg-integration-runtime.test.ts
       - name: Verify independent source continuity and growth conservation
         run: pnpm exec tsx --test tests/alg-development-coherent-anatomy.test.ts
