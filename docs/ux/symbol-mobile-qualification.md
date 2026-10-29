@@ -1,5 +1,7 @@
 # Player symbols and Mobile Safari qualification
 
+> **Dated UI investigation, not a new biological or gameplay authority.** The current mobile implementation and outstanding usability goals are governed by [../ARCHITECTURE.md](../ARCHITECTURE.md) and the canonical roadmap. Past screenshots, old workflow counts and prior gallery placement are historical evidence, not instructions to reintroduce duplicated layers or turn geometry into inferred anatomy.
+
 Status: PR #36 and PR #37 were merged into main. The first real-iPhone feedback identified redundant drawing tabs and unintelligible anatomical icons. This document records the follow-up legibility correction and retains outstanding hardware qualification. This does not modify the canonical [roadmap](../../roadmap/plan.json).
 
 ## Production ownership
