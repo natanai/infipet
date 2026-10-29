@@ -177,7 +177,7 @@ export function inferSourceAffinities(
   // and fungal references remain valid seeded possibilities for body-only ink.
   const scored = affinities.map(affinity => {
     const score = scores[affinity];
-    const taxon = affinity === "unresolved" || !morphology.signature.occupiedCells
+    const taxon = affinity === "unresolved" || !taxonomy || !morphology.signature.occupiedCells
       ? null
       : (taxonomy?.candidateNodeIds?.[affinity] ?? [cladeRoots[affinity]])
         .map(id => verifyTaxonPossibility(affinity, id))
