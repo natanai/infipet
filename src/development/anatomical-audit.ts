@@ -18,7 +18,7 @@ export type StrainAuthorization = Readonly<{
 }>;
 /** Re-derive the genetic organizer, independently of sourceStrain(). */
 export function verifyStrainProgram(
-  source: readonly MaterialCell[],
+  _source: readonly MaterialCell[],
   fingerprint: string,
   before: ReadonlyMap<string, MaterialCell>,
   wave: string,
