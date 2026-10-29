@@ -35,6 +35,7 @@ import {growthSupportDistance} from "./material-support";
  */
 import { compareText, type Point } from "../simulation/model";
 import { grownMaterialCells } from "../simulation/material-growth";
+import { createSpecializationRank } from "./specialization-front";
 import type { Tissue } from "../simulation/material";
 import {
   chaoticTurn, chaoticProgress, chaosAt,
@@ -390,8 +391,16 @@ function physicalUnit(
       const material=remaining(graph,tissue.id);
       const faux={cells:material.map(c=>({x:c.x,y:c.y,color:c.color,
         ...(c.z===undefined?{}:{z:c.z})}))} as Tissue;
-      // The old exterior signed-distance material expansion primitive is
-      // called on the CURRENT contour. Take one new lattice cell per quantum.
+      // The semantic kind comes ONLY from the player's original brush or a
+      // genuinely created, genetically authorized child tissue. Geometry
+      // does not name or classify anatomy. The scorer only orders spatial
+      // opportunities; the same material journal decides what can exist.
+      const sourceKind=graph.sourceCells.find(c=>c.tissueId===tissue.id)?.sourceKind;
+      const specializedKind=tissue.developedKind??sourceKind??"body";
+      const rank=createSpecializationRank(specializedKind,material,
+        op.direction??site?.direction??{x:0,y:-1});
+      // Evaluate the EXISTING source-grown exterior candidates, with biomechanic
+      // preference for actual wings, eyes, legs, etc. Body growth stays generic.
       const field=grownMaterialCells(faux,1.5,2)
         // A distance band can contain cells TWO lattice steps away. An
         // incremental quantum must choose a LIVE adjacent boundary cell,
@@ -399,6 +408,7 @@ function physicalUnit(
         .filter(p=>!material.some(c=>xy(c)===xy(p)) &&
           material.some(c=>touching(c,p)))
         .sort((a,b)=>
+          (rank ? rank(a)-rank(b) : 0) ||
           Math.min(...material.map(c=>sq(c,a)))-
           Math.min(...material.map(c=>sq(c,b))) ||
           a.y-b.y||a.x-b.x);
