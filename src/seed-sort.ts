@@ -1,6 +1,8 @@
 /**
  * Seeded Fisher-Yates and stable base-four LSD radix sort, matching the
- * Pre-Programmed presentation. See docs/REFERENCE.md for source provenance.
+ * Optional seed-visualizer presentation only. It does not assign anatomy,
+ * interpret the readable A-Z genetic code, or consume the pet's random state.
+ * Current seed semantics: src/genetics/seed-language.ts.
  * This is a separate stream: visualizing the seed never consumes pet randomness.
  */
 export type SeedSortEvent =
