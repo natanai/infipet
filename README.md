@@ -9,8 +9,8 @@ breeding, or auto-recognition of what you drew.
 > **For development and agent work:** read [the current architecture](docs/ARCHITECTURE.md)
 > and [AGENTS.md](AGENTS.md). [The canonical roadmap](roadmap/plan.json)
 > tracks implementation and qualification; it is not a list of features
-> already confirmed live. Work in open PRs, including draft PR #55, is **not
-> deployed** until it merges and the publishing workflow succeeds.
+> already confirmed live. Open pull requests are **not deployed** until
+> merged and the publishing workflow succeeds.
 
 ## Your drawing and the seed
 
@@ -88,8 +88,8 @@ operation may correctly do nothing; actual life results need player testing.
 
 This is still an **experimental draft, not a demonstrated fun or visually
 convincing virtual pet**. More coherent whole-body restructuring and
-care-game feedback are priorities. These changes are not live until merged
-and published. No automatic CI, browser or numerical qualification workflows
+care-game feedback are priorities. Changes reach the player website only after main is published.
+No automatic CI, browser or numerical qualification workflows
 run while the prototype is being made playable.
 
 ## Player experience
