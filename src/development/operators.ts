@@ -63,6 +63,29 @@ export const MATERIAL_LIMITS = { world: 64, addedCells: 3072, operators: 64 } as
  * templates. The remaining tissue mass is shaped by sourced expansion.
  * Only actual accepted genetic buds use this rule; original anatomy stays.
  */
+/** A player's explicit brush is a physical tissue type, not an inferred
+ * facial feature. Its source-rooted geometry influences how available
+ * inherited operator capacity is DISTRIBUTED between axial, sheet and
+ * branching changes. These are bounded weights, never a target silhouette.
+ * The same kind remains free to bend, expand, reshape and relocate.
+ */
+export function authoredTissueMechanics(kind:PartKind):Readonly<{
+  axial:number;surface:number;branch:number;
+}> {
+  const weights:Readonly<Record<PartKind,readonly [number,number,number]>>={
+    body:[1,1,1],head:[0.4,1.3,0.35],
+    arm:[1,1,0.7],hand:[0.3,1.4,0.2],
+    leg:[1,1,0.6],foot:[0.25,1.5,0.2],
+    eye:[0.06,1.6,0.05],mouth:[0.16,1.6,0.1],
+    ear:[0.55,1.4,0.3],tail:[1,0.8,0.8],
+    wing:[0.65,1.5,0.55],horn:[1,0.75,0.55],
+    egg:[0.1,1.5,0.05],hair:[1,0.8,0.8],
+    decoration:[0.08,1.15,0.1],
+  };
+  const [axial,surface,branch]=weights[kind];
+  return {axial,surface,branch};
+}
+
 export function geneticBudAxisLimit(kind:PartKind):number {
   const limits:Readonly<Partial<Record<PartKind,number>>>={
     eye:1,mouth:2,ear:2,head:3,hand:2,foot:2,
@@ -419,6 +442,8 @@ export function compileMaterialDevelopment(
       compareText(a.id, b.id)).slice(0, 8);
   for (const [index, tissue] of ordered.entries()) {
     const siteId = tissue.growthSiteIds[0];
+    const sourceKind=source.sourceCells.find(c=>c.tissueId===tissue.id)?.sourceKind??"body";
+    const mechanics=authoredTissueMechanics(sourceKind);
     const slot = index * 0.25;
     const chaosFor = (id: string): MaterialChaos => ({
       version: CHAOS_VERSION,
@@ -435,16 +460,17 @@ export function compileMaterialDevelopment(
     const elongateId = "life/" + index + "/elongate";
     operations.push({ id: elongateId, tissueId: tissue.id,
       kind: "elongate", siteId, atHour: 10 + slot, durationHours: 25,
-      strength: clamp(signals.channels.growth.elongation, 0, 1),
+      strength: clamp(signals.channels.growth.elongation*mechanics.axial, 0, 1),
       chaos: chaosFor(elongateId) });
     const expandId = "life/" + index + "/expand";
     operations.push({ id: expandId, tissueId: tissue.id,
-      kind: "expand", atHour: 35 + slot, durationHours: 35,
-      strength: clamp(signals.channels.growth.expansion, 0, 1),
+      kind: "expand", atHour: sourceKind==="body"?35+slot:12+slot,
+      durationHours: 45,
+      strength: clamp(signals.channels.growth.expansion*mechanics.surface, 0, 1),
       chaos: chaosFor(expandId) });
-    if (source.tissues.length <= 12 && tissue.sourceCellIds.length >= 3) {
+    if (tissue.sourceCellIds.length >= 3) {
       const ready = Math.max(signals.channels.branching.initiation,
-        signals.channels.appendages.initiation);
+        signals.channels.appendages.initiation)*mechanics.branch;
       if (ready > 0.35) {
         const branchId = "life/" + index + "/branch";
         operations.push({
