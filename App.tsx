@@ -1236,13 +1236,13 @@ export default function App() {
                       </Button>
                       {starterGalleryOpen&&<>
                         <Text style={[s.muted,{fontSize:13,lineHeight:17}]}>
-                          Original example drawings, not named species. Select one
-                          to edit, or draw your own.
+                          Example drawings with fixed, editable genetic seeds.
+                          Select one to edit, or draw your own.
                         </Text>
                         <View style={styles.starterGrid}>
                         {STARTER_PRESETS.map((preset,index)=><Button
                           key={preset.id}
-                          label={`Load starter drawing ${index+1}`}
+                          label={`Load starter drawing ${index+1}, readable seed ${preset.seed}`}
                           style={styles.presetChoice}
                           onPress={()=>{
                             const load=()=>start(preset.id);
