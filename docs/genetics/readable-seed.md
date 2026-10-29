@@ -88,8 +88,22 @@ For each selectable kind `k`:
 
 Numerical bounds: `0 <= t_k <= 12`, `0 <= u_i < 1`,
 `0 <= p_k <= 0.82`; candidate references are the entire finite supported
-tree including all explicit fictional overlays. The nearest initial reference
-uses only declared brush counts and a seed-derived tie break: the drawing's
+tree including all explicit fictional overlays.
+
+**Reference selection is deterministic, not taxonomic recognition.**
+For specialized user-selected parts, rank supported reference nodes using
+only the selected role counts (`+2` for matching a role hint, `-1` for a
+nonmatching hint, multiplied by up to three authored instances), then break
+ties by `hash(seed | "authored-neighbor" | nodeId)`. For Body-only drawings,
+**never rank by the apparent shape or randomly pick among raw catalog nodes**:
+first choose uniformly among the five nonempty represented reference domains
+(animal, plant, fungus, explicitly fictional, other scientific) via
+`hash(seed | "uncommitted-domain") mod 5`, then choose a node in the selected
+domain via `hash(seed | "uncommitted-node" | domain) mod nodeCount`.
+These are game-defined prior odds, **not empirical probabilities of biological
+ancestry**. They avoid giving animal outcomes more chance merely because our
+bundled animal catalog contains more scientific IDs. Every node remains
+eligible and no domain forbids later anatomical potential. The drawing's
 position, symmetry, color, shape, holes or apparent facial features never
 contribute semantic evidence.
 
@@ -102,10 +116,18 @@ The rest of the genetic potential remains latent rather than producing fake
 particles, violating the finite operator limit or forcing a shape.
 
 The existing physics system may still use historical deterministic chaotic
-fields for old growth operators. Those are retained only for compatibility and
-audited separately; chaos is not part of the new seed-word decisions.
-Do not add more chaos until independently demonstrated whole-body expressive
-morphology and legibility are achieved without it.
+fields for older growth operators, but **there are no released pet saves to
+preserve** and no backward-compatibility obligation. Retire those operators
+when deterministic physical alternatives are independently qualified.
+Chaos is not part of the new seed-word decisions. Do not add more chaos until
+independently demonstrated whole-body expressive morphology and legibility
+are achieved without it.
+
+**Visibility rule:** the initial renderer must never relabel authored Body
+ink. A specialized kind is presented only when the physically authorized
+child tissue containing live material cells is present. The specialist's
+rendered pixels must each cite their actual material cell and original
+source-owner lineage. A merely accepted seed ticket is not a visible organ.
 
 ## Verification gates
 
