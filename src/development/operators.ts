@@ -438,8 +438,11 @@ export function compileMaterialDevelopment(
         const instructionId = "genetic/" + encoded + "/" + opportunity.ticket;
         const budId = "life/" + instructionId + "/differentiate";
         const childId = budId + "/growth/0";
-        const start = 118 + (seedLanguage.phase % 32) +
-          28 * slot;
+        // First organ opportunity arrives during early care, not four
+        // months into a life. Other deterministic gene opportunities are
+        // spaced through its lifetime; empty care can still suppress them.
+        // Final expand closes by day 308, before maturation check 365.
+        const start = 5 + (seedLanguage.phase % 12) + 45 * slot;
         // Select a fixed orientation from the seed without chaotic turning.
         // The original growth-site orientation has already been used by
         // generic elongation; other exposed directions allow genuinely new
