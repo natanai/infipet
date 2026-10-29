@@ -61,10 +61,11 @@ test("[AUTHORED/A2] selected anatomical labels are immutable even under geometry
 });
 
 test("[AUTHORED/A3] multiple separately drawn eyes remain separate authored parts", () => {
-  let parts = paintStroke([], "body", "#AAAAAA",
-    [{ x: 7, y: 7 }, { x: 18, y: 7 }, { x: 18, y: 20 }, { x: 7, y: 20 }]);
-  parts = paintStroke(parts, "eye", "#FFFFFF", [{ x: 10, y: 11 }]);
-  parts = paintStroke(parts, "eye", "#FFFFFF", [{ x: 15, y: 11 }]);
+  // A filled body avoids confusing legitimate authored eye overlays with a
+  // separate protected empty cavity in this semantic-count witness.
+  let parts = drawing(Array.from({ length: 12 }, () => "############"), "body");
+  parts = paintStroke(parts, "eye", "#FFFFFF", [{ x: 3, y: 3 }]);
+  parts = paintStroke(parts, "eye", "#FFFFFF", [{ x: 8, y: 3 }]);
   assert.equal(parts.filter(p => p.kind === "eye").length, 2);
   const graph = createMaterialGraph(seeded(parts).atlas);
   const eyeParts = sourceFeatures(graph.sourceCells).features.filter(f => f.kind === "eye");
