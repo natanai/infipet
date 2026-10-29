@@ -83,52 +83,37 @@ format. Old prototype files are rejected, not migrated or kept read-only.
 A current pet can still be exported and imported, and replacing the current
 pet remains an explicit player action. Export before clearing browser storage.
 
-## Local development
+## Early playable prototype workflow
 
-Requires Node.js 22+ and pnpm 10.
+**Current priority: make the pet worth playing.** Draw any creature, start
+a life, care for it, and see compelling, anatomically meaningful changes
+driven by the drawing and fixed seed. Do not spend iterations maintaining
+verification infrastructure while core growth is still unsatisfying.
+
+Requires Node.js 22+ and pnpm 10. Start locally:
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm web
-pnpm typecheck
-pnpm test
-pnpm build:web
 ```
 
 The development web app opens at http://localhost:8081; on Windows the
-`Start-Infipet.ps1` helper is available. Hosted builds use
-`INFIPET_BASE_URL=/infipet`.
+`Start-Infipet.ps1` helper is available.
 
-For browser qualification:
+**Continuous integration is intentionally off.** GitHub Actions no longer
+runs automatic typechecks, test suites, scientific morphology benchmarks,
+browser tests, memory budgets or documentation checks on pushes or PRs.
+The only remaining workflow, `Publish Infipet`, builds the web app and
+deploys it when a change reaches `main` (or via manual dispatch).
+A successful export is only a deployable build, **not** proof that the
+pet has good gameplay or visually coherent growth.
 
-```sh
-INFIPET_BASE_URL=/infipet pnpm build:web
-pnpm exec playwright install chromium
-INFIPET_BASE_URL=/infipet pnpm test:ui
-```
-
-For independent full-life and performance qualification, consult
-`tests/development-budget.test.ts`, `tests/development-cohort.test.ts`,
-`tests/development-quality.test.ts` and the canonical roadmap. The
-release gate includes typecheck, mathematical and property-based
-conservation checks, replay parity, save/reopen, the complete 365-check
-trajectory, browser flows and **real iPhone Safari** legibility. An
-individual's legitimate null growth is not a system-wide variety pass.
-
-Reference Linux/Node **budgets**, not published passing measurements:
-
-| Scenario | Limit |
-|---|---:|
-| Ordinary update p95 | 33.33 ms |
-| First daily check | 150 ms |
-| Cold replay of 365 checks | 8,000 ms |
-| Saved mature checkpoint reopening | 1,500 ms |
-| Serialized canonical state | 8 MiB |
-| Isolated process RSS | 768 MiB |
-
-Passing tests is necessary but does not prove that user-drawn anatomy
-is visually coherent. The current draft work is not ready to deploy until
-its remaining qualification checks succeed.
+When a particular technical defect calls for it, developers may manually
+run `pnpm typecheck`, a small `tsx --test` reproduction, `pnpm test`
+or `pnpm test:ui`; **none is a mandatory development or publish gate**.
+The historical benchmarks and numerical budgets remain reference material
+for later optimization, not obstacles to the first genuinely enjoyable pet.
+Player-visible behavior, especially on mobile Safari, has priority.
 
 ## References, historical research and what not to follow
 
