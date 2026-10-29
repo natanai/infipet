@@ -25,6 +25,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: node scripts/roadmap.mjs --check
       - run: pnpm typecheck
+      - name: Reject conflicting active guidance and resurrected deprecated files
+        run: pnpm exec tsx --test tests/repository-guidance.test.ts
       - run: pnpm test
       - name: Verify explicit brush semantics, authored feature conservation and tree placement
         run: pnpm exec tsx --test tests/alg-lineage-authored-brush.test.ts tests/alg-development-coherent-anatomy.test.ts
