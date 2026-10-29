@@ -30,7 +30,7 @@
  * L=width+height, a=stretch in [1/16,16], P=(u/(L*sqrt(a)))^2+
  * (v/(L/sqrt(a)))^2. U=(n-1)/4 - j*P + .25*|u or v|/(L+1),
  * j=1 for thickening, 2 for surface, 3 for axial surface fields. The last
- * term applies only to width/height respectively. Same bounded chaotic
+ * directional term now weighs 2.4 (formerly 0.25) for genuine whole-region\n * proportional growth rather than repeated generic filling. Same bounded chaotic
  * coherence breaks ties. No selected field creates material by itself.
  * Once a physical repatterning wave expresses, U additionally subtracts
  * 4*E(p) for that source-owned developmental potential. Growth therefore
@@ -158,8 +158,12 @@ export function rankMorphologicalField(
    const score=tensor?
       (n-1)/4-pressure*(mode==="thicken"?1:
        mode==="surface"?2:3)+
-      (mode==="width"?Math.abs(u)/(width+height+1)*.25:
-       mode==="height"?Math.abs(v)/(width+height+1)*.25:0):mode==="thicken"?
+      // Allometric selection must compete with neighbor-thickening.
+      // The old 0.25 factor was too weak to distribute material away
+      // from the centroid, so repeatedly reinforced the same body outline.
+      // These are legal PHYSICAL frontier choices, never display warps.
+      (mode==="width"?2.4*Math.abs(u)/(width+height+1):
+       mode==="height"?2.4*Math.abs(v)/(width+height+1):0):mode==="thicken"?
       (n-1)/7-Math.hypot(dx,dy)/(2*world):
      mode==="width"?
       Math.abs(dx)/(width/2+1)-Math.abs(dy)/(height+1):
