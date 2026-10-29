@@ -27,7 +27,7 @@ export const LINEAGE_RECIPE_VERSION = `${datasetVersion}|${profileVersion}|${LIN
 /** The living pet is independent of the editable laboratory recipe. */
 export type LivingPet = {
   lineageVersion: string;
-  anatomicalClock?:"daily-365-v1";
+  anatomicalClock:"daily-365-v1";
   /** Optional acceleration only; a malformed cache cannot invalidate the life. */
   anatomicalCheckpoint?:unknown;
   parts: PetPart[];
@@ -453,8 +453,8 @@ function validatedPet(value: unknown): PetDocument {
     try {
       life = {
         lineageVersion: LINEAGE_RECIPE_VERSION,
-        ...(saved.anatomicalClock===undefined?{}:saved.anatomicalClock==="daily-365-v1"?
-          {anatomicalClock:"daily-365-v1" as const}:invalid("unsupported anatomical clock")),
+        anatomicalClock:saved.anatomicalClock==="daily-365-v1"
+          ? "daily-365-v1" as const : invalid("only the current 365-check physical clock is supported"),
         ...(saved.anatomicalCheckpoint===undefined?{}:{anatomicalCheckpoint:saved.anatomicalCheckpoint}),
         parts: validatedParts(saved.parts),
         mode: saved.mode,
