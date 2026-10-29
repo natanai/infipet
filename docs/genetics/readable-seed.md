@@ -171,6 +171,38 @@ The new scoring algorithm does **not** claim finished or proven visual
 legibility; the next gameplay work is to make its whole-body and specialist
 development recognizable and appealing over a complete life.
 
+### Player-selected tissue mechanics during early growth
+
+The original drawing's brush labels provide real mechanical constraints, not
+a semantic guess from color or silhouette. At birth, each explicitly authored
+tissue receives the SAME inherited generic operators, but their relative
+expression strength is adjusted by a fixed three-channel tissue mechanics
+vector `(axial, surface, branch)`.
+
+```text
+operatorStrength = clamp(inheritedPotential * tissueKindWeight, 0, 1)
+```
+
+Body retains weights (1,1,1). Eyes use (0.06,1.6,0.05),
+Mouth (0.16,1.6,0.1), Hands (0.3,1.4,0.2), Feet
+(0.25,1.5,0.2), Wing (0.65,1.5,0.55), Arm (1,1,0.7),
+Leg (1,1,0.6), Tail (1,0.8,0.8), Head (0.4,1.3,0.35).
+The full mapping for all fifteen brush kinds lives in
+`authoredTissueMechanics()`. Original named Eyes and Mouths therefore
+favor coherent physical growth around their material over unsupported
+long axial extensions. They remain eligible for geometric resizing,
+chronological remodeling, rigid movement, relocation and care influence.
+
+A player-authored typed tissue's scheduled **surface expansion** now begins
+at daily check 12 (plus its deterministic minor slot offset), rather
+than waiting until check 35. Body-only material continues to use its normal
+development timeline. Generic branch operators are eligible for drawings
+with any number of tissues, within the same finite physical and operator
+budgets. Gene kind selection still depends on the inherited genetics, not
+on a tissue weight. These adjustments make genuine initial markings more
+likely to stay legible during early morphology, but do not constrain the
+organism to any species or chosen adult silhouette.
+
 ### Source-owned organ emergence and lifetime schedule (experimental)
 
 Earlier attempts lost gene opportunities because every organ budded from the same
