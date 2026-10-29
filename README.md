@@ -73,6 +73,19 @@ The whole organism remains source-owned; the player-authored part colors
 are not overwritten, and only genuine new genetically developed tissue
 receives an inheritable contrasting pigment.
 
+For whole-body metamorphosis, the physical growth system now uses **five
+seed-fixed, 73-day allometric phases** with care-sensitive regional width and
+height preferences. Separate source-owned repatterning events can physically
+move the creature's existing material at five points during its first year,
+rather than merely paint a bigger silhouette. The original physical identity,
+part labels and timing remain intact. Newly formed Eyes, Wings and other typed
+tissues keep their own mechanical shape preferences through subsequent daily
+growth, instead of becoming ordinary tendrils during a body-wide change.
+
+These mechanics establish more forms of *possible* transformation, not an
+already proven dramatic or attractive evolution path. Every physically blocked
+operation may correctly do nothing; actual life results need player testing.
+
 This is still an **experimental draft, not a demonstrated fun or visually
 convincing virtual pet**. More coherent whole-body restructuring and
 care-game feedback are priorities. These changes are not live until merged
