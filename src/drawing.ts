@@ -92,49 +92,36 @@ function canonicalParts(parts: PetPart[]): PetPart[] {
   });
 }
 
-function gapSquared(a: PetPart, b: PetPart): number {
-  const occupied = new Set(b.pixels.map(keyOf));
-  for (const pixel of a.pixels) if (occupied.has(keyOf(pixel))) return 0;
-  let nearest = Infinity;
-  for (const first of a.pixels) {
-    for (const second of b.pixels) {
-      const distance = (first.x - second.x) ** 2 + (first.y - second.y) ** 2;
-      if (distance < nearest) nearest = distance;
-      if (nearest === 1) return 1;
-    }
-  }
-  return nearest;
-}
-
 /**
- * Infer logical compatible parents without requiring painted shapes to touch.
- * Detached and floating authored features remain valid anatomy for the engine.
+ * Canonicalize only PLAYER-authored kinds and parent assignments.
+ *
+ * Geometry may later establish physical contacts or containment; it must not
+ * manufacture a head/limb/eye label or guess a semantic parent merely because
+ * an unrelated mark happens to be near another mark.
  */
 export function inferAnatomy(parts: PetPart[]): PetPart[] {
   const result = canonicalParts(parts);
-  if (result.length > MAX_PARTS)
-    throw new Error("This drawing exceeds the source-region budget.");
+  const byId = new Map(result.map(part => [part.id, part]));
   for (const part of result) {
-    const allowed = PARENTS[part.kind];
-    let best: PetPart | undefined;
-    let distance = Infinity;
-    for (const candidate of result) {
-      const priority = allowed.indexOf(candidate.kind);
-      if (candidate.id === part.id || priority < 0) continue;
-      const candidateDistance = gapSquared(part, candidate);
-      if (
-        candidateDistance < distance ||
-        (candidateDistance === distance &&
-          (!best ||
-            priority < allowed.indexOf(best.kind) ||
-            (priority === allowed.indexOf(best.kind) &&
-              compareText(candidate.id, best.id) < 0)))
-      ) {
-        best = candidate;
-        distance = candidateDistance;
+    const parent = part.parentId ? byId.get(part.parentId) : undefined;
+    if (!parent || parent.id === part.id ||
+        !PARENTS[part.kind].includes(parent.kind))
+      part.parentId = null;
+  }
+  // Reject cycles in imported explicit parent metadata, without choosing
+  // replacements from drawing geometry.
+  for (const part of result) {
+    const visited = new Set([part.id]);
+    let current = part;
+    while (current.parentId) {
+      const next = byId.get(current.parentId);
+      if (!next || visited.has(next.id)) {
+        part.parentId = null;
+        break;
       }
+      visited.add(next.id);
+      current = next;
     }
-    part.parentId = best?.id ?? null;
   }
   return result;
 }
@@ -286,7 +273,7 @@ function identifyRegions(regions: Region[], previous: PetPart[]): PetPart[] {
       name: region.source?.name ?? `${PART_LABELS[region.kind]} ${ordinal}`,
       pixels: region.pixels,
       position: { x: 0, y: 0 },
-      parentId: null,
+      parentId: region.source?.parentId ?? null,
     };
   });
 }
