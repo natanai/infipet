@@ -109,22 +109,30 @@ Old source files may be deleted once current usages are removed and the
 mathematical contracts are independently verified. Git history preserves
 research without shipping it as a parallel engine.
 
-## Release gate and honest qualification
+## Pre-release priority: real playability, not automated gates
 
-- The 365-opportunity result must replay exactly from saved ink + seed + care.
-  Independently reconstructed cell events and negative conservation cases
-  are mandatory. Never accept only a pretty screenshot or a metadata label.
-- Demonstrate actual changes in whole-body proportion, topology, tissue
-  allocation, structural specialization and life trajectories over
-  independently generated unfamiliar drawings and multiple seed/care histories.
-  Prevent a regression to mere thin tips, branches or cosmetic bulk.
-- Show generated eyes, limbs and other specialist parts are **recognizable**
-  and mechanically coherent, not merely carrying a `developedKind` string.
-- Preserve original saved pets, handle corrupt checkpoints without inventing
-  a history, and meet the independent memory/time budgets and browser tests.
-  Manual real iPhone Safari usability remains a separate, necessary review.
-- A draft PR or passing focused suite is **not live**. Merge and deployment
-  require the full gates; check live deployed SHA rather than assuming it.
+The current game is not yet satisfying enough to justify mandatory CI,
+performance qualification or full numerical suites on every commit.
+The user explicitly requested removing those checks. **Do not reintroduce
+a CI or test gate until the user asks for one.**
+
+- Implement the player-visible core: draw, hatch, feed, clean, play, return,
+  and see an original creature **actually** change in coherent ways.
+- Make generated eyes, limbs, wings and other specialized parts recognizable
+  and grounded in the physical ledger, not merely labeled in metadata.
+- Preserve the **mathematical design invariants**: same source + seed + care
+  means same organism; 365 daily changes maximum; source-owned operations;
+  no geometry-based semantic inference, fixed species destinations or unseen
+  spontaneous material. Test an individual defect manually when necessary.
+- Prioritize real phone usability and visible growth breadth before performance
+  tuning or large unknown-drawing cohorts.
+- `.github/workflows/deploy.yml` is the **sole** remaining workflow:
+  push/merge to `main` or manual dispatch builds and publishes the web app.
+  No typecheck, test, browser or memory benchmark runs automatically.
+- A branch or open PR is not live; verify the deployed revision after
+  publication. A successful build is not a quality certificate.
+- Retain manually runnable tests and benchmark sources for later independent
+  mathematical qualification. They are tools, not a queue of blockers.
 
 ## Superseded guidance and historical evidence
 
@@ -132,10 +140,10 @@ Do not follow retired recipes for automatic anatomy recognition, mandatory
 chaos-based species selection, forced adult silhouettes, 30/75/120-day
 progression, 30-day lifespans, continuous/hourly anatomical mutations,
 inferred limbs from protrusions, or legacy operator delta loops as the
-player's development clock. Such references were intentionally removed from
-active documents and tests but may remain in git history and low-level
-historical git history and diagnostic fixtures; no runtime backward-compatibility
-requirements exist for the unreleased prototype.
+player's development clock. Such recipes are not active instructions. Retained source is subject to
+refactoring or deletion; git history can preserve research without keeping
+obsolete runtime paths. No backward-compatibility requirement exists for
+the unreleased prototype.
 
 The task register records any current implementation gaps. **Do not convert a
 documented design requirement into a claim that the game already satisfies
