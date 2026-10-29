@@ -73,18 +73,42 @@ const parts = [
   "Details",
 ];
 const button = (page, name) => page.getByRole("button", { name, exact: true });
-const stored = (page) =>
-  page.evaluate(() => JSON.parse(localStorage.getItem("infipet.pet")));
+// Read the persisted payload, including the existing large-save format.
+// A valid pointer is storage metadata, never a PetDocument or a missing life.
+async function browserStoredPet() {
+  const raw = localStorage.getItem("infipet.pet");
+  const doc = JSON.parse(raw);
+  if (doc?.storage !== "infipet-indexeddb-v1") return doc;
+  const db = await new Promise((resolve, reject) => {
+    const request = indexedDB.open("infipet-living-saves-v1", 1);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  try {
+    const payload = await new Promise((resolve, reject) => {
+      const request = db.transaction("payloads", "readonly")
+        .objectStore("payloads").get(doc.key);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    if (typeof payload !== "string")
+      throw new Error("Persisted pet pointer has no saved payload");
+    return JSON.parse(payload);
+  } finally {
+    db.close();
+  }
+}
+const stored = (page) => page.evaluate(browserStoredPet);
 const livingIdentity = (doc) => ({
   parts: doc.life.parts,
   seed: doc.life.seed,
   birth: doc.life.game.clock.startedAtMs,
 });
-async function saved(page, predicate) {
-  await page.waitForFunction((fn) => {
-    const doc = JSON.parse(localStorage.getItem("infipet.pet"));
-    return doc && new Function("doc", `return (${fn})(doc)`)(doc);
-  }, predicate.toString());
+async function saved(page, predicate, argument) {
+  await page.waitForFunction(async ({ read, fn, argument }) => {
+    const doc = await new Function(`return (${read})()`)();
+    return doc && new Function("doc", "argument", `return (${fn})(doc, argument)`)(doc, argument);
+  }, { read: browserStoredPet.toString(), fn: predicate.toString(), argument });
   return stored(page);
 }
 async function openTools(page) {
@@ -685,8 +709,7 @@ try {
     await page.goto("about:blank");
     await page.addInitScript(raw=>{if(location.protocol!=="http:"&&location.protocol!=="https:")return;if(!sessionStorage.getItem("broken-seeded")){localStorage.setItem("infipet.pet",raw);sessionStorage.setItem("broken-seeded","yes");}},JSON.stringify(broken));
     await page.goto(url);await button(page,"Meal").waitFor();
-    await page.waitForFunction(x=>JSON.parse(localStorage.getItem("infipet.pet"))?.life?.anatomicalCheckpoint?.state.graph.cells[0].x!==x,broken.life.anatomicalCheckpoint.state.graph.cells[0].x);
-    const repaired=await stored(page);
+    const repaired=await saved(page,(doc,x)=>doc?.life?.anatomicalCheckpoint && doc.life.anatomicalCheckpoint.state.graph.cells[0].x!==x,broken.life.anatomicalCheckpoint.state.graph.cells[0].x);
     // Inspect after the recovery save rather than trusting a renderer count.
     assert.equal(JSON.stringify(repaired.life.anatomicalCheckpoint.state),mature);
     const legacy=JSON.parse(JSON.stringify(birth));delete legacy.life.anatomicalClock;delete legacy.life.anatomicalCheckpoint;delete legacy.life.game.careObservations;
@@ -746,6 +769,9 @@ try {
     const choosing=page.waitForEvent("filechooser");await button(page,"Open pet file").click();
     await (await choosing).setFiles(fixture);await button(page,"Meal").waitFor();
     await page.waitForFunction(()=>JSON.parse(localStorage.getItem("infipet.pet"))?.storage==="infipet-indexeddb-v1");
+    const persisted=await stored(page);
+    assert.deepEqual(livingIdentity(persisted),livingIdentity(expected));
+    assert.deepEqual(persisted.life.anatomicalCheckpoint.state.graph,expected.life.anatomicalCheckpoint.state.graph);
     await page.evaluate(async()=>{await navigator.serviceWorker.ready;});
     await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
     await context.setOffline(true);await page.reload();await button(page,"Meal").waitFor();
