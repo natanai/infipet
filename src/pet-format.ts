@@ -21,7 +21,8 @@ import {
   type NeedKeyframe,
 } from "./needs";
 
-export const PROTOTYPE_REVISION = "life-v10" as const;
+/** Unreleased format break; no old-life migrations or compatibility modes. */
+export const PROTOTYPE_REVISION = "life-v11" as const;
 export const LINEAGE_RECIPE_VERSION = `${datasetVersion}|${profileVersion}|${LINEAGE_RULES_VERSION}|${PROCEDURAL_GRAMMAR_VERSION}|${SURFACE_EXPRESSION_VERSION}|${SOMATIC_GROWTH_VERSION}`;
 
 /** The living pet is independent of the editable laboratory recipe. */
