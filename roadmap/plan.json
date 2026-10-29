@@ -15,7 +15,7 @@
   },
   "invariants": [
     "One creature exists per creation. Its initial drawing, persistent identity, and hidden seed remain the same throughout its lifetime; no breeding, offspring or multi-generational progression.",
-    "The game uses a real phylogenetic reference as a branching map of possible developmental forms for the SAME creature over time. The observed affinity/path may progress, but is not literal taxonomic evolution or scientific ancestry-changing.",
+    "The scientific/fantastical phylogeny is the single-pet developmental POSSIBILITIES map. The selected game reference and subsequent expressions never reassign the pet's scientific ancestry or select a fixed target species/sprite.",
     "All apparent evolutionary changes are within one pet's lifetime. Genetic potential is assigned once and remains fixed; care affects how the potential is expressed.",
     "No reference sprites, species IDs or historical stages in the runtime phenotype generator.",
     "Retain exact authored birth ink and traceable source-material ancestry.",
@@ -26,8 +26,10 @@
     "Product temporal contract: a physical anatomical change may commit only at T_k=hatchAtMs+k*86400000 for k=1..365, never between checks or after maturity; zero-change outcomes are valid.",
     "The former forced 30-day lifespan and hourly/8192-hour anatomy are retired. Historical numerical evidence is explicitly legacy; only the daily timeline defines production anatomy.",
     "Infipet must support a broad, independently verifiable space of anatomical transformations. No implementation may preserve physical correctness by reducing development to predominantly linear extensions, branches, or cosmetic changes.",
-    "Developmental variety must emerge from the player's authored material, permanent genetic potential, deterministic chaotic processes, anatomical constraints, and chronological care. The system must demonstrate genuine variation in whole-body proportions, topology, tissue distribution, structural specialization, and developmental trajectories, without predetermined creature outcomes. An individual organism may legitimately remain unchanged or favor one developmental strategy. System-wide capability must not collapse to a narrow family of outcomes.",
-    "Morphological expressiveness is coequal with source continuity and physical material conservation; display-only warps, pose, or pigment cannot count as physically achieved anatomical diversity."
+    "Developmental variety emerges from explicit player-selected original material, permanent legible A-Z/0-9 seed instructions, real and fictional tree priors, source-owned physical operators and recorded chronological care. New chaotic equations are postponed until deterministic legible whole-body growth passes independent qualification. Retained historical chaotic primitives do not define genetic meaning or license unrecorded body parts.",
+    "Morphological expressiveness is coequal with source continuity and physical material conservation; display-only warps, pose, or pigment cannot count as physically achieved anatomical diversity.",
+    "The anatomical selector is the only source of authored part KINDS: default Body remains Body regardless of geometry, pigment, cavities, orientation or resemblance. Body-only drawings, including one cell, retain uncommitted pluripotent potential across every represented real/fantasy branch.",
+    "A fixed authored drawing and seed yield the same immutable gene blueprint. Fixed original state, code version and full chronological care yield byte-for-byte repeatable physical development; care never rerolls seed instructions or changes earlier state."
   ],
   "tasks": [
     {
@@ -143,7 +145,7 @@
       "id": "OBS-002",
       "phase": 1,
       "area": "Inference",
-      "title": "Represent multiple biological affinities with explicit uncertainty",
+      "title": "Represent uncertain developmental reference hints from declared brush evidence",
       "dependsOn": [
         "OBS-001",
         "PHY-001"
@@ -192,7 +194,7 @@
       "id": "OBS-003",
       "phase": 1,
       "area": "Inference",
-      "title": "Test shape inference under translation and small drawing perturbations",
+      "title": "Verify authored-part semantic robustness independent of drawing geometry",
       "dependsOn": [
         "OBS-002"
       ],
@@ -2707,15 +2709,15 @@
     },
     {
       "id": "observation",
-      "name": "Ink morphology and uncertain inference",
-      "purpose": "Read arbitrary artwork to infer uncertain shape evidence and possible developmental affinities of the single pet, not to assign permanent species identity from ink alone.",
+      "name": "Player-authored brush semantics and diagnostic physical ink geometry",
+      "purpose": "Compute geometry signatures strictly for physical diagnostics and recognize only explicitly player-selected brush kinds as semantic evidence for uncertain reference hypotheses; never name parts or biological ancestry by geometric resemblance.",
       "inputs": [
         "PetPart[]",
         "SourceAtlas"
       ],
       "outputs": [
-        "InkSignature",
-        "candidate lineage affinities with uncertainty"
+        "SourceAtlas physical shape signatures (diagnostic only)",
+        "declared-brush evidence and uncertain uncalibrated affinity hypotheses"
       ],
       "ownedPaths": [
         "src/lineage/ink-signature.ts",
@@ -3019,7 +3021,7 @@
     "checkTime": "T_k = hatchAtMs + k*86400000, for integer 1 <= k <= 365, using safe integer UTC epoch milliseconds; not local midnight or calendar dates",
     "careWindows": "Check k consumes only recorded chronological history on [T_(k-1), T_k); a command exactly at T_k belongs to the NEXT care window; no future observations or invented care while away",
     "anatomicalState": "A(t)=A_0 for 0 <= t < T_1; A(t)=A_k for T_k <= t < T_(k+1) (1 <= k < 365); A(t)=A_365 for all t >= T_365, while alive. Each A_k is one verified fully physical graph",
-    "checkOperation": "A_k=F(A_(k-1),immutable birth drawing, fixed genotype, permanent chaotic seed/state, valid physical operators, summarized actual care window k, chronological resource bounds). Any F may be a physically constrained identity/null",
+    "checkOperation": "A_k=F(A_(k-1),immutable authored source material and selected PartKinds, fixed readable seed/genotype, phylogenetic game reference, authorized source-owned operators, summarized recorded care window k, numerical resource bounds). Historical chaotic numerical fields may be retained for compatibility but are not required for readable genes. F may legitimately be identity/null; no fractional physical operations.",
     "invariant": "All new, removed, or relocated anatomical cells/tissues/links originate in explicit material transactions at exactly T_k; no anatomical mutations at fractional/hourly times, in renderer, or after T_365",
     "timelineTime": "Use elapsed 24h intervals, including time zone/DST changes; app sessions, reopening, preview scrubbing and render frames cannot trigger extra checks",
     "missedChecks": "On return, replay due check indices in ascending order using recorded evidence and the game's actual absent-state effects; no fabricated player commands, no batch leap that skips a check, at most 365 lifetime physical checks",
@@ -3071,7 +3073,7 @@
       "semantics": "All A-Z glyphs are documented in src/genetics/seed-language.ts; decimal prefix is capped at 12 tickets, zero suppresses that letter; modifiers act on deterministic physical operations, never a target sprite.",
       "invariant": "Same exact selected drawing + seed + reference => same genome and developmental potential. Same care history => same anatomical chronology. Different care => altered expression from same unmodified genome.",
       "bodyOnly": "Undifferentiated pluripotent material; every represented scientific or fictional developmental node remains a candidate and every unmentioned selectable part has latent opportunity.",
-      "currentLimitations": "Tree role priors remain approximate and generated-kind buds need robust morphology/readability assessment. Legacy physical chaos persists; the new gene specialization path does not use it."
+      "currentLimitations": "Full tree-directed whole-body structural specialization, independently qualified feature legibility and memory/performance compliance remain open. Legacy physical chaos is a separate compatibility primitive; readable seed genes do not depend on chaos or reroll after birth."
     }
   },
   "qualification": {
