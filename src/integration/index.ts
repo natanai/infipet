@@ -17,16 +17,18 @@ import {
 } from "../genetics";
 import { genomeCacheKey, type InheritedGenome } from "../simulation/genome";
 import type { SourceAtlas } from "../simulation/source-atlas";
+import { chooseAuthoredReference, type AuthoredReference } from "../lineage/authored-neighbor";
+import { FANTASY_PATHS } from "../phylogeny/fantasy-paths";
 
 /**
- * Pure birth-time composition of the *merged* observation, phylogeny, and
- * genetics contracts. This is diagnostic data for the existing renderer, not
- * a second growth engine or an assignment of a real taxon to drawn pixels.
+ * Birth-time composition of player-declared anatomy and seeded phylogenetic
+ * game possibilities. The primary reference contributes generic developmental
+ * priors, never a sprite, species assignment, or authored part relabel.
  *
  * The optional reference IDs are developer/Lab-only inspiration queries. They
  * never change inferred ancestry, inherited alleles, or save data.
  */
-export const RUNTIME_BIOLOGY_VERSION = "runtime-biological-possibilities-v1" as const;
+export const RUNTIME_BIOLOGY_VERSION = "runtime-biological-possibilities-v2" as const;
 
 export type ReferenceHypothesis = Readonly<{
   affinity: Exclude<BiologicalAffinity, "unresolved">;
@@ -50,6 +52,8 @@ export type RuntimeBiology = Readonly<{
   geneticSignals: DevelopmentGeneticSignals;
   /** Multiple hypothetical reference ancestries; no pet species is selected. */
   references: readonly ReferenceHypothesis[];
+  /** Chosen GAME developmental reference, not a scientific identification. */
+  playReference: AuthoredReference | null;
   scientificPetAssignment: null;
   physicalOperatorsConnected: false;
   chronologicalExposureConnected: false;
@@ -63,7 +67,8 @@ export function compileRuntimeBiology(
   // Presence of a scientific reference is independent of the heuristic score.
   // Empty ink deliberately retains unknown evidence and no reference anchors.
   const observation = inferSourceAffinities(atlas, {});
-  const tree = createPhylogenyView();
+  const tree = createPhylogenyView(FANTASY_PATHS);
+  const playReference = chooseAuthoredReference(atlas, inherited.seed);
   const candidateIds = observation.candidates.flatMap(candidate =>
     candidate.taxon ? [candidate.taxon.nodeId] : []);
   const possibleIds = [...new Set([...candidateIds, ...anatomicalReferenceIds])];
@@ -98,6 +103,7 @@ export function compileRuntimeBiology(
       expressGenotype(inherited.genotype),
     ),
     references,
+    playReference,
     scientificPetAssignment: null,
     physicalOperatorsConnected: false,
     chronologicalExposureConnected: false,
@@ -105,18 +111,17 @@ export function compileRuntimeBiology(
 }
 
 /**
- * Select a *soft anatomical operator inspiration*, never an organism's
- * scientific identity. A ranking is heuristic and cannot disallow any
- * morphology. All alternatives remain exposed on RuntimeBiology.
- *
- * The physical engine reads only generic DevelopmentPrior operator evidence
- * and the permanent seed genotype. No reference species becomes a destination.
+ * A chosen game developmental reference is an operator prior, not a proven
+ * taxonomic assignment or a predetermined outcome. Future whole-life
+ * phylogeny-directed trajectories must retain this birth choice as an input.
  */
 function anatomicalPrior(biology: RuntimeBiology): DevelopmentPrior | undefined {
-  const inspiration = biology.references[0];
-  return inspiration?.anatomicalPossibilities.possibilities.find(
-    possibility => possibility.referenceId === inspiration.referenceId,
-  )?.referencePriors;
+  // Player-selected anatomy + permanent seed chooses a single primary GAME
+  // reference from the real-and-fictional tree. It does NOT reclassify the
+  // drawing or replace an organism with a named destination.
+  const id = biology.playReference?.referenceId;
+  if (!id) return undefined;
+  return createPhylogenyView(FANTASY_PATHS).resolveBiologicalConstraints(id);
 }
 
 /** Use exactly the same soft reference prior for uncared and recorded-care material. */
