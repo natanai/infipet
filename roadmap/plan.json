@@ -2696,7 +2696,7 @@
           "rewrite past save histories"
         ]
       },
-      "releaseGate": "In-progress playable feature, not an automatic merge gate. Prioritize physically recognizable, deterministic eye/limb/wing differentiation, real care effects and mobile experience. Existing focused tests may be used manually for specific defects."
+      "releaseGate": "No automated check gate. Prioritize visually coherent and fun live game, then optional manual targeted numerical diagnostics."
     }
   ],
   "algorithms": [
@@ -3089,12 +3089,17 @@
     },
     "readableSeedCode": {
       "version": "readable-seed-v1",
-      "status": "in_progress-unqualified",
+      "status": "in_progress-player-visible-growth",
       "semantics": "All A-Z glyphs are documented in src/genetics/seed-language.ts; decimal prefix is capped at 12 tickets, zero suppresses that letter; modifiers act on deterministic physical operations, never a target sprite.",
       "invariant": "Same exact selected drawing + seed + reference => same genome and developmental potential. Same care history => same anatomical chronology. Different care => altered expression from same unmodified genome.",
       "bodyOnly": "Undifferentiated pluripotent material; every represented scientific or fictional developmental node remains a candidate and every unmentioned selectable part has latent opportunity.",
-      "currentLimitations": "Whole-body tree-directed material specialization and feature legibility remain unqualified; old physical chaos and imported historical morphology are technical debt scheduled for retirement, not backward-compatibility obligations.",
-      "slotAllocation": "up to 6 explicit-source-owned pairs, selected only from seed-accepted feature tickets: explicit letters before latent; round-robin accepted rank per kind; immutable seed-hash tie breaks; no uncommitted kinds marked as physical."
+      "currentLimitations": "New bud/expansion paths are implemented but not yet manually evaluated as visually convincing in a real browser; consistent coherent whole-body proportion shifts, attachment variety and complete care-game play remain priority. No automatic CI/check workflows are active.",
+      "slotAllocation": "up to 6 explicit-source-owned pairs, selected only from seed-accepted feature tickets: explicit letters before latent; round-robin accepted rank per kind; immutable seed-hash tie breaks; no uncommitted kinds marked as physical.",
+      "scheduledDifferentiation": "For the first six accepted genetic tickets, start day=5+(seed phase mod 12)+45*slot; gene bud duration 30 daily checks; child specialization expansion starts 28 checks later and lasts 50. All bodily changes occur only when earned at daily material commits.",
+      "exposedAnchorPolicy": "Each new genetically typed bud chooses an exposed live source-linked parent cell satisfying collision and support bounds, ranked by fixed seed direction and separation from already differentiated tissues; no geometry-derived semantic kind selection.",
+      "specialistMaterialVolume": "Within a single atomically journaled expand quantum, up to 3 source-selected-kind cells or up to 4/5 genetically developed-kind cells are created from connected live tissue using a direction-aligned organ-aspect field. Body/undifferentiated expansion remains one cell. No virtual pigment creates material.",
+      "organAxialBound": "Genetically typed axial bud ceilings: eyes 1, mouths/ears/feet/hands 2, heads 3, horns 4, wings/hair 5, arms/legs 6, tails 7. Real care, support and collision can suppress any unit.",
+      "drawingScope": "All valid authored drawings can schedule genetic tissue differentiation, including >12 source tissues. A body source tissue is preferred as carrier; no arbitrary tissue-count exclusion."
     }
   },
   "qualification": {
@@ -3250,6 +3255,7 @@
       "fixed seed and tree-derived organism variety",
       "care causing real expression differences",
       "daily saved pet continuation"
-    ]
+    ],
+    "currentPriority": "Real playable virtual pet with early genetically expressed anatomically coherent volume, player-authored morphology and meaningful care; no repository check workflows."
   }
 }
