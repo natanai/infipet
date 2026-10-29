@@ -38,9 +38,9 @@ test("[PHY-004/A7] same seed and authored kinds give the identical genotype and 
   assert.equal(first.origin,"pluripotent-body");
   assert.equal(first.processes.remodel,7);
   for(const chance of first.opportunities){
-    const expected=hash(first.originalSeed+"|"+ref+"|"+chance.kind+"|"+chance.ticket)/4294967296;
-    assert.ok(Math.abs(chance.roll-expected)<=5e-13);
-    assert.equal(chance.accepted,expected<chance.probability);
+    const expectedRoll: number=hash(first.originalSeed+"|"+ref+"|"+chance.kind+"|"+chance.ticket)/4294967296;
+    assert.ok(Math.abs(chance.roll-expectedRoll)<=5e-13);
+    assert.equal(chance.accepted,expectedRoll<chance.probability);
   }
   const eye=first.features.find(f=>f.kind==="eye")!;
   assert.equal(eye.proposed,12);
