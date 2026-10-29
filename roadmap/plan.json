@@ -2601,6 +2601,31 @@
           "id": "A5",
           "requirement": "The seeded primary game reference belongs to the bundled phylogeny with clearly marked fantastical possibilities, is deterministic and reference-only, does not claim scientific ancestry, and influences genuine player physical development.",
           "oracle": "focused-node-test"
+        },
+        {
+          "id": "A6",
+          "requirement": "All A-Z letters map to publicly defined anatomical kinds or morphogenetic processes; immediately preceding decimal digits define bounded dosage, with 0 explicitly suppressing that letter's opportunities.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A7",
+          "requirement": "Independently calculated seeded rolls produce identical feature counts for fixed authored brush types, seed and reference irrespective of geometric layout; 0E and repeated tokens have unambiguous outcomes.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A8",
+          "requirement": "Body-only drawings, including single-source-cell material, remain uncommitted and have the entire real/fantastical tree as candidate references. Their potential can cover any supported anatomical kind without automatic visual classification.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A9",
+          "requirement": "Birth-time accepted genetic opportunities create source-owned, chronologically finite, nonchaotic developmental bud and material-expansion operators with explicit generated-kind provenance, material bounds and independent ancestry checks.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A10",
+          "requirement": "Exactly identical drawing, seed, tree reference and chronological care yield a fully deterministic physical outcome; modifying care affects expression but never rerolls the permanent genetic blueprint. Existing chaotic systems are not newly required for the readable-seed path.",
+          "oracle": "focused-node-test"
         }
       ],
       "verification": {
@@ -2620,19 +2645,26 @@
         "src/development/material-graph.ts",
         "src/development/anatomical-audit.ts",
         "src/development/anatomical-continuity.ts",
-        "tests/alg-lineage-authored-brush.test.ts"
+        "tests/alg-lineage-authored-brush.test.ts",
+        "src/genetics/seed-language.ts",
+        "src/development/operators.ts",
+        "src/development/operator-chronology.ts",
+        "tests/alg-genetics-readable-seed.test.ts",
+        ".github/workflows/authored-anatomy.yml"
       ],
       "interfaceContract": {
         "inputs": [
           "player-selected brush kind per source part",
           "the exact authored cell graph",
           "permanent seed",
-          "real and explicitly fictional reference nodes"
+          "real and explicitly fictional reference nodes",
+          "explicit seed glyph grammar A-Z and decimal dosage"
         ],
         "outputs": [
           "immutable declared anatomical identities",
           "seeded developmental game reference",
-          "source-owned physical operator prior"
+          "source-owned physical operator prior",
+          "immutable gene opportunities, role counts and nonchaotic physical differentiation proposals"
         ],
         "mustNot": [
           "infer any selected body-part kind from geometry",
@@ -2642,7 +2674,7 @@
           "rewrite past save histories"
         ]
       },
-      "releaseGate": "Draft only until independent source/semantic tests, baseline morphology/physical audits, save compatibility, full year non-tendril qualification, and mobile review pass."
+      "releaseGate": "Draft only until independent source/semantic tests, baseline morphology/physical audits, save compatibility, full year non-tendril qualification, and mobile review pass. Test full daily time and care counterfactual parity, independent replay, zero-resource null, performance and genetics backward compatibility before merger."
     }
   ],
   "algorithms": [
@@ -3032,6 +3064,14 @@
           "zero anatomy change between checks or after check 365"
         ]
       }
+    },
+    "readableSeedCode": {
+      "version": "readable-seed-v1",
+      "status": "in_progress-unqualified",
+      "semantics": "All A-Z glyphs are documented in src/genetics/seed-language.ts; decimal prefix is capped at 12 tickets, zero suppresses that letter; modifiers act on deterministic physical operations, never a target sprite.",
+      "invariant": "Same exact selected drawing + seed + reference => same genome and developmental potential. Same care history => same anatomical chronology. Different care => altered expression from same unmodified genome.",
+      "bodyOnly": "Undifferentiated pluripotent material; every represented scientific or fictional developmental node remains a candidate and every unmentioned selectable part has latent opportunity.",
+      "currentLimitations": "Tree role priors remain approximate and generated-kind buds need robust morphology/readability assessment. Legacy physical chaos persists; the new gene specialization path does not use it."
     }
   },
   "qualification": {
