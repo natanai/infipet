@@ -451,7 +451,9 @@ export default function App() {
           setSaveError(error instanceof Error
             ? "The local pet is not in the current prototype format: " + error.message
             : "Could not open this local pet.");
-          setWritable(true);
+          // Never overwrite even a CURRENT corrupted save during automatic
+          // hydration. Only an explicit Begin life may start a new file.
+          setWritable(false);
           setHydrated(true);
         }
       });
