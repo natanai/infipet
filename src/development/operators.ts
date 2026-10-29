@@ -57,6 +57,20 @@ export type MaterialDevelopmentProgram = Readonly<{
   fingerprint: string;
 }>;
 export const MATERIAL_LIMITS = { world: 64, addedCells: 3072, operators: 64 } as const;
+
+/** A newly differentiated sensory surface is not an antenna. These bounded
+ * *axial* growth ceilings are general physical organ mechanics, not species
+ * templates. The remaining tissue mass is shaped by sourced expansion.
+ * Only actual accepted genetic buds use this rule; original anatomy stays.
+ */
+export function geneticBudAxisLimit(kind:PartKind):number {
+  const limits:Readonly<Partial<Record<PartKind,number>>>={
+    eye:1,mouth:2,ear:2,head:3,hand:2,foot:2,
+    wing:5,leg:6,arm:6,tail:7,horn:4,hair:5,
+    egg:2,body:5,decoration:1,
+  };
+  return limits[kind]??5;
+}
 const key = (x: number, y: number) => x + "," + y;
 const within = (x: number, y: number) =>
   Number.isInteger(x) && Number.isInteger(y) && x >= 0 && x < 64 && y >= 0 && y < 64;
@@ -441,7 +455,7 @@ export function compileMaterialDevelopment(
         // First organ opportunity arrives during early care, not four
         // months into a life. Other deterministic gene opportunities are
         // spaced through its lifetime; empty care can still suppress them.
-        // Final expand closes by day 308, before maturation check 365.
+        // Final expand closes by day 319, before maturation check 365.
         const start = 5 + (seedLanguage.phase % 12) + 45 * slot;
         // Select a fixed orientation from the seed without chaotic turning.
         // The original growth-site orientation has already been used by
