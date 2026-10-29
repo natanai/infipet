@@ -73,7 +73,7 @@ test("[GUIDE/A4] physical compatibility is not confused with a second active gro
   assert.match(canonical, /src\/simulation\/development\.ts/);
   assert.match(canonical, /365/);
   assert.match(agents, /No geometry-based semantic fallback/);
-  assert.match(readme, /NOT.*deployed/);
+  assert.match(readme, /not[\\s\\S]{0,50}deployed/i);
   assert.ok(plan.tasks.find((task: {id:string}) => task.id==="PHY-004")?.status!=="done",
     "unqualified tree/seed genetics must not be marked complete");
 });
