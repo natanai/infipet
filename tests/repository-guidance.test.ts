@@ -43,6 +43,14 @@ test("[GUIDE/A2] no deprecated stand-alone guidance or duplicate benchmark wrapp
     "scripts/benchmark-unified.ts",
   ]) assert.equal(existsSync(resolve(root, removed)), false, removed);
   assert.ok(existsSync(resolve(root, "scripts/daily-benchmark.ts")));
+  const storage=text("src/storage.ts");
+  const editor=text("App.tsx");
+  assert.doesNotMatch(storage,/archiveOriginal|ORIGINAL_INDEX_KEY|loadOriginalPetBackup|prepareRawPet/);
+  assert.doesNotMatch(editor,/legacyLife|originalSavedPet|loadOriginalPetBackup|preparePetForDaily/);
+  assert.match(text("src/pet-format.ts"),/PROTOTYPE_REVISION = "life-v11"/);
+  assert.equal(plan.preReleasePolicy.released,false);
+  assert.equal(plan.preReleasePolicy.legacyMigration,"forbidden");
+
   assert.ok(existsSync(resolve(root, "docs/morphology/README.md")),
     "historical regression evidence must not be destroyed");
   assert.match(text("docs/morphology/README.md"), /RESEARCH ARCHIVE/);
