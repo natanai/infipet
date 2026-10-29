@@ -102,8 +102,8 @@ recovery only.
 Infipet has not released. **There are no existing player pets to migrate.**
 Do not implement legacy pet recovery, read-only older-life screens, old growth
 clocks, old identity bridges or hypothetical save-version migrations. Only the
-current prototype file format is supported. A corrupt or obsolete import is
-rejected clearly rather than reinterpreted; successful current-format saves
+current `life-v11` prototype file format is supported. A corrupt or obsolete
+import is rejected clearly rather than reinterpreted; successful current-format saves
 still require exact replay, checksum validation and reliable export/import.
 Old source files may be deleted once current usages are removed and the
 mathematical contracts are independently verified. Git history preserves
