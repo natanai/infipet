@@ -85,7 +85,9 @@ function canonicalParts(parts: PetPart[]): PetPart[] {
             ...part,
             pixels: [...pixels.values()].sort(comparePixels),
             position: { x: 0, y: 0 },
-            parentId: null,
+            // Preserve explicit authored parent IDs; inferAnatomy validates
+            // these by selected kinds without selecting one from geometry.
+            parentId: part.parentId,
           },
         ]
       : [];
