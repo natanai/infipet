@@ -1,4 +1,5 @@
-import { clamp, compareText, hash, type Point } from "../simulation/model";
+import { clamp, compareText, hash, type PartKind, type Point } from "../simulation/model";
+import { compileReadableSeed, type ReadableSeedProgram } from "../genetics/seed-language";
 import {
   CHAOS_VERSION,
   seedChaos, chaoticProgress, chaoticTurn, validateMaterialChaos,
@@ -36,6 +37,10 @@ export type MaterialOperator = Readonly<{
   strength: number;
   /** Optional independently verifiable chaotic rhythm and source-tip steering. */
   chaos?: MaterialChaos;
+  /** Optional authored-seed opportunity: only a real bud transaction creates
+   * a new independently typed tissue from its own source-linked parent. */
+  developedKind?: PartKind;
+  geneticInstructionId?: string;
 }>;
 export type MaterialDevelopmentProgram = Readonly<{
   version: 1;
@@ -45,6 +50,9 @@ export type MaterialDevelopmentProgram = Readonly<{
   iterativeSeedFingerprint?: string;
   signals: DevelopmentGeneticSignals;
   operators: readonly MaterialOperator[];
+  /** Seed-character grammar is frozen at birth, before care, and has no
+   * chaotic inputs or later rerolls. */
+  seedLanguage?: ReadableSeedProgram;
   /** Hash contains only the actual drawing, seed genotype and operator schedule. */
   fingerprint: string;
 }>;
@@ -338,12 +346,16 @@ export function compileMaterialDevelopment(
   atlas: SourceAtlas, genome: InheritedGenome, prior?: DevelopmentPrior,
 ): MaterialDevelopmentProgram {
   const source = createMaterialGraph(atlas);
+  // The seed compiler is pure. It receives exactly source-authored brush
+  // labels + immutable seed + initial game tree reference, NEVER care.
+  const seedLanguage = prior
+    ? compileReadableSeed(genome.seed, prior.taxonId, atlas) : undefined;
   const expression = expressGenotype(genome.genotype,
     prior ? adaptDevelopmentPrior(prior) : undefined);
   const signals = compileDevelopmentGeneticSignals(expression);
   const operations: MaterialOperator[] = [];
   const ordered = [...source.tissues]
-    .filter(t => t.sourceCellIds.length >= 2)
+    .filter(t => t.sourceCellIds.length >= 1)
     .sort((a, b) => b.sourceCellIds.length - a.sourceCellIds.length ||
       compareText(a.id, b.id)).slice(0, 8);
   for (const [index, tissue] of ordered.entries()) {
@@ -390,11 +402,54 @@ export function compileMaterialDevelopment(
       strength: signals.channels.support.rigidity,
       chaos: chaosFor(reinforceId) });
   }
+  if (seedLanguage && source.tissues.length <= 12) {
+    // Up to six typed differentiations on one ordinary small organism. The
+    // complete genetic potential remains available, but finite material,
+    // site count and care determine what can actually be expressed.
+    // This is a scheduling rule, NOT a pre-drawn anatomy generator.
+    const carrier = ordered.find(t =>
+      source.sourceCells.some(c => c.tissueId === t.id && c.sourceKind === "body"))
+      ?? ordered[0];
+    const site = carrier?.growthSiteIds[0];
+    if (carrier && site) {
+      let allocated = 0;
+      for (const opportunity of seedLanguage.opportunities) {
+        if (!opportunity.accepted || allocated >= 6 ||
+            operations.length + 2 > MATERIAL_LIMITS.operators) continue;
+        const slot = allocated++;
+        const encoded = encodeURIComponent(opportunity.kind);
+        const instructionId = "genetic/" + encoded + "/" + opportunity.ticket;
+        const budId = "life/" + instructionId + "/differentiate";
+        const childId = budId + "/growth/0";
+        const start = 118 + (seedLanguage.phase % 32) +
+          28 * slot;
+        // No chaotic rhythms in the new typed genetic instructions. Linear
+        // chronology + causally recorded care decide the expression.
+        operations.push({
+          id: budId, kind: "bud", tissueId: carrier.id,
+          siteId: site, atHour: start, durationHours: 30,
+          strength: 0.95, developedKind: opportunity.kind,
+          geneticInstructionId: instructionId,
+        });
+        operations.push({
+          id: "life/" + instructionId + "/specialize",
+          kind: "expand", tissueId: childId,
+          atHour: start + 28, durationHours: 50,
+          strength: clamp(0.55 + 0.03 *
+            (seedLanguage.processes["surface-growth"] ?? 0), 0, 1),
+          developedKind: opportunity.kind,
+          geneticInstructionId: instructionId,
+        });
+      }
+    }
+  }
   const fingerprint = hash(JSON.stringify([source.sourceFingerprint,
     genome.genotype.fingerprint, prior?.version ?? null, prior?.taxonId ?? null,
+    seedLanguage?.version ?? null, seedLanguage?.referenceId ?? null,
+    seedLanguage?.opportunities.filter(x=>x.accepted).map(x=>[x.kind,x.ticket]) ?? [],
     operations])).toString(16);
   return { version: 1, source, genomeFingerprint: genome.genotype.fingerprint,
-    signals, operators: operations, fingerprint };
+    signals, operators: operations, ...(seedLanguage?{seedLanguage}:{}), fingerprint };
 }
 
 /** Evaluate from immutable birth material each time: save/load and call-order invariant. */
