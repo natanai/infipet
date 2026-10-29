@@ -1,5 +1,5 @@
 import { clamp, compareText, hash, type PartKind, type Point } from "../simulation/model";
-import { compileReadableSeed, type ReadableSeedProgram } from "../genetics/seed-language";
+import { compileReadableSeed, scheduleSeedOpportunities, type ReadableSeedProgram } from "../genetics/seed-language";
 import {
   CHAOS_VERSION,
   seedChaos, chaoticProgress, chaoticTurn, validateMaterialChaos,
@@ -430,11 +430,8 @@ export function compileMaterialDevelopment(
       ?? ordered[0];
     const site = carrier?.growthSiteIds[0];
     if (carrier && site) {
-      let allocated = 0;
-      for (const opportunity of seedLanguage.opportunities) {
-        if (!opportunity.accepted || allocated >= 6 ||
-            operations.length + 2 > MATERIAL_LIMITS.operators) continue;
-        const slot = allocated++;
+      const budget=Math.min(6,Math.floor((MATERIAL_LIMITS.operators-operations.length)/2));
+      for (const [slot, opportunity] of scheduleSeedOpportunities(seedLanguage,budget).entries()) {
         const encoded = encodeURIComponent(opportunity.kind);
         const instructionId = "genetic/" + encoded + "/" + opportunity.ticket;
         const budId = "life/" + instructionId + "/differentiate";
