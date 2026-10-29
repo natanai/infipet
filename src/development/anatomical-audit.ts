@@ -164,13 +164,23 @@ function connected(
   }
   return components === 1;
 }
+type AnatomicalAudit = (
+  live: readonly MaterialCell[],
+  context?: AnatomicalContext,
+) => void;
+const auditCache = new WeakMap<readonly MaterialCell[], AnatomicalAudit>();
 export function createAnatomicalAudit(
   source: readonly MaterialCell[],
-): (live: readonly MaterialCell[], context?: AnatomicalContext) => void {
+): AnatomicalAudit {
+  const cached = auditCache.get(source);
+  if (cached) return cached;
   const contract = sourceFeatures(source),
     birth = new Map(source.map((c) => [c.id, c]));
-  const owned = contract.features.map((f) => new Set(f.sourceIds));
-  return (live: readonly MaterialCell[], context: AnatomicalContext = {}) => {
+  const owned = contract.features.map((f) => new Set(f.sourceIds)),
+    ports = contract.features.map((f) => f.ports.map((p) => new Set(p)));
+  // Share only immutable birth setup. Each call allocates and reconstructs
+  // its own live inventory, union-find, contacts and exterior floods.
+  const audit: AnatomicalAudit = (live, context = {}) => {
     const groups = contract.features.map(() => [] as MaterialCell[]),
       occupancy = new Map<number, MaterialCell[]>();
     for (const c of live) {
@@ -203,8 +213,7 @@ export function createAnatomicalAudit(
         throw new Error("Lost drawn feature: " + feature.id);
       if (feature.pigment !== null && !connected(group, context.links ?? []))
         throw new Error("Scattered drawn feature: " + feature.id);
-      for (const sourcePort of feature.ports) {
-        const ids = new Set(sourcePort);
+      for (const ids of ports[feature.id]) {
         let exposed = false;
         for (const p of group)
           if (p.sourceIds.some((id) => ids.has(id)))
@@ -265,6 +274,9 @@ export function createAnatomicalAudit(
         );
     }
   };
+  if (Object.isFrozen(source) && source.every(Object.isFrozen))
+    auditCache.set(source, audit);
+  return audit;
 }
 export function verifyAnatomicalContinuity(
   source: readonly MaterialCell[],

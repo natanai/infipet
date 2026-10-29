@@ -16,7 +16,10 @@ import {
   sourceOverlay,
   anatomicalEditGuard,
 } from "../src/development/anatomical-continuity";
-import { verifyAnatomicalContinuity } from "../src/development/anatomical-audit";
+import {
+  createAnatomicalAudit,
+  verifyAnatomicalContinuity,
+} from "../src/development/anatomical-audit";
 import {
   proposeDevelopmentalStrain,
   strainPoint,
@@ -156,6 +159,26 @@ test("[MORPH-007/A1] anatomical features persist while individual cells retire; 
     null,
   );
   verifyAnatomicalContinuity(eyeGraph.sourceCells, replaced);
+  const preparedAudit = createAnatomicalAudit(eyeGraph.sourceCells);
+  preparedAudit(replaced);
+  assert.throws(() => preparedAudit(replaced.filter((c) => c.id !== daughter.id)));
+  assert.throws(() =>
+    preparedAudit(replaced, { protectedVoids: ["63,63"] }),
+  );
+  preparedAudit(replaced);
+  for (const shallowFreeze of [false, true]) {
+    const source = clone(eyeGraph.sourceCells);
+    if (shallowFreeze) Object.freeze(source);
+    assert.equal(anatomicalContinuityFailure(source, eyeGraph.cells), null);
+    createAnatomicalAudit(source)(eyeGraph.cells);
+    const changed = source.find((c) => c.id === eye.id)!;
+    (changed as { color: string }).color = "#123456";
+    assert.ok(
+      anatomicalContinuityFailure(source, eyeGraph.cells),
+      "mutable birth cells cannot reuse stale prepared feature ownership",
+    );
+    assert.throws(() => createAnatomicalAudit(source)(eyeGraph.cells));
+  }
   const shifted = eyeGraph.cells.map((c) => ({ ...c, x: c.x + 1, y: c.y + 1 }));
   assert.equal(
     anatomicalContinuityFailure(eyeGraph.sourceCells, shifted),

@@ -3,7 +3,11 @@
  * enclosures are the units of continuity. No stationary/pixel ancestry quota.
  */
 import type { MaterialCell, MaterialLink } from "./material-graph";
-import { sourceFeatures, enclosedSites } from "./anatomical-features";
+import {
+  sourceFeatures,
+  enclosedSites,
+  type AnatomicalFeatures,
+} from "./anatomical-features";
 import { isLatticeConnected } from "./lattice-connectivity";
 export {
   sourceNeighborhood,
@@ -43,23 +47,36 @@ export type AnatomicalContext = Readonly<{
   links?: readonly MaterialLink[];
   protectedVoids?: readonly string[];
 }>;
-const ownershipCache = new WeakMap<object, ReadonlySet<string>>();
+type SourceBasis = Readonly<{
+  blueprint: AnatomicalFeatures;
+  originals: ReadonlyMap<string, MaterialCell>;
+  owned: readonly ReadonlySet<string>[];
+  ports: readonly (readonly ReadonlySet<string>[])[];
+}>;
+const sourceBasisCache = new WeakMap<readonly MaterialCell[], SourceBasis>();
+/** Only frozen birth primitives are prepared once. Every candidate's live
+ * material, joints, exposure and cavities are still reconstructed below. */
+function sourceBasis(source: readonly MaterialCell[]): SourceBasis {
+  const cached = sourceBasisCache.get(source);
+  if (cached) return cached;
+  const blueprint = sourceFeatures(source);
+  const result: SourceBasis = {
+    blueprint,
+    originals: new Map(source.map((c) => [c.id, c])),
+    owned: blueprint.features.map((f) => new Set(f.sourceIds)),
+    ports: blueprint.features.map((f) => f.ports.map((p) => new Set(p))),
+  };
+  if (Object.isFrozen(source) && source.every(Object.isFrozen))
+    sourceBasisCache.set(source, result);
+  return result;
+}
 const code = (p: { x: number; y: number }) => p.y * 64 + p.x;
 export function anatomicalContinuityFailure(
   source: readonly MaterialCell[],
   live: readonly MaterialCell[],
   context: AnatomicalContext = {},
 ): string | null {
-  const blueprint = sourceFeatures(source),
-    originals = new Map(source.map((c) => [c.id, c]));
-  const owned = blueprint.features.map((f) => {
-    let ids = ownershipCache.get(f);
-    if (!ids) {
-      ids = new Set(f.sourceIds);
-      ownershipCache.set(f, ids);
-    }
-    return ids;
-  });
+  const { blueprint, originals, owned, ports } = sourceBasis(source);
   const members = blueprint.features.map(() => new Map<string, MaterialCell>()),
     positions = new Map<number, MaterialCell[]>();
   for (const c of live) {
@@ -124,8 +141,7 @@ export function anatomicalContinuityFailure(
       }
       if (seen.size !== group.length) return "drawn-feature-scattered:" + f.id;
     }
-    for (const port of f.ports) {
-      const ids = new Set(port);
+    for (const ids of ports[f.id]) {
       if (
         !group.some(
           (c) =>
