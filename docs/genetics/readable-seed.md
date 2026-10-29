@@ -304,6 +304,14 @@ tissue geometry and its registered growth-site direction, and favors compact
 Eyes, broad Wings/Feet and longitudinal Legs/Tails. General allometric body
 phases and specialist mechanics can compete; none authorizes a cell by
 itself. All original Body pixels retain the Body identity indefinitely.
+Physical branching of a genetically specialized parent also carries the
+same fixed `developedKind` and `geneticInstructionId` into its new
+source-linked child tissue. This is inherited specialization of the SAME
+living organ, not another gene decision or an invented new body-part label.
+Any later differentiated kind still requires a separate explicitly authorized
+operator. Source-selected brush parts similarly retain their source part kind
+through any generated physical branches.
+
 The combined rule is an experimental prior and still needs genuine visual
 evaluation rather than just metadata counting.
 
