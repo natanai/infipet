@@ -49,7 +49,7 @@
 
 **Infipet must support a broad, independently verifiable space of anatomical transformations. No implementation may preserve physical correctness by reducing development to predominantly linear extensions, branches, or cosmetic changes.**
 
-Developmental variety must emerge from the player's authored material, permanent genetic potential, deterministic chaotic processes, anatomical constraints, and chronological care.
+Developmental variety must emerge from the player's authored material, permanent readable seed/genetic potential, phylogenetic references, anatomical constraints, and chronological care. New chaotic equations are deferred until deterministic development has been mathematically and morphologically qualified; existing deterministic chaos remains only for compatibility.
 
 The system must demonstrate genuine variation in whole-body proportions, topology, tissue distribution, structural specialization, and developmental trajectories, without predetermined creature outcomes.
 
