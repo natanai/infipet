@@ -300,9 +300,17 @@ export function compileLifetimeRemodeling(
   if(!override&&primary){
     // One organism-wide operator family reaches every source region,
     // including small marks. Tissue IDs select provenance, never body parts.
-    for(const [wave,start] of [20,120,230].entries())operations.push({
+    // Whole-organism coordinated source-cell strain is possible early and
+    // repeatedly throughout the SAME organism's year. These operators
+    // retain source identity and use already journaled relocation/seam laws;
+    // they do not generate an end-stage silhouette. Positive actual daily
+    // care and physical viability decide which waves commit.
+    const waves=[{start:12,duration:55},{start:79,duration:55},
+      {start:148,duration:55},{start:219,duration:55},
+      {start:289,duration:66}];
+    for(const [wave,{start,duration}] of waves.entries())operations.push({
       id:"developmental-repattern/"+wave,kind:"repattern",tissueId:primary.id,
-      atHour:start,durationHours:[90,100,130][wave],units:12,strength:1,
+      atHour:start,durationHours:duration,units:10,strength:1,
     });
   }
   if (operations.length > REMODEL_LIMITS.maxOperations)
