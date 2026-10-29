@@ -171,6 +171,68 @@ The new scoring algorithm does **not** claim finished or proven visual
 legibility; the next gameplay work is to make its whole-body and specialist
 development recognizable and appealing over a complete life.
 
+### Source-owned organ emergence and lifetime schedule (experimental)
+
+Earlier attempts lost gene opportunities because every organ budded from the same
+single birth growth-tip cell. The production incremental scheduler now chooses
+an actual exposed, live parent-tissue cell for **each accepted genetic bud**.
+Candidates must already have a source lineage, remain adjacent to their
+proposed first child cell, satisfy lattice occupancy and load-bearing distance,
+and be authorized by the permanent seed direction. Among valid candidates,
+choose a deterministic score from projection along that direction and
+separation from previously specialized tissue, then stable material ID. This
+changes **attachment location**, never what kind the player originally drew.
+
+An accepted specialist `expand` quantum now forms **up to five** real,
+8-connected physical cells, rather than always exactly one:
+- Undifferentiated Body: at most one cell per earned quantum.
+- Explicitly authored typed tissue: at most three cells.
+- Genetically created Eye/Arm/Leg/Head/Horn/Hand/Tail/Hair/Egg tissue: at most
+  four cells.
+- Genetically created Wing/Foot/Ear/Mouth tissue: at most five cells.
+
+The numerical candidate set is the 8-neighbor lattice frontier of the
+CURRENT physical tissue, including provisionally accepted cells within the
+atomic operation. Each candidate is evaluated against the same
+direction-aware shape score, coordinate bounds, occupied material, protected
+negative spaces, valid source parentage and existing attachments.
+Every emitted cell receives its **own** immutable ID, parent-cell IDs and
+original source ancestor IDs. No batch may contain disconnected or unsupported
+cells; the existing post-transaction structural audit still applies to the
+whole patch. Partial completion is permitted if legitimate collisions prevent
+the remaining cells. These budgets are ceilings, not guaranteed morphology.
+
+The genetic `bud` operator has a second anatomical bound: an Eye may extend
+only one axial quantum, a Mouth/Ear/Foot/Hand two, Head three, Horn four,
+Wing/Hair five, Arm/Leg six and Tail seven; the existing available-care,
+mechanical-support and capacity constraints can stop an organ earlier.
+Specialization can still grow laterally through its own `expand` operations.
+These are general tissue-mechanics biases, **not** predefined creature images.
+
+The permanent scheduling law for the first six accepted seed opportunities is
+
+```text
+start_day(slot) = 5 + (seed_phase mod 12) + 45 * slot
+bud_window = [start_day, start_day + 30]
+specialized_expansion_window = [start_day + 28, start_day + 78]
+slot ∈ {0, 1, 2, 3, 4, 5}
+```
+
+The earliest permitted gene growth is day 5; the last generated window closes
+by day 319, before anatomy freezes at check 365. No physical cell changes
+between actual daily checks. Previously the first specialist was scheduled
+after approximately 118 days, making the initial experience misleadingly
+static. This change brings expression into normal early-life pet care while
+retaining later surprise. Every **valid** source drawing is eligible, even if
+it contains more than 12 separate physical tissues. Physical budgets still
+govern what genuinely materializes.
+
+**Known remaining gaps:** a child physically differentiating and producing
+connected volume is not by itself proof of a recognizable eye, limb or wing.
+Whole-body deformation, membrane biomechanics, movement, care balance and
+other interactive play need actual phone evaluation and continued development.
+There are no automatic test or CI release gates during this prototype phase.
+
 **Pre-release development policy:** GitHub's automatic check workflows were
 removed at user request. Narrow mathematical tests remain available for
 manual debugging, but there is no CI-based merge or publication gate.
