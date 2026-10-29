@@ -68,7 +68,7 @@ import type { MaterialDevelopmentProgram } from "./operators";
 import { REMODEL_LIMITS } from "./lifetime-remodeling";
 import {chooseMorphologicalField,rankMorphologicalField,
   morphologicalVolumeCapacity} from "./morphological-fields";
-import {regionalGrowthDemand,regionalGrowthTensor,selectRegionalGrammar,regionalSourceScale,
+import {regionalGrowthDemand,developmentalAllometry,selectRegionalGrammar,regionalSourceScale,
   type RegionalCare} from "./regional-regulation";
 import type {RepatterningField} from "./developmental-repatterning";
 
@@ -399,8 +399,12 @@ export function stepIterativeChronology(
   const capacities=new Map(policy.enablePhysicalFields?tissues.map(t=>[t.id,morphologicalVolumeCapacity(
     sourceMass.get(t.id)!,birth.signals.channels.growth.expansion,
     birth.signals.channels.support.membrane)] as const):[]);
-  const tensors=new Map(policy.enablePhysicalFields?tissues.map(t=>[t.id,regionalGrowthTensor(birth.signals.channels,
-    seedChaos((birth.iterativeSeedFingerprint??birth.fingerprint)+"|regional-polarity|"+t.id))] as const):[]);
+  const tensors=new Map(policy.enablePhysicalFields?tissues.map(t=>[t.id,
+    developmentalAllometry(
+      birth.iterativeSeedFingerprint??birth.fingerprint,t.id,n,
+      birth.signals.channels,
+      policy.care??{rest:exposure.resources,activity:exposure.resources,security:exposure.resources},
+    )] as const):[]);
   const weights = active.map(s => {
     const align = exposure.light && exposure.light.intensity > 0
       ? Math.max(0, dot(unit(s.direction), unit(exposure.light))) *
