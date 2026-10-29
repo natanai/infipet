@@ -105,11 +105,16 @@ const livingIdentity = (doc) => ({
   birth: doc.life.game.clock.startedAtMs,
 });
 async function saved(page, predicate, argument) {
-  await page.waitForFunction(async ({ read, fn, argument }) => {
-    const doc = await new Function(`return (${read})()`)();
-    return doc && new Function("doc", "argument", `return (${fn})(doc, argument)`)(doc, argument);
-  }, { read: browserStoredPet.toString(), fn: predicate.toString(), argument });
-  return stored(page);
+  // IndexedDB is asynchronous. Poll resolved documents in the driver rather
+  // than treating a Promise as a truthy browser-side wait result. Keep the
+  // original 30-second wait bound and return the exact matching document.
+  const deadline = performance.now() + 30_000;
+  while (performance.now() < deadline) {
+    const doc = await stored(page);
+    if (doc && predicate(doc, argument)) return doc;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+  throw new Error("Timed out waiting for persisted pet: " + predicate.toString());
 }
 async function openTools(page) {
   const toggle = button(page, "Enable development tools");
