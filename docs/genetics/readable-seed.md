@@ -141,6 +141,41 @@ child tissue containing live material cells is present. The specialist's
 rendered pixels must each cite their actual material cell and original
 source-owner lineage. A merely accepted seed ticket is not a visible organ.
 
+## Experimental kind-specific *physical* growth (playable prototype)
+
+The incremental growth engine now uses a shared, mathematical
+`createSpecializationRank` when a tissue is **already** typed by the player's
+brush or by a successfully generated, genetically authorized child. This
+does not use geometry to infer a kind and does not spawn a predefined organ.
+
+Inputs: current finite source-owned tissue cell positions, an explicit kind,
+an operator's actual directed growth axis, and a proposed legal adjacent
+lattice location. The output is a finite **ranking score only**. The existing
+chronological, collision, attachment, original-source and material-conservation
+journal remains solely responsible for permitting a new physical cell.
+
+For direction-aligned longitudinal and lateral spans `L,W`, candidate
+spans `L',W'`, kind-dependent breadth preference `b_k`, existing
+neighbor count `N8`, and tissue-centroid distance `d`:
+
+```text
+score = 8 * abs(ln((W' / L') / b_k)) + 0.04 * d - 0.18 * N8
+```
+
+Wings favor broader source-supported sheets, legs and tails narrower
+longitudinal tissues, eyes approximately compact patches, and feet wider
+supports. These are *operator preferences*, not sprite shapes or species
+destinations. They can be obstructed by actual material, physical boundaries,
+care or other organs. Body-only ink still has no inferred anatomical label.
+The new scoring algorithm does **not** claim finished or proven visual
+legibility; the next gameplay work is to make its whole-body and specialist
+development recognizable and appealing over a complete life.
+
+**Pre-release development policy:** GitHub's automatic check workflows were
+removed at user request. Narrow mathematical tests remain available for
+manual debugging, but there is no CI-based merge or publication gate.
+Playability and a convincing evolving creature take priority now.
+
 ## Verification gates
 
 1. Direct alphabet and integer-dose examples with independently derived rolls.
