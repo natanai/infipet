@@ -157,6 +157,16 @@ test("[integration] a normal single-pet save reconstructs the existing retro gam
   assert.deepEqual(saved.parts, pet.parts);
   assert.deepEqual(saved.life?.game, game);
   assert.equal(saved.life?.lineageVersion, LINEAGE_RECIPE_VERSION);
+  assert.equal(saved.life?.anatomicalClock, "daily-365-v1");
+  // No player pets exist before first release: obsolete clocks cannot become
+  // read-only ghosts or silently import fabricated growth histories.
+  const retired=JSON.parse(encodePet(pet)) as {life:Record<string,unknown>};
+  delete retired.life.anatomicalClock;
+  assert.throws(()=>decodePet(JSON.stringify(retired)),
+    /only the current 365-check physical clock/);
+  retired.life.anatomicalClock="hourly-8192";
+  assert.throws(()=>decodePet(JSON.stringify(retired)),
+    /only the current 365-check physical clock/);
   const replay = createSimulation(saved.life!.parts, saved.life!.seed, saved.life!.mode, {
     needTimeline: deriveCareTimeline(saved.life!.game),
     liveContext: deriveDevelopmentContext(saved.life!.game),
