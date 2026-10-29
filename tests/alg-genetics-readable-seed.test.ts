@@ -165,7 +165,8 @@ test("[PHY-004/A12] body-only reference lottery balances supported phylogenetic 
   for (let i=0;i<125;i++) {
     const seed="uncommitted-domain/"+i;
     const chosen=chooseAuthoredReference(atlas,seed)!;
-    const expectedDomain=available[hash(seed+"|uncommitted-domain")%available.length];
+    const expectedDomain:(typeof domains)[number]=
+      available[hash(seed+"|uncommitted-domain")%available.length];
     const options=tree.nodes.filter(node=>classify(node.id)===expectedDomain)
       .map(node=>({
         id:node.id,
