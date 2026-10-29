@@ -148,6 +148,7 @@ test("[integration] a normal single-pet save reconstructs the existing retro gam
     needsRulesVersion: NEEDS_RULES_VERSION,
     life: {
       lineageVersion: LINEAGE_RECIPE_VERSION,
+      anatomicalClock: "daily-365-v1",
       parts: branching, mode: "infant", seed, name: "My drawing",
       game, groomingTimeline: [],
     },
