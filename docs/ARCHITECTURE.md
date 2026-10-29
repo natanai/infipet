@@ -69,6 +69,25 @@ growth site needs chronological evidence, material provenance, valid spatial
 bounds and a deterministic order. Null operations are allowed. Drawings,
 permanent genes, and earlier care may never be silently replaced.
 
+## Experimental whole-body changes (not yet visually qualified)
+
+Production physical material growth now uses five seed-derived 73-opportunity
+regional allometry phases. Chronological care can influence the expressed
+aspect-ratio pressure without rerolling permanent genes. Existing physical
+source material can also participate in five scheduled coordinated
+repatterning windows, which must journal actual cell relocation and source
+seam replacements. A typed organ still uses its original brush identity or
+a physically generated `developedKind` for mechanical shape preferences
+during every later region-growth opportunity, not merely its first bud.
+All material boundaries remain governed by existing spatial and ancestry
+auditors; no image/silhouette transformation is substituted.
+
+These are **real implementation changes on the draft**, not evidence that
+the live or deployed game is visually satisfying. The prototype currently
+has no automatic CI verification or browser checks by explicit user choice;
+keep mathematical contracts and targeted debugging available without
+treating their presence as a requirement to delay the core game.
+
 ## Code owners: distinguish live from retained
 
 | Purpose | Current owner |
@@ -77,6 +96,9 @@ permanent genes, and earlier care may never be silently replaced.
 | Readable genes | `src/genetics/seed-language.ts` |
 | Scientific + fictional reference graph | `src/phylogeny/`, `src/lineage/authored-neighbor.ts` |
 | Birth material + lawful growth operations | `src/development/material-graph.ts`, `src/development/operators.ts`, `src/development/operator-chronology.ts` |
+| Seed-fixed and care-expressed physical allometry | `src/development/regional-regulation.ts`, `src/development/morphological-fields.ts`, `src/development/iterative-chronology.ts` |
+| Whole-body journaled strain / physical remodeling | `src/development/lifetime-remodeling.ts`, `src/development/developmental-strain.ts` |
+| Actual typed-tissue growth preferences | `src/development/specialization-front.ts` |
 | Daily production physiology / anatomy | `src/environment/daily-care.ts`, `src/development/daily-step.ts`, `src/integration/daily-runtime.ts` |
 | Current material source and replay audit | `src/development/anatomical-audit.ts`, `src/development/spatial-inventory.ts`, `src/development/material-journal.ts` |
 | Player UI, pose and display | `App.tsx`, `src/simulation/growth.ts`; pose cannot author physical cells |
