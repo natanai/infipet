@@ -2696,7 +2696,7 @@
           "rewrite past save histories"
         ]
       },
-      "releaseGate": "Draft only until independent source/semantic tests, baseline morphology/physical audits, current-format save/reload parity, full year non-tendril qualification, and real mobile review pass. Test full daily time and care counterfactual parity, independent replay, zero-resource null, performance and deterministic current-genetics replay before merger."
+      "releaseGate": "In-progress playable feature, not an automatic merge gate. Prioritize physically recognizable, deterministic eye/limb/wing differentiation, real care effects and mobile experience. Existing focused tests may be used manually for specific defects."
     }
   ],
   "algorithms": [
@@ -2991,9 +2991,9 @@
   "agentCoordination": {
     "writeOwnership": "One algorithm owner writes each owned path; all other agents treat it as read-only. Shared imports are allowed. Owner boundaries are routing rules, not permission constraints.",
     "parallelExecution": "Agents can develop algorithms concurrently against existing typed public interfaces. Cross-algorithm API changes require interface proposals to the integration owner before editing shared runtime files.",
-    "taskLifecycle": "Agent selects one task ID, reads acceptance contract and ownedPaths, writes smallest targeted test, implements algorithm, runs that test, updates status in same commit.",
+    "taskLifecycle": "Agent selects a clear playable game behavior, implements and observes it, updates roadmap where relevant. Do not run or wait on CI; invoke a narrow mathematical test only to diagnose a concrete defect.",
     "integrationGate": "Integration agent alone edits App.tsx, src/lineage/index.ts or src/simulation/growth.ts while separate algorithm work is in progress.",
-    "testConvention": "Every new algorithm-local test must be named tests/alg-<algorithmId>-<feature>.test.ts, be referenced in roadmap/plan.json and measure that feature only.",
+    "testConvention": "Retain optional narrow tests for reproducible physical regressions; adding or running a test for every prototype change is NOT required.",
     "reporting": "Prefer booleans, numeric hashes, invariants and narrow metric summaries; never commit screenshot batches, historical build logs or generated test matrices."
   },
   "baselineTests": [
@@ -3098,7 +3098,7 @@
     }
   },
   "qualification": {
-    "status": "verified_changes_release_gated",
+    "status": "archived-historical-evidence-not-current-release-gate",
     "baseCommit": "369520373ec32106b622c58f3159b71078689a65",
     "verifiedSourceHead": "40dfbbb122ba97942bd27955d882e83d37acf13f",
     "corrections": [
@@ -3118,7 +3118,7 @@
       "ciWeb": "https://github.com/natanai/infipet/actions/runs/40608932246",
       "rasterCorrection": "Additional single-pixel and 3x3 actual-rendered-pixel animation regression passes; needs/material performance inputs are unchanged."
     },
-    "releaseGate": "Source/test receipts do not claim deployment. Merge only the verified PR head; Publish Web must succeed on the exact resulting main SHA and live release.json must match before final publication qualification.",
+    "releaseGate": "No active CI or verification release gate during early playable prototype. Historic numerical results are archival reference only. Publish a build from main for hands-on gameplay evaluation.",
     "limits": [
       "Native-phone hardware unmeasured. Observational 4xCPU viewport: care tail1.43s, reopen7.06s.",
       "Unobserved legacy postmaturity physiology stays explicitly unknown. Old mature diagnostic histories and receipt keys have bounded retention."
@@ -3128,11 +3128,11 @@
     "version": "morphological-expressiveness-v1",
     "authority": "normative-coequal-with-source-continuity-and-material-conservation",
     "principle": "Infipet must support a broad, independently verifiable space of anatomical transformations. No implementation may preserve physical correctness by reducing development to predominantly linear extensions, branches, or cosmetic changes.",
-    "systemLevelRequirement": "Developmental variety must emerge from the player's authored material, permanent genetic potential, deterministic chaotic processes, anatomical constraints, and chronological care. The system must demonstrate genuine variation in whole-body proportions, topology, tissue distribution, structural specialization, and developmental trajectories, without predetermined creature outcomes. An individual organism may legitimately remain unchanged or favor one developmental strategy. System-wide capability must not collapse to a narrow family of outcomes.",
+    "systemLevelRequirement": "Developmental variety must emerge from authored material, permanent readable seed and phylogenetic potential, anatomical constraints, and chronological care. New chaos is deferred. The game must become genuinely enjoyable through coherent whole-body proportional, topological, tissue, specialization and trajectory changes; these product requirements are not automatic test gates during the early prototype.",
     "onePetOnly": true,
     "sourceMaterial": "immutable-authored-ink-and-provenance",
     "geneticPotential": "permanent-seeded-genome",
-    "chaos": "bounded-deterministic-dynamics",
+    "chaos": "deferred-optional-no-new-chaos-required",
     "physicalConstraints": "accepted-conserving-transactions-with-independent-reconstruction",
     "care": "recorded-causal-chronological-exposure",
     "temporal": {
@@ -3232,7 +3232,24 @@
     "legacyMigration": "forbidden",
     "oldLifeReadOnlyMode": "removed",
     "rule": "There are no existing released player pets. Reject retired/old pet formats; do not preserve old growth engines or compatibility migrations. A current-format pet still needs exact save/replay, safe reload, and player-approved replacement.",
-    "retirementGate": "Prove current imports, explicit 365-day physical invariants, deterministic seed, functional gameplay and complete regression/performance gates before deleting an imported old module. Historical experiments remain accessible in git history, not as live engine obligations.",
+    "retirementGate": "Remove unused imported historical code when current gameplay no longer needs it. No old pet/save compatibility, exhaustive CI pass, or broad regression gate is required before early prototype progress.",
     "currentImplementation": "Unreleased current-only input and pet storage; old-format recovery/archival UI and compatibility helpers removed in draft PR #55. Rendering of physically differentiated child tissues respects developedKind; imported historical renderer remains a refactoring target, not a saved-pet obligation."
+  },
+  "prototypeWorkflow": {
+    "phase": "make-game-playable-first",
+    "automatedChecks": false,
+    "requiredGate": "none; only web export is necessary for GitHub Pages delivery",
+    "githubWorkflows": [
+      ".github/workflows/deploy.yml"
+    ],
+    "policy": "Do not initiate, require, wait on or recreate repository-wide check, CI, browser, scientific, memory, performance or documentation-verification workflows. Treat existing tests as manually invoked diagnostics only. Return to automated qualification only on user's explicit request after a convincing playable virtual pet exists.",
+    "focus": [
+      "draw-first virtual pet usable on iPhone Safari",
+      "visible whole-body transformation from authored ink",
+      "recognizable source-owned typed features",
+      "fixed seed and tree-derived organism variety",
+      "care causing real expression differences",
+      "daily saved pet continuation"
+    ]
   }
 }
