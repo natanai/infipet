@@ -86,11 +86,27 @@ These mechanics establish more forms of *possible* transformation, not an
 already proven dramatic or attractive evolution path. Every physically blocked
 operation may correctly do nothing; actual life results need player testing.
 
-This is still an **experimental draft, not a demonstrated fun or visually
-convincing virtual pet**. More coherent whole-body restructuring and
-care-game feedback are priorities. Changes reach the player website only after main is published.
+This remains an **experimental playable prototype, not a demonstrated
+fun or visually convincing virtual pet**. More coherent whole-body
+restructuring and care-game feedback are priorities. New changes reach the
+player website only after they merge into main and GitHub Pages publishes.
 No automatic CI, browser or numerical qualification workflows
 run while the prototype is being made playable.
+
+## Starter drawings and their permanent genes
+
+The 12 editable gallery drawings each include a fixed, **human-readable
+genetic seed** such as `2W2F2TBGQZ` (two possible Wings, two Feet, two Tails,
+plus Body growth, surface growth, symmetry and timing influences).
+Selecting a starter loads both its editable ink and its ordinary seed into
+the same drawing editor used for your own creations. The seed can be
+changed; it is not a preset-name-derived secret or a hardcoded adult path.
+The identical seed parser, tree reference, care chronology and physical
+growth rules apply to every creature.
+
+The [complete list of starter seed scripts](docs/genetics/readable-seed.md#fixed-seeds-for-playable-starter-drawings)
+is stored in `src/presets.ts`. The separate historic retro-reference
+drawings are research specimens, never evolution destination sprites.
 
 ## Player experience
 

@@ -1,7 +1,9 @@
 # Infipet readable genetic seed — v1 draft
 
-**Status:** Implementation in draft PR #55. The genetic grammar and initial physical
-expression are not yet a qualified substitute for the complete morphology engine.
+**Status:** Readable-seed-v1 is implemented in the current physical
+prototype. The grammar is stable for current-format pets, but visually
+convincing adult outcomes are still being developed and must not be inferred
+from the gene script alone.
 
 ## Experience contract
 
@@ -56,6 +58,43 @@ parser, integer behavior and precedence.
 No player-selected anatomical parts are inferred from pixels. Two separately
 selected Eye parts remain two authored Eyes; a shape resembling two eyes
 painted entirely using Body is still exclusively Body.
+
+## Fixed seeds for playable starter drawings
+
+All 12 editable gallery drawings use **exactly the same** readable-seed-v1
+grammar and source-owned development engine as a player's own drawing.
+Their stored strings are complete genetic scripts, not mascot identifiers,
+species IDs, direct evolution targets or lookups. Selecting a starter copies
+its original parts **and** its listed seed into the ordinary editor. Editing
+the drawing or seed changes the normal simulation inputs; there is no special
+starter-mode mutation logic or preset-specific developmental exception.
+
+| Drawing ID | Fixed readable seed | Drawing ID | Fixed readable seed |
+|---|---|---|---|
+| pippo | `2W2F2TBGQZ` | brumby | `2H3W2AGKRZ` |
+| glim | `2T3I2LBGYZ` | thimbleaf | `2C3H2FBGRZ` |
+| vellune | `3L2I2FSGQZ` | craggle | `2W3T2MDKRZ` |
+| nibblet | `3W2F2TBGRZ` | orbini | `2L3H2CUGQZ` |
+| spoori | `3W2T2FGYZ` | tukkin | `2I2A3TBRQZ` |
+| flinta | `3A2H2CBGZ` | vespri | `2L3T2IMGRZ` |
+
+These scripts deliberately include diverse possible role and process genes
+but are **not** selected by searching for a preferred adult appearance.
+The phylogenetic reference, permanent ticket acceptances, limited growth
+sites, available material, chronological care and physical rules determine
+what actually forms. A `2W` instruction offers two wing tickets, not two
+guaranteed new wings. An already selected Wing or Eye remains original
+material regardless of whether any additional gene ticket is accepted.
+
+Pippo's illustrated face is now stored as two explicit Eye parts, a Mouth
+and separate decorative cheek pixels, rather than treating the whole face
+as one unknown Decoration. This uses the same manual brush-kind contract as
+all other edited drawings; **no image recognition is involved**.
+
+The 36 historic retro-reference specimens are research material, not
+selectable starter-gallery creatures or target evolutions. Their historical
+reference seeds are intentionally retained as separate study data and are
+not a hidden progression table for these 12 starter drawings.
 
 ## Mathematical rules (initial implementation)
 
