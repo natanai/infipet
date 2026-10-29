@@ -2638,6 +2638,11 @@
           "id": "A12",
           "requirement": "A one-cell Body source samples uniformly among the represented animal, plant, fungus, explicitly fictional and other scientific domains before sampling a node. Independent bounded hash arithmetic reproduces every domain and node choice; all scientific/fictional nodes remain candidates and geometry has zero semantic influence.",
           "oracle": "focused-node-test"
+        },
+        {
+          "id": "A13",
+          "oracle": "focused-node-test",
+          "requirement": "Every accepted letter-coded anatomical feature has a deterministic fair opportunity for scarce physical growth operators: explicit tokens precede latent Body tickets and slots interleave anatomical kinds by accepted-ticket rank, with seeded ties. No fixed alphabet order may monopolize physical budget."
         }
       ],
       "verification": {
@@ -3088,7 +3093,8 @@
       "semantics": "All A-Z glyphs are documented in src/genetics/seed-language.ts; decimal prefix is capped at 12 tickets, zero suppresses that letter; modifiers act on deterministic physical operations, never a target sprite.",
       "invariant": "Same exact selected drawing + seed + reference => same genome and developmental potential. Same care history => same anatomical chronology. Different care => altered expression from same unmodified genome.",
       "bodyOnly": "Undifferentiated pluripotent material; every represented scientific or fictional developmental node remains a candidate and every unmentioned selectable part has latent opportunity.",
-      "currentLimitations": "Whole-body tree-directed material specialization and feature legibility remain unqualified; old physical chaos and imported historical morphology are technical debt scheduled for retirement, not backward-compatibility obligations."
+      "currentLimitations": "Whole-body tree-directed material specialization and feature legibility remain unqualified; old physical chaos and imported historical morphology are technical debt scheduled for retirement, not backward-compatibility obligations.",
+      "slotAllocation": "up to 6 explicit-source-owned pairs, selected only from seed-accepted feature tickets: explicit letters before latent; round-robin accepted rank per kind; immutable seed-hash tie breaks; no uncommitted kinds marked as physical."
     }
   },
   "qualification": {
