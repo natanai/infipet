@@ -475,7 +475,8 @@ export function compileMaterialDevelopment(
         const branchId = "life/" + index + "/branch";
         operations.push({
           id: branchId, tissueId: tissue.id, siteId,
-          kind: ready === signals.channels.branching.initiation ? "branch" : "bud",
+          kind: signals.channels.branching.initiation >= signals.channels.appendages.initiation
+            ? "branch" : "bud",
           atHour: 70 + slot, durationHours: 45, strength: ready,
           chaos: chaosFor(branchId),
         });
