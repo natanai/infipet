@@ -441,11 +441,27 @@ export function compileMaterialDevelopment(
         const childId = budId + "/growth/0";
         const start = 118 + (seedLanguage.phase % 32) +
           28 * slot;
+        // Select a fixed orientation from the seed without chaotic turning.
+        // The original growth-site orientation has already been used by
+        // generic elongation; other exposed directions allow genuinely new
+        // material compartments rather than forcing every feature into one
+        // overlapping tendril. This is mechanical placement, not inference
+        // of user-drawn anatomy.
+        const directions: readonly Point[] = [
+          {x:1,y:0}, {x:0,y:1}, {x:-1,y:0}, {x:0,y:-1},
+        ];
+        const rootDirection = source.sites.find(s=>s.id===site)?.direction ??
+          {x:0,y:-1};
+        const available = directions.filter(d=>
+          d.x*rootDirection.x+d.y*rootDirection.y<0.5);
+        const direction = available[
+          hash(genome.seed+"|gene-direction|"+instructionId) % available.length
+        ];
         // No chaotic rhythms in the new typed genetic instructions. Linear
         // chronology + causally recorded care decide the expression.
         operations.push({
           id: budId, kind: "bud", tissueId: carrier.id,
-          siteId: site, atHour: start, durationHours: 30,
+          siteId: site, direction, atHour: start, durationHours: 30,
           strength: 0.95, developedKind: opportunity.kind,
           geneticInstructionId: instructionId,
         });
