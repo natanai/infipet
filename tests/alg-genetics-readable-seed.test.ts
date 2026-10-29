@@ -147,3 +147,39 @@ test("[PHY-004/A11] real daily-generated genetic tissues appear as their actual 
     "new genetics must never relabel source pixels at birth");
   assert.deepEqual(sim.materialStateAt(365).graph,adult);
 });
+
+
+test("[PHY-004/A12] body-only reference lottery balances supported phylogenetic domains, not catalog size", () => {
+  const {atlas}=materialInputs(drawing(["#"],"body"),"DOMAIN");
+  const tree=createPhylogenyView(FANTASY_PATHS);
+  const domains=["animal","plant","fungus","fictional","other-scientific"] as const;
+  const classify=(id:string):typeof domains[number] =>
+    id.startsWith("fiction:")?"fictional":
+    tree.isDescendant(id,"ncbi:33090")?"plant":
+    tree.isDescendant(id,"ncbi:4751")?"fungus":
+    tree.isDescendant(id,"ott691846")?"animal":"other-scientific";
+  const available=domains.filter(d=>tree.nodes.some(node=>classify(node.id)===d));
+  assert.deepEqual(available,domains,
+    "missing represented realm invalidates the advertised five-way seed draw");
+  const observed = new Set<string>();
+  for (let i=0;i<125;i++) {
+    const seed="uncommitted-domain/"+i;
+    const chosen=chooseAuthoredReference(atlas,seed)!;
+    const expectedDomain=available[hash(seed+"|uncommitted-domain")%available.length];
+    const options=tree.nodes.filter(node=>classify(node.id)===expectedDomain)
+      .map(node=>({
+        id:node.id,
+        rank:hash(seed+"|authored-neighbor|"+node.id)/4294967296,
+      })).sort((a,b)=>b.rank-a.rank||a.id.localeCompare(b.id));
+    const expectedNode=options[
+      hash(seed+"|uncommitted-node|"+expectedDomain)%options.length
+    ]?.id;
+    assert.equal(chosen.referenceDomain,expectedDomain);
+    assert.equal(chosen.referenceId,expectedNode);
+    assert.equal(chosen.candidates[0].nodeId,expectedNode);
+    assert.equal(chosen.status,"seeded-ambiguous");
+    assert.deepEqual(chosen.authoredCounts,{body:1});
+    observed.add(expectedDomain);
+  }
+  assert.deepEqual([...observed].sort(),[...domains].sort());
+});
