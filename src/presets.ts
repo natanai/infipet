@@ -85,6 +85,9 @@ const designs:ReadonlyArray<Readonly<{
     ".lllll.","..lll..","...l..."]},
    {id:"left-wing",kind:"wing",x:7,y:13,rows:["..llll","llllll",".llll."]},
    {id:"right-wing",kind:"wing",x:20,y:13,rows:["llll..","llllll",".llll."]},
+   {id:"eye-left",kind:"eye",x:15,y:14,rows:["k"]},
+   {id:"eye-right",kind:"eye",x:17,y:14,rows:["k"]},
+   {id:"mouth",kind:"mouth",x:16,y:16,rows:["k"]},
  ]},
  {id:"twins",seed:"8M8W8FBRZ",
   description:"Two separate small Body islands with independent original material",ink:[
