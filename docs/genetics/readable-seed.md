@@ -114,20 +114,34 @@ a function change alone.
 
 For up to four seed-ranked eligible source tissues, the inherited plan
 can propose an alternate role during early checks, a return to its original
-function during middle checks, and a sequence of actual one-lattice-unit
-whole-tissue translations at later checks. The physical translate operator
-retains all living cell identities and is independently rejected if it
-would collide with another tissue, violate protected voids or break an
-attachment. Five existing coordinated source-owned whole-body
-`repattern` windows continue to change actual material positions under
-physical conservation and chronological care, rather than rendering a
-new desired outline. The prior three-stage metamorphosis mathematics remains
-reference material for further physically real reorganization.
+function during middle checks, and **actual one-lattice-unit physical
+repositioning** during later checks. A separate schedule for originally
+authored Heads and attached appendages proposes joint-sliding movement in
+three developmental phases. Every candidate moves ALL current cells of its
+tissue by exactly the same cardinal step, and changes affected real
+`MaterialLink` cell endpoints only if there is an actual currently live
+pair within squared distance 8. Entire attempted transactions are rejected
+if a collision, unsupported new contact, protected cavity, disconnected
+attachment or loss of source anatomy would result. No renderer-only pose
+can masquerade as this event.
 
-This is a deliberately small *first recombination*, NOT a claim that we
-have restored all historical stage-specific rotations, cranial migration,
-subtree reattachment and support/effector reorganization. Those require
-physically authorized operations and are still open for gameplay validation.
+**Real readable process genes:** `R` gives full ordinary inherited capacity
+to the five coordinated physical `repattern` windows; without R the
+normal latent strain strength is 0.35. The number of accepted repattern
+units remains `floor(10 * strength * sqrt(0.7*plasticity +
+0.3*expansion))` per window. `Y` improves physical repurposing
+eligibility, with the fixed condition
+`plasticity + min(0.3,0.12*Ytickets) >= 0.3`.
+Both are immutable-seed effects. Actual transaction timing still depends
+on daily care and physical validity. The process gene cannot choose a
+species or overwrite the existing source.
+
+This is a real *first recombination*, NOT a claim that we have
+restored every historical rotation, full subtree relocation or body-stage
+phenotype. Physical whole-body strain, source-part migration and
+functional succession now coexist. More global topology changes remain
+open for player visual acceptance; there is no declared guarantee of
+dramatic transitions in every life.
 
 ## Mathematical rules (initial implementation)
 
