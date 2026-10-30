@@ -11,6 +11,7 @@ import {applyRemodelingProposal,remodelingProposalsBetween,
   EMPTY_REMODELING_CHRONOLOGY} from "../src/development/remodel-transactions";
 import {applyDailyMaterialStep,createDailyMaterialState,verifyDailyMaterialInventory,type DailyCareWindowV1} from "../src/development/daily-step";
 import {sourceStrain} from "../src/development/developmental-strain";
+import {sourcePairChange} from "../src/evaluation/morphology";
 import {materialInputs,drawing} from "./alg-development-fixtures";
 
 const HATCH=1_701_102_300_000;
@@ -352,4 +353,28 @@ test("productive daily care expresses conservative body bending; zero care canno
   verifyDailyMaterialInventory(nourished.graph,HATCH,12,program.source,{
     material:program.operators,remodeling:plan.operations,
   });
+});
+
+test("two successive physical morphs change internal relative positions without increasing tissue area",()=>{
+  const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."],"body"),"8E8L8WRZ");
+  const source=compileMaterialDevelopment(atlas,genome).source;
+  const tid=source.tissues[0].id;
+  const slip=proposeRegionalSlip(source,tid,{x:1,y:0});
+  assert.ok(slip);
+  const second=proposeRegionalBend({...source,cells:slip.cells},tid,{x:1,y:0});
+  assert.ok(second,"a later stage can physically reorganize an already transformed body");
+  const first={...source,cells:slip.cells},adult={...source,cells:second.cells};
+  const occupied=(cells:readonly {x:number;y:number}[])=>
+    new Set(cells.map(c=>c.x+","+c.y));
+  const a=occupied(source.cells),b=occupied(first.cells),c=occupied(adult.cells);
+  assert.equal(a.size,b.size);
+  assert.equal(b.size,c.size);
+  const shape=(x:ReadonlySet<string>,y:ReadonlySet<string>)=>
+    [...x].filter(v=>!y.has(v)).length+[...y].filter(v=>!x.has(v)).length;
+  assert.ok(shape(a,b)>0&&shape(b,c)>0,
+    "each stage must alter occupied anatomy, not just the elapsed age label");
+  assert.ok(sourcePairChange(source,adult)>0,
+    "source-pair distances must actually change, ruling out a rigid display pose");
+  assert.deepEqual([...new Set(adult.cells.map(c=>c.id))].sort(),
+    source.cells.map(c=>c.id).sort());
 });
