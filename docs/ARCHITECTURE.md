@@ -119,6 +119,39 @@ This is a source-general implementation experiment, not evidence of visually
 complete stage evolution. Focused tests have been added but have not yet been
 executed in a production-capable runner, and this branch is not published.
 
+### Unimplemented attachment-coupled deformation (blocking full recovery)
+
+A local tissue transformation can pass a small endpoint tolerance while
+leaving its separately authored, attached descendants behind. That is not
+adequate to transform a head with independently drawn eyes or to rearrange a
+multi-limbed body. The next physical operator contract must carry the entire
+attachment subtree atomically, **without inferring new anatomy or rewriting
+source part identities**:
+
+- For a live parent attachment cell `a`, let `d(a)=a_after-a_before`.
+  During a regional slip or counterbend, every cell of a child tissue whose
+  attachment endpoint is `a` follows `p_after=p_before+d(a)`. The
+  dependent rigid translation recurses through downstream attachments. A
+  stationary attachment anchor produces no dependent translation.
+- For a 90-degree rotation about the original joint `q`, the parent and all
+  connected subordinate cells must use the SAME rigid transform
+  `(x',y')=(q_x-s(y-q_y),q_y+s(x-q_x))`, `s∈{-1,+1}`. That
+  preserves the authored arrangement of eyes and subordinate appendages
+  relative to their head/host.
+- All affected permanent cell IDs are reported in one transaction; the
+  independent daily auditor must independently derive the complete
+  transitive attachment closure from the **pre-event graph**. Do not permit
+  arbitrary foreign-tissue relocation or silently detach attachments.
+- Validate unchanged source ancestry, paint, tissue ownership and cell count,
+  distinct declared feature identities, physical attachment contact,
+  protected cavities, world bounds, lattice tissue connectivity, and illegal
+  overlaps or newly unauthorized foreign-tissue contacts. Any failure is
+  an atomic null, never a partial or merely visual morph.
+
+**This transitive carrier operation is not implemented or verified in PR #58.**
+Until it is, acceptable local moves and isolated numeric bend examples
+cannot demonstrate coordinated whole-creature metamorphosis in rich drawings.
+
 These are **real implementation changes on the draft**, not evidence that
 the live or deployed game is visually satisfying. The prototype currently
 has no automatic CI verification or browser checks by explicit user choice;
