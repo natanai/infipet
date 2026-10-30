@@ -509,13 +509,13 @@ export function reconstructDailyPhysicalState(
         if(support.length<2||!support.some(c=>Math.abs(c.x-m.to.x)+Math.abs(c.y-m.to.y)===1))
           throw new Error("Tissue reflow deposited into unsupported tip");
       } else if (
-        (!advancingFront&&!["translate", "remodel", "reshape"].includes(e.kind)) ||
+        (!advancingFront&&!["translate", "reposition", "remodel", "reshape"].includes(e.kind)) ||
         (p.system === "iterative"&&!advancingFront) ||
         !Math.max(Math.abs(d.x), Math.abs(d.y)) ||
         Math.max(Math.abs(d.x), Math.abs(d.y)) > 1
       )
         throw new Error("Physically impossible relocation");
-      if (e.kind === "translate" || e.kind === "reshape") {
+      if (e.kind === "translate" || e.kind === "reposition" || e.kind === "reshape") {
         const axis = p.operation.direction ??
           [...sites.values()].find(
             (s) =>
@@ -544,6 +544,15 @@ export function reconstructDailyPhysicalState(
         !moves.size)
     )
       throw new Error("Incomplete tissue translation");
+    if(e.kind==="reposition"){
+      const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
+      const d=p.operation.direction;
+      if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+        !d||![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>d.x===x&&d.y===y)||
+        !own.length||moves.size!==own.length||
+        own.some(c=>!moves.has(c.id)))
+        throw new Error("Reposition must move exactly every source-owned cell in one connected tissue");
+    }
     if (e.kind === "remodel" && moves.size > 1)
       throw new Error("Remodel quantum relocated excess material");
     if(e.kind==="reshape"){
@@ -656,6 +665,18 @@ export function reconstructDailyPhysicalState(
         throw new Error("Unauthorized tissue creation");
     }
     for (const change of p.links) {
+      if(e.kind==="reposition"){
+        const a=change.before,b=change.after;
+        const touched=a&&(a.fromTissueId===p.operation.tissueId||
+          a.toTissueId===p.operation.tissueId);
+        if(!a||!b||!touched||
+          !same({...a,fromCellId:b.fromCellId,toCellId:b.toCellId},b)||
+          !b.fromCellId||!b.toCellId||
+          active.get(b.fromCellId)?.tissueId!==b.fromTissueId||
+          active.get(b.toCellId)?.tissueId!==b.toTissueId)
+          throw new Error("Reposition forged a new attachment identity or endpoint");
+        continue;
+      }
       if(e.kind==="repattern"){
         const a=change.before,b=change.after;
         if(!a||b&&!same({...a,fromCellId:b.fromCellId,toCellId:b.toCellId},b)||
