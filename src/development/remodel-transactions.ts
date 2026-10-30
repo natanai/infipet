@@ -113,7 +113,7 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
   switch(op.kind) {
     case "extend": return c.growth.elongation;
     case "reinforce": return c.support.rigidity;
-    case "resorb": case "translate": return c.maturation.plasticity;
+    case "resorb": case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
     case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
@@ -131,6 +131,9 @@ function checked(op: RemodelOperation): string | null {
       !Number.isFinite(op.direction.y)))) return "invalid-operator";
   if(op.kind==="reattach" && !op.targetTissueId) return "missing-target-tissue";
   if(op.kind==="repurpose" && !op.targetKind) return "missing-functional-kind";
+  if(["reposition"].includes(op.kind) &&
+    ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
+    return "invalid-reposition-direction";
   if(["reshape","redistribute"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-regional-direction";
@@ -529,6 +532,51 @@ export function applyRemodelingProposal(
             relocated.push(...moved);
             next={...graph,cells:shifted};
           }
+        }
+      }
+    } else if(op.kind==="reposition") {
+      // Physically migrate an entire existing tissue by ONE lattice unit;
+      // move its attachment contacts along the current host in the SAME
+      // atomic event. Existing tissue, source IDs and joints are retained.
+      // This is the bounded material version of the old regional head/
+      // appendage migrations, not a view-space sprite displacement.
+      const step=stepFor(axis);
+      const moved=group.map(c=>({cellId:c.id,
+        from:{x:c.x,y:c.y},to:{x:c.x+step.x,y:c.y+step.y}}));
+      const nonmoving=graph.cells.filter(c=>c.tissueId!==op.tissueId);
+      const protectedSites=new Set([...graph.protectedVoids,...enclosed(graph.cells)]);
+      if(moved.some(m=>!bounded(m.to)||protectedSites.has(pointKey(m.to))||
+        nonmoving.some(c=>pointKey(c)===pointKey(m.to))))
+        reason="reposition-collision-or-void";
+      else {
+        const updated=new Map(moved.map(m=>[m.cellId,m.to]));
+        const shifted=graph.cells.map(c=>updated.has(c.id)?
+          {...c,...updated.get(c.id)!}:c);
+        const byId=new Map(shifted.map(c=>[c.id,c]));
+        const touched=new Set(graph.links.flatMap(l=>
+          l.fromTissueId===op.tissueId?[l.toTissueId]:
+          l.toTissueId===op.tissueId?[l.fromTissueId]:[]));
+        const nextLinks:MaterialLink[]=[];
+        for(const link of graph.links){
+          if(link.fromTissueId!==op.tissueId&&link.toTissueId!==op.tissueId){
+            nextLinks.push(link);continue;
+          }
+          const from=shifted.filter(c=>c.tissueId===link.fromTissueId);
+          const to=shifted.filter(c=>c.tissueId===link.toTissueId);
+          const pairs=from.flatMap(a=>to.flatMap(b=>{
+            const d=square(a,b);
+            return d<=8?[{a,b,d}]:[];
+          })).sort((a,b)=>a.d-b.d||cmp(a.a,b.a)||cmp(a.b,b.b));
+          if(!pairs.length){reason="reposition-disconnects-joint";break;}
+          const pair=pairs[0];
+          nextLinks.push({...link,fromCellId:pair.a.id,toCellId:pair.b.id});
+        }
+        if(!reason&&moved.some(m=>nonmoving.some(c=>
+          near(m.to,c)&&!touched.has(c.tissueId))))
+          reason="reposition-creates-unlinked-contact";
+        if(!reason){
+          relocated.push(...moved);
+          next={...graph,cells:shifted,links:nextLinks};
         }
       }
     } else if(op.kind==="reattach") {
