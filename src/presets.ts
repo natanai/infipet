@@ -59,13 +59,13 @@ const designs:ReadonlyArray<Readonly<{
     "..ooooo..",".oo...oo.","oo.....oo","oo.....oo",
     "oo.....oo","oo.....oo","oo.....oo",".oo...oo.","..ooooo.."]},
  ]},
- {id:"fork",seed:"8C8L8WGRZ",
+ {id:"fork",seed:"8C8L8WGRYZ",
   description:"Compact Body core with two separately authored upper arms",ink:[
    {id:"body",kind:"body",x:13,y:15,rows:[".rrrr.","rrrrrr","rrrrrr",".rrrr.","..rr.."]},
    {id:"arm-left",kind:"arm",x:10,y:11,rows:["rr..","rr..",".rr.",".rr."]},
    {id:"arm-right",kind:"arm",x:18,y:11,rows:["..rr","..rr",".rr.",".rr."]},
  ]},
- {id:"drop",seed:"8F8H8ASRZ",
+ {id:"drop",seed:"8F8H8ASRYZ",
   description:"Asymmetric teardrop Body with an independently authored short tail",ink:[
    {id:"body",kind:"body",x:11,y:11,rows:[
     "......mm...",".....mmmm..","....mmmmmm.","..mmmmmmmm.",
@@ -78,7 +78,7 @@ const designs:ReadonlyArray<Readonly<{
    {id:"cap",kind:"head",x:11,y:11,rows:[
     "...qqqq...","..qqqqqq..",".qqqqqqqq.","qqqqqqqqqq","qqqqqqqqqq"]},
  ]},
- {id:"kite",seed:"8E8L8HGRZ",
+ {id:"kite",seed:"8E8L8HGRYZ",
   description:"Diamond-shaped Body with short distinct wing sheets",ink:[
    {id:"body",kind:"body",x:13,y:11,rows:[
     "...l...","..lll..",".lllll.","lllllll",
@@ -102,7 +102,7 @@ const designs:ReadonlyArray<Readonly<{
     ".ss.......",".ss.......","..ss......","..ss......",
     "...sss...s",".....sssss"]},
  ]},
- {id:"tripod",seed:"8E8W8TBRZ",
+ {id:"tripod",seed:"8E8W8TBRYZ",
   description:"Small rounded Body connected to three distinct supports",ink:[
    {id:"body",kind:"body",x:13,y:11,rows:[".gggg.","gggggg","gggggg",".gggg."]},
    {id:"left-leg",kind:"leg",x:12,y:15,rows:["gg","gg","gg","gg","gg"]},
