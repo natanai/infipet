@@ -1,5 +1,5 @@
 import {journalMaterialEvent} from "./material-journal";
-import {proposeCoherentReshape,proposeArticulatedTurn,proposeRegionalSlip} from "./coordinated-metamorphosis";
+import {proposeCoherentReshape,proposeArticulatedTurn,proposeRegionalSlip,proposeRegionalBend} from "./coordinated-metamorphosis";
 import {proposeTissueReflow} from "./tissue-reflow";
 import {isLatticeConnected} from "./lattice-connectivity";
 import {proposeDevelopmentalRepatterning,repatterningExpression} from "./developmental-repatterning";
@@ -115,7 +115,7 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "reinforce": return c.support.rigidity;
     case "resorb": case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
-    case "redistribute": case "slip": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "redistribute": case "slip": case "bend": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": case "articulate": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity+
@@ -138,7 +138,7 @@ function checked(op: RemodelOperation): string | null {
   if(["reposition"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-reposition-direction";
-  if(["reshape","redistribute","slip"].includes(op.kind) &&
+  if(["reshape","redistribute","slip","bend"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-regional-direction";
   if(op.chaos) {
@@ -468,6 +468,13 @@ export function applyRemodelingProposal(
         }
         next={...graph,cells:proposed.cells,sites:proposed.sites,tissues:proposed.tissues,
           links:proposed.links,protectedVoids:proposed.protectedVoids};
+      }
+    } else if(op.kind==="bend") {
+      const proposed=proposeRegionalBend(graph,op.tissueId,op.direction!);
+      if(!proposed)reason="no-admissible-regional-bend";
+      else{
+        next={...graph,cells:proposed.cells};
+        relocated.push(...proposed.relocated);
       }
     } else if(op.kind==="slip") {
       // Many existing cells change coordinates together; no creation is
