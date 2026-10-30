@@ -100,6 +100,8 @@ export type LifetimeRemodelingProgram = Readonly<{
   seed: string;
   genomeFingerprint: string;
   signals: DevelopmentGeneticSignals;
+  /** Permanent readable process genes; never resolved from current care. */
+  processGenes?:Readonly<{remodel:number;repurposing:number}>;
   operations: readonly RemodelOperation[];
 }>;
 export type LifetimeRemodelingFrame = Readonly<{
@@ -250,6 +252,9 @@ export function compileLifetimeRemodeling(
     .filter(t => t.sourceCellIds.length >= 2)
     .sort((a, b) => b.sourceCellIds.length - a.sourceCellIds.length ||
       compareText(a.id, b.id)).slice(0, 6);
+  const processes=base.seedLanguage?.processes;
+  const processGenes={remodel:Math.min(12,processes?.remodel??0),
+    repurposing:Math.min(12,processes?.repurposing??0)};
   const operations: RemodelOperation[] = override ? [...override] : [];
   if (!override) for (const [index, tissue] of tissues.entries()) {
     const site = base.source.sites.find(s => s.tissueId === tissue.id);
@@ -315,7 +320,11 @@ export function compileLifetimeRemodeling(
       {start:289,duration:66}];
     for(const [wave,{start,duration}] of waves.entries())operations.push({
       id:"developmental-repattern/"+wave,kind:"repattern",tissueId:primary.id,
-      atHour:start,durationHours:duration,units:10,strength:1,
+      atHour:start,durationHours:duration,units:10,
+      // R is a REAL process gene. One explicit R enables all inherited
+      // wave capacity; without R, normal latent plasticity still permits
+      // a smaller (0.35) physical strain opportunity. No guaranteed moves.
+      strength:processGenes.remodel?1:0.35,
     });
   }
   if(!override) {
@@ -397,6 +406,7 @@ export function compileLifetimeRemodeling(
   return {
     version: 1, birth: base.source, seed: genome.seed,
     genomeFingerprint: base.genomeFingerprint, signals: base.signals,
+    processGenes,
     operations: operations.sort((a, b) => compareText(a.id, b.id)),
   };
 }
