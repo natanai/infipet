@@ -5,7 +5,7 @@ import {compileGenome} from "../src/simulation/genome";
 import {compileSources} from "../src/simulation/material";
 import {describeSource} from "../src/simulation/source-atlas";
 import {compileMaterialDevelopment} from "../src/development/operators";
-import {proposeArticulatedTurn,proposeRegionalSlip} from "../src/development/coordinated-metamorphosis";
+import {proposeArticulatedTurn,proposeRegionalSlip,proposeRegionalBend} from "../src/development/coordinated-metamorphosis";
 import {compileLifetimeRemodeling} from "../src/development/lifetime-remodeling";
 import {applyRemodelingProposal,remodelingProposalsBetween,
   EMPTY_REMODELING_CHRONOLOGY} from "../src/development/remodel-transactions";
@@ -258,4 +258,64 @@ test("unknown authored body silhouettes obey conserved provenance under broad ph
     }
   }
   assert.ok(realizable>=8,"varied unfamiliar compact bodies should admit multiple non-bulk developmental paths");
+});
+
+test("two opposing body bands physically bend without adding bulk or changing authored identity",()=>{
+  const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."],"body"),"8E8L8WRZ");
+  const birth=compileMaterialDevelopment(atlas,genome).source;
+  const bent=proposeRegionalBend(birth,birth.tissues[0].id,{x:1,y:0});
+  assert.ok(bent,"a dense player-authored body has an admissible jointless bend");
+  assert.equal(bent.cells.length,birth.cells.length);
+  assert.equal(bent.relocated.length,6,"two genuine three-cell bands must move in opposite directions");
+  const original=new Map(birth.cells.map(c=>[c.id,c]));
+  const changed=new Map(bent.cells.map(c=>[c.id,c]));
+  const ys=[...new Set(birth.cells.map(c=>c.y))].sort((a,b)=>a-b);
+  for(const [id,c] of original){
+    const after=changed.get(id)!;
+    assert.ok(after);
+    assert.equal(after.color,c.color);
+    assert.equal(after.provenance,c.provenance);
+    assert.deepEqual(after.sourceIds,c.sourceIds);
+    assert.equal(after.x-c.x,c.y===ys[0]?1:c.y===ys.at(-1)?-1:0);
+    assert.equal(after.y,c.y);
+  }
+  const width=(cells:readonly {x:number}[])=>
+    Math.max(...cells.map(c=>c.x))-Math.min(...cells.map(c=>c.x))+1;
+  assert.equal(width(birth.cells),3);
+  assert.equal(width(bent.cells),5,"the body transforms to a five-column diagonal profile with NO mass increase");
+  assert.deepEqual(bent,proposeRegionalBend(birth,birth.tissues[0].id,{x:1,y:0}));
+});
+test("opposite-band bend receipts are independently checked, including stationary bridge cells",()=>{
+  const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."],"body"),"8E8L8WRZ");
+  const program=compileMaterialDevelopment(atlas,genome);
+  const op={id:"wide-counterbend",kind:"bend" as const,tissueId:program.source.tissues[0].id,
+    direction:{x:1,y:0},atHour:0,durationHours:12,units:12,strength:1};
+  const plan=compileLifetimeRemodeling(program,genome,[op]);
+  const proposals=remodelingProposalsBetween(plan,0,12);
+  assert.ok(proposals.length>0);
+  let accepted:ReturnType<typeof applyRemodelingProposal>|null=null;
+  for(const proposal of proposals){
+    const trial=applyRemodelingProposal(program.source,plan,proposal,
+      EMPTY_REMODELING_CHRONOLOGY,Math.ceil(proposal.atHour));
+    if(trial.attempt.status==="accepted"){accepted=trial;break;}
+  }
+  assert.ok(accepted,"actual chronological material transactions must permit a full body bend");
+  const day=Math.ceil(accepted.graph.events.at(-1)!.atHour);
+  const journal=accepted.graph.events.map(e=>({
+    ...e,atHour:day*24,atMs:HATCH+day*DAY,checkIndex:day,
+    careDigest:"physical-bend",genomeFingerprint:program.genomeFingerprint,
+    physical:{...e.physical!,relocations:e.physical!.relocations.map(m=>({
+      ...m,checkIndex:day,atMs:HATCH+day*DAY,
+    }))},
+  }));
+  const authoritative={...accepted.graph,events:journal};
+  verifyDailyMaterialInventory(authoritative,HATCH,day,program.source,{
+    material:program.operators,remodeling:plan.operations,
+  });
+  const forged={...authoritative,events:journal.map(e=>({
+    ...e,physical:{...e.physical!,relocations:e.physical!.relocations.slice(0,-1)},
+  }))};
+  assert.throws(()=>verifyDailyMaterialInventory(forged,HATCH,day,program.source,{
+    material:program.operators,remodeling:plan.operations,
+  }),/bend|material|reconstruction|inventory|relocation|physical/i);
 });
