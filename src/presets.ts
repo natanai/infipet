@@ -102,9 +102,9 @@ const designs:ReadonlyArray<Readonly<{
  {id:"tripod",seed:"8E8W8TBRZ",
   description:"Small rounded Body connected to three distinct supports",ink:[
    {id:"body",kind:"body",x:13,y:11,rows:[".gggg.","gggggg","gggggg",".gggg."]},
-   {id:"left-leg",kind:"leg",x:11,y:15,rows:["gg","gg","gg","gg","gg"]},
+   {id:"left-leg",kind:"leg",x:12,y:15,rows:["gg","gg","gg","gg","gg"]},
    {id:"middle-leg",kind:"leg",x:16,y:15,rows:["gg","gg","gg","gg","gg"]},
-   {id:"right-leg",kind:"leg",x:21,y:15,rows:["gg","gg","gg","gg","gg"]},
+   {id:"right-leg",kind:"leg",x:19,y:15,rows:["gg","gg","gg","gg","gg"]},
  ]},
  {id:"zigzag",seed:"8L8F8HGRZ",
   description:"Angular, irregular zigzag of undifferentiated Body material",ink:[
