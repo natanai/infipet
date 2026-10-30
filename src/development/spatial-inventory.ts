@@ -518,12 +518,18 @@ export function reconstructDailyPhysicalState(
           .sort((a,b)=>a.id.localeCompare(b.id))[0];
         const pivot=joint?.fromCellId?beforeCells.get(joint.fromCellId):undefined;
         const sign=axis?.x;
+        const linked=new Set([...links.values()].flatMap(l=>
+          l.fromTissueId===c.tissueId?[l.toTissueId]:
+          l.toTissueId===c.tissueId?[l.fromTissueId]:[]));
         if(p.system!=="remodeling"||!pivot||
           (sign!==1&&sign!==-1)||axis?.y!==0||
           c.tissueId!==p.operation.tissueId||made.length||
           e.removedCellIds.length||
           !same(m.to,{x:pivot.x-sign*(c.y-pivot.y),
-            y:pivot.y+sign*(c.x-pivot.x),...(c.z===undefined?{}:{z:c.z})}))
+            y:pivot.y+sign*(c.x-pivot.x),...(c.z===undefined?{}:{z:c.z})})||
+          [...beforeCells.values()].some(other=>other.tissueId!==c.tissueId&&
+            !linked.has(other.tissueId)&&
+            Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
           throw new Error("Articulation has forged joint or material quarter-turn");
       } else if (
         (!advancingFront&&!["translate", "reposition", "remodel", "reshape"].includes(e.kind)) ||
