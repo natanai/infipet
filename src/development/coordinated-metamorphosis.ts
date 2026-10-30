@@ -173,8 +173,14 @@ export function proposeArticulatedTurn(graph:MaterialGraph,tissueId:string,
  * Direction selects both the shift axis and the opposite-side organizer:
  * (+x) moves the upper half, (-x) moves the lower half,
  * (+y) moves the left half, (-y) moves the right half.
- * The cut is the low median of occupied coordinate *rows/columns*, not cell
- * count; source material remains eligible even when growth changes its shape.
+ * Let cross=y for horizontal shifts and x for vertical shifts. From
+ * sorted unique live cross-coordinates U, cut=U[floor((|U|-1)/2)].
+ * Move all members with cross<=cut for positive direction or >cut for
+ * negative direction; each shifts by exactly unit vector (dx,dy), while
+ * every other identity retains its coordinate. The physical world is 64²
+ * integer sites, with at most 4096 moving cells, and exact zero creation,
+ * deletion, color mutation, genome mutation, or source ancestry change.
+ * Source material remains eligible when growth changes the available shape.
  * Failed geometry/cavity/link/feature constraints produce a genuine null.
  */
 export type RegionalSlip=Readonly<{
@@ -213,10 +219,15 @@ export function proposeRegionalSlip(graph:MaterialGraph,tissueId:string,
   linked.get(l.fromTissueId)?.add(l.toTissueId);
   linked.get(l.toTissueId)?.add(l.fromTissueId);
  }
- const others=after.filter(c=>c.tissueId!==tissueId);
- if(after.some(c=>selectedIds.has(c.id)&&others.some(o=>
-  !linked.get(c.tissueId)?.has(o.tissueId)&&
-  Math.max(Math.abs(c.x-o.x),Math.abs(c.y-o.y))<=1)))return null;
+ const foreignByPos=new Map<string,MaterialCell[]>();
+ for(const c of after)if(c.tissueId!==tissueId){
+  const k=key(c),prior=foreignByPos.get(k)??[];
+  prior.push(c);foreignByPos.set(k,prior);
+ }
+ for(const c of after)if(selectedIds.has(c.id))
+  for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)
+   if((foreignByPos.get((c.x+dx)+","+(c.y+dy))??[]).some(o=>
+     !linked.get(tissueId)?.has(o.tissueId)))return null;
  if(anatomicalContinuityFailure(graph.sourceCells,after,{
    links:graph.links,protectedVoids:graph.protectedVoids}))return null;
  // Connectivity is checked again by the independent transaction auditor.
