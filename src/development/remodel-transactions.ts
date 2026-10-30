@@ -138,7 +138,7 @@ function checked(op: RemodelOperation): string | null {
   if(["reposition"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-reposition-direction";
-  if(["reshape","redistribute"].includes(op.kind) &&
+  if(["reshape","redistribute","slip"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-regional-direction";
   if(op.chaos) {
