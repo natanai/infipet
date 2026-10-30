@@ -37,7 +37,7 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern" | "repurpose";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern" | "repurpose" | "reposition";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
@@ -140,7 +140,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "extend": return c.growth.elongation;
     case "reinforce": return c.support.rigidity;
     case "resorb": return c.maturation.plasticity;
-    case "translate": return c.maturation.plasticity;
+    case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
     case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
@@ -353,12 +353,33 @@ export function compileLifetimeRemodeling(
         const axis=[{x:0,y:-1},{x:1,y:0},{x:0,y:1},{x:-1,y:0}][
           hash(genome.seed+"|organ-reposition|"+t.id)%4];
         operations.push({
-          id:"function/"+i+"/move",kind:"translate",tissueId:t.id,
+          id:"function/"+i+"/move",kind:"reposition",tissueId:t.id,
           direction:axis,atHour:77+i*5,durationHours:90,
           units:8,strength:1,
         });
       }
     }
+  }
+  if(!override){
+    // A physical head can slide around its existing host while remaining
+    // connected. This is also true for unrepurposed limbs and tails. Each
+    // stage proposes another seed-fixed tangent; the atomic operator moves
+    // actual cells and changes real attachment endpoints, not pose metadata.
+    const eligible=base.source.tissues.filter(t=>
+      base.source.sourceCells.some(c=>c.tissueId===t.id&&
+        ["head","arm","leg","tail","wing","ear","horn"].includes(c.sourceKind??""))&&
+      base.source.links.some(l=>l.fromTissueId===t.id&&l.kind==="attachment"));
+    const directions=[{x:0,y:-1},{x:1,y:0},{x:0,y:1},{x:-1,y:0}] as const;
+    for(const [index,t] of eligible.slice(0,4).entries())
+      for(const [stage,day] of [29,125,235].entries()){
+        if(operations.length>=REMODEL_LIMITS.maxOperations)break;
+        operations.push({
+          id:"migrate/"+index+"/phase/"+stage,
+          kind:"reposition",tissueId:t.id,
+          direction:directions[hash(genome.seed+"|joint-migration|"+t.id+"|"+stage)%4],
+          atHour:day+index*3,durationHours:40,units:8,strength:1,
+        });
+      }
   }
   if (operations.length > REMODEL_LIMITS.maxOperations)
     throw new RangeError("Too many remodeling operations");
