@@ -515,7 +515,7 @@ export function reconstructDailyPhysicalState(
         const axis=p.operation.direction;
         const joint=[...links.values()].filter(l=>l.kind==="attachment"&&
           l.fromTissueId===p.operation.tissueId&&l.fromCellId)
-          .sort((a,b)=>a.id.localeCompare(b.id))[0];
+          .sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0)[0];
         const pivot=joint?.fromCellId?beforeCells.get(joint.fromCellId):undefined;
         const sign=axis?.x;
         const linked=new Set([...links.values()].flatMap(l=>
@@ -571,7 +571,7 @@ export function reconstructDailyPhysicalState(
       const axis=p.operation.direction,sign=axis.x;
       const joint=[...links.values()].filter(l=>l.kind==="attachment"&&
         l.fromTissueId===p.operation.tissueId&&l.fromCellId)
-        .sort((a,b)=>a.id.localeCompare(b.id))[0];
+        .sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0)[0];
       const pivot=joint?.fromCellId?beforeCells.get(joint.fromCellId):undefined;
       const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
       const expected=own.filter(c=>pivot&&
