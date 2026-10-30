@@ -20,7 +20,7 @@
  * express and bounded chaotic steering. The cat map cannot bypass occupancy,
  * connectivity, voids, material budget, or attachment checks.
  */
-import { compareText, type Point } from "../simulation/model";
+import { compareText, hash, type PartKind, type Point } from "../simulation/model";
 import type { InheritedGenome } from "../simulation/genome";
 import type { DevelopmentGeneticSignals } from "../genetics";
 import { chaoticTurn, CHAOS_VERSION, seedChaos, type MaterialChaos } from "./chaos";
@@ -37,12 +37,14 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern" | "repurpose" | "reposition";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
   tissueId: string;
   targetTissueId?: string;
+  /** New functional role only; never overwrites original source kind. */
+  targetKind?: PartKind;
   sourceSiteId?: string;
   direction?: Readonly<Point>;
   atHour: number;
@@ -98,6 +100,8 @@ export type LifetimeRemodelingProgram = Readonly<{
   seed: string;
   genomeFingerprint: string;
   signals: DevelopmentGeneticSignals;
+  /** Permanent readable process genes; never resolved from current care. */
+  processGenes?:Readonly<{remodel:number;repurposing:number}>;
   operations: readonly RemodelOperation[];
 }>;
 export type LifetimeRemodelingFrame = Readonly<{
@@ -138,11 +142,12 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "extend": return c.growth.elongation;
     case "reinforce": return c.support.rigidity;
     case "resorb": return c.maturation.plasticity;
-    case "translate": return c.maturation.plasticity;
+    case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
     case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": return c.segmentation.boundaries;
+    case "repurpose": return c.maturation.plasticity>=0.2?1:0;
     case "articulate": return c.segmentation.boundaries;
   }
 }
@@ -159,6 +164,8 @@ function validateOperation(op: RemodelOperation): void {
     throw new RangeError("Invalid remodeling schedule or numerical limit: " + op.id);
   if (op.kind === "reattach" && !op.targetTissueId)
     throw new TypeError("Reattachment requires an existing target tissue");
+  if (op.kind === "repurpose" && !op.targetKind)
+    throw new TypeError("Repurposing requires a genetically scheduled functional kind");
 }
 function activeConnected(group: readonly MaterialCell[]): boolean {
   if (!group.length) return false;
@@ -245,6 +252,9 @@ export function compileLifetimeRemodeling(
     .filter(t => t.sourceCellIds.length >= 2)
     .sort((a, b) => b.sourceCellIds.length - a.sourceCellIds.length ||
       compareText(a.id, b.id)).slice(0, 6);
+  const processes=base.seedLanguage?.processes;
+  const processGenes={remodel:Math.min(12,processes?.remodel??0),
+    repurposing:Math.min(12,processes?.repurposing??0)};
   const operations: RemodelOperation[] = override ? [...override] : [];
   if (!override) for (const [index, tissue] of tissues.entries()) {
     const site = base.source.sites.find(s => s.tissueId === tissue.id);
@@ -310,8 +320,75 @@ export function compileLifetimeRemodeling(
       {start:289,duration:66}];
     for(const [wave,{start,duration}] of waves.entries())operations.push({
       id:"developmental-repattern/"+wave,kind:"repattern",tissueId:primary.id,
-      atHour:start,durationHours:duration,units:10,strength:1,
+      atHour:start,durationHours:duration,units:10,
+      // R is a REAL process gene. One explicit R enables all inherited
+      // wave capacity; without R, normal latent plasticity still permits
+      // a smaller (0.35) physical strain opportunity. No guaranteed moves.
+      strength:processGenes.remodel?1:0.35,
     });
+  }
+  if(!override) {
+    // Restore the old engine's functional succession on REAL, source-owned
+    // tissue identities. The seed chooses which existing organs participate.
+    // These are only mechanical homologies, NOT final species or sprites.
+    const alternatives:Partial<Record<PartKind,PartKind>>={
+      leg:"arm",arm:"leg",foot:"hand",hand:"foot",
+      wing:"arm",tail:"leg",ear:"horn",horn:"ear",
+    };
+    const candidates=base.source.tissues.flatMap(t=>{
+      const kind=base.source.sourceCells.find(c=>c.tissueId===t.id)?.sourceKind;
+      const alternate=kind?alternatives[kind]:undefined;
+      return alternate?[{t,kind:kind!,alternate,
+        priority:hash(genome.seed+"|regional-function|"+t.id)}]:[];
+    }).sort((a,b)=>a.priority-b.priority||compareText(a.t.id,b.t.id));
+    // Every original domain remains eligible; existing constraints on
+    // operations and physical contact are unchanged. Alternate function
+    // can later return to the original kind instead of accumulating a
+    // permanent label regardless of care.
+    for(const [i,{t,kind,alternate}] of candidates.slice(0,4).entries()){
+      const phase=14+i*5;
+      if(operations.length<REMODEL_LIMITS.maxOperations)operations.push({
+        id:"function/"+i+"/specialize",kind:"repurpose",tissueId:t.id,
+        targetKind:alternate,atHour:phase,durationHours:12,units:1,strength:1,
+      });
+      if(operations.length<REMODEL_LIMITS.maxOperations)operations.push({
+        id:"function/"+i+"/reorganize",kind:"repurpose",tissueId:t.id,
+        targetKind:kind,atHour:165+i*5,durationHours:15,units:1,strength:1,
+      });
+      // Move existing connected source material one physical unit as part of
+      // developmental reorganization. The existing independent translation
+      // guard rejects any collision, broken joint or cavity.
+      if(operations.length<REMODEL_LIMITS.maxOperations){
+        const axis=[{x:0,y:-1},{x:1,y:0},{x:0,y:1},{x:-1,y:0}][
+          hash(genome.seed+"|organ-reposition|"+t.id)%4];
+        operations.push({
+          id:"function/"+i+"/move",kind:"reposition",tissueId:t.id,
+          direction:axis,atHour:77+i*5,durationHours:90,
+          units:8,strength:1,
+        });
+      }
+    }
+  }
+  if(!override){
+    // A physical head can slide around its existing host while remaining
+    // connected. This is also true for unrepurposed limbs and tails. Each
+    // stage proposes another seed-fixed tangent; the atomic operator moves
+    // actual cells and changes real attachment endpoints, not pose metadata.
+    const eligible=base.source.tissues.filter(t=>
+      base.source.sourceCells.some(c=>c.tissueId===t.id&&
+        ["head","arm","leg","tail","wing","ear","horn"].includes(c.sourceKind??""))&&
+      base.source.links.some(l=>l.fromTissueId===t.id&&l.kind==="attachment"));
+    const directions=[{x:0,y:-1},{x:1,y:0},{x:0,y:1},{x:-1,y:0}] as const;
+    for(const [index,t] of eligible.slice(0,4).entries())
+      for(const [stage,day] of [29,125,235].entries()){
+        if(operations.length>=REMODEL_LIMITS.maxOperations)break;
+        operations.push({
+          id:"migrate/"+index+"/phase/"+stage,
+          kind:"reposition",tissueId:t.id,
+          direction:directions[hash(genome.seed+"|joint-migration|"+t.id+"|"+stage)%4],
+          atHour:day+index*3,durationHours:40,units:8,strength:1,
+        });
+      }
   }
   if (operations.length > REMODEL_LIMITS.maxOperations)
     throw new RangeError("Too many remodeling operations");
@@ -329,6 +406,7 @@ export function compileLifetimeRemodeling(
   return {
     version: 1, birth: base.source, seed: genome.seed,
     genomeFingerprint: base.genomeFingerprint, signals: base.signals,
+    processGenes,
     operations: operations.sort((a, b) => compareText(a.id, b.id)),
   };
 }

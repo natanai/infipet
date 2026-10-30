@@ -31,6 +31,10 @@ export type MaterialTissue = Readonly<{
    */
   developedKind?: PartKind;
   geneticInstructionId?: string;
+  /** Current anatomical FUNCTION, not original or developed source identity.
+   * Changes only via a chronologically committed, audited repurpose operator.
+   * SourcePartId and developedKind remain immutable throughout. */
+  functionalKind?: PartKind;
   parentId: string | null;
   relationship: Relationship;
   sourceCellIds: readonly string[];
@@ -61,7 +65,7 @@ export type MaterialStructure=Readonly<{
 }>;
 export type MaterialPhysicalJournal=Readonly<{
   version:1;system:"material"|"remodeling"|"iterative";
-  operation:Readonly<{id:string;kind:string;tissueId:string;targetTissueId?:string;direction?:Readonly<Point>;sourceSiteId?:string}>;
+  operation:Readonly<{id:string;kind:string;tissueId:string;targetTissueId?:string;targetKind?:PartKind;direction?:Readonly<Point>;sourceSiteId?:string}>;
   relocations:readonly Readonly<{cellId:string;from:MaterialPosition;to:MaterialPosition;
     operationId:string;checkIndex?:number;atMs?:number;
     /** Verified path through pre-transaction tissue (nonlocal intercalation only). */

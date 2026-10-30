@@ -62,7 +62,7 @@ thin tendrils or cosmetic thickness.
 
 ## Prototype developmental behavior
 
-The currently drafted physical model introduces genetic specialization during
+The current physical model introduces genetic specialization during
 **early care**, rather than waiting approximately four months before trying
 to produce an organ. The earliest accepted genetic bud can begin at daily
 check 5; later opportunities are distributed across the year. Different
@@ -93,20 +93,40 @@ player website only after they merge into main and GitHub Pages publishes.
 No automatic CI, browser or numerical qualification workflows
 run while the prototype is being made playable.
 
-## Starter drawings and their permanent genes
+## Entirely new simple starting drawings
 
-The 12 editable gallery drawings each include a fixed, **human-readable
-genetic seed** such as `2W2F2TBGQZ` (two possible Wings, two Feet, two Tails,
-plus Body growth, surface growth, symmetry and timing influences).
-Selecting a starter loads both its editable ink and its ordinary seed into
-the same drawing editor used for your own creations. The seed can be
-changed; it is not a preset-name-derived secret or a hardcoded adult path.
-The identical seed parser, tree reference, care chronology and physical
-growth rules apply to every creature.
+The earlier 12 starter designs have been replaced from scratch with compact
+**dot, ribbon, spire, halo, fork, drop, mushroom, kite, twins, crescent,
+tripod and zigzag** drawings. They contain ordinary editable source pixels,
+some with explicitly labeled organs and others entirely undifferentiated
+Body. Their fixed human-readable seeds (for example `8E8L8WBRZ`) give
+several independent genetic feature tickets and encourage variation across
+stages. They are not species destinations, outcome-specific seed overrides
+or prequalified adult images. Every starter uses the identical player-drawn
+simulation, seed compiler and chronological care system.
 
-The [complete list of starter seed scripts](docs/genetics/readable-seed.md#fixed-seeds-for-playable-starter-drawings)
-is stored in `src/presets.ts`. The separate historic retro-reference
-drawings are research specimens, never evolution destination sprites.
+The full new roster and mathematical seed rules are in
+[the readable-seed documentation](docs/genetics/readable-seed.md#new-simple-examples-and-stable-seed-opportunities).
+In the physical runtime, genuine `R` and `Y` gene instructions now
+influence inherited remodeling capacity and eligible functional transitions.
+
+## Recombination of earlier developmental anatomy
+
+The former stage renderer implemented real-looking regional movement and
+limb-function repurposing, but many transformations were display geometry
+rather than permanent physically accounted material. The daily physical
+renderer had disconnected them. Current operators now support a
+**source-owned repurpose transaction**, **physical one-step tissue
+repositioning with sliding attachment endpoints**, and the existing five
+coherent whole-body strain windows. Physical cell locations and joint
+endpoints, not arbitrary rendered outlines, are now used for those changes.
+Source identity, conserved cells, persistent genes and daily chronological
+care remain authoritative; impossible moves return an explicit null.
+
+This repairs important missing developmental mechanisms; it does **not**
+yet establish visually compelling, major changes at every stage. That
+requires testing the actual new presets on mobile and further physical
+topology/whole-body reconfiguration when observed outcomes remain weak.
 
 ## Player experience
 

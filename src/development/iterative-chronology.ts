@@ -539,6 +539,7 @@ export function stepIterativeChronology(
             // across physical branching with no fabricated new anatomy kind.
             ...(parent.developedKind?{developedKind:parent.developedKind,
               geneticInstructionId:parent.geneticInstructionId}:{}),
+            ...(parent.functionalKind?{functionalKind:parent.functionalKind}:{}),
             sourceCellIds: [...tip.sourceIds],
             growthSiteIds: [anchorId], rigidity: Math.min(1,
               birth.signals.channels.support.rigidity * (0.5 + 0.1 * s.depth)),

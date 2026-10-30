@@ -1447,7 +1447,7 @@
       "acceptance": [
         {
           "id": "A1",
-          "requirement": "Exactly 12 original editable starter drawings have stable unique IDs and human-readable genetic scripts composed only of normal A–Z and decimal dosage tokens. Selecting one copies the drawing and seed into the ordinary editable player creation path, with no preset-specific physical operators, future evolution targets, or server data. Existing colors, bounded pixels, valid authored part relationships, and ordinary living-pet save round trips remain supported.",
+          "requirement": "Exactly twelve entirely new simple and editable source examples with unique fixed ordinary readable A–Z genetic scripts; no prior starter silhouette, name-derived gene, adult template, deterministic creature path override, or special-case algorithm. Editable source annotations, 32x32 bounds, colors, seed replay and normal living birth/save apply.",
           "oracle": "focused-node-test"
         }
       ],
@@ -1469,8 +1469,8 @@
         "scope": "Real browser draw-first, all 15 one-action parts, birth once, Pet identity, explicit replacement, import/export, refresh and offline reopen; desktop/narrow screenshots are interface evidence only."
       },
       "presetSeedLanguage": "readable-seed-v1",
-      "presetSeedImplementation": "src/presets.ts: twelve explicit, ordinary, stable readable gene strings. Pippo eyes and mouth are separately authored source parts, not a guessed facial image.",
-      "presetSeedManualStatus": "Implemented without reinstalling automatic test workflow; manual phone visual growth acceptance remains open. Old STARTER-<NAME>-2026 strings incorrectly parsed mascot names into genes and have been removed."
+      "presetSeedImplementation": "src/presets.ts: 12 from-scratch low-complexity drawings dot/ribbon/spire/halo/fork/drop/mushroom/kite/twins/crescent/tripod/zigzag, normal repeated gene tickets and R/Y when useful.",
+      "presetSeedManualStatus": "Implemented in source; full 365-day visual acceptability and actual mobile performance remain unverified; old starter numerical evaluations are historical only."
     },
     {
       "id": "UI-002",
@@ -3119,6 +3119,25 @@
         "specialistDescendants": "A physically branched child of a genetically developed tissue inherits that parent's developedKind and geneticInstructionId, without any new gene ticket or semantic image inference. Authored source kind of untyped descendants remains available through sourcePartId.",
         "careResponse": "Current chronological daily rest/activity influences bounded field anisotropy. Genetically fixed phase directions remain immutable; later care cannot change earlier physical states."
       }
+    },
+    "stageRecombination": {
+      "status": "implemented-physical-integration-unverified-player-visuals",
+      "why": "The older stage region/role renderer was disconnected by October 27 daily owned-cell cutover; source-grown cells alone led to predominant bulk.",
+      "implementation": "Physical RemodelKind repurpose (source-preserving functionalKind role), reposition (all current cells of an authored tissue move a single cardinal lattice edge and attached links update real source-linked endpoints to a valid close pair), plus five stage-specific repattern waves and region allometry.",
+      "constraints": "Only original part-kind homologues leg/arm, foot/hand, wing->arm, tail->leg, ear/horn; seed ranks candidates, inherited maturation plasticity and immutable R/Y process genes determine schedule, recorded daily care gates transactions; source identity/attachments/voids/physical inventory audited.",
+      "inputs": [
+        "original authored 32x32 cells and selected brush kinds",
+        "fixed readable seed and inherited genome channels",
+        "current physical graph, links and source identity",
+        "completed-check index and causal care summary"
+      ],
+      "outputs": [
+        "actual MaterialPhysicalJournal cell relocations and attachment endpoints",
+        "actual authorized tissue functionalKind history",
+        "identical deterministic replay and one-year cap"
+      ],
+      "unverified": "No verified convincing whole-body transformation or exact stage-to-stage outcome on new starter cohort; old rotation, subtree reattachment and advanced reorganization still not faithfully recovered.",
+      "stageWindows": "Repattern check windows starting at 12,79,148,219,289; seed-ranked functional alternate and return early/mid; seed-directed linked-organ reposition windows include 29,125,235."
     }
   },
   "qualification": {
@@ -3249,7 +3268,7 @@
       "mustNeverBecomeImplicitPass": true
     },
     "expressedAnatomy": "Only parts explicitly selected through the player's anatomical brush receive semantic kind labels. Unselected source ink is Body. Physical color islands, contours, cavities and contacts may affect viable geometry, never identify eyes, limbs, horns, heads or any body part. Every declared part remains source-traceable and independently represented; source cells may retire and explicitly phylogeny-authorized changes can become vestigial without arbitrary stationary-cell or minimum-area quotas.",
-    "currentDevelopmentStatus": "Experimental source-owned five-phase allometry and five repatterning windows implemented on unmerged draft; visual magnitude and quality unverified. No forced species progression, no automatic qualification."
+    "currentDevelopmentStatus": "Physically journaled joint-sliding and functional repurposing reconnected to material renderer; 12 old starter fixtures replaced by minimal new seeds; no claim of dramatic visual acceptance or prior historical numerical qualification."
   },
   "preReleasePolicy": {
     "released": false,
@@ -3276,6 +3295,6 @@
       "care causing real expression differences",
       "daily saved pet continuation"
     ],
-    "currentPriority": "12 selectable starter drawings now ship fixed normal readable A–Z seeds, without name-derived genes or mascot-specific operators; prioritize evaluating their ordinary full-life morphology and meaningful care on live iPhone Safari. Do not restore CI gates."
+    "currentPriority": "Test the 12 wholly new readable-seed minimalist drawings on LIVE iPhone Safari for actual morphological stage diversity, migrating heads/limbs, repurposing and source conservation. Collect counterexamples for physically coherent full-body reorganization; CI gates remain disabled."
   }
 }

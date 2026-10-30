@@ -9,23 +9,23 @@ import { birthPlayerLife } from "../src/integration/player-lifecycle";
 import { decodePet, encodePet, PROTOTYPE_REVISION } from "../src/pet-format";
 import { NEEDS_CATALOG_VERSION, NEEDS_RULES_VERSION } from "../src/needs";
 
-test("[UI-001/A1] exactly 12 editable source drawings have stable unique identities, fixed seeds and existing swatches", () => {
+test("[UI-001/A1] 12 new minimalist source drawings have independent fixed readable genes and retained palette", () => {
   assert.equal(STARTER_PRESETS.length, 12);
   assert.deepEqual(
     STARTER_PRESETS.map((p) => [p.id, p.seed]),
     [
-      ["pippo", "2W2F2TBGQZ"],
-      ["brumby", "2H3W2AGKRZ"],
-      ["glim", "2T3I2LBGYZ"],
-      ["thimbleaf", "2C3H2FBGRZ"],
-      ["vellune", "3L2I2FSGQZ"],
-      ["craggle", "2W3T2MDKRZ"],
-      ["nibblet", "3W2F2TBGRZ"],
-      ["orbini", "2L3H2CUGQZ"],
-      ["spoori", "3W2T2FGYZ"],
-      ["tukkin", "2I2A3TBRQZ"],
-      ["flinta", "3A2H2CBGZ"],
-      ["vespri", "2L3T2IMGRZ"],
+      ["dot", "8E8L8WBRZ"],
+      ["ribbon", "8H8I8TGRZ"],
+      ["spire", "8W8A8FQRZ"],
+      ["halo", "8M8E8JBRZ"],
+      ["fork", "8C8L8WGRYZ"],
+      ["drop", "8F8H8ASRYZ"],
+      ["mushroom", "8I8W8TBRZ"],
+      ["kite", "8E8L8HGRYZ"],
+      ["twins", "8M8W8FBRZ"],
+      ["crescent", "8A8I8JGRZ"],
+      ["tripod", "8E8W8TBRYZ"],
+      ["zigzag", "8L8F8HGRZ"],
     ],
   );
   assert.deepEqual(PRESET_COLORS, [
@@ -50,8 +50,8 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
     const parsed=parseSeedInstructions(preset.seed);
     assert.equal(parsed.instructions.map(g=>g.source).join(""),preset.seed,
       "the whole preset seed, not its mascot ID, is readable genetics");
-    assert.ok(parsed.instructions.some(g=>g.role!==null&&g.tickets>=2),
-      "starter provides explicit anatomical opportunities, not just identifier letters");
+    assert.ok(parsed.instructions.some(g=>g.role!==null&&g.tickets>=8),
+      "new starter provides repeated genuine genetic opportunities, not mascot-name letters");
     assert.ok(parsed.instructions.some(g=>g.process!==null),
       "starter includes ordinary process genes");
     assert.ok(!seeds.has(preset.seed),"distinct starter drawings have stable distinct scripts");
@@ -97,7 +97,7 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
       }
     }
     const sourcePixels=parts.flatMap(p=>p.pixels.map(c=>({x:c.x+p.position.x,y:c.y+p.position.y})));
-    assert.ok(sourcePixels.length >= 15, "starter silhouette must read at small scale");
+    assert.ok(sourcePixels.length >= 15, "simple source ink must remain visible at small scale");
     const x0=Math.min(...sourcePixels.map(p=>p.x)),x1=Math.max(...sourcePixels.map(p=>p.x));
     const y0=Math.min(...sourcePixels.map(p=>p.y)),y1=Math.max(...sourcePixels.map(p=>p.y));
     dimensions.add((x1-x0+1)+"x"+(y1-y0+1));
@@ -137,7 +137,7 @@ test("[UI-001/A1] exactly 12 editable source drawings have stable unique identit
       "editing a clone must not alter the curated source",
     );
   }
-  assert.equal(drawnSignatures.size,12,"starter designs must have distinct authored shapes");
+  assert.equal(drawnSignatures.size,12,"all new starters must have distinct authored shapes");
   assert.ok(dimensions.size>=6,"starters must sample contrasting bodily proportions");
   assert.ok(allKinds.size>=7,"starters should demonstrate meaningful editable anatomy roles");
 });

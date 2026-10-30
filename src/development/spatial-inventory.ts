@@ -13,6 +13,7 @@
  * This proves recorded execution and structural admissibility, not a secure
  * signature against deliberate replacement of both source and history.
  */
+import type {PartKind} from "../simulation/model";
 import type {
   MaterialCell,
   MaterialGraph,
@@ -32,6 +33,7 @@ export type PhysicalOperatorAuthorization = Readonly<{
     kind: string;
     tissueId: string;
     targetTissueId?: string;
+    targetKind?:PartKind;
     direction?: Readonly<{ x: number; y: number }>;
     atHour: number;
     durationHours: number;
@@ -41,6 +43,7 @@ export type PhysicalOperatorAuthorization = Readonly<{
     kind: string;
     tissueId: string;
     targetTissueId?: string;
+    targetKind?:PartKind;
     direction?: Readonly<{ x: number; y: number }>;
     sourceSiteId?: string;
     atHour: number;
@@ -333,6 +336,7 @@ export function reconstructDailyPhysicalState(
         op.kind !== p.operation.kind ||
         op.tissueId !== p.operation.tissueId ||
         op.targetTissueId !== p.operation.targetTissueId ||
+        op.targetKind !== p.operation.targetKind ||
         !same(op.direction, p.operation.direction)
       )
         throw new Error(
@@ -505,13 +509,13 @@ export function reconstructDailyPhysicalState(
         if(support.length<2||!support.some(c=>Math.abs(c.x-m.to.x)+Math.abs(c.y-m.to.y)===1))
           throw new Error("Tissue reflow deposited into unsupported tip");
       } else if (
-        (!advancingFront&&!["translate", "remodel", "reshape"].includes(e.kind)) ||
+        (!advancingFront&&!["translate", "reposition", "remodel", "reshape"].includes(e.kind)) ||
         (p.system === "iterative"&&!advancingFront) ||
         !Math.max(Math.abs(d.x), Math.abs(d.y)) ||
         Math.max(Math.abs(d.x), Math.abs(d.y)) > 1
       )
         throw new Error("Physically impossible relocation");
-      if (e.kind === "translate" || e.kind === "reshape") {
+      if (e.kind === "translate" || e.kind === "reposition" || e.kind === "reshape") {
         const axis = p.operation.direction ??
           [...sites.values()].find(
             (s) =>
@@ -540,6 +544,15 @@ export function reconstructDailyPhysicalState(
         !moves.size)
     )
       throw new Error("Incomplete tissue translation");
+    if(e.kind==="reposition"){
+      const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
+      const d=p.operation.direction;
+      if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+        !d||![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>d.x===x&&d.y===y)||
+        !own.length||moves.size!==own.length||
+        own.some(c=>!moves.has(c.id)))
+        throw new Error("Reposition must move exactly every source-owned cell in one connected tissue");
+    }
     if (e.kind === "remodel" && moves.size > 1)
       throw new Error("Remodel quantum relocated excess material");
     if(e.kind==="reshape"){
@@ -592,11 +605,32 @@ export function reconstructDailyPhysicalState(
               relationship: b.relationship,
               rigidity: b.rigidity,
               growthSiteIds: b.growthSiteIds,
+              functionalKind: b.functionalKind,
             },
             b,
           )
         )
           throw new Error("Unrecorded tissue identity mutation");
+        if (a.functionalKind !== b.functionalKind) {
+          // Independent semantic/material oracle: a name cannot change just
+          // because metadata asks it to. The original authored sourceKind
+          // remains fixed in the birth inventory; only mechanical homologues
+          // and chronological targetKind authorization permit a function swap.
+          const origin=graph.sourceCells.find(c=>c.tissueId===a.id)?.sourceKind;
+          const alternatives:Readonly<Record<string,readonly string[]>>={
+            leg:["arm"],arm:["leg"],foot:["hand"],hand:["foot"],
+            wing:["arm"],tail:["leg"],ear:["horn"],horn:["ear"],
+          };
+          const previously=a.functionalKind??a.developedKind??origin;
+          if(e.kind!=="repurpose"||p.system!=="remodeling"||
+            a.id!==p.operation.tissueId||!origin||
+            !alternatives[origin]?.includes(p.operation.targetKind??"")&&
+              p.operation.targetKind!==origin ||
+            b.functionalKind!==p.operation.targetKind ||
+            ![origin,...(alternatives[origin]??[])].includes(previously??"") ||
+            previously===b.functionalKind)
+            throw new Error("Unauthorised anatomical function repurposing");
+        }
         if (
           !same(a.growthSiteIds, b.growthSiteIds) &&
           (!["resorb","repattern"].includes(e.kind) ||
@@ -631,6 +665,18 @@ export function reconstructDailyPhysicalState(
         throw new Error("Unauthorized tissue creation");
     }
     for (const change of p.links) {
+      if(e.kind==="reposition"){
+        const a=change.before,b=change.after;
+        const touched=a&&(a.fromTissueId===p.operation.tissueId||
+          a.toTissueId===p.operation.tissueId);
+        if(!a||!b||!touched||
+          !same({...a,fromCellId:b.fromCellId,toCellId:b.toCellId},b)||
+          !b.fromCellId||!b.toCellId||
+          active.get(b.fromCellId)?.tissueId!==b.fromTissueId||
+          active.get(b.toCellId)?.tissueId!==b.toTissueId)
+          throw new Error("Reposition forged a new attachment identity or endpoint");
+        continue;
+      }
       if(e.kind==="repattern"){
         const a=change.before,b=change.after;
         if(!a||b&&!same({...a,fromCellId:b.fromCellId,toCellId:b.toCellId},b)||
