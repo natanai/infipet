@@ -567,6 +567,17 @@ export function reconstructDailyPhysicalState(
           };
         if (!same(d, expected)) throw new Error("Forged relocation direction");
       }
+      if(e.kind==="slip"||e.kind==="bend"){
+        // Recheck newly touching foreign tissues using the independent
+        // pre-event inventory; the producer's collision filter is untrusted.
+        const linked=new Set([...links.values()].flatMap(l=>
+          l.fromTissueId===c.tissueId?[l.toTissueId]:
+          l.toTissueId===c.tissueId?[l.fromTissueId]:[]));
+        if([...beforeCells.values()].some(other=>
+          other.tissueId!==c.tissueId&&!linked.has(other.tissueId)&&
+          Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
+          throw new Error("Regional deformation creates an unauthorised inter-tissue contact");
+      }
       if (!["repattern","articulate","bend"].includes(e.kind) && step && !same(step, d))
         throw new Error("Nonrigid tissue translation");
       step = d;
