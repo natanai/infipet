@@ -5,7 +5,7 @@ import {compileGenome} from "../src/simulation/genome";
 import {compileSources} from "../src/simulation/material";
 import {describeSource} from "../src/simulation/source-atlas";
 import {compileMaterialDevelopment} from "../src/development/operators";
-import {proposeArticulatedTurn} from "../src/development/coordinated-metamorphosis";
+import {proposeArticulatedTurn,proposeRegionalSlip} from "../src/development/coordinated-metamorphosis";
 import {compileLifetimeRemodeling} from "../src/development/lifetime-remodeling";
 import {applyRemodelingProposal,remodelingProposalsBetween,
   EMPTY_REMODELING_CHRONOLOGY} from "../src/development/remodel-transactions";
@@ -109,4 +109,67 @@ test("stage-specific whole-body organizers favor genuine shearing over outward e
   assert.equal(modes.filter(mode=>mode==="expand").length,4);
   assert.equal(sourceStrain(graph,channels,genome.seed,"wave/original",1).mode,"shear");
   assert.equal(sourceStrain(graph,channels,genome.seed,"wave/original",3).mode,"expand");
+});
+
+test("a monochrome Body-only region can change proportions without gaining a single cell",()=>{
+  const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."],"body"),"8E8L8WRZ");
+  const birth=compileMaterialDevelopment(atlas,genome).source;
+  const tid=birth.tissues[0].id;
+  const moved=proposeRegionalSlip(birth,tid,{x:1,y:0});
+  assert.ok(moved,"the simple player's own 3x3 body has a valid physical transformation");
+  const old=new Map(birth.cells.map(c=>[c.id,c]));
+  const now=new Map(moved.cells.map(c=>[c.id,c]));
+  assert.equal(now.size,old.size);
+  assert.equal(moved.cells.length,birth.cells.length);
+  assert.ok(moved.relocated.length>=3,"the entire broad sheet, not one thin tip, must move");
+  const span=(cs:readonly {x:number;y:number}[])=>({
+    width:Math.max(...cs.map(c=>c.x))-Math.min(...cs.map(c=>c.x))+1,
+    height:Math.max(...cs.map(c=>c.y))-Math.min(...cs.map(c=>c.y))+1,
+  });
+  assert.deepEqual(span(birth.cells),{width:3,height:3});
+  assert.deepEqual(span(moved.cells),{width:4,height:3});
+  for(const [id,c] of old){
+    const transformed=now.get(id)!;
+    assert.ok(transformed);
+    assert.equal(c.color,transformed.color);
+    assert.deepEqual(c.sourceIds,transformed.sourceIds);
+    assert.equal(c.tissueId,transformed.tissueId);
+    assert.equal(transformed.x-c.x,c.y<=2?1:0);
+    assert.equal(transformed.y,c.y);
+  }
+  assert.deepEqual(moved,proposeRegionalSlip(birth,tid,{x:1,y:0}));
+  assert.throws(()=>proposeRegionalSlip(birth,tid,{x:2,y:0}),/regional slip/);
+});
+test("whole-sheet displacement is an independently audited physical daily event",()=>{
+  const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."],"body"),"8E8L8WRZ");
+  const program=compileMaterialDevelopment(atlas,genome);
+  const op={id:"whole-body-sheet",kind:"slip" as const,tissueId:program.source.tissues[0].id,
+    direction:{x:1,y:0},atHour:0,durationHours:12,units:12,strength:1};
+  const plan=compileLifetimeRemodeling(program,genome,[op]);
+  const proposals=remodelingProposalsBetween(plan,0,12);
+  assert.ok(proposals.length>0,"real genetics must authorize at least one band event");
+  let accepted:ReturnType<typeof applyRemodelingProposal>|undefined;
+  for(const item of proposals){
+    const done=applyRemodelingProposal(program.source,plan,item,EMPTY_REMODELING_CHRONOLOGY,Math.ceil(item.atHour));
+    if(done.attempt.status==="accepted"){accepted=done;break;}
+  }
+  assert.ok(accepted,"a source-owned broad band must commit in the daily transaction");
+  const k=Math.ceil(accepted.graph.events.at(-1)!.atHour);
+  const recorded=accepted.graph.events.map(e=>({
+    ...e,atHour:24*k,atMs:HATCH+DAY*k,checkIndex:k,
+    careDigest:"slip/verified",genomeFingerprint:program.genomeFingerprint,
+    physical:{...e.physical!,relocations:e.physical!.relocations.map(m=>({
+      ...m,checkIndex:k,atMs:HATCH+DAY*k,
+    }))},
+  }));
+  const auditable={...accepted.graph,events:recorded};
+  verifyDailyMaterialInventory(auditable,HATCH,k,program.source,{
+    material:program.operators,remodeling:plan.operations,
+  });
+  const corrupt={...auditable,events:recorded.map(e=>({
+    ...e,physical:{...e.physical!,relocations:e.physical!.relocations.slice(1)},
+  }))};
+  assert.throws(()=>verifyDailyMaterialInventory(corrupt,HATCH,k,program.source,{
+    material:program.operators,remodeling:plan.operations,
+  }),/slip|relocation|reconstruction|material|inventory/i);
 });
