@@ -1073,7 +1073,7 @@ export function createSimulation(
       const tip=[...cells].sort((a,b)=>(b.x-anchor.x)**2+(b.y-anchor.y)**2-
         ((a.x-anchor.x)**2+(a.y-anchor.y)**2)||compareText(a.id,b.id))[0];
       const box=bounds(cells);
-      return [{id:t.id,kind:source.kind,role:source.kind,parentId:t.parentId,
+      return [{id:t.id,kind:t.functionalKind??source.kind,role:t.functionalKind??source.kind,parentId:t.parentId,
         sourceIds:[source.id],center,anchor:{x:anchor.x,y:anchor.y},tip:{x:tip.x,y:tip.y},
         rx:box.width/2,ry:box.height/2,angle:0,readiness:1,material:cells.length,
         shape:"mask" as const,color:cells[0].color,layer:source.part.layer??100,source}];
@@ -1131,13 +1131,13 @@ export function createSimulation(
       // Authored ink remains the selected original kind. A new anatomical
       // kind becomes player-visible ONLY after its physically generated child
       // tissue exists: assigning a genetic ticket alone renders nothing.
-      const actualKind=authored?source?.kind??"decoration"
-        :t.developedKind??source?.kind??"decoration";
+      const actualKind=t.functionalKind??(authored?source?.kind??"decoration"
+        :t.developedKind??source?.kind??"decoration");
       return [{id:partId,kind:actualKind,
-        name:authored?source?.name??"Authored material":
-          t.developedKind??"Growing material",
+        name:t.functionalKind??(authored?source?.name??"Authored material":
+          t.developedKind??"Growing material"),
         parentId:t.parentId,sourcePartIds:[t.sourcePartId],
-        role:authored?source?.kind??"source":t.developedKind??"material-growth",
+        role:t.functionalKind??(authored?source?.kind??"source":t.developedKind??"material-growth"),
         readiness:1,provenance:authored?"authored":"grown",relationship:t.relationship,
         layer:source?.part.layer??100,pixels,anchor:transport(anchor),tip:transport(tip),
         attachment:transport(anchor),attached:t.parentId!==null,scale:1,growth:{x:1,y:1},rotation:0,
