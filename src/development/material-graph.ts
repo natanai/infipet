@@ -65,7 +65,7 @@ export type MaterialStructure=Readonly<{
 }>;
 export type MaterialPhysicalJournal=Readonly<{
   version:1;system:"material"|"remodeling"|"iterative";
-  operation:Readonly<{id:string;kind:string;tissueId:string;targetTissueId?:string;direction?:Readonly<Point>;sourceSiteId?:string}>;
+  operation:Readonly<{id:string;kind:string;tissueId:string;targetTissueId?:string;targetKind?:PartKind;direction?:Readonly<Point>;sourceSiteId?:string}>;
   relocations:readonly Readonly<{cellId:string;from:MaterialPosition;to:MaterialPosition;
     operationId:string;checkIndex?:number;atMs?:number;
     /** Verified path through pre-transaction tissue (nonlocal intercalation only). */
