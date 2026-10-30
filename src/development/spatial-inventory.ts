@@ -508,6 +508,21 @@ export function reconstructDailyPhysicalState(
           Math.max(Math.abs(c.x-m.to.x),Math.abs(c.y-m.to.y))===1);
         if(support.length<2||!support.some(c=>Math.abs(c.x-m.to.x)+Math.abs(c.y-m.to.y)===1))
           throw new Error("Tissue reflow deposited into unsupported tip");
+      }else if(e.kind==="bend"){
+        const axis=p.operation.direction;
+        const own=[...beforeCells.values()].filter(v=>v.tissueId===p.operation.tissueId);
+        const cross=axis?.y===0?"y":"x";
+        const tiers=[...new Set(own.map(v=>v[cross]))].sort((a,b)=>a-b);
+        const low=tiers[Math.floor((tiers.length-1)/3)],
+          high=tiers[Math.ceil(2*(tiers.length-1)/3)];
+        const sign=c[cross]<=low?1:c[cross]>=high?-1:0;
+        if(p.system!=="remodeling"||!axis||
+          ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>axis.x===x&&axis.y===y)||
+          tiers.length<3||low>=high||!sign||
+          c.tissueId!==p.operation.tissueId||made.length||
+          e.removedCellIds.length||
+          m.to.x!==c.x+sign*axis.x||m.to.y!==c.y+sign*axis.y)
+          throw new Error("Forged or unsupported material counterbend");
       }else if(e.kind==="articulate"){
         // Independently recover the EXISTING anatomical joint from the
         // pre-transaction graph. Neither a claimed pivot nor a renderer pose
@@ -532,7 +547,7 @@ export function reconstructDailyPhysicalState(
             Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
           throw new Error("Articulation has forged joint or material quarter-turn");
       } else if (
-        (!advancingFront&&!["translate", "reposition", "remodel", "reshape", "slip"].includes(e.kind)) ||
+        (!advancingFront&&!["translate", "reposition", "remodel", "reshape", "slip", "bend"].includes(e.kind)) ||
         (p.system === "iterative"&&!advancingFront) ||
         !Math.max(Math.abs(d.x), Math.abs(d.y)) ||
         Math.max(Math.abs(d.x), Math.abs(d.y)) > 1
@@ -552,7 +567,7 @@ export function reconstructDailyPhysicalState(
           };
         if (!same(d, expected)) throw new Error("Forged relocation direction");
       }
-      if (!["repattern","articulate"].includes(e.kind) && step && !same(step, d))
+      if (!["repattern","articulate","bend"].includes(e.kind) && step && !same(step, d))
         throw new Error("Nonrigid tissue translation");
       step = d;
       moves.add(c.id);
@@ -585,6 +600,30 @@ export function reconstructDailyPhysicalState(
         expected.some(c=>!moves.has(c.id))||
         (previous.size===rotated.size&&[...previous].every(v=>rotated.has(v))))
         throw new Error("Incomplete or cosmetic articulated organ rotation");
+    }
+    if(e.kind==="bend"){
+      // This oracle independently reconstructs the entire two-sided bending
+      // deformation, including every moved cell, not only those the producer
+      // chose to record. Intermediate cells stay where they were.
+      const axis=p.operation.direction;
+      const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
+      const cross=axis?.y===0?"y":"x";
+      const tiers=[...new Set(own.map(c=>c[cross]))].sort((a,b)=>a-b);
+      const low=tiers[Math.floor((tiers.length-1)/3)],
+        high=tiers[Math.ceil(2*(tiers.length-1)/3)];
+      const outer=own.filter(c=>c[cross]<=low||c[cross]>=high);
+      const oldMask=new Set(own.map(key));
+      const nextMask=new Set(own.map(c=>{
+        const sign=c[cross]<=low?1:c[cross]>=high?-1:0;
+        return key({x:c.x+sign*(axis?.x??0),y:c.y+sign*(axis?.y??0)});
+      }));
+      if(p.system!=="remodeling"||!axis||
+        ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>axis.x===x&&axis.y===y)||
+        own.length<4||tiers.length<3||low>=high||
+        made.length||e.removedCellIds.length||outer.length!==moves.size||
+        outer.some(c=>!moves.has(c.id))||
+        (oldMask.size===nextMask.size&&[...oldMask].every(k=>nextMask.has(k))))
+        throw new Error("Incomplete, cosmetic or forged conserved body bend");
     }
     if(e.kind==="slip"){
       // Independent geometric oracle: recompute the exact high/low median
