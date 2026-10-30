@@ -118,6 +118,7 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": case "articulate": return c.segmentation.boundaries;
+    case "repurpose": return c.maturation.plasticity>=0.2?1:0;
   }
 }
 function checked(op: RemodelOperation): string | null {
@@ -129,6 +130,7 @@ function checked(op: RemodelOperation): string | null {
     (op.direction && (!Number.isFinite(op.direction.x) ||
       !Number.isFinite(op.direction.y)))) return "invalid-operator";
   if(op.kind==="reattach" && !op.targetTissueId) return "missing-target-tissue";
+  if(op.kind==="repurpose" && !op.targetKind) return "missing-functional-kind";
   if(["reshape","redistribute"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-regional-direction";
@@ -478,6 +480,24 @@ export function applyRemodelingProposal(
         relocated.push(...proposed.relocated);
         next={...graph,cells:proposed.cells};
       }
+    } else if(op.kind==="repurpose") {
+      // Morphological function changes are explicit material transactions.
+      // Source and genetic kind remain immutable. Existing material does
+      // not disappear or acquire a false newly created body part.
+      const from=group.length?graph.sourceCells.find(c=>c.tissueId===op.tissueId)?.sourceKind:
+        undefined;
+      const actual=tissue.functionalKind??tissue.developedKind??from;
+      const allowed:Readonly<Record<string,readonly string[]>>={
+        leg:["arm"],arm:["leg"],foot:["hand"],hand:["foot"],
+        wing:["arm"],tail:["leg"],ear:["horn"],horn:["ear"],
+      };
+      if(!from||!actual||!op.targetKind||
+        (op.targetKind!==from && !allowed[from]?.includes(op.targetKind)) ||
+        (actual!==from&&!allowed[from]?.includes(actual))||
+        actual===op.targetKind)
+        reason="unavailable-source-functional-succession";
+      else next={...graph,tissues:graph.tissues.map(t=>t.id===op.tissueId?
+        {...t,functionalKind:op.targetKind}:t)};
     } else if(op.kind==="translate") {
       const step=stepFor(axis);
       const moved=group.map(c=>({cellId:c.id,
@@ -588,7 +608,7 @@ export function applyRemodelingProposal(
     const recorded=journalMaterialEvent(graph,next,{
       id,kind:op.kind,atHour,createdCells:created,createdCellIds:transition.createdCellIds,
       removedCellIds:transition.removedCellIds,sourceCellIds:transition.sourceCellIds,
-    },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.targetTissueId?{targetTissueId:op.targetTissueId}:{}),...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})},
+    },"remodeling",{id:op.id,kind:op.kind,tissueId:op.tissueId,...(op.targetTissueId?{targetTissueId:op.targetTissueId}:{}),...(op.targetKind?{targetKind:op.targetKind}:{}),...(op.sourceSiteId?{sourceSiteId:op.sourceSiteId}:{}),...(op.direction?{direction:op.direction}:{})},
       ["redistribute","repattern"].includes(op.kind)?new Map(relocated.filter(m=>m.path).map(m=>[m.cellId,m.path!])):undefined);
     const event=strain?{...recorded,physical:{...recorded.physical!,strain}}:recorded;
     next={...next,events:[...next.events,event]};
