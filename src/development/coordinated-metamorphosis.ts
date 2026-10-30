@@ -96,3 +96,64 @@ export function proposeCoherentReshape(graph:MaterialGraph,tissueId:string,
     cellId:o.cell.id,from:{x:o.cell.x,y:o.cell.y},to:o.target,
    }))};
 }
+
+
+/**
+ * Rigid quarter-turn of a REAL attached source tissue about its existing
+ * attachment endpoint. Unlike a sprite rotation, these are lasting material
+ * coordinates, with no new cells, removed cells, or invented organs.
+ *
+ * Input: the live source-owned graph, a currently attached tissue and a
+ * permanently selected direction (1 = clockwise, -1 = anticlockwise).
+ * Output: one simultaneous, exactly invertible quarter-turn, or null if
+ * occupancy, protected cavities, source continuity or joints would break.
+ * The independent journal auditor rederives the full rotation from the
+ * pre-event attachment and verifies every surviving material identity.
+ */
+import {anatomicalContinuityFailure} from "./anatomical-continuity";
+export type ArticulatedTurn=Readonly<{
+ cells:readonly MaterialCell[];
+ pivot:Readonly<{x:number;y:number}>;
+ relocated:readonly Readonly<{cellId:string;from:Readonly<{x:number;y:number}>;to:Readonly<{x:number;y:number}>}>[];
+}>;
+export function proposeArticulatedTurn(graph:MaterialGraph,tissueId:string,
+ sign:1|-1):ArticulatedTurn|null{
+ if(!tissueId||sign!==1&&sign!==-1)
+  throw new RangeError("Invalid source-owned articulated turn");
+ const joint=[...graph.links].filter(l=>l.kind==="attachment"&&
+   l.fromTissueId===tissueId&&l.fromCellId).sort((a,b)=>a.id.localeCompare(b.id))[0];
+ if(!joint)return null;
+ const pivotCell=graph.cells.find(c=>c.id===joint.fromCellId&&c.tissueId===tissueId);
+ if(!pivotCell)return null;
+ const group=graph.cells.filter(c=>c.tissueId===tissueId);
+ if(group.length<2)return null;
+ const pivot={x:pivotCell.x,y:pivotCell.y};
+ const moving=new Map(group.map(c=>{
+  const x=pivot.x-sign*(c.y-pivot.y),y=pivot.y+sign*(c.x-pivot.x);
+  return [c.id,{x,y}] as const;
+ }));
+ const former=new Set(group.map(key));
+ const latter=new Set([...moving.values()].map(key));
+ // Rotationally symmetric silhouettes are not a meaningful stage change.
+ if(former.size===latter.size&&[...former].every(k=>latter.has(k)))return null;
+ const other=new Set(graph.cells.filter(c=>c.tissueId!==tissueId).map(key));
+ const forbidden=new Set(graph.protectedVoids);
+ if([...moving.values()].some(p=>!inside(p.x,p.y)||other.has(key(p))||forbidden.has(key(p))))
+  return null;
+ const cells=graph.cells.map(c=>{
+  const p=moving.get(c.id);return p?{...c,x:p.x,y:p.y}:c;
+ });
+ if(anatomicalContinuityFailure(graph.sourceCells,cells,{
+   links:graph.links,protectedVoids:graph.protectedVoids}))return null;
+ const byId=new Map(cells.map(c=>[c.id,c]));
+ if(graph.links.some(l=>{
+  const a=byId.get(l.fromCellId??""),b=byId.get(l.toCellId??"");
+  return !a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8;
+ }))return null;
+ return {cells,pivot,relocated:group.flatMap(c=>{
+  const p=moving.get(c.id)!;
+  return c.x===p.x&&c.y===p.y?[]:[{
+   cellId:c.id,from:{x:c.x,y:c.y},to:{x:p.x,y:p.y},
+  }];
+ })};
+}
