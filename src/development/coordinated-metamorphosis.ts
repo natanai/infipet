@@ -121,7 +121,7 @@ export function proposeArticulatedTurn(graph:MaterialGraph,tissueId:string,
  if(!tissueId||sign!==1&&sign!==-1)
   throw new RangeError("Invalid source-owned articulated turn");
  const joint=[...graph.links].filter(l=>l.kind==="attachment"&&
-   l.fromTissueId===tissueId&&l.fromCellId).sort((a,b)=>a.id.localeCompare(b.id))[0];
+   l.fromTissueId===tissueId&&l.fromCellId).sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0)[0];
  if(!joint)return null;
  const pivotCell=graph.cells.find(c=>c.id===joint.fromCellId&&c.tissueId===tissueId);
  if(!pivotCell)return null;
