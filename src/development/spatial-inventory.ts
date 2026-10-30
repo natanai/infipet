@@ -508,6 +508,23 @@ export function reconstructDailyPhysicalState(
           Math.max(Math.abs(c.x-m.to.x),Math.abs(c.y-m.to.y))===1);
         if(support.length<2||!support.some(c=>Math.abs(c.x-m.to.x)+Math.abs(c.y-m.to.y)===1))
           throw new Error("Tissue reflow deposited into unsupported tip");
+      }else if(e.kind==="articulate"){
+        // Independently recover the EXISTING anatomical joint from the
+        // pre-transaction graph. Neither a claimed pivot nor a renderer pose
+        // is evidence of a physical turn.
+        const axis=p.operation.direction;
+        const joint=[...links.values()].filter(l=>l.kind==="attachment"&&
+          l.fromTissueId===p.operation.tissueId&&l.fromCellId)
+          .sort((a,b)=>a.id.localeCompare(b.id))[0];
+        const pivot=joint?.fromCellId?beforeCells.get(joint.fromCellId):undefined;
+        const sign=axis?.x;
+        if(p.system!=="remodeling"||!pivot||
+          (sign!==1&&sign!==-1)||axis?.y!==0||
+          c.tissueId!==p.operation.tissueId||made.length||
+          e.removedCellIds.length||
+          !same(m.to,{x:pivot.x-sign*(c.y-pivot.y),
+            y:pivot.y+sign*(c.x-pivot.x),...(c.z===undefined?{}:{z:c.z})}))
+          throw new Error("Articulation has forged joint or material quarter-turn");
       } else if (
         (!advancingFront&&!["translate", "reposition", "remodel", "reshape"].includes(e.kind)) ||
         (p.system === "iterative"&&!advancingFront) ||
@@ -529,7 +546,7 @@ export function reconstructDailyPhysicalState(
           };
         if (!same(d, expected)) throw new Error("Forged relocation direction");
       }
-      if (e.kind!=="repattern" && step && !same(step, d))
+      if (!["repattern","articulate"].includes(e.kind) && step && !same(step, d))
         throw new Error("Nonrigid tissue translation");
       step = d;
       moves.add(c.id);
@@ -544,6 +561,25 @@ export function reconstructDailyPhysicalState(
         !moves.size)
     )
       throw new Error("Incomplete tissue translation");
+    if(e.kind==="articulate"&&p.operation.direction){
+      const axis=p.operation.direction,sign=axis.x;
+      const joint=[...links.values()].filter(l=>l.kind==="attachment"&&
+        l.fromTissueId===p.operation.tissueId&&l.fromCellId)
+        .sort((a,b)=>a.id.localeCompare(b.id))[0];
+      const pivot=joint?.fromCellId?beforeCells.get(joint.fromCellId):undefined;
+      const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
+      const expected=own.filter(c=>pivot&&
+        (c.x!==pivot.x-sign*(c.y-pivot.y)||
+         c.y!==pivot.y+sign*(c.x-pivot.x)));
+      const previous=new Set(own.map(key)),rotated=new Set(own.map(c=>pivot?
+        key({x:pivot.x-sign*(c.y-pivot.y),y:pivot.y+sign*(c.x-pivot.x)}):""));
+      if(p.system!=="remodeling"||!pivot||(sign!==1&&sign!==-1)||
+        axis.y!==0||made.length||e.removedCellIds.length||
+        expected.length!==moves.size||!expected.length||
+        expected.some(c=>!moves.has(c.id))||
+        (previous.size===rotated.size&&[...previous].every(v=>rotated.has(v))))
+        throw new Error("Incomplete or cosmetic articulated organ rotation");
+    }
     if(e.kind==="reposition"){
       const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
       const d=p.operation.direction;
