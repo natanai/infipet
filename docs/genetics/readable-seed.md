@@ -59,42 +59,75 @@ No player-selected anatomical parts are inferred from pixels. Two separately
 selected Eye parts remain two authored Eyes; a shape resembling two eyes
 painted entirely using Body is still exclusively Body.
 
-## Fixed seeds for playable starter drawings
+## New simple examples and stable seed opportunities
 
-All 12 editable gallery drawings use **exactly the same** readable-seed-v1
-grammar and source-owned development engine as a player's own drawing.
-Their stored strings are complete genetic scripts, not mascot identifiers,
-species IDs, direct evolution targets or lookups. Selecting a starter copies
-its original parts **and** its listed seed into the ordinary editor. Editing
-the drawing or seed changes the normal simulation inputs; there is no special
-starter-mode mutation logic or preset-specific developmental exception.
+The 12 **former** starter drawings have been replaced entirely by minimalist
+source drawings. These are not species. They begin in the same 32x32 editable
+canvas as any player creature and use exactly the same ordinary readable-seed
+compiler, inherited genotype, phylogenetic potential, physical operations,
+care chronology and material renderer. Their IDs are only gallery labels.
 
-| Drawing ID | Fixed readable seed | Drawing ID | Fixed readable seed |
-|---|---|---|---|
-| pippo | `2W2F2TBGQZ` | brumby | `2H3W2AGKRZ` |
-| glim | `2T3I2LBGYZ` | thimbleaf | `2C3H2FBGRZ` |
-| vellune | `3L2I2FSGQZ` | craggle | `2W3T2MDKRZ` |
-| nibblet | `3W2F2TBGRZ` | orbini | `2L3H2CUGQZ` |
-| spoori | `3W2T2FGYZ` | tukkin | `2I2A3TBRQZ` |
-| flinta | `3A2H2CBGZ` | vespri | `2L3T2IMGRZ` |
+| Original example | Fixed normal seed | Starting material |
+|---|---|---|
+| dot | `8E8L8WBRZ` | Single compact Body cell cluster |
+| ribbon | `8H8I8TGRZ` | Horizontal Body strand |
+| spire | `8W8A8FQRZ` | Tall narrow Body stalk |
+| halo | `8M8E8JBRZ` | Body ring with protected opening |
+| fork | `8C8L8WGRZ` | Body plus two authored Arms |
+| drop | `8F8H8ASRZ` | Teardrop Body plus an authored Tail |
+| mushroom | `8I8W8TBRZ` | Body stalk plus an authored Head/cap |
+| kite | `8E8L8HGRZ` | Body diamond, two Wings, two Eyes, Mouth |
+| twins | `8M8W8FBRZ` | Two independent Body islands |
+| crescent | `8A8I8JGRZ` | Curved Body with open negative space |
+| tripod | `8E8W8TBRZ` | Small Body plus three authored Legs |
+| zigzag | `8L8F8HGRZ` | Angular undifferentiated Body |
 
-These scripts deliberately include diverse possible role and process genes
-but are **not** selected by searching for a preferred adult appearance.
-The phylogenetic reference, permanent ticket acceptances, limited growth
-sites, available material, chronological care and physical rules determine
-what actually forms. A `2W` instruction offers two wing tickets, not two
-guaranteed new wings. An already selected Wing or Eye remains original
-material regardless of whether any additional gene ticket is accepted.
+Repeated doses provide more *independent tickets* for a candidate feature,
+not an eight-feature mandate or a preset evolution. For a given inferred
+reference and part kind, a ticket is accepted iff
+`hash(seed|referenceId|kind|ticket)/2^32 < p_kind`; the existing compiler
+caps `p_kind` at 0.82 and admits at most six physical genetic specialization
+slots. So even a repeated `8E` cannot guarantee a newly constructed Eye,
+and geometry/attachment, care, material limits and environmental experience
+may lawfully prevent an accepted organ from growing.
 
-Pippo's illustrated face is now stored as two explicit Eye parts, a Mouth
-and separate decorative cheek pixels, rather than treating the whole face
-as one unknown Decoration. This uses the same manual brush-kind contract as
-all other edited drawings; **no image recognition is involved**.
+The seeds are FIXED, rather than searched by evaluating adult sprites or
+manually adjusting one-off exceptions. They are intended to give a wide and
+reproducible developmental sample; they are **not claimed to have been
+visually demonstrated to transform convincingly across every stage**.
+The three old dozen-item mascot seed lists and authored example shapes are
+not retained as live gallery content. The separate historical retro-reference
+catalog continues to be research evidence only and never selects targets.
 
-The 36 historic retro-reference specimens are research material, not
-selectable starter-gallery creatures or target evolutions. Their historical
-reference seeds are intentionally retained as separate study data and are
-not a hidden progression table for these 12 starter drawings.
+### Current physical reorganization contract
+
+The older stage renderer could change anatomical *function* as well as
+position, but its stage-region changes were disconnected when the physical
+graph became the only source of rendered anatomy. The prototype now supports
+a real `repurpose` physical event: a selected already-living original
+source tissue can gain a `functionalKind` while preserving its immutable
+`sourceKind`, `sourcePartId`, `developedKind`, pigment, cells and ancestry.
+Its producer and independent auditor allow only bounded homologous
+conversions: Leg↔Arm, Foot↔Hand, Wing→Arm, Tail→Leg,
+Ear↔Horn. There is NO new species assignment and no new creature pixels from
+a function change alone.
+
+For up to four seed-ranked eligible source tissues, the inherited plan
+can propose an alternate role during early checks, a return to its original
+function during middle checks, and a sequence of actual one-lattice-unit
+whole-tissue translations at later checks. The physical translate operator
+retains all living cell identities and is independently rejected if it
+would collide with another tissue, violate protected voids or break an
+attachment. Five existing coordinated source-owned whole-body
+`repattern` windows continue to change actual material positions under
+physical conservation and chronological care, rather than rendering a
+new desired outline. The prior three-stage metamorphosis mathematics remains
+reference material for further physically real reorganization.
+
+This is a deliberately small *first recombination*, NOT a claim that we
+have restored all historical stage-specific rotations, cranial migration,
+subtree reattachment and support/effector reorganization. Those require
+physically authorized operations and are still open for gameplay validation.
 
 ## Mathematical rules (initial implementation)
 
