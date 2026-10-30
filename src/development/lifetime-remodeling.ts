@@ -20,7 +20,7 @@
  * express and bounded chaotic steering. The cat map cannot bypass occupancy,
  * connectivity, voids, material budget, or attachment checks.
  */
-import { compareText, type Point } from "../simulation/model";
+import { compareText, hash, type PartKind, type Point } from "../simulation/model";
 import type { InheritedGenome } from "../simulation/genome";
 import type { DevelopmentGeneticSignals } from "../genetics";
 import { chaoticTurn, CHAOS_VERSION, seedChaos, type MaterialChaos } from "./chaos";
@@ -37,12 +37,14 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern" | "repurpose";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
   tissueId: string;
   targetTissueId?: string;
+  /** New functional role only; never overwrites original source kind. */
+  targetKind?: PartKind;
   sourceSiteId?: string;
   direction?: Readonly<Point>;
   atHour: number;
@@ -143,6 +145,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": return c.segmentation.boundaries;
+    case "repurpose": return c.maturation.plasticity>=0.2?1:0;
     case "articulate": return c.segmentation.boundaries;
   }
 }
@@ -159,6 +162,8 @@ function validateOperation(op: RemodelOperation): void {
     throw new RangeError("Invalid remodeling schedule or numerical limit: " + op.id);
   if (op.kind === "reattach" && !op.targetTissueId)
     throw new TypeError("Reattachment requires an existing target tissue");
+  if (op.kind === "repurpose" && !op.targetKind)
+    throw new TypeError("Repurposing requires a genetically scheduled functional kind");
 }
 function activeConnected(group: readonly MaterialCell[]): boolean {
   if (!group.length) return false;
@@ -312,6 +317,48 @@ export function compileLifetimeRemodeling(
       id:"developmental-repattern/"+wave,kind:"repattern",tissueId:primary.id,
       atHour:start,durationHours:duration,units:10,strength:1,
     });
+  }
+  if(!override) {
+    // Restore the old engine's functional succession on REAL, source-owned
+    // tissue identities. The seed chooses which existing organs participate.
+    // These are only mechanical homologies, NOT final species or sprites.
+    const alternatives:Partial<Record<PartKind,PartKind>>={
+      leg:"arm",arm:"leg",foot:"hand",hand:"foot",
+      wing:"arm",tail:"leg",ear:"horn",horn:"ear",
+    };
+    const candidates=base.source.tissues.flatMap(t=>{
+      const kind=base.source.sourceCells.find(c=>c.tissueId===t.id)?.sourceKind;
+      const alternate=kind?alternatives[kind]:undefined;
+      return alternate?[{t,kind:kind!,alternate,
+        priority:hash(genome.seed+"|regional-function|"+t.id)}]:[];
+    }).sort((a,b)=>a.priority-b.priority||compareText(a.t.id,b.t.id));
+    // Every original domain remains eligible; existing constraints on
+    // operations and physical contact are unchanged. Alternate function
+    // can later return to the original kind instead of accumulating a
+    // permanent label regardless of care.
+    for(const [i,{t,kind,alternate}] of candidates.slice(0,4).entries()){
+      const phase=14+i*5;
+      if(operations.length<REMODEL_LIMITS.maxOperations)operations.push({
+        id:"function/"+i+"/specialize",kind:"repurpose",tissueId:t.id,
+        targetKind:alternate,atHour:phase,durationHours:12,units:1,strength:1,
+      });
+      if(operations.length<REMODEL_LIMITS.maxOperations)operations.push({
+        id:"function/"+i+"/reorganize",kind:"repurpose",tissueId:t.id,
+        targetKind:kind,atHour:165+i*5,durationHours:15,units:1,strength:1,
+      });
+      // Move existing connected source material one physical unit as part of
+      // developmental reorganization. The existing independent translation
+      // guard rejects any collision, broken joint or cavity.
+      if(operations.length<REMODEL_LIMITS.maxOperations){
+        const axis=[{x:0,y:-1},{x:1,y:0},{x:0,y:1},{x:-1,y:0}][
+          hash(genome.seed+"|organ-reposition|"+t.id)%4];
+        operations.push({
+          id:"function/"+i+"/move",kind:"translate",tissueId:t.id,
+          direction:axis,atHour:77+i*5,durationHours:90,
+          units:8,strength:1,
+        });
+      }
+    }
   }
   if (operations.length > REMODEL_LIMITS.maxOperations)
     throw new RangeError("Too many remodeling operations");
