@@ -31,6 +31,10 @@ export type MaterialTissue = Readonly<{
    */
   developedKind?: PartKind;
   geneticInstructionId?: string;
+  /** Current anatomical FUNCTION, not original or developed source identity.
+   * Changes only via a chronologically committed, audited repurpose operator.
+   * SourcePartId and developedKind remain immutable throughout. */
+  functionalKind?: PartKind;
   parentId: string | null;
   relationship: Relationship;
   sourceCellIds: readonly string[];
