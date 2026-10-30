@@ -13,6 +13,7 @@
  * This proves recorded execution and structural admissibility, not a secure
  * signature against deliberate replacement of both source and history.
  */
+import type {PartKind} from "../simulation/model";
 import type {
   MaterialCell,
   MaterialGraph,
@@ -32,6 +33,7 @@ export type PhysicalOperatorAuthorization = Readonly<{
     kind: string;
     tissueId: string;
     targetTissueId?: string;
+    targetKind?:PartKind;
     direction?: Readonly<{ x: number; y: number }>;
     atHour: number;
     durationHours: number;
@@ -333,6 +335,7 @@ export function reconstructDailyPhysicalState(
         op.kind !== p.operation.kind ||
         op.tissueId !== p.operation.tissueId ||
         op.targetTissueId !== p.operation.targetTissueId ||
+        op.targetKind !== p.operation.targetKind ||
         !same(op.direction, p.operation.direction)
       )
         throw new Error(
@@ -592,11 +595,32 @@ export function reconstructDailyPhysicalState(
               relationship: b.relationship,
               rigidity: b.rigidity,
               growthSiteIds: b.growthSiteIds,
+              functionalKind: b.functionalKind,
             },
             b,
           )
         )
           throw new Error("Unrecorded tissue identity mutation");
+        if (a.functionalKind !== b.functionalKind) {
+          // Independent semantic/material oracle: a name cannot change just
+          // because metadata asks it to. The original authored sourceKind
+          // remains fixed in the birth inventory; only mechanical homologues
+          // and chronological targetKind authorization permit a function swap.
+          const origin=graph.sourceCells.find(c=>c.tissueId===a.id)?.sourceKind;
+          const alternatives:Readonly<Record<string,readonly string[]>>={
+            leg:["arm"],arm:["leg"],foot:["hand"],hand:["foot"],
+            wing:["arm"],tail:["leg"],ear:["horn"],horn:["ear"],
+          };
+          const previously=a.functionalKind??a.developedKind??origin;
+          if(e.kind!=="repurpose"||p.system!=="remodeling"||
+            a.id!==p.operation.tissueId||!origin||
+            !alternatives[origin]?.includes(p.operation.targetKind??"")&&
+              p.operation.targetKind!==origin ||
+            b.functionalKind!==p.operation.targetKind ||
+            ![origin,...(alternatives[origin]??[])].includes(previously??"") ||
+            previously===b.functionalKind)
+            throw new Error("Unauthorised anatomical function repurposing");
+        }
         if (
           !same(a.growthSiteIds, b.growthSiteIds) &&
           (!["resorb","repattern"].includes(e.kind) ||
