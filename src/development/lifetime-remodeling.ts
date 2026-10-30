@@ -37,7 +37,7 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern" | "repurpose" | "reposition";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "slip" | "repattern" | "repurpose" | "reposition";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
@@ -144,7 +144,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "resorb": return c.maturation.plasticity;
     case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
-    case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "redistribute": case "slip": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity>=0.2?1:0;
@@ -295,7 +295,7 @@ export function compileLifetimeRemodeling(
       const axis=directions[orbit.x%4];
       operations.push({
         id:"remodel/"+index+"/shape-stage/"+stage,
-        kind:stage===1?"reshape":"redistribute",
+        kind:stage===1?"reshape":stage===0||stage===2?"slip":"redistribute",
         tissueId:tissue.id,direction:axis,
         // Allometric regional inertia: (reference scale 8 lattice units)
         // expression = min(1, 8/sqrt(A_source)).
