@@ -31,7 +31,7 @@ import type {DevelopmentalChannels} from "../genetics";
 import {CHAOS_MODULUS,type ChaosState} from "./chaos";
 import {hash} from "../simulation/model";
 
-export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v5" as const;
+export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v6" as const;
 /** A new bud receives the square-root material scale of its birth region,
  * rather than being permanently starved as a one-cell birth drawing. The
  * genome, four-credit competition and all material caps remain unchanged. */
