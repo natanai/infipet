@@ -43,6 +43,7 @@ export type PhysicalOperatorAuthorization = Readonly<{
     kind: string;
     tissueId: string;
     targetTissueId?: string;
+    targetKind?:PartKind;
     direction?: Readonly<{ x: number; y: number }>;
     sourceSiteId?: string;
     atHour: number;
