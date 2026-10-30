@@ -82,19 +82,26 @@ during every later region-growth opportunity, not merely its first bud.
 All material boundaries remain governed by existing spatial and ancestry
 auditors; no image/silhouette transformation is substituted.
 
-On the unmerged v6 development branch, original source-owned material has
-two further physically committed remodeling choices. An attached, explicitly
-selected organ can execute a seeded 90° joint rotation about its existing
-contact cell; every moved cell is audited against the exact original joint.
-Any sufficiently broad Body-only or typed tissue can undergo a conservative
-regional slip: its upper/lower or left/right median band shifts one lattice
-unit, without creating or resorbing material. The independent daily journal
-recomputes that band and rejects incomplete, extra or nonphysical movement.
-The five repatterning wave organizers also select non-additive shear more often
-than outward expansion. These capabilities are source-general, not evidence
-that all stage transformations are visually recovered. They have not yet been
-executed and qualified in a full production test runner, and the branch is not
-published.
+On the unmerged v7 development branch, source-owned material has
+three further physically committed remodeling choices:
+
+- A selected, attached organ may execute a seeded 90-degree rotation about
+  its live joint, with every moved cell checked against the pre-event joint.
+- An independently authored Body-only or typed tissue can undergo a
+  conservative median-band slip: one side shifts by a lattice unit while
+  the opposite side stays in place, with no created or removed material.
+- A sufficiently broad tissue can undergo opposing-band bending: the two
+  perimeter thirds shift in opposite directions and the intervening bridge
+  stays put. This changes internal relative source-cell distances, without
+  fabricating new organs or adding bulk.
+
+These are distinct, explicitly genetically scheduled, care-gated physical
+transactions, with pre-event independent audit reconstructing the exact
+affected cell IDs and coordinates. The five original repatterning wave
+organizers also now choose shearing more often than outward expansion.
+This is a source-general implementation experiment, not evidence of visually
+complete stage evolution. Focused tests have been added but have not yet been
+executed in a production-capable runner, and this branch is not published.
 
 These are **real implementation changes on the draft**, not evidence that
 the live or deployed game is visually satisfying. The prototype currently
