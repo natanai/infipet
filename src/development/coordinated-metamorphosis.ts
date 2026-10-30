@@ -136,9 +136,14 @@ export function proposeArticulatedTurn(graph:MaterialGraph,tissueId:string,
  const latter=new Set([...moving.values()].map(key));
  // Rotationally symmetric silhouettes are not a meaningful stage change.
  if(former.size===latter.size&&[...former].every(k=>latter.has(k)))return null;
- const other=new Set(graph.cells.filter(c=>c.tissueId!==tissueId).map(key));
+ const foreign=graph.cells.filter(c=>c.tissueId!==tissueId);
+ const other=new Set(foreign.map(key));
+ const linked=new Set(graph.links.flatMap(l=>l.fromTissueId===tissueId?
+   [l.toTissueId]:l.toTissueId===tissueId?[l.fromTissueId]:[]));
  const forbidden=new Set(graph.protectedVoids);
- if([...moving.values()].some(p=>!inside(p.x,p.y)||other.has(key(p))||forbidden.has(key(p))))
+ if([...moving.values()].some(p=>!inside(p.x,p.y)||other.has(key(p))||
+   forbidden.has(key(p))||foreign.some(c=>!linked.has(c.tissueId)&&
+     Math.max(Math.abs(c.x-p.x),Math.abs(c.y-p.y))<=1)))
   return null;
  const cells=graph.cells.map(c=>{
   const p=moving.get(c.id);return p?{...c,x:p.x,y:p.y}:c;
