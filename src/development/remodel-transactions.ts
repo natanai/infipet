@@ -118,7 +118,8 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": case "articulate": return c.segmentation.boundaries;
-    case "repurpose": return c.maturation.plasticity>=0.2?1:0;
+    case "repurpose": return c.maturation.plasticity+
+      Math.min(0.3,0.12*(p.processGenes?.repurposing??0))>=0.3?1:0;
   }
 }
 function checked(op: RemodelOperation): string | null {
