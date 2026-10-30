@@ -82,6 +82,20 @@ during every later region-growth opportunity, not merely its first bud.
 All material boundaries remain governed by existing spatial and ancestry
 auditors; no image/silhouette transformation is substituted.
 
+On the unmerged v6 development branch, original source-owned material has
+two further physically committed remodeling choices. An attached, explicitly
+selected organ can execute a seeded 90° joint rotation about its existing
+contact cell; every moved cell is audited against the exact original joint.
+Any sufficiently broad Body-only or typed tissue can undergo a conservative
+regional slip: its upper/lower or left/right median band shifts one lattice
+unit, without creating or resorbing material. The independent daily journal
+recomputes that band and rejects incomplete, extra or nonphysical movement.
+The five repatterning wave organizers also select non-additive shear more often
+than outward expansion. These capabilities are source-general, not evidence
+that all stage transformations are visually recovered. They have not yet been
+executed and qualified in a full production test runner, and the branch is not
+published.
+
 These are **real implementation changes on the draft**, not evidence that
 the live or deployed game is visually satisfying. The prototype currently
 has no automatic CI verification or browser checks by explicit user choice;
