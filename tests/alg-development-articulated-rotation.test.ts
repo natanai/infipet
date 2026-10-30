@@ -128,13 +128,14 @@ test("a monochrome Body-only region can change proportions without gaining a sin
   });
   assert.deepEqual(span(birth.cells),{width:3,height:3});
   assert.deepEqual(span(moved.cells),{width:4,height:3});
+  const firstRow=Math.min(...birth.cells.map(c=>c.y));
   for(const [id,c] of old){
     const transformed=now.get(id)!;
     assert.ok(transformed);
     assert.equal(c.color,transformed.color);
     assert.deepEqual(c.sourceIds,transformed.sourceIds);
     assert.equal(c.tissueId,transformed.tissueId);
-    assert.equal(transformed.x-c.x,c.y<=2?1:0);
+    assert.equal(transformed.x-c.x,c.y<=firstRow+1?1:0);
     assert.equal(transformed.y,c.y);
   }
   assert.deepEqual(moved,proposeRegionalSlip(birth,tid,{x:1,y:0}));
