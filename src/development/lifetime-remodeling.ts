@@ -370,10 +370,10 @@ export function compileLifetimeRemodeling(
     }
   }
   if(!override){
-    // A physical head can slide around its existing host while remaining
-    // connected. This is also true for unrepurposed limbs and tails. Each
-    // stage proposes another seed-fixed tangent; the atomic operator moves
-    // actual cells and changes real attachment endpoints, not pose metadata.
+    // A genuinely articulated head/limb/wing can turn around its existing
+    // host joint, changing permanent material coordinates (not sprite pose).
+    // Stage opportunities are seed-selected and care-gated. Invalid turns
+    // are rejected, rather than teleporting cells or breaking the drawing.
     const eligible=base.source.tissues.filter(t=>
       base.source.sourceCells.some(c=>c.tissueId===t.id&&
         ["head","arm","leg","tail","wing","ear","horn"].includes(c.sourceKind??""))&&
@@ -384,8 +384,8 @@ export function compileLifetimeRemodeling(
         if(operations.length>=REMODEL_LIMITS.maxOperations)break;
         operations.push({
           id:"migrate/"+index+"/phase/"+stage,
-          kind:"reposition",tissueId:t.id,
-          direction:directions[hash(genome.seed+"|joint-migration|"+t.id+"|"+stage)%4],
+          kind:"articulate",tissueId:t.id,
+          direction:{x:hash(genome.seed+"|joint-rotation|"+t.id+"|"+stage)%2?1:-1,y:0},
           atHour:day+index*3,durationHours:40,units:8,strength:1,
         });
       }
