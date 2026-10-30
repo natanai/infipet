@@ -9,7 +9,7 @@ import {proposeArticulatedTurn,proposeRegionalSlip,proposeRegionalBend} from "..
 import {compileLifetimeRemodeling} from "../src/development/lifetime-remodeling";
 import {applyRemodelingProposal,remodelingProposalsBetween,
   EMPTY_REMODELING_CHRONOLOGY} from "../src/development/remodel-transactions";
-import {verifyDailyMaterialInventory} from "../src/development/daily-step";
+import {applyDailyMaterialStep,createDailyMaterialState,verifyDailyMaterialInventory,type DailyCareWindowV1} from "../src/development/daily-step";
 import {sourceStrain} from "../src/development/developmental-strain";
 import {materialInputs,drawing} from "./alg-development-fixtures";
 
@@ -318,4 +318,38 @@ test("opposite-band bend receipts are independently checked, including stationar
   assert.throws(()=>verifyDailyMaterialInventory(forged,HATCH,day,program.source,{
     material:program.operators,remodeling:plan.operations,
   }),/bend|material|reconstruction|inventory|relocation|physical/i);
+});
+
+test("productive daily care expresses conservative body bending; zero care cannot fabricate it",()=>{
+  const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."],"body"),"8E8L8WRZ");
+  const program=compileMaterialDevelopment(atlas,genome);
+  const bend={id:"daily-body-flexure",kind:"bend" as const,tissueId:program.source.tissues[0].id,
+    direction:{x:1,y:0},atHour:0,durationHours:12,units:12,strength:1};
+  const plan=compileLifetimeRemodeling(program,genome,[bend]);
+  const window=(day:number,care:number):DailyCareWindowV1=>({
+    version:1,hatchAtMs:HATCH,checkIndex:day,
+    startMs:HATCH+(day-1)*DAY,endMs:HATCH+day*DAY,
+    forcing:{nutrition:care,rest:care,security:care,activity:care,threat:0,
+      observedFraction:care},acceptedCommands:0,rejectedCommands:0,
+    observations:0,activeMs:DAY,absentMs:0,unknownMs:0,unknown:[],
+    provenanceDigest:"body-bend/"+care+"/"+day,
+  });
+  let nourished=createDailyMaterialState(program,HATCH);
+  let starved=createDailyMaterialState(program,HATCH);
+  for(let day=1;day<=12;day++){
+    nourished=applyDailyMaterialStep(program,genome,nourished,window(day,1),plan);
+    starved=applyDailyMaterialStep(program,genome,starved,window(day,0),plan);
+  }
+  assert.ok(nourished.graph.events.some(e=>e.kind==="bend"),
+    "the living engine must actually execute source-conserving flexure");
+  assert.equal(starved.graph.events.filter(e=>e.kind==="bend").length,0,
+    "the genetic stage plan cannot bypass the chronological care gate");
+  assert.deepEqual(nourished.graph.sourceCells,program.source.sourceCells);
+  assert.deepEqual(starved.graph.sourceCells,program.source.sourceCells);
+  assert.ok(nourished.graph.events.filter(e=>e.kind==="bend").every(e=>
+    e.createdCellIds.length===0&&e.removedCellIds.length===0&&
+    (e.physical?.relocations.length??0)>=2));
+  verifyDailyMaterialInventory(nourished.graph,HATCH,12,program.source,{
+    material:program.operators,remodeling:plan.operations,
+  });
 });
