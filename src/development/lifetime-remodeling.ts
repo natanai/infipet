@@ -256,6 +256,12 @@ export function compileLifetimeRemodeling(
   const processGenes={remodel:Math.min(12,processes?.remodel??0),
     repurposing:Math.min(12,processes?.repurposing??0)};
   const operations: RemodelOperation[] = override ? [...override] : [];
+  // Large, explicitly multi-part drawings previously filled the 64-operation
+  // genome with routine extension/reinforcement before source-owned joint
+  // rotations could even be scheduled. Existing daily iterative growth
+  // already provides additions, so reserve actual topology/remodeling
+  // opportunity for every anatomy. Small drawings retain the full grammar.
+  const crowded=tissues.length>=5;
   if (!override) for (const [index, tissue] of tissues.entries()) {
     const site = base.source.sites.find(s => s.tissueId === tissue.id);
     const steering = (tag: string): MaterialChaos => ({
@@ -266,7 +272,7 @@ export function compileLifetimeRemodeling(
       turnAmplitude: 0.6,
     });
     const slot = index * 0.125;
-    operations.push({
+    if(!crowded||index===0)operations.push({
       id: "remodel/" + index + "/extend",
       kind: "extend", tissueId: tissue.id, sourceSiteId: site?.id,
       atHour: 90 + slot, durationHours: 48, units: 7,
@@ -275,11 +281,16 @@ export function compileLifetimeRemodeling(
       id: "remodel/" + index + "/reinforce",
       kind: "reinforce", tissueId: tissue.id,
       atHour: 140 + slot, durationHours: 35, units: 4, strength: 1,
-    }, {
+    });
+    // A non-moving articulation metadata event is not an anatomical
+    // transformation; retain its mechanical landmark for small organisms,
+    // but protect large drawings' slots for the REAL joint rotations below.
+    if(!crowded)operations.push({
       id: "remodel/" + index + "/articulate",
       kind: "articulate", tissueId: tissue.id,
       atHour: 190 + slot, durationHours: 5, units: 1, strength: 1,
-    }, {
+    });
+    operations.push({
       id: "remodel/" + index + "/resorb",
       kind: "resorb", tissueId: tissue.id, sourceSiteId: site?.id,
       atHour: 235 + slot, durationHours: 24, units: 3, strength: 1,
