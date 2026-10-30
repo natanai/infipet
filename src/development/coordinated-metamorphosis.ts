@@ -274,10 +274,11 @@ export function proposeRegionalBend(graph:MaterialGraph,tissueId:string,
  const low=tiers[Math.floor((tiers.length-1)/3)],
   high=tiers[Math.ceil(2*(tiers.length-1)/3)];
  if(low>=high)return null;
- const movement=new Map(own.flatMap(c=>{
+ const movement=new Map<string,{x:number;y:number}>();
+ for(const c of own){
   const sign=c[cross]<=low?1:c[cross]>=high?-1:0;
-  return sign?[[c.id,{x:c.x+sign*direction.x,y:c.y+sign*direction.y}]] as const:[];
- }));
+  if(sign)movement.set(c.id,{x:c.x+sign*direction.x,y:c.y+sign*direction.y});
+ }
  if(movement.size<2)return null;
  const others=graph.cells.filter(c=>!movement.has(c.id));
  const occupiedOther=new Set(others.map(key));
