@@ -10,6 +10,8 @@ import {compileLifetimeRemodeling} from "../src/development/lifetime-remodeling"
 import {applyRemodelingProposal,remodelingProposalsBetween,
   EMPTY_REMODELING_CHRONOLOGY} from "../src/development/remodel-transactions";
 import {verifyDailyMaterialInventory} from "../src/development/daily-step";
+import {sourceStrain} from "../src/development/developmental-strain";
+import {materialInputs,drawing} from "./alg-development-fixtures";
 
 const HATCH=1_701_102_300_000;
 const DAY=86_400_000;
@@ -96,4 +98,15 @@ test("accepted joint rotation is journaled and independently reversible from bir
     if(found)break;
   }
   assert.ok(found,"normal genetics and exact remodeling journal must admit a verifiable organ turn");
+});
+
+test("stage-specific whole-body organizers favor genuine shearing over outward expansion",()=>{
+  const {atlas,genome}=materialInputs(drawing([".....",".###.",".###.",".###.","....."],"body"),"8E8L8WRZ");
+  const graph=compileMaterialDevelopment(atlas,genome).source;
+  const channels=genome.genotype.channels;
+  const modes=Array.from({length:12},(_,i)=>sourceStrain(graph,channels,genome.seed,"wave/original",i+1).mode);
+  assert.equal(modes.filter(mode=>mode==="shear").length,8);
+  assert.equal(modes.filter(mode=>mode==="expand").length,4);
+  assert.equal(sourceStrain(graph,channels,genome.seed,"wave/original",1).mode,"shear");
+  assert.equal(sourceStrain(graph,channels,genome.seed,"wave/original",3).mode,"expand");
 });
