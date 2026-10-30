@@ -532,13 +532,13 @@ export function reconstructDailyPhysicalState(
             Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
           throw new Error("Articulation has forged joint or material quarter-turn");
       } else if (
-        (!advancingFront&&!["translate", "reposition", "remodel", "reshape"].includes(e.kind)) ||
+        (!advancingFront&&!["translate", "reposition", "remodel", "reshape", "slip"].includes(e.kind)) ||
         (p.system === "iterative"&&!advancingFront) ||
         !Math.max(Math.abs(d.x), Math.abs(d.y)) ||
         Math.max(Math.abs(d.x), Math.abs(d.y)) > 1
       )
         throw new Error("Physically impossible relocation");
-      if (e.kind === "translate" || e.kind === "reposition" || e.kind === "reshape") {
+      if (e.kind === "translate" || e.kind === "reposition" || e.kind === "reshape" || e.kind === "slip") {
         const axis = p.operation.direction ??
           [...sites.values()].find(
             (s) =>
@@ -585,6 +585,31 @@ export function reconstructDailyPhysicalState(
         expected.some(c=>!moves.has(c.id))||
         (previous.size===rotated.size&&[...previous].every(v=>rotated.has(v))))
         throw new Error("Incomplete or cosmetic articulated organ rotation");
+    }
+    if(e.kind==="slip"){
+      // Independent geometric oracle: recompute the exact high/low median
+      // sheet from the PRE-transaction live cells. The producer's candidate
+      // selection and spatial guard are not consulted by this reconstruction.
+      const dir=p.operation.direction;
+      const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
+      if(p.system!=="remodeling"||!dir||
+        ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>dir.x===x&&dir.y===y)||
+        own.length<4||made.length||e.removedCellIds.length)
+        throw new Error("Forged regional slippage schedule or mass");
+      const cross=dir.y===0?"y":"x";
+      const coords=[...new Set(own.map(c=>c[cross]))].sort((a,b)=>a-b);
+      if(coords.length<2)throw new Error("Slip requires a genuine tissue band");
+      const split=coords[Math.floor((coords.length-1)/2)];
+      const upper=dir.y===0?dir.x>0:dir.y>0;
+      const band=own.filter(c=>upper?c[cross]<=split:c[cross]>split);
+      if(!band.length||band.length===own.length||
+        moves.size!==band.length||band.some(c=>!moves.has(c.id))||
+        p.relocations.some(m=>{
+          const c=beforeCells.get(m.cellId);
+          return !c||c.tissueId!==p.operation.tissueId||
+            m.to.x!==c.x+dir.x||m.to.y!==c.y+dir.y;
+        }))
+        throw new Error("Regional slip moved a forged or incomplete source-owned sheet");
     }
     if(e.kind==="reposition"){
       const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
