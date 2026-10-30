@@ -204,3 +204,58 @@ test("whole-sheet displacement is an independently audited physical daily event"
     material:program.operators,remodeling:plan.operations,
   }),/slip|relocation|reconstruction|material|inventory/i);
 });
+
+
+test("unknown authored body silhouettes obey conserved provenance under broad physical slippage",()=>{
+  // These 32 masks are generated independently of any starter/preset. They
+  // contain the same center sheet but vary perimeter lobes and asymmetry.
+  // Exact accepted counts are not used as aesthetic targets; every accepted
+  // transaction must satisfy the structural mathematics below.
+  let realizable=0;
+  for(let mask=0;mask<32;mask++){
+    const rows=Array.from({length:7},(_,y)=>Array.from({length:7},(_,x)=>{
+      const core=x>=2&&x<=4&&y>=2&&y<=4;
+      const lobes=[
+        (mask&1)!==0&&x===1&&y>=2&&y<=3,
+        (mask&2)!==0&&x===5&&y>=3&&y<=4,
+        (mask&4)!==0&&y===1&&x>=2&&x<=4,
+        (mask&8)!==0&&y===5&&x>=2&&x<=3,
+        (mask&16)!==0&&x===1&&y===4,
+      ];
+      return core||lobes.some(Boolean)?"#":".";
+    }).join(""));
+    const {atlas,genome}=materialInputs(drawing(rows,"body"),"8E8L8WRZ");
+    const initial=compileMaterialDevelopment(atlas,genome).source;
+    const tid=initial.tissues[0].id;
+    const original=new Map(initial.cells.map(c=>[c.id,c]));
+    for(const axis of [{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}]){
+      const proposal=proposeRegionalSlip(initial,tid,axis);
+      if(!proposal)continue;
+      realizable++;
+      assert.equal(proposal.cells.length,initial.cells.length);
+      assert.equal(new Set(proposal.cells.map(c=>c.id)).size,original.size);
+      assert.ok(proposal.relocated.length>=2);
+      const after=new Map(proposal.cells.map(c=>[c.id,c]));
+      const displaced=new Map(proposal.relocated.map(m=>[m.cellId,m]));
+      assert.equal(displaced.size,proposal.relocated.length);
+      for(const [id,birth] of original){
+        const child=after.get(id)!;
+        assert.ok(child);
+        assert.equal(child.tissueId,birth.tissueId);
+        assert.equal(child.color,birth.color);
+        assert.deepEqual(child.sourceIds,birth.sourceIds);
+        assert.equal(child.provenance,birth.provenance);
+        const moving=displaced.get(id);
+        assert.equal(child.x-birth.x,moving?axis.x:0);
+        assert.equal(child.y-birth.y,moving?axis.y:0);
+      }
+      const beforeMask=new Set(initial.cells.map(c=>c.x+","+c.y));
+      const afterMask=new Set(proposal.cells.map(c=>c.x+","+c.y));
+      assert.ok([...beforeMask].some(p=>!afterMask.has(p))||
+        [...afterMask].some(p=>!beforeMask.has(p)),
+        "accepted sheet must genuinely change the occupied physical silhouette");
+      assert.deepEqual(proposeRegionalSlip(initial,tid,axis),proposal);
+    }
+  }
+  assert.ok(realizable>=8,"varied unfamiliar compact bodies should admit multiple non-bulk developmental paths");
+});
