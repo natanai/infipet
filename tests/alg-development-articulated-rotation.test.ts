@@ -378,3 +378,41 @@ test("two successive physical morphs change internal relative positions without 
   assert.deepEqual([...new Set(adult.cells.map(c=>c.id))].sort(),
     source.cells.map(c=>c.id).sort());
 });
+
+
+test("complex six-region drawings retain every eligible real joint-movement stage within 64 operations",()=>{
+  // This deliberately has more independently selected parts than the former
+  // grammar could schedule without starving the final rotation passes.
+  const core={...drawing(["######","######","######","######","######","######"],"body")[0],
+    id:"core",name:"Body",parentId:null};
+  const named=[
+    {id:"left",kind:"arm" as const,position:{x:-2,y:1}},
+    {id:"right",kind:"arm" as const,position:{x:6,y:1}},
+    {id:"top",kind:"wing" as const,position:{x:2,y:-2}},
+    {id:"bottom",kind:"leg" as const,position:{x:2,y:6}},
+    {id:"tail",kind:"tail" as const,position:{x:6,y:4}},
+  ].map(p=>({...drawing(["##","##"],p.kind)[0],
+    id:p.id,name:p.id,parentId:"core",position:p.position}));
+  const {atlas,genome}=materialInputs([core,...named],"8E8L8WBRZ");
+  const physical=compileMaterialDevelopment(atlas,genome);
+  assert.ok(physical.source.tissues.filter(t=>t.sourceCellIds.length>=2).length>=5);
+  const attached=physical.source.links.filter(l=>l.kind==="attachment"&&
+    named.some(part=>physical.source.sourceCells.some(c=>
+      c.id===l.fromCellId&&c.sourcePartId===part.id)));
+  assert.ok(attached.length>=4,"real parts must be mechanically attached");
+  const program=compileLifetimeRemodeling(physical,genome);
+  assert.ok(program.operations.length<=64);
+  assert.ok(program.operations.some(o=>o.kind==="repattern"));
+  assert.ok(program.operations.some(o=>o.kind==="slip"));
+  assert.ok(program.operations.some(o=>o.kind==="bend"));
+  const rotation=program.operations.filter(o=>o.id.startsWith("migrate/")&&
+    o.kind==="articulate"&&o.direction);
+  assert.equal(rotation.length,12,
+    "four eligible attached organs each deserve three distinct physical-turn windows");
+  const byTissue=new Map<string,number>();
+  for(const op of rotation)byTissue.set(op.tissueId,(byTissue.get(op.tissueId)??0)+1);
+  assert.equal(byTissue.size,4);
+  assert.ok([...byTissue.values()].every(n=>n===3));
+  assert.deepEqual(compileLifetimeRemodeling(physical,genome),program,
+    "the allocation is fixed by the drawing and immutable genome");
+});
