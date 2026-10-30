@@ -15,6 +15,36 @@ import {materialInputs,drawing} from "./alg-development-fixtures";
 
 const HATCH=1_701_102_300_000;
 const DAY=86_400_000;
+
+/** Independently authored structural witness: a 3x3 core with a connected,
+ * explicitly selected three-cell appendage (not a predefined adult sprite). */
+function hingedDrawing(){
+  const core={...drawing(["###","###","###"],"body")[0],
+    id:"core",name:"Core",parentId:null};
+  const wing={...drawing(["###"],"wing")[0],
+    id:"wing",name:"Selected wing",parentId:"core",position:{x:3,y:1}};
+  return [core,wing];
+}
+test("a declared wing actually swings around its original attached core",()=>{
+  const {atlas,genome}=materialInputs(hingedDrawing(),"8E8L8WBRZ");
+  const graph=compileMaterialDevelopment(atlas,genome).source;
+  const link=graph.links.find(l=>l.kind==="attachment"&&
+    graph.sourceCells.some(c=>c.id===l.fromCellId&&c.sourceKind==="wing"));
+  assert.ok(link,"the ordinary drawing compiler must recognize the physical joint");
+  const before=new Map(graph.cells.map(c=>[c.id,c]));
+  const turned=proposeArticulatedTurn(graph,link.fromTissueId,1);
+  assert.ok(turned,"ordinary authored wing should admit an actual conservative 90-degree turn");
+  assert.equal(turned.cells.length,graph.cells.length);
+  assert.equal(turned.relocated.length,2);
+  const pivot=before.get(link.fromCellId!)!;
+  for(const movement of turned.relocated){
+    const original=before.get(movement.cellId)!;
+    assert.deepEqual(movement.to,{
+      x:pivot.x-(original.y-pivot.y),
+      y:pivot.y+(original.x-pivot.x),
+    });
+  }
+});
 test("an attached authored organ turns through exact material-conserving 90-degree rotation",()=>{
   // Search a diverse, authored cohort, not a hardcoded output sprite or name.
   // A real candidate must be sourced in the normal production compiler.
