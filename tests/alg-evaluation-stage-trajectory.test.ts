@@ -70,7 +70,8 @@ test("source-general consecutive-stage physical metamorphosis cohort",{
 },()=>{
  const freehand=morphologySources();
  const cohort=[
-  ...STARTER_PRESETS.slice(0,4).map(p=>({id:"starter/"+p.id,parts:p.parts})),
+  ...STARTER_PRESETS.filter(p=>["dot","ribbon","fork","tripod"].includes(p.id))
+   .map(p=>({id:"starter/"+p.id,parts:p.parts})),
   ...[0,3,7,11,16,20,24,29].map(i=>({
    id:"unknown/"+freehand[i].id,parts:freehand[i].parts,
   })),
@@ -98,7 +99,9 @@ test("source-general consecutive-stage physical metamorphosis cohort",{
      if(metric.meaningful)row.qualifying++;
      if(before.sourceCells.every(c=>c.sourceKind==="body"))
       row.bodyOnly+=Number(metric.meaningful);
-     else row.typed+=Number(metric.meaningful);
+     if(before.sourceCells.some(c=>
+      c.sourceKind&&c.sourceKind!=="body"&&c.sourceKind!=="decoration"))
+      row.typed+=Number(metric.meaningful);
      row.changed ||=metric.meaningful;
     }
     report.push({source:sample.id,seed,care:care.nutrition,
