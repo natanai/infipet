@@ -221,13 +221,13 @@ export function proposeRegionalSlip(graph:MaterialGraph,tissueId:string,
    links:graph.links,protectedVoids:graph.protectedVoids}))return null;
  // Connectivity is checked again by the independent transaction auditor.
  const occupied=new Set(after.filter(c=>c.tissueId===tissueId).map(key));
- const visited=new Set<string>(),queue=[after.find(c=>c.tissueId===tissueId)!];
+ const visited=new Set<string>(),queue:{x:number;y:number}[]=[after.find(c=>c.tissueId===tissueId)!];
  visited.add(key(queue[0]));
  for(let i=0;i<queue.length;i++)for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
   if(!dx&&!dy)continue;
   const k=(queue[i].x+dx)+","+(queue[i].y+dy);
   if(occupied.has(k)&&!visited.has(k)){
-   visited.add(k);queue.push({x:queue[i].x+dx,y:queue[i].y+dy} as MaterialCell);
+   visited.add(k);queue.push({x:queue[i].x+dx,y:queue[i].y+dy});
   }
  }
  if(visited.size!==occupied.size)return null;
