@@ -246,3 +246,80 @@ export function proposeRegionalSlip(graph:MaterialGraph,tissueId:string,
   cellId:cell.id,from:{x:cell.x,y:cell.y},to:p,
  }))};
 }
+
+
+/**
+ * Conservative multi-region bending, distinct from both front dilation and
+ * whole-organ rotation. Its opposite perimeter bands translate in opposite
+ * directions, while the intermediate source-owned bridge stays in place.
+ *
+ * Let U be the ascending unique integer coordinates along the axis normal
+ * to direction D. The outer thirds are U[0..floor((N-1)/3)] and
+ * U[ceil(2*(N-1)/3)..N-1]. Each top-band cell moves +D, each bottom-band
+ * cell -D, and all middle-band cells remain. All cells persist unchanged in
+ * identity, tissue, color, ancestry and mass. No inferred part names.
+ * Invariants: N>=3, intact links, legal integer 64² positions, maintained
+ * source feature contact, intact voids, exactly 8-connected live tissue.
+ * Bounded by at most 4096 cell moves and deterministic for a given graph.
+ */
+export function proposeRegionalBend(graph:MaterialGraph,tissueId:string,
+ direction:Readonly<{x:number;y:number}>):RegionalSlip|null{
+ if(!tissueId||!directions.some(([x,y])=>direction.x===x&&direction.y===y))
+  throw new RangeError("Invalid physical regional bend");
+ const own=graph.cells.filter(c=>c.tissueId===tissueId);
+ if(own.length<4)return null;
+ const cross=direction.y===0?"y":"x";
+ const tiers=[...new Set(own.map(c=>c[cross]))].sort((a,b)=>a-b);
+ if(tiers.length<3)return null;
+ const low=tiers[Math.floor((tiers.length-1)/3)],
+  high=tiers[Math.ceil(2*(tiers.length-1)/3)];
+ if(low>=high)return null;
+ const movement=new Map(own.flatMap(c=>{
+  const sign=c[cross]<=low?1:c[cross]>=high?-1:0;
+  return sign?[[c.id,{x:c.x+sign*direction.x,y:c.y+sign*direction.y}]] as const:[];
+ }));
+ if(movement.size<2)return null;
+ const others=graph.cells.filter(c=>!movement.has(c.id));
+ const occupiedOther=new Set(others.map(key));
+ const protectedVoids=new Set(graph.protectedVoids);
+ if([...movement.values()].some(p=>!inside(p.x,p.y)||
+    occupiedOther.has(key(p))||protectedVoids.has(key(p))))return null;
+ const after=graph.cells.map(c=>movement.has(c.id)?{...c,...movement.get(c.id)!}:c);
+ const newOwn=after.filter(c=>c.tissueId===tissueId);
+ const changed=new Set(newOwn.map(key)),before=new Set(own.map(key));
+ if(changed.size===before.size&&[...changed].every(k=>before.has(k)))
+  return null;
+ // A symmetric bend cannot silently replace a user's protected opening.
+ const lookup=new Map(after.map(c=>[c.id,c]));
+ if(graph.links.some(l=>{
+  const a=lookup.get(l.fromCellId??""),b=lookup.get(l.toCellId??"");
+  return !a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8;
+ }))return null;
+ const linked=new Set(graph.links.flatMap(l=>l.fromTissueId===tissueId?
+  [l.toTissueId]:l.toTissueId===tissueId?[l.fromTissueId]:[]));
+ const foreign=new Map<string,MaterialCell[]>();
+ for(const c of after)if(c.tissueId!==tissueId){
+  const list=foreign.get(key(c))??[];list.push(c);foreign.set(key(c),list);
+ }
+ for(const c of newOwn)if(movement.has(c.id))
+  for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++)
+   if((foreign.get((c.x+x)+","+(c.y+y))??[]).some(o=>
+     !linked.has(o.tissueId)))return null;
+ if(anatomicalContinuityFailure(graph.sourceCells,after,{
+    links:graph.links,protectedVoids:graph.protectedVoids}))return null;
+ const visited=new Set<string>(),queue:{x:number;y:number}[]=[newOwn[0]];
+ visited.add(key(queue[0]));
+ for(let i=0;i<queue.length;i++)for(let dy=-1;dy<=1;dy++)
+  for(let dx=-1;dx<=1;dx++){
+   if(!dx&&!dy)continue;
+   const p=(queue[i].x+dx)+","+(queue[i].y+dy);
+   if(changed.has(p)&&!visited.has(p)){
+    visited.add(p);queue.push({x:queue[i].x+dx,y:queue[i].y+dy});
+   }
+  }
+ if(visited.size!==changed.size)return null;
+ return {cells:after,relocated:own.flatMap(c=>{
+  const p=movement.get(c.id);
+  return p?[{cellId:c.id,from:{x:c.x,y:c.y},to:p}]:[];
+ })};
+}
