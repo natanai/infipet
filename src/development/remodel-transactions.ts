@@ -1,5 +1,5 @@
 import {journalMaterialEvent} from "./material-journal";
-import {proposeCoherentReshape} from "./coordinated-metamorphosis";
+import {proposeCoherentReshape,proposeArticulatedTurn} from "./coordinated-metamorphosis";
 import {proposeTissueReflow} from "./tissue-reflow";
 import {isLatticeConnected} from "./lattice-connectivity";
 import {proposeDevelopmentalRepatterning,repatterningExpression} from "./developmental-repatterning";
@@ -132,6 +132,9 @@ function checked(op: RemodelOperation): string | null {
       !Number.isFinite(op.direction.y)))) return "invalid-operator";
   if(op.kind==="reattach" && !op.targetTissueId) return "missing-target-tissue";
   if(op.kind==="repurpose" && !op.targetKind) return "missing-functional-kind";
+  if(op.kind==="articulate"&&op.direction&&
+    (Math.abs(op.direction.x)!==1||op.direction.y!==0))
+    return "invalid-articulation-direction";
   if(["reposition"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-reposition-direction";
@@ -611,12 +614,25 @@ export function applyRemodelingProposal(
             {...t,parentId:targetId,relationship:"joint"}:t)};
       }
     } else if(op.kind==="articulate") {
-      const cut=[...group].sort(cmp).find(c=>group.length>=3 &&
-        !connected(group.filter(a=>a.id!==c.id)));
-      if(!cut)reason="no-supported-hinge";
-      else if(chronology.hinges.some(h=>h.tissueId===op.tissueId))
-        reason="already-articulated";
-      else hinge={tissueId:op.tissueId,cellId:cut.id,operationId:op.id};
+      if(op.direction){
+        // Actual organ articulation is a permanent physical reorganization.
+        // The authored joint cell stays put; all other material in the same
+        // named tissue rotates around it with conserved identity and area.
+        const sign=op.direction.x===1?1:op.direction.x===-1?-1:0;
+        const turn=sign?proposeArticulatedTurn(graph,op.tissueId,sign as 1|-1):null;
+        if(!turn)reason="no-admissible-joint-rotation";
+        else{
+          next={...graph,cells:turn.cells};
+          relocated.push(...turn.relocated);
+        }
+      }else{
+        const cut=[...group].sort(cmp).find(c=>group.length>=3 &&
+          !connected(group.filter(a=>a.id!==c.id)));
+        if(!cut)reason="no-supported-hinge";
+        else if(chronology.hinges.some(h=>h.tissueId===op.tissueId))
+          reason="already-articulated";
+        else hinge={tissueId:op.tissueId,cellId:cut.id,operationId:op.id};
+      }
     }
   }
   // Postcondition verification is on tentative graph. Failure rolls
