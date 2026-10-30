@@ -73,13 +73,13 @@ care chronology and material renderer. Their IDs are only gallery labels.
 | ribbon | `8H8I8TGRZ` | Horizontal Body strand |
 | spire | `8W8A8FQRZ` | Tall narrow Body stalk |
 | halo | `8M8E8JBRZ` | Body ring with protected opening |
-| fork | `8C8L8WGRZ` | Body plus two authored Arms |
-| drop | `8F8H8ASRZ` | Teardrop Body plus an authored Tail |
+| fork | `8C8L8WGRYZ` | Body plus two authored Arms |
+| drop | `8F8H8ASRYZ` | Teardrop Body plus an authored Tail |
 | mushroom | `8I8W8TBRZ` | Body stalk plus an authored Head/cap |
-| kite | `8E8L8HGRZ` | Body diamond, two Wings, two Eyes, Mouth |
+| kite | `8E8L8HGRYZ` | Body diamond, two Wings, two Eyes, Mouth |
 | twins | `8M8W8FBRZ` | Two independent Body islands |
 | crescent | `8A8I8JGRZ` | Curved Body with open negative space |
-| tripod | `8E8W8TBRZ` | Small Body plus three authored Legs |
+| tripod | `8E8W8TBRYZ` | Small Body plus three authored Legs |
 | zigzag | `8L8F8HGRZ` | Angular undifferentiated Body |
 
 Repeated doses provide more *independent tickets* for a candidate feature,
