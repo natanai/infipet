@@ -10,7 +10,7 @@
  * Output: <=16 atomic replacements and one-unit relocations, or null.
  * Same inputs always give the same proposal; there is no sprite target.
  */
-import type {MaterialCell,MaterialGraph} from "./material-graph";
+import type {MaterialCell,MaterialGraph,MaterialLink} from "./material-graph";
 export type RegionFrontProposal=Readonly<{
  cells:readonly MaterialCell[];
  createdCells:readonly MaterialCell[];
@@ -113,6 +113,7 @@ export function proposeCoherentReshape(graph:MaterialGraph,tissueId:string,
 import {anatomicalContinuityFailure} from "./anatomical-continuity";
 export type RegionalSlip=Readonly<{
  cells:readonly MaterialCell[];
+ links?:readonly MaterialLink[];
  relocated:readonly Readonly<{cellId:string;from:Readonly<{x:number;y:number}>;to:Readonly<{x:number;y:number}>}>[];
 }>;
 export type ArticulatedTurn=RegionalSlip&Readonly<{
@@ -139,7 +140,7 @@ const compareIds=(a:string,b:string)=>a<b?-1:a>b?1:0;
  */
 function completeAttachedTransformation(
  graph:MaterialGraph,tissueId:string,root:ReadonlyMap<string,LatticePoint>,
- rotation?:QuarterTurn,
+ rotation?:QuarterTurn,reanchor=false,
 ):RegionalSlip|null{
  const original=new Map(graph.cells.map(c=>[c.id,c]));
  const changed=new Map<string,LatticePoint>(root);
@@ -192,7 +193,27 @@ function completeAttachedTransformation(
   slot.push(cell);occupants.set(key(cell),slot);
  }
  const byId=new Map(cells.map(c=>[c.id,c]));
- for(const link of graph.links){
+ // An authored head/organ migrates ALONG its existing host. Its attached
+ // facial/limb descendants move as the same physical material subtree.
+ // Only the HOST endpoint is permitted to change. No fabricated joint,
+ // parent ID, source type, or user-painted pixel can appear.
+ let postLinks:readonly MaterialLink[]=graph.links;
+ if(reanchor){
+  const originalLink=graph.links.find(l=>l.kind==="attachment"&&
+    l.fromTissueId===tissueId&&l.fromCellId&&l.toCellId);
+  if(originalLink){
+   const child=byId.get(originalLink.fromCellId!);
+   if(!child)return null;
+   const hosts=cells.filter(c=>c.tissueId===originalLink.toTissueId)
+    .map(c=>({cell:c,d:(c.x-child.x)**2+(c.y-child.y)**2}))
+    .filter(pair=>pair.d<=8)
+    .sort((a,b)=>a.d-b.d||compareIds(a.cell.id,b.cell.id));
+   if(!hosts.length)return null;
+   postLinks=graph.links.map(l=>l.id===originalLink.id?
+    {...l,toCellId:hosts[0].cell.id}:l);
+  }
+ }
+ for(const link of postLinks){
   const a=byId.get(link.fromCellId??""),b=byId.get(link.toCellId??"");
   if(!a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8)return null;
  }
@@ -244,8 +265,8 @@ function completeAttachedTransformation(
   if(seen.size!==occupied.size)return null;
  }
  if(anatomicalContinuityFailure(graph.sourceCells,cells,{
-  links:graph.links,protectedVoids:graph.protectedVoids}))return null;
- return {cells,relocated:graph.cells.flatMap(c=>{
+  links:postLinks,protectedVoids:graph.protectedVoids}))return null;
+ return {cells,...(reanchor?{links:postLinks}:{}),relocated:graph.cells.flatMap(c=>{
   const p=changed.get(c.id);
   return p&&(p.x!==c.x||p.y!==c.y)?
    [{cellId:c.id,from:{x:c.x,y:c.y},to:{x:p.x,y:p.y}}]:[];
@@ -314,4 +335,25 @@ export function proposeRegionalBend(graph:MaterialGraph,tissueId:string,
   if(sign)root.set(c.id,{x:c.x+sign*direction.x,y:c.y+sign*direction.y});
  }
  return root.size>=2?completeAttachedTransformation(graph,tissueId,root):null;
+}
+
+/**
+ * Physically migrate an authored anatomical component one lattice site.
+ * Its FULL attached descendant subtree follows the parent, so a head can
+ * take the player's eyes, mouth, markings, and later grown tissue with it.
+ * Reanchor only its EXISTING host joint to the closest live host cell.
+ *
+ * This restores a key historical capability as permanent ontogeny rather
+ * than the old renderer's unaudited region/sprite displacement.
+ */
+export function proposeAttachedMigration(graph:MaterialGraph,tissueId:string,
+ direction:LatticePoint):RegionalSlip|null{
+ if(!tissueId||!directions.some(([x,y])=>direction.x===x&&direction.y===y))
+  throw new RangeError("Invalid original-anatomy physical migration");
+ const own=graph.cells.filter(c=>c.tissueId===tissueId);
+ if(!own.length)return null;
+ const root=new Map(own.map(c=>[c.id,{
+  x:c.x+direction.x,y:c.y+direction.y,
+ }] as const));
+ return completeAttachedTransformation(graph,tissueId,root,undefined,true);
 }
