@@ -147,7 +147,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "resorb": return c.maturation.plasticity;
     case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
-    case "redistribute": case "slip": case "bend": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "redistribute": case "slip": case "bend": case "intercalate": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity>=0.2?1:0;
