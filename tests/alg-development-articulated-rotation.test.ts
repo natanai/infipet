@@ -413,7 +413,7 @@ test("complex six-region drawings retain every eligible real joint-movement stag
     "reserve one late whole-body phase without starving alternative physical hosts");
   const terminal=program.operations.filter(op=>op.id==="terminal-physical-organization");
   assert.equal(terminal.length,1);
-  assert.equal(terminal[0].kind,"slip");
+  assert.equal(terminal[0].kind,"shear");
   assert.equal(terminal[0].atHour,330);
   assert.equal(terminal[0].atHour+terminal[0].durationHours,364);
   assert.equal(terminal[0].units,12);
