@@ -266,12 +266,16 @@ This v14 run still **FAILED** the preregistered ≥80% per-stage and ≥75%
 complete-lifetime standards. The high-care mean normalized Adult→Elder
 silhouette difference was ~0.155 versus the required 0.18.
 
-The subsequent v15 experiment adds a further **optional** late-Elder
-source-owned contour-transport opportunity using only otherwise unspent
-genetic operation slots. It cannot bypass the 64-operation cap, replace
-existing anatomical/phylogenetic source identities, or generate any
-target stage sprite. Its actual five-form cohort has NOT yet been verified
-as passing; the failed v14 result remains the current complete record.
+A subsequent v15 experiment added an extra late-Elder material
+opportunity from day 317 to 364 using otherwise unspent genetic slots.
+Its independent [run 41165576898](https://github.com/natanai/infipet/actions/runs/41165576898)
+**REGRESSED** Adult→Elder to **31/48** and full five-form lives to
+**24/48**, despite passing the source-conservation, type and physical
+scheduling tests. It also increased runtime. The extra window was
+**reverted**, restoring the better-performing v14 eight-corridor schedule.
+This is important evidence that *additional movement is not sufficient
+and may disturb coherent developmental organization*. The stage identity
+gate remains FAILED (Adult→Elder 35/48; complete five-form 28/48).
 
 The eight-corridor operator moves existing identities by exactly one
 8-neighbor lattice site each. A daily transaction contains at most eight
