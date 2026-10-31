@@ -1219,7 +1219,7 @@ export function createSimulation(
       )
         return null;
       const frame = frameAt(age, { time: 0, action: "idle" });
-      if (frame.stage === "egg") return null;
+      if (mode === "egg" && age < hatchAt) return null;
       const physical=unified.at(physicalHour(age)),byId=new Map(physical.graph.cells.map(c=>[c.id,c]));
       const allowed=new Set(frame.parts.filter(p=>!["eye","mouth","decoration"].includes(p.kind)).map(p=>p.id));
       const nearest=frame.parts.filter(p=>allowed.has(p.id)).flatMap(p=>p.pixels)
