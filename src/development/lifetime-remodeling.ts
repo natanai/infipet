@@ -449,8 +449,13 @@ export function compileLifetimeRemodeling(
     const axes=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
     for(const head of headCandidates.slice(0,2)){
       const attainable=axes.filter(d=>!!proposeAttachedMigration(base.source,head.id,d));
-      const opportunities=[{day:45,duration:45},{day:180,duration:95},
-        {day:281,duration:65}];
+      const opportunities=[
+        // Begin while source-defined joints are still physically clear.
+        // Subsequent lifetime epochs keep permanent opportunities available;
+        // no intra-day move or prescribed destination is introduced.
+        {day:0,duration:12},{day:81,duration:70},
+        {day:171,duration:90},{day:281,duration:65},
+      ];
       for(const [stage,window] of opportunities.entries()){
         if(operations.length>=REMODEL_LIMITS.maxOperations)break;
         const n=hash(genome.seed+"|head-migration|"+head.id+"|"+stage);
