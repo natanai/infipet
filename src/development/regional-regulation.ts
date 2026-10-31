@@ -33,7 +33,7 @@ import {hash} from "../simulation/model";
 import {developmentalStageIndex,stageAtCheck,transitionPressure,
   STAGE_PRESSURE_WEIGHTS} from "./stage-contract";
 
-export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v14" as const;
+export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v15" as const;
 /** A new bud receives the square-root material scale of its birth region,
  * rather than being permanently starved as a one-cell birth drawing. The
  * genome, four-credit competition and all material caps remain unchanged. */
