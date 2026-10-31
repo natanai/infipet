@@ -40,6 +40,15 @@ test("[STAGE-002/A2] each original genotype gets real non-additive regional oppo
   const first=compileLifetimeRemodeling(compiled,genome);
   assert.ok(first.operations.length<=REMODEL_LIMITS.maxOperations,
     "finite lifetime remodeling schedule cannot exceed existing genetic operation count");
+  const intercalations=first.operations.filter(op=>op.kind==="intercalate");
+  assert.ok(intercalations.length>=1&&intercalations.length<=2,
+    "each source body must receive a late mass-conserving material intercalation window");
+  const elder=intercalations.find(op=>op.id==="stage/elder/intercalate");
+  assert.ok(elder);
+  assert.equal(elder.atHour,STAGE_BOUNDARY_CHECKS[3]-4);
+  assert.equal(elder.atHour+elder.durationHours,337);
+  assert.equal(elder.units,REMODEL_LIMITS.maxUnits);
+  assert.ok(elder.strength>0&&elder.strength<=1);
   const primary=first.operations.filter(op=>op.id.startsWith("developmental-repattern/"));
   assert.equal(primary.length,DEVELOPMENT_STAGES.length);
   for(const [i,epoch] of DEVELOPMENT_STAGES.entries()){
