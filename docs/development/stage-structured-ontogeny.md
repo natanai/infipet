@@ -368,3 +368,71 @@ standard (93/144 passing); this remains an open product blocker.
 The current authored-head mechanism is deployed only to the **experimental
 `site-test` branch** when its GitHub Pages publish action is successful.
 The original development PR #58 remains DRAFT and main remains unchanged.
+
+## 8. Physically derived anatomy within an unlabeled single brushstroke
+
+Earlier head migration required explicit source `head` + attached `eye`
+parts. This remained insufficient for a player who simply drew an arbitrary
+unlabeled shape, and under the previous renderer it appeared as bulk growth.
+
+The draft v18 genetic and chronological physical engine adds TWO general
+source-derived, topology-grounded developmental capabilities:
+
+1. **Articulated source lobe**: For a single original 8-connected tissue,
+   compute real cut vertices in the player's original pixel adjacency
+   graph (not semantic organ inference). A qualifying original vertex must
+   separate two connected components of at least two original pixels,
+   with the selected lobe covering at most 48% of the remaining source.
+   Choose among ONLY physically feasible original quarter-turns via the
+   permanent genetic seed. Record the exact original hinge cell ID,
+   original distal cell ID and signed ±90-degree turn as a fixed genetic
+   ticket. Later proposals require those same original source IDs to still
+   exist in the living graph. A single coherent living component must remain
+   attached to the stationary hinge. Every moved material identity obeys
+   `(x',y')=(h_x-s(y-h_y), h_y+s(x-h_x))`; all other cells stay where they
+   were. Collision, broken original contour, cavity, changed source
+   ownership or severed attachments cancel the WHOLE atomic event.
+   Bounded input: 6–256 original cells at birth, 6–512 living tissue cells
+   when attempted; a candidate moves at least two original coordinates.
+
+2. **Jointless, solid source plasticity**: When no birth-feasible source
+   lobe turn exists, a single source-only organism can use the previously
+   independently audited **whole-organism lattice shear**. The direction
+   is chosen from physically feasible birth axes using the permanent seed.
+   It moves a coherent half-space of all actually existing material exactly
+   one lattice step, with no added/deleted material. It does not infer a
+   Head, Arm or particular species.
+
+**Critical causal ordering repair:** the previous day-one growth schedule
+deposited material BEFORE remodeling. That made the original authored
+hinge inaccessible by the time its first lobe turn was due. The draft v18
+runtime now permits ONLY the immutable birth-derived `lobe-turn` or exact
+`source-solid/shear` physical ticket to execute at daily check 1 before
+new material deposition. It still uses the real daily rest/resource gate;
+age 0 preserves the original drawing, and day 1 is the first permitted
+chronological change. All subsequent material→remodeling→iterative ordering
+is unchanged. The first lobe ticket has eight source-owned opportunities
+over eight real daily checks, with no between-check anatomical changes.
+
+The independent `spatial-inventory.ts` oracle does **not** call the
+producer's geometry routine: it independently reconstructs the entire
+current eight-neighbor component on deletion of the specific original
+hinge, proves the original distal cell belongs to it, and verifies every
+exact ±90-degree identity relocation. Partial, duplicated or invented
+material is rejected. Existing full transaction source-conservation and
+mechanical continuity checks remain mandatory.
+
+Focused evidence from [Actions run 41240126729](https://github.com/natanai/infipet/actions/runs/41240126729):
+the real Body-only neck/lobe drawing produced a day-one physically committed
+six-original-cell quarter turn with zero mass change from that operation;
+an unlabelled solid rectangle without any valid original hinge produced
+four accepted whole-body material shears moving 18–23 existing cells per
+event. TypeScript, five-epoch contracts, prior articulated-head regression,
+independent physical reconstruction and the existing focused anti-bulk
+properties all passed. A separate full-year source-only rendering regression
+is being qualified in subsequent workflow runs.
+
+**Limit:** This restores two genuine non-additive classes of physical
+transformation but does NOT imply every unlabeled shape, plant or fantasy
+organism has five radically distinct stages. The standing 144-lifetime
+five-form acceptance remains failed until rerun and met honestly.
