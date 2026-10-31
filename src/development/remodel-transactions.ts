@@ -3,6 +3,7 @@ import {proposeCoherentReshape,proposeArticulatedTurn,proposeRegionalSlip,propos
 import {proposeTissueReflow} from "./tissue-reflow";
 import {proposeDenseIntercalation} from "./dense-intercalation";
 import {proposeWholeOrganismShear} from "./whole-organism-shear";
+import {proposeSourceLobeTurn} from "./source-lobe-turn";
 import {isLatticeConnected} from "./lattice-connectivity";
 import {proposeDevelopmentalRepatterning,repatterningExpression} from "./developmental-repatterning";
 import {anatomicalContinuityFailure,anatomicalEditGuard,sourceOverlay} from "./anatomical-continuity";
@@ -119,7 +120,7 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
     case "redistribute": case "slip": case "bend": case "shear": case "intercalate": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
-    case "reattach": case "articulate": return c.segmentation.boundaries;
+    case "reattach": case "articulate": case "lobe-turn": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity+
       Math.min(0.3,0.12*(p.processGenes?.repurposing??0))>=0.3?1:0;
   }
@@ -134,6 +135,9 @@ function checked(op: RemodelOperation): string | null {
       !Number.isFinite(op.direction.y)))) return "invalid-operator";
   if(op.kind==="reattach" && !op.targetTissueId) return "missing-target-tissue";
   if(op.kind==="repurpose" && !op.targetKind) return "missing-functional-kind";
+  if(op.kind==="lobe-turn"&&(!op.sourceSiteId||
+    !op.direction||Math.abs(op.direction.x)!==1||op.direction.y!==0))
+    return "invalid-lobe-articulation";
   if(op.kind==="articulate"&&op.direction&&
     (Math.abs(op.direction.x)!==1||op.direction.y!==0))
     return "invalid-articulation-direction";
@@ -470,6 +474,25 @@ export function applyRemodelingProposal(
         }
         next={...graph,cells:proposed.cells,sites:proposed.sites,tissues:proposed.tissues,
           links:proposed.links,protectedVoids:proposed.protectedVoids};
+      }
+    } else if(op.kind==="lobe-turn") {
+      // Rotate one birth-defined physical lobe around a real source cut
+      // vertex. Never infer Head/Arm semantic labels or render a target sprite.
+      let hingeId="",distalId="";
+      try{
+        const ids=JSON.parse(op.sourceSiteId??"null");
+        if(Array.isArray(ids)&&ids.length===2&&
+           ids.every((x:unknown)=>typeof x==="string"))
+          [hingeId,distalId]=ids;
+      }catch{/* malformed immutable genetic ticket: no physical event */}
+      const sign=op.direction?.x===1?1:op.direction?.x===-1?-1:0;
+      const proposed=sign&&hingeId&&distalId?
+        proposeSourceLobeTurn(graph,op.tissueId,hingeId,distalId,
+          sign as 1|-1):null;
+      if(!proposed)reason="no-admissible-source-lobe-articulation";
+      else{
+        next={...graph,cells:proposed.cells};
+        relocated.push(...proposed.relocated);
       }
     } else if(op.kind==="bend") {
       const proposed=proposeRegionalBend(graph,op.tissueId,op.direction!);
