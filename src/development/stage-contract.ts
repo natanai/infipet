@@ -56,30 +56,3 @@ export const STAGE_PRESSURE_WEIGHTS = {
  adult: {reorganization:0.9,articulation:0.9,reattachment:1,specialization:1,consolidation:0.9},
  elder: {reorganization:0.9,articulation:0.7,reattachment:0.8,specialization:1,consolidation:0.8},
 } as const satisfies Record<DevelopmentStage,Record<string,number>>;
-
-/**
- * Physiological allocation of daily material-creation credits.
- *
- * The existing daily resource input independently gates all material changes.
- * This bounded stage quota applies ONLY to new-cell deposition in the
- * daily-365 physical engine; it does NOT reduce care, genome expression,
- * physical remodeling opportunities, or historical hourly-growth semantics.
- * Mature tissue diverts otherwise proliferative resources toward upkeep
- * and source-owned material remodeling, which remains chronologically
- * and genetically gated by its original program.
- *
- * A fixed integer ceiling is an initial deterministic game-model assumption,
- * NOT a measured biological growth-rate claim or adult sprite plan.
- */
-export const STAGE_DEPOSITION_CEILINGS={
- egg:3,infant:4,teen:4,adult:2,elder:1,
-} as const satisfies Record<DevelopmentStage,number>;
-export function physicalGrowthCredits(check:number,resources:number,
- creditsPerCheck=4):number{
- const stage=stageAtCheck(check);
- if(!Number.isFinite(resources)||resources<0||resources>1||
-    !Number.isSafeInteger(creditsPerCheck)||creditsPerCheck<0||creditsPerCheck>4)
-  throw new RangeError("Invalid stage physical growth resource contract");
- return Math.min(Math.floor(creditsPerCheck*resources),
-  STAGE_DEPOSITION_CEILINGS[stage]);
-}
