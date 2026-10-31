@@ -1,6 +1,6 @@
 # Stage-structured procedural ontogeny — implementation specification (PROPOSED)
 
-**Status:** Approved product direction; **NOT implemented, verified, merged, or deployed** by this document. This is a new development contract, not a description of the current v11 engine. This specification supersedes the *age-stage intent* of the retired 0/30/75/365 milestone mapping, but does not replace the existing 365-day physical clock or override material conservation.
+**Status:** Phased implementation on the unmerged v12 draft. The canonical five-epoch clock, stage-indexed growth field, and boundary-centered regional opportunities have been implemented and their focused tests added. **Five distinct forms are NOT yet independently qualified or deployed.** This is a normative acceptance contract, not evidence that an entire stage-identity cohort passes. This specification supersedes the *age-stage intent* of the retired 0/30/75/365 milestone mapping, but does not replace the existing 365-day physical clock or override material conservation.
 
 **Objective.** The SAME player-authored organism passes through five visibly distinguishable developmental body plans—**Egg, Infant, Teen, Adult, Elder**—in one lifetime. Each should have a recognizable, original, causally generated silhouette and feature emphasis. The player observes a gradual series of daily source-owned pixel changes between forms, not an abrupt sprite swap. Tamagotchi, Digimon and Pokémon motivate *developmental contrast*, not fixed species targets, sprite masks, or per-starter recipes.
 
