@@ -9,6 +9,7 @@ import {STARTER_PRESETS} from "../src/presets";
 import {morphologySources} from "../src/evaluation/morphology-cohort";
 import {createSimulation} from "../src/simulation";
 import {proposeRegionalSlip,proposeRegionalBend} from "../src/development/coordinated-metamorphosis";
+import {proposeTissueReflow} from "../src/development/tissue-reflow";
 import type {PreviewCareInputs} from "../src/integration/daily-runtime";
 const dirs=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
 test("measure original-material reconfiguration feasibility of mature high-care and low-care pets",{
@@ -32,7 +33,8 @@ test("measure original-material reconfiguration feasibility of mature high-care 
  ];
  const ages=[281,330,345] as const;
  const aggregate:Record<string,{
-  n:number,anySlip:number,anyBend:number,allBlocked:number,
+  n:number,anySlip:number,anyBend:number,anyReflow:number,
+  allBlocked:number,allFamiliesBlocked:number,
   meanCells:number,meanSourceCells:number}>={};
  const samples:unknown[]=[];
  for(const source of sources)for(const seed of ["8E8L8WRZ","8W8E8LRZ"])
@@ -46,15 +48,19 @@ test("measure original-material reconfiguration feasibility of mature high-care 
     if(!tid)continue;
     const slippage=dirs.map(d=>!!proposeRegionalSlip(graph,tid,d));
     const bending=dirs.map(d=>!!proposeRegionalBend(graph,tid,d));
+    const reflow=dirs.map(d=>!!proposeTissueReflow(graph,tid,d));
     const key=age+"/"+care.nutrition;
     const counts=aggregate[key]??={n:0,anySlip:0,anyBend:0,
-      allBlocked:0,meanCells:0,meanSourceCells:0};
+      anyReflow:0,allBlocked:0,allFamiliesBlocked:0,
+      meanCells:0,meanSourceCells:0};
     counts.n++;counts.anySlip+=Number(slippage.some(Boolean));
     counts.anyBend+=Number(bending.some(Boolean));
+    counts.anyReflow+=Number(reflow.some(Boolean));
+    counts.allFamiliesBlocked+=Number(![...slippage,...bending,...reflow].some(Boolean));
     counts.allBlocked+=Number(![...slippage,...bending].some(Boolean));
     counts.meanCells+=graph.cells.length;counts.meanSourceCells+=graph.sourceCells.length;
     samples.push({id:source.id,seed,age,care:care.nutrition,
-      slippage,bending,cellCount:graph.cells.length});
+      slippage,bending,reflow,cellCount:graph.cells.length});
    }
   }
  for(const row of Object.values(aggregate)){
