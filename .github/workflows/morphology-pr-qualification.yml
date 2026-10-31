@@ -35,9 +35,6 @@ jobs:
         run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
       - name: Independent stage identity anti-bulk oracle
         run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
-      - name: Mature source-owned deformation feasibility
-        timeout-minutes: 12
-        env:
-          MATURE_GEOMETRY_DIAGNOSTIC: '1'
-        run: pnpm exec tsx --test tests/alg-evaluation-elder-reachability.test.ts
-# Qualification revision 9: diagnose physically legal orientation alternatives in mature dense bodies.
+      - name: Dense source material intercalation and independent replay
+        run: pnpm exec tsx --test tests/alg-development-dense-intercalation.test.ts
+# Qualification revision 10: test conserved vacancy-chain transport with independent chronological audit.
