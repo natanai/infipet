@@ -408,8 +408,14 @@ test("complex six-region drawings retain every eligible real joint-movement stag
   assert.ok(program.operations.some(o=>o.kind==="slip"));
   assert.ok(program.operations.some(o=>o.kind==="bend"));
   const topology=program.operations.filter(o=>o.kind==="reattach");
-  assert.equal(topology.length,3,
-    "three physical topology opportunities must survive the finite genetic budget");
+  assert.ok(topology.length>=2&&topology.length<=3,
+    "reserve one late whole-body phase without starving alternative physical hosts");
+  const terminal=program.operations.filter(op=>op.id==="terminal-physical-organization");
+  assert.equal(terminal.length,1);
+  assert.equal(terminal[0].kind,"slip");
+  assert.equal(terminal[0].atHour,330);
+  assert.equal(terminal[0].atHour+terminal[0].durationHours,364);
+  assert.equal(terminal[0].units,12);
   const birthParents=new Map(physical.source.links.filter(l=>l.kind==="attachment")
     .map(l=>[l.fromTissueId,l.toTissueId] as const));
   for(const op of topology){
