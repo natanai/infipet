@@ -2,6 +2,7 @@ import {journalMaterialEvent} from "./material-journal";
 import {proposeCoherentReshape,proposeArticulatedTurn,proposeRegionalSlip,proposeRegionalBend} from "./coordinated-metamorphosis";
 import {proposeTissueReflow} from "./tissue-reflow";
 import {proposeDenseIntercalation} from "./dense-intercalation";
+import {proposeWholeOrganismShear} from "./whole-organism-shear";
 import {isLatticeConnected} from "./lattice-connectivity";
 import {proposeDevelopmentalRepatterning,repatterningExpression} from "./developmental-repatterning";
 import {anatomicalContinuityFailure,anatomicalEditGuard,sourceOverlay} from "./anatomical-continuity";
@@ -116,7 +117,7 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "reinforce": return c.support.rigidity;
     case "resorb": case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
-    case "redistribute": case "slip": case "bend": case "intercalate": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "redistribute": case "slip": case "bend": case "shear": case "intercalate": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": case "articulate": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity+
@@ -139,7 +140,7 @@ function checked(op: RemodelOperation): string | null {
   if(["reposition"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-reposition-direction";
-  if(["reshape","redistribute","slip","bend","intercalate"].includes(op.kind) &&
+  if(["reshape","redistribute","slip","bend","shear","intercalate"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-regional-direction";
   if(op.chaos) {
@@ -482,6 +483,16 @@ export function applyRemodelingProposal(
       // permitted, unlike the legacy front reshape.
       const proposed=proposeRegionalSlip(graph,op.tissueId,op.direction!);
       if(!proposed)reason="no-admissible-regional-slip";
+      else{
+        next={...graph,cells:proposed.cells};
+        relocated.push(...proposed.relocated);
+      }
+    } else if(op.kind==="shear") {
+      // Across ALL tissues: a source-owned coherent global lattice shear,
+      // independently verified from the PRE-EVENT graph. The actual physical
+      // cells move; neither source identities nor anatomical kinds change.
+      const proposed=proposeWholeOrganismShear(graph,op.direction!);
+      if(!proposed)reason="no-admissible-global-shear";
       else{
         next={...graph,cells:proposed.cells};
         relocated.push(...proposed.relocated);
