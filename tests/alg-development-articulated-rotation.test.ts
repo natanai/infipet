@@ -407,6 +407,24 @@ test("complex six-region drawings retain every eligible real joint-movement stag
   assert.ok(program.operations.some(o=>o.kind==="repattern"));
   assert.ok(program.operations.some(o=>o.kind==="slip"));
   assert.ok(program.operations.some(o=>o.kind==="bend"));
+  const topology=program.operations.filter(o=>o.kind==="reattach");
+  assert.equal(topology.length,3,
+    "three physical topology opportunities must survive the finite genetic budget");
+  const birthParents=new Map(physical.source.links.filter(l=>l.kind==="attachment")
+    .map(l=>[l.fromTissueId,l.toTissueId]));
+  for(const op of topology){
+    assert.ok(op.targetTissueId&&op.targetTissueId!==op.tissueId);
+    assert.notEqual(op.targetTissueId,birthParents.get(op.tissueId));
+    assert.ok(physical.source.tissues.some(t=>t.id===op.targetTissueId));
+    let current:string|undefined=op.targetTissueId;
+    const seen=new Set<string>();
+    while(current){
+      assert.notEqual(current,op.tissueId,"cannot attach to a descendant");
+      assert.ok(!seen.has(current),"source topology must not cycle");
+      seen.add(current);current=birthParents.get(current);
+    }
+    assert.ok(op.atHour+op.durationHours<=365);
+  }
   const rotation=program.operations.filter(o=>o.id.startsWith("migrate/")&&
     o.kind==="articulate"&&o.direction);
   assert.equal(rotation.length,12,
