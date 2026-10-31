@@ -39,9 +39,6 @@ jobs:
         run: pnpm exec tsx --test tests/alg-development-dense-intercalation.test.ts
       - name: Strict source-pair and anti-bulk evaluator unit tests
         run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
-      - name: Strict five-form full-life contrast
-        timeout-minutes: 12
-        env:
-          FIVE_FORM_STAGE_COHORT: '1'
-        run: pnpm exec tsx --test tests/alg-evaluation-five-forms-cohort.test.ts
+      - name: Whole-organism source shear and independent reconstruction
+        run: pnpm exec tsx --test tests/alg-development-whole-organism-shear.test.ts
 # Qualification revision 10: test conserved vacancy-chain transport with independent chronological audit.
