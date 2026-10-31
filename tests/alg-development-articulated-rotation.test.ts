@@ -531,8 +531,11 @@ test("the independent journal reconstructs every descendant and rejects a missin
   createdCellIds:[],removedCellIds:[],careDigest:"independent/nested",
   genomeFingerprint:"nested/source-provenance"};
  const prior={...graph,cells:turn.cells};
- const withJournal=journalMaterialEvent(graph,prior,originalEvent,
+ const baseEvent=journalMaterialEvent(graph,prior,originalEvent,
   "remodeling",operation);
+ const withJournal={...baseEvent,physical:{...baseEvent.physical!,
+  relocations:baseEvent.physical!.relocations.map(m=>({...m,
+   checkIndex:1,atMs:HATCH+DAY}))}};
  const final={...prior,events:[withJournal]};
  verifyDailyMaterialInventory(final,HATCH,1,graph);
  const withoutEye={...final,events:[{...withJournal,physical:{
