@@ -30,7 +30,7 @@ import type {
 import type { MaterialDevelopmentProgram } from "./operators";
 import { MATERIAL_LIMITS } from "./operators";
 import {repatterningExpression} from "./developmental-repatterning";
-import {proposeArticulatedTurn} from "./coordinated-metamorphosis";
+import {proposeArticulatedTurn,proposeAttachedMigration} from "./coordinated-metamorphosis";
 import {DEVELOPMENT_STAGES,STAGE_BOUNDARY_CHECKS,STAGE_TRANSITION_HALF_WIDTH,
   STAGE_PRESSURE_WEIGHTS,stageAtCheck} from "./stage-contract";
 import {isLatticeConnected} from "./lattice-connectivity";
@@ -427,6 +427,40 @@ export function compileLifetimeRemodeling(
           // even when the original orientation is no longer admissible.
           atHour:day+index*(stage===0?0.125:3),
           durationHours:stage===0?12:40,units:8,strength:1,
+        });
+      }
+    }
+  }
+  if(!override){
+    // Historical head migration regressed when the old anatomical-region
+    // renderer was replaced by source-owned material rendering. Earlier
+    // "reposition" scheduling only included interchangeable hands, legs,
+    // wings and tails: a user-drawn HEAD received no transport ticket.
+    //
+    // Reserve actual moving-head + face-subtree opportunities, without
+    // changing Body-only ink into an inferred head or sampling a target
+    // species/sprite. Eligible original head islands must be attached to
+    // a real host. The seed ranks the birth-feasible cardinal directions;
+    // care and the exact CURRENT graph decide whether each daily move works.
+    const headCandidates=base.source.tissues.filter(t=>
+      t.sourceCellIds.length>=2&&
+      base.source.sourceCells.some(c=>c.tissueId===t.id&&c.sourceKind==="head")&&
+      base.source.links.some(l=>l.kind==="attachment"&&l.fromTissueId===t.id));
+    const axes=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
+    for(const head of headCandidates.slice(0,2)){
+      const attainable=axes.filter(d=>!!proposeAttachedMigration(base.source,head.id,d));
+      const opportunities=[{day:45,duration:45},{day:180,duration:95},
+        {day:281,duration:65}];
+      for(const [stage,window] of opportunities.entries()){
+        if(operations.length>=REMODEL_LIMITS.maxOperations)break;
+        const n=hash(genome.seed+"|head-migration|"+head.id+"|"+stage);
+        operations.push({
+          id:"head-migration/"+encodeURIComponent(head.id)+"/"+stage,
+          kind:"reposition",tissueId:head.id,
+          direction:(attainable.length?attainable:axes)[n%
+            (attainable.length||axes.length)],
+          atHour:window.day,durationHours:window.duration,
+          units:12,strength:1,
         });
       }
     }
