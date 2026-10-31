@@ -432,6 +432,23 @@ independent physical reconstruction and the existing focused anti-bulk
 properties all passed. A separate full-year source-only rendering regression
 is being qualified in subsequent workflow runs.
 
+The focused [full-year qualification run 41240558959](https://github.com/natanai/infipet/actions/runs/41240558959)
+also passed the full 365-check auditable Body-only chronology, Elder
+renderer, source and genetic invariants. Its true source-derived
+five-form contrast measured at representative checks
+10 / 60 / 140 / 245 / 345 is:
+
+| Adjacent stage | Normalized physical silhouette difference | Qualified |
+|---|---:|---|
+| Egg → Infant | 0.2917 | Yes |
+| Infant → Teen | 0.2963 | Yes |
+| Teen → Adult | 0.3448 | Yes |
+| Adult → Elder | 0.1786 | **No (requires ≥0.18)** |
+
+All four transitions were eligible and exhibited original source-cell
+reorganization; no stage thresholds or seed were changed. This example
+is not the 144-trajectory independent generalization cohort.
+
 **Limit:** This restores two genuine non-additive classes of physical
 transformation but does NOT imply every unlabeled shape, plant or fantasy
 organism has five radically distinct stages. The standing 144-lifetime
