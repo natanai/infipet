@@ -411,7 +411,7 @@ test("complex six-region drawings retain every eligible real joint-movement stag
   assert.equal(topology.length,3,
     "three physical topology opportunities must survive the finite genetic budget");
   const birthParents=new Map(physical.source.links.filter(l=>l.kind==="attachment")
-    .map(l=>[l.fromTissueId,l.toTissueId]));
+    .map(l=>[l.fromTissueId,l.toTissueId] as const));
   for(const op of topology){
     assert.ok(op.targetTissueId&&op.targetTissueId!==op.tissueId);
     assert.notEqual(op.targetTissueId,birthParents.get(op.tissueId));
