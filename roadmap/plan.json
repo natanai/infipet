@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "infipet-artificial-life",
-  "updatedOn": "2026-10-29",
+  "updatedOn": "2026-10-30",
   "mandate": "One pet per creation: arbitrary authored ink, a permanent hidden seed, and chronological care drive that SAME organism through potentially dramatic developmental forms guided by a scientifically sourced phylogenetic possibility map. No breeding, reproduction, offspring, multi-generation mechanics or heritable change between creatures.",
   "sourceOfTruth": true,
   "lifecycle": {
@@ -2702,6 +2702,178 @@
         ]
       },
       "releaseGate": "No automated check gate. Prioritize visually coherent and fun live game, then optional manual targeted numerical diagnostics."
+    },
+    {
+      "id": "STAGE-001",
+      "phase": 5,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "One five-epoch stage clock and current-format stage presentation",
+      "dependsOn": [
+        "DEV-008"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "All 366 real daily check indices map to exactly Egg 0-20, Infant 21-80, Teen 81-170, Adult 171-280 and Elder 281-365; all boundaries and representative stages are asserted exhaustively with no independent wall-clock or intra-day anatomical edits.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Day zero equals the original player drawing, the 365th material graph remains fixed thereafter, Egg never fabricates a shell and the unified canonical Elder stage replaces the old nondeveloping elderly age label without source/genome mutation.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Same drawing, seed, engine version, care prefix and daily clock reproduce the same displayed stage and physical birth ancestry before and after JSON restoration.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-stage-contract.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-stage-contract.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "docs/development/stage-structured-ontogeny.md",
+        "src/development/stage-contract.ts",
+        "src/simulation/model.ts",
+        "src/simulation/growth.ts",
+        "src/development/daily-contract.ts",
+        "App.tsx",
+        "tests/alg-development-stage-contract.test.ts"
+      ]
+    },
+    {
+      "id": "STAGE-002",
+      "phase": 5,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "Permanent seed-derived stage pressure and four physiological transition pulses",
+      "dependsOn": [
+        "STAGE-001"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "A stage profile and four triangular transition pressure fields are computed only from authored source, fixed readable seed, permitted static possibility priors and chronological past care; no precomputed silhouette, future care, species sprite or reroll occurs.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "A 64-operation bounded genetic schedule preserves physically expressive opportunities for all four stage transitions and the Elder interval, not just birth, while permitting valid null events and preserving inherited opportunity limits.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Counterfactual future-care changes cannot modify past daily opportunities; complete same-input replay is deterministic across seeds, geometries, care histories and reload boundaries.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-stage-pressures.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-stage-pressures.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "docs/development/stage-structured-ontogeny.md",
+        "src/development/stage-contract.ts",
+        "src/development/lifetime-remodeling.ts",
+        "src/development/regional-regulation.ts",
+        "src/development/daily-step.ts",
+        "tests/alg-development-stage-pressures.test.ts"
+      ]
+    },
+    {
+      "id": "STAGE-003",
+      "phase": 5,
+      "area": "Development",
+      "algorithmId": "development",
+      "title": "Express stage-distinct non-additive anatomy via real physical material operations",
+      "dependsOn": [
+        "STAGE-002",
+        "MORPH-007"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "Stage transitions are caused by journaled source-owned reconfiguration of whole-body proportions, tissue distribution, regional specialization or existing attachment topology; no stage label, render pose, pigment or added surface-only bulk alone qualifies as metamorphosis.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Player-selected Eyes, Legs and other typed source identities remain individually causally traceable through nonrigid movement, attached carrier transformations, tissue succession and chronological care, while unseen Body-only semantics are never inferred.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "Daily physically accepted moves satisfy finite lattice occupancy, source material, provenance, feature continuity, protected cavities, no illegal joints and independent before/after reconstruction; a stage boundary cannot force a target shape.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-development-stage-physical.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-development-stage-physical.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "src/development/lifetime-remodeling.ts",
+        "src/development/remodel-transactions.ts",
+        "src/development/coordinated-metamorphosis.ts",
+        "src/development/developmental-strain.ts",
+        "src/development/tissue-reflow.ts",
+        "src/development/spatial-inventory.ts",
+        "src/development/anatomical-audit.ts",
+        "tests/alg-development-stage-physical.test.ts"
+      ]
+    },
+    {
+      "id": "STAGE-004",
+      "phase": 5,
+      "area": "Verification",
+      "algorithmId": "evaluation",
+      "title": "Independently qualify all five developmental forms beyond added mass",
+      "dependsOn": [
+        "STAGE-003"
+      ],
+      "status": "todo",
+      "acceptance": [
+        {
+          "id": "A1",
+          "requirement": "For at least 24 held-out unfamiliar drawings, three fixed independent seeds and two divergent care histories, all four adjacent stage anchor comparisons use normalized physical silhouette plus original-material pair distances or genuine preexisting-tissue reparenting; no stage label or screenshot can satisfy the oracle.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A2",
+          "requirement": "Growth-only new-branch and uniformly scaled masks, rigid whole-body pose/translation, counterfeit persistent identity, forged attachments and future-care mutation fail independently derived metamorphosis and material causality checks.",
+          "oracle": "focused-node-test"
+        },
+        {
+          "id": "A3",
+          "requirement": "At least 75 percent of eligible complete trajectories and 80 percent per adjacent stage transition satisfy preregistered genuine stage-contrast hypotheses, reporting every impossible/unresolved one-cell source and every rejection reason separately without silently omitting difficult examples.",
+          "oracle": "focused-node-test"
+        }
+      ],
+      "verification": {
+        "kind": "node-test",
+        "testPath": "tests/alg-evaluation-stage-identity.test.ts",
+        "command": "pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts",
+        "artifactPolicy": "no-images-or-snapshots"
+      },
+      "implementationPaths": [
+        "docs/development/stage-structured-ontogeny.md",
+        "src/evaluation/morphology.ts",
+        "src/development/spatial-inventory.ts",
+        "src/development/anatomical-audit.ts",
+        "tests/alg-evaluation-stage-identity.test.ts",
+        "tests/alg-evaluation-stage-trajectory.test.ts"
+      ]
     }
   ],
   "algorithms": [
@@ -3295,6 +3467,55 @@
       "care causing real expression differences",
       "daily saved pet continuation"
     ],
-    "currentPriority": "Test the 12 wholly new readable-seed minimalist drawings on LIVE iPhone Safari for actual morphological stage diversity, migrating heads/limbs, repurposing and source conservation. Collect counterexamples for physically coherent full-body reorganization; CI gates remain disabled."
+    "currentPriority": "Implement five distinct source-owned developmental epochs (Egg/Infant/Teen/Adult/Elder) through STAGE-001..004. Require genuinely distinct silhouette and anatomy at five material checkpoints, rather than added bulk or name-only stage changes. No live user testing until physically verified and deployed."
+  },
+  "stageStructuredOntogeny": {
+    "status": "proposed-unimplemented",
+    "specification": "docs/development/stage-structured-ontogeny.md",
+    "developmentEpochs": [
+      {
+        "stage": "egg",
+        "startCheck": 0,
+        "endCheck": 20,
+        "representativeCheck": 10
+      },
+      {
+        "stage": "infant",
+        "startCheck": 21,
+        "endCheck": 80,
+        "representativeCheck": 60
+      },
+      {
+        "stage": "teen",
+        "startCheck": 81,
+        "endCheck": 170,
+        "representativeCheck": 140
+      },
+      {
+        "stage": "adult",
+        "startCheck": 171,
+        "endCheck": 280,
+        "representativeCheck": 245
+      },
+      {
+        "stage": "elder",
+        "startCheck": 281,
+        "endCheck": 365,
+        "representativeCheck": 345
+      }
+    ],
+    "boundaryChecks": [
+      21,
+      81,
+      171,
+      281
+    ],
+    "interpolationChecks": 12,
+    "maxChecks": 365,
+    "existingOperationLimit": 64,
+    "acceptanceTaskId": "STAGE-004",
+    "noPrescribedCreatureOutcomes": true,
+    "noSecondClock": true,
+    "noIntraDayAnatomy": true
   }
 }
