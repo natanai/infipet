@@ -32,4 +32,4 @@ jobs:
         run: pnpm typecheck
       - name: Physical morphology regression
         run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
-# Qualification revision 1. No push/main action and no release.
+# Qualification revision 2: ancestor-contact correction and audit regression. No push/main action and no release.
