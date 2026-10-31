@@ -118,7 +118,7 @@ test("normal 365-check pet life actually expresses some source-owned unlabeled l
  console.info("UNLABELED_LOBE_EARLY",JSON.stringify({
   events:actual.length,relocations:actual.map(e=>e.physical?.relocations.length),
   sourceCount:birth.cells.length,now:day12.cells.length,
-  attempts:day12.remodeling?.attempts?.filter(a=>a.id.includes("source-lobe/")),
+  lobeEvents:day12.events.filter(e=>e.kind==="lobe-turn").length,
  }));
  assert.ok(actual.length>=1,
   "production life must move original unlabeled source material");
