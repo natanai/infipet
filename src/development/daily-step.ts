@@ -142,15 +142,17 @@ export function applyDailyMaterialStep(
   });
   let remodeling=prior.remodeling;
   const dueRemodeling=remodelingProposalsBetween(remodelingProgram,n,k);
-  // An explicitly inherited source lobe can close its very first physical
-  // joint *before* same-day deposition fills it. This is a limited,
+  // An inherited source lobe, or an originally solid source-only shape,
+  // can transform before same-day deposition erases its original clearance. This is a limited,
   // day-one-only anatomical priority, not an instant hatch mutation.
   // Birth at check 0 remains EXACTLY the player's drawing. Every accepted
   // motion is still care-gated, journaled at check 1, independently audited
   // and charged to one already existing genetic remodeling opportunity.
   // Later checkpoints retain material -> remodeling -> iterative ordering.
   const prenatalClearance=k===1?dueRemodeling.filter(p=>
-    p.operation.kind==="lobe-turn"&&p.atHour<=1):[];
+    (p.operation.kind==="lobe-turn"||
+      p.operation.kind==="shear"&&p.operation.id==="source-solid/shear")&&
+    p.atHour<=1):[];
   for(const proposal of prenatalClearance){
     if(resources<=0||f.rest<=0){
       remodeling={...remodeling,attempts:[...remodeling.attempts,{
