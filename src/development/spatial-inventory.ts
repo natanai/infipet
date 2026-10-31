@@ -516,7 +516,7 @@ export function reconstructDailyPhysicalState(
         }) ||
         !bounded(m.to) ||
         m.to.z !== c.z ||
-        (c.tissueId !== p.operation.tissueId && e.kind!=="repattern" && !coupled)
+        (c.tissueId !== p.operation.tissueId && !["repattern","shear"].includes(e.kind) && !coupled)
       )
         throw new Error("Inconsistent or forged relocation evidence");
       if (
@@ -558,6 +558,13 @@ export function reconstructDailyPhysicalState(
           Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
           throw new Error("Developmental transport creates unlinked contact");
         moveDestinations.add(key(m.to));
+      }else if(e.kind==="shear"){
+        if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+          !p.operation.direction||
+          Math.max(Math.abs(d.x),Math.abs(d.y))!==1||
+          d.x!==p.operation.direction.x||d.y!==p.operation.direction.y||
+          m.path)
+          throw new Error("Forged whole-organism physical shear step");
       }else if(e.kind==="intercalate"){
         // This is not a one-cell leap. Every source-owned material identity
         // must move exactly one neighboring site; the complete vacancy
@@ -638,6 +645,73 @@ export function reconstructDailyPhysicalState(
         !moves.size)
     )
       throw new Error("Incomplete tissue translation");
+    if(e.kind==="shear"){
+      // Independently reconstruct one exact pre-event whole-body affine
+      // field from the original physical inventory, with no producer mask.
+      // This is a living ontogenetic change, not a sprite pose or synthetic
+      // stage target. All tissues are part of the same deforming material.
+      const axis=p.operation.direction;
+      const previous=[...beforeCells.values()];
+      const cross=axis?.x?"y":"x";
+      const levels=[...new Set(previous.map(c=>c[cross]))]
+        .sort((a,b)=>a-b);
+      if(p.system!=="remodeling"||!axis||
+        ![[1,0],[-1,0],[0,1],[0,-1]]
+          .some(([x,y])=>axis.x===x&&axis.y===y)||
+        levels.length<3||made.length||e.removedCellIds.length)
+        throw new Error("Unsupported global anatomical shear");
+      const cut=levels[Math.floor((levels.length-1)/2)];
+      const positive=axis.x+axis.y>0;
+      let expected=0;
+      for(const old of previous){
+        const selected=positive?old[cross]>cut:old[cross]<=cut;
+        if(selected){
+          expected++;
+          const record=p.relocations.find(m=>m.cellId===old.id);
+          if(!record||record.to.x!==old.x+axis.x||
+            record.to.y!==old.y+axis.y)
+            throw new Error("Incomplete global material shear");
+        }else if(movingIds.has(old.id))
+          throw new Error("Unauthorized stationary-cell deformation");
+      }
+      if(expected<4||expected>2048||expected!==moves.size||
+        previous.length-expected<4)
+        throw new Error("Forged global shear material region");
+      // Independently disallow new contacts between previously separate,
+      // unrelated tissue regions, including generated and authored anatomy.
+      const bins=new Map<string,MaterialCell[]>();
+      for(const c of active.values()){
+        const bucket=bins.get(key(c))??[];
+        bucket.push(c);bins.set(key(c),bucket);
+      }
+      const parents=new Map<string,string>(),relations=new Set<string>();
+      for(const l of links.values()){
+        relations.add(l.fromTissueId+"|"+l.toTissueId);
+        relations.add(l.toTissueId+"|"+l.fromTissueId);
+        if(l.kind==="attachment")parents.set(l.fromTissueId,l.toTissueId);
+      }
+      for(const id of beforeTissues.keys()){
+        const seen=new Set<string>([id]);
+        let parent=parents.get(id);
+        while(parent&&!seen.has(parent)){
+          relations.add(id+"|"+parent);
+          relations.add(parent+"|"+id);
+          seen.add(parent);parent=parents.get(parent);
+        }
+        if(parent)throw new Error("Cycle in whole-organism shear");
+      }
+      for(const move of p.relocations){
+        const old=beforeCells.get(move.cellId)!;
+        for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)
+          for(const other of bins.get((move.to.x+dx)+","+(move.to.y+dy))??[]){
+            if(other.id===old.id||other.tissueId===old.tissueId||
+              relations.has(old.tissueId+"|"+other.tissueId))continue;
+            const prior=beforeCells.get(other.id)!;
+            if(Math.max(Math.abs(old.x-prior.x),Math.abs(old.y-prior.y))>1)
+              throw new Error("Global shear creates unrelated anatomical contact");
+          }
+      }
+    }
     if(e.kind==="intercalate"){
       // Independent decomposition of every declared move into up to EIGHT
       // nonbranching, vertex-disjoint directed vacancy chains. Reconstruct
