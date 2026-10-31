@@ -124,7 +124,7 @@ test("accepted joint rotation is journaled and independently reversible from bir
       }))};
       assert.throws(()=>verifyDailyMaterialInventory(forged,HATCH,check,
         w.program.source,{material:w.program.operators,remodeling:remodeling.operations}),
-        /rotation|relocation|material|journal|final/i);
+        /rotation|relocation|material|journal|final|attached-anatomy/i);
       found=true;
       break;
     }
@@ -205,7 +205,7 @@ test("whole-sheet displacement is an independently audited physical daily event"
   }))};
   assert.throws(()=>verifyDailyMaterialInventory(corrupt,HATCH,k,program.source,{
     material:program.operators,remodeling:plan.operations,
-  }),/slip|relocation|reconstruction|material|inventory/i);
+  }),/slip|relocation|reconstruction|material|inventory|attached-anatomy/i);
 });
 
 
@@ -320,7 +320,7 @@ test("opposite-band bend receipts are independently checked, including stationar
   }))};
   assert.throws(()=>verifyDailyMaterialInventory(forged,HATCH,day,program.source,{
     material:program.operators,remodeling:plan.operations,
-  }),/bend|material|reconstruction|inventory|relocation|physical/i);
+  }),/bend|material|reconstruction|inventory|relocation|physical|attached-anatomy/i);
 });
 
 test("productive daily care expresses conservative body bending; zero care cannot fabricate it",()=>{
@@ -557,6 +557,13 @@ test("rotating a head carries both separately authored eyes by the SAME rigid tr
  assert.ok(turn,"joint rotation must carry the eyes instead of leaving them behind");
  assert.equal(turn.cells.length,graph.cells.length);
  const byId=new Map(turn.cells.map(c=>[c.id,c]));
+ const eye=byId.get("ink/eye/left")!;
+ const body=turn.cells.filter(c=>c.tissueId===graph.tissues[0].id);
+ assert.ok(body.some(c=>Math.max(Math.abs(c.x-eye.x),Math.abs(c.y-eye.y))<=1),
+  "this valid rotation requires the eye to be adjacent to its actual grandparent");
+ assert.ok(!graph.links.some(l=>l.fromTissueId==="left-eye"&&
+  l.toTissueId===graph.tissues[0].id),
+  "ancestor adjacency must not manufacture a direct new joint");
  for(const original of graph.cells.filter(c=>["head","left-eye","right-eye","pupil"].includes(c.tissueId))){
   const cell=byId.get(original.id)!;
   assert.equal(cell.x,turn.pivot.x+(original.y-turn.pivot.y));
