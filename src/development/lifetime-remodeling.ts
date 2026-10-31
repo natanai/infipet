@@ -432,18 +432,18 @@ export function compileLifetimeRemodeling(
     }
   }
   if(!override && primary&&operations.length<REMODEL_LIMITS.maxOperations){
-    // The actual 48-trajectory qualification found that only 5/48 pets
-    // materially reorganized in days 330..365, because most regional
-    // opportunities finished before 330. Reserve one late, conservative
-    // primary-body deformation ticket BEFORE optional host-reselection slots.
-    // It reuses source-owned sheet slippage: vacated lattice is NOT refilled.
+    // A real source-wide shear is most effective when its daily committed
+    // movements are spread THROUGH Elder development, not concentrated
+    // after the day-345 representative checkpoint. It remains one finite
+    // inherited physical ticket and moves existing material only; no
+    // source cell, attachment, cavity, color or species is ever invented.
     const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
       primary.id,"terminal-physical-organization"].join("|"));
     const dirs=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
     operations.push({
       id:"terminal-physical-organization",kind:"shear",tissueId:primary.id,
       direction:dirs[orbit.x%4],
-      atHour:330,durationHours:34,units:12,
+      atHour:STAGE_BOUNDARY_CHECKS[3]+8,durationHours:72,units:12,
       strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length))),
     });
   }
