@@ -2712,7 +2712,7 @@
       "dependsOn": [
         "DEV-008"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -2755,7 +2755,7 @@
       "dependsOn": [
         "STAGE-001"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -3470,7 +3470,7 @@
     "currentPriority": "Implement five distinct source-owned developmental epochs (Egg/Infant/Teen/Adult/Elder) through STAGE-001..004. Require genuinely distinct silhouette and anatomy at five material checkpoints, rather than added bulk or name-only stage changes. No live user testing until physically verified and deployed."
   },
   "stageStructuredOntogeny": {
-    "status": "proposed-unimplemented",
+    "status": "partially-implemented-unqualified",
     "specification": "docs/development/stage-structured-ontogeny.md",
     "developmentEpochs": [
       {
