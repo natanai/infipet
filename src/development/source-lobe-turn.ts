@@ -73,7 +73,10 @@ export function proposeSourceLobeTurn(graph:MaterialGraph,tissueId:string,
   l.fromTissueId!==tissueId))return null;
  const own=graph.cells.filter(c=>c.tissueId===tissueId);
  const hinge=own.find(c=>c.id===hingeId);
- if(!hinge||!own.some(c=>c.id===distalId)||own.length<6)return null;
+ // Explicit finite work bound; large-grown bodies retain independent
+ // whole-organism/region deformation operators rather than O(N²) lobe scans.
+ if(!hinge||!own.some(c=>c.id===distalId)||
+    own.length<6||own.length>512)return null;
  const groups=components(own.filter(c=>c.id!==hingeId));
  if(groups.length<2)return null;
  const component=groups.find(g=>g.some(c=>c.id===distalId));
