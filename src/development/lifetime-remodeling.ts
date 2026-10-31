@@ -31,6 +31,7 @@ import type { MaterialDevelopmentProgram } from "./operators";
 import { MATERIAL_LIMITS } from "./operators";
 import {repatterningExpression} from "./developmental-repatterning";
 import {proposeArticulatedTurn,proposeAttachedMigration} from "./coordinated-metamorphosis";
+import {sourceLobeHinges,proposeSourceLobeTurn} from "./source-lobe-turn";
 import {DEVELOPMENT_STAGES,STAGE_BOUNDARY_CHECKS,STAGE_TRANSITION_HALF_WIDTH,
   STAGE_PRESSURE_WEIGHTS,stageAtCheck} from "./stage-contract";
 import {isLatticeConnected} from "./lattice-connectivity";
@@ -40,7 +41,7 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "slip" | "bend" | "shear" | "intercalate" | "repattern" | "repurpose" | "reposition";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "slip" | "bend" | "shear" | "intercalate" | "repattern" | "repurpose" | "reposition" | "lobe-turn";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
@@ -151,7 +152,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity>=0.2?1:0;
-    case "articulate": return c.segmentation.boundaries;
+    case "articulate": case "lobe-turn": return c.segmentation.boundaries;
   }
 }
 function validateOperation(op: RemodelOperation): void {
@@ -470,6 +471,43 @@ export function compileLifetimeRemodeling(
       }
     }
   }
+  if(!override){
+    // A Body-only/unlabeled drawing can have REAL mechanically distinct lobes
+    // despite no semantic Head/Arm labels. Only original source cut vertices
+    // determine these opportunities: a wide solid blob has no invented joint.
+    // Author-selected extra tissues use the separate subtree migration.
+    if(base.source.tissues.length===1&&
+      !base.source.links.some(l=>l.kind==="attachment")){
+      const sole=base.source.tissues[0];
+      const hinges=sourceLobeHinges(base.source,sole.id);
+      // Prefer real source regions that CAN move physically at birth, rather
+      // than filling the genetic program with permanently impossible tickets.
+      const feasible=hinges.flatMap(h=>[1,-1].flatMap(sign=>{
+        const p=proposeSourceLobeTurn(base.source,sole.id,
+          h.hingeId,h.distalId,sign as 1|-1);
+        return p?[{h,sign}]:[];
+      }));
+      if(feasible.length){
+        const start=hash(genome.seed+"|source-lobe-hinge|"+
+          base.source.sourceFingerprint)%feasible.length;
+        const selected=feasible[start];
+        for(const [i,day] of [0,81,171,281].entries()){
+          if(operations.length>=REMODEL_LIMITS.maxOperations)break;
+          const sign=i%2===0?selected.sign:-selected.sign;
+          operations.push({
+            id:"source-lobe/"+i,kind:"lobe-turn",tissueId:sole.id,
+            // Both source IDs are exact material identities, never an
+            // invented region label or stored final-stage silhouette.
+            sourceSiteId:JSON.stringify([selected.h.hingeId,
+              selected.h.distalId]),
+            direction:{x:sign,y:0},
+            atHour:day,durationHours:i===0?12:65,
+            units:8,strength:1,
+          });
+        }
+      }
+    }
+  }
   if(!override && primary&&operations.length<REMODEL_LIMITS.maxOperations){
     // A real source-wide shear is most effective when its daily committed
     // movements are spread THROUGH Elder development, not concentrated
@@ -703,7 +741,7 @@ export function lifetimeRemodelingAt(
         removed.push(choice);
         cells = cells.filter(c => c.id !== choice.id);
       }
-    } else if (op.kind === "reshape" || op.kind === "redistribute" || op.kind === "slip" || op.kind === "bend" || op.kind === "shear" || op.kind === "intercalate" || op.kind === "repattern") {
+    } else if (op.kind === "reshape" || op.kind === "redistribute" || op.kind === "slip" || op.kind === "bend" || op.kind === "lobe-turn" || op.kind === "shear" || op.kind === "intercalate" || op.kind === "repattern") {
       // This legacy fractional-hour evaluator is not an authorized daily
       // material transaction; refusing prevents a fake anatomical snapshot.
       reason="region-front-requires-daily-physical-transaction";
