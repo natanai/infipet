@@ -29,6 +29,8 @@ jobs:
         run: pnpm typecheck
       - name: Five-epoch daily stage contract
         run: pnpm exec tsx --test tests/alg-development-stage-contract.test.ts
+      - name: Five-stage physical scheduling properties
+        run: pnpm exec tsx --test tests/alg-development-stage-pressures.test.ts
       - name: Physical morphology regression
         run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
       - name: Stage-by-stage 365-day cohort
@@ -36,4 +38,4 @@ jobs:
         env:
           MORPH_STAGE_COHORT: '1'
         run: pnpm exec tsx --test tests/alg-evaluation-stage-trajectory.test.ts
-# Qualification revision 6: verify five-epoch stage and physical full-life cohort.
+# Qualification revision 7: verify stage boundary scheduling and the independent physical cohort.
