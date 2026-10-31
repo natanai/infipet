@@ -637,7 +637,7 @@ export function reconstructDailyPhysicalState(
           };
         if (!same(d, expected)) throw new Error("Forged relocation direction");
       }
-      if (!["repattern","articulate","bend","slip","intercalate"].includes(e.kind) && step && !same(step, d))
+      if (!["repattern","articulate","bend","slip","lobe-turn","intercalate"].includes(e.kind) && step && !same(step, d))
         throw new Error("Nonrigid tissue translation");
       step = d;
       moves.add(c.id);
