@@ -58,8 +58,8 @@ function connectedPath(available:ReadonlyMap<string,MaterialCell>,
  return null;
 }
 
-export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
- direction:Point):DenseIntercalation|null{
+function proposeOneDenseChain(graph:MaterialGraph,tissueId:string,
+ direction:Point,excluded:ReadonlySet<string>,budget:number):DenseIntercalation|null{
  if(!tissueId||!axes.some(d=>d.x===direction.x&&d.y===direction.y))
   throw new RangeError("Invalid source-owned dense intercalation axis");
  const group=graph.cells.filter(c=>c.tissueId===tissueId);
@@ -77,7 +77,8 @@ export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
   if(l.toCellId)anchored.add(l.toCellId);
  }
  const movable=new Map<string,MaterialCell>();
- for(const c of group)if(!anchored.has(c.id)&&bins.get(key(c))?.length===1)
+ for(const c of group)if(!anchored.has(c.id)&&bins.get(key(c))?.length===1&&
+   !excluded.has(key(c)))
   movable.set(key(c),c);
  if(movable.size<4)return null;
  const own=new Set(group.map(key));
@@ -99,7 +100,7 @@ export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
  const targetCandidates=new Map<string,Point>();
  for(const c of movable.values())for(const step of dirs){
   const t={x:c.x+step.x,y:c.y+step.y},id=key(t);
-  if(!inside(t)||occupied.has(id)||protectedVoids.has(id))continue;
+  if(!inside(t)||occupied.has(id)||protectedVoids.has(id)||excluded.has(id))continue;
   const supported=dirs.filter(d=>own.has((t.x+d.x)+","+(t.y+d.y)));
   if(supported.length<2||!supported.some(d=>d.x===0||d.y===0))continue;
   const foreign=graph.cells.some(other=>other.tissueId!==tissueId&&
@@ -113,7 +114,8 @@ export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
  for(const from of donors)for(const to of targets){
   if(dot(to)-dot(from)<3)continue;
   const path=connectedPath(movable,from,to);
-  if(!path)continue;
+  if(!path||path.length-1>budget||
+    path.some(p=>excluded.has(key(p))))continue;
   const moved=new Map<string,Point>();
   for(let i=0;i<path.length-1;i++){
    const c=movable.get(key(path[i]));
@@ -137,4 +139,34 @@ export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
   return {cells,relocated};
  }
  return null;
+}
+
+/**
+ * One care-gated event may redistribute up to three DISJOINT tissue material
+ * corridors, with a combined budget of at most 64 one-step relocations.
+ * Unlike repeating the same giant band shear, this remains feasible after
+ * strong positive-care material deposition has densely packed the organism.
+ * Every corridor preserves its complete existing identity set, and the
+ * independent auditor reconstructs ALL connected vacancy paths separately
+ * from pre-event material. No growth, cloned source, pose, or teleportation.
+ */
+export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
+ direction:Point):DenseIntercalation|null{
+ const protectedPositions=new Set<string>();
+ let current=graph,number=0;
+ const relocated:Readonly<{cellId:string;from:Point;to:Point}>[]=[];
+ for(let index=0;index<3;index++){
+  const next=proposeOneDenseChain(current,tissueId,direction,
+   protectedPositions,64-relocated.length);
+  if(!next)break;
+  if(!next.relocated.length)break;
+  for(const m of next.relocated){
+   protectedPositions.add(key(m.from));
+   protectedPositions.add(key(m.to));
+   relocated.push(m);
+  }
+  current={...current,cells:next.cells};
+  number++;
+ }
+ return number?{cells:current.cells,relocated}:null;
 }
