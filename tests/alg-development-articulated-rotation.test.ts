@@ -600,3 +600,40 @@ test("real player-authored Head with independently selected Eyes rotates through
  }
  assert.equal(outcome.cells.length,graph.cells.length);
 });
+
+
+test("independent replay rejects a physically false reattachment endpoint",()=>{
+ const graph=nestedAnatomy();
+ const oldLink=graph.links.find(l=>l.id==="attachment/pupil")!;
+ const child=graph.tissues.find(t=>t.id==="pupil")!;
+ const head=graph.tissues.find(t=>t.id==="head")!;
+ const pupil=graph.cells.find(c=>c.id===oldLink.fromCellId)!;
+ const nearest=[...graph.cells].filter(c=>c.tissueId===head.id)
+  .map(c=>({c,d:(c.x-pupil.x)**2+(c.y-pupil.y)**2}))
+  .filter(v=>Math.max(Math.abs(v.c.x-pupil.x),Math.abs(v.c.y-pupil.y))<=1)
+  .sort((a,b)=>a.d-b.d||(a.c.id<b.c.id?-1:a.c.id>b.c.id?1:0));
+ assert.ok(nearest.length>=2);
+ const replacement={...oldLink,toTissueId:head.id,
+  toCellId:nearest[0].c.id};
+ const parent={...child,parentId:head.id,relationship:"joint" as const};
+ const transitioned={...graph,
+  links:graph.links.map(l=>l.id===oldLink.id?replacement:l),
+  tissues:graph.tissues.map(t=>t.id===child.id?parent:t)};
+ const operation={id:"candidate/reattach",kind:"reattach",tissueId:child.id,
+  targetTissueId:head.id};
+ const event={id:operation.id+"/unit/1",kind:"reattach",atHour:24,
+  atMs:HATCH+DAY,checkIndex:1,createdCellIds:[],removedCellIds:[],
+  sourceCellIds:[pupil.id],careDigest:"physical/reattach/1",
+  genomeFingerprint:"test-source/reattach"};
+ const recorded=journalMaterialEvent(graph,transitioned,event,"remodeling",operation);
+ const final={...transitioned,events:[recorded]};
+ verifyDailyMaterialInventory(final,HATCH,1,graph);
+ // The forged endpoint is still physically NEAR, but it is not the
+ // deterministic closest point selected by the real source material.
+ const forgedLink={...replacement,toCellId:nearest[1].c.id};
+ const fake={...transitioned,
+  links:transitioned.links.map(l=>l.id===oldLink.id?forgedLink:l)};
+ const forged=journalMaterialEvent(graph,fake,event,"remodeling",operation);
+ assert.throws(()=>verifyDailyMaterialInventory({...fake,events:[forged]},
+  HATCH,1,graph),/attachment|nearest|topology|contact|journal/i);
+});
