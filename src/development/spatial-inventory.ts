@@ -641,9 +641,25 @@ export function reconstructDailyPhysicalState(
         return [id,p?{...c,x:p.x,y:p.y}:c] as const;
       }));
       const linked=new Set<string>();
+      const parent=new Map<string,string>();
       for(const joint of links.values()){
         linked.add(joint.fromTissueId+"|"+joint.toTissueId);
         linked.add(joint.toTissueId+"|"+joint.fromTissueId);
+        if(joint.kind==="attachment")parent.set(joint.fromTissueId,joint.toTissueId);
+      }
+      // Independently derive ancestry from the ORIGINAL contact graph:
+      // adjacent grandparent/child contact is not automatically a new joint.
+      // It is legitimate only through a complete, acyclic attachment chain.
+      for(const id of beforeTissues.keys()){
+        const visited=new Set<string>([id]);
+        let ancestor=parent.get(id);
+        while(ancestor&&!visited.has(ancestor)){
+          linked.add(id+"|"+ancestor);
+          linked.add(ancestor+"|"+id);
+          visited.add(ancestor);
+          ancestor=parent.get(ancestor);
+        }
+        if(ancestor)throw new Error("Cyclic attached anatomy in deformation");
       }
       const bins=new Map<string,MaterialCell[]>();
       for(const cell of planned.values()){
