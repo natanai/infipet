@@ -81,12 +81,36 @@ test("source-general consecutive-stage physical metamorphosis cohort",{
   eligible:0,qualifying:0,bodyOnly:0,typed:0,changed:false,
  }));
  const report:unknown[]=[];
+ const operatorEvidence:unknown[]=[];
  for(const sample of cohort){
   for(const seed of ["8E8L8WRZ","8W8E8LRZ"])for(const care of lifeCare){
    const sim=createSimulation(sample.parts,seed,"infant",{
     previewCare:care,reuseLivingMaterial:false,
    });
-   const stages=checkpoints.map(day=>sim.materialStateAt(day).graph);
+   const states=checkpoints.map(day=>sim.materialStateAt(day));
+   const stages=states.map(state=>state.graph);
+   const adult=states.at(-1)!;
+   const relevant=adult.remodeling.attempts.filter(a=>
+    a.id.includes("shape-stage")||a.id.includes("migrate")||
+    a.id.includes("developmental-repattern"));
+   const families=new Map<string,{accepted:number;rejected:number;reasons:Record<string,number>}>();
+   for(const attempt of relevant){
+    const family=attempt.id.includes("migrate")?"joint":
+     attempt.id.includes("developmental-repattern")?"whole-body":
+     attempt.id.includes("/shape-stage/1/")?"bend":
+     attempt.id.includes("/shape-stage/0/")||
+     attempt.id.includes("/shape-stage/2/")?"slip":"reflow";
+    const counts=families.get(family)??{accepted:0,rejected:0,reasons:{}};
+    if(attempt.status==="accepted")counts.accepted++;
+    else{
+     counts.rejected++;
+     const key=attempt.reason??"unspecified";
+     counts.reasons[key]=(counts.reasons[key]??0)+1;
+    }
+    families.set(family,counts);
+   }
+   operatorEvidence.push({source:sample.id,seed,care:care.nutrition,
+    families:Object.fromEntries(families)});
    assert.deepEqual(stages[0].sourceCells,stages.at(-1)!.sourceCells);
    assert.deepEqual(sim.materialStateAt(366).graph,stages.at(-1));
    for(let i=1;i<stages.length;i++){
@@ -110,7 +134,7 @@ test("source-general consecutive-stage physical metamorphosis cohort",{
   }
  }
  console.info("INDEPENDENT_STAGE_CONTRAST",JSON.stringify({
-  checkpoints,perWindow,report,
+  checkpoints,perWindow,operatorEvidence,report,
  }));
  // A meaningful stage is a trajectory property, NOT merely an adult that is
  // larger than its birth drawing. Thresholds are declared before outcomes.
