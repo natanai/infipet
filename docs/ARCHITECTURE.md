@@ -69,6 +69,20 @@ growth site needs chronological evidence, material provenance, valid spatial
 bounds and a deterministic order. Null operations are allowed. Drawings,
 permanent genes, and earlier care may never be silently replaced.
 
+## Proposed five-stage ontogeny (not implemented)
+
+The approved next product contract is [stage-structured ontogeny](development/stage-structured-ontogeny.md).
+The **proposed** canonical epochs within the existing 365 daily checks are
+Egg 0–20, Infant 21–80, Teen 81–170, Adult 171–280 and Elder 281–365.
+Each epoch must yield a materially distinct, source-owned body plan and
+feature balance through daily operations; no fixed egg shell, species sprite,
+geometry-inferred Body semantics, or instant stage-swap is permitted.
+This **does not describe current production behavior**: current runtime
+still uses the previous `infant/teen/adult/elderly` markers and optional
+Egg startup mode. Task register: `STAGE-001` through `STAGE-004` in
+`roadmap/plan.json`, all **todo**. The existing material clock remains
+the sole source of anatomical time.
+
 ## Experimental whole-body changes (not yet visually qualified)
 
 Production physical material growth now uses five seed-derived 73-opportunity
