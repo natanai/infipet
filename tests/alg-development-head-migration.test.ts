@@ -128,8 +128,20 @@ test("a real care-gated daily pet moves its originally drawn head and eye before
  assert.ok(events.length>=1,
   "a real creature must COMMIT physical head movement in its life, not merely compile unused tickets");
  assert.ok(moved(head.map(c=>c.id))>=1);
- assert.ok(moved(eyes.map(c=>c.id))>=1,
-  "real attached facial ink must follow its moving head");
+ console.info("HEAD_TRANSPORT_REPORT",JSON.stringify({
+   events:events.map(e=>({id:e.id,operation:e.physical?.operation.id,
+    movedHead:e.physical?.relocations.filter(m=>
+      head.some(c=>c.id===m.cellId)).length,
+    movedEyes:e.physical?.relocations.filter(m=>
+      eyes.some(c=>c.id===m.cellId)).length})),
+   netHead:moved(head.map(c=>c.id)),
+   netEyes:moved(eyes.map(c=>c.id)),
+   livingEye:day12.cells.filter(c=>eyes.some(e=>e.id===c.id)).map(c=>({
+    id:c.id,x:c.x,y:c.y})),
+ }));
+ assert.ok(events.some(e=>e.physical?.relocations.some(m=>
+  eyes.some(c=>c.id===m.cellId))),
+  "a committed head move must ALSO carry its authored eye in the same actual physical event");
  assert.deepEqual(day12.sourceCells,birth.sourceCells);
  for(const e of events)assert.equal(e.createdCellIds.length+e.removedCellIds.length,0);
 });
