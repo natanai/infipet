@@ -57,7 +57,12 @@ test("24 held-out births, three immutable seeds and two care histories must each
   pair:epoch.stage+"->"+DEVELOPMENT_STAGES[i+1].stage,
   n:0,eligible:0,qualifying:0,unresolved:0,
  }));
- const evidence:unknown[]=[];
+ const evidence:Array<{
+  source:string;seed:string;nutrition:number;originalSourceCells:number;
+  pairEvidence:Array<{pair:string;normalizedSilhouette:number;
+   originalPairReorganization:number;changedExistingAttachment:boolean;
+   eligible:boolean;passes:boolean}>;
+ }>=[];
  let allEligible=0,allQualifying=0;
  for(const source of heldOutBirths)for(const seed of seeds)for(const input of care){
   const sim=createSimulation(source.parts,seed,"infant",{
@@ -91,9 +96,32 @@ test("24 held-out births, three immutable seeds and two care histories must each
    }))});
  }
  const total=heldOutBirths.length*seeds.length*care.length;
- console.info("HELD_OUT_FIVE_FORM_REPORT",JSON.stringify({
-  total,allEligible,allQualifying,perPair,evidence,
+ // GitHub Actions may truncate any single log line at 64 KiB. Emit
+ // compact mathematical summaries and independently inspectable chunks,
+ // rather than losing half of the held-out evidence to log truncation.
+ const summarize=(rows:typeof evidence)=>({
+  n:rows.length,
+  complete:rows.filter(x=>x.pairEvidence.every(p=>p.passes)).length,
+  perPair:perPair.map((pair,i)=>({
+   pair:pair.pair,eligible:rows.filter(x=>x.pairEvidence[i].eligible).length,
+   qualifying:rows.filter(x=>x.pairEvidence[i].passes).length,
+   normalizedSilhouetteMean:rows.reduce((a,x)=>a+x.pairEvidence[i].normalizedSilhouette,0)/Math.max(1,rows.length),
+   sourceReorganizationMean:rows.reduce((a,x)=>a+x.pairEvidence[i].originalPairReorganization,0)/Math.max(1,rows.length),
+  })),
+ });
+ const byCare=care.map(c=>({nutrition:c.nutrition,
+  ...summarize(evidence.filter(x=>x.nutrition===c.nutrition))}));
+ const bySeed=seeds.map(seed=>({seed,
+  ...summarize(evidence.filter(x=>x.seed===seed))}));
+ const byDrawing=heldOutBirths.map(source=>({source:source.id,
+  ...summarize(evidence.filter(x=>x.source===source.id))}));
+ console.info("HELD_OUT_FIVE_FORM_SUMMARY",JSON.stringify({
+  total,allEligible,allQualifying,perPair,byCare,bySeed,byDrawing,
  }));
+ for(let start=0;start<evidence.length;start+=20)
+  console.info("HELD_OUT_FIVE_FORM_DETAIL",JSON.stringify({
+   start,records:evidence.slice(start,start+20),
+  }));
  assert.equal(total,144);
  assert.equal(evidence.length,144);
  // Unresolvable examples remain published in the numeric report; no drawing
