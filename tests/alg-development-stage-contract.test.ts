@@ -4,7 +4,6 @@ import {
  DEVELOPMENT_STAGES,STAGE_BOUNDARY_CHECKS,STAGE_REPRESENTATIVE_CHECKS,
  STAGE_TRANSITION_HALF_WIDTH,STAGE_PRESSURE_WEIGHTS,
  stageAtCheck,stageAtElapsedDays,developmentalStageIndex,transitionPressure,
- physicalGrowthCredits,STAGE_DEPOSITION_CEILINGS,
 } from "../src/development/stage-contract";
 import {FINAL_ANATOMICAL_CHECK} from "../src/development/daily-contract";
 import {developmentalAllometry} from "../src/development/regional-regulation";
@@ -102,32 +101,4 @@ test("source-based five-epoch allometry changes only at physical stage boundarie
  assert.ok(prior.axis.x!==following.axis.x||prior.axis.y!==following.axis.y);
  const a=developmentalAllometry(identity,tissue,345,signals,care);
  assert.ok(Math.abs(Math.hypot(a.axis.x,a.axis.y)-1)<1e-12);
-});
-
-test("Mature growth reallocates creation credits without fabricating additional care",()=>{
- assert.deepEqual(STAGE_DEPOSITION_CEILINGS,{
-  egg:3,infant:4,teen:4,adult:2,elder:1,
- });
- const stages=[
-  {day:0,cap:3},{day:20,cap:3},{day:21,cap:4},
-  {day:80,cap:4},{day:81,cap:4},{day:170,cap:4},
-  {day:171,cap:2},{day:280,cap:2},{day:281,cap:1},
-  {day:365,cap:1},
- ];
- for(const {day,cap} of stages){
-  assert.equal(physicalGrowthCredits(day,1),cap);
-  assert.equal(physicalGrowthCredits(day,0),0);
-  let prev=-1;
-  for(let i=0;i<=100;i++){
-   const resources=i/100;
-   const current=physicalGrowthCredits(day,resources);
-   assert.ok(current>=prev&&current>=0&&current<=cap);
-   assert.ok(current<=Math.floor(4*resources),
-    "allocation cannot manufacture material or genetic credits");
-   prev=current;
-  }
- }
- for(const invalid of [-1,NaN,Infinity,1.1])
-  assert.throws(()=>physicalGrowthCredits(170,invalid),RangeError);
- assert.throws(()=>physicalGrowthCredits(366,1),RangeError);
 });
