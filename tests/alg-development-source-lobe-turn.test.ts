@@ -113,12 +113,18 @@ test("normal 365-check pet life actually expresses some source-owned unlabeled l
   reuseLivingMaterial:false,
  });
  const birth=sim.materialStateAt(0).graph;
- const day12=sim.materialStateAt(12).graph;
+ const living=sim.materialStateAt(12);
+ const day12=living.graph;
  const actual=day12.events.filter(e=>e.kind==="lobe-turn");
  console.info("UNLABELED_LOBE_EARLY",JSON.stringify({
   events:actual.length,relocations:actual.map(e=>e.physical?.relocations.length),
   sourceCount:birth.cells.length,now:day12.cells.length,
   lobeEvents:day12.events.filter(e=>e.kind==="lobe-turn").length,
+  lobeAttempts:living.remodeling.attempts.filter(a=>
+    a.id.includes("source-lobe/")).map(a=>({
+      id:a.id,status:a.status,reason:a.reason,
+    })),
+
  }));
  assert.ok(actual.length>=1,
   "production life must move original unlabeled source material");
