@@ -782,6 +782,52 @@ export function reconstructDailyPhysicalState(
       )
         throw new Error("Unauthorized tissue creation");
     }
+    if(e.kind==="reattach"){
+      // Independent topology oracle: the stage may only change one existing
+      // joint to the nearest currently TOUCHING alternate host. Verify the
+      // precise endpoints and unchanged identity, not merely the target name
+      // supplied in a potentially forged journal.
+      const tissueId=p.operation.tissueId,targetId=p.operation.targetTissueId;
+      const oldTissue=beforeTissues.get(tissueId);
+      const targetTissue=targetId?beforeTissues.get(targetId):undefined;
+      const former=[...links.values()].filter(l=>
+        l.kind==="attachment"&&l.fromTissueId===tissueId);
+      const own=[...beforeCells.values()].filter(c=>c.tissueId===tissueId);
+      const host=[...beforeCells.values()].filter(c=>c.tissueId===targetId);
+      const parentChain=new Set<string>();
+      let cursor:string|null=targetId??null;
+      while(cursor&&!parentChain.has(cursor)){
+        parentChain.add(cursor);
+        cursor=beforeTissues.get(cursor)?.parentId??null;
+      }
+      const contacts=own.flatMap(a=>host.flatMap(b=>
+        Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))<=1?
+        [{a,b,d:(a.x-b.x)**2+(a.y-b.y)**2}]:[]));
+      contacts.sort((u,v)=>u.d-v.d||
+        (u.a.id<v.a.id?-1:u.a.id>v.a.id?1:0)||
+        (u.b.id<v.b.id?-1:u.b.id>v.b.id?1:0));
+      if(p.system!=="remodeling"||!oldTissue||!targetTissue||
+        !targetId||targetId===tissueId||parentChain.has(tissueId)||
+        cursor!==null||former.length>1||
+        former[0]?.toTissueId===targetId||
+        made.length||moves.size||e.removedCellIds.length||
+        !contacts.length)
+        throw new Error("Unlawful physical attachment succession");
+      const pair=contacts[0],prior=former[0]??null;
+      const afterLink:MaterialLink={
+        id:prior?.id??p.operation.id+"/attachment",
+        kind:"attachment",fromTissueId:tissueId,toTissueId:targetId,
+        fromCellId:pair.a.id,toCellId:pair.b.id,
+      };
+      if(p.links.length!==1||!same(p.links[0],{
+        id:afterLink.id,before:prior,after:afterLink,
+      })||p.tissues.length!==1||
+        !same(p.tissues[0],{
+          id:tissueId,before:oldTissue,
+          after:{...oldTissue,parentId:targetId,relationship:"joint"},
+        }))
+        throw new Error("Forged nearest-contact attachment topology");
+    }
     for (const change of p.links) {
       if(e.kind==="reposition"){
         const a=change.before,b=change.after;
