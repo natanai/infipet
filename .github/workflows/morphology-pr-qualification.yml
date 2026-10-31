@@ -35,6 +35,11 @@ jobs:
         run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
       - name: Head and attached face physical ontogeny regression
         run: pnpm exec tsx --test tests/alg-development-head-migration.test.ts
+      - name: Real five-stage authored head movement cohort
+        timeout-minutes: 12
+        env:
+          HEAD_TRAJECTORY_COHORT: '1'
+        run: pnpm exec tsx --test tests/alg-evaluation-head-trajectory.test.ts
       - name: Independent stage identity anti-bulk oracle
         run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
       - name: Dense source material intercalation and independent replay
