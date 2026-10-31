@@ -77,7 +77,7 @@ Egg 0–20, Infant 21–80, Teen 81–170, Adult 171–280 and Elder 281–365.
 Each epoch must yield a materially distinct, source-owned body plan and
 feature balance through daily operations; no fixed egg shell, species sprite,
 geometry-inferred Body semantics, or instant stage-swap is permitted.
-On the v12 draft, the player simulation already reports these five epochs
+On the unmerged v14 draft, the player simulation already reports these five epochs
 from real completed anatomical daily checks, and five stage-derived regional
 growth phases replace the old equally spaced 73-check phases. Four
 source-owned regional remodeling windows are centered at stage boundaries,
@@ -94,18 +94,25 @@ direction at day 281. STAGE-003 and STAGE-004 remain open. On the v13 draft, a n
 preexisting, 8-connected tissue material vacancy chain one lattice site
 per cell and therefore avoids whole-band occupancy conflicts. Independent
 mature-geometry cohorts show this operator has a legal realization on
-all 24 sampled high-care bodies at days 281/330/345. The v13 genetic
+all 24 sampled high-care bodies at days 281/330/345. The v14 genetic
 scheduler allocates limited Adult/Elder opportunities without exceeding
-64 operations, but all five distinct final forms have NOT passed the
-source-general five-form acceptance gate.
-Tasks `STAGE-001` and `STAGE-002` are in progress; `STAGE-003` and
-`STAGE-004` are pending in `roadmap/plan.json`. The existing material clock remains
+64 operations. Up to eight source-owned, mass-conserving, disjoint tissue
+transport corridors may each move every participating identity exactly
+one lattice site per daily check, with independent pre-event reconstruction.
+This raised strictly qualified Teen→Adult to 41/48, Adult→Elder to 35/48,
+and complete four-transition lives to 28/48 (initial baseline 31/48,
+19/48 and 14/48, respectively). **Five-form acceptance still FAILS**:
+Adult→Elder requires 39/48 and full lives require 36/48. A later ticket
+regressed morphology and was reversed.
+All four `STAGE-001`.. `STAGE-004` work packages are in progress
+in `roadmap/plan.json`; none is accepted as complete. The existing material clock remains
 the sole source of anatomical time.
 
 ## Experimental whole-body changes (not yet visually qualified)
 
-Production physical material growth now uses five seed-derived 73-opportunity
-regional allometry phases. Chronological care can influence the expressed
+The unmerged draft's physical material growth uses five named,
+seed-derived developmental epochs instead of the former equal 73-opportunity
+allometry phases. Chronological care can influence the expressed
 aspect-ratio pressure without rerolling permanent genes. Existing physical
 source material can also participate in five scheduled coordinated
 repatterning windows, which must journal actual cell relocation and source
