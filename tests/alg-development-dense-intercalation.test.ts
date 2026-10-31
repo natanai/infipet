@@ -6,6 +6,8 @@ import {proposeDenseIntercalation} from "../src/development/dense-intercalation"
 import {journalMaterialEvent} from "../src/development/material-journal";
 import {verifyDailyMaterialInventory} from "../src/development/daily-step";
 import {measureStageIdentity} from "../src/evaluation/stage-identity";
+import {createSimulation} from "../src/simulation";
+import {STARTER_PRESETS} from "../src/presets";
 
 const HATCH=1_701_102_300_000,DAY=86_400_000;
 const source=()=>compileMaterialDevelopment(materialInputs(drawing([
@@ -101,4 +103,33 @@ test("independent material replay requires every vacancy-chain identity",()=>{
   forged.map(m=>({...m,checkIndex:1,atMs:HATCH+DAY}))}};
  assert.throws(()=>verifyDailyMaterialInventory({...live,events:[falseEvent]},
   HATCH,1,prior),/intercalation|material|chain|relocation|physical|inventory/i);
+});
+
+test("real high-care Adult and Elder lives commit material intercalation without breaking original ancestry",()=>{
+ const sources=STARTER_PRESETS.filter(p=>["dot","ribbon","fork","tripod"].includes(p.id));
+ assert.equal(sources.length,4);
+ let committed=0,exercised=0;
+ for(const preset of sources)for(const seed of [preset.seed,"8E8L8WRZ"]){
+  const sim=createSimulation(preset.parts,seed,"infant",{
+   previewCare:{kind:"synthetic-needs-lab-v1",nutrition:0.92,timeline:[]},
+   reuseLivingMaterial:false,
+  });
+  const birth=sim.materialStateAt(0).graph;
+  const late=sim.materialStateAt(345);
+  exercised++;
+  assert.deepEqual(late.graph.sourceCells,birth.sourceCells);
+  for(const e of late.graph.events.filter(e=>e.kind==="intercalate")){
+   committed++;
+   assert.equal(e.createdCellIds.length,0);
+   assert.equal(e.removedCellIds.length,0);
+   assert.ok((e.physical?.relocations.length??0)>=3);
+   for(const m of e.physical!.relocations){
+    assert.equal(Math.max(Math.abs(m.to.x-m.from.x),
+      Math.abs(m.to.y-m.from.y)),1);
+   }
+  }
+ }
+ assert.equal(exercised,8);
+ assert.ok(committed>0,
+  "mature high-care authored pets must actually express some physical vacancy chains");
 });
