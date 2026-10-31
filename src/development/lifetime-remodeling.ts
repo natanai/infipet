@@ -441,9 +441,9 @@ export function compileLifetimeRemodeling(
       primary.id,"terminal-physical-organization"].join("|"));
     const dirs=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
     operations.push({
-      id:"terminal-physical-organization",kind:"shear",tissueId:primary.id,
+      id:"terminal-physical-organization",kind:"slip",tissueId:primary.id,
       direction:dirs[orbit.x%4],
-      atHour:STAGE_BOUNDARY_CHECKS[3]+8,durationHours:72,units:12,
+      atHour:330,durationHours:34,units:12,
       strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length))),
     });
   }
