@@ -613,7 +613,9 @@ export function applyRemodelingProposal(
         .filter(pair=>near(pair.a,pair.b))
         .sort((a,b)=>a.d-b.d||cmp(a.a,b.a)||cmp(a.b,b.b));
       if(!other.length||!pairs.length||targetId===op.tissueId ||
-         lineage.has(op.tissueId) || parent!==null)
+         lineage.has(op.tissueId) || parent!==null ||
+         graph.links.some(l=>l.kind==="attachment"&&
+           l.fromTissueId===op.tissueId&&l.toTissueId===targetId))
         reason="reattachment-cycle-or-noncontact";
       else {
         const pair=pairs[0],prior=graph.links.find(l=>
