@@ -82,7 +82,7 @@ during every later region-growth opportunity, not merely its first bud.
 All material boundaries remain governed by existing spatial and ancestry
 auditors; no image/silhouette transformation is substituted.
 
-On the unmerged v7 development branch, source-owned material has
+On the unmerged v8 development branch, source-owned material has
 three further physically committed remodeling choices:
 
 - A selected, attached organ may execute a seeded 90-degree rotation about
@@ -119,12 +119,12 @@ This is a source-general implementation experiment, not evidence of visually
 complete stage evolution. Focused tests have been added but have not yet been
 executed in a production-capable runner, and this branch is not published.
 
-### Unimplemented attachment-coupled deformation (blocking full recovery)
+### Attachment-coupled physical movement (implemented on v8 draft; unqualified)
 
 A local tissue transformation can pass a small endpoint tolerance while
 leaving its separately authored, attached descendants behind. That is not
 adequate to transform a head with independently drawn eyes or to rearrange a
-multi-limbed body. The next physical operator contract must carry the entire
+multi-limbed body. The v8 experimental operator carries the complete
 attachment subtree atomically, **without inferring new anatomy or rewriting
 source part identities**:
 
@@ -148,9 +148,13 @@ source part identities**:
   overlaps or newly unauthorized foreign-tissue contacts. Any failure is
   an atomic null, never a partial or merely visual morph.
 
-**This transitive carrier operation is not implemented or verified in PR #58.**
-Until it is, acceptable local moves and isolated numeric bend examples
-cannot demonstrate coordinated whole-creature metamorphosis in rich drawings.
+**Implementation only, not verified.** The producer implementation and the
+independent chronological replay reconstruct attachment-closure positions from
+different code. A nested Body -> Head -> Eyes -> Pupil regression checks actual
+carried geometry, distinct authored identities and rejection of a missing child
+relocation. This test has been committed but has **not been executed** in a
+project-capable TypeScript runner; broader stage coverage is still unqualified.
+The draft source is not the published player experience.
 
 These are **real implementation changes on the draft**, not evidence that
 the live or deployed game is visually satisfying. The prototype currently
