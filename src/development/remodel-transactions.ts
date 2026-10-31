@@ -1,5 +1,5 @@
 import {journalMaterialEvent} from "./material-journal";
-import {proposeCoherentReshape,proposeArticulatedTurn,proposeRegionalSlip,proposeRegionalBend} from "./coordinated-metamorphosis";
+import {proposeCoherentReshape,proposeArticulatedTurn,proposeRegionalSlip,proposeRegionalBend,proposeAttachedMigration} from "./coordinated-metamorphosis";
 import {proposeTissueReflow} from "./tissue-reflow";
 import {proposeDenseIntercalation} from "./dense-intercalation";
 import {proposeWholeOrganismShear} from "./whole-organism-shear";
@@ -576,49 +576,16 @@ export function applyRemodelingProposal(
         }
       }
     } else if(op.kind==="reposition") {
-      // Physically migrate an entire existing tissue by ONE lattice unit;
-      // move its attachment contacts along the current host in the SAME
-      // atomic event. Existing tissue, source IDs and joints are retained.
-      // This is the bounded material version of the old regional head/
-      // appendage migrations, not a view-space sprite displacement.
-      const step=stepFor(axis);
-      const moved=group.map(c=>({cellId:c.id,
-        from:{x:c.x,y:c.y},to:{x:c.x+step.x,y:c.y+step.y}}));
-      const nonmoving=graph.cells.filter(c=>c.tissueId!==op.tissueId);
-      const protectedSites=new Set([...graph.protectedVoids,...enclosed(graph.cells)]);
-      if(moved.some(m=>!bounded(m.to)||protectedSites.has(pointKey(m.to))||
-        nonmoving.some(c=>pointKey(c)===pointKey(m.to))))
-        reason="reposition-collision-or-void";
-      else {
-        const updated=new Map(moved.map(m=>[m.cellId,m.to]));
-        const shifted=graph.cells.map(c=>updated.has(c.id)?
-          {...c,...updated.get(c.id)!}:c);
-        const byId=new Map(shifted.map(c=>[c.id,c]));
-        const touched=new Set(graph.links.flatMap(l=>
-          l.fromTissueId===op.tissueId?[l.toTissueId]:
-          l.toTissueId===op.tissueId?[l.fromTissueId]:[]));
-        const nextLinks:MaterialLink[]=[];
-        for(const link of graph.links){
-          if(link.fromTissueId!==op.tissueId&&link.toTissueId!==op.tissueId){
-            nextLinks.push(link);continue;
-          }
-          const from=shifted.filter(c=>c.tissueId===link.fromTissueId);
-          const to=shifted.filter(c=>c.tissueId===link.toTissueId);
-          const pairs=from.flatMap(a=>to.flatMap(b=>{
-            const d=square(a,b);
-            return d<=8?[{a,b,d}]:[];
-          })).sort((a,b)=>a.d-b.d||cmp(a.a,b.a)||cmp(a.b,b.b));
-          if(!pairs.length){reason="reposition-disconnects-joint";break;}
-          const pair=pairs[0];
-          nextLinks.push({...link,fromCellId:pair.a.id,toCellId:pair.b.id});
-        }
-        if(!reason&&moved.some(m=>nonmoving.some(c=>
-          near(m.to,c)&&!touched.has(c.tissueId))))
-          reason="reposition-creates-unlinked-contact";
-        if(!reason){
-          relocated.push(...moved);
-          next={...graph,cells:shifted,links:nextLinks};
-        }
+      // Actual authored head/organ migration, not a cosmetic pose.
+      // Every physically attached descendant follows the SAME unit step.
+      // Only an existing host-joint endpoint can slide along its live host.
+      // All source cells, tissue IDs, pigment, holes and ancestry persist.
+      const proposed=proposeAttachedMigration(graph,op.tissueId,stepFor(axis));
+      if(!proposed)reason="no-admissible-source-owned-migration";
+      else{
+        relocated.push(...proposed.relocated);
+        next={...graph,cells:proposed.cells,
+          links:proposed.links??graph.links};
       }
     } else if(op.kind==="reattach") {
       const targetId=op.targetTissueId!;
