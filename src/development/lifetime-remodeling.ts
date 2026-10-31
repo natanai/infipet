@@ -32,6 +32,7 @@ import { MATERIAL_LIMITS } from "./operators";
 import {repatterningExpression} from "./developmental-repatterning";
 import {proposeArticulatedTurn,proposeAttachedMigration} from "./coordinated-metamorphosis";
 import {sourceLobeHinges,proposeSourceLobeTurn} from "./source-lobe-turn";
+import {proposeWholeOrganismShear} from "./whole-organism-shear";
 import {DEVELOPMENT_STAGES,STAGE_BOUNDARY_CHECKS,STAGE_TRANSITION_HALF_WIDTH,
   STAGE_PRESSURE_WEIGHTS,stageAtCheck} from "./stage-contract";
 import {isLatticeConnected} from "./lattice-connectivity";
@@ -503,6 +504,24 @@ export function compileLifetimeRemodeling(
             direction:{x:sign,y:0},
             atHour:day,durationHours:i===0?8:65,
             units:8,strength:1,
+          });
+        }
+      }else if(operations.length<REMODEL_LIMITS.maxOperations){
+        // Solid drawings have no source cut vertex. They still have true
+        // whole-body geometric plasticity, which is NOT an inferred organ.
+        // Reuse the independently audited source-owned simultaneous shear
+        // before the first day's material deposition crowds the original
+        // shape. No target species, sprite or sample-specific seed.
+        const axes=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
+        const viable=axes.filter(d=>
+          !!proposeWholeOrganismShear(base.source,d));
+        if(viable.length){
+          const index=hash(genome.seed+"|solid-source-plasticity|"+
+            base.source.sourceFingerprint)%viable.length;
+          operations.push({
+            id:"source-solid/shear",kind:"shear",tissueId:sole.id,
+            direction:viable[index],
+            atHour:0,durationHours:8,units:8,strength:1,
           });
         }
       }
