@@ -31,6 +31,8 @@ import type { MaterialDevelopmentProgram } from "./operators";
 import { MATERIAL_LIMITS } from "./operators";
 import {repatterningExpression} from "./developmental-repatterning";
 import {proposeArticulatedTurn} from "./coordinated-metamorphosis";
+import {DEVELOPMENT_STAGES,STAGE_BOUNDARY_CHECKS,STAGE_TRANSITION_HALF_WIDTH,
+  STAGE_PRESSURE_WEIGHTS,stageAtCheck} from "./stage-contract";
 import {isLatticeConnected} from "./lattice-connectivity";
 
 export const REMODEL_LIMITS = {
@@ -301,7 +303,10 @@ export function compileLifetimeRemodeling(
     // animal template or desired final silhouette. Their daily care gate is
     // applied only when the corresponding chronological opportunity is earned.
     const directions=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
-    for(const [stage,start] of [24,82,156,242].entries()){
+    // Four non-additive reorganizations now straddle the FOUR genuine
+    // developmental boundaries rather than arbitrary old phase dates.
+    for(const [stage,boundary] of STAGE_BOUNDARY_CHECKS.entries()){
+      const start=boundary-STAGE_TRANSITION_HALF_WIDTH;
       const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
         tissue.id,"regional-front",stage].join("|"));
       const axis=directions[orbit.x%4];
@@ -313,8 +318,9 @@ export function compileLifetimeRemodeling(
         // expression = min(1, 8/sqrt(A_source)).
         // Wide dense ink has fewer opportunities than a 3x3 authored body.
         // Shape outcomes remain source/seed/care dependent, not species targets.
-        atHour:start+slot,durationHours:32,units:12,
-        strength:Math.min(1,8/Math.sqrt(Math.max(1,tissue.sourceCellIds.length))),
+        atHour:start+slot,durationHours:2*STAGE_TRANSITION_HALF_WIDTH,units:12,
+        strength:Math.min(1,8/Math.sqrt(Math.max(1,tissue.sourceCellIds.length)))*
+          STAGE_PRESSURE_WEIGHTS[stageAtCheck(boundary)].reorganization,
       });
     }
   }
@@ -327,16 +333,21 @@ export function compileLifetimeRemodeling(
     // retain source identity and use already journaled relocation/seam laws;
     // they do not generate an end-stage silhouette. Positive actual daily
     // care and physical viability decide which waves commit.
-    const waves=[{start:12,duration:55},{start:79,duration:55},
-      {start:148,duration:55},{start:219,duration:55},
-      {start:289,duration:66}];
-    for(const [wave,{start,duration}] of waves.entries())operations.push({
+    // One actual source-wide tissue wave per named epoch. It explores
+    // seed/care/geometry-permitted anatomy within that stage; no intended
+    // stage silhouette is stored, and no wave changes between daily checks.
+    const waves=DEVELOPMENT_STAGES.map(epoch=>({
+      start:epoch.startCheck,duration:epoch.endCheck-epoch.startCheck+1,
+      stage:epoch.stage,
+    }));
+    for(const [wave,{start,duration,stage}] of waves.entries())operations.push({
       id:"developmental-repattern/"+wave,kind:"repattern",tissueId:primary.id,
       atHour:start,durationHours:duration,units:10,
       // R is a REAL process gene. One explicit R enables all inherited
       // wave capacity; without R, normal latent plasticity still permits
       // a smaller (0.35) physical strain opportunity. No guaranteed moves.
-      strength:processGenes.remodel?1:0.35,
+      strength:(processGenes.remodel?1:0.35)*
+        STAGE_PRESSURE_WEIGHTS[stage].reorganization,
     });
   }
   if(!override) {
