@@ -132,3 +132,67 @@ Tests must demonstrate these properties without screenshots, fixed adult sprites
 - Correct biology that never expresses its anatomically allowed capacity in a real 365-day lifetime is **not** completion.
 - Any accepted result must be causally traceable to player source → immutable genetic potential → explicit operation → chronological care → independently reconstructed material state.
 - Keep PR #58 and issue #59 explicitly unresolved until new S1–S4 qualification is executed. **This document is a specification, not a release or proof.**
+
+## 6. Executed v12 baseline: five forms do NOT qualify yet
+
+This section records actual mathematical results; it does not replace the
+predeclared Stage-004 final held-out standard. Stage clock and stage-boundary
+mechanisms are source-implemented and have passed focused numerical tests.
+The *separate* 48-trajectory five-form diagnostic **FAILED** on the
+declared thresholds.
+
+- [GitHub Actions five-form run 41162352534](https://github.com/natanai/infipet/actions/runs/41162352534), commit `647b726926b69d26c2b842148caeee7e9762d8bc`.
+- Exact stage anchors: 10, 60, 140, 245, 345; 12 birth sources × 2
+  readable seeds × 2 divergent chronological care histories = 48 lives.
+
+| Actual adjacent pair | Qualified | Fraction |
+|---|---:|---:|
+| Egg → Infant | 43/48 | 89.6% |
+| Infant → Teen | 41/48 | 85.4% |
+| Teen → Adult | 31/48 | 64.6% |
+| Adult → Elder | 19/48 | 39.6% |
+| All four pairs in SAME lifetime | 14/48 | 29.2% |
+
+The rule requires 80% for each pair and 75% complete-five-form lifetimes.
+Do NOT weaken these acceptance thresholds retroactively. There were zero
+`unresolved` cases in this 48-life sample; the complete 24×3×2 held-out
+qualification remains outstanding.
+
+The mature-care counterfactual is particularly revealing: Adult→Elder
+passed in **4/24 higher-care** lives (`nutrition=0.92`) but **15/24
+lower-care** lives (`nutrition=0.28`). Despite more matter, high-care lives
+became less morphologically expressive. At day 281, the high-care cohort
+contained 501.3 live physical cells per pet on average, versus 196.4
+lower-care cells, from the same sampled original ink (mean 25.8 source cells).
+
+A **separate exact physical opportunity diagnostic** tried four cardinal
+directions for each of two operators on the REAL day 281, 330 and 345 graphs,
+without changing or committing any pixels.
+
+- [GitHub Actions reachability run 41162579351](https://github.com/natanai/infipet/actions/runs/41162579351), commit `5be3e95e60f0da3f5a005f0f8041e5627378e9b6`.
+- High-care day 281: 14/24 had at least one admissible source-owned slip,
+  12/24 at least one bend, **7/24 had neither** in any tested cardinal
+  direction.
+- Lower-care day 281: 24/24 had a legal slip, 21/24 had a legal bend, and
+  **0/24** had neither.
+- At day 345, high-care had 13/24 with any slip, 11/24 with any bend,
+  and the same 7/24 blocked from both. Lower-care had 23/24 with any
+  slip, 20/24 with any bend, 0/24 blocked from both.
+
+**Engineering consequence:** simply scheduling more attempts of the same
+one-direction slip or bend is insufficient. The next Stage-003 physical
+model must address both (a) which genetically fixed, materially lawful
+direction can express under chronological care and (b) source-owned
+whole-body reorganization in the seven dense examples where neither current
+family is viable at day 281. A future physically valid candidate family must
+support changing proportional mass distribution, topology, and/or internal
+material organization without hardcoded silhouettes or weakened collision,
+void, link, continuity or ancestry checks. An alternative design may
+allocate adequate material plasticity throughout stages rather than spending
+most growth credit as early bulk; that must be quantitatively tested against
+both care histories. No one-seed starter patch qualifies.
+
+**All STAGE-001..004 work remains unmerged and unpublished.** The old
+six-window source-rearrangement gate can pass despite this stricter named
+five-form gate failing. Keep both as independent diagnostics, with Stage-004
+remaining the actual product acceptance target.
