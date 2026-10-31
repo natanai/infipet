@@ -42,6 +42,27 @@ test("physical dense intercalation reshapes a source-authored body with local ce
  assert.deepEqual(new Set(proposal.cells.map(c=>c.id)),
   new Set(prior.cells.map(c=>c.id)));
  assert.ok(proposal.relocated.length>=3&&proposal.relocated.length<=64);
+ const origins=new Map(proposal.relocated.map(m=>[m.from.x+","+m.from.y,m.cellId]));
+ const targets=new Set(proposal.relocated.map(m=>m.to.x+","+m.to.y));
+ const roots=[...origins].filter(([key])=>!targets.has(key));
+ assert.ok(roots.length>=1&&roots.length<=3,
+  "one daily event consists of at most three independent source-owned corridors");
+ const moved=new Map(proposal.relocated.map(m=>[m.cellId,m]));
+ const visited=new Set<string>();
+ for(const [,first] of roots){
+  let current=first;
+  let length=0;
+  while(!visited.has(current)){
+   visited.add(current);length++;
+   const next=moved.get(current)!;
+   const following=origins.get(next.to.x+","+next.to.y);
+   if(!following)break;
+   current=following;
+  }
+  assert.ok(length>=3);
+ }
+ assert.equal(visited.size,proposal.relocated.length,
+  "every original material move belongs to exactly one nonbranching path");
  const old=new Map(prior.cells.map(c=>[c.id,c]));
  const after=new Map(proposal.cells.map(c=>[c.id,c]));
  const initial=new Set(prior.cells.map(c=>c.x+","+c.y));
