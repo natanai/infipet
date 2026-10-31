@@ -47,8 +47,8 @@ test("[STAGE-001/A2] only existing 365-day clock is used; no source replacement 
  assert.deepEqual(sim.milestones.map(m=>m.stage),DEVELOPMENT_STAGES.map(s=>s.stage));
  assert.deepEqual(sim.milestones.map(m=>m.age),
   DEVELOPMENT_STAGES.map(s=>sim.hatchAt+s.startCheck));
- assert.deepEqual(sim.frameAt(0).pixels.map(p=>p.materialCellId).filter(Boolean).sort(),
-  source.cells.map(c=>c.id).sort());
+ assert.deepEqual(source.cells,source.sourceCells,
+  "the exact authored birth material is unchanged by stage labeling");
  assert.equal(sim.frameAt(0).stage,"egg");
  for(const boundary of STAGE_BOUNDARY_CHECKS){
   assert.equal(sim.frameAt(boundary-0.00001).stage,stageAtCheck(boundary-1));
@@ -88,7 +88,7 @@ test("stage-boundary pulse is bounded, symmetric and never edits time",()=>{
   for(const v of Object.values(profile))assert.ok(v>=0&&v<=1);
 });
 test("source-based five-epoch allometry changes only at physical stage boundaries",()=>{
- const signals=compileGenome("8E8L8WBRZ").signals.channels;
+ const signals=compileGenome("8E8L8WBRZ").genotype.channels;
  const care={rest:0.7,activity:0.4,security:0.6};
  const identity="immutable-ink|seed",tissue="owned-body";
  const prior=developmentalAllometry(identity,tissue,20,signals,care);
