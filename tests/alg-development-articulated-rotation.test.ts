@@ -414,8 +414,10 @@ test("complex six-region drawings retain every eligible real joint-movement stag
   const terminal=program.operations.filter(op=>op.id==="terminal-physical-organization");
   assert.equal(terminal.length,1);
   assert.equal(terminal[0].kind,"shear");
-  assert.equal(terminal[0].atHour,330);
-  assert.equal(terminal[0].atHour+terminal[0].durationHours,364);
+  assert.equal(terminal[0].atHour,289);
+  assert.equal(terminal[0].atHour+terminal[0].durationHours,361);
+  assert.equal(terminal[0].durationHours,72);
+  assert.ok(terminal[0].atHour>=281&&terminal[0].atHour+terminal[0].durationHours<=365);
   assert.equal(terminal[0].units,12);
   const birthParents=new Map(physical.source.links.filter(l=>l.kind==="attachment")
     .map(l=>[l.fromTissueId,l.toTissueId] as const));
