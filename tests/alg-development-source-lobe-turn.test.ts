@@ -66,11 +66,15 @@ test("source-owned whole lobe turn is an authorized physically replayable chrono
  const plan=compileLifetimeRemodeling(program,genome,[op]);
  const due=remodelingProposalsBetween(plan,0,12);
  let done:ReturnType<typeof applyRemodelingProposal>|undefined;
+ const failures:string[]=[];
  for(const p of due){
   const result=applyRemodelingProposal(birth,plan,p,EMPTY_REMODELING_CHRONOLOGY,
    Math.ceil(p.atHour));
+  failures.push(result.attempt.reason??result.attempt.status);
   if(result.attempt.status==="accepted"){done=result;break;}
  }
+ console.info("LOBE_OPERATOR_DEBUG",JSON.stringify({due:due.length,failures,
+  candidate,genetics:plan.signals.channels.segmentation}));
  assert.ok(done,"genetically authorized original lobe must move as real cells");
  const k=Math.ceil(done.graph.events[0].atHour);
  const events=done.graph.events.map(e=>({
@@ -114,6 +118,7 @@ test("normal 365-check pet life actually expresses some source-owned unlabeled l
  console.info("UNLABELED_LOBE_EARLY",JSON.stringify({
   events:actual.length,relocations:actual.map(e=>e.physical?.relocations.length),
   sourceCount:birth.cells.length,now:day12.cells.length,
+  attempts:day12.remodeling?.attempts?.filter(a=>a.id.includes("source-lobe/")),
  }));
  assert.ok(actual.length>=1,
   "production life must move original unlabeled source material");
