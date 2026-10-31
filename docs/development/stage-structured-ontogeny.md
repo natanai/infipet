@@ -179,6 +179,41 @@ without changing or committing any pixels.
   and the same 7/24 blocked from both. Lower-care had 23/24 with any
   slip, 20/24 with any bend, 0/24 blocked from both.
 
+**Important follow-up correction:** The physically admissible operator
+space is broader than slip and bend. [Reflow diagnostic 41163862335](https://github.com/natanai/infipet/actions/runs/41163862335)
+tested the EXISTING routed tissue-reflow operator on the same mature cohort:
+**all 7/7** dense high-care specimens blocked from every slip/bend direction
+had admissible reflow at day 281. In the full high-care group, **22/24**
+could reflow. Thus those seven are NOT physically frozen; their reorganization
+is poorly expressed by the prior default stage schedule and by limited
+single-cell reflow scale. This replaces the earlier assumption that a wholly
+new operator is required merely to make any movement possible.
+
+A new v13 `intercalate` operator now offers a different conservative
+transport geometry: an 8-connected vacancy chain in which EVERY moved
+preexisting source-owned cell advances exactly one lattice step; the first
+site empties and the final site fills. The independent chronological auditor
+reconstructs the complete simple movement chain from original material
+coordinates and rejects omitted, duplicated, illegally distant, intersecting,
+unlinked or unsupported shifts. No new pixels, anatomy names or target adult
+silhouette are created. The focused numerical producer and forged-journal
+test passed in [run 41164230099](https://github.com/natanai/infipet/actions/runs/41164230099).
+
+[Real mature physical reachability run 41164343711](https://github.com/natanai/infipet/actions/runs/41164343711)
+found an admissible intercalation on **24/24** high-care and **24/24**
+low-care original material graphs at each of days **281, 330 and 345**.
+The best valid high-care day-281 chain moved a mean **23.96 living cell IDs**
+(including mean **2.25 originally authored** cell IDs) one site each, without
+creating or erasing a cell. This is physical *opportunity*, not proof that
+the chronological engine selects an accepted operation at the right stage.
+
+The v13 compiler now reserves limited actual Adult and Elder intercalation
+opportunities, while keeping the 64-operator cap, at least one alternate
+topological host ticket, and original source/seed/care gates. It reassigns
+two redundant additive local tickets in crowded multi-part drawings to
+preserve expressive remodelling capacity. The strict five-form stage cohort
+MUST be rerun; this document does not claim that its thresholds now pass.
+
 **Engineering consequence:** simply scheduling more attempts of the same
 one-direction slip or bend is insufficient. The next Stage-003 physical
 model must address both (a) which genetically fixed, materially lawful
