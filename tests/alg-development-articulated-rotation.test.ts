@@ -12,6 +12,8 @@ import {applyRemodelingProposal,remodelingProposalsBetween,
 import {applyDailyMaterialStep,createDailyMaterialState,verifyDailyMaterialInventory,type DailyCareWindowV1} from "../src/development/daily-step";
 import {sourceStrain} from "../src/development/developmental-strain";
 import {sourcePairChange} from "../src/evaluation/morphology";
+import {journalMaterialEvent} from "../src/development/material-journal";
+import type {MaterialCell,MaterialGraph,MaterialTissue,MaterialLink} from "../src/development/material-graph";
 import {materialInputs,drawing} from "./alg-development-fixtures";
 
 const HATCH=1_701_102_300_000;
@@ -415,4 +417,118 @@ test("complex six-region drawings retain every eligible real joint-movement stag
   assert.ok([...byTissue.values()].every(n=>n===3));
   assert.deepEqual(compileLifetimeRemodeling(physical,genome),program,
     "the allocation is fixed by the drawing and immutable genome");
+});
+
+/** Manually constructed multi-tissue source graph is deliberately not a
+ * hardcoded adult silhouette. Its assertions concern source IDs, attached
+ * parent links, and conserved geometry under generic operators. */
+function nestedAnatomy():MaterialGraph{
+ const {atlas,genome}=materialInputs(drawing(["###","###","###"],"body"),"8E8L8WRZ");
+ const source=compileMaterialDevelopment(atlas,genome).source;
+ const x=Math.min(...source.cells.map(c=>c.x)),y=Math.min(...source.cells.map(c=>c.y));
+ const body=source.tissues[0].id,base=source.cells.find(c=>c.x===x+1&&c.y===y)!;
+ const first=source.cells[0],white="#E0E0E0",headColor="#627F9C";
+ const headPoints=[
+  {x:x+1,y:y-2},{x:x+2,y:y-2},
+  {x:x+1,y:y-1},{x:x+2,y:y-1},
+ ];
+ const authored=(id:string,tissueId:string,p:{x:number;y:number},
+  kind:"head"|"eye",color:string):MaterialCell=>({
+   id,tissueId,x:p.x,y:p.y,color,provenance:"authored",
+   sourceKind:kind,sourcePartId:tissueId,sourceIds:[id],
+   parentCellIds:[],operationId:null,
+ });
+ const head=headPoints.map((p,i)=>authored("ink/head/"+i,"head",p,"head",headColor));
+ const eyes=[
+  authored("ink/eye/left","left-eye",headPoints[0],"eye",white),
+  authored("ink/eye/right","right-eye",headPoints[1],"eye",white),
+ ];
+ const tissues:MaterialTissue[]=[
+  {id:"head",sourcePartId:"head",parentId:body,relationship:"joint",
+   sourceCellIds:head.map(c=>c.id),growthSiteIds:[],rigidity:0},
+  ...eyes.map(c=>({id:c.tissueId,sourcePartId:c.sourcePartId!,
+   parentId:"head",relationship:"surface" as const,
+   sourceCellIds:[c.id],growthSiteIds:[],rigidity:0})),
+ ];
+ const links:MaterialLink[]=[
+  {id:"attachment/head",kind:"attachment",fromTissueId:"head",toTissueId:body,
+   fromCellId:head[2].id,toCellId:base.id},
+  {id:"attachment/left-eye",kind:"attachment",fromTissueId:"left-eye",
+   toTissueId:"head",fromCellId:eyes[0].id,toCellId:head[0].id},
+  {id:"attachment/right-eye",kind:"attachment",fromTissueId:"right-eye",
+   toTissueId:"head",fromCellId:eyes[1].id,toCellId:head[1].id},
+ ];
+ const cells=[...source.cells,...head,...eyes];
+ const allTissues=[...source.tissues,...tissues],allLinks=[...source.links,...links];
+ return {...source,sourceCells:cells,cells,tissues:allTissues,links:allLinks,
+  birth:{tissues:allTissues,sites:source.sites,links:allLinks,
+   protectedVoids:source.protectedVoids},events:[]};
+}
+
+test("a body bend and slip carry a head and two separately authored eyes by their parent anchors",()=>{
+ const graph=nestedAnatomy(),body=graph.tissues[0].id;
+ for(const kind of ["slip","bend"] as const){
+  const candidate=kind==="slip"?
+   proposeRegionalSlip(graph,body,{x:1,y:0}):
+   proposeRegionalBend(graph,body,{x:1,y:0});
+  assert.ok(candidate,kind+" must permit coherent child movement");
+  assert.equal(candidate.cells.length,graph.cells.length);
+  const before=new Map(graph.cells.map(c=>[c.id,c]));
+  const after=new Map(candidate.cells.map(c=>[c.id,c]));
+  const contact=graph.links.find(l=>l.id==="attachment/head")!;
+  const originalRoot=before.get(contact.toCellId!)!,updatedRoot=after.get(contact.toCellId!)!;
+  const delta={x:updatedRoot.x-originalRoot.x,y:updatedRoot.y-originalRoot.y};
+  assert.ok(delta.x!==0||delta.y!==0);
+  for(const c of graph.cells.filter(c=>["head","left-eye","right-eye"].includes(c.tissueId))){
+   const updated=after.get(c.id)!;
+   assert.deepEqual({x:updated.x-c.x,y:updated.y-c.y},delta);
+   assert.equal(updated.color,c.color);
+   assert.deepEqual(updated.sourceIds,c.sourceIds);
+  }
+  assert.deepEqual(candidate,kind==="slip"?
+    proposeRegionalSlip(graph,body,{x:1,y:0}):
+    proposeRegionalBend(graph,body,{x:1,y:0}));
+ }
+});
+
+test("rotating a head carries both separately authored eyes by the SAME rigid transform",()=>{
+ const graph=nestedAnatomy();
+ const turn=proposeArticulatedTurn(graph,"head",-1);
+ assert.ok(turn,"joint rotation must carry the eyes instead of leaving them behind");
+ assert.equal(turn.cells.length,graph.cells.length);
+ const byId=new Map(turn.cells.map(c=>[c.id,c]));
+ for(const original of graph.cells.filter(c=>["head","left-eye","right-eye"].includes(c.tissueId))){
+  const cell=byId.get(original.id)!;
+  assert.equal(cell.x,turn.pivot.x+(original.y-turn.pivot.y));
+  assert.equal(cell.y,turn.pivot.y-(original.x-turn.pivot.x));
+  assert.equal(cell.tissueId,original.tissueId);
+  assert.deepEqual(cell.sourceIds,original.sourceIds);
+ }
+ assert.equal(graph.cells.filter(c=>c.tissueId===graph.tissues[0].id).every(c=>
+  byId.get(c.id)?.x===c.x&&byId.get(c.id)?.y===c.y),true,
+  "the nonparticipating root body may not be translated");
+});
+
+test("the independent journal reconstructs every descendant and rejects a missing eye",()=>{
+ const graph=nestedAnatomy(),body=graph.tissues[0].id;
+ const turn=proposeRegionalSlip(graph,body,{x:1,y:0});
+ assert.ok(turn);
+ const operation={id:"nested-physical-carrier",kind:"slip",tissueId:body,
+  direction:{x:1,y:0}};
+ const originalEvent={id:operation.id+"/unit/1",kind:"slip",
+  atHour:24,atMs:HATCH+DAY,checkIndex:1,
+  sourceCellIds:[...new Set(graph.sourceCells.map(c=>c.id))],
+  createdCellIds:[],removedCellIds:[],careDigest:"independent/nested",
+  genomeFingerprint:"nested/source-provenance"};
+ const prior={...graph,cells:turn.cells};
+ const withJournal=journalMaterialEvent(graph,prior,originalEvent,
+  "remodeling",operation);
+ const final={...prior,events:[withJournal]};
+ verifyDailyMaterialInventory(final,HATCH,1,graph);
+ const withoutEye={...final,events:[{...withJournal,physical:{
+  ...withJournal.physical!,
+  relocations:withJournal.physical!.relocations.filter(m=>m.cellId!=="ink/eye/left"),
+ }}]};
+ assert.throws(()=>verifyDailyMaterialInventory(withoutEye,HATCH,1,graph),
+  /attachment|movement|source|inventory|material|physical/i);
 });
