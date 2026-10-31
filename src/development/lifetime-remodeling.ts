@@ -275,7 +275,11 @@ export function compileLifetimeRemodeling(
       turnAmplitude: 0.6,
     });
     const slot = index * 0.125;
-    if(!crowded||index===0)operations.push({
+    // Crowded multi-part drawings already receive additive cells from the
+    // daily iterative material engine. Use these two otherwise redundant
+    // extension/reinforcement tickets for independently verified physical
+    // whole-body reorganization during later life stages.
+    if(!crowded)operations.push({
       id: "remodel/" + index + "/extend",
       kind: "extend", tissueId: tissue.id, sourceSiteId: site?.id,
       atHour: 90 + slot, durationHours: 48, units: 7,
@@ -442,6 +446,34 @@ export function compileLifetimeRemodeling(
       atHour:330,durationHours:34,units:12,
       strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length))),
     });
+  }
+  if(!override&&primary){
+    // Dense organisms frequently cannot translate an entire occupied band.
+    // Source-owned vacancy-chain intercalation preserves their original
+    // material and moves every affected identity only ONE lattice site.
+    // Reserve at least two later topology opportunities for complex
+    // multi-part drawings (one for smaller anatomies), so reorganization
+    // never crowds all reattachments out of the 64-ticket finite grammar.
+    const reserve=tissues.length>=5?2:1;
+    const available=Math.max(0,
+      REMODEL_LIMITS.maxOperations-operations.length-reserve);
+    const dates=[
+      {label:"elder",start:STAGE_BOUNDARY_CHECKS[3]-4},
+      {label:"adult",start:STAGE_BOUNDARY_CHECKS[2]-4},
+    ] as const;
+    const directions=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
+    for(const stage of dates.slice(0,Math.min(2,available))){
+      const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
+        primary.id,"dense-intercalation",stage.label].join("|"));
+      operations.push({
+        id:"stage/"+stage.label+"/intercalate",
+        kind:"intercalate",tissueId:primary.id,
+        direction:directions[orbit.x%4],
+        atHour:stage.start,durationHours:60,units:12,
+        strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length)))*
+          STAGE_PRESSURE_WEIGHTS[stage.label].reorganization,
+      });
+    }
   }
   if(!override && operations.length<REMODEL_LIMITS.maxOperations){
     // The physical reattachment transaction already exists and independently
