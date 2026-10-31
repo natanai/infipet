@@ -462,25 +462,13 @@ export function compileLifetimeRemodeling(
       {label:"adult",start:STAGE_BOUNDARY_CHECKS[2]-4},
     ] as const;
     const directions=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
-    // One source/seed-determined tissue axis, rather than unrelated stage
-    // directions that may simply undo one another. Adult and Elder are
-    // guaranteed ORTHOGONAL mechanical opportunity fields, not forced
-    // end-stage outlines. Genetic seed chooses both the Adult axis and
-    // the Elder transverse orientation. Physical geometry/care retain
-    // authority to reject every proposed individual move.
-    const identity=[genome.seed,base.source.sourceFingerprint,
-      primary.id,"dense-intercalation"].join("|");
-    const adultOrbit=seedChaos(identity+"|adult");
-    const elderOrbit=seedChaos(identity+"|elder");
-    const adultAxis=directions[adultOrbit.x%4];
-    const sign=elderOrbit.x%2?1:-1;
-    const elderAxis={x:-sign*adultAxis.y,y:sign*adultAxis.x};
     for(const stage of dates.slice(0,Math.min(2,available))){
-      const axis=stage.label==="adult"?adultAxis:elderAxis;
+      const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
+        primary.id,"dense-intercalation",stage.label].join("|"));
       operations.push({
         id:"stage/"+stage.label+"/intercalate",
         kind:"intercalate",tissueId:primary.id,
-        direction:axis,
+        direction:directions[orbit.x%4],
         atHour:stage.start,durationHours:60,units:12,
         strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length)))*
           STAGE_PRESSURE_WEIGHTS[stage.label].reorganization,
