@@ -66,7 +66,7 @@ export type PetPart = {
 };
 export type SourceMode = "infant" | "egg";
 export type PetAction = "idle" | "move" | "play" | "greet";
-export type LifeStage = "egg" | "infant" | "teen" | "adult" | "elderly";
+export type LifeStage = import("../development/stage-contract").DevelopmentStage;
 export type MovementMode =
   | "walk"
   | "crawl"
