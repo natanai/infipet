@@ -840,13 +840,55 @@ export function reconstructDailyPhysicalState(
       }
     }
     if(e.kind==="reposition"){
-      const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
+      // Reconstruct the EXACT moving anatomical SUBTREE from the ORIGINAL
+      // attached graph. If a head moves, its eyes/face/pupils/descendants
+      // must move by the same one-cell delta. Moving only a convenient subset,
+      // or quietly moving unrelated painted material, is not admissible.
       const d=p.operation.direction;
       if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
-        !d||![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>d.x===x&&d.y===y)||
-        !own.length||moves.size!==own.length||
-        own.some(c=>!moves.has(c.id)))
-        throw new Error("Reposition must move exactly every source-owned cell in one connected tissue");
+        !d||![[1,0],[-1,0],[0,1],[0,-1]]
+          .some(([x,y])=>d.x===x&&d.y===y))
+        throw new Error("Invalid physical anatomical migration");
+      const closure=new Set<string>([p.operation.tissueId]);
+      let grew=true;
+      while(grew){
+        grew=false;
+        for(const link of links.values())if(link.kind==="attachment"&&
+          closure.has(link.toTissueId)&&!closure.has(link.fromTissueId)){
+          closure.add(link.fromTissueId);grew=true;
+        }
+      }
+      const expected=[...beforeCells.values()].filter(c=>closure.has(c.tissueId));
+      if(!expected.length||expected.length!==moves.size||
+        expected.some(c=>!moves.has(c.id))||
+        p.relocations.some(m=>!closure.has(beforeCells.get(m.cellId)?.tissueId??"")||
+          m.to.x!==m.from.x+d.x||m.to.y!==m.from.y+d.y))
+        throw new Error("Missing or forged head/descendant material migration");
+      const joint=[...links.values()].find(l=>l.kind==="attachment"&&
+        l.fromTissueId===p.operation.tissueId&&l.fromCellId&&l.toCellId);
+      const declared=p.links.filter(change=>change.before!==null);
+      if(!joint){
+        if(declared.length)throw new Error("Migration fabricated a host joint");
+      }else{
+        const head=beforeCells.get(joint.fromCellId!)!;
+        const position={x:head.x+d.x,y:head.y+d.y};
+        const candidates=[...beforeCells.values()]
+          .filter(c=>c.tissueId===joint.toTissueId)
+          .map(c=>({c,square:(c.x-position.x)**2+(c.y-position.y)**2}))
+          .filter(v=>v.square<=8)
+          .sort((a,b)=>a.square-b.square||
+            (a.c.id<b.c.id?-1:a.c.id>b.c.id?1:0));
+        if(!candidates.length)
+          throw new Error("Migrated head detached from original host");
+        const expectedTarget=candidates[0].c.id;
+        const changed=joint.toCellId!==expectedTarget;
+        if(declared.length!==Number(changed)||
+          changed&&!same(declared[0],{
+            id:joint.id,before:joint,
+            after:{...joint,toCellId:expectedTarget},
+          }))
+          throw new Error("Anatomical migration forged host joint retargeting");
+      }
     }
     if (e.kind === "remodel" && moves.size > 1)
       throw new Error("Remodel quantum relocated excess material");
