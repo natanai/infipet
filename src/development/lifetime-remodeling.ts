@@ -458,25 +458,20 @@ export function compileLifetimeRemodeling(
     const available=Math.max(0,
       REMODEL_LIMITS.maxOperations-operations.length-reserve);
     const dates=[
-      {label:"elder",stage:"elder",start:STAGE_BOUNDARY_CHECKS[3]-4,duration:60},
-      {label:"adult",stage:"adult",start:STAGE_BOUNDARY_CHECKS[2]-4,duration:60},
-      // A second bounded Elder pressure window uses only unspent genetic
-      // opportunity slots; it is NOT a stored or forced target silhouette.
-      // The first window organizes the stage transition, the later window
-      // allows continuing source-owned contour change before day 365.
-      {label:"elder-late",stage:"elder",start:317,duration:47},
+      {label:"elder",start:STAGE_BOUNDARY_CHECKS[3]-4},
+      {label:"adult",start:STAGE_BOUNDARY_CHECKS[2]-4},
     ] as const;
     const directions=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
-    for(const stage of dates.slice(0,Math.min(dates.length,available))){
+    for(const stage of dates.slice(0,Math.min(2,available))){
       const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
         primary.id,"dense-intercalation",stage.label].join("|"));
       operations.push({
         id:"stage/"+stage.label+"/intercalate",
         kind:"intercalate",tissueId:primary.id,
         direction:directions[orbit.x%4],
-        atHour:stage.start,durationHours:stage.duration,units:12,
+        atHour:stage.start,durationHours:60,units:12,
         strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length)))*
-          STAGE_PRESSURE_WEIGHTS[stage.stage].reorganization,
+          STAGE_PRESSURE_WEIGHTS[stage.label].reorganization,
       });
     }
   }
