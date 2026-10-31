@@ -2798,7 +2798,7 @@
         "STAGE-002",
         "MORPH-007"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -2842,7 +2842,7 @@
       "dependsOn": [
         "STAGE-003"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "acceptance": [
         {
           "id": "A1",
@@ -3470,7 +3470,7 @@
     "currentPriority": "Implement five distinct source-owned developmental epochs (Egg/Infant/Teen/Adult/Elder) through STAGE-001..004. Require genuinely distinct silhouette and anatomy at five material checkpoints, rather than added bulk or name-only stage changes. No live user testing until physically verified and deployed."
   },
   "stageStructuredOntogeny": {
-    "status": "partially-implemented-unqualified",
+    "status": "five-epoch-engine-implemented-stage-contrast-unqualified",
     "specification": "docs/development/stage-structured-ontogeny.md",
     "developmentEpochs": [
       {
@@ -3516,6 +3516,39 @@
     "acceptanceTaskId": "STAGE-004",
     "noPrescribedCreatureOutcomes": true,
     "noSecondClock": true,
-    "noIntraDayAnatomy": true
+    "noIntraDayAnatomy": true,
+    "latestQualification": {
+      "test": "tests/alg-evaluation-five-forms-cohort.test.ts",
+      "lastCompletedCommit": "3ca9241c05f0e62d7b136ca10fc74d25bb4853e3",
+      "trajectories": 48,
+      "eligible": 48,
+      "comparisonPairs": [
+        {
+          "from": "egg",
+          "to": "infant",
+          "qualified": 43
+        },
+        {
+          "from": "infant",
+          "to": "teen",
+          "qualified": 41
+        },
+        {
+          "from": "teen",
+          "to": "adult",
+          "qualified": 41
+        },
+        {
+          "from": "adult",
+          "to": "elder",
+          "qualified": 26
+        }
+      ],
+      "fullLivesQualified": 20,
+      "requiredPerPairFraction": 0.8,
+      "requiredFullLifetimeFraction": 0.75,
+      "status": "failing",
+      "note": "Three-corridor version failed Adult-Elder even though interior source reorganization increased. Subsequent eight-corridor exterior transport is under independent qualification and must not be counted as passing."
+    }
   }
 }
