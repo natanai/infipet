@@ -501,7 +501,7 @@ export function compileLifetimeRemodeling(
             sourceSiteId:JSON.stringify([selected.h.hingeId,
               selected.h.distalId]),
             direction:{x:sign,y:0},
-            atHour:day,durationHours:i===0?12:65,
+            atHour:day,durationHours:i===0?8:65,
             units:8,strength:1,
           });
         }
