@@ -89,7 +89,15 @@ and only 14/48 lives passing all four (see the executed measurement appendix
 in `docs/development/stage-structured-ontogeny.md`). Mature high-care bodies
 are especially resistant to the currently available physically lawful slip
 and bend operations; **7/24** had neither operator legal in any cardinal
-direction at day 281. STAGE-003 and STAGE-004 remain open.
+direction at day 281. STAGE-003 and STAGE-004 remain open. On the v13 draft, a new
+**atomically audited dense intercalation** operator slides an entire
+preexisting, 8-connected tissue material vacancy chain one lattice site
+per cell and therefore avoids whole-band occupancy conflicts. Independent
+mature-geometry cohorts show this operator has a legal realization on
+all 24 sampled high-care bodies at days 281/330/345. The v13 genetic
+scheduler allocates limited Adult/Elder opportunities without exceeding
+64 operations, but all five distinct final forms have NOT passed the
+source-general five-form acceptance gate.
 Tasks `STAGE-001` and `STAGE-002` are in progress; `STAGE-003` and
 `STAGE-004` are pending in `roadmap/plan.json`. The existing material clock remains
 the sole source of anatomical time.
