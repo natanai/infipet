@@ -111,157 +111,175 @@ export function proposeCoherentReshape(graph:MaterialGraph,tissueId:string,
  * pre-event attachment and verifies every surviving material identity.
  */
 import {anatomicalContinuityFailure} from "./anatomical-continuity";
-export type ArticulatedTurn=Readonly<{
- cells:readonly MaterialCell[];
- pivot:Readonly<{x:number;y:number}>;
- relocated:readonly Readonly<{cellId:string;from:Readonly<{x:number;y:number}>;to:Readonly<{x:number;y:number}>}>[];
-}>;
-export function proposeArticulatedTurn(graph:MaterialGraph,tissueId:string,
- sign:1|-1):ArticulatedTurn|null{
- if(!tissueId||sign!==1&&sign!==-1)
-  throw new RangeError("Invalid source-owned articulated turn");
- const joint=[...graph.links].filter(l=>l.kind==="attachment"&&
-   l.fromTissueId===tissueId&&l.fromCellId).sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0)[0];
- if(!joint)return null;
- const pivotCell=graph.cells.find(c=>c.id===joint.fromCellId&&c.tissueId===tissueId);
- if(!pivotCell)return null;
- const group=graph.cells.filter(c=>c.tissueId===tissueId);
- if(group.length<2)return null;
- const pivot={x:pivotCell.x,y:pivotCell.y};
- const moving=new Map(group.map(c=>{
-  const x=pivot.x-sign*(c.y-pivot.y),y=pivot.y+sign*(c.x-pivot.x);
-  return [c.id,{x,y}] as const;
- }));
- const former=new Set(group.map(key));
- const latter=new Set([...moving.values()].map(key));
- // Rotationally symmetric silhouettes are not a meaningful stage change.
- if(former.size===latter.size&&[...former].every(k=>latter.has(k)))return null;
- const foreign=graph.cells.filter(c=>c.tissueId!==tissueId);
- const other=new Set(foreign.map(key));
- const linked=new Set(graph.links.flatMap(l=>l.fromTissueId===tissueId?
-   [l.toTissueId]:l.toTissueId===tissueId?[l.fromTissueId]:[]));
- const forbidden=new Set(graph.protectedVoids);
- if([...moving.values()].some(p=>!inside(p.x,p.y)||other.has(key(p))||
-   forbidden.has(key(p))||foreign.some(c=>!linked.has(c.tissueId)&&
-     Math.max(Math.abs(c.x-p.x),Math.abs(c.y-p.y))<=1)))
-  return null;
- const cells=graph.cells.map(c=>{
-  const p=moving.get(c.id);return p?{...c,x:p.x,y:p.y}:c;
- });
- if(anatomicalContinuityFailure(graph.sourceCells,cells,{
-   links:graph.links,protectedVoids:graph.protectedVoids}))return null;
- const byId=new Map(cells.map(c=>[c.id,c]));
- if(graph.links.some(l=>{
-  const a=byId.get(l.fromCellId??""),b=byId.get(l.toCellId??"");
-  return !a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8;
- }))return null;
- return {cells,pivot,relocated:group.flatMap(c=>{
-  const p=moving.get(c.id)!;
-  return c.x===p.x&&c.y===p.y?[]:[{
-   cellId:c.id,from:{x:c.x,y:c.y},to:{x:p.x,y:p.y},
-  }];
- })};
-}
-
-
-/**
- * A conservation-first regional metamorphosis primitive. An outer half-sheet
- * moves by ONE lattice edge, retaining EVERY cell and source identity.
- * Unlike a front reshape it never fills the vacated coordinates, and unlike
- * a one-cell redistribution the full genetically selected band participates.
- *
- * Direction selects both the shift axis and the opposite-side organizer:
- * (+x) moves the upper half, (-x) moves the lower half,
- * (+y) moves the left half, (-y) moves the right half.
- * Let cross=y for horizontal shifts and x for vertical shifts. From
- * sorted unique live cross-coordinates U, cut=U[floor((|U|-1)/2)].
- * Move all members with cross<=cut for positive direction or >cut for
- * negative direction; each shifts by exactly unit vector (dx,dy), while
- * every other identity retains its coordinate. The physical world is 64²
- * integer sites, with at most 4096 moving cells, and exact zero creation,
- * deletion, color mutation, genome mutation, or source ancestry change.
- * Source material remains eligible when growth changes the available shape.
- * Failed geometry/cavity/link/feature constraints produce a genuine null.
- */
 export type RegionalSlip=Readonly<{
  cells:readonly MaterialCell[];
  relocated:readonly Readonly<{cellId:string;from:Readonly<{x:number;y:number}>;to:Readonly<{x:number;y:number}>}>[];
 }>;
+export type ArticulatedTurn=RegionalSlip&Readonly<{
+ pivot:Readonly<{x:number;y:number}>;
+}>;
+type LatticePoint=Readonly<{x:number;y:number}>;
+type QuarterTurn=Readonly<{pivot:LatticePoint;sign:1|-1}>;
+const compareIds=(a:string,b:string)=>a<b?-1:a>b?1:0;
+
+/**
+ * One atomic, physically committed, attachment-coupled deformation.
+ *
+ * Inputs: the live prior graph, one actual parent tissue, a proposed root
+ * material map and an optional fixed 90-degree turn about a real joint.
+ * Outputs: a COMPLETE physical cell graph and every changed identity, or
+ * null if any descendant, void, overlap, joint or original feature would fail.
+ *
+ * For a regional morph, a child follows the displacement of its parent
+ * ATTACHMENT CELL, not the parent's centroid. Recurse through all attachment
+ * descendants. A rigid turn instead applies exactly the same integer
+ * isometry to every descendant. Source IDs/tissue IDs/pigment are immutable.
+ * An existing overlay may persist only if both original cells overlapped.
+ * The independent auditor does NOT call this function.
+ */
+function completeAttachedTransformation(
+ graph:MaterialGraph,tissueId:string,root:ReadonlyMap<string,LatticePoint>,
+ rotation?:QuarterTurn,
+):RegionalSlip|null{
+ const original=new Map(graph.cells.map(c=>[c.id,c]));
+ const changed=new Map<string,LatticePoint>(root);
+ const queue=[tissueId],visited=new Set<string>(queue);
+ for(let head=0;head<queue.length;head++){
+  const parent=queue[head];
+  const edges=graph.links.filter(l=>l.kind==="attachment"&&l.toTissueId===parent)
+   .sort((a,b)=>compareIds(a.id,b.id));
+  for(const link of edges){
+   if(visited.has(link.fromTissueId)||!link.toCellId||!link.fromCellId)
+    return null;
+   const parentCell=original.get(link.toCellId);
+   const childAnchor=original.get(link.fromCellId);
+   if(!parentCell||!childAnchor||parentCell.tissueId!==parent||
+      childAnchor.tissueId!==link.fromTissueId)return null;
+   visited.add(link.fromTissueId);queue.push(link.fromTissueId);
+   const after=changed.get(parentCell.id)??parentCell;
+   const dx=after.x-parentCell.x,dy=after.y-parentCell.y;
+   for(const child of graph.cells)if(child.tissueId===link.fromTissueId){
+    const point=rotation?{
+      x:rotation.pivot.x-rotation.sign*(child.y-rotation.pivot.y),
+      y:rotation.pivot.y+rotation.sign*(child.x-rotation.pivot.x),
+    }:{x:child.x+dx,y:child.y+dy};
+    if(point.x!==child.x||point.y!==child.y)
+     changed.set(child.id,point);
+   }
+  }
+ }
+ const cells=graph.cells.map(c=>{
+  const p=changed.get(c.id);
+  return p?{...c,x:p.x,y:p.y}:c;
+ });
+ const shifts=cells.filter(c=>{
+  const was=original.get(c.id)!;
+  return was.x!==c.x||was.y!==c.y;
+ });
+ if(!shifts.length)return null;
+ const prohibited=new Set(graph.protectedVoids);
+ const occupants=new Map<string,MaterialCell[]>();
+ for(const cell of cells){
+  const was=original.get(cell.id)!;
+  if(!inside(cell.x,cell.y)||(
+    (was.x!==cell.x||was.y!==cell.y)&&prohibited.has(key(cell))))return null;
+  const slot=occupants.get(key(cell))??[];
+  // Original authored overlays may move together, never multiply.
+  if(slot.some(other=>{
+   const older=original.get(other.id)!;
+   return older.x!==was.x||older.y!==was.y;
+  }))return null;
+  slot.push(cell);occupants.set(key(cell),slot);
+ }
+ const byId=new Map(cells.map(c=>[c.id,c]));
+ for(const link of graph.links){
+  const a=byId.get(link.fromCellId??""),b=byId.get(link.toCellId??"");
+  if(!a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8)return null;
+ }
+ const relations=new Set<string>();
+ for(const link of graph.links){
+  relations.add(link.fromTissueId+"|"+link.toTissueId);
+  relations.add(link.toTissueId+"|"+link.fromTissueId);
+ }
+ for(const moved of shifts){
+  const old=original.get(moved.id)!;
+  for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)
+   for(const other of occupants.get((moved.x+dx)+","+(moved.y+dy))??[]){
+    if(other.id===moved.id||other.tissueId===moved.tissueId||
+      relations.has(moved.tissueId+"|"+other.tissueId))continue;
+    const former=original.get(other.id)!;
+    if(Math.max(Math.abs(old.x-former.x),Math.abs(old.y-former.y))>1)
+     return null;
+   }
+ }
+ // All tissues must remain 8-connected, including unchanged subregions.
+ for(const tissue of graph.tissues){
+  const group=cells.filter(c=>c.tissueId===tissue.id);
+  if(!group.length)continue;
+  const occupied=new Set(group.map(key)),seen=new Set<string>();
+  const first=group[0],walk:LatticePoint[]=[{x:first.x,y:first.y}];
+  seen.add(key(first));
+  for(let i=0;i<walk.length;i++)for(let dy=-1;dy<=1;dy++)
+   for(let dx=-1;dx<=1;dx++){
+    if(!dx&&!dy)continue;
+    const p={x:walk[i].x+dx,y:walk[i].y+dy},k=key(p);
+    if(occupied.has(k)&&!seen.has(k)){seen.add(k);walk.push(p);}
+   }
+  if(seen.size!==occupied.size)return null;
+ }
+ if(anatomicalContinuityFailure(graph.sourceCells,cells,{
+  links:graph.links,protectedVoids:graph.protectedVoids}))return null;
+ return {cells,relocated:graph.cells.flatMap(c=>{
+  const p=changed.get(c.id);
+  return p&&(p.x!==c.x||p.y!==c.y)?
+   [{cellId:c.id,from:{x:c.x,y:c.y},to:{x:p.x,y:p.y}}]:[];
+ })};
+}
+
+/** A source-owned attached organ and its complete child hierarchy turn about
+ * the same real joint; no copied pixels, pose sprites or temporary offspring. */
+export function proposeArticulatedTurn(graph:MaterialGraph,tissueId:string,
+ sign:1|-1):ArticulatedTurn|null{
+ if(!tissueId||(sign!==1&&sign!==-1))
+  throw new RangeError("Invalid source-owned articulated turn");
+ const joint=graph.links.filter(l=>l.kind==="attachment"&&
+   l.fromTissueId===tissueId&&l.fromCellId)
+   .sort((a,b)=>compareIds(a.id,b.id))[0];
+ if(!joint)return null;
+ const pivotCell=graph.cells.find(c=>c.id===joint.fromCellId&&c.tissueId===tissueId);
+ if(!pivotCell)return null;
+ const pivot={x:pivotCell.x,y:pivotCell.y};
+ const root=new Map(graph.cells.filter(c=>c.tissueId===tissueId).map(c=>
+  [c.id,{x:pivot.x-sign*(c.y-pivot.y),
+    y:pivot.y+sign*(c.x-pivot.x)}] as const));
+ if(root.size<2)return null;
+ const proposed=completeAttachedTransformation(graph,tissueId,root,{pivot,sign});
+ return proposed?{...proposed,pivot}:null;
+}
+
+/** Physically shift one source-defined median half-sheet while carrying each
+ * attached descendant through the displacement of its own live anchor. */
 export function proposeRegionalSlip(graph:MaterialGraph,tissueId:string,
  direction:Readonly<{x:number;y:number}>):RegionalSlip|null{
  if(!tissueId||!directions.some(([x,y])=>direction.x===x&&direction.y===y))
   throw new RangeError("Invalid physical regional slip");
  const own=graph.cells.filter(c=>c.tissueId===tissueId);
  if(own.length<4)return null;
- const horizontal=direction.y===0;
- const cross=horizontal?"y":"x";
- const unique=[...new Set(own.map(c=>c[cross]))].sort((a,b)=>a-b);
- if(unique.length<2)return null;
- const median=unique[Math.floor((unique.length-1)/2)];
- const upper=horizontal?direction.x>0:direction.y>0;
- const selected=own.filter(c=>upper?c[cross]<=median:c[cross]>median);
- if(!selected.length||selected.length===own.length)return null;
- const selectedIds=new Set(selected.map(c=>c.id));
- const unmoved=new Set(graph.cells.filter(c=>!selectedIds.has(c.id)).map(key));
- const voids=new Set(graph.protectedVoids);
- const destinations=selected.map(c=>({cell:c,p:{x:c.x+direction.x,y:c.y+direction.y}}));
- if(destinations.some(({p})=>!inside(p.x,p.y)||unmoved.has(key(p))||voids.has(key(p))))
-  return null;
- const after=graph.cells.map(c=>selectedIds.has(c.id)?
-  {...c,x:c.x+direction.x,y:c.y+direction.y}:c);
- const positions=new Map(after.map(c=>[c.id,c]));
- if(graph.links.some(l=>{
-  const a=positions.get(l.fromCellId??""),b=positions.get(l.toCellId??"");
-  return !a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8;
- }))return null;
- const linked=new Map(graph.tissues.map(t=>[t.id,new Set<string>([t.id])]));
- for(const l of graph.links){
-  linked.get(l.fromTissueId)?.add(l.toTissueId);
-  linked.get(l.toTissueId)?.add(l.fromTissueId);
- }
- const foreignByPos=new Map<string,MaterialCell[]>();
- for(const c of after)if(c.tissueId!==tissueId){
-  const k=key(c),prior=foreignByPos.get(k)??[];
-  prior.push(c);foreignByPos.set(k,prior);
- }
- for(const c of after)if(selectedIds.has(c.id))
-  for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)
-   if((foreignByPos.get((c.x+dx)+","+(c.y+dy))??[]).some(o=>
-     !linked.get(tissueId)?.has(o.tissueId)))return null;
- if(anatomicalContinuityFailure(graph.sourceCells,after,{
-   links:graph.links,protectedVoids:graph.protectedVoids}))return null;
- // Connectivity is checked again by the independent transaction auditor.
- const occupied=new Set(after.filter(c=>c.tissueId===tissueId).map(key));
- const visited=new Set<string>(),queue:{x:number;y:number}[]=[after.find(c=>c.tissueId===tissueId)!];
- visited.add(key(queue[0]));
- for(let i=0;i<queue.length;i++)for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
-  if(!dx&&!dy)continue;
-  const k=(queue[i].x+dx)+","+(queue[i].y+dy);
-  if(occupied.has(k)&&!visited.has(k)){
-   visited.add(k);queue.push({x:queue[i].x+dx,y:queue[i].y+dy});
-  }
- }
- if(visited.size!==occupied.size)return null;
- return {cells:after,relocated:destinations.map(({cell,p})=>({
-  cellId:cell.id,from:{x:cell.x,y:cell.y},to:p,
- }))};
+ const cross=direction.y===0?"y":"x";
+ const levels=[...new Set(own.map(c=>c[cross]))].sort((a,b)=>a-b);
+ if(levels.length<2)return null;
+ const cut=levels[Math.floor((levels.length-1)/2)];
+ const positive=direction.y===0?direction.x>0:direction.y>0;
+ const band=own.filter(c=>positive?c[cross]<=cut:c[cross]>cut);
+ if(!band.length||band.length===own.length)return null;
+ const root=new Map(band.map(c=>[c.id,{
+  x:c.x+direction.x,y:c.y+direction.y,
+ }] as const));
+ return completeAttachedTransformation(graph,tissueId,root);
 }
 
-
-/**
- * Conservative multi-region bending, distinct from both front dilation and
- * whole-organ rotation. Its opposite perimeter bands translate in opposite
- * directions, while the intermediate source-owned bridge stays in place.
- *
- * Let U be the ascending unique integer coordinates along the axis normal
- * to direction D. The outer thirds are U[0..floor((N-1)/3)] and
- * U[ceil(2*(N-1)/3)..N-1]. Each top-band cell moves +D, each bottom-band
- * cell -D, and all middle-band cells remain. All cells persist unchanged in
- * identity, tissue, color, ancestry and mass. No inferred part names.
- * Invariants: N>=3, intact links, legal integer 64² positions, maintained
- * source feature contact, intact voids, exactly 8-connected live tissue.
- * Bounded by at most 4096 cell moves and deterministic for a given graph.
- */
+/** Opposite perimeter thirds countertranslate around an unchanged central
+ * source bridge. Child structures follow their individual anchor motion. */
 export function proposeRegionalBend(graph:MaterialGraph,tissueId:string,
  direction:Readonly<{x:number;y:number}>):RegionalSlip|null{
  if(!tissueId||!directions.some(([x,y])=>direction.x===x&&direction.y===y))
@@ -269,58 +287,15 @@ export function proposeRegionalBend(graph:MaterialGraph,tissueId:string,
  const own=graph.cells.filter(c=>c.tissueId===tissueId);
  if(own.length<4)return null;
  const cross=direction.y===0?"y":"x";
- const tiers=[...new Set(own.map(c=>c[cross]))].sort((a,b)=>a-b);
- if(tiers.length<3)return null;
- const low=tiers[Math.floor((tiers.length-1)/3)],
-  high=tiers[Math.ceil(2*(tiers.length-1)/3)];
+ const levels=[...new Set(own.map(c=>c[cross]))].sort((a,b)=>a-b);
+ if(levels.length<3)return null;
+ const low=levels[Math.floor((levels.length-1)/3)];
+ const high=levels[Math.ceil(2*(levels.length-1)/3)];
  if(low>=high)return null;
- const movement=new Map<string,{x:number;y:number}>();
+ const root=new Map<string,LatticePoint>();
  for(const c of own){
   const sign=c[cross]<=low?1:c[cross]>=high?-1:0;
-  if(sign)movement.set(c.id,{x:c.x+sign*direction.x,y:c.y+sign*direction.y});
+  if(sign)root.set(c.id,{x:c.x+sign*direction.x,y:c.y+sign*direction.y});
  }
- if(movement.size<2)return null;
- const others=graph.cells.filter(c=>!movement.has(c.id));
- const occupiedOther=new Set(others.map(key));
- const protectedVoids=new Set(graph.protectedVoids);
- if([...movement.values()].some(p=>!inside(p.x,p.y)||
-    occupiedOther.has(key(p))||protectedVoids.has(key(p))))return null;
- const after=graph.cells.map(c=>movement.has(c.id)?{...c,...movement.get(c.id)!}:c);
- const newOwn=after.filter(c=>c.tissueId===tissueId);
- const changed=new Set(newOwn.map(key)),before=new Set(own.map(key));
- if(changed.size===before.size&&[...changed].every(k=>before.has(k)))
-  return null;
- // A symmetric bend cannot silently replace a user's protected opening.
- const lookup=new Map(after.map(c=>[c.id,c]));
- if(graph.links.some(l=>{
-  const a=lookup.get(l.fromCellId??""),b=lookup.get(l.toCellId??"");
-  return !a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8;
- }))return null;
- const linked=new Set(graph.links.flatMap(l=>l.fromTissueId===tissueId?
-  [l.toTissueId]:l.toTissueId===tissueId?[l.fromTissueId]:[]));
- const foreign=new Map<string,MaterialCell[]>();
- for(const c of after)if(c.tissueId!==tissueId){
-  const list=foreign.get(key(c))??[];list.push(c);foreign.set(key(c),list);
- }
- for(const c of newOwn)if(movement.has(c.id))
-  for(let y=-1;y<=1;y++)for(let x=-1;x<=1;x++)
-   if((foreign.get((c.x+x)+","+(c.y+y))??[]).some(o=>
-     !linked.has(o.tissueId)))return null;
- if(anatomicalContinuityFailure(graph.sourceCells,after,{
-    links:graph.links,protectedVoids:graph.protectedVoids}))return null;
- const visited=new Set<string>(),queue:{x:number;y:number}[]=[newOwn[0]];
- visited.add(key(queue[0]));
- for(let i=0;i<queue.length;i++)for(let dy=-1;dy<=1;dy++)
-  for(let dx=-1;dx<=1;dx++){
-   if(!dx&&!dy)continue;
-   const p=(queue[i].x+dx)+","+(queue[i].y+dy);
-   if(changed.has(p)&&!visited.has(p)){
-    visited.add(p);queue.push({x:queue[i].x+dx,y:queue[i].y+dy});
-   }
-  }
- if(visited.size!==changed.size)return null;
- return {cells:after,relocated:own.flatMap(c=>{
-  const p=movement.get(c.id);
-  return p?[{cellId:c.id,from:{x:c.x,y:c.y},to:p}]:[];
- })};
+ return root.size>=2?completeAttachedTransformation(graph,tissueId,root):null;
 }
