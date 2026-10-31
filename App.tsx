@@ -108,7 +108,7 @@ const newSeed = () =>
   String(Math.floor(Math.random() * 0xffffffff)).padStart(10, "0");
 const clean = (v: string) => v.replace(/[\u0000-\u001f\u007f]/g, "");
 const title = (v: string) =>
-  v === "elderly" ? "Elder" : v.charAt(0).toUpperCase() + v.slice(1);
+  v.charAt(0).toUpperCase() + v.slice(1);
 const presetThumbnails = new Map(
   STARTER_PRESETS.map((preset) => [preset.id, drawingPixels(preset.parts)]),
 );
@@ -1174,7 +1174,7 @@ export default function App() {
                   style={styles.symbolButton}>
                   <PixelIcon name="draw" size={24} color={T.bright}/>
                 </Button>}
-                {playing && frame.stage !== "egg" && <IconButton
+                {playing && <IconButton
                   icon="feel"
                   label="Check how your pet feels"
                   onPress={() => open("feelings")}
@@ -1552,7 +1552,7 @@ export default function App() {
                     selected={grooming}
                     disabled={
                       !previewFrame!.pixels.length ||
-                      previewFrame!.stage === "egg"
+                      (mode === "egg" && age < simulation.hatchAt)
                     }
                     onPress={() => {
                       openLab();
@@ -2029,8 +2029,9 @@ export default function App() {
                 {sheet === "about" && (
                   <>
                     <Text style={s.text}>
-                      Draw an egg or an infant. Time brings surprises. Pick a
-                      brush label and tap ? to learn how that part works.
+                      Draw any creature. Its original ink becomes the first
+                      Egg-stage form, then grows through Infant, Teen, Adult,
+                      and Elder. Pick a brush label or use Body for any shape.
                     </Text>
                     <Text style={s.muted}>
                       Feed, play, train and care for a real-time pocket pet. Its

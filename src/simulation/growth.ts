@@ -73,6 +73,7 @@ import { getMetamorphosisPhase } from "./metamorphosis";
 import { grownMaterialCells } from "./material-growth";
 import { compileAnatomicalRoles } from "./anatomical-roles";
 import { createDevelopmentClock } from "../lineage/clock";
+import {DEVELOPMENT_STAGES,stageAtCheck} from "../development/stage-contract";
 import { compileLineage, lineageAt, lineageTraitsAt } from "../lineage";
 import {
   cellCorners,
@@ -830,13 +831,10 @@ export function createSimulation(
   const rigNodes = (regions: readonly Region[]) =>
     regions.map((r) => ({ ...r, anatomicalRole: persistentRole(r) }));
   const maxAge = hatchAt + 365,
-    milestones: Milestone[] = [
-      ...(mode === "egg" ? [{ stage: "egg" as const, age: 0 }] : []),
-      ...(["infant", "teen", "adult", "elderly"] as const).map((stage, i) => ({
-        stage,
-        age: hatchAt + liveClock.toChronological([0, 30, 75, 365][i]),
-      })),
-    ];
+    // Stages are physical day checks, not a second lineage/clock mapping.
+    milestones: Milestone[] = DEVELOPMENT_STAGES.map(epoch=>({
+      stage:epoch.stage,age:hatchAt+epoch.startCheck,
+    }));
   const program: DevelopmentProgram = {
     version: 7,
     fingerprint: programFingerprint,
@@ -1181,7 +1179,8 @@ export function createSimulation(
     }
     // Incubation is a presentation state preceding the identical authored
     // organism; it consumes no anatomical opportunity.
-    return {pixels,parts,age,developmentalAge:careAge,stage:egg?"egg":careAge<30?"infant":careAge<75?"teen":careAge<365?"adult":"elderly",
+    return {pixels,parts,age,developmentalAge:careAge,
+      stage:stageAtCheck(physical.completedChecks),
       movementMode:pose.movementMode,wellbeing,evolution,motionPace:pace,motionAmplitude:amplitude,
       cellCount:pixels.length,generation:physical.completedChecks,traits:[],capabilities,interaction};
   }
@@ -1220,7 +1219,7 @@ export function createSimulation(
       )
         return null;
       const frame = frameAt(age, { time: 0, action: "idle" });
-      if (frame.stage === "egg") return null;
+      if (mode === "egg" && age < hatchAt) return null;
       const physical=unified.at(physicalHour(age)),byId=new Map(physical.graph.cells.map(c=>[c.id,c]));
       const allowed=new Set(frame.parts.filter(p=>!["eye","mouth","decoration"].includes(p.kind)).map(p=>p.id));
       const nearest=frame.parts.filter(p=>allowed.has(p.id)).flatMap(p=>p.pixels)

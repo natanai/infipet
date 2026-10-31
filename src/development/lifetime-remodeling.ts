@@ -30,6 +30,9 @@ import type {
 import type { MaterialDevelopmentProgram } from "./operators";
 import { MATERIAL_LIMITS } from "./operators";
 import {repatterningExpression} from "./developmental-repatterning";
+import {proposeArticulatedTurn} from "./coordinated-metamorphosis";
+import {DEVELOPMENT_STAGES,STAGE_BOUNDARY_CHECKS,STAGE_TRANSITION_HALF_WIDTH,
+  STAGE_PRESSURE_WEIGHTS,stageAtCheck} from "./stage-contract";
 import {isLatticeConnected} from "./lattice-connectivity";
 
 export const REMODEL_LIMITS = {
@@ -37,7 +40,7 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "repattern" | "repurpose" | "reposition";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "slip" | "bend" | "shear" | "intercalate" | "repattern" | "repurpose" | "reposition";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
@@ -144,7 +147,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "resorb": return c.maturation.plasticity;
     case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
-    case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "redistribute": case "slip": case "bend": case "shear": case "intercalate": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity>=0.2?1:0;
@@ -256,6 +259,12 @@ export function compileLifetimeRemodeling(
   const processGenes={remodel:Math.min(12,processes?.remodel??0),
     repurposing:Math.min(12,processes?.repurposing??0)};
   const operations: RemodelOperation[] = override ? [...override] : [];
+  // Large, explicitly multi-part drawings previously filled the 64-operation
+  // genome with routine extension/reinforcement before source-owned joint
+  // rotations could even be scheduled. Existing daily iterative growth
+  // already provides additions, so reserve actual topology/remodeling
+  // opportunity for every anatomy. Small drawings retain the full grammar.
+  const crowded=tissues.length>=5;
   if (!override) for (const [index, tissue] of tissues.entries()) {
     const site = base.source.sites.find(s => s.tissueId === tissue.id);
     const steering = (tag: string): MaterialChaos => ({
@@ -266,7 +275,11 @@ export function compileLifetimeRemodeling(
       turnAmplitude: 0.6,
     });
     const slot = index * 0.125;
-    operations.push({
+    // Crowded multi-part drawings already receive additive cells from the
+    // daily iterative material engine. Use these two otherwise redundant
+    // extension/reinforcement tickets for independently verified physical
+    // whole-body reorganization during later life stages.
+    if(!crowded)operations.push({
       id: "remodel/" + index + "/extend",
       kind: "extend", tissueId: tissue.id, sourceSiteId: site?.id,
       atHour: 90 + slot, durationHours: 48, units: 7,
@@ -275,11 +288,16 @@ export function compileLifetimeRemodeling(
       id: "remodel/" + index + "/reinforce",
       kind: "reinforce", tissueId: tissue.id,
       atHour: 140 + slot, durationHours: 35, units: 4, strength: 1,
-    }, {
+    });
+    // A non-moving articulation metadata event is not an anatomical
+    // transformation; retain its mechanical landmark for small organisms,
+    // but protect large drawings' slots for the REAL joint rotations below.
+    if(!crowded)operations.push({
       id: "remodel/" + index + "/articulate",
       kind: "articulate", tissueId: tissue.id,
       atHour: 190 + slot, durationHours: 5, units: 1, strength: 1,
-    }, {
+    });
+    operations.push({
       id: "remodel/" + index + "/resorb",
       kind: "resorb", tissueId: tissue.id, sourceSiteId: site?.id,
       atHour: 235 + slot, durationHours: 24, units: 3, strength: 1,
@@ -289,20 +307,24 @@ export function compileLifetimeRemodeling(
     // animal template or desired final silhouette. Their daily care gate is
     // applied only when the corresponding chronological opportunity is earned.
     const directions=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
-    for(const [stage,start] of [24,82,156,242].entries()){
+    // Four non-additive reorganizations now straddle the FOUR genuine
+    // developmental boundaries rather than arbitrary old phase dates.
+    for(const [stage,boundary] of STAGE_BOUNDARY_CHECKS.entries()){
+      const start=boundary-STAGE_TRANSITION_HALF_WIDTH;
       const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
         tissue.id,"regional-front",stage].join("|"));
       const axis=directions[orbit.x%4];
       operations.push({
         id:"remodel/"+index+"/shape-stage/"+stage,
-        kind:stage===1?"reshape":"redistribute",
+        kind:stage===1?"bend":stage===0||stage===2?"slip":"redistribute",
         tissueId:tissue.id,direction:axis,
         // Allometric regional inertia: (reference scale 8 lattice units)
         // expression = min(1, 8/sqrt(A_source)).
         // Wide dense ink has fewer opportunities than a 3x3 authored body.
         // Shape outcomes remain source/seed/care dependent, not species targets.
-        atHour:start+slot,durationHours:32,units:12,
-        strength:Math.min(1,8/Math.sqrt(Math.max(1,tissue.sourceCellIds.length))),
+        atHour:start+slot,durationHours:2*STAGE_TRANSITION_HALF_WIDTH,units:12,
+        strength:Math.min(1,8/Math.sqrt(Math.max(1,tissue.sourceCellIds.length)))*
+          STAGE_PRESSURE_WEIGHTS[stageAtCheck(boundary)].reorganization,
       });
     }
   }
@@ -315,16 +337,21 @@ export function compileLifetimeRemodeling(
     // retain source identity and use already journaled relocation/seam laws;
     // they do not generate an end-stage silhouette. Positive actual daily
     // care and physical viability decide which waves commit.
-    const waves=[{start:12,duration:55},{start:79,duration:55},
-      {start:148,duration:55},{start:219,duration:55},
-      {start:289,duration:66}];
-    for(const [wave,{start,duration}] of waves.entries())operations.push({
+    // One actual source-wide tissue wave per named epoch. It explores
+    // seed/care/geometry-permitted anatomy within that stage; no intended
+    // stage silhouette is stored, and no wave changes between daily checks.
+    const waves=DEVELOPMENT_STAGES.map(epoch=>({
+      start:epoch.startCheck,duration:epoch.endCheck-epoch.startCheck+1,
+      stage:epoch.stage,
+    }));
+    for(const [wave,{start,duration,stage}] of waves.entries())operations.push({
       id:"developmental-repattern/"+wave,kind:"repattern",tissueId:primary.id,
       atHour:start,durationHours:duration,units:10,
       // R is a REAL process gene. One explicit R enables all inherited
       // wave capacity; without R, normal latent plasticity still permits
       // a smaller (0.35) physical strain opportunity. No guaranteed moves.
-      strength:processGenes.remodel?1:0.35,
+      strength:(processGenes.remodel?1:0.35)*
+        STAGE_PRESSURE_WEIGHTS[stage].reorganization,
     });
   }
   if(!override) {
@@ -370,25 +397,151 @@ export function compileLifetimeRemodeling(
     }
   }
   if(!override){
-    // A physical head can slide around its existing host while remaining
-    // connected. This is also true for unrepurposed limbs and tails. Each
-    // stage proposes another seed-fixed tangent; the atomic operator moves
-    // actual cells and changes real attachment endpoints, not pose metadata.
+    // A genuinely articulated head/limb/wing can turn around its existing
+    // host joint, changing permanent material coordinates (not sprite pose).
+    // Stage opportunities are seed-selected and care-gated. Invalid turns
+    // are rejected, rather than teleporting cells or breaking the drawing.
     const eligible=base.source.tissues.filter(t=>
       base.source.sourceCells.some(c=>c.tissueId===t.id&&
         ["head","arm","leg","tail","wing","ear","horn"].includes(c.sourceKind??""))&&
       base.source.links.some(l=>l.fromTissueId===t.id&&l.kind==="attachment"));
-    const directions=[{x:0,y:-1},{x:1,y:0},{x:0,y:1},{x:-1,y:0}] as const;
-    for(const [index,t] of eligible.slice(0,4).entries())
-      for(const [stage,day] of [29,125,235].entries()){
+    for(const [index,t] of eligible.slice(0,4).entries()){
+      // A limb that can rotate at birth may be boxed in by later deposited
+      // material. Determine *permanent* viable sign potential from the
+      // PLAYER'S ORIGINAL physical drawing (never reroll for current care
+      // or choose a future adult). If only one direction is physically legal,
+      // assigning the impossible one would waste every early opportunity.
+      const originalSigns=([1,-1] as const).filter(sign=>
+        !!proposeArticulatedTurn(base.source,t.id,sign));
+      for(const [stage,day] of [0,125,235].entries()){
         if(operations.length>=REMODEL_LIMITS.maxOperations)break;
+        const draw=hash(genome.seed+"|joint-rotation|"+t.id+"|"+stage);
+        const sign=originalSigns.length?originalSigns[draw%originalSigns.length]:
+          draw%2?1:-1;
         operations.push({
           id:"migrate/"+index+"/phase/"+stage,
-          kind:"reposition",tissueId:t.id,
-          direction:directions[hash(genome.seed+"|joint-migration|"+t.id+"|"+stage)%4],
-          atHour:day+index*3,durationHours:40,units:8,strength:1,
+          kind:"articulate",tissueId:t.id,
+          direction:{x:sign,y:0},
+          // First source-owned articulation is possible while organs still
+          // have birth-compatible clearance. Later phases remain available,
+          // even when the original orientation is no longer admissible.
+          atHour:day+index*(stage===0?0.125:3),
+          durationHours:stage===0?12:40,units:8,strength:1,
         });
       }
+    }
+  }
+  if(!override && primary&&operations.length<REMODEL_LIMITS.maxOperations){
+    // A real source-wide shear is most effective when its daily committed
+    // movements are spread THROUGH Elder development, not concentrated
+    // after the day-345 representative checkpoint. It remains one finite
+    // inherited physical ticket and moves existing material only; no
+    // source cell, attachment, cavity, color or species is ever invented.
+    const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
+      primary.id,"terminal-physical-organization"].join("|"));
+    const dirs=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
+    operations.push({
+      id:"terminal-physical-organization",kind:"slip",tissueId:primary.id,
+      direction:dirs[orbit.x%4],
+      atHour:330,durationHours:34,units:12,
+      strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length))),
+    });
+  }
+  if(!override&&primary){
+    // Dense organisms frequently cannot translate an entire occupied band.
+    // Source-owned vacancy-chain intercalation preserves their original
+    // material and moves every affected identity only ONE lattice site.
+    // Reserve at least two later topology opportunities for complex
+    // multi-part drawings (one for smaller anatomies), so reorganization
+    // never crowds all reattachments out of the 64-ticket finite grammar.
+    const reserve=tissues.length>=5?2:1;
+    const available=Math.max(0,
+      REMODEL_LIMITS.maxOperations-operations.length-reserve);
+    const dates=[
+      {label:"elder",start:STAGE_BOUNDARY_CHECKS[3]-4},
+      {label:"adult",start:STAGE_BOUNDARY_CHECKS[2]-4},
+    ] as const;
+    const directions=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
+    for(const stage of dates.slice(0,Math.min(2,available))){
+      const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
+        primary.id,"dense-intercalation",stage.label].join("|"));
+      operations.push({
+        id:"stage/"+stage.label+"/intercalate",
+        kind:"intercalate",tissueId:primary.id,
+        direction:directions[orbit.x%4],
+        atHour:stage.start,durationHours:60,units:12,
+        strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length)))*
+          STAGE_PRESSURE_WEIGHTS[stage.label].reorganization,
+      });
+    }
+  }
+  if(!override && operations.length<REMODEL_LIMITS.maxOperations){
+    // The physical reattachment transaction already exists and independently
+    // verifies a reachable new joint, but was NEVER scheduled automatically.
+    // This reserves at most three actual topology opportunities for existing
+    // supported, source-owned organs. An alternative host must be a distinct
+    // existing tissue, not the original parent or a descendant of the child.
+    // The candidate is chosen only from birth topology + immutable genome.
+    const tissueById=new Map(base.source.tissues.map(t=>[t.id,t]));
+    const attached=base.source.links.filter(l=>l.kind==="attachment"&&
+      l.fromCellId&&l.toCellId)
+      .map(l=>tissueById.get(l.fromTissueId))
+      .filter((t):t is NonNullable<typeof t>=>!!t)
+      .sort((a,b)=>hash(genome.seed+"|joint-succession|"+a.id)-
+        hash(genome.seed+"|joint-succession|"+b.id)||
+        compareText(a.id,b.id));
+    const roles=new Set<PartKind>(["body","head","arm","leg","tail","wing","egg"]);
+    const host=base.source.tissues.filter(t=>t.sourceCellIds.length>=2&&
+      base.source.sourceCells.some(c=>c.tissueId===t.id&&
+        !!c.sourceKind&&roles.has(c.sourceKind)));
+    // An alternative host must be morphologically reachable in principle.
+    // The prior source geometry ranks hosts by the distance between physical
+    // birth envelopes. Immutable seed entropy breaks equal-distance ties;
+    // neither current care nor a desired adult silhouette selects the host.
+    const bounds=new Map(base.source.tissues.flatMap(t=>{
+      const cells=base.source.sourceCells.filter(c=>c.tissueId===t.id);
+      return cells.length?[[t.id,{
+        minX:Math.min(...cells.map(c=>c.x)),
+        maxX:Math.max(...cells.map(c=>c.x)),
+        minY:Math.min(...cells.map(c=>c.y)),
+        maxY:Math.max(...cells.map(c=>c.y)),
+      }] as const]:[];
+    }));
+    const birthGap=(a:string,b:string)=>{
+      const x=bounds.get(a),y=bounds.get(b);
+      return !x||!y?Infinity:Math.max(
+        0,y.minX-x.maxX,x.minX-y.maxX,
+        y.minY-x.maxY,x.minY-y.maxY);
+    };
+    let count=0;
+    for(const tissue of attached){
+      if(count>=3||operations.length>=REMODEL_LIMITS.maxOperations)break;
+      const parent=tissueById.get(tissue.id)?.parentId;
+      const sourceLink=base.source.links.find(l=>
+        l.kind==="attachment"&&l.fromTissueId===tissue.id);
+      const alternatives=host.filter(t=>{
+        if(t.id===tissue.id||t.id===parent||t.id===sourceLink?.toTissueId)
+          return false;
+        let cursor:string|null=t.id;
+        const visited=new Set<string>();
+        while(cursor&&!visited.has(cursor)){
+          if(cursor===tissue.id)return false;
+          visited.add(cursor);cursor=tissueById.get(cursor)?.parentId??null;
+        }
+        return cursor===null;
+      }).sort((a,b)=>birthGap(tissue.id,a.id)-birthGap(tissue.id,b.id)||
+        hash(genome.seed+"|alternative-host|"+tissue.id+"|"+a.id)-
+        hash(genome.seed+"|alternative-host|"+tissue.id+"|"+b.id)||
+        compareText(a.id,b.id));
+      if(!alternatives.length)continue;
+      const target=alternatives[0];
+      operations.push({
+        id:"topology/"+count+"/reattach",
+        kind:"reattach",tissueId:tissue.id,targetTissueId:target.id,
+        atHour:175+count*62,durationHours:35,units:7,strength:1,
+      });
+      count++;
+    }
   }
   if (operations.length > REMODEL_LIMITS.maxOperations)
     throw new RangeError("Too many remodeling operations");
@@ -511,7 +664,7 @@ export function lifetimeRemodelingAt(
         removed.push(choice);
         cells = cells.filter(c => c.id !== choice.id);
       }
-    } else if (op.kind === "reshape" || op.kind === "redistribute" || op.kind === "repattern") {
+    } else if (op.kind === "reshape" || op.kind === "redistribute" || op.kind === "slip" || op.kind === "bend" || op.kind === "shear" || op.kind === "intercalate" || op.kind === "repattern") {
       // This legacy fractional-hour evaluator is not an authorized daily
       // material transaction; refusing prevents a fake anatomical snapshot.
       reason="region-front-requires-daily-physical-transaction";

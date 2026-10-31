@@ -1,0 +1,156 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {materialInputs,drawing} from "./alg-development-fixtures";
+import {compileMaterialDevelopment} from "../src/development/operators";
+import {proposeDenseIntercalation} from "../src/development/dense-intercalation";
+import {journalMaterialEvent} from "../src/development/material-journal";
+import {verifyDailyMaterialInventory} from "../src/development/daily-step";
+import {measureStageIdentity} from "../src/evaluation/stage-identity";
+import {createSimulation} from "../src/simulation";
+import {STARTER_PRESETS} from "../src/presets";
+
+const HATCH=1_701_102_300_000,DAY=86_400_000;
+const source=()=>compileMaterialDevelopment(materialInputs(drawing([
+ "........",
+ ".######.",
+ ".######.",
+ ".######.",
+ ".######.",
+ ".######.",
+ ".######.",
+ "........",
+],"body"),"8E8L8WRZ").atlas,
+ materialInputs(drawing([
+ "........",
+ ".######.",
+ ".######.",
+ ".######.",
+ ".######.",
+ ".######.",
+ ".######.",
+ "........",
+],"body"),"8E8L8WRZ").genome).source;
+
+test("physical dense intercalation reshapes a source-authored body with local cell motion and unchanged mass",()=>{
+ const prior=source(),tid=prior.tissues[0].id;
+ const evidence=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}]
+  .map(d=>proposeDenseIntercalation(prior,tid,d))
+  .filter((x):x is NonNullable<typeof x>=>!!x);
+ assert.ok(evidence.length>=1,"source 6×6 must admit multiple occupied-cell transports");
+ const proposal=evidence[0];
+ assert.equal(proposal.cells.length,prior.cells.length);
+ assert.deepEqual(new Set(proposal.cells.map(c=>c.id)),
+  new Set(prior.cells.map(c=>c.id)));
+ assert.ok(proposal.relocated.length>=3&&proposal.relocated.length<=256);
+ const origins=new Map(proposal.relocated.map(m=>[m.from.x+","+m.from.y,m.cellId]));
+ const targets=new Set(proposal.relocated.map(m=>m.to.x+","+m.to.y));
+ const roots=[...origins].filter(([key])=>!targets.has(key));
+ assert.ok(roots.length>=1&&roots.length<=8,
+  "one daily event consists of at most eight independent source-owned corridors");
+ const moved=new Map(proposal.relocated.map(m=>[m.cellId,m]));
+ const visited=new Set<string>();
+ for(const [,first] of roots){
+  let current=first;
+  let length=0;
+  while(!visited.has(current)){
+   visited.add(current);length++;
+   const next=moved.get(current)!;
+   const following=origins.get(next.to.x+","+next.to.y);
+   if(!following)break;
+   current=following;
+  }
+  assert.ok(length>=3);
+ }
+ assert.equal(visited.size,proposal.relocated.length,
+  "every original material move belongs to exactly one nonbranching path");
+ const old=new Map(prior.cells.map(c=>[c.id,c]));
+ const after=new Map(proposal.cells.map(c=>[c.id,c]));
+ const initial=new Set(prior.cells.map(c=>c.x+","+c.y));
+ const current=new Set(proposal.cells.map(c=>c.x+","+c.y));
+ assert.ok([...initial].some(k=>!current.has(k)));
+ assert.ok([...current].some(k=>!initial.has(k)));
+ for(const move of proposal.relocated){
+  assert.equal(Math.max(Math.abs(move.to.x-move.from.x),
+   Math.abs(move.to.y-move.from.y)),1);
+  const a=old.get(move.cellId)!,b=after.get(move.cellId)!;
+  assert.equal(a.x,move.from.x);assert.equal(a.y,move.from.y);
+  assert.equal(b.x,move.to.x);assert.equal(b.y,move.to.y);
+  assert.deepEqual(a.sourceIds,b.sourceIds);
+  assert.equal(a.provenance,b.provenance);
+  assert.equal(a.color,b.color);
+ }
+ assert.deepEqual(proposeDenseIntercalation(prior,tid,{x:1,y:0}),
+  proposeDenseIntercalation(prior,tid,{x:1,y:0}),
+  "operator is deterministic for player source and fixed geometry");
+ assert.throws(()=>proposeDenseIntercalation(prior,tid,{x:2,y:0}),
+  /dense intercalation/);
+ const actual={...prior,cells:proposal.cells};
+ const contrast=measureStageIdentity(prior,actual);
+ assert.ok(contrast.originalSourcePairReorganization>0,
+  "movement must affect original source-cell relations, not just a new tip");
+});
+test("independent material replay requires every vacancy-chain identity",()=>{
+ const prior=source(),tid=prior.tissues[0].id;
+ const directions=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}];
+ const candidate=directions.map(direction=>({
+  direction,proposal:proposeDenseIntercalation(prior,tid,direction),
+ })).find(x=>x.proposal);
+ assert.ok(candidate?.proposal);
+ const operation={id:"source/physical/vacancy",kind:"intercalate" as const,
+  tissueId:tid,direction:candidate.direction,
+  atHour:0,durationHours:12,units:12,strength:1};
+ const event={id:operation.id+"/unit/1",kind:"intercalate",
+  atHour:24,atMs:HATCH+DAY,checkIndex:1,
+  sourceCellIds:prior.sourceCells.map(c=>c.id),createdCellIds:[],
+  removedCellIds:[],careDigest:"care/numerical/1",
+  genomeFingerprint:"source/original"};
+ const produced={...prior,cells:candidate.proposal.cells};
+ const base=journalMaterialEvent(prior,produced,event,"remodeling",operation);
+ const withClock={...base,physical:{...base.physical!,
+  relocations:base.physical!.relocations.map(m=>({
+   ...m,checkIndex:1,atMs:HATCH+DAY,
+  }))}};
+ const live={...produced,events:[withClock]};
+ verifyDailyMaterialInventory(live,HATCH,1,prior);
+ const incomplete={...live,events:[{...withClock,physical:{
+  ...withClock.physical!,
+  relocations:withClock.physical!.relocations.slice(1),
+ }}]};
+ assert.throws(()=>verifyDailyMaterialInventory(incomplete,HATCH,1,prior),
+  /intercalation|material|chain|relocation|reconstruction|physical|inventory/i);
+ const forged=base.physical!.relocations.map((m,i)=>i===0?
+  {...m,to:{x:m.to.x+2,y:m.to.y}}:m);
+ const falseEvent={...withClock,physical:{...withClock.physical!,relocations:
+  forged.map(m=>({...m,checkIndex:1,atMs:HATCH+DAY}))}};
+ assert.throws(()=>verifyDailyMaterialInventory({...live,events:[falseEvent]},
+  HATCH,1,prior),/intercalation|material|chain|relocation|physical|inventory/i);
+});
+
+test("real high-care Adult and Elder lives commit material intercalation without breaking original ancestry",()=>{
+ const sources=STARTER_PRESETS.filter(p=>["dot","ribbon","fork","tripod"].includes(p.id));
+ assert.equal(sources.length,4);
+ let committed=0,exercised=0;
+ for(const preset of sources)for(const seed of [preset.seed,"8E8L8WRZ"]){
+  const sim=createSimulation(preset.parts,seed,"infant",{
+   previewCare:{kind:"synthetic-needs-lab-v1",nutrition:0.92,timeline:[]},
+   reuseLivingMaterial:false,
+  });
+  const birth=sim.materialStateAt(0).graph;
+  const late=sim.materialStateAt(345);
+  exercised++;
+  assert.deepEqual(late.graph.sourceCells,birth.sourceCells);
+  for(const e of late.graph.events.filter(e=>e.kind==="intercalate")){
+   committed++;
+   assert.equal(e.createdCellIds.length,0);
+   assert.equal(e.removedCellIds.length,0);
+   assert.ok((e.physical?.relocations.length??0)>=3);
+   for(const m of e.physical!.relocations){
+    assert.equal(Math.max(Math.abs(m.to.x-m.from.x),
+      Math.abs(m.to.y-m.from.y)),1);
+   }
+  }
+ }
+ assert.equal(exercised,8);
+ assert.ok(committed>0,
+  "mature high-care authored pets must actually express some physical vacancy chains");
+});

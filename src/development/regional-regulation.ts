@@ -20,7 +20,7 @@
  * Zero potential contributes zero rate. A blocked selected surface is a null
  * proposal, never converted to a convenient tendril or fabricated anatomy.
  *
- * Daily allometry uses five seed-fixed 73-check phases with bounded
+ * Daily allometry uses the five named developmental epochs with bounded
  * region-local aspect in [1/8,8]; chronological rest/activity biases actual
  * expression, not the permanent genome. The available region, not a species
  * template, determines the physically legal next boundary position.
@@ -30,8 +30,10 @@
 import type {DevelopmentalChannels} from "../genetics";
 import {CHAOS_MODULUS,type ChaosState} from "./chaos";
 import {hash} from "../simulation/model";
+import {developmentalStageIndex,stageAtCheck,transitionPressure,
+  STAGE_PRESSURE_WEIGHTS} from "./stage-contract";
 
-export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v5" as const;
+export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v14" as const;
 /** A new bud receives the square-root material scale of its birth region,
  * rather than being permanently starved as a one-cell birth drawing. The
  * genome, four-credit competition and all material caps remain unchanged. */
@@ -82,9 +84,13 @@ export function regionalGrowthTensor(c:DevelopmentalChannels,phase:ChaosState){
  * n in 0..364, fixed birth genetic channels, and chronological bounded
  * rest/activity. Outputs: unit direction and anisotropy in [1/8,8].
  *
- * phase=floor(n/73) (five phases, 0..4). Each tissue/phase gets a permanent
- * seed-derived u,v in [0,1); angle=2*pi*u. The log2 aspect bias is
- * clamp(3*(elongation-expansion)+2*(v-.5)+1.5*(activity-rest),-3,3).
+ * phase=stageIndex(n) (five named epochs, 0..4). Each tissue/epoch
+ * receives one permanent seed-derived u,v in [0,1); angle=2*pi*u.
+ * Stage potential controls the amount of existing allometric pressure, not
+ * a target form: the log2 aspect bias is
+ * clamp([3*(elongation-expansion)+2*(v-.5)+1.5*(activity-rest)]*
+ *   stageReorganizationWeight*(1+0.5*boundaryPulse),-3,3).
+ * No new genetic entropy, sprite, tissue cell or body-part kind is introduced.
  *
  * Past snapshots cannot change when later care changes; no PRNG draws,
  * species labels, image recognition or new chaotic recurrence are involved.
@@ -97,14 +103,17 @@ export function developmentalAllometry(
      ![care.rest,care.activity,care.security,
        c.growth.elongation,c.growth.expansion].every(bounded))
     throw new RangeError("Invalid developmental allometry inputs");
-  const phase=Math.floor(check/73);
+  const phase=developmentalStageIndex(check);
   const key=identity+"|whole-body-phase|"+tissueId+"|"+phase;
   const u=hash(key+"|axis")/4294967296;
   const v=hash(key+"|aspect")/4294967296;
   const angle=2*Math.PI*u;
+  const stage=stageAtCheck(check);
+  const weight=STAGE_PRESSURE_WEIGHTS[stage].reorganization*
+    (1+0.5*transitionPressure(check));
   const exponent=Math.max(-3,Math.min(3,
-    3*(c.growth.elongation-c.growth.expansion)+2*(v-0.5)+
-    1.5*(care.activity-care.rest)));
+    (3*(c.growth.elongation-c.growth.expansion)+2*(v-0.5)+
+    1.5*(care.activity-care.rest))*weight));
   return {axis:{x:Math.cos(angle),y:Math.sin(angle)},
     stretch:2**exponent};
 }

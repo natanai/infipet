@@ -246,6 +246,81 @@ function immutable(value:unknown,seen=new Set<object>()):boolean{
  if(complete)immutableDataProofs.add(value);
  return complete;
 }
+/**
+ * Independent pre-event anatomical carrier oracle. No producer proposal,
+ * rendered pose, or declared relocation destination is consulted.
+ *
+ * For a root median slip or opposite-third bend, each dependent tissue is
+ * translated by the exact displacement of its parent attachment CELL. For
+ * a joint turn, all descendants use the same quarter-turn about the current
+ * child-side attachment coordinate. Returns every identity that MUST move.
+ */
+function expectedAttachedDeformation(
+ kind:string,tissueId:string,axis:Readonly<{x:number;y:number}>|undefined,
+ before:ReadonlyMap<string,MaterialCell>,links:ReadonlyMap<string,MaterialLink>,
+):Map<string,Readonly<{x:number;y:number}>>{
+ const compass=!!axis&&[[1,0],[-1,0],[0,1],[0,-1]]
+  .some(([x,y])=>axis.x===x&&axis.y===y);
+ const rotation=kind==="articulate";
+ if(rotation?!axis||(axis.x!==1&&axis.x!==-1)||axis.y!==0:!compass)
+  throw new Error("Missing physical attachment deformation direction");
+ const edges=[...links.values()].filter(l=>l.kind==="attachment");
+ const joints=edges.filter(l=>l.fromTissueId===tissueId&&l.fromCellId)
+  .sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
+ const pivot=rotation?before.get(joints[0]?.fromCellId??""):undefined;
+ if(rotation&&!pivot)throw new Error("Missing original anatomical rotation joint");
+ const root=[...before.values()].filter(c=>c.tissueId===tissueId);
+ if(root.length<(rotation?2:4))throw new Error("Insufficient original material for deformation");
+ const cross=axis?.y===0?"y":"x";
+ const tiers=[...new Set(root.map(c=>c[cross]))].sort((a,b)=>a-b);
+ const cut=tiers[Math.floor((tiers.length-1)/2)];
+ const low=tiers[Math.floor((tiers.length-1)/3)];
+ const high=tiers[Math.ceil(2*(tiers.length-1)/3)];
+ if((kind==="slip"&&tiers.length<2)||
+   (kind==="bend"&&(tiers.length<3||low>=high)))
+  throw new Error("Invalid region organizer at this material age");
+ const expected=new Map<string,Readonly<{x:number;y:number}>>();
+ const locate=(c:MaterialCell,p:Readonly<{x:number;y:number}>)=>{
+  if(p.x!==c.x||p.y!==c.y)expected.set(c.id,p);
+ };
+ for(const c of root){
+  if(rotation){
+   locate(c,{x:pivot!.x-axis!.x*(c.y-pivot!.y),
+     y:pivot!.y+axis!.x*(c.x-pivot!.x)});
+  }else if(kind==="slip"){
+   const upper=axis!.y===0?axis!.x>0:axis!.y>0;
+   if(upper?c[cross]<=cut:c[cross]>cut)
+    locate(c,{x:c.x+axis!.x,y:c.y+axis!.y});
+  }else if(kind==="bend"){
+   const sign=c[cross]<=low?1:c[cross]>=high?-1:0;
+   if(sign)locate(c,{x:c.x+sign*axis!.x,y:c.y+sign*axis!.y});
+  }
+ }
+ const visited=new Set<string>([tissueId]),queue=[tissueId];
+ for(let i=0;i<queue.length;i++){
+  const parent=queue[i];
+  const children=edges.filter(l=>l.toTissueId===parent)
+   .sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
+  for(const link of children){
+   if(visited.has(link.fromTissueId)||!link.toCellId||!link.fromCellId)
+    throw new Error("Unsupported or cyclic anatomical child relation");
+   const contact=before.get(link.toCellId),childContact=before.get(link.fromCellId);
+   if(!contact||contact.tissueId!==parent||!childContact||
+      childContact.tissueId!==link.fromTissueId)
+    throw new Error("Forged anatomical attachment endpoint");
+   visited.add(link.fromTissueId);queue.push(link.fromTissueId);
+   const current=expected.get(contact.id)??contact;
+   const dx=current.x-contact.x,dy=current.y-contact.y;
+   for(const c of before.values())if(c.tissueId===link.fromTissueId){
+    if(rotation){
+     locate(c,{x:pivot!.x-axis!.x*(c.y-pivot!.y),
+       y:pivot!.y+axis!.x*(c.x-pivot!.x)});
+    }else locate(c,{x:c.x+dx,y:c.y+dy});
+   }
+  }
+ }
+ return expected;
+}
 export function reconstructDailyPhysicalState(
   graph: MaterialGraph,
   hatchAtMs: number,
@@ -366,6 +441,12 @@ export function reconstructDailyPhysicalState(
       throw new Error("Forged iterative opportunity");
     const beforeCells = new Map(active),
       beforeTissues = new Map(tissues);
+    // A legacy articulation with no directional gene is ONLY a hinge
+    // landmark; it does not move cells or trigger the physical turn oracle.
+    const coupled=(e.kind==="slip"||e.kind==="bend"||
+      e.kind==="articulate"&&!!p.operation.direction)?
+      expectedAttachedDeformation(e.kind,p.operation.tissueId,
+        p.operation.direction,beforeCells,links):null;
     const made = e.createdCells ?? [];
     if(["elongate","extend","branch","bud"].includes(e.kind))
       verifyAxialSupport([...beforeCells.values()],[...links.values()],made,authorization?.structuralRigidity??1);
@@ -435,7 +516,7 @@ export function reconstructDailyPhysicalState(
         }) ||
         !bounded(m.to) ||
         m.to.z !== c.z ||
-        (c.tissueId !== p.operation.tissueId && e.kind!=="repattern")
+        (c.tissueId !== p.operation.tissueId && !["repattern","shear"].includes(e.kind) && !coupled)
       )
         throw new Error("Inconsistent or forged relocation evidence");
       if (
@@ -477,6 +558,20 @@ export function reconstructDailyPhysicalState(
           Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
           throw new Error("Developmental transport creates unlinked contact");
         moveDestinations.add(key(m.to));
+      }else if(e.kind==="shear"){
+        if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+          !p.operation.direction||
+          Math.max(Math.abs(d.x),Math.abs(d.y))!==1||
+          d.x!==p.operation.direction.x||d.y!==p.operation.direction.y||
+          m.path)
+          throw new Error("Forged whole-organism physical shear step");
+      }else if(e.kind==="intercalate"){
+        // This is not a one-cell leap. Every source-owned material identity
+        // must move exactly one neighboring site; the complete vacancy
+        // chain is independently reconstructed AFTER the event loop.
+        if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+          Math.max(Math.abs(d.x),Math.abs(d.y))!==1||m.path)
+          throw new Error("Forged dense material intercalation step");
       }else if(e.kind==="redistribute"){
         // An entire tissue can change its mass distribution without adding a
         // child at the donor coordinate. Independently inspect every recorded
@@ -508,14 +603,20 @@ export function reconstructDailyPhysicalState(
           Math.max(Math.abs(c.x-m.to.x),Math.abs(c.y-m.to.y))===1);
         if(support.length<2||!support.some(c=>Math.abs(c.x-m.to.x)+Math.abs(c.y-m.to.y)===1))
           throw new Error("Tissue reflow deposited into unsupported tip");
+      }else if(coupled){
+        const expected=coupled.get(c.id);
+        if(!expected||p.system!=="remodeling"||made.length||
+          e.removedCellIds.length||!same(
+            {x:m.to.x,y:m.to.y},expected))
+          throw new Error("Forged or partial attachment-coupled deformation");
       } else if (
-        (!advancingFront&&!["translate", "reposition", "remodel", "reshape"].includes(e.kind)) ||
+        (!advancingFront&&!["translate", "reposition", "remodel", "reshape", "slip", "bend"].includes(e.kind)) ||
         (p.system === "iterative"&&!advancingFront) ||
         !Math.max(Math.abs(d.x), Math.abs(d.y)) ||
         Math.max(Math.abs(d.x), Math.abs(d.y)) > 1
       )
         throw new Error("Physically impossible relocation");
-      if (e.kind === "translate" || e.kind === "reposition" || e.kind === "reshape") {
+      if (e.kind === "translate" || e.kind === "reposition" || e.kind === "reshape" || e.kind === "slip") {
         const axis = p.operation.direction ??
           [...sites.values()].find(
             (s) =>
@@ -529,7 +630,7 @@ export function reconstructDailyPhysicalState(
           };
         if (!same(d, expected)) throw new Error("Forged relocation direction");
       }
-      if (e.kind!=="repattern" && step && !same(step, d))
+      if (!["repattern","articulate","bend","slip","intercalate"].includes(e.kind) && step && !same(step, d))
         throw new Error("Nonrigid tissue translation");
       step = d;
       moves.add(c.id);
@@ -544,6 +645,200 @@ export function reconstructDailyPhysicalState(
         !moves.size)
     )
       throw new Error("Incomplete tissue translation");
+    if(e.kind==="shear"){
+      // Independently reconstruct one exact pre-event whole-body affine
+      // field from the original physical inventory, with no producer mask.
+      // This is a living ontogenetic change, not a sprite pose or synthetic
+      // stage target. All tissues are part of the same deforming material.
+      const axis=p.operation.direction;
+      const previous=[...beforeCells.values()];
+      const cross=axis?.x?"y":"x";
+      const levels=[...new Set(previous.map(c=>c[cross]))]
+        .sort((a,b)=>a-b);
+      if(p.system!=="remodeling"||!axis||
+        ![[1,0],[-1,0],[0,1],[0,-1]]
+          .some(([x,y])=>axis.x===x&&axis.y===y)||
+        levels.length<3||made.length||e.removedCellIds.length)
+        throw new Error("Unsupported global anatomical shear");
+      const cut=levels[Math.floor((levels.length-1)/2)];
+      const positive=axis.x+axis.y>0;
+      let expected=0;
+      for(const old of previous){
+        const selected=positive?old[cross]>cut:old[cross]<=cut;
+        if(selected){
+          expected++;
+          const record=p.relocations.find(m=>m.cellId===old.id);
+          if(!record||record.to.x!==old.x+axis.x||
+            record.to.y!==old.y+axis.y)
+            throw new Error("Incomplete global material shear");
+        }else if(movingIds.has(old.id))
+          throw new Error("Unauthorized stationary-cell deformation");
+      }
+      if(expected<4||expected>2048||expected!==moves.size||
+        previous.length-expected<4)
+        throw new Error("Forged global shear material region");
+      // Independently disallow new contacts between previously separate,
+      // unrelated tissue regions, including generated and authored anatomy.
+      const bins=new Map<string,MaterialCell[]>();
+      for(const c of active.values()){
+        const bucket=bins.get(key(c))??[];
+        bucket.push(c);bins.set(key(c),bucket);
+      }
+      const parents=new Map<string,string>(),relations=new Set<string>();
+      for(const l of links.values()){
+        relations.add(l.fromTissueId+"|"+l.toTissueId);
+        relations.add(l.toTissueId+"|"+l.fromTissueId);
+        if(l.kind==="attachment")parents.set(l.fromTissueId,l.toTissueId);
+      }
+      for(const id of beforeTissues.keys()){
+        const seen=new Set<string>([id]);
+        let parent=parents.get(id);
+        while(parent&&!seen.has(parent)){
+          relations.add(id+"|"+parent);
+          relations.add(parent+"|"+id);
+          seen.add(parent);parent=parents.get(parent);
+        }
+        if(parent)throw new Error("Cycle in whole-organism shear");
+      }
+      for(const move of p.relocations){
+        const old=beforeCells.get(move.cellId)!;
+        for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)
+          for(const other of bins.get((move.to.x+dx)+","+(move.to.y+dy))??[]){
+            if(other.id===old.id||other.tissueId===old.tissueId||
+              relations.has(old.tissueId+"|"+other.tissueId))continue;
+            const prior=beforeCells.get(other.id)!;
+            if(Math.max(Math.abs(old.x-prior.x),Math.abs(old.y-prior.y))>1)
+              throw new Error("Global shear creates unrelated anatomical contact");
+          }
+      }
+    }
+    if(e.kind==="intercalate"){
+      // Independent decomposition of every declared move into up to EIGHT
+      // nonbranching, vertex-disjoint directed vacancy chains. Reconstruct
+      // from PRE-EVENT original IDs and coordinates only; no producer BFS,
+      // preferred route, intended silhouette or final event visual.
+      const axis=p.operation.direction;
+      const original=[...beforeCells.values()];
+      const own=original.filter(c=>c.tissueId===p.operation.tissueId);
+      const origins=new Map<string,string>();
+      const destinations=new Map<string,string>();
+      const movements=new Map(p.relocations.map(m=>[m.cellId,m]));
+      const anchored=new Set([...sites.values()].map(s=>s.rootCellId));
+      for(const link of links.values()){
+        if(link.fromCellId)anchored.add(link.fromCellId);
+        if(link.toCellId)anchored.add(link.toCellId);
+      }
+      const occupancy=new Map<string,number>();
+      for(const cell of original)occupancy.set(key(cell),
+        (occupancy.get(key(cell))??0)+1);
+      if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+        !axis||![[1,0],[-1,0],[0,1],[0,-1]]
+          .some(([x,y])=>axis.x===x&&axis.y===y)||
+        moves.size<3||moves.size>256||moves.size!==p.relocations.length)
+        throw new Error("Invalid physical vacancy-chain operation");
+      for(const m of p.relocations){
+        const prior=beforeCells.get(m.cellId)!;
+        if(prior.tissueId!==p.operation.tissueId||anchored.has(prior.id)||
+          occupancy.get(key(prior))!==1||
+          origins.has(key(prior))||destinations.has(key(m.to)))
+          throw new Error("Forged intercalation overlay or repeated material");
+        origins.set(key(prior),prior.id);
+        destinations.set(key(m.to),prior.id);
+      }
+      const donors=[...origins].filter(([xy])=>!destinations.has(xy));
+      const exits=[...destinations].filter(([xy])=>!origins.has(xy));
+      if(donors.length<1||donors.length>8||donors.length!==exits.length)
+        throw new Error("Invalid number of conservative vacancy corridors");
+      const originalOwn=new Set(own.map(key));
+      const linked=new Set<string>();
+      for(const link of links.values()){
+        linked.add(link.fromTissueId+"|"+link.toTissueId);
+        linked.add(link.toTissueId+"|"+link.fromTissueId);
+      }
+      const visited=new Set<string>();
+      for(const [,startId] of donors){
+        const first=beforeCells.get(startId)!;
+        const backward={x:first.x-axis.x,y:first.y-axis.y};
+        if(originalOwn.has(key(backward)))
+          throw new Error("Intercalation donor is not original perimeter");
+        let current=startId,length=0;
+        let final:{x:number;y:number}|null=null;
+        while(!visited.has(current)){
+          visited.add(current);length++;
+          const m=movements.get(current);
+          if(!m)throw new Error("Broken physical source-owned corridor");
+          const next=origins.get(key(m.to));
+          if(!next){final=m.to;break;}
+          current=next;
+        }
+        if(!final||length<3||length>64||
+          occupancy.has(key(final))||
+          (final.x-first.x)*axis.x+(final.y-first.y)*axis.y<3)
+          throw new Error("Malformed or non-reshaping material corridor");
+        const support=([
+          [1,0],[-1,0],[0,1],[0,-1],
+          [1,1],[-1,-1],[1,-1],[-1,1],
+        ] as const).filter(([dx,dy])=>
+          originalOwn.has((final!.x+dx)+","+(final!.y+dy)));
+        if(support.length<2||!support.some(([dx,dy])=>dx===0||dy===0))
+          throw new Error("Material corridor requires original boundary support");
+        for(const c of original){
+          if(c.tissueId===p.operation.tissueId||
+            linked.has(p.operation.tissueId+"|"+c.tissueId))continue;
+          if(Math.max(Math.abs(c.x-final.x),Math.abs(c.y-final.y))<=1)
+            throw new Error("Material corridor creates unrelated tissue contact");
+        }
+      }
+      if(visited.size!==moves.size)
+        throw new Error("Material corridor contains an unaccounted cycle or branch");
+    }
+    if(coupled){
+      if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+        !coupled.size||moves.size!==coupled.size||
+        [...coupled].some(([id])=>!moves.has(id)))
+        throw new Error("Incomplete or fabricated attached-anatomy movement");
+      const planned=new Map([...beforeCells].map(([id,c])=>{
+        const p=coupled.get(id);
+        return [id,p?{...c,x:p.x,y:p.y}:c] as const;
+      }));
+      const linked=new Set<string>();
+      const parent=new Map<string,string>();
+      for(const joint of links.values()){
+        linked.add(joint.fromTissueId+"|"+joint.toTissueId);
+        linked.add(joint.toTissueId+"|"+joint.fromTissueId);
+        if(joint.kind==="attachment")parent.set(joint.fromTissueId,joint.toTissueId);
+      }
+      // Independently derive ancestry from the ORIGINAL contact graph:
+      // adjacent grandparent/child contact is not automatically a new joint.
+      // It is legitimate only through a complete, acyclic attachment chain.
+      for(const id of beforeTissues.keys()){
+        const visited=new Set<string>([id]);
+        let ancestor=parent.get(id);
+        while(ancestor&&!visited.has(ancestor)){
+          linked.add(id+"|"+ancestor);
+          linked.add(ancestor+"|"+id);
+          visited.add(ancestor);
+          ancestor=parent.get(ancestor);
+        }
+        if(ancestor)throw new Error("Cyclic attached anatomy in deformation");
+      }
+      const bins=new Map<string,MaterialCell[]>();
+      for(const cell of planned.values()){
+        const bucket=bins.get(key(cell))??[];
+        bucket.push(cell);bins.set(key(cell),bucket);
+      }
+      for(const [id,target] of coupled){
+        const old=beforeCells.get(id)!;
+        for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)
+          for(const other of bins.get((target.x+dx)+","+(target.y+dy))??[]){
+            if(other.id===id||other.tissueId===old.tissueId||
+              linked.has(old.tissueId+"|"+other.tissueId))continue;
+            const was=beforeCells.get(other.id)!;
+            if(Math.max(Math.abs(old.x-was.x),Math.abs(old.y-was.y))>1)
+              throw new Error("Attachment-coupled movement creates unlinked contact");
+          }
+      }
+    }
     if(e.kind==="reposition"){
       const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
       const d=p.operation.direction;
@@ -663,6 +958,52 @@ export function reconstructDailyPhysicalState(
           b.sourcePartId !== beforeTissues.get(b.parentId)?.sourcePartId)
       )
         throw new Error("Unauthorized tissue creation");
+    }
+    if(e.kind==="reattach"){
+      // Independent topology oracle: the stage may only change one existing
+      // joint to the nearest currently TOUCHING alternate host. Verify the
+      // precise endpoints and unchanged identity, not merely the target name
+      // supplied in a potentially forged journal.
+      const tissueId=p.operation.tissueId,targetId=p.operation.targetTissueId;
+      const oldTissue=beforeTissues.get(tissueId);
+      const targetTissue=targetId?beforeTissues.get(targetId):undefined;
+      const former=[...links.values()].filter(l=>
+        l.kind==="attachment"&&l.fromTissueId===tissueId);
+      const own=[...beforeCells.values()].filter(c=>c.tissueId===tissueId);
+      const host=[...beforeCells.values()].filter(c=>c.tissueId===targetId);
+      const parentChain=new Set<string>();
+      let cursor:string|null=targetId??null;
+      while(cursor&&!parentChain.has(cursor)){
+        parentChain.add(cursor);
+        cursor=beforeTissues.get(cursor)?.parentId??null;
+      }
+      const contacts=own.flatMap(a=>host.flatMap(b=>
+        Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))<=1?
+        [{a,b,d:(a.x-b.x)**2+(a.y-b.y)**2}]:[]));
+      contacts.sort((u,v)=>u.d-v.d||
+        (u.a.id<v.a.id?-1:u.a.id>v.a.id?1:0)||
+        (u.b.id<v.b.id?-1:u.b.id>v.b.id?1:0));
+      if(p.system!=="remodeling"||!oldTissue||!targetTissue||
+        !targetId||targetId===tissueId||parentChain.has(tissueId)||
+        cursor!==null||former.length>1||
+        former[0]?.toTissueId===targetId||
+        made.length||moves.size||e.removedCellIds.length||
+        !contacts.length)
+        throw new Error("Unlawful physical attachment succession");
+      const pair=contacts[0],prior=former[0]??null;
+      const afterLink:MaterialLink={
+        id:prior?.id??p.operation.id+"/attachment",
+        kind:"attachment",fromTissueId:tissueId,toTissueId:targetId,
+        fromCellId:pair.a.id,toCellId:pair.b.id,
+      };
+      if(p.links.length!==1||!same(p.links[0],{
+        id:afterLink.id,before:prior,after:afterLink,
+      })||p.tissues.length!==1||
+        !same(p.tissues[0],{
+          id:tissueId,before:oldTissue,
+          after:{...oldTissue,parentId:targetId,relationship:"joint"},
+        }))
+        throw new Error("Forged nearest-contact attachment topology");
     }
     for (const change of p.links) {
       if(e.kind==="reposition"){

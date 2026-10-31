@@ -67,7 +67,7 @@ export function verifyStrainProgram(
           (0.15 + 0.2 * parameters.membrane),
       ),
     );
-  const mode = unit % 3 === 0 ? "shear" : "expand",
+  const mode = unit % 3 === 0 ? "expand" : "shear",
     side = mode === "shear" ? (v < 0.5 ? -1 : 1) : unit % 2 ? 1 : -1;
   const expected = {
     axis,

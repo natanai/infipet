@@ -1,0 +1,49 @@
+# Run only when the existing "enhancement" label is freshly added to PR #58.
+# Remove and re-add that label to deliberately rerun; no automatic push CI.
+# The player-facing GitHub Pages publishing workflow is NOT invoked.
+name: Experimental morphology qualification
+on:
+  pull_request:
+    types: [labeled]
+permissions:
+  contents: read
+concurrency:
+  group: morphology-pr-58
+  cancel-in-progress: true
+jobs:
+  verify:
+    if: github.event.pull_request.number == 58 && github.event.label.name == 'enhancement'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: TypeScript typecheck
+        run: pnpm typecheck
+      - name: Five-epoch daily stage contract
+        run: pnpm exec tsx --test tests/alg-development-stage-contract.test.ts
+      - name: Five-stage physical scheduling properties
+        run: pnpm exec tsx --test tests/alg-development-stage-pressures.test.ts
+      - name: Physical morphology regression
+        run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
+      - name: Independent stage identity anti-bulk oracle
+        run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
+      - name: Dense source material intercalation and independent replay
+        run: pnpm exec tsx --test tests/alg-development-dense-intercalation.test.ts
+      - name: Strict source-pair and anti-bulk evaluator unit tests
+        run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
+      - name: Whole-organism source shear and independent reconstruction
+        run: pnpm exec tsx --test tests/alg-development-whole-organism-shear.test.ts
+      - name: Independent 144-trajectory held-out five-form cohort
+        timeout-minutes: 12
+        env:
+          STAGE_HELD_OUT_COHORT: '1'
+        run: pnpm exec tsx --test tests/alg-evaluation-stage-heldout.test.ts
+# Qualification revision 10: test conserved vacancy-chain transport with independent chronological audit.
