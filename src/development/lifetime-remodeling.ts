@@ -420,6 +420,25 @@ export function compileLifetimeRemodeling(
     const host=base.source.tissues.filter(t=>t.sourceCellIds.length>=2&&
       base.source.sourceCells.some(c=>c.tissueId===t.id&&
         !!c.sourceKind&&roles.has(c.sourceKind)));
+    // An alternative host must be morphologically reachable in principle.
+    // The prior source geometry ranks hosts by the distance between physical
+    // birth envelopes. Immutable seed entropy breaks equal-distance ties;
+    // neither current care nor a desired adult silhouette selects the host.
+    const bounds=new Map(base.source.tissues.flatMap(t=>{
+      const cells=base.source.sourceCells.filter(c=>c.tissueId===t.id);
+      return cells.length?[[t.id,{
+        minX:Math.min(...cells.map(c=>c.x)),
+        maxX:Math.max(...cells.map(c=>c.x)),
+        minY:Math.min(...cells.map(c=>c.y)),
+        maxY:Math.max(...cells.map(c=>c.y)),
+      }] as const]:[];
+    }));
+    const birthGap=(a:string,b:string)=>{
+      const x=bounds.get(a),y=bounds.get(b);
+      return !x||!y?Infinity:Math.max(
+        0,y.minX-x.maxX,x.minX-y.maxX,
+        y.minY-x.maxY,x.minY-y.maxY);
+    };
     let count=0;
     for(const tissue of attached){
       if(count>=3||operations.length>=REMODEL_LIMITS.maxOperations)break;
@@ -436,7 +455,8 @@ export function compileLifetimeRemodeling(
           visited.add(cursor);cursor=tissueById.get(cursor)?.parentId??null;
         }
         return cursor===null;
-      }).sort((a,b)=>hash(genome.seed+"|alternative-host|"+tissue.id+"|"+a.id)-
+      }).sort((a,b)=>birthGap(tissue.id,a.id)-birthGap(tissue.id,b.id)||
+        hash(genome.seed+"|alternative-host|"+tissue.id+"|"+a.id)-
         hash(genome.seed+"|alternative-host|"+tissue.id+"|"+b.id)||
         compareText(a.id,b.id));
       if(!alternatives.length)continue;
