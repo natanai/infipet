@@ -441,7 +441,10 @@ export function reconstructDailyPhysicalState(
       throw new Error("Forged iterative opportunity");
     const beforeCells = new Map(active),
       beforeTissues = new Map(tissues);
-    const coupled=["slip","bend","articulate"].includes(e.kind)?
+    // A legacy articulation with no directional gene is ONLY a hinge
+    // landmark; it does not move cells or trigger the physical turn oracle.
+    const coupled=(e.kind==="slip"||e.kind==="bend"||
+      e.kind==="articulate"&&!!p.operation.direction)?
       expectedAttachedDeformation(e.kind,p.operation.tissueId,
         p.operation.direction,beforeCells,links):null;
     const made = e.createdCells ?? [];
