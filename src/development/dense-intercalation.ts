@@ -103,6 +103,16 @@ function proposeOneDenseChain(graph:MaterialGraph,tissueId:string,
   linked.add(l.fromTissueId+"|"+l.toTissueId);
   linked.add(l.toTissueId+"|"+l.fromTissueId);
  }
+ // Index the original foreign-tissue forbidden halo ONCE. Dense bodies can
+ // have hundreds of cells; scanning every cell for every target and donor
+ // would make daily development disproportionately expensive on phones.
+ const foreignHalo=new Set<string>();
+ for(const other of graph.cells){
+  if(other.tissueId===tissueId||
+    linked.has(tissueId+"|"+other.tissueId))continue;
+  for(const d of [...dirs,{x:0,y:0}])
+    foreignHalo.add((other.x+d.x)+","+(other.y+d.y));
+ }
  const dot=(p:Point)=>p.x*direction.x+p.y*direction.y;
  const lateral=(p:Point)=>p.x*(-direction.y)+p.y*direction.x;
  const donorSide={x:-direction.x,y:-direction.y};
@@ -117,10 +127,7 @@ function proposeOneDenseChain(graph:MaterialGraph,tissueId:string,
   if(!inside(t)||occupied.has(id)||protectedVoids.has(id)||excluded.has(id))continue;
   const supported=dirs.filter(d=>own.has((t.x+d.x)+","+(t.y+d.y)));
   if(supported.length<2||!supported.some(d=>d.x===0||d.y===0))continue;
-  const foreign=graph.cells.some(other=>other.tissueId!==tissueId&&
-   Math.max(Math.abs(other.x-t.x),Math.abs(other.y-t.y))<=1&&
-   !linked.has(tissueId+"|"+other.tissueId));
-  if(!foreign)targetCandidates.set(id,t);
+  if(!foreignHalo.has(id))targetCandidates.set(id,t);
  }
  const targets=[...targetCandidates.values()].sort((a,b)=>
   dot(b)-dot(a)||Math.abs(lateral(a))-Math.abs(lateral(b))||
