@@ -9,6 +9,7 @@ import {applyRemodelingProposal,remodelingProposalsBetween,
 import {verifyDailyMaterialInventory} from "../src/development/daily-step";
 import type {MaterialGraph} from "../src/development/material-graph";
 import {createSimulation} from "../src/simulation";
+import {measureStageIdentity} from "../src/evaluation/stage-identity";
 const HATCH=1_701_102_300_000,DAY=86_400_000;
 function unlabelledDrawing(){
  // One uninterrupted brushstroke, no manually selected head or appendage.
@@ -174,6 +175,17 @@ test("birth-shaped Body-only creature remains auditable and renderable at day 36
  assert.deepEqual(elder.sourceCells,birth.sourceCells);
  assert.ok(elder.events.some(e=>e.kind==="lobe-turn"&&
   (e.physical?.relocations.length??0)>=2));
+ const stages=[10,60,140,245,345].map(day=>
+  sim.materialStateAt(day).graph);
+ const contrasts=stages.slice(0,-1).map((g,i)=>
+  measureStageIdentity(g,stages[i+1]));
+ console.info("ORIGINAL_UNLABELED_FIVE_FORM_REPORT",JSON.stringify(
+  contrasts.map((p,i)=>({
+   pair:i,eligible:p.eligible,
+   silhouette:Number(p.normalizedSilhouetteDifference.toFixed(4)),
+   originalSourceReorganization:Number(p.originalSourcePairReorganization.toFixed(4)),
+   qualified:p.substantiallyDifferent,
+  }))));
  const frame=sim.frameAt(345,{time:0,action:"idle"});
  assert.ok(frame.pixels.length>0,
   "the exact source-owned physical anatomy remains renderable as an Elder");
