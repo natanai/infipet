@@ -542,3 +542,40 @@ test("the independent journal reconstructs every descendant and rejects a missin
  assert.throws(()=>verifyDailyMaterialInventory(withoutEye,HATCH,1,graph),
   /attachment|movement|source|inventory|material|physical/i);
 });
+
+
+test("real player-authored Head with independently selected Eyes rotates through compiler without sprite substitution",()=>{
+ const body={...drawing(["###","###","###"],"body")[0],
+  id:"player-body",name:"body",parentId:null};
+ const head={...drawing(["###","###","###"],"head")[0],
+  id:"player-head",name:"head",parentId:"player-body",
+  position:{x:0,y:-3}};
+ const left={...drawing(["#"],"eye")[0],
+  id:"player-eye-left",name:"eye left",parentId:"player-head",
+  position:{x:1,y:-3}};
+ const right={...drawing(["#"],"eye")[0],
+  id:"player-eye-right",name:"eye right",parentId:"player-head",
+  position:{x:2,y:-3}};
+ const {atlas,genome}=materialInputs([body,head,left,right],"8E8L8WBRZ");
+ const graph=compileMaterialDevelopment(atlas,genome).source;
+ const headTissue=graph.tissues.find(t=>t.sourcePartId==="player-head");
+ assert.ok(headTissue,"user's head must be a separately owned source tissue");
+ const attached=graph.links.filter(l=>l.kind==="attachment");
+ assert.ok(attached.some(l=>l.fromTissueId===headTissue.id),
+  "normal compiler must attach authored Head physically to Body");
+ const eyes=graph.tissues.filter(t=>["player-eye-left","player-eye-right"].includes(t.sourcePartId));
+ assert.equal(eyes.length,2);
+ assert.ok(eyes.every(t=>attached.some(l=>
+  l.fromTissueId===t.id&&l.toTissueId===headTissue.id)));
+ const outcome=proposeArticulatedTurn(graph,headTissue.id,-1);
+ assert.ok(outcome,"authored head with eyes should admit one real rigid whole-feature rotation");
+ const after=new Map(outcome.cells.map(c=>[c.id,c]));
+ for(const cell of graph.cells.filter(c=>c.tissueId===headTissue.id||
+  eyes.some(t=>t.id===c.tissueId))){
+  const now=after.get(cell.id)!;
+  assert.equal(now.x,outcome.pivot.x+(cell.y-outcome.pivot.y));
+  assert.equal(now.y,outcome.pivot.y-(cell.x-outcome.pivot.x));
+  assert.deepEqual(now.sourceIds,cell.sourceIds);
+ }
+ assert.equal(outcome.cells.length,graph.cells.length);
+});
