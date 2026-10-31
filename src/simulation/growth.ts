@@ -831,13 +831,10 @@ export function createSimulation(
   const rigNodes = (regions: readonly Region[]) =>
     regions.map((r) => ({ ...r, anatomicalRole: persistentRole(r) }));
   const maxAge = hatchAt + 365,
-    milestones: Milestone[] = [
-      ...(mode === "egg" ? [{ stage: "egg" as const, age: 0 }] : []),
-      ...(["infant", "teen", "adult", "elderly"] as const).map((stage, i) => ({
-        stage,
-        age: hatchAt + liveClock.toChronological([0, 30, 75, 365][i]),
-      })),
-    ];
+    // Stages are physical day checks, not a second lineage/clock mapping.
+    milestones: Milestone[] = DEVELOPMENT_STAGES.map(epoch=>({
+      stage:epoch.stage,age:hatchAt+epoch.startCheck,
+    }));
   const program: DevelopmentProgram = {
     version: 7,
     fingerprint: programFingerprint,
@@ -1182,7 +1179,8 @@ export function createSimulation(
     }
     // Incubation is a presentation state preceding the identical authored
     // organism; it consumes no anatomical opportunity.
-    return {pixels,parts,age,developmentalAge:careAge,stage:egg?"egg":careAge<30?"infant":careAge<75?"teen":careAge<365?"adult":"elderly",
+    return {pixels,parts,age,developmentalAge:careAge,
+      stage:stageAtCheck(physical.completedChecks),
       movementMode:pose.movementMode,wellbeing,evolution,motionPace:pace,motionAmplitude:amplitude,
       cellCount:pixels.length,generation:physical.completedChecks,traits:[],capabilities,interaction};
   }
