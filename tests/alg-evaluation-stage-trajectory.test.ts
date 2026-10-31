@@ -57,14 +57,61 @@ function physicalContrast(a:MaterialGraph,b:MaterialGraph){
  const topology=a.links.length!==b.links.length||
   a.tissues.length!==b.tissues.length||
   a.tissues.some(t=>b.tissues.find(v=>v.id===t.id)?.functionalKind!==t.functionalKind);
+ const previousTissues=new Map(a.tissues.map(t=>[t.id,t]));
+ const previousLinks=new Map(a.links.map(l=>[l.id,l]));
+ const reparented=b.tissues.some(t=>{
+  const prior=previousTissues.get(t.id);
+  return !!prior&&t.parentId!==prior.parentId;
+ })||b.links.some(l=>{
+  const prior=previousLinks.get(l.id);
+  return !!prior&&prior.toTissueId!==l.toTissueId;
+ });
  const internal=pairFraction(a,b);
- // A large pile of new material alone is not an independent developmental
- // metamorphosis. It must reshape existing anatomy or alter real structure.
+ // GENUINE METAMORPHOSIS: new pixel mass, new branch names and a new tissue
+ // link are NOT sufficient. Require reorganization of already living
+ // material (persistent cell motion or source-relative distance change) OR
+ // actual reparenting of an already existing anatomical tissue.
  const meaningful=silhouette>=0.17&&
-  (internal>=0.08||relocated>=0.17||topology);
- return {silhouette,relocated,internal,topology,meaningful,
+  (internal>=0.08||relocated>=0.17||reparented);
+ return {silhouette,relocated,internal,topology,reparented,meaningful,
   massRatio:b.cells.length/Math.max(1,a.cells.length)};
 }
+test("mass and new branches alone cannot be misclassified as metamorphosis",()=>{
+ const original=Array.from({length:9},(_,i)=>({
+  id:"source/"+i,tissueId:"body",x:30+i%3,y:30+Math.floor(i/3),
+  color:"#184C52",provenance:"authored" as const,sourceIds:["source/"+i],
+  parentCellIds:[] as string[],operationId:null,sourceKind:"body" as const,
+  sourcePartId:"body",
+ }));
+ const core={id:"body",sourcePartId:"body",parentId:null,
+  relationship:"floating" as const,sourceCellIds:original.map(c=>c.id),
+  growthSiteIds:[] as string[],rigidity:0};
+ const birth:MaterialGraph={
+  version:1,sourceFingerprint:"independent/growth-only",
+  sourceCells:original,cells:original,tissues:[core],sites:[],
+  links:[],protectedVoids:[],events:[],
+ };
+ const appended=Array.from({length:9},(_,i)=>({
+  id:"new/"+i,tissueId:"branch",x:33+i%3,y:30+Math.floor(i/3),
+  color:"#184C52",provenance:"generated" as const,
+  sourceIds:[original[i].id],parentCellIds:[original[i].id],
+  operationId:"new-surface-growth",
+ }));
+ const after:MaterialGraph={...birth,cells:[...original,...appended],
+  tissues:[core,{...core,id:"branch",sourcePartId:"body",
+   parentId:"body",relationship:"joint",sourceCellIds:[original[0].id]}],
+  links:[{id:"new/attachment",kind:"attachment",
+   fromTissueId:"branch",toTissueId:"body",
+   fromCellId:"new/0",toCellId:"source/2"}]};
+ const evaluation=physicalContrast(birth,after);
+ assert.ok(evaluation.silhouette>=0.17);
+ assert.equal(evaluation.topology,true);
+ assert.equal(evaluation.relocated,0);
+ assert.equal(evaluation.internal,0);
+ assert.equal(evaluation.reparented,false);
+ assert.equal(evaluation.meaningful,false,
+  "real growth and a new physical branch alone must not pass this metamorphosis gate");
+});
 test("source-general consecutive-stage physical metamorphosis cohort",{
  skip:process.env.MORPH_STAGE_COHORT!=="1",
 },()=>{
