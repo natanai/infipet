@@ -231,3 +231,51 @@ both care histories. No one-seed starter patch qualifies.
 six-window source-rearrangement gate can pass despite this stricter named
 five-form gate failing. Keep both as independent diagnostics, with Stage-004
 remaining the actual product acceptance target.
+
+### Executed stage response to physically conservative contour transport
+
+The v13 **single-corridor** life-stage run
+[41164591561](https://github.com/natanai/infipet/actions/runs/41164591561)
+improved Adult→Elder from 19/48 to 28/48 and complete five-form lives
+from 14/48 to 20/48. Its real physical local transport was mathematically
+verified, but strict five-form acceptance still FAILED.
+
+A subsequent three-corridor internal transport run
+[41164985246](https://github.com/natanai/infipet/actions/runs/41164985246)
+actually regressed Adult→Elder to 26/48 while increasing internal
+source-pair movement. **This proves that more interior rearrangement is not
+equivalent to silhouette metamorphosis.** No threshold was altered.
+
+An expanded, still physically conservative **eight-corridor** geometry
+[41165302110](https://github.com/natanai/infipet/actions/runs/41165302110)
+recovered meaningful physical outer-body changes. Compared with the
+initial five-form baseline:
+
+| Actual adjacent stage pair | Baseline | Source-owned eight-corridor v14 |
+|---|---:|---:|
+| Egg → Infant | 43/48 | 43/48 |
+| Infant → Teen | 41/48 | 41/48 |
+| Teen → Adult | 31/48 | 41/48 |
+| Adult → Elder | 19/48 | 35/48 |
+| All four adjacent pairs in the SAME life | 14/48 | 28/48 |
+
+High-care Adult→Elder qualification increased from **4/24 to 11/24**
+while the cohort retained all source DNA, provenance, original cell IDs,
+protected cavities, care chronology and independently audited movements.
+This v14 run still **FAILED** the preregistered ≥80% per-stage and ≥75%
+complete-lifetime standards. The high-care mean normalized Adult→Elder
+silhouette difference was ~0.155 versus the required 0.18.
+
+The subsequent v15 experiment adds a further **optional** late-Elder
+source-owned contour-transport opportunity using only otherwise unspent
+genetic operation slots. It cannot bypass the 64-operation cap, replace
+existing anatomical/phylogenetic source identities, or generate any
+target stage sprite. Its actual five-form cohort has NOT yet been verified
+as passing; the failed v14 result remains the current complete record.
+
+The eight-corridor operator moves existing identities by exactly one
+8-neighbor lattice site each. A daily transaction contains at most eight
+vertex-disjoint corridors and 256 total cell moves; all conservation,
+attachment, material support, boundary contact, protection and
+chronological care constraints remain independently audited. The finite
+relocation budget is distinct from the 64 lifetime operator-slot budget.
