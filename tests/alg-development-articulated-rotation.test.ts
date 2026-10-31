@@ -427,7 +427,7 @@ function nestedAnatomy():MaterialGraph{
  const source=compileMaterialDevelopment(atlas,genome).source;
  const x=Math.min(...source.cells.map(c=>c.x)),y=Math.min(...source.cells.map(c=>c.y));
  const body=source.tissues[0].id,base=source.cells.find(c=>c.x===x+1&&c.y===y)!;
- const first=source.cells[0],white="#E0E0E0",headColor="#627F9C";
+ const white="#E0E0E0",headColor="#627F9C";
  const headPoints=[
   {x:x+1,y:y-2},{x:x+2,y:y-2},
   {x:x+1,y:y-1},{x:x+2,y:y-1},
@@ -443,12 +443,20 @@ function nestedAnatomy():MaterialGraph{
   authored("ink/eye/left","left-eye",headPoints[0],"eye",white),
   authored("ink/eye/right","right-eye",headPoints[1],"eye",white),
  ];
+ const pupil:MaterialCell={
+  id:"ink/pupil",tissueId:"pupil",x:headPoints[0].x,y:headPoints[0].y,
+  color:"#111111",provenance:"authored",sourceKind:"decoration",
+  sourcePartId:"pupil",sourceIds:["ink/pupil"],parentCellIds:[],
+  operationId:null,
+ };
  const tissues:MaterialTissue[]=[
   {id:"head",sourcePartId:"head",parentId:body,relationship:"joint",
    sourceCellIds:head.map(c=>c.id),growthSiteIds:[],rigidity:0},
   ...eyes.map(c=>({id:c.tissueId,sourcePartId:c.sourcePartId!,
    parentId:"head",relationship:"surface" as const,
    sourceCellIds:[c.id],growthSiteIds:[],rigidity:0})),
+  {id:"pupil",sourcePartId:"pupil",parentId:"left-eye",relationship:"surface",
+   sourceCellIds:[pupil.id],growthSiteIds:[],rigidity:0},
  ];
  const links:MaterialLink[]=[
   {id:"attachment/head",kind:"attachment",fromTissueId:"head",toTissueId:body,
@@ -457,8 +465,10 @@ function nestedAnatomy():MaterialGraph{
    toTissueId:"head",fromCellId:eyes[0].id,toCellId:head[0].id},
   {id:"attachment/right-eye",kind:"attachment",fromTissueId:"right-eye",
    toTissueId:"head",fromCellId:eyes[1].id,toCellId:head[1].id},
+  {id:"attachment/pupil",kind:"attachment",fromTissueId:"pupil",
+   toTissueId:"left-eye",fromCellId:pupil.id,toCellId:eyes[0].id},
  ];
- const cells=[...source.cells,...head,...eyes];
+ const cells=[...source.cells,...head,...eyes,pupil];
  const allTissues=[...source.tissues,...tissues],allLinks=[...source.links,...links];
  return {...source,sourceCells:cells,cells,tissues:allTissues,links:allLinks,
   birth:{tissues:allTissues,sites:source.sites,links:allLinks,
@@ -479,7 +489,7 @@ test("a body bend and slip carry a head and two separately authored eyes by thei
   const originalRoot=before.get(contact.toCellId!)!,updatedRoot=after.get(contact.toCellId!)!;
   const delta={x:updatedRoot.x-originalRoot.x,y:updatedRoot.y-originalRoot.y};
   assert.ok(delta.x!==0||delta.y!==0);
-  for(const c of graph.cells.filter(c=>["head","left-eye","right-eye"].includes(c.tissueId))){
+  for(const c of graph.cells.filter(c=>["head","left-eye","right-eye","pupil"].includes(c.tissueId))){
    const updated=after.get(c.id)!;
    assert.deepEqual({x:updated.x-c.x,y:updated.y-c.y},delta);
    assert.equal(updated.color,c.color);
@@ -497,7 +507,7 @@ test("rotating a head carries both separately authored eyes by the SAME rigid tr
  assert.ok(turn,"joint rotation must carry the eyes instead of leaving them behind");
  assert.equal(turn.cells.length,graph.cells.length);
  const byId=new Map(turn.cells.map(c=>[c.id,c]));
- for(const original of graph.cells.filter(c=>["head","left-eye","right-eye"].includes(c.tissueId))){
+ for(const original of graph.cells.filter(c=>["head","left-eye","right-eye","pupil"].includes(c.tissueId))){
   const cell=byId.get(original.id)!;
   assert.equal(cell.x,turn.pivot.x+(original.y-turn.pivot.y));
   assert.equal(cell.y,turn.pivot.y-(original.x-turn.pivot.x));
