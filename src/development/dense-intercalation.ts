@@ -31,31 +31,45 @@ const axes=dirs.slice(0,4);
 const near=(a:Point,b:Point)=>Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))===1;
 const lexical=(a:string,b:string)=>a<b?-1:a>b?1:0;
 
-function connectedPath(available:ReadonlyMap<string,MaterialCell>,
- from:MaterialCell,to:Point):readonly Point[]|null{
+type Reachability=Readonly<{
+ previous:ReadonlyMap<string,string|null>;
+ order:ReadonlyMap<string,number>;
+}>;
+
+/** One deterministic BFS per donor, rather than a full 4096-site search for
+ * every donor/recipient pair. The ranked path is identical to an early-stop
+ * BFS with the same eight-neighbor iteration order. Large high-care bodies
+ * must remain performant on the player's mobile device. */
+function routesFrom(available:ReadonlyMap<string,MaterialCell>,
+ from:MaterialCell):Reachability{
  const queue:Point[]=[{x:from.x,y:from.y}];
- const parent=new Map<string,string|null>([[key(from),null]]);
- const end=key(to);
+ const previous=new Map<string,string|null>([[key(from),null]]);
+ const order=new Map<string,number>();
  for(let i=0;i<queue.length&&i<4096;i++){
-  const p=queue[i];
+  const p=queue[i];order.set(key(p),i);
   for(const d of dirs){
    const next={x:p.x+d.x,y:p.y+d.y},k=key(next);
-   if(parent.has(k)||k!==end&&!available.has(k))continue;
-   parent.set(k,key(p));
-   if(k===end){
-    const backwards:Point[]=[next];
-    let current:string|null=key(p);
-    while(current!==null){
-     const [x,y]=current.split(",").map(Number);
-     backwards.push({x,y});current=parent.get(current)??null;
-    }
-    backwards.reverse();
-    return backwards.length>=4&&backwards.length<=65?backwards:null;
-   }
-   queue.push(next);
+   if(previous.has(k)||!available.has(k))continue;
+   previous.set(k,key(p));queue.push(next);
   }
  }
- return null;
+ return {previous,order};
+}
+function routeTo(routes:Reachability,to:Point):readonly Point[]|null{
+ // Find the earliest BFS-visited physical neighbor, exactly as a target-
+ // aware BFS would discover the adjacent empty recipient perimeter site.
+ const parent=dirs.map(d=>({x:to.x-d.x,y:to.y-d.y}))
+  .filter(p=>routes.order.has(key(p)))
+  .sort((a,b)=>routes.order.get(key(a))!-routes.order.get(key(b))!)[0];
+ if(!parent)return null;
+ const reversed:Point[]=[to];
+ let current:string|null=key(parent);
+ while(current!==null){
+  const [x,y]=current.split(",").map(Number);
+  reversed.push({x,y});current=routes.previous.get(current)??null;
+ }
+ reversed.reverse();
+ return reversed.length>=4&&reversed.length<=65?reversed:null;
 }
 
 function proposeOneDenseChain(graph:MaterialGraph,tissueId:string,
@@ -111,9 +125,11 @@ function proposeOneDenseChain(graph:MaterialGraph,tissueId:string,
  const targets=[...targetCandidates.values()].sort((a,b)=>
   dot(b)-dot(a)||Math.abs(lateral(a))-Math.abs(lateral(b))||
   a.y-b.y||a.x-b.x).slice(0,24);
- for(const from of donors)for(const to of targets){
+ for(const from of donors){
+  const routes=routesFrom(movable,from);
+  for(const to of targets){
   if(dot(to)-dot(from)<3)continue;
-  const path=connectedPath(movable,from,to);
+  const path=routeTo(routes,to);
   if(!path||path.length-1>budget||
     path.some(p=>excluded.has(key(p))))continue;
   const moved=new Map<string,Point>();
@@ -137,6 +153,7 @@ function proposeOneDenseChain(graph:MaterialGraph,tissueId:string,
    return p?[{cellId:c.id,from:{x:c.x,y:c.y},to:p}]:[];
   });
   return {cells,relocated};
+  }
  }
  return null;
 }
