@@ -516,7 +516,7 @@ export function reconstructDailyPhysicalState(
         }) ||
         !bounded(m.to) ||
         m.to.z !== c.z ||
-        (c.tissueId !== p.operation.tissueId && !["repattern","shear"].includes(e.kind) && !coupled)
+        (c.tissueId !== p.operation.tissueId && !["repattern","shear","reposition"].includes(e.kind) && !coupled)
       )
         throw new Error("Inconsistent or forged relocation evidence");
       if (
