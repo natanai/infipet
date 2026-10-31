@@ -1,10 +1,10 @@
 # The only GitHub Actions workflow while Infipet is pre-release.
 # Publish playable code immediately after a change reaches main.
 # There are deliberately no CI, browser, morphology or performance gates.
-name: Publish Infipet
+name: Publish Infipet original-material anatomy preview
 on:
   push:
-    branches: [main]
+    branches: [site-test]
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment:
-      name: github-pages
+      name: infipet-visual-preview
       url: ${{ steps.deployment.outputs.page_url }}
     env:
       INFIPET_BASE_URL: /infipet
