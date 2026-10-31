@@ -140,10 +140,33 @@ export function applyDailyMaterialStep(
     return {operatorId:op.id,cumulative:old.settled?old.cumulative:
       cap(old.cumulative+overlap*response*materialOperatorChaosRate(op,n)/op.durationHours)};
   });
+  let remodeling=prior.remodeling;
+  const dueRemodeling=remodelingProposalsBetween(remodelingProgram,n,k);
+  // An explicitly inherited source lobe can close its very first physical
+  // joint *before* same-day deposition fills it. This is a limited,
+  // day-one-only anatomical priority, not an instant hatch mutation.
+  // Birth at check 0 remains EXACTLY the player's drawing. Every accepted
+  // motion is still care-gated, journaled at check 1, independently audited
+  // and charged to one already existing genetic remodeling opportunity.
+  // Later checkpoints retain material -> remodeling -> iterative ordering.
+  const prenatalClearance=k===1?dueRemodeling.filter(p=>
+    p.operation.kind==="lobe-turn"&&p.atHour<=1):[];
+  for(const proposal of prenatalClearance){
+    if(resources<=0||f.rest<=0){
+      remodeling={...remodeling,attempts:[...remodeling.attempts,{
+        id:proposal.operation.id+"/unit/"+proposal.unit,atHour:k,
+        status:"rejected",reason:"daily-resource-unavailable"}]};
+      continue;
+    }
+    const applied=applyRemodelingProposal(graph,remodelingProgram,proposal,
+      remodeling,k,Math.floor(64*resources*(.5+.5*f.rest)));
+    graph=applied.graph;remodeling=applied.chronology;
+  }
   const material=stepMaterialOperatorChronology(graph,program,prior.material,{fromHour:n,toHour:k,expressions});
   graph=material.graph;
-  let remodeling=prior.remodeling;
-  for(const proposal of remodelingProposalsBetween(remodelingProgram,n,k)){
+  for(const proposal of dueRemodeling){
+    if(prenatalClearance.some(p=>p.operation.id===proposal.operation.id&&
+      p.unit===proposal.unit))continue;
     const allowed=proposal.operation.kind==="resorb"?f.observedFraction>0:
       resources>0&&f.rest>0;
     if(!allowed){
