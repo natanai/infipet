@@ -401,6 +401,54 @@ export function compileLifetimeRemodeling(
         });
       }
   }
+  if(!override && operations.length<REMODEL_LIMITS.maxOperations){
+    // The physical reattachment transaction already exists and independently
+    // verifies a reachable new joint, but was NEVER scheduled automatically.
+    // This reserves at most three actual topology opportunities for existing
+    // supported, source-owned organs. An alternative host must be a distinct
+    // existing tissue, not the original parent or a descendant of the child.
+    // The candidate is chosen only from birth topology + immutable genome.
+    const tissueById=new Map(base.source.tissues.map(t=>[t.id,t]));
+    const attached=base.source.links.filter(l=>l.kind==="attachment"&&
+      l.fromCellId&&l.toCellId)
+      .map(l=>tissueById.get(l.fromTissueId))
+      .filter((t):t is NonNullable<typeof t>=>!!t)
+      .sort((a,b)=>hash(genome.seed+"|joint-succession|"+a.id)-
+        hash(genome.seed+"|joint-succession|"+b.id)||
+        compareText(a.id,b.id));
+    const roles=new Set<PartKind>(["body","head","arm","leg","tail","wing","egg"]);
+    const host=base.source.tissues.filter(t=>t.sourceCellIds.length>=2&&
+      base.source.sourceCells.some(c=>c.tissueId===t.id&&
+        !!c.sourceKind&&roles.has(c.sourceKind)));
+    let count=0;
+    for(const tissue of attached){
+      if(count>=3||operations.length>=REMODEL_LIMITS.maxOperations)break;
+      const parent=tissueById.get(tissue.id)?.parentId;
+      const sourceLink=base.source.links.find(l=>
+        l.kind==="attachment"&&l.fromTissueId===tissue.id);
+      const alternatives=host.filter(t=>{
+        if(t.id===tissue.id||t.id===parent||t.id===sourceLink?.toTissueId)
+          return false;
+        let cursor:string|null=t.id;
+        const visited=new Set<string>();
+        while(cursor&&!visited.has(cursor)){
+          if(cursor===tissue.id)return false;
+          visited.add(cursor);cursor=tissueById.get(cursor)?.parentId??null;
+        }
+        return cursor===null;
+      }).sort((a,b)=>hash(genome.seed+"|alternative-host|"+tissue.id+"|"+a.id)-
+        hash(genome.seed+"|alternative-host|"+tissue.id+"|"+b.id)||
+        compareText(a.id,b.id));
+      if(!alternatives.length)continue;
+      const target=alternatives[0];
+      operations.push({
+        id:"topology/"+count+"/reattach",
+        kind:"reattach",tissueId:tissue.id,targetTissueId:target.id,
+        atHour:175+count*62,durationHours:35,units:7,strength:1,
+      });
+      count++;
+    }
+  }
   if (operations.length > REMODEL_LIMITS.maxOperations)
     throw new RangeError("Too many remodeling operations");
   const unique = new Set<string>();
