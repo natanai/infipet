@@ -20,7 +20,7 @@
  * Zero potential contributes zero rate. A blocked selected surface is a null
  * proposal, never converted to a convenient tendril or fabricated anatomy.
  *
- * Daily allometry uses five seed-fixed 73-check phases with bounded
+ * Daily allometry uses the five named developmental epochs with bounded
  * region-local aspect in [1/8,8]; chronological rest/activity biases actual
  * expression, not the permanent genome. The available region, not a species
  * template, determines the physically legal next boundary position.
