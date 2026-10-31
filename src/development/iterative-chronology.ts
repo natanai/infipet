@@ -1,5 +1,4 @@
 import {journalMaterialEvent} from "./material-journal";
-import {physicalGrowthCredits} from "./stage-contract";
 import {sourcePigmentSupport,advancingInteriorParent} from "./material-front";
 import {anatomicalContinuityFailure} from "./anatomical-continuity";
 import {growthSupportDistance} from "./material-support";
@@ -387,9 +386,7 @@ export function stepIterativeChronology(
   const active = lives.filter(s => s.status !== "invalidated" &&
     s.activationHour <= n && byId.has(s.tipCellId))
     .sort((a, b) => compareText(a.id, b.id));
-  const available = policy.enablePhysicalFields
-    ? physicalGrowthCredits(n+1,exposure.resources,ITERATIVE_LIMITS.creditsPerHour)
-    : Math.floor(ITERATIVE_LIMITS.creditsPerHour * exposure.resources);
+  const available = Math.floor(ITERATIVE_LIMITS.creditsPerHour * exposure.resources);
   const bornSizes=new Map(birth.source.tissues.map(t=>[t.id,t.sourceCellIds.length]));
   const originById=new Map(birth.source.sourceCells.map(c=>[c.id,bornSizes.get(c.tissueId)??1]));
   const sourceMass=new Map(tissues.map(t=>{
