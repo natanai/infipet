@@ -29,9 +29,6 @@ jobs:
         run: pnpm typecheck
       - name: Physical morphology regression
         run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
-      - name: Stage-by-stage 365-day cohort
-        timeout-minutes: 12
-        env:
-          MORPH_STAGE_COHORT: '1'
-        run: pnpm exec tsx --test tests/alg-evaluation-stage-trajectory.test.ts
-# Qualification revision 3: explicit single-shot full-life numerical check.
+      - name: Joint physical reachability diagnostic
+        run: pnpm exec tsx --test tests/alg-evaluation-joint-reachability.test.ts
+# Qualification revision 4: opt-in age-resolved joint feasibility diagnosis.
