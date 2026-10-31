@@ -197,9 +197,25 @@ function completeAttachedTransformation(
   if(!a||!b||(a.x-b.x)**2+(a.y-b.y)**2>8)return null;
  }
  const relations=new Set<string>();
+ const parents=new Map<string,string>();
  for(const link of graph.links){
   relations.add(link.fromTissueId+"|"+link.toTissueId);
   relations.add(link.toTissueId+"|"+link.fromTissueId);
+  if(link.kind==="attachment")parents.set(link.fromTissueId,link.toTissueId);
+ }
+ // Adjacent surface contact with a REAL ancestor is permitted without
+ // inventing a new fusion joint. Unrelated tissues still cannot start
+ // touching as a consequence of this operator. The independent auditor
+ // rederives this from the pre-event tissue hierarchy separately.
+ for(const tissue of graph.tissues){
+  const visited=new Set<string>([tissue.id]);
+  let current=parents.get(tissue.id);
+  while(current&&!visited.has(current)){
+   relations.add(tissue.id+"|"+current);
+   relations.add(current+"|"+tissue.id);
+   visited.add(current);current=parents.get(current);
+  }
+  if(current)return null;
  }
  for(const moved of shifts){
   const old=original.get(moved.id)!;
