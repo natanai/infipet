@@ -8,6 +8,7 @@ import {applyRemodelingProposal,remodelingProposalsBetween,
  EMPTY_REMODELING_CHRONOLOGY} from "../src/development/remodel-transactions";
 import {verifyDailyMaterialInventory} from "../src/development/daily-step";
 import type {MaterialGraph} from "../src/development/material-graph";
+import {createSimulation} from "../src/simulation";
 const HATCH=1_701_102_300_000,DAY=86_400_000;
 function playerDrawnHead(){
  const core={...drawing(["######","######","######","######","######"],"body")[0],
@@ -105,4 +106,30 @@ test("real chronological head migration and its eye independently replay, missin
  assert.throws(()=>verifyDailyMaterialInventory(damaged,HATCH,k,birth,{
   material:program.operators,remodeling:plan.operations,
  }),/migration|material|relocation|reconstruction|physical|inventory|attached/i);
+});
+
+test("a real care-gated daily pet moves its originally drawn head and eye before bulk suppresses anatomy",()=>{
+ const sim=createSimulation(playerDrawnHead(),"8E8L8WRZ","infant",{
+  previewCare:{kind:"synthetic-needs-lab-v1",nutrition:0.92,timeline:[]},
+  reuseLivingMaterial:false,
+ });
+ const birth=sim.materialStateAt(0).graph,day12=sim.materialStateAt(12).graph;
+ const originals=new Map(birth.cells.map(c=>[c.id,c]));
+ const head=birth.sourceCells.filter(c=>c.sourceKind==="head");
+ const eyes=birth.sourceCells.filter(c=>c.sourceKind==="eye");
+ assert.ok(head.length>=3&&eyes.length>=1);
+ const moved=(ids:readonly string[])=>ids.filter(id=>{
+  const a=originals.get(id)!;
+  const b=day12.cells.find(c=>c.id===id);
+  return !!b&&(a.x!==b.x||a.y!==b.y);
+ }).length;
+ const events=day12.events.filter(e=>e.kind==="reposition"&&
+  e.physical?.operation.id.startsWith("head-migration/"));
+ assert.ok(events.length>=1,
+  "a real creature must COMMIT physical head movement in its life, not merely compile unused tickets");
+ assert.ok(moved(head.map(c=>c.id))>=1);
+ assert.ok(moved(eyes.map(c=>c.id))>=1,
+  "real attached facial ink must follow its moving head");
+ assert.deepEqual(day12.sourceCells,birth.sourceCells);
+ for(const e of events)assert.equal(e.createdCellIds.length+e.removedCellIds.length,0);
 });
