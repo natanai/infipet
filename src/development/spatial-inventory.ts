@@ -639,7 +639,7 @@ export function reconstructDailyPhysicalState(
     )
       throw new Error("Incomplete tissue translation");
     if(e.kind==="intercalate"){
-      // Independent decomposition of every declared move into up to THREE
+      // Independent decomposition of every declared move into up to EIGHT
       // nonbranching, vertex-disjoint directed vacancy chains. Reconstruct
       // from PRE-EVENT original IDs and coordinates only; no producer BFS,
       // preferred route, intended silhouette or final event visual.
@@ -660,7 +660,7 @@ export function reconstructDailyPhysicalState(
       if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
         !axis||![[1,0],[-1,0],[0,1],[0,-1]]
           .some(([x,y])=>axis.x===x&&axis.y===y)||
-        moves.size<3||moves.size>64||moves.size!==p.relocations.length)
+        moves.size<3||moves.size>256||moves.size!==p.relocations.length)
         throw new Error("Invalid physical vacancy-chain operation");
       for(const m of p.relocations){
         const prior=beforeCells.get(m.cellId)!;
@@ -673,7 +673,7 @@ export function reconstructDailyPhysicalState(
       }
       const donors=[...origins].filter(([xy])=>!destinations.has(xy));
       const exits=[...destinations].filter(([xy])=>!origins.has(xy));
-      if(donors.length<1||donors.length>3||donors.length!==exits.length)
+      if(donors.length<1||donors.length>8||donors.length!==exits.length)
         throw new Error("Invalid number of conservative vacancy corridors");
       const originalOwn=new Set(own.map(key));
       const linked=new Set<string>();
