@@ -12,6 +12,7 @@ import {applyRemodelingProposal,remodelingProposalsBetween,
 import {applyDailyMaterialStep,createDailyMaterialState,verifyDailyMaterialInventory,type DailyCareWindowV1} from "../src/development/daily-step";
 import {sourceStrain} from "../src/development/developmental-strain";
 import {sourcePairChange} from "../src/evaluation/morphology";
+import {createSimulation} from "../src/simulation";
 import {journalMaterialEvent} from "../src/development/material-journal";
 import type {MaterialCell,MaterialGraph,MaterialTissue,MaterialLink} from "../src/development/material-graph";
 import {materialInputs,drawing} from "./alg-development-fixtures";
@@ -681,4 +682,37 @@ test("independent replay rejects a physically false reattachment endpoint",()=>{
  const forged=journalMaterialEvent(graph,fake,event,"remodeling",operation);
  assert.throws(()=>verifyDailyMaterialInventory({...fake,events:[forged]},
   HATCH,1,graph),/attachment|nearest|topology|contact|journal/i);
+});
+
+test("real player organs take early genetically authorized joint turns before growth encloses them",()=>{
+ let eligible=0,correctlyScheduled=0,committed=0;
+ for(const preset of STARTER_PRESETS){
+  for(const seed of [preset.seed,"8E8L8WBRZ"]){
+   const genome=compileGenome(seed);
+   const program=compileMaterialDevelopment(describeSource(compileSources(preset.parts,0)),genome);
+   const plan=compileLifetimeRemodeling(program,genome);
+   for(const op of plan.operations.filter(op=>op.id.startsWith("migrate/")&&
+    op.id.endsWith("/phase/0"))){
+    const birthSigns=([1,-1] as const).filter(sign=>
+     !!proposeArticulatedTurn(program.source,op.tissueId,sign));
+    if(!birthSigns.length)continue;
+    eligible++;
+    assert.ok(op.direction?.y===0&&birthSigns.includes(op.direction.x as 1|-1),
+     "original authored geometry constrains seed's permanent joint direction");
+    assert.ok(op.atHour<=0.5&&op.durationHours===12);
+    correctlyScheduled++;
+   }
+   const sim=createSimulation(preset.parts,seed,"infant",{
+    previewCare:{kind:"synthetic-needs-lab-v1",nutrition:0.92,timeline:[]},
+    reuseLivingMaterial:false,
+   });
+   const adult=sim.materialStateAt(16);
+   committed+=adult.graph.events.filter(e=>e.kind==="articulate"&&
+    (e.physical?.relocations.length??0)>0).length;
+  }
+ }
+ assert.ok(eligible>=4,"cohort must contain several initially legal, genuinely authored joints");
+ assert.equal(correctlyScheduled,eligible);
+ assert.ok(committed>0,
+  "positive care plus viable birth anatomy must yield real early physical joint motion");
 });
