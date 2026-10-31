@@ -159,8 +159,8 @@ function proposeOneDenseChain(graph:MaterialGraph,tissueId:string,
 }
 
 /**
- * One care-gated event may redistribute up to three DISJOINT tissue material
- * corridors, with a combined budget of at most 64 one-step relocations.
+ * One care-gated event may redistribute up to eight DISJOINT tissue material
+ * corridors, with a combined budget of at most 256 one-step relocations.
  * Unlike repeating the same giant band shear, this remains feasible after
  * strong positive-care material deposition has densely packed the organism.
  * Every corridor preserves its complete existing identity set, and the
@@ -174,9 +174,9 @@ export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
  const originalOwn=new Set(graph.cells.filter(c=>c.tissueId===tissueId).map(key));
  let current=graph,number=0;
  const relocated:Readonly<{cellId:string;from:Point;to:Point}>[]=[];
- for(let index=0;index<3;index++){
+ for(let index=0;index<8;index++){
   const next=proposeOneDenseChain(current,tissueId,direction,
-   protectedPositions,64-relocated.length);
+   protectedPositions,256-relocated.length);
   if(!next)break;
   if(!next.relocated.length)break;
   // Each corridor is evaluated against the SAME pre-event physical graph.
