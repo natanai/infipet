@@ -92,10 +92,12 @@ test("source-general consecutive-stage physical metamorphosis cohort",{
    const adult=states.at(-1)!;
    const relevant=adult.remodeling.attempts.filter(a=>
     a.id.includes("shape-stage")||a.id.includes("migrate")||
+    a.id.includes("topology/")||
     a.id.includes("developmental-repattern"));
    const families=new Map<string,{accepted:number;rejected:number;reasons:Record<string,number>}>();
    for(const attempt of relevant){
-    const family=attempt.id.includes("migrate")?"joint":
+    const family=attempt.id.includes("topology/")?"reattachment":
+     attempt.id.includes("migrate")?"joint":
      attempt.id.includes("developmental-repattern")?"whole-body":
      attempt.id.includes("/shape-stage/1/")?"bend":
      attempt.id.includes("/shape-stage/0/")||
