@@ -82,7 +82,7 @@ during every later region-growth opportunity, not merely its first bud.
 All material boundaries remain governed by existing spatial and ancestry
 auditors; no image/silhouette transformation is substituted.
 
-On the unmerged v8 development branch, source-owned material has
+On the unmerged v9 development branch, source-owned material has
 three further physically committed remodeling choices:
 
 - A selected, attached organ may execute a seeded 90-degree rotation about
@@ -108,23 +108,29 @@ For up to four qualifying tissues, retain the full eight local operation
 families per region. For five or six, retain four non-additive regional
 developmental stages and resorption for every selected tissue, while only
 the largest also gets local extension and reinforcement (ordinary daily
-growth already offers those). This changes the worst-case operation count to
-`8n+29` for `1≤n≤4`, or `5n+31` for `5≤n≤6`, counting all five whole-body
-waves, twelve functional operation slots and twelve rotating-joint stage
-slots. Both expressions are at most 61, leaving room under 64. No physical
-outcome is guaranteed: genetic, care, collision and anatomical continuity
-constraints still independently determine which proposals commit. The five original repatterning wave
+growth already offers those). This changes the pre-topology worst-case
+operation count to `8n+29` for `1≤n≤4`, or `5n+31` for `5≤n≤6`,
+counting all five whole-body waves, twelve functional operation slots
+and twelve rotating-joint stage slots. Both expressions are at most 61.
+The v9 genome compiler then assigns **up to three** additional bounded
+reattachment opportunities to originally attached tissues with an existing
+alternative mechanically plausible host. A legal reattachment must
+establish a *new* physically touching parent joint, may not create cycles,
+must preserve every existing source cell, and is independently reconstructed
+from prior contact geometry. Thus even the maximal program remains ≤64.
+No physical outcome is guaranteed: genetic, care, collision and anatomical
+continuity constraints still independently determine which proposals commit. The five original repatterning wave
 organizers also now choose shearing more often than outward expansion.
 This is a source-general implementation experiment, not evidence of visually
 complete stage evolution. Focused tests have been added but have not yet been
 executed in a production-capable runner, and this branch is not published.
 
-### Attachment-coupled physical movement (implemented on v8 draft; unqualified)
+### Attachment-coupled physical movement (implemented on v9 draft; unqualified)
 
 A local tissue transformation can pass a small endpoint tolerance while
 leaving its separately authored, attached descendants behind. That is not
 adequate to transform a head with independently drawn eyes or to rearrange a
-multi-limbed body. The v8 experimental operator carries the complete
+multi-limbed body. The v9 experimental operator carries the complete
 attachment subtree atomically, **without inferring new anatomy or rewriting
 source part identities**:
 
