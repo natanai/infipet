@@ -423,6 +423,38 @@ test("complex six-region drawings retain every eligible real joint-movement stag
       assert.ok(!seen.has(current),"source topology must not cycle");
       seen.add(current);current=birthParents.get(current);
     }
+    // Independent birth-envelope lower bound: proximity is physical and
+    // seed may only break ties, never select a farther host by fiat.
+    const gap=(a:string,b:string)=>{
+      const box=(tid:string)=>{
+        const cells=physical.source.sourceCells.filter(c=>c.tissueId===tid);
+        return {minX:Math.min(...cells.map(c=>c.x)),
+          maxX:Math.max(...cells.map(c=>c.x)),
+          minY:Math.min(...cells.map(c=>c.y)),
+          maxY:Math.max(...cells.map(c=>c.y))};
+      };
+      const x=box(a),y=box(b);
+      return Math.max(0,y.minX-x.maxX,x.minX-y.maxX,
+        y.minY-x.maxY,x.minY-y.maxY);
+    };
+    const hostKinds=new Set(["body","head","arm","leg","tail","wing","egg"]);
+    const feasible=physical.source.tissues.filter(t=>{
+      if(t.id===op.tissueId||t.id===birthParents.get(op.tissueId)||
+        t.sourceCellIds.length<2)return false;
+      if(!physical.source.sourceCells.some(c=>c.tissueId===t.id&&
+        hostKinds.has(c.sourceKind??"")))return false;
+      let cursor:string|undefined=t.id;
+      const seen=new Set<string>();
+      while(cursor&&!seen.has(cursor)){
+        if(cursor===op.tissueId)return false;
+        seen.add(cursor);cursor=birthParents.get(cursor);
+      }
+      return cursor===undefined;
+    });
+    assert.ok(feasible.length>0);
+    const shortest=Math.min(...feasible.map(t=>gap(op.tissueId,t.id)));
+    assert.equal(gap(op.tissueId,op.targetTissueId!),shortest,
+      "immutable source anatomy selects an attainable alternative host first");
     assert.ok(op.atHour+op.durationHours<=365);
   }
   const rotation=program.operations.filter(o=>o.id.startsWith("migrate/")&&
