@@ -33,9 +33,11 @@ jobs:
         run: pnpm exec tsx --test tests/alg-development-stage-pressures.test.ts
       - name: Physical morphology regression
         run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
-      - name: Stage-by-stage 365-day cohort
+      - name: Independent stage identity anti-bulk oracle
+        run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
+      - name: Five-form physical 365-day diagnostic cohort
         timeout-minutes: 12
         env:
-          MORPH_STAGE_COHORT: '1'
-        run: pnpm exec tsx --test tests/alg-evaluation-stage-trajectory.test.ts
-# Qualification revision 7: verify stage boundary scheduling and the independent physical cohort.
+          FIVE_FORM_STAGE_COHORT: '1'
+        run: pnpm exec tsx --test tests/alg-evaluation-five-forms-cohort.test.ts
+# Qualification revision 8: measure actual five-form contrast using source-pair and normalized silhouette oracle.
