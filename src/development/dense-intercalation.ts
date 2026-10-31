@@ -153,6 +153,8 @@ function proposeOneDenseChain(graph:MaterialGraph,tissueId:string,
 export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
  direction:Point):DenseIntercalation|null{
  const protectedPositions=new Set<string>();
+ const originalOccupied=new Set(graph.cells.map(key));
+ const originalOwn=new Set(graph.cells.filter(c=>c.tissueId===tissueId).map(key));
  let current=graph,number=0;
  const relocated:Readonly<{cellId:string;from:Point;to:Point}>[]=[];
  for(let index=0;index<3;index++){
@@ -160,6 +162,19 @@ export function proposeDenseIntercalation(graph:MaterialGraph,tissueId:string,
    protectedPositions,64-relocated.length);
   if(!next)break;
   if(!next.relocated.length)break;
+  // Each corridor is evaluated against the SAME pre-event physical graph.
+  // Later corridors cannot borrow material support created by earlier ones,
+  // because the independent chronological auditor must verify them jointly.
+  const fromKeys=new Set(next.relocated.map(m=>key(m.from)));
+  const toKeys=new Set(next.relocated.map(m=>key(m.to)));
+  const donor=next.relocated.find(m=>!toKeys.has(key(m.from)))?.from;
+  const exit=next.relocated.find(m=>!fromKeys.has(key(m.to)))?.to;
+  const back=donor?{x:donor.x-direction.x,y:donor.y-direction.y}:null;
+  const support=exit?dirs.filter(d=>originalOwn.has(
+    (exit.x+d.x)+","+(exit.y+d.y))):[];
+  if(!donor||!exit||!back||originalOwn.has(key(back))||
+    originalOccupied.has(key(exit))||
+    support.length<2||!support.some(d=>d.x===0||d.y===0))break;
   for(const m of next.relocated){
    protectedPositions.add(key(m.from));
    protectedPositions.add(key(m.to));
