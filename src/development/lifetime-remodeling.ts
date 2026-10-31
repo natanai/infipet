@@ -40,7 +40,7 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "slip" | "bend" | "intercalate" | "repattern" | "repurpose" | "reposition";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "slip" | "bend" | "shear" | "intercalate" | "repattern" | "repurpose" | "reposition";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
@@ -147,7 +147,7 @@ function channel(kind: RemodelKind, g: DevelopmentGeneticSignals): number {
     case "resorb": return c.maturation.plasticity;
     case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
-    case "redistribute": case "slip": case "bend": case "intercalate": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "redistribute": case "slip": case "bend": case "shear": case "intercalate": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
     case "reattach": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity>=0.2?1:0;
@@ -441,7 +441,7 @@ export function compileLifetimeRemodeling(
       primary.id,"terminal-physical-organization"].join("|"));
     const dirs=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
     operations.push({
-      id:"terminal-physical-organization",kind:"slip",tissueId:primary.id,
+      id:"terminal-physical-organization",kind:"shear",tissueId:primary.id,
       direction:dirs[orbit.x%4],
       atHour:330,durationHours:34,units:12,
       strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length))),
@@ -664,7 +664,7 @@ export function lifetimeRemodelingAt(
         removed.push(choice);
         cells = cells.filter(c => c.id !== choice.id);
       }
-    } else if (op.kind === "reshape" || op.kind === "redistribute" || op.kind === "slip" || op.kind === "bend" || op.kind === "intercalate" || op.kind === "repattern") {
+    } else if (op.kind === "reshape" || op.kind === "redistribute" || op.kind === "slip" || op.kind === "bend" || op.kind === "shear" || op.kind === "intercalate" || op.kind === "repattern") {
       // This legacy fractional-hour evaluator is not an authorized daily
       // material transaction; refusing prevents a fake anatomical snapshot.
       reason="region-front-requires-daily-physical-transaction";
