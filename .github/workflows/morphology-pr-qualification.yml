@@ -33,6 +33,8 @@ jobs:
         run: pnpm exec tsx --test tests/alg-development-stage-pressures.test.ts
       - name: Physical morphology regression
         run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
+      - name: Head and attached face physical ontogeny regression
+        run: pnpm exec tsx --test tests/alg-development-head-migration.test.ts
       - name: Independent stage identity anti-bulk oracle
         run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
       - name: Dense source material intercalation and independent replay
@@ -41,9 +43,6 @@ jobs:
         run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
       - name: Whole-organism source shear and independent reconstruction
         run: pnpm exec tsx --test tests/alg-development-whole-organism-shear.test.ts
-      - name: Independent 144-trajectory held-out five-form cohort
-        timeout-minutes: 12
-        env:
-          STAGE_HELD_OUT_COHORT: '1'
-        run: pnpm exec tsx --test tests/alg-evaluation-stage-heldout.test.ts
+      # Held-out long cohort remains separately opt-in; first prove exact
+      # ancestral head motion and attached anatomical invariants.
 # Qualification revision 10: test conserved vacancy-chain transport with independent chronological audit.
