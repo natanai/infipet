@@ -73,6 +73,7 @@ import { getMetamorphosisPhase } from "./metamorphosis";
 import { grownMaterialCells } from "./material-growth";
 import { compileAnatomicalRoles } from "./anatomical-roles";
 import { createDevelopmentClock } from "../lineage/clock";
+import {DEVELOPMENT_STAGES,stageAtCheck} from "../development/stage-contract";
 import { compileLineage, lineageAt, lineageTraitsAt } from "../lineage";
 import {
   cellCorners,
