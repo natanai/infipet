@@ -685,7 +685,7 @@ export function reconstructDailyPhysicalState(
       for(const [,startId] of donors){
         const first=beforeCells.get(startId)!;
         const backward={x:first.x-axis.x,y:first.y-axis.y};
-        if(originalOwn.has(key(back)))
+        if(originalOwn.has(key(backward)))
           throw new Error("Intercalation donor is not original perimeter");
         let current=startId,length=0;
         let final:{x:number;y:number}|null=null;
