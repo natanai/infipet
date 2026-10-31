@@ -82,8 +82,14 @@ from real completed anatomical daily checks, and five stage-derived regional
 growth phases replace the old equally spaced 73-check phases. Four
 source-owned regional remodeling windows are centered at stage boundaries,
 with one whole-body source wave per epoch. This is **not** yet evidence that
-the five observed forms are distinct; the five-anchor, normalized silhouette
-and actual original-material reorganization qualification remains open.
+the five observed forms are distinct. The independent **48-life named-stage
+cohort failed** despite its first two transitions qualifying: Egg→Infant
+43/48, Infant→Teen 41/48, Teen→Adult 31/48, Adult→Elder 19/48,
+and only 14/48 lives passing all four (see the executed measurement appendix
+in `docs/development/stage-structured-ontogeny.md`). Mature high-care bodies
+are especially resistant to the currently available physically lawful slip
+and bend operations; **7/24** had neither operator legal in any cardinal
+direction at day 281. STAGE-003 and STAGE-004 remain open.
 Tasks `STAGE-001` and `STAGE-002` are in progress; `STAGE-003` and
 `STAGE-004` are pending in `roadmap/plan.json`. The existing material clock remains
 the sole source of anatomical time.
