@@ -30,6 +30,7 @@ import type {
 import type { MaterialDevelopmentProgram } from "./operators";
 import { MATERIAL_LIMITS } from "./operators";
 import {repatterningExpression} from "./developmental-repatterning";
+import {proposeArticulatedTurn} from "./coordinated-metamorphosis";
 import {isLatticeConnected} from "./lattice-connectivity";
 
 export const REMODEL_LIMITS = {
@@ -389,17 +390,31 @@ export function compileLifetimeRemodeling(
       base.source.sourceCells.some(c=>c.tissueId===t.id&&
         ["head","arm","leg","tail","wing","ear","horn"].includes(c.sourceKind??""))&&
       base.source.links.some(l=>l.fromTissueId===t.id&&l.kind==="attachment"));
-    const directions=[{x:0,y:-1},{x:1,y:0},{x:0,y:1},{x:-1,y:0}] as const;
-    for(const [index,t] of eligible.slice(0,4).entries())
-      for(const [stage,day] of [29,125,235].entries()){
+    for(const [index,t] of eligible.slice(0,4).entries()){
+      // A limb that can rotate at birth may be boxed in by later deposited
+      // material. Determine *permanent* viable sign potential from the
+      // PLAYER'S ORIGINAL physical drawing (never reroll for current care
+      // or choose a future adult). If only one direction is physically legal,
+      // assigning the impossible one would waste every early opportunity.
+      const originalSigns=([1,-1] as const).filter(sign=>
+        !!proposeArticulatedTurn(base.source,t.id,sign));
+      for(const [stage,day] of [0,125,235].entries()){
         if(operations.length>=REMODEL_LIMITS.maxOperations)break;
+        const draw=hash(genome.seed+"|joint-rotation|"+t.id+"|"+stage);
+        const sign=originalSigns.length?originalSigns[draw%originalSigns.length]:
+          draw%2?1:-1;
         operations.push({
           id:"migrate/"+index+"/phase/"+stage,
           kind:"articulate",tissueId:t.id,
-          direction:{x:hash(genome.seed+"|joint-rotation|"+t.id+"|"+stage)%2?1:-1,y:0},
-          atHour:day+index*3,durationHours:40,units:8,strength:1,
+          direction:{x:sign,y:0},
+          // First source-owned articulation is possible while organs still
+          // have birth-compatible clearance. Later phases remain available,
+          // even when the original orientation is no longer admissible.
+          atHour:day+index*(stage===0?0.125:3),
+          durationHours:stage===0?12:40,units:8,strength:1,
         });
       }
+    }
   }
   if(!override && primary&&operations.length<REMODEL_LIMITS.maxOperations){
     // The actual 48-trajectory qualification found that only 5/48 pets
