@@ -40,7 +40,7 @@ export const REMODEL_LIMITS = {
   maxAdded: MATERIAL_LIMITS.addedCells,
 } as const;
 export type RemodelKind =
-  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "slip" | "bend" | "repattern" | "repurpose" | "reposition";
+  "extend" | "reinforce" | "resorb" | "translate" | "reattach" | "articulate" | "reshape" | "redistribute" | "slip" | "bend" | "intercalate" | "repattern" | "repurpose" | "reposition";
 export type RemodelOperation = Readonly<{
   id: string;
   kind: RemodelKind;
