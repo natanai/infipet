@@ -49,6 +49,16 @@ test("[STAGE-002/A2] each original genotype gets real non-additive regional oppo
   assert.equal(elder.atHour+elder.durationHours,337);
   assert.equal(elder.units,REMODEL_LIMITS.maxUnits);
   assert.ok(elder.strength>0&&elder.strength<=1);
+  const adult=intercalations.find(op=>op.id==="stage/adult/intercalate");
+  if(adult){
+   assert.ok(adult.direction&&elder.direction);
+   assert.equal(adult.direction.x*elder.direction.x+
+    adult.direction.y*elder.direction.y,0,
+    "Adult/Elder source-owned developmental axes must differ by exactly a quarter turn");
+   assert.equal(Math.hypot(adult.direction.x,adult.direction.y),1);
+   assert.equal(Math.hypot(elder.direction.x,elder.direction.y),1);
+   assert.notDeepEqual(adult.direction,elder.direction);
+  }
   const primary=first.operations.filter(op=>op.id.startsWith("developmental-repattern/"));
   assert.equal(primary.length,DEVELOPMENT_STAGES.length);
   for(const [i,epoch] of DEVELOPMENT_STAGES.entries()){
