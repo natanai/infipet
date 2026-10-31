@@ -387,7 +387,7 @@ export function applyRemodelingProposal(
     // it remains available after that region retires. Local operators still
     // require their own connected living anchor.
     if(!tissue||(op.kind==="repattern"?!graph.cells.length:!anchor||!connected(group)))reason="missing-or-invalid-tissue";
-    else if(op.sourceSiteId && !graph.sites.some(s=>
+    else if(op.sourceSiteId && op.kind!=="lobe-turn" && !graph.sites.some(s=>
       s.tissueId===op.tissueId && s.id===op.sourceSiteId))
       reason="missing-named-site";
     else if(op.kind==="extend") {
