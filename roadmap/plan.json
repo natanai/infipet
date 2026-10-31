@@ -3519,7 +3519,8 @@
     "noIntraDayAnatomy": true,
     "latestQualification": {
       "test": "tests/alg-evaluation-five-forms-cohort.test.ts",
-      "lastCompletedCommit": "3ca9241c05f0e62d7b136ca10fc74d25bb4853e3",
+      "lastCompletedRun": 41165302110,
+      "lastCompletedCommit": "2cc6a257d9bbe908b6cb32b369f50b055d370c6c",
       "trajectories": 48,
       "eligible": 48,
       "comparisonPairs": [
@@ -3541,14 +3542,14 @@
         {
           "from": "adult",
           "to": "elder",
-          "qualified": 26
+          "qualified": 35
         }
       ],
-      "fullLivesQualified": 20,
+      "fullLivesQualified": 28,
       "requiredPerPairFraction": 0.8,
       "requiredFullLifetimeFraction": 0.75,
       "status": "failing",
-      "note": "Three-corridor version failed Adult-Elder even though interior source reorganization increased. Subsequent eight-corridor exterior transport is under independent qualification and must not be counted as passing."
+      "note": "Best-performing audited eight-corridor v14 morphology. An added late-Elder window in v15 regressed to 31/48 Adult-Elder and 24/48 complete; it was reverted. Current pure foreign-halo optimization preserves the same legal movement set. Source-standard ≥144 held-out cohort still unexecuted."
     }
   }
 }
