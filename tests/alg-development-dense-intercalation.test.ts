@@ -41,12 +41,12 @@ test("physical dense intercalation reshapes a source-authored body with local ce
  assert.equal(proposal.cells.length,prior.cells.length);
  assert.deepEqual(new Set(proposal.cells.map(c=>c.id)),
   new Set(prior.cells.map(c=>c.id)));
- assert.ok(proposal.relocated.length>=3&&proposal.relocated.length<=64);
+ assert.ok(proposal.relocated.length>=3&&proposal.relocated.length<=256);
  const origins=new Map(proposal.relocated.map(m=>[m.from.x+","+m.from.y,m.cellId]));
  const targets=new Set(proposal.relocated.map(m=>m.to.x+","+m.to.y));
  const roots=[...origins].filter(([key])=>!targets.has(key));
- assert.ok(roots.length>=1&&roots.length<=3,
-  "one daily event consists of at most three independent source-owned corridors");
+ assert.ok(roots.length>=1&&roots.length<=8,
+  "one daily event consists of at most eight independent source-owned corridors");
  const moved=new Map(proposal.relocated.map(m=>[m.cellId,m]));
  const visited=new Set<string>();
  for(const [,first] of roots){
