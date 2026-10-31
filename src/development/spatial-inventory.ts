@@ -558,6 +558,13 @@ export function reconstructDailyPhysicalState(
           Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
           throw new Error("Developmental transport creates unlinked contact");
         moveDestinations.add(key(m.to));
+      }else if(e.kind==="lobe-turn"){
+        // Large-angle source lobe movement is an EXACT pre-event quarter
+        // turn, independently reconstructed below; it is not constrained
+        // to one lattice step or allowed an arbitrary unstated path.
+        if(p.system!=="remodeling"||made.length||
+          e.removedCellIds.length||m.path)
+          throw new Error("Forged source lobe articulation path");
       }else if(e.kind==="shear"){
         if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
           !p.operation.direction||
@@ -838,6 +845,65 @@ export function reconstructDailyPhysicalState(
               throw new Error("Attachment-coupled movement creates unlinked contact");
           }
       }
+    }
+    if(e.kind==="lobe-turn"){
+      const axis=p.operation.direction;
+      let hingeId:string|undefined,distalId:string|undefined;
+      try{
+        const ids=JSON.parse(p.operation.sourceSiteId??"null");
+        if(Array.isArray(ids)&&ids.length===2&&
+          ids.every((id:unknown)=>typeof id==="string"))
+          [hingeId,distalId]=ids;
+      }catch{/* reject below */}
+      const sign=axis?.x;
+      const own=[...beforeCells.values()].filter(c=>c.tissueId===p.operation.tissueId);
+      const hinge=own.find(c=>c.id===hingeId);
+      if(p.system!=="remodeling"||!hinge||!distalId||
+        !graph.sourceCells.some(c=>c.id===hingeId&&c.tissueId===hinge.tissueId)||
+        !graph.sourceCells.some(c=>c.id===distalId&&c.tissueId===hinge.tissueId)||
+        !axis||axis.y!==0||(sign!==1&&sign!==-1)||
+        made.length||e.removedCellIds.length||own.length<6||
+        [...links.values()].some(l=>l.toTissueId===hinge.tissueId&&
+          l.fromTissueId!==hinge.tissueId))
+        throw new Error("Lobe turn lacks permanent source-defined physical hinge");
+      // Independent full 8-connected component discovery after deleting
+      // the hinge; no call to the producer's lobe selection or rotation.
+      const remaining=new Map(own.filter(c=>c.id!==hinge.id).map(c=>[c.id,c]));
+      const groups:MaterialCell[][]=[];
+      while(remaining.size){
+        const first=[...remaining.values()].sort((a,b)=>
+          a.id<b.id?-1:a.id>b.id?1:0)[0];
+        const component=[first];remaining.delete(first.id);
+        for(let i=0;i<component.length;i++)
+          for(const next of [...remaining.values()])
+            if(Math.max(Math.abs(next.x-component[i].x),
+              Math.abs(next.y-component[i].y))<=1){
+              component.push(next);remaining.delete(next.id);
+            }
+        groups.push(component);
+      }
+      const lobe=groups.find(g=>g.some(c=>c.id===distalId));
+      if(groups.length<2||!lobe||lobe.length<2||
+        own.length-lobe.length-1<2||
+        lobe.length>Math.floor((own.length-1)*0.48))
+        throw new Error("Lobe turn fabricated a source cut-vertex component");
+      const byId=new Map(p.relocations.map(m=>[m.cellId,m]));
+      let nontrivial=0;
+      for(const c of lobe){
+        const tx=hinge.x-sign*(c.y-hinge.y);
+        const ty=hinge.y+sign*(c.x-hinge.x);
+        if(tx===c.x&&ty===c.y){
+          if(byId.has(c.id))throw new Error("Fabricated stationary lobe movement");
+        }else{
+          nontrivial++;
+          const m=byId.get(c.id);
+          if(!m||m.to.x!==tx||m.to.y!==ty)
+            throw new Error("Incomplete original-material lobe rotation");
+        }
+      }
+      if(!nontrivial||nontrivial!==moves.size||
+        p.relocations.some(m=>!lobe.some(c=>c.id===m.cellId)))
+        throw new Error("Lobe rotation includes unrelated original material");
     }
     if(e.kind==="reposition"){
       // Reconstruct the EXACT moving anatomical SUBTREE from the ORIGINAL
