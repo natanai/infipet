@@ -37,9 +37,9 @@ jobs:
         run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
       - name: Dense source material intercalation and independent replay
         run: pnpm exec tsx --test tests/alg-development-dense-intercalation.test.ts
-      - name: Mature intercalation source-general reachability
+      - name: Strict five-form full-life contrast
         timeout-minutes: 12
         env:
-          DENSE_INTERCALATION_DIAGNOSTIC: '1'
-        run: pnpm exec tsx --test tests/alg-evaluation-intercalation-reachability.test.ts
+          FIVE_FORM_STAGE_COHORT: '1'
+        run: pnpm exec tsx --test tests/alg-evaluation-five-forms-cohort.test.ts
 # Qualification revision 10: test conserved vacancy-chain transport with independent chronological audit.
