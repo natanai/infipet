@@ -401,6 +401,22 @@ export function compileLifetimeRemodeling(
         });
       }
   }
+  if(!override && primary&&operations.length<REMODEL_LIMITS.maxOperations){
+    // The actual 48-trajectory qualification found that only 5/48 pets
+    // materially reorganized in days 330..365, because most regional
+    // opportunities finished before 330. Reserve one late, conservative
+    // primary-body deformation ticket BEFORE optional host-reselection slots.
+    // It reuses source-owned sheet slippage: vacated lattice is NOT refilled.
+    const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
+      primary.id,"terminal-physical-organization"].join("|"));
+    const dirs=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
+    operations.push({
+      id:"terminal-physical-organization",kind:"slip",tissueId:primary.id,
+      direction:dirs[orbit.x%4],
+      atHour:330,durationHours:34,units:12,
+      strength:Math.min(1,8/Math.sqrt(Math.max(1,primary.sourceCellIds.length))),
+    });
+  }
   if(!override && operations.length<REMODEL_LIMITS.maxOperations){
     // The physical reattachment transaction already exists and independently
     // verifies a reachable new joint, but was NEVER scheduled automatically.
