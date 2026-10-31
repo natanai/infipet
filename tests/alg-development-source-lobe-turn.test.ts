@@ -130,3 +130,37 @@ test("normal 365-check pet life actually expresses some source-owned unlabeled l
   "production life must move original unlabeled source material");
  assert.ok(actual.every(e=>!e.createdCellIds.length&&!e.removedCellIds.length));
 });
+
+test("a solid single-source drawing without a hinge still gets real whole-body physical reshaping",()=>{
+ const solid=drawing([
+  "######","######","######","######","######","######",
+ ],"body");
+ const {atlas,genome}=materialInputs(solid,"8E8L8WRZ");
+ const program=compileMaterialDevelopment(atlas,genome);
+ assert.deepEqual(sourceLobeHinges(program.source,
+  program.source.tissues[0].id),[]);
+ const plan=compileLifetimeRemodeling(program,genome);
+ assert.ok(plan.operations.some(op=>op.id==="source-solid/shear"&&
+  op.kind==="shear"),
+  "a Body-only solid is not required to have an inferred head or natural hinge");
+ const sim=createSimulation(solid,"8E8L8WRZ","infant",{
+  previewCare:{kind:"synthetic-needs-lab-v1",nutrition:0.92,timeline:[]},
+  reuseLivingMaterial:false,
+ });
+ const birth=sim.materialStateAt(0).graph;
+ const later=sim.materialStateAt(12).graph;
+ const actual=later.events.filter(e=>e.kind==="shear"&&
+  e.physical?.operation.id==="source-solid/shear");
+ console.info("SOLID_EARLY_SHEAR_REPORT",JSON.stringify({
+  accepted:actual.length,
+  changes:actual.map(e=>e.physical?.relocations.length),
+ }));
+ assert.ok(actual.length>=1,
+  "normal daily care must actually reshape existing solid-body material");
+ assert.ok(actual.some(e=>(e.physical?.relocations.length??0)>=4));
+ for(const event of actual){
+  assert.equal(event.createdCellIds.length,0);
+  assert.equal(event.removedCellIds.length,0);
+ }
+ assert.deepEqual(later.sourceCells,birth.sourceCells);
+});
