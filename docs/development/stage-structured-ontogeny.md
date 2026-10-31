@@ -283,3 +283,88 @@ vertex-disjoint corridors and 256 total cell moves; all conservation,
 attachment, material support, boundary contact, protection and
 chronological care constraints remain independently audited. The finite
 relocation budget is distinct from the 64 lifetime operator-slot budget.
+
+## 7. Historical renderer regression: exact head/feature movement recovery
+
+User acceptance in Safari on 2026-10-31 contradicted the broad early-stage
+numeric qualification: the experimental site still appeared to add mostly
+bulk. The live observation is a **FAIL** for the intended monster-tamer-style
+visual transformations, regardless of green mass/provenance tests.
+
+### Historical causality
+
+- At historical commit `3111b1666317d491e7c09c3087c41a5ef3b59685`,
+  `src/simulation/growth.ts` rendered the creature's
+  `resolveDevelopment(...).regions`: source-authored material was carried
+  through region-specific morphology via `mapSourcePoint`,
+  `poseAuthoredMaterial`, `rasterMaterial`, a jointed whole-region rig,
+  child feature inheritance and changing regional bounds.
+- The later, physically rigorous production renderer now primarily takes
+  the actual `materialStateAt(...).graph.cells` material coordinates.
+  `resolveDevelopment` remains in the codebase but is **not** the sole
+  basis for developmental rendering. Historical visual deformations therefore
+  were not automatically materialized in the physical graph when the new
+  authoritative renderer replaced the old one.
+- A separate concrete scheduling regression compounded this:
+  `src/development/lifetime-remodeling.ts` put only anatomically
+  *interchangeable* part kinds (e.g. leg/arm, hand/foot, wing/arm)
+  into the normal physical `reposition` window. A player-authored
+  `head` was **never** selected for this real physical migration.
+  `articulate` allowed a 90-degree turn about its existing own endpoint
+  but not the old freely traveling source-head region.
+- The physical `reposition` branch also translated exactly one tissue
+  while the player-authored eyes, facial marks and generated attached child
+  tissues lived in *other* material tissues. Child transport was absent.
+  Thus enabling a head alone would not restore a coherent moving face.
+
+### Actual source-preserving repair, not a sprite rollback
+
+- `proposeAttachedMigration` in
+  `src/development/coordinated-metamorphosis.ts` translates a real
+  source-authored part one lattice unit, carries its COMPLETE attached
+  descendant subtree, and may slide only the existing HEAD→BODY host
+  attachment endpoint to the closest legal current host cell. It preserves
+  material count, exact cell IDs, source provenance, eye identity, pigment,
+  child links, cavities and original explicit anatomical kind. Any collision,
+  unlinked contact, disconnected part or impossible attachment returns null.
+- `remodel-transactions.ts` uses it for physical `reposition`.
+  Independently, `spatial-inventory.ts` reconstructs the exact
+  attachment subtree, one-cell displacement of all its original identities
+  and closest legal host endpoint **from the pre-event graph only**.
+  A forged missing-eye movement record or invented/repointed joint fails.
+- The lifetime compiler schedules `head-migration` opportunities for
+  actual source parts explicitly painted as `head` at birth, again in
+  Infant/Teen, Adult and Elder. Its initial opportunity starts in the
+  first 12 physical days, before ordinary added mass can obstruct all
+  source-defined articulation. No invented Head emerges from Body-only ink.
+
+### Reproducible measured result
+
+[Focused and complete real-head qualification run 41235173429](https://github.com/natanai/infipet/actions/runs/41235173429)
+passed TypeScript, physical material tests, and
+`tests/alg-development-head-migration.test.ts` (a real head with a
+separately selected attached eye actually translates during care-driven
+daily material checks; forged eye omission is rejected).
+The opt-in `tests/alg-evaluation-head-trajectory.test.ts` measured the
+same original *head source-cell centroid* through seven daily checkpoints
+(0,12,60,140,245,345,365) across three immutable readable seeds and
+two chronological care histories. In all **6/6** trajectories:
+
+- Between **2 and 10** real `head-migration` events committed.
+- EVERY committed event carried the eye material as an explicitly audited
+  physical cell relocation.
+- **Every original head cell and eye cell remained present at day 365**.
+- Maximum original head-centroid displacement was **6.96 to 17.93**
+  lattice sites from its source position, with no renderer-only pose,
+  predetermined adult sprite or post-hoc genetic seed selection.
+
+This is valid evidence of actual source-owned head migration, NOT yet
+evidence that ALL arbitrary drawings have Pokémon/Digimon-like complete
+five-form transformations. Body-only silhouettes and diverse other parts
+must pass independent actual-material qualification too. The previous
+144-lifetime held-out cohort already failed the strict Adult→Elder
+standard (93/144 passing); this remains an open product blocker.
+
+The current authored-head mechanism is deployed only to the **experimental
+`site-test` branch** when its GitHub Pages publish action is successful.
+The original development PR #58 remains DRAFT and main remains unchanged.
