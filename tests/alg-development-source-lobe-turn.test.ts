@@ -73,8 +73,7 @@ test("source-owned whole lobe turn is an authorized physically replayable chrono
   failures.push(result.attempt.reason??result.attempt.status);
   if(result.attempt.status==="accepted"){done=result;break;}
  }
- console.info("LOBE_OPERATOR_DEBUG",JSON.stringify({due:due.length,failures,
-  candidate,genetics:plan.signals.channels.segmentation}));
+ assert.ok(due.length>=1&&failures.includes("accepted"));
  assert.ok(done,"genetically authorized original lobe must move as real cells");
  const k=Math.ceil(done.graph.events[0].atHour);
  const events=done.graph.events.map(e=>({
@@ -116,16 +115,15 @@ test("normal 365-check pet life actually expresses some source-owned unlabeled l
  const living=sim.materialStateAt(12);
  const day12=living.graph;
  const actual=day12.events.filter(e=>e.kind==="lobe-turn");
- console.info("UNLABELED_LOBE_EARLY",JSON.stringify({
-  events:actual.length,relocations:actual.map(e=>e.physical?.relocations.length),
-  sourceCount:birth.cells.length,now:day12.cells.length,
-  lobeEvents:day12.events.filter(e=>e.kind==="lobe-turn").length,
-  lobeAttempts:living.remodeling.attempts.filter(a=>
-    a.id.includes("source-lobe/")).map(a=>({
-      id:a.id,status:a.status,reason:a.reason,
-    })),
-
- }));
+ const before=new Map(birth.cells.map(c=>[c.id,c]));
+ const movedOriginal=day12.cells.filter(c=>{
+  const old=before.get(c.id);return old&&
+    (old.x!==c.x||old.y!==c.y);
+ });
+ assert.ok(movedOriginal.length>=2,
+  "the player's original drawing must undergo real cell displacement");
+ assert.ok(living.remodeling.attempts.some(a=>
+  a.id.startsWith("source-lobe/")&&a.status==="accepted"));
  assert.ok(actual.length>=1,
   "production life must move original unlabeled source material");
  assert.ok(actual.every(e=>!e.createdCellIds.length&&!e.removedCellIds.length));
@@ -163,4 +161,20 @@ test("a solid single-source drawing without a hinge still gets real whole-body p
   assert.equal(event.removedCellIds.length,0);
  }
  assert.deepEqual(later.sourceCells,birth.sourceCells);
+});
+
+test("birth-shaped Body-only creature remains auditable and renderable at day 365",()=>{
+ const sim=createSimulation(unlabelledDrawing(),"8E8L8WRZ","infant",{
+  previewCare:{kind:"synthetic-needs-lab-v1",nutrition:0.92,timeline:[]},
+  reuseLivingMaterial:false,
+ });
+ const birth=sim.materialStateAt(0).graph;
+ const elder=sim.materialStateAt(365).graph;
+ assert.equal(elder.sourceFingerprint,birth.sourceFingerprint);
+ assert.deepEqual(elder.sourceCells,birth.sourceCells);
+ assert.ok(elder.events.some(e=>e.kind==="lobe-turn"&&
+  (e.physical?.relocations.length??0)>=2));
+ const frame=sim.frameAt(345,{time:0,action:"idle"});
+ assert.ok(frame.pixels.length>0,
+  "the exact source-owned physical anatomy remains renderable as an Elder");
 });
