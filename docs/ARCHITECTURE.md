@@ -82,7 +82,7 @@ during every later region-growth opportunity, not merely its first bud.
 All material boundaries remain governed by existing spatial and ancestry
 auditors; no image/silhouette transformation is substituted.
 
-On the unmerged v9 development branch, source-owned material has
+On the unmerged v10 development branch, source-owned material has
 three further physically committed remodeling choices:
 
 - A selected, attached organ may execute a seeded 90-degree rotation about
@@ -112,9 +112,18 @@ growth already offers those). This changes the pre-topology worst-case
 operation count to `8n+29` for `1≤n≤4`, or `5n+31` for `5≤n≤6`,
 counting all five whole-body waves, twelve functional operation slots
 and twelve rotating-joint stage slots. Both expressions are at most 61.
-The v9 genome compiler then assigns **up to three** additional bounded
+An independently executed 48-trajectory, 365-day cohort revealed a
+specific late-stage failure: only **5/48** trajectories showed non-additive
+structural transformation from day 330 to 365, below the declared 25% gate.
+The v10 compiler now reserves **one** additional primary-tissue slip ticket
+across days 330..364 (12 care-gated opportunities) before optional topology
+tickets. The operation must vacate actual source-owned material coordinates,
+and may still reject on collision, feature continuity or insufficient care.
+This adds no pixels, species templates, or fabricated organs.
+
+The genome compiler then assigns **up to three** additional bounded
 reattachment opportunities to originally attached tissues with an existing
-alternative mechanically plausible host. A legal reattachment must
+alternative mechanically plausible host, subject to the remaining slots. A legal reattachment must
 establish a *new* physically touching parent joint, may not create cycles,
 must preserve every existing source cell, and is independently reconstructed
 from prior contact geometry. Thus even the maximal program remains ≤64.
@@ -125,12 +134,12 @@ This is a source-general implementation experiment, not evidence of visually
 complete stage evolution. Focused tests have been added but have not yet been
 executed in a production-capable runner, and this branch is not published.
 
-### Attachment-coupled physical movement (implemented on v9 draft; unqualified)
+### Attachment-coupled physical movement (implemented on v10 draft; unqualified)
 
 A local tissue transformation can pass a small endpoint tolerance while
 leaving its separately authored, attached descendants behind. That is not
 adequate to transform a head with independently drawn eyes or to rearrange a
-multi-limbed body. The v9 experimental operator carries the complete
+multi-limbed body. The v10 experimental operator carries the complete
 attachment subtree atomically, **without inferring new anatomy or rewriting
 source part identities**:
 
