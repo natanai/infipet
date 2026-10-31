@@ -558,6 +558,13 @@ export function reconstructDailyPhysicalState(
           Math.max(Math.abs(other.x-m.to.x),Math.abs(other.y-m.to.y))<=1))
           throw new Error("Developmental transport creates unlinked contact");
         moveDestinations.add(key(m.to));
+      }else if(e.kind==="intercalate"){
+        // This is not a one-cell leap. Every source-owned material identity
+        // must move exactly one neighboring site; the complete vacancy
+        // chain is independently reconstructed AFTER the event loop.
+        if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+          Math.max(Math.abs(d.x),Math.abs(d.y))!==1||m.path)
+          throw new Error("Forged dense material intercalation step");
       }else if(e.kind==="redistribute"){
         // An entire tissue can change its mass distribution without adding a
         // child at the donor coordinate. Independently inspect every recorded
@@ -616,7 +623,7 @@ export function reconstructDailyPhysicalState(
           };
         if (!same(d, expected)) throw new Error("Forged relocation direction");
       }
-      if (!["repattern","articulate","bend","slip"].includes(e.kind) && step && !same(step, d))
+      if (!["repattern","articulate","bend","slip","intercalate"].includes(e.kind) && step && !same(step, d))
         throw new Error("Nonrigid tissue translation");
       step = d;
       moves.add(c.id);
@@ -631,6 +638,83 @@ export function reconstructDailyPhysicalState(
         !moves.size)
     )
       throw new Error("Incomplete tissue translation");
+    if(e.kind==="intercalate"){
+      // Completely independent chain topology reconstruction from the
+      // pre-event material: a unique, simple path of original cell IDs,
+      // with one EMPTY donor and one NEW supported perimeter occupancy.
+      // No producer BFS result, chosen candidate, pose or target mask read.
+      const axis=p.operation.direction;
+      const original=[...beforeCells.values()];
+      const own=original.filter(c=>c.tissueId===p.operation.tissueId);
+      const originByPosition=new Map<string,string>();
+      const destinationSet=new Set<string>();
+      const pinned=new Set([...sites.values()].map(s=>s.rootCellId));
+      for(const link of links.values()){
+        if(link.fromCellId)pinned.add(link.fromCellId);
+        if(link.toCellId)pinned.add(link.toCellId);
+      }
+      const positionCounts=new Map<string,number>();
+      for(const c of original)positionCounts.set(key(c),
+        (positionCounts.get(key(c))??0)+1);
+      if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
+        !axis||![[1,0],[-1,0],[0,1],[0,-1]]
+          .some(([x,y])=>axis.x===x&&axis.y===y)||
+        moves.size<3||moves.size>64||moves.size!==p.relocations.length)
+        throw new Error("Invalid physical vacancy-chain budget");
+      for(const m of p.relocations){
+        const old=beforeCells.get(m.cellId)!;
+        if(old.tissueId!==p.operation.tissueId||pinned.has(old.id)||
+          positionCounts.get(key(old))!==1||
+          originByPosition.has(key(old))||destinationSet.has(key(m.to)))
+          throw new Error("Forged intercalation material identity or overlay");
+        originByPosition.set(key(old),old.id);
+        destinationSet.add(key(m.to));
+      }
+      const donors=[...originByPosition.entries()]
+        .filter(([xy])=>!destinationSet.has(xy));
+      if(donors.length!==1)
+        throw new Error("Intercalation must contain one vacated root");
+      const beginning=beforeCells.get(donors[0][1])!;
+      let current=beginning.id;
+      const visited=new Set<string>();
+      let endpoint:{x:number;y:number}|null=null;
+      while(!visited.has(current)){
+        visited.add(current);
+        const movement=p.relocations.find(m=>m.cellId===current);
+        if(!movement)throw new Error("Broken source-owned vacancy chain");
+        const following=originByPosition.get(key(movement.to));
+        if(!following){endpoint=movement.to;break;}
+        current=following;
+      }
+      if(!endpoint||visited.size!==moves.size||
+        positionCounts.has(key(endpoint))||
+        (endpoint.x-beginning.x)*axis.x+
+          (endpoint.y-beginning.y)*axis.y<3)
+        throw new Error("Disconnected or non-reshaping vacancy chain");
+      const ownSet=new Set(own.map(key));
+      const back={x:beginning.x-axis.x,y:beginning.y-axis.y};
+      if(ownSet.has(key(back)))
+        throw new Error("Intercalation donor not on receding perimeter");
+      const neighbor=([
+        [1,0],[-1,0],[0,1],[0,-1],
+        [1,1],[-1,-1],[1,-1],[-1,1],
+      ] as const).filter(([dx,dy])=>
+        ownSet.has((endpoint!.x+dx)+","+(endpoint!.y+dy)));
+      if(neighbor.length<2||!neighbor.some(([dx,dy])=>dx===0||dy===0))
+        throw new Error("Intercalation target lacks material support");
+      const linked=new Set<string>();
+      for(const l of links.values()){
+        linked.add(l.fromTissueId+"|"+l.toTissueId);
+        linked.add(l.toTissueId+"|"+l.fromTissueId);
+      }
+      for(const c of original){
+        if(c.tissueId===p.operation.tissueId||
+          linked.has(p.operation.tissueId+"|"+c.tissueId))continue;
+        if(Math.max(Math.abs(c.x-endpoint.x),
+          Math.abs(c.y-endpoint.y))<=1)
+          throw new Error("Intercalation creates unauthorized foreign contact");
+      }
+    }
     if(coupled){
       if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
         !coupled.size||moves.size!==coupled.size||
