@@ -35,9 +35,9 @@ jobs:
         run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
       - name: Independent stage identity anti-bulk oracle
         run: pnpm exec tsx --test tests/alg-evaluation-stage-identity.test.ts
-      - name: Five-form physical 365-day diagnostic cohort
+      - name: Mature source-owned deformation feasibility
         timeout-minutes: 12
         env:
-          FIVE_FORM_STAGE_COHORT: '1'
-        run: pnpm exec tsx --test tests/alg-evaluation-five-forms-cohort.test.ts
-# Qualification revision 8: measure actual five-form contrast using source-pair and normalized silhouette oracle.
+          MATURE_GEOMETRY_DIAGNOSTIC: '1'
+        run: pnpm exec tsx --test tests/alg-evaluation-elder-reachability.test.ts
+# Qualification revision 9: diagnose physically legal orientation alternatives in mature dense bodies.
