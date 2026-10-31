@@ -1,0 +1,35 @@
+# Opt-in verification only for the experimental physical morphology PR.
+# Running this is deliberately triggered by editing THIS FILE on the PR.
+# It does not run on main and cannot publish or deploy the player build.
+name: Experimental morphology qualification
+on:
+  pull_request:
+    types: [synchronize]
+    branches: [main]
+    paths:
+      - '.github/workflows/morphology-pr-qualification.yml'
+permissions:
+  contents: read
+concurrency:
+  group: morphology-pr-58
+  cancel-in-progress: true
+jobs:
+  verify:
+    if: github.event.pull_request.number == 58
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: TypeScript typecheck
+        run: pnpm typecheck
+      - name: Physical morphology regression
+        run: pnpm exec tsx --test tests/alg-development-articulated-rotation.test.ts
+# Qualification revision 1. No push/main action and no release.
