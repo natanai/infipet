@@ -527,6 +527,61 @@ export function compileLifetimeRemodeling(
       }
     }
   }
+  if(!override&&primary){
+    // A physical whole-body shear already has a separate inventory oracle.
+    // Until now it was inherited only by source-only *solid* drawings near
+    // birth, so multipart and mature organisms lacked these same structural
+    // opportunities. Schedule it at ALL FOUR later stage boundaries using
+    // the original source's genuine physical feasibility and permanent seed.
+    //
+    // These are potentials, not guaranteed transformations or target forms:
+    // the actual LIVING graph, daily care, collisions, cavities, and joints
+    // can reject every attempt. A stage never replaces the original material.
+    const axes=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
+    const feasible=axes.filter(axis=>
+      !!proposeWholeOrganismShear(base.source,axis));
+    if(feasible.length){
+      // The immutable 64-ticket genome must also leave room for terminal
+      // organization and existing mature intercalation. Retire only
+      // lower-priority repetitive tickets; never remove the primary region's
+      // four-stage sequence, source lobe, authored head motion, inherited
+      // repatterning, or any already-selected attachment succession.
+      const reserve=tissues.length>=5?4:3;
+      const maximumBeforeShears=REMODEL_LIMITS.maxOperations-
+        STAGE_BOUNDARY_CHECKS.length-reserve;
+      const priority=(op:RemodelOperation):number=>{
+        if(op.kind==="articulate"&&!op.direction)return 0;
+        if(op.kind==="extend"&&op.tissueId!==primary.id)return 1;
+        if(op.kind==="reinforce"&&op.tissueId!==primary.id)return 2;
+        if(op.kind==="resorb"&&op.tissueId!==primary.id)return 3;
+        if(op.id.includes("/shape-stage/")&&
+          !op.id.startsWith("remodel/0/"))return 4;
+        if(op.kind==="extend"||op.kind==="reinforce")return 5;
+        return Infinity;
+      };
+      const disposable=operations.map((op,i)=>({op,i,priority:priority(op)}))
+        .filter(x=>Number.isFinite(x.priority))
+        .sort((a,b)=>a.priority-b.priority||
+          compareText(a.op.id,b.op.id));
+      const shortage=Math.max(0,operations.length-maximumBeforeShears);
+      const removed=new Set(disposable.slice(0,shortage).map(x=>x.op.id));
+      for(let i=operations.length-1;i>=0;i--)
+        if(removed.has(operations[i].id))operations.splice(i,1);
+      const slots=Math.max(0,Math.min(STAGE_BOUNDARY_CHECKS.length,
+        REMODEL_LIMITS.maxOperations-reserve-operations.length));
+      for(let i=0;i<slots;i++){
+        const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
+          primary.id,"stage-structural-shear",i].join("|"));
+        operations.push({
+          id:"stage/structural-shear/"+i,kind:"shear",
+          tissueId:primary.id,direction:feasible[orbit.x%feasible.length],
+          atHour:STAGE_BOUNDARY_CHECKS[i],durationHours:48,
+          units:REMODEL_LIMITS.maxUnits,strength:
+            STAGE_PRESSURE_WEIGHTS[stageAtCheck(STAGE_BOUNDARY_CHECKS[i])].reorganization,
+        });
+      }
+    }
+  }
   if(!override && primary&&operations.length<REMODEL_LIMITS.maxOperations){
     // A real source-wide shear is most effective when its daily committed
     // movements are spread THROUGH Elder development, not concentrated
