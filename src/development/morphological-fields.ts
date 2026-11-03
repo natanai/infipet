@@ -171,11 +171,7 @@ export function rankMorphologicalField(
       // from the centroid, so repeatedly reinforced the same body outline.
       // These are legal PHYSICAL frontier choices, never display warps.
       (mode==="width"?2.4*Math.abs(u)/(width+height+1):
-       mode==="height"?2.4*Math.abs(v)/(width+height+1):
-       // Surface growth responds to a directed stage-specific genetic
-       // axis instead of repeatedly completing the same rounded contour.
-       // Signed projection permits asymmetric, source-supported silhouettes.
-       mode==="surface"?2.4*u/(width+height+1):0):mode==="thicken"?
+       mode==="height"?2.4*Math.abs(v)/(width+height+1):0):mode==="thicken"?
       (n-1)/7-Math.hypot(dx,dy)/(2*world):
      mode==="width"?
       Math.abs(dx)/(width/2+1)-Math.abs(dy)/(height+1):
