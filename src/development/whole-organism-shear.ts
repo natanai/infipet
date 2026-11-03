@@ -41,7 +41,7 @@ export function proposeWholeOrganismShear(graph:MaterialGraph,
  const positive=direction.x+direction.y>0;
  const moving=(c:MaterialCell)=>positive?c[cross]>cut:c[cross]<=cut;
  const movable=graph.cells.filter(moving);
- if(movable.length<4||movable.length===graph.cells.length||movable.length>2048)return null;
+ if(movable.length<4||graph.cells.length-movable.length<4||movable.length>2048)return null;
  const prior=new Map(graph.cells.map(c=>[c.id,c]));
  const voids=new Set(graph.protectedVoids);
  const originalOverlay=new Map<string,Set<string>>();
