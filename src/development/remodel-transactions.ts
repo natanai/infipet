@@ -514,7 +514,8 @@ export function applyRemodelingProposal(
       // Across ALL tissues: a source-owned coherent global lattice shear,
       // independently verified from the PRE-EVENT graph. The actual physical
       // cells move; neither source identities nor anatomical kinds change.
-      const proposed=proposeWholeOrganismShear(graph,op.direction!);
+      const proposed=proposeWholeOrganismShear(graph,op.direction!,
+        op.id.startsWith("stage/graded-shear/")?"graded":"half");
       if(!proposed)reason="no-admissible-global-shear";
       else{
         next={...graph,cells:proposed.cells};
