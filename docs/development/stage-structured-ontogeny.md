@@ -453,3 +453,52 @@ is not the 144-trajectory independent generalization cohort.
 transformation but does NOT imply every unlabeled shape, plant or fantasy
 organism has five radically distinct stages. The standing 144-lifetime
 five-form acceptance remains failed until rerun and met honestly.
+
+
+## 9. v19 — stage-wide physical shear opportunities (2026-11-02)
+
+**Implementation on the draft branch, NOT yet a passing five-form qualification.**
+The v18 solid Body-only birth shear now has four extra **genetically fixed,
+source-feasible** windows open to any compatible source, including multipart,
+user-labeled anatomy. The earlier `source-solid/shear` and `lobe-turn`
+tickets remain; this supplements rather than replaces existing operator
+families.
+
+Mathematical schedule: for each `i∈{0,1,2,3}`, at birth select one
+cardinal axis from `V = {d : proposeWholeOrganismShear(G_birth,d) != null}`,
+with the selection index derived solely from the permanent genome seed,
+original source fingerprint, primary source tissue ID and stage index.
+If `V` is empty, no impossible ticket is invented. For nonempty `V`,
+up to four `stage/structural-shear/i` opportunities have
+`atHour=B_i∈{21,81,171,281}`, `durationHours=48`,
+`units=12`, and bounded stage reorganization strength. Their actual
+unit commitments are still constrained by the inherited morphological
+capacity, care and **current** physical state. The exact halfspace field
+is the existing producer and independent inventory oracle's
+`(x', y') = (x, y) + d·I(cross(c) beyond living median)`;
+it does not synthesize desired stage pictures, overwrite cells, alter
+tissue identity or displace undeclared material.
+
+The 64-ticket lifetime bound remains unchanged. The compiler reserves
+3 slots for ordinary late non-additive remodeling (4 for anatomies with
+5+ selected tissues), preferring to retire repeated nonmoving landmarks,
+extensions, reinforcement or minor-tissue resorption/secondary front
+tickets rather than losing the primary four-window sequence,
+source-defined articulation, head migration, permanent repatterning or
+real preexisting attachment work. A source without any feasible birth
+shear retains its earlier grammar.
+
+A new deterministic contract test covers solid source shapes, multipart
+organs, finite operation bounds, exact four-window schedules, birth-axis
+feasibility, repeated compilation, intercalation reservation and
+nonviable tiny ink. Derived preview caches use v19; permanent genetic
+seeds and birth identities are unchanged.
+
+**Still unresolved:** Tests have been committed but have not been executed
+in this session. In particular, the real 48-life tuning cohort and the
+strict 144-life held-out cohort must be rerun and independently verified.
+Neither improved anatomical potential nor a passing typecheck would, by
+itself, prove five distinct silhouettes. This change must NOT be merged
+or published as a completed growth mechanic until those tests and actual
+source-preserving lifetime invariants pass without altering their
+predeclared thresholds.
