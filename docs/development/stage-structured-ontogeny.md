@@ -502,3 +502,76 @@ itself, prove five distinct silhouettes. This change must NOT be merged
 or published as a completed growth mechanic until those tests and actual
 source-preserving lifetime invariants pass without altering their
 predeclared thresholds.
+
+
+## 10. 2026-11-03 mathematical acceptance audit — v21, still incomplete
+
+The experiment retained the independently verified v19 half-space physical shear,
+and corrected its producer/auditor mismatch by requiring at least four stationary
+source-owned material identities as well as four moving identities. A temporary
+branch-only CI run then passed TypeScript and 33 focused source-conservation,
+head, limb, articulation and chronology cases. The temporary CI workflow was
+removed after evidence collection.
+
+The inherited development grammar retains the four `stage/structural-shear/i`
+windows from v19. An explicit post-Egg iterative deposition-supply ceiling was
+also introduced: for daily check `k` and measured care-derived resources `r`
+within `[0,1]`, the *iterative deposition allocator alone* receives
+
+`r_deposit(k,r) = r` for `1 <= k <= 20`, otherwise
+`r_deposit(k,r) = min(r,0.72)` for `21 <= k <= 365`.
+
+This is a deterministic, monotone resource-allocation rule, not a change to the
+original care measurement, permanent seed, source material, remodeling resources,
+physical daily gate, or 365-check cap. A focused mathematical test checks
+bounds, monotonicity, exact values and invalid inputs. It moderately improves
+complete research lives, but does not solve mature transformation. All existing
+structural operators remain active and none is silently replaced by a sprite.
+
+**Rejected experiments** were not retained:
+1. A source-owned opposing-tier "graded" shear physically passed its
+independent mathematical field and journal tests, but reduced the fixed
+48-trajectory stage gate to **32/48 Adult→Elder** and **27/48 five-form**.
+2. A stronger direction-biased surface-growth field also passed its mechanical
+tests but regressed the 48-trajectory gate to **33/48 Adult→Elder** and
+**28/48 five-form**. It was removed rather than tuning to screenshots.
+
+**Best retained v21 fixed 48-life research cohort:** 43/48 Egg→Infant,
+44/48 Infant→Teen, 42/48 Teen→Adult, **35/48 Adult→Elder**, and
+**29/48 full five-form**; every comparison eligible. The last two measures
+do not reach the original ≥39/48 stage-pair and ≥36/48 complete-life minima.
+High care (nutrition 0.92) continues to produce particularly dense later
+forms, with **11/24** Adult→Elder changes; lower care had **24/24**.
+The numeric acceptance standards were not weakened.
+
+**Unchanged independent 144-life held-out cohort:**
+[run 41668472964](https://github.com/natanai/infipet/actions/runs/41668472964)
+evaluated 24 unfamiliar births × 3 fixed genetic seeds × 2 care histories,
+365 consecutive daily checks per lifetime. All 144 physically eligible.
+Stage-pair qualifying counts: **132, 130, 129, 101 of 144** for
+Egg→Infant, Infant→Teen, Teen→Adult and Adult→Elder respectively.
+Only **76/144** complete trajectories qualified. Requirements remain ≥80%
+per eligible stage pair and ≥75% fully differentiated five-form lifetimes.
+Thus both the last stage and the full-life gate **FAIL**.
+High-care Elder qualified 37/72 versus low-care 64/72.
+These results must not be presented as a completed release.
+
+### The remaining general architectural work
+
+Continued local adjustments of material budgets, half-plane shear or surface
+ranking have repeatedly failed the held-out generality requirement. The
+unresolved mechanism is not another score threshold: **source-defined
+regional anatomical plasticity for mature, dense drawings**. The future
+producer needs coherent original-source-owned *soft tissue domains*, including
+solid and unlabeled source drawings with no birth cut vertices, and must enable
+non-additive regional volume and contour redistribution at late life while
+retaining source pigment, IDs, attachments, caves and topology. This must be
+a genuine recorded material operation with its own independently derived
+reconstruction and counterexamples. It cannot be a renderer-only region warp,
+a species form library, a seed-targeted starter, a blanket removal of grown
+mass, or a retuned evaluator.
+
+Only after the unchanged research gate and a newly disjoint held-out
+qualification pass should the branch be merged into main and published to
+the playable Safari site. The temporary verification workflow has been
+removed, preserving the intended single Pages publishing workflow.
