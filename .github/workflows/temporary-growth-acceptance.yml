@@ -1,13 +1,14 @@
-# TEMPORARY diagnostic only; remove before merging
-name: Temporary Growth Diagnostics
+# Temporary branch-only verification; remove before main merge.
+name: Temporary Growth Acceptance
 on:
-  workflow_dispatch:
+  push:
+    branches: [development/physical-joint-articulation]
 permissions:
   contents: read
 jobs:
-  morphology-report:
+  focused:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -18,63 +19,23 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Diagnose failed physical transformations in source-general full lives
-        run: |
-          cat > scripts/__temporary_growth_report.ts <<'EOF'
-          import {STARTER_PRESETS} from "../src/presets";
-          import {morphologySources} from "../src/evaluation/morphology-cohort";
-          import {createSimulation} from "../src/simulation";
-          import {measureStageIdentity} from "../src/evaluation/stage-identity";
-          const freehand=morphologySources();
-          const sources=[
-            ...STARTER_PRESETS.filter(x=>["dot","ribbon","fork","tripod"].includes(x.id))
-              .map(x=>({id:"starter/"+x.id,parts:x.parts})),
-            ...[0,3,7,11,16,20,24,29].map(i=>({
-              id:"unknown/"+freehand[i].id,parts:freehand[i].parts,
-            })),
-          ];
-          const seeds=["8E8L8WRZ","8W8E8LRZ"];
-          for(const care of [0.92,0.28]){
-            const totals=new Map<string,{accepted:number;rejected:number;reasons:Record<string,number>}>();
-            const lifeResults=[];
-            for(const source of sources)for(const seed of seeds){
-              const sim=createSimulation(source.parts,seed,"infant",{
-                previewCare:{kind:"synthetic-needs-lab-v1",nutrition:care,timeline:care===0.28?[
-                  {needId:"rest",tick:0,fulfillment:0.25},
-                  {needId:"security",tick:0,fulfillment:0.3},
-                  {needId:"physical-fitness",tick:0,fulfillment:0.2},
-                ]:[]},reuseLivingMaterial:false,
-              });
-              const start=sim.materialStateAt(245).graph,end=sim.materialStateAt(345).graph;
-              const last=sim.materialStateAt(365);
-              const groups:Record<string,{accepted:number;rejected:number;reasons:Record<string,number>}>={};
-              for(const a of last.remodeling.attempts){
-                const n=a.id.split("/unit/")[0];
-                if(!n.startsWith("stage/structural-shear/")&&
-                   !n.startsWith("stage/elder/intercalate")&&
-                   !n.startsWith("terminal-physical-organization"))continue;
-                const key=n.startsWith("stage/structural-shear/")?"stage-shear-"+n.at(-1):n;
-                const v=totals.get(key)??{accepted:0,rejected:0,reasons:{}};
-                const w=groups[key]??{accepted:0,rejected:0,reasons:{}};
-                for(const row of [v,w]){
-                  if(a.status==="accepted")row.accepted++;
-                  else {row.rejected++;const reason=a.reason??"unknown";
-                    row.reasons[reason]=(row.reasons[reason]??0)+1;}
-                }
-                totals.set(key,v);groups[key]=w;
-              }
-              const change=measureStageIdentity(start,end);
-              lifeResults.push({id:source.id,seed,care,
-                silhouette:change.normalizedSilhouetteDifference,
-                sourcePairs:change.originalSourcePairReorganization,
-                qualifies:change.substantiallyDifferent,groups,
-                original:start.sourceCells.length,
-                cells245:start.cells.length,cells345:end.cells.length,
-              });
-            }
-            console.log("CAUSAL_STAGE_DIAGNOSTIC",JSON.stringify({
-              care,totals:Object.fromEntries(totals),lifeResults
-            }));
-          }
-          EOF
-          pnpm exec tsx scripts/__temporary_growth_report.ts
+      - run: pnpm typecheck
+      - name: Independent structural conservation
+        run: pnpm exec tsx --test tests/alg-development-stage-shear.test.ts tests/alg-development-stage-contract.test.ts tests/alg-development-stage-pressures.test.ts tests/alg-development-whole-organism-shear.test.ts tests/alg-development-source-lobe-turn.test.ts tests/alg-development-head-migration.test.ts tests/alg-development-spatial-conservation.test.ts tests/alg-development-dense-intercalation.test.ts
+  research-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Predeclared 48-life five-stage cohort
+        env:
+          FIVE_FORM_STAGE_COHORT: "1"
+        run: pnpm exec tsx --test tests/alg-evaluation-five-forms-cohort.test.ts
