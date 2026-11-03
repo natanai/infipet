@@ -1,0 +1,42 @@
+# TEMPORARY, branch-scoped verification harness. Delete before merging.
+# There is deliberately no permanent CI workflow on main.
+name: Temporary Growth Acceptance
+on:
+  push:
+    branches: [development/physical-joint-articulation]
+permissions:
+  contents: read
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - name: Focused structural and chronology tests
+        run: pnpm exec tsx --test tests/alg-development-stage-shear.test.ts tests/alg-development-stage-contract.test.ts tests/alg-development-stage-pressures.test.ts tests/alg-development-whole-organism-shear.test.ts tests/alg-development-source-lobe-turn.test.ts tests/alg-development-head-migration.test.ts tests/alg-development-spatial-conservation.test.ts tests/alg-development-dense-intercalation.test.ts
+  research-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Predeclared 48-life five-stage research cohort
+        env:
+          FIVE_FORM_STAGE_COHORT: "1"
+        run: pnpm exec tsx --test tests/alg-evaluation-five-forms-cohort.test.ts
