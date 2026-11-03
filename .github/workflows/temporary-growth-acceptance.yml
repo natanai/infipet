@@ -1,8 +1,7 @@
 # TEMPORARY diagnostic only; remove before merging
 name: Temporary Growth Diagnostics
 on:
-  push:
-    branches: [development/physical-joint-articulation]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
