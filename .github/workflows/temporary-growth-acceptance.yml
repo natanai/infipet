@@ -21,7 +21,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - name: Independent structural conservation
-        run: pnpm exec tsx --test tests/alg-development-stage-shear.test.ts tests/alg-development-stage-contract.test.ts tests/alg-development-stage-pressures.test.ts tests/alg-development-whole-organism-shear.test.ts tests/alg-development-source-lobe-turn.test.ts tests/alg-development-head-migration.test.ts tests/alg-development-spatial-conservation.test.ts tests/alg-development-dense-intercalation.test.ts
+        run: pnpm exec tsx --test tests/alg-development-stage-shear.test.ts tests/alg-development-stage-directed-surface.test.ts tests/alg-development-stage-contract.test.ts tests/alg-development-stage-pressures.test.ts tests/alg-development-whole-organism-shear.test.ts tests/alg-development-source-lobe-turn.test.ts tests/alg-development-head-migration.test.ts tests/alg-development-spatial-conservation.test.ts tests/alg-development-dense-intercalation.test.ts
   research-cohort:
     runs-on: ubuntu-latest
     timeout-minutes: 55
