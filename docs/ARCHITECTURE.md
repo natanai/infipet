@@ -69,10 +69,50 @@ growth site needs chronological evidence, material provenance, valid spatial
 bounds and a deterministic order. Null operations are allowed. Drawings,
 permanent genes, and earlier care may never be silently replaced.
 
+## Five-stage ontogeny (partially implemented on unmerged v12 draft)
+
+The approved next product contract is [stage-structured ontogeny](development/stage-structured-ontogeny.md).
+The canonical epochs within the existing 365 daily checks are
+Egg 0–20, Infant 21–80, Teen 81–170, Adult 171–280 and Elder 281–365.
+Each epoch must yield a materially distinct, source-owned body plan and
+feature balance through daily operations; no fixed egg shell, species sprite,
+geometry-inferred Body semantics, or instant stage-swap is permitted.
+On the unmerged v14 draft, the player simulation already reports these five epochs
+from real completed anatomical daily checks, and five stage-derived regional
+growth phases replace the old equally spaced 73-check phases. Four
+source-owned regional remodeling windows are centered at stage boundaries,
+with one whole-body source wave per epoch. This is **not** yet evidence that
+the five observed forms are distinct. The independent **48-life named-stage
+cohort failed** despite its first two transitions qualifying: Egg→Infant
+43/48, Infant→Teen 41/48, Teen→Adult 31/48, Adult→Elder 19/48,
+and only 14/48 lives passing all four (see the executed measurement appendix
+in `docs/development/stage-structured-ontogeny.md`). Mature high-care bodies
+are especially resistant to the currently available physically lawful slip
+and bend operations; **7/24** had neither operator legal in any cardinal
+direction at day 281. STAGE-003 and STAGE-004 remain open. On the v13 draft, a new
+**atomically audited dense intercalation** operator slides an entire
+preexisting, 8-connected tissue material vacancy chain one lattice site
+per cell and therefore avoids whole-band occupancy conflicts. Independent
+mature-geometry cohorts show this operator has a legal realization on
+all 24 sampled high-care bodies at days 281/330/345. The v14 genetic
+scheduler allocates limited Adult/Elder opportunities without exceeding
+64 operations. Up to eight source-owned, mass-conserving, disjoint tissue
+transport corridors may each move every participating identity exactly
+one lattice site per daily check, with independent pre-event reconstruction.
+This raised strictly qualified Teen→Adult to 41/48, Adult→Elder to 35/48,
+and complete four-transition lives to 28/48 (initial baseline 31/48,
+19/48 and 14/48, respectively). **Five-form acceptance still FAILS**:
+Adult→Elder requires 39/48 and full lives require 36/48. A later ticket
+regressed morphology and was reversed.
+All four `STAGE-001`.. `STAGE-004` work packages are in progress
+in `roadmap/plan.json`; none is accepted as complete. The existing material clock remains
+the sole source of anatomical time.
+
 ## Experimental whole-body changes (not yet visually qualified)
 
-Production physical material growth now uses five seed-derived 73-opportunity
-regional allometry phases. Chronological care can influence the expressed
+The unmerged draft's physical material growth uses five named,
+seed-derived developmental epochs instead of the former equal 73-opportunity
+allometry phases. Chronological care can influence the expressed
 aspect-ratio pressure without rerolling permanent genes. Existing physical
 source material can also participate in five scheduled coordinated
 repatterning windows, which must journal actual cell relocation and source
@@ -81,6 +121,110 @@ a physically generated `developedKind` for mechanical shape preferences
 during every later region-growth opportunity, not merely its first bud.
 All material boundaries remain governed by existing spatial and ancestry
 auditors; no image/silhouette transformation is substituted.
+
+On the unmerged v11 development branch, source-owned material has
+three further physically committed remodeling choices:
+
+- A selected, attached organ may execute a seeded 90-degree rotation about
+  its live joint, with every moved cell checked against the pre-event joint.
+- An independently authored Body-only or typed tissue can undergo a
+  conservative median-band slip: one side shifts by a lattice unit while
+  the opposite side stays in place, with no created or removed material.
+- A sufficiently broad tissue can undergo opposing-band bending: the two
+  perimeter thirds shift in opposite directions and the intervening bridge
+  stays put. This changes internal relative source-cell distances, without
+  fabricating new organs or adding bulk.
+
+These are distinct, explicitly genetically scheduled, care-gated physical
+transactions, with pre-event independent audit reconstructing the exact
+affected cell IDs and coordinates.
+
+**Finite genetic scheduling budget:** The lifetime registry permits 64
+remodeling operations. The six largest qualifying source tissues previously
+spent 48 slots on local growth/remodeling, leaving only 11 after five
+organism-wide repatterning waves. Functional succession could exhaust those
+slots before a single multi-stage physical organ turn was scheduled.
+For up to four qualifying tissues, retain the full eight local operation
+families per region. For five or six, retain four non-additive regional
+developmental stages and resorption for every selected tissue, while only
+the largest also gets local extension and reinforcement (ordinary daily
+growth already offers those). This changes the pre-topology worst-case
+operation count to `8n+29` for `1≤n≤4`, or `5n+31` for `5≤n≤6`,
+counting all five whole-body waves, twelve functional operation slots
+and twelve rotating-joint stage slots. Both expressions are at most 61.
+A second independent executed cohort after the late-stage source-owned
+slip ticket passed all six intervals. The final 330–365 window increased to
+**30/48 qualifying anatomical transformations** (62.5%, above the same
+25% gate). Nevertheless, its **120/120 actual joint-rotation attempts failed**,
+and reattachment succeeded in only 3/40 attempted transactions.
+A separate age-stratified physical reachability audit identified the cause:
+8/24 tested rotations were feasible at birth, 8/24 at day 7,
+3/24 at day 29, and 0/24 at day 235. The previous first joint opportunity
+was scheduled days 29–69, after many legal turns became obstructed by growth.
+The v11 experiment chooses among **birth-legal** signed quarter-turns,
+using the permanent seed only to break ties, and schedules the first actual
+joint-turn opportunities within days 0–12. It never guarantees a turn or
+bypasses care, cavities, attachments, source-feature continuity or collision
+checks. Later joint stages remain genetically scheduled.
+
+An independently executed 48-trajectory, 365-day cohort revealed a
+specific late-stage failure: only **5/48** trajectories showed non-additive
+structural transformation from day 330 to 365, below the declared 25% gate.
+The v10 compiler now reserves **one** additional primary-tissue slip ticket
+across days 330..364 (12 care-gated opportunities) before optional topology
+tickets. The operation must vacate actual source-owned material coordinates,
+and may still reject on collision, feature continuity or insufficient care.
+This adds no pixels, species templates, or fabricated organs.
+
+The genome compiler then assigns **up to three** additional bounded
+reattachment opportunities to originally attached tissues with an existing
+alternative mechanically plausible host, subject to the remaining slots. A legal reattachment must
+establish a *new* physically touching parent joint, may not create cycles,
+must preserve every existing source cell, and is independently reconstructed
+from prior contact geometry. Thus even the maximal program remains ≤64.
+No physical outcome is guaranteed: genetic, care, collision and anatomical
+continuity constraints still independently determine which proposals commit. The five original repatterning wave
+organizers also now choose shearing more often than outward expansion.
+This is a source-general implementation experiment, not evidence of visually
+complete stage evolution. Focused tests have been added but have not yet been
+executed in a production-capable runner, and this branch is not published.
+
+### Attachment-coupled physical movement (implemented on v11 draft; unqualified)
+
+A local tissue transformation can pass a small endpoint tolerance while
+leaving its separately authored, attached descendants behind. That is not
+adequate to transform a head with independently drawn eyes or to rearrange a
+multi-limbed body. The v11 experimental operator carries the complete
+attachment subtree atomically, **without inferring new anatomy or rewriting
+source part identities**:
+
+- For a live parent attachment cell `a`, let `d(a)=a_after-a_before`.
+  During a regional slip or counterbend, every cell of a child tissue whose
+  attachment endpoint is `a` follows `p_after=p_before+d(a)`. The
+  dependent rigid translation recurses through downstream attachments. A
+  stationary attachment anchor produces no dependent translation.
+- For a 90-degree rotation about the original joint `q`, the parent and all
+  connected subordinate cells must use the SAME rigid transform
+  `(x',y')=(q_x-s(y-q_y),q_y+s(x-q_x))`, `s∈{-1,+1}`. That
+  preserves the authored arrangement of eyes and subordinate appendages
+  relative to their head/host.
+- All affected permanent cell IDs are reported in one transaction; the
+  independent daily auditor must independently derive the complete
+  transitive attachment closure from the **pre-event graph**. Do not permit
+  arbitrary foreign-tissue relocation or silently detach attachments.
+- Validate unchanged source ancestry, paint, tissue ownership and cell count,
+  distinct declared feature identities, physical attachment contact,
+  protected cavities, world bounds, lattice tissue connectivity, and illegal
+  overlaps or newly unauthorized foreign-tissue contacts. Any failure is
+  an atomic null, never a partial or merely visual morph.
+
+**Implementation only, not verified.** The producer implementation and the
+independent chronological replay reconstruct attachment-closure positions from
+different code. A nested Body -> Head -> Eyes -> Pupil regression checks actual
+carried geometry, distinct authored identities and rejection of a missing child
+relocation. This test has been committed but has **not been executed** in a
+project-capable TypeScript runner; broader stage coverage is still unqualified.
+The draft source is not the published player experience.
 
 These are **real implementation changes on the draft**, not evidence that
 the live or deployed game is visually satisfying. The prototype currently

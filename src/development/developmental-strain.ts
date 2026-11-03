@@ -119,7 +119,7 @@ export function sourceStrain(
     2,
     Math.ceil(extent * (0.15 + 0.2 * c.support.membrane)),
   );
-  const mode = unit % 3 === 0 ? "shear" : "expand";
+  const mode = unit % 3 === 0 ? "expand" : "shear";
   const along = material.map((p) => p[axis]).sort((a, b) => a - b),
     side = mode === "shear" ? (qy < 0.5 ? -1 : 1) : unit % 2 ? 1 : -1;
   const cut =

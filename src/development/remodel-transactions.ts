@@ -1,6 +1,9 @@
 import {journalMaterialEvent} from "./material-journal";
-import {proposeCoherentReshape} from "./coordinated-metamorphosis";
+import {proposeCoherentReshape,proposeArticulatedTurn,proposeRegionalSlip,proposeRegionalBend,proposeAttachedMigration} from "./coordinated-metamorphosis";
 import {proposeTissueReflow} from "./tissue-reflow";
+import {proposeDenseIntercalation} from "./dense-intercalation";
+import {proposeWholeOrganismShear} from "./whole-organism-shear";
+import {proposeSourceLobeTurn} from "./source-lobe-turn";
 import {isLatticeConnected} from "./lattice-connectivity";
 import {proposeDevelopmentalRepatterning,repatterningExpression} from "./developmental-repatterning";
 import {anatomicalContinuityFailure,anatomicalEditGuard,sourceOverlay} from "./anatomical-continuity";
@@ -115,9 +118,9 @@ function geneticCapacity(op: RemodelOperation, p: LifetimeRemodelingProgram): nu
     case "reinforce": return c.support.rigidity;
     case "resorb": case "translate": case "reposition": return c.maturation.plasticity;
     case "reshape": return 0.7*c.growth.expansion+0.3*c.maturation.plasticity;
-    case "redistribute": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
+    case "redistribute": case "slip": case "bend": case "shear": case "intercalate": return 0.55*c.maturation.plasticity+0.45*c.growth.expansion;
     case "repattern": return repatterningExpression(c.maturation.plasticity,c.growth.expansion);
-    case "reattach": case "articulate": return c.segmentation.boundaries;
+    case "reattach": case "articulate": case "lobe-turn": return c.segmentation.boundaries;
     case "repurpose": return c.maturation.plasticity+
       Math.min(0.3,0.12*(p.processGenes?.repurposing??0))>=0.3?1:0;
   }
@@ -132,10 +135,16 @@ function checked(op: RemodelOperation): string | null {
       !Number.isFinite(op.direction.y)))) return "invalid-operator";
   if(op.kind==="reattach" && !op.targetTissueId) return "missing-target-tissue";
   if(op.kind==="repurpose" && !op.targetKind) return "missing-functional-kind";
+  if(op.kind==="lobe-turn"&&(!op.sourceSiteId||
+    !op.direction||Math.abs(op.direction.x)!==1||op.direction.y!==0))
+    return "invalid-lobe-articulation";
+  if(op.kind==="articulate"&&op.direction&&
+    (Math.abs(op.direction.x)!==1||op.direction.y!==0))
+    return "invalid-articulation-direction";
   if(["reposition"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-reposition-direction";
-  if(["reshape","redistribute"].includes(op.kind) &&
+  if(["reshape","redistribute","slip","bend","shear","intercalate"].includes(op.kind) &&
     ![[1,0],[-1,0],[0,1],[0,-1]].some(([x,y])=>op.direction?.x===x&&op.direction?.y===y))
     return "invalid-regional-direction";
   if(op.chaos) {
@@ -378,7 +387,7 @@ export function applyRemodelingProposal(
     // it remains available after that region retires. Local operators still
     // require their own connected living anchor.
     if(!tissue||(op.kind==="repattern"?!graph.cells.length:!anchor||!connected(group)))reason="missing-or-invalid-tissue";
-    else if(op.sourceSiteId && !graph.sites.some(s=>
+    else if(op.sourceSiteId && op.kind!=="lobe-turn" && !graph.sites.some(s=>
       s.tissueId===op.tissueId && s.id===op.sourceSiteId))
       reason="missing-named-site";
     else if(op.kind==="extend") {
@@ -466,6 +475,60 @@ export function applyRemodelingProposal(
         next={...graph,cells:proposed.cells,sites:proposed.sites,tissues:proposed.tissues,
           links:proposed.links,protectedVoids:proposed.protectedVoids};
       }
+    } else if(op.kind==="lobe-turn") {
+      // Rotate one birth-defined physical lobe around a real source cut
+      // vertex. Never infer Head/Arm semantic labels or render a target sprite.
+      let hingeId="",distalId="";
+      try{
+        const ids=JSON.parse(op.sourceSiteId??"null");
+        if(Array.isArray(ids)&&ids.length===2&&
+           ids.every((x:unknown)=>typeof x==="string"))
+          [hingeId,distalId]=ids;
+      }catch{/* malformed immutable genetic ticket: no physical event */}
+      const sign=op.direction?.x===1?1:op.direction?.x===-1?-1:0;
+      const proposed=sign&&hingeId&&distalId?
+        proposeSourceLobeTurn(graph,op.tissueId,hingeId,distalId,
+          sign as 1|-1):null;
+      if(!proposed)reason="no-admissible-source-lobe-articulation";
+      else{
+        next={...graph,cells:proposed.cells};
+        relocated.push(...proposed.relocated);
+      }
+    } else if(op.kind==="bend") {
+      const proposed=proposeRegionalBend(graph,op.tissueId,op.direction!);
+      if(!proposed)reason="no-admissible-regional-bend";
+      else{
+        next={...graph,cells:proposed.cells};
+        relocated.push(...proposed.relocated);
+      }
+    } else if(op.kind==="slip") {
+      // Many existing cells change coordinates together; no creation is
+      // permitted, unlike the legacy front reshape.
+      const proposed=proposeRegionalSlip(graph,op.tissueId,op.direction!);
+      if(!proposed)reason="no-admissible-regional-slip";
+      else{
+        next={...graph,cells:proposed.cells};
+        relocated.push(...proposed.relocated);
+      }
+    } else if(op.kind==="shear") {
+      // Across ALL tissues: a source-owned coherent global lattice shear,
+      // independently verified from the PRE-EVENT graph. The actual physical
+      // cells move; neither source identities nor anatomical kinds change.
+      const proposed=proposeWholeOrganismShear(graph,op.direction!);
+      if(!proposed)reason="no-admissible-global-shear";
+      else{
+        next={...graph,cells:proposed.cells};
+        relocated.push(...proposed.relocated);
+      }
+    } else if(op.kind==="intercalate") {
+      // Simultaneous vacancy propagation over a connected source-owned
+      // tissue route: every living identity moves ONE lattice step.
+      const proposed=proposeDenseIntercalation(graph,op.tissueId,op.direction!);
+      if(!proposed)reason="no-admissible-dense-intercalation";
+      else{
+        next={...graph,cells:proposed.cells};
+        relocated.push(...proposed.relocated);
+      }
     } else if(op.kind==="redistribute") {
       // This is NOT dilation: vacated material coordinates remain empty.
       // One permanent cell follows a bounded tissue route, with no new mass.
@@ -536,49 +599,16 @@ export function applyRemodelingProposal(
         }
       }
     } else if(op.kind==="reposition") {
-      // Physically migrate an entire existing tissue by ONE lattice unit;
-      // move its attachment contacts along the current host in the SAME
-      // atomic event. Existing tissue, source IDs and joints are retained.
-      // This is the bounded material version of the old regional head/
-      // appendage migrations, not a view-space sprite displacement.
-      const step=stepFor(axis);
-      const moved=group.map(c=>({cellId:c.id,
-        from:{x:c.x,y:c.y},to:{x:c.x+step.x,y:c.y+step.y}}));
-      const nonmoving=graph.cells.filter(c=>c.tissueId!==op.tissueId);
-      const protectedSites=new Set([...graph.protectedVoids,...enclosed(graph.cells)]);
-      if(moved.some(m=>!bounded(m.to)||protectedSites.has(pointKey(m.to))||
-        nonmoving.some(c=>pointKey(c)===pointKey(m.to))))
-        reason="reposition-collision-or-void";
-      else {
-        const updated=new Map(moved.map(m=>[m.cellId,m.to]));
-        const shifted=graph.cells.map(c=>updated.has(c.id)?
-          {...c,...updated.get(c.id)!}:c);
-        const byId=new Map(shifted.map(c=>[c.id,c]));
-        const touched=new Set(graph.links.flatMap(l=>
-          l.fromTissueId===op.tissueId?[l.toTissueId]:
-          l.toTissueId===op.tissueId?[l.fromTissueId]:[]));
-        const nextLinks:MaterialLink[]=[];
-        for(const link of graph.links){
-          if(link.fromTissueId!==op.tissueId&&link.toTissueId!==op.tissueId){
-            nextLinks.push(link);continue;
-          }
-          const from=shifted.filter(c=>c.tissueId===link.fromTissueId);
-          const to=shifted.filter(c=>c.tissueId===link.toTissueId);
-          const pairs=from.flatMap(a=>to.flatMap(b=>{
-            const d=square(a,b);
-            return d<=8?[{a,b,d}]:[];
-          })).sort((a,b)=>a.d-b.d||cmp(a.a,b.a)||cmp(a.b,b.b));
-          if(!pairs.length){reason="reposition-disconnects-joint";break;}
-          const pair=pairs[0];
-          nextLinks.push({...link,fromCellId:pair.a.id,toCellId:pair.b.id});
-        }
-        if(!reason&&moved.some(m=>nonmoving.some(c=>
-          near(m.to,c)&&!touched.has(c.tissueId))))
-          reason="reposition-creates-unlinked-contact";
-        if(!reason){
-          relocated.push(...moved);
-          next={...graph,cells:shifted,links:nextLinks};
-        }
+      // Actual authored head/organ migration, not a cosmetic pose.
+      // Every physically attached descendant follows the SAME unit step.
+      // Only an existing host-joint endpoint can slide along its live host.
+      // All source cells, tissue IDs, pigment, holes and ancestry persist.
+      const proposed=proposeAttachedMigration(graph,op.tissueId,stepFor(axis));
+      if(!proposed)reason="no-admissible-source-owned-migration";
+      else{
+        relocated.push(...proposed.relocated);
+        next={...graph,cells:proposed.cells,
+          links:proposed.links??graph.links};
       }
     } else if(op.kind==="reattach") {
       const targetId=op.targetTissueId!;
@@ -594,7 +624,9 @@ export function applyRemodelingProposal(
         .filter(pair=>near(pair.a,pair.b))
         .sort((a,b)=>a.d-b.d||cmp(a.a,b.a)||cmp(a.b,b.b));
       if(!other.length||!pairs.length||targetId===op.tissueId ||
-         lineage.has(op.tissueId) || parent!==null)
+         lineage.has(op.tissueId) || parent!==null ||
+         graph.links.some(l=>l.kind==="attachment"&&
+           l.fromTissueId===op.tissueId&&l.toTissueId===targetId))
         reason="reattachment-cycle-or-noncontact";
       else {
         const pair=pairs[0],prior=graph.links.find(l=>
@@ -611,12 +643,25 @@ export function applyRemodelingProposal(
             {...t,parentId:targetId,relationship:"joint"}:t)};
       }
     } else if(op.kind==="articulate") {
-      const cut=[...group].sort(cmp).find(c=>group.length>=3 &&
-        !connected(group.filter(a=>a.id!==c.id)));
-      if(!cut)reason="no-supported-hinge";
-      else if(chronology.hinges.some(h=>h.tissueId===op.tissueId))
-        reason="already-articulated";
-      else hinge={tissueId:op.tissueId,cellId:cut.id,operationId:op.id};
+      if(op.direction){
+        // Actual organ articulation is a permanent physical reorganization.
+        // The authored joint cell stays put; all other material in the same
+        // named tissue rotates around it with conserved identity and area.
+        const sign=op.direction.x===1?1:op.direction.x===-1?-1:0;
+        const turn=sign?proposeArticulatedTurn(graph,op.tissueId,sign as 1|-1):null;
+        if(!turn)reason="no-admissible-joint-rotation";
+        else{
+          next={...graph,cells:turn.cells};
+          relocated.push(...turn.relocated);
+        }
+      }else{
+        const cut=[...group].sort(cmp).find(c=>group.length>=3 &&
+          !connected(group.filter(a=>a.id!==c.id)));
+        if(!cut)reason="no-supported-hinge";
+        else if(chronology.hinges.some(h=>h.tissueId===op.tissueId))
+          reason="already-articulated";
+        else hinge={tissueId:op.tissueId,cellId:cut.id,operationId:op.id};
+      }
     }
   }
   // Postcondition verification is on tentative graph. Failure rolls

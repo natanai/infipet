@@ -41,7 +41,7 @@ import {initializeMaterialOperatorChronology,stepMaterialOperatorChronology,mate
 import {createIterativeChronologyState,stepIterativeChronology,type IterativeChronologyState} from "./iterative-chronology";
 import {applyRemodelingProposal,remodelingProposalsBetween,EMPTY_REMODELING_CHRONOLOGY,type RemodelingChronology} from "./remodel-transactions";
 import type {MaterialGraph,MaterialCell,MaterialEvent} from "./material-graph";
-import {REGIONAL_GROWTH_VERSION} from "./regional-regulation";
+import {REGIONAL_GROWTH_VERSION,developmentalDepositionResources} from "./regional-regulation";
 import {expressedRepatterningFields} from "./developmental-repatterning";
 import {dailyCheckTime,validateDailyCareWindow,DAILY_HOURS,FINAL_ANATOMICAL_CHECK,type DailyCareWindowV1} from "./daily-contract";
 export * from "./daily-contract";
@@ -140,10 +140,35 @@ export function applyDailyMaterialStep(
     return {operatorId:op.id,cumulative:old.settled?old.cumulative:
       cap(old.cumulative+overlap*response*materialOperatorChaosRate(op,n)/op.durationHours)};
   });
+  let remodeling=prior.remodeling;
+  const dueRemodeling=remodelingProposalsBetween(remodelingProgram,n,k);
+  // An inherited source lobe, or an originally solid source-only shape,
+  // can transform before same-day deposition erases its original clearance. This is a limited,
+  // day-one-only anatomical priority, not an instant hatch mutation.
+  // Birth at check 0 remains EXACTLY the player's drawing. Every accepted
+  // motion is still care-gated, journaled at check 1, independently audited
+  // and charged to one already existing genetic remodeling opportunity.
+  // Later checkpoints retain material -> remodeling -> iterative ordering.
+  const prenatalClearance=k===1?dueRemodeling.filter(p=>
+    (p.operation.kind==="lobe-turn"||
+      p.operation.kind==="shear"&&p.operation.id==="source-solid/shear")&&
+    p.atHour<=1):[];
+  for(const proposal of prenatalClearance){
+    if(resources<=0||f.rest<=0){
+      remodeling={...remodeling,attempts:[...remodeling.attempts,{
+        id:proposal.operation.id+"/unit/"+proposal.unit,atHour:k,
+        status:"rejected",reason:"daily-resource-unavailable"}]};
+      continue;
+    }
+    const applied=applyRemodelingProposal(graph,remodelingProgram,proposal,
+      remodeling,k,Math.floor(64*resources*(.5+.5*f.rest)));
+    graph=applied.graph;remodeling=applied.chronology;
+  }
   const material=stepMaterialOperatorChronology(graph,program,prior.material,{fromHour:n,toHour:k,expressions});
   graph=material.graph;
-  let remodeling=prior.remodeling;
-  for(const proposal of remodelingProposalsBetween(remodelingProgram,n,k)){
+  for(const proposal of dueRemodeling){
+    if(prenatalClearance.some(p=>p.operation.id===proposal.operation.id&&
+      p.unit===proposal.unit))continue;
     const allowed=proposal.operation.kind==="resorb"?f.observedFraction>0:
       resources>0&&f.rest>0;
     if(!allowed){
@@ -156,7 +181,8 @@ export function applyDailyMaterialStep(
     graph=applied.graph;remodeling=applied.chronology;
   }
   const wave=graph.events.findLast(e=>e.kind==="repattern")?.physical?.operation.id;
-  const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources,light:null},
+  const depositionResources=developmentalDepositionResources(k,resources);
+  const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources:depositionResources,light:null},
     {enablePhysicalFields:true,care:f,...(wave?{developmentalFields:
       expressedRepatterningFields(graph,program.signals.channels,remodelingProgram.seed,wave)}:{})});
   graph=iterative.graph;
