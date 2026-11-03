@@ -33,7 +33,7 @@ import {hash} from "../simulation/model";
 import {developmentalStageIndex,stageAtCheck,transitionPressure,
   STAGE_PRESSURE_WEIGHTS} from "./stage-contract";
 
-export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v20" as const;
+export const REGIONAL_GROWTH_VERSION="coherent-drawn-development-v21" as const;
 /** A new bud receives the square-root material scale of its birth region,
  * rather than being permanently starved as a one-cell birth drawing. The
  * genome, four-credit competition and all material caps remain unchanged. */
@@ -116,4 +116,16 @@ export function developmentalAllometry(
     1.5*(care.activity-care.rest))*weight));
   return {axis:{x:Math.cos(angle),y:Math.sin(angle)},
     stretch:2**exponent};
+}
+
+/** After Egg the iterative material budget saturates at 0.72 of full
+ * daily supply. Original nutrition and security remain available to
+ * conservatively remodel all preexisting tissues; no care is invented.
+ * Input: check 1..365, resources in [0,1]. Output min(resources,0.72)
+ * from check 21, unchanged resources in checks 1..20. */
+export function developmentalDepositionResources(check:number,resources:number):number{
+ if(!Number.isSafeInteger(check)||check<1||check>365||
+   !Number.isFinite(resources)||resources<0||resources>1)
+   throw new RangeError("Invalid post-egg physical deposition allocation");
+ return check<21?resources:Math.min(resources,0.72);
 }

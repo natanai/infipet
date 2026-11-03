@@ -41,7 +41,7 @@ import {initializeMaterialOperatorChronology,stepMaterialOperatorChronology,mate
 import {createIterativeChronologyState,stepIterativeChronology,type IterativeChronologyState} from "./iterative-chronology";
 import {applyRemodelingProposal,remodelingProposalsBetween,EMPTY_REMODELING_CHRONOLOGY,type RemodelingChronology} from "./remodel-transactions";
 import type {MaterialGraph,MaterialCell,MaterialEvent} from "./material-graph";
-import {REGIONAL_GROWTH_VERSION} from "./regional-regulation";
+import {REGIONAL_GROWTH_VERSION,developmentalDepositionResources} from "./regional-regulation";
 import {expressedRepatterningFields} from "./developmental-repatterning";
 import {dailyCheckTime,validateDailyCareWindow,DAILY_HOURS,FINAL_ANATOMICAL_CHECK,type DailyCareWindowV1} from "./daily-contract";
 export * from "./daily-contract";
@@ -181,7 +181,8 @@ export function applyDailyMaterialStep(
     graph=applied.graph;remodeling=applied.chronology;
   }
   const wave=graph.events.findLast(e=>e.kind==="repattern")?.physical?.operation.id;
-  const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources,light:null},
+  const depositionResources=developmentalDepositionResources(k,resources);
+  const iterative=stepIterativeChronology(program,graph,prior.iterative,{atHour:n,resources:depositionResources,light:null},
     {enablePhysicalFields:true,care:f,...(wave?{developmentalFields:
       expressedRepatterningFields(graph,program.signals.channels,remodelingProgram.seed,wave)}:{})});
   graph=iterative.graph;

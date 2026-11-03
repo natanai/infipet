@@ -1,3 +1,4 @@
+import {developmentalDepositionResources} from "../src/development/regional-regulation";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {DEVELOPMENT_STAGES,STAGE_BOUNDARY_CHECKS,STAGE_TRANSITION_HALF_WIDTH,
@@ -87,4 +88,18 @@ test("[STAGE-002/A3] changing only later-day care does not retroactively change 
   channels,pastCare),p);
  assert.ok(future.stretch>=1/8&&future.stretch<=8);
  assert.deepEqual(STAGE_BOUNDARY_CHECKS,[21,81,171,281]);
+});
+
+test("[STAGE-002/A4] post-Egg material allocation is deterministic, bounded and care-monotone",()=>{
+ for(const check of [1,20,21,81,171,281,345,365]){
+  let last=0;
+  for(const supply of [0,0.01,0.2,0.5,0.71,0.72,0.8,1]){
+   const actual=developmentalDepositionResources(check,supply);
+   assert.equal(actual,check<21?supply:Math.min(supply,0.72));
+   assert.ok(actual>=last&&actual<=supply);
+   last=actual;
+  }
+ }
+ assert.throws(()=>developmentalDepositionResources(366,1),RangeError);
+ assert.throws(()=>developmentalDepositionResources(21,NaN),RangeError);
 });

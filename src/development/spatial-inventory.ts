@@ -566,13 +566,10 @@ export function reconstructDailyPhysicalState(
           e.removedCellIds.length||m.path)
           throw new Error("Forged source lobe articulation path");
       }else if(e.kind==="shear"){
-        const axis=p.operation.direction;
-        const graded=p.operation.id.startsWith("stage/graded-shear/");
         if(p.system!=="remodeling"||made.length||e.removedCellIds.length||
-          !axis||Math.max(Math.abs(d.x),Math.abs(d.y))!==1||
-          (!graded&&(d.x!==axis.x||d.y!==axis.y))||
-          (graded&&!((d.x===axis.x&&d.y===axis.y)||
-            (d.x===-axis.x&&d.y===-axis.y)))||
+          !p.operation.direction||
+          Math.max(Math.abs(d.x),Math.abs(d.y))!==1||
+          d.x!==p.operation.direction.x||d.y!==p.operation.direction.y||
           m.path)
           throw new Error("Forged whole-organism physical shear step");
       }else if(e.kind==="intercalate"){
@@ -640,7 +637,7 @@ export function reconstructDailyPhysicalState(
           };
         if (!same(d, expected)) throw new Error("Forged relocation direction");
       }
-      if (!["repattern","articulate","bend","slip","lobe-turn","intercalate","shear"].includes(e.kind) && step && !same(step, d))
+      if (!["repattern","articulate","bend","slip","lobe-turn","intercalate"].includes(e.kind) && step && !same(step, d))
         throw new Error("Nonrigid tissue translation");
       step = d;
       moves.add(c.id);
@@ -672,31 +669,20 @@ export function reconstructDailyPhysicalState(
         throw new Error("Unsupported global anatomical shear");
       const cut=levels[Math.floor((levels.length-1)/2)];
       const positive=axis.x+axis.y>0;
-      const graded=p.operation.id.startsWith("stage/graded-shear/");
-      const recorded=new Map(p.relocations.map(m=>[m.cellId,m]));
-      let expected=0,upper=0,lower=0;
+      let expected=0;
       for(const old of previous){
-        // Separate, independently derived exact fields. A graded event must
-        // move both sides by opposing ONE-cell steps; leaving out even one
-        // original/descendant identity is an invalid physical transaction.
-        const delta=old[cross]-cut;
-        const factor=graded?Math.sign(delta):
-          Number(positive?delta>0:delta<=0);
-        if(graded){
-          if(delta>0)upper++;else if(delta<0)lower++;
-        }
-        if(factor!==0){
+        const selected=positive?old[cross]>cut:old[cross]<=cut;
+        if(selected){
           expected++;
-          const record=recorded.get(old.id);
-          if(!record||record.to.x!==old.x+factor*axis.x||
-            record.to.y!==old.y+factor*axis.y)
+          const record=p.relocations.find(m=>m.cellId===old.id);
+          if(!record||record.to.x!==old.x+axis.x||
+            record.to.y!==old.y+axis.y)
             throw new Error("Incomplete global material shear");
         }else if(movingIds.has(old.id))
           throw new Error("Unauthorized stationary-cell deformation");
       }
-      if(expected!==moves.size||(graded?
-        (upper<4||lower<4||expected>4096):
-        (expected<4||expected>2048||previous.length-expected<4)))
+      if(expected<4||expected>2048||expected!==moves.size||
+        previous.length-expected<4)
         throw new Error("Forged global shear material region");
       // Independently disallow new contacts between previously separate,
       // unrelated tissue regions, including generated and authored anatomy.
