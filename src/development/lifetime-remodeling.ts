@@ -539,7 +539,7 @@ export function compileLifetimeRemodeling(
     // can reject every attempt. A stage never replaces the original material.
     const axes=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}] as const;
     const feasible=axes.filter(axis=>
-      !!proposeWholeOrganismShear(base.source,axis));
+      !!proposeWholeOrganismShear(base.source,axis,"graded"));
     if(feasible.length){
       // The immutable 64-ticket genome must also leave room for terminal
       // organization and existing mature intercalation. Retire only
@@ -573,7 +573,7 @@ export function compileLifetimeRemodeling(
         const orbit=seedChaos([genome.seed,base.source.sourceFingerprint,
           primary.id,"stage-structural-shear",i].join("|"));
         operations.push({
-          id:"stage/structural-shear/"+i,kind:"shear",
+          id:"stage/graded-shear/"+i,kind:"shear",
           tissueId:primary.id,direction:feasible[orbit.x%feasible.length],
           atHour:STAGE_BOUNDARY_CHECKS[i],durationHours:48,
           units:REMODEL_LIMITS.maxUnits,strength:
