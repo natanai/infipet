@@ -8,7 +8,10 @@
  * silhouette. It applies to every tissue and its attached descendants,
  * including typed eyes/limbs and Body-only animals, plants or fantasy shapes.
  *
- * x' = x + d_x I(cross(c) in moving half), y' analogously.
+ * Half mode: p' = p + d I(cross(p) in moving half).
+ * Graded mode: p' = p + d sign(cross(p)-median(living tiers)).
+ * In graded mode both sides move in opposite directions ONE lattice site
+ * per chronological operation. A central tier anchors the continuous fold.
  * Source IDs, exact pixels, z, pigment, part names, links and every material
  * identity remain unchanged. Candidate requires a strict injection on
  * occupied locations, original cavity protection, coherent source material,
@@ -30,7 +33,7 @@ export type WholeOrganismShear=Readonly<{
  relocated:readonly Readonly<{cellId:string;from:Point;to:Point}>[];
 }>;
 export function proposeWholeOrganismShear(graph:MaterialGraph,
-  direction:Point):WholeOrganismShear|null{
+  direction:Point,mode:"half"|"graded"="half"):WholeOrganismShear|null{
  if(!cardinal.some(d=>d.x===direction.x&&d.y===direction.y))
   throw new RangeError("Noncardinal source-owned whole-organism shear");
  if(graph.cells.length<8||graph.cells.length>4096)return null;
@@ -39,9 +42,19 @@ export function proposeWholeOrganismShear(graph:MaterialGraph,
  if(tiers.length<3)return null;
  const cut=tiers[Math.floor((tiers.length-1)/2)];
  const positive=direction.x+direction.y>0;
- const moving=(c:MaterialCell)=>positive?c[cross]>cut:c[cross]<=cut;
- const movable=graph.cells.filter(moving);
- if(movable.length<4||graph.cells.length-movable.length<4||movable.length>2048)return null;
+ // Graded strain pushes material on BOTH sides in opposite cardinal
+ // directions, one lattice cell each per check. The untouched central
+ // median tier is a real physical seam, not a target sprite boundary.
+ // Adjacent tiers differ by at most one displacement cell.
+ const sign=(c:MaterialCell):number=>mode==="graded"?
+   Math.sign(c[cross]-cut):positive?Number(c[cross]>cut):Number(c[cross]<=cut);
+ const movable=graph.cells.filter(c=>sign(c)!==0);
+ if(mode==="graded"){
+   const upper=graph.cells.filter(c=>c[cross]>cut).length;
+   const lower=graph.cells.filter(c=>c[cross]<cut).length;
+   if(upper<4||lower<4||movable.length>4096)return null;
+ }else if(movable.length<4||graph.cells.length-movable.length<4||
+   movable.length>2048)return null;
  const prior=new Map(graph.cells.map(c=>[c.id,c]));
  const voids=new Set(graph.protectedVoids);
  const originalOverlay=new Map<string,Set<string>>();
@@ -49,14 +62,14 @@ export function proposeWholeOrganismShear(graph:MaterialGraph,
   const p=keys(c),v=originalOverlay.get(p)??new Set<string>();
   v.add(c.id);originalOverlay.set(p,v);
  }
- const cells=graph.cells.map(c=>moving(c)?{
-  ...c,x:c.x+direction.x,y:c.y+direction.y,
+ const cells=graph.cells.map(c=>sign(c)!==0?{
+  ...c,x:c.x+direction.x*sign(c),y:c.y+direction.y*sign(c),
  }:c);
  const destination=new Map<string,Set<string>>();
  for(const c of cells){
   const original=prior.get(c.id)!;
   if(c.x<0||c.x>=64||c.y<0||c.y>=64||
-    (moving(original)&&voids.has(keys(c))))return null;
+    (sign(original)!==0&&voids.has(keys(c))))return null;
   const p=keys(c),members=destination.get(p)??new Set<string>();
   members.add(c.id);destination.set(p,members);
  }
@@ -113,6 +126,6 @@ export function proposeWholeOrganismShear(graph:MaterialGraph,
   links:graph.links,protectedVoids:graph.protectedVoids}))return null;
  return {cells,relocated:movable.map(c=>({
   cellId:c.id,from:{x:c.x,y:c.y},
-  to:{x:c.x+direction.x,y:c.y+direction.y},
+  to:{x:c.x+direction.x*sign(c),y:c.y+direction.y*sign(c)},
  }))};
 }
